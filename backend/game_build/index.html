@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <title>Antifraud Game</title>
+    <style>
+      @font-face {
+        font-family: 'Press Start 2P';
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url('Loadscreen/PressStart2P.woff2') format('woff2');
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+      #unity-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #unity-canvas {
+        display: block;
+        background: #231F20;
+      }
+      #loading-screen {
+        position: absolute;
+        background-color: #000d18;
+        background-image: url('Loadscreen/global_mini_1.png');
+        background-size: auto 110%;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      }
+      #loading-screen.hidden {
+        display: none;
+      }
+      .loading-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2em;
+      }
+      .loading-text {
+        font-family: 'Press Start 2P', monospace;
+        color: #5cfaff;
+        font-size: calc(clamp(240px, 28vw, 480px) / 24);
+        letter-spacing: 0.8em;
+        text-shadow: 0 0 6px rgba(92, 250, 255, 0.4);
+        white-space: nowrap;
+      }
+      .loading-dots {
+        letter-spacing: 0.4em;
+      }
+      .progress-bar {
+        position: relative;
+        width: clamp(240px, 28vw, 480px);
+        aspect-ratio: 408 / 46;
+        background-image: url('Loadscreen/Progress_bar_1.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+      }
+      .progress-fill {
+        position: absolute;
+        left: 2.8%;
+        top: 12%;
+        height: 76%;
+        width: 0%;
+        max-width: 94.4%;
+        background-image: url('Loadscreen/Progress_bar_2.png');
+        background-size: auto 100%;
+        background-repeat: repeat-x;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        transition: width 0.15s linear;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
+      <div id="loading-screen">
+        <div class="loading-inner">
+          <div class="loading-text">LOADING<span class="loading-dots">...</span><span id="loading-percent">0</span>%</div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="Build/web_gl_build_10.loader.js"></script>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+      var container = document.querySelector("#unity-container");
+      var loadingScreen = document.querySelector("#loading-screen");
+      var loadingPercent = document.querySelector("#loading-percent");
+      var progressFill = document.querySelector(".progress-fill");
+
+      function resizeCanvas() {
+        var targetRatio = 1920 / 1080;
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+        var currentRatio = w / h;
+        var width, height;
+        if (currentRatio > targetRatio) {
+          height = h;
+          width = h * targetRatio;
+        } else {
+          width = w;
+          height = w / targetRatio;
+        }
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        if (loadingScreen) {
+          loadingScreen.style.width = width + "px";
+          loadingScreen.style.height = height + "px";
+        }
+      }
+
+      function updateProgress(progress) {
+        var pct = Math.floor(progress * 100);
+        loadingPercent.textContent = pct;
+        progressFill.style.width = pct + "%";
+      }
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+      window.addEventListener("orientationchange", resizeCanvas);
+
+      createUnityInstance(canvas, {
+        dataUrl: "Build/web_gl_build_10.data.br",
+        frameworkUrl: "Build/web_gl_build_10.framework.js.br",
+        codeUrl: "Build/web_gl_build_10.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Antifraud Game",
+        productVersion: "1.0",
+        matchWebGLToCanvasSize: true,
+      }, updateProgress).then(function () {
+        resizeCanvas();
+        updateProgress(1);
+        setTimeout(function () {
+          if (loadingScreen && loadingScreen.parentNode) {
+            loadingScreen.parentNode.removeChild(loadingScreen);
+          }
+        }, 200);
+      });
+    </script>
+  </body>
+</html>
