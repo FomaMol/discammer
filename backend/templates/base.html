@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ page_title }}{% endblock %}</title>
+
+  <!-- SEO Meta -->
+  {% set _meta_title = page_title | default('DiScammer - Cybersecurity Education') %}
+  {% set _meta_description = page_description | default('Empowering digital literacy to combat scams, fraud, and emerging cyber threats.') %}
+  {% set _meta_image = page_image | default('/static/images/discammer-og.png') %}
+  {% set _meta_url = page_url | default(request.url._url if request else '') %}
+  <meta name="description" content="{{ _meta_description }}">
+  <meta property="og:title" content="{{ _meta_title }}">
+  <meta property="og:description" content="{{ _meta_description }}">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:image" content="{{ _meta_image }}">
+  {% if _meta_url %}<meta property="og:url" content="{{ _meta_url }}">{% endif %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ _meta_title }}">
+  <meta name="twitter:description" content="{{ _meta_description }}">
+  <meta name="twitter:image" content="{{ _meta_image }}">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/static/css/main.css">
+
+
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-[#0B0E17] text-[#E4E8F1] min-h-screen font-['Inter']">
+
+  <!-- Fixed Navbar -->
+  <nav class="fixed top-0 left-0 right-0 bg-[#0B0E17]/90 backdrop-blur-md border-b border-[#1E2A42] z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-3 sm:py-4">
+      <!-- Logo -->
+      <a href="/" class="font-['Press_Start_2P'] text-[#00F0FF] text-[10px] sm:text-sm glow-cyan hover:opacity-80 transition">
+        DISCAMMER
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/course" class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#00F0FF] transition">COURSE</a>
+        <a href="/journal" class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#00F0FF] transition">JOURNAL</a>
+        <a href="/game" class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#00F0FF] transition">PLAY GAME</a>
+      </div>
+
+      <!-- Mobile Menu Island (hamburger + overlay) -->
+      <div data-component="MobileMenu" data-props='{"links":[{"label":"COURSE","href":"/course"},{"label":"JOURNAL","href":"/journal"},{"label":"PLAY GAME","href":"/game"}]}'>
+        <noscript>
+          <div class="md:hidden flex gap-3 font-['JetBrains_Mono'] uppercase text-[10px] tracking-[2px]">
+            <a href="/course" class="text-[#00F0FF]">COURSE</a>
+            <a href="/journal" class="text-[#00F0FF]">JOURNAL</a>
+            <a href="/game" class="text-[#00F0FF]">GAME</a>
+          </div>
+        </noscript>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="pt-16 sm:pt-20">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#131829] border-t border-[#1E2A42] mt-12 sm:mt-20 py-8 sm:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        <!-- Col 1: Logo & Description -->
+        <div>
+          <span class="font-['Press_Start_2P'] text-[#00F0FF] text-xs glow-cyan">DISCAMMER</span>
+          <p class="text-[#8892A8] text-sm mt-4 leading-relaxed">
+            Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          </p>
+        </div>
+
+        <!-- Col 2: Threat Database (1-5) -->
+        <div>
+          <h4 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#E4E8F1] mb-4">THREAT DATABASE</h4>
+          <ul class="space-y-2">
+            <li><a href="/guide/phishing" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Phishing</a></li>
+            <li><a href="/guide/nigerian-letters" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Nigerian Letters</a></li>
+            <li><a href="/guide/get-rich-quick-schemes" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Get-Rich-Quick Schemes</a></li>
+            <li><a href="/guide/investment-pyramids" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Investment Pyramids</a></li>
+            <li><a href="/guide/false-charities" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">False Charities</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Threat Database (6-10) -->
+        <div>
+          <h4 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#E4E8F1] mb-4">THREAT DATABASE</h4>
+          <ul class="space-y-2">
+            <li><a href="/guide/fake-online-stores" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Fake Online Stores</a></li>
+            <li><a href="/guide/abuse-on-dating-sites" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Abuse on Dating Sites</a></li>
+            <li><a href="/guide/sms-and-phone-scams" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">SMS and Phone Scams</a></li>
+            <li><a href="/guide/fraud-with-lotteries" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Fraud with Lotteries</a></li>
+            <li><a href="/guide/scam-sites-working-at-home" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Work-at-Home Scams</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Navigation -->
+        <div>
+          <h4 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#E4E8F1] mb-4">NAVIGATION</h4>
+          <ul class="space-y-2">
+            <li><a href="/" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Home</a></li>
+            <li><a href="/journal" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Journal</a></li>
+            <li><a href="/course" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Course</a></li>
+            <li><a href="/game" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">Game</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="border-t border-[#1E2A42] mt-8 pt-8 text-center">
+        <p class="text-[#4A5568] font-mono text-xs">&copy; {{ now().year }} DiScammer. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Script -->
+  <script type="module" src="/static/js/app.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

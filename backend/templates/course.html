@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Training Program - DiScammer{% endblock %}
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+  <!-- Title -->
+  <h1 class="font-['Press_Start_2P'] text-[#00F0FF] text-base sm:text-xl md:text-2xl glow-cyan break-words leading-tight">&gt; TRAINING_PROGRAM</h1>
+
+  <!-- Description -->
+  <p class="text-[#8892A8] text-sm sm:text-base mt-4 sm:mt-6 max-w-2xl leading-relaxed">
+    Complete the DiScammer training modules to build your defenses against digital threats. Each module covers a specific attack vector with real-world examples, detection techniques, and hands-on exercises.
+  </p>
+
+  <!-- Course Progress Island -->
+  <div class="mt-8 sm:mt-12">
+    <div data-component="CourseProgress" data-props='{}'></div>
+  </div>
+
+  <!-- SEO Fallback: Server-rendered module list -->
+  <noscript>
+    <div class="mt-12 space-y-4">
+      {% for module in modules %}
+      <div class="bg-[#131829] border border-[#1E2A42] p-6 {% if module.is_locked %}opacity-50{% endif %}">
+        <div class="flex items-center gap-4">
+          <!-- Module Number -->
+          <div class="w-10 h-10 border {% if module.is_locked %}border-[#4A5568] text-[#4A5568]{% else %}border-[#00F0FF] text-[#00F0FF]{% endif %} flex items-center justify-center font-['JetBrains_Mono'] text-sm font-bold shrink-0">
+            {{ module.order }}
+          </div>
+
+          <div class="flex-1">
+            <div class="flex items-center gap-3">
+              <h3 class="font-['JetBrains_Mono'] font-bold text-[#E4E8F1]">{{ module.title }}</h3>
+              {% if module.is_locked %}
+              <span class="text-xs font-['JetBrains_Mono'] text-[#4A5568] uppercase">&#128274; LOCKED</span>
+              {% endif %}
+            </div>
+            <p class="text-[#8892A8] text-sm mt-1">{{ module.description }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </noscript>
+</div>
+
+{% endblock %}

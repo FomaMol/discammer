@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Journal - DiScammer{% endblock %}
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+  <!-- Header -->
+  <header class="mb-6 sm:mb-8">
+    <h1 class="break-words">
+      <span data-component="GlitchText" data-props='{"text":"DISCAMMER TIMES","size":"lg"}' class="font-['Press_Start_2P'] text-[#00F0FF] text-xl sm:text-2xl md:text-3xl glow-cyan">DISCAMMER TIMES</span>
+    </h1>
+    <p class="font-['JetBrains_Mono'] text-[#8892A8] text-xs sm:text-sm mt-3 sm:mt-4">&gt; All intelligence reports in one place</p>
+  </header>
+
+  <!-- Journal Filter Island (handles tabs + content grid) -->
+  <div data-component="JournalFilter" data-props='{}'></div>
+
+  <!-- SEO Fallback: Server-rendered cards + guides (single block) -->
+  <noscript>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-8">
+      {% for post in posts %}
+      <a href="/journal/{{ post.slug }}" class="block bg-[#131829] border border-[#1E2A42] hover:border-[#00F0FF] transition-all duration-300 p-4">
+        <div class="flex items-center gap-3 mb-3">
+          {% if post.type == 'interview' %}
+          <span class="text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/30">{{ post.type }}</span>
+          {% elif post.type == 'newsletter' %}
+          <span class="text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#39FF6B]/10 text-[#39FF6B] border border-[#39FF6B]/30">{{ post.type }}</span>
+          {% elif post.type == 'article' %}
+          <span class="text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#FFB547]/10 text-[#FFB547] border border-[#FFB547]/30">{{ post.type }}</span>
+          {% else %}
+          <span class="text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#8892A8]/10 text-[#8892A8] border border-[#8892A8]/30">{{ post.type }}</span>
+          {% endif %}
+          <span class="text-xs font-['JetBrains_Mono'] text-[#FFB547]">{{ post.published_at }}</span>
+        </div>
+        <h3 class="font-['JetBrains_Mono'] font-bold text-[#E4E8F1] mt-2">{{ post.title }}</h3>
+        <p class="text-[#8892A8] text-sm mt-1 line-clamp-2">{{ post.subtitle }}</p>
+      </a>
+      {% endfor %}
+    </div>
+
+    {% if guides %}
+    <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-lg font-bold border-l-2 border-[#00F0FF] pl-4 mt-12 mb-6">&gt; THREAT_DATABASE</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      {% for guide in guides %}
+      <a href="/guide/{{ guide.slug }}" class="block bg-[#131829] border border-[#1E2A42] hover:border-[#00F0FF] transition-all duration-300 p-4">
+        <span class="text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#FF4757]/10 text-[#FF4757] border border-[#FF4757]/30">GUIDE</span>
+        <h3 class="font-['JetBrains_Mono'] font-bold text-[#E4E8F1] mt-2">{{ guide.title }}</h3>
+        <p class="text-[#8892A8] text-sm mt-1 line-clamp-2">{{ guide.description }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </noscript>
+</div>
+
+{% endblock %}
