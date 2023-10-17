@@ -1,0 +1,1 @@
+const s="/api";async function c(e,n){const t=new URLSearchParams;return(await fetch(`${s}/posts?${t}`)).json()}async function o(){return(await fetch(`${s}/guides`)).json()}async function r(){return(await fetch(`${s}/course/modules`)).json()}export{c as a,r as b,o as f};

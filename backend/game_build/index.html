@@ -98,6 +98,26 @@
         transition: width 0.15s linear;
         overflow: hidden;
       }
+      .error-box {
+        max-width: 80vw;
+        padding: 1.5em 2em;
+        background: rgba(0, 13, 24, 0.9);
+        border: 1px solid #FF4757;
+        color: #FF4757;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        line-height: 1.8;
+        text-align: center;
+        text-shadow: 0 0 6px rgba(255, 71, 87, 0.4);
+      }
+      .error-detail {
+        color: #8892A8;
+        font-family: monospace;
+        font-size: 11px;
+        margin-top: 1em;
+        word-break: break-word;
+        text-shadow: none;
+      }
     </style>
   </head>
   <body>
@@ -151,24 +171,41 @@
       window.addEventListener("resize", resizeCanvas);
       window.addEventListener("orientationchange", resizeCanvas);
 
-      createUnityInstance(canvas, {
-        dataUrl: "Build/web_gl_build_10.data.br",
-        frameworkUrl: "Build/web_gl_build_10.framework.js.br",
-        codeUrl: "Build/web_gl_build_10.wasm.br",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Antifraud Game",
-        productVersion: "1.0",
-        matchWebGLToCanvasSize: true,
-      }, updateProgress).then(function () {
-        resizeCanvas();
-        updateProgress(1);
-        setTimeout(function () {
-          if (loadingScreen && loadingScreen.parentNode) {
-            loadingScreen.parentNode.removeChild(loadingScreen);
-          }
-        }, 200);
-      });
+      function showLoadError(err) {
+        console.error("Antifraud game failed to load:", err);
+        var inner = loadingScreen && loadingScreen.querySelector(".loading-inner");
+        if (!inner) return;
+        var msg = (err && (err.message || err.toString())) || "Unknown error";
+        inner.innerHTML =
+          '<div class="error-box">' +
+          '&gt; LOAD FAILED' +
+          '<div class="error-detail">' + msg + '</div>' +
+          '<div class="error-detail">Check the browser console for details.</div>' +
+          '</div>';
+      }
+
+      try {
+        createUnityInstance(canvas, {
+          dataUrl: "Build/web_gl_build_10.data.br",
+          frameworkUrl: "Build/web_gl_build_10.framework.js.br",
+          codeUrl: "Build/web_gl_build_10.wasm.br",
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "DefaultCompany",
+          productName: "Antifraud Game",
+          productVersion: "1.0",
+          matchWebGLToCanvasSize: true,
+        }, updateProgress).then(function () {
+          resizeCanvas();
+          updateProgress(1);
+          setTimeout(function () {
+            if (loadingScreen && loadingScreen.parentNode) {
+              loadingScreen.parentNode.removeChild(loadingScreen);
+            }
+          }, 200);
+        }).catch(showLoadError);
+      } catch (err) {
+        showLoadError(err);
+      }
     </script>
   </body>
 </html>

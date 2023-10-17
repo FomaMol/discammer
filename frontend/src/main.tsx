@@ -13,7 +13,6 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   ScanlineOverlay: React.lazy(() => import('./components/ScanlineOverlay')),
   JournalFilter: React.lazy(() => import('./components/JournalFilter')),
   CourseProgress: React.lazy(() => import('./components/CourseProgress')),
-  GameEmbed: React.lazy(() => import('./components/GameEmbed')),
   GameLauncher: React.lazy(() => import('./components/GameLauncher')),
   MobileMenu: React.lazy(() => import('./components/MobileMenu')),
 };

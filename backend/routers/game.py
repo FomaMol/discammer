@@ -9,7 +9,7 @@ in flight — otherwise the loader fails with "unexpected magic number" or
 
 from pathlib import Path
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse, RedirectResponse
 
 from config import BACKEND_DIR
@@ -19,19 +19,40 @@ GAME_BUILD_DIR = (BACKEND_DIR / "game_build").resolve()
 router = APIRouter(prefix="/play", tags=["game"])
 
 
-_BROTLI_TYPES = {
-    ".wasm.br": "application/wasm",
-    ".framework.js.br": "application/javascript",
-    ".data.br": "application/octet-stream",
+# Inner Content-Type for files whose outermost extension is .br.
+# Any .br file not matching here still gets Content-Encoding: br set, with
+# application/octet-stream as the inner type — so unknown future Unity assets
+# (e.g. *.symbols.json.br) never silently ship as raw brotli bytes.
+_INNER_BROTLI_TYPES = {
+    ".wasm": "application/wasm",
+    ".js": "application/javascript",
+    ".data": "application/octet-stream",
 }
+
+_IMMUTABLE_CACHE = "public, max-age=31536000, immutable"
+_SHORT_CACHE = "public, max-age=86400"
 
 
 def _brotli_content_type(name: str) -> str | None:
-    """Return the inner Content-Type for a pre-brotlified Unity asset, or None."""
-    for suffix, ctype in _BROTLI_TYPES.items():
-        if name.endswith(suffix):
+    """Return inner Content-Type for any .br asset, or None if not brotlified."""
+    if not name.endswith(".br"):
+        return None
+    inner = name[:-3]
+    for ext, ctype in _INNER_BROTLI_TYPES.items():
+        if inner.endswith(ext):
             return ctype
-    return None
+    return "application/octet-stream"
+
+
+def _cache_control_for(relpath: Path) -> str:
+    """Build/ contains version-stamped (web_gl_build_10.*) immutable assets.
+    Loadscreen/ assets change with the build but reference is by name; keep
+    short cache. index.html and other top-level files: short cache.
+    """
+    parts = relpath.parts
+    if parts and parts[0] == "Build":
+        return _IMMUTABLE_CACHE
+    return _SHORT_CACHE
 
 
 @router.get("")
@@ -45,27 +66,31 @@ async def play_index():
     index = GAME_BUILD_DIR / "index.html"
     if not index.exists():
         raise HTTPException(status_code=404, detail="Game build not installed")
-    return FileResponse(index, media_type="text/html")
+    return FileResponse(
+        index,
+        media_type="text/html",
+        headers={"Cache-Control": "no-cache"},
+    )
 
 
 @router.get("/{path:path}")
-async def play_asset(request: Request, path: str):
-    # Resolve and ensure we stay inside GAME_BUILD_DIR
+async def play_asset(path: str):
     target = (GAME_BUILD_DIR / path).resolve()
     try:
-        target.relative_to(GAME_BUILD_DIR)
+        relpath = target.relative_to(GAME_BUILD_DIR)
     except ValueError:
-        raise HTTPException(status_code=404)
+        raise HTTPException(status_code=404, detail="Path outside game build")
 
     if not target.is_file():
-        raise HTTPException(status_code=404)
+        raise HTTPException(status_code=404, detail="Asset not found")
 
+    cache = _cache_control_for(relpath)
     brotli_ctype = _brotli_content_type(target.name)
     if brotli_ctype:
         return FileResponse(
             target,
             media_type=brotli_ctype,
-            headers={"Content-Encoding": "br"},
+            headers={"Content-Encoding": "br", "Cache-Control": cache},
         )
 
-    return FileResponse(target)
+    return FileResponse(target, headers={"Cache-Control": cache})

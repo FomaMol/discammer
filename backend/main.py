@@ -48,12 +48,16 @@ app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 # create the environment with caching disabled and pass it directly.
 from jinja2 import Environment, FileSystemLoader, select_autoescape  # noqa: E402
 
+from datetime import datetime, timezone  # noqa: E402
+
 _env = Environment(
     loader=FileSystemLoader(str(TEMPLATES_DIR)),
     autoescape=select_autoescape(),
     auto_reload=True,
     cache_size=0,
 )
+# Expose `now()` to templates for things like dynamic copyright years.
+_env.globals["now"] = lambda: datetime.now(timezone.utc)
 app.state.templates = Jinja2Templates(env=_env)
 
 # Routers
