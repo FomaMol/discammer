@@ -29,3 +29,11 @@ Thumbs.db
 
 # Env
 .env
+
+# Test/CI
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Deploy artifacts
+*.zip
