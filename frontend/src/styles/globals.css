@@ -85,19 +85,169 @@ html, body {
   text-shadow: 0 0 10px rgba(255, 181, 71, 0.5), 0 0 20px rgba(255, 181, 71, 0.3);
 }
 
-/* Prose styling for rendered Markdown article content */
-.prose { word-wrap: break-word; overflow-wrap: break-word; }
-.prose h2 { font-family: 'JetBrains Mono', monospace; color: #00F0FF; border-left: 2px solid #00F0FF; padding-left: 12px; }
-.prose h3 { font-family: 'JetBrains Mono', monospace; color: #E4E8F1; }
-.prose a { color: #00F0FF; text-decoration: underline; word-break: break-word; }
-.prose blockquote { border-left: 2px solid #FFB547; padding-left: 16px; color: #8892A8; font-style: italic; }
-.prose code { background: #1A2035; padding: 2px 6px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 0.875em; word-break: break-word; }
-.prose pre { background: #0B0E17; border: 1px solid #1E2A42; padding: 16px; overflow-x: auto; max-width: 100%; }
-.prose pre code { word-break: normal; }
-.prose ul, .prose ol { color: #8892A8; padding-left: 1.5rem; }
-.prose strong { color: #E4E8F1; }
-.prose img { max-width: 100%; height: auto; }
-.prose table { display: block; overflow-x: auto; max-width: 100%; }
+/* Prose styling for rendered Markdown article content.
+   Tailwind v4 preflight resets margins on h1-h6/p/ul/ol, so without these
+   rules the article collapses onto itself. Tuned for long-form reading. */
+.prose {
+  color: #C8D0E0;
+  font-size: 1rem;
+  line-height: 1.75;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+@media (min-width: 640px) {
+  .prose { font-size: 1.0625rem; }
+}
+
+.prose > * + * { margin-top: 1.25em; }
+.prose h1 + p,
+.prose h2 + p,
+.prose h3 + p,
+.prose h4 + p { margin-top: 0.75em; }
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: #E4E8F1;
+  font-weight: 700;
+  line-height: 1.25;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+.prose h1 { font-size: 1.875em; margin-top: 0; }
+.prose h2 {
+  font-size: 1.5em;
+  margin-top: 2.25em;
+  color: #00F0FF;
+  border-left: 3px solid #00F0FF;
+  padding-left: 14px;
+}
+.prose h3 {
+  font-size: 1.2em;
+  margin-top: 2em;
+  color: #39FF6B;
+}
+.prose h4 {
+  font-size: 1.05em;
+  margin-top: 1.75em;
+  color: #FFB547;
+}
+
+.prose p { margin-top: 1.1em; }
+.prose strong { color: #E4E8F1; font-weight: 600; }
+.prose em { color: #B8C2D6; }
+
+.prose a {
+  color: #00F0FF;
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 240, 255, 0.4);
+  text-underline-offset: 3px;
+  word-break: break-word;
+  transition: text-decoration-color 0.2s;
+}
+.prose a:hover { text-decoration-color: #00F0FF; }
+
+.prose ul, .prose ol {
+  padding-left: 1.5em;
+  margin-top: 1.1em;
+}
+.prose ul { list-style: none; }
+.prose ul > li { position: relative; padding-left: 1.25em; }
+.prose ul > li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #00F0FF;
+  font-size: 0.85em;
+  line-height: 1.85;
+}
+.prose ol { list-style: decimal; }
+.prose ol > li::marker { color: #00F0FF; font-family: 'JetBrains Mono', monospace; }
+.prose li { margin-top: 0.4em; }
+.prose li > ul, .prose li > ol { margin-top: 0.4em; }
+
+.prose blockquote {
+  border-left: 3px solid #FFB547;
+  padding: 0.25em 0 0.25em 18px;
+  color: #B8C2D6;
+  font-style: italic;
+  background: rgba(255, 181, 71, 0.04);
+}
+.prose blockquote p { margin-top: 0.5em; }
+.prose blockquote p:first-child { margin-top: 0; }
+
+.prose code {
+  background: #1A2035;
+  color: #00F0FF;
+  padding: 0.15em 0.4em;
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.88em;
+  word-break: break-word;
+}
+.prose pre {
+  background: #0B0E17;
+  border: 1px solid #1E2A42;
+  border-radius: 4px;
+  padding: 16px;
+  overflow-x: auto;
+  max-width: 100%;
+  font-size: 0.875em;
+  line-height: 1.6;
+}
+.prose pre code { background: transparent; color: #E4E8F1; padding: 0; word-break: normal; }
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #1E2A42;
+  display: block;
+  margin: 1.5em auto;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid #1E2A42;
+  margin: 2.5em 0;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+.prose th, .prose td { padding: 8px 12px; border: 1px solid #1E2A42; }
+.prose th { background: #1A2035; color: #00F0FF; font-family: 'JetBrains Mono', monospace; text-align: left; }
+
+/* Video embeds in articles (kinescope / youtube / vimeo iframes wrapped in
+   a 16:9 aspect-ratio div in the markdown). */
+.prose .video-embed {
+  margin: 2em 0;
+  background: #0B0E17;
+  border: 1px solid #1E2A42;
+}
+.prose iframe { max-width: 100%; border: 0; }
+
+/* Permalink anchors next to TOC-generated headings — show as a subtle hash
+   on hover instead of an always-visible pilcrow. */
+.prose .toc-anchor {
+  display: inline-block;
+  margin-left: 0.5em;
+  opacity: 0;
+  text-decoration: none;
+  color: #00F0FF;
+  font-weight: 400;
+  font-size: 0.7em;
+  vertical-align: middle;
+  transition: opacity 0.15s;
+}
+.prose .toc-anchor::before { content: "#"; }
+.prose .toc-anchor { font-size: 0; }
+.prose .toc-anchor::before { font-size: 1rem; }
+.prose h1:hover .toc-anchor,
+.prose h2:hover .toc-anchor,
+.prose h3:hover .toc-anchor,
+.prose h4:hover .toc-anchor { opacity: 1; }
 
 /* Glitch animation */
 @keyframes glitch {

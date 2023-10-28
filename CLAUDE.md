@@ -51,7 +51,7 @@ DiScammer is a server-rendered FastAPI site with an **islands architecture** for
 ### Data layer
 SQLite (via `aiosqlite`) with three tables defined inline in `backend/database.py`: `post` (interviews/newsletters/articles distinguished by `type`), `scam_guide`, `course_module`. The DB file is `data/discammer.db` (gitignored, persisted via the docker-compose `./data` volume).
 
-`init_db()` creates tables; `seed_database()` runs on FastAPI startup via the lifespan hook and is **idempotent by row count** — if `post` and `scam_guide` already have rows it returns immediately. To re-seed during development, delete `data/discammer.db`.
+`init_db()` creates tables; `seed_database()` runs on FastAPI startup via the lifespan hook and **wipes + reinserts the `post`, `scam_guide`, and `course_module` tables on every startup** so edits to markdown frontmatter or body flow through on the next container restart. Safe because those tables hold derived content only — no user-generated state.
 
 ### Content pipeline
 Markdown files in `content/{guides,interviews,newsletters,articles}/` are the source of truth for posts and guides. `seed_data.py` parses YAML-like frontmatter using a hand-rolled regex (not PyYAML — only flat key/value pairs and integer coercion are supported; no nested structures, no lists) and inserts rows. Course modules are hardcoded in `COURSE_MODULES` in `seed_data.py`, not file-driven.

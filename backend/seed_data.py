@@ -147,73 +147,70 @@ COURSE_MODULES = [
 
 
 async def seed_database() -> None:
-    """Load content from markdown files and insert into the database if empty."""
+    """Refresh content tables from markdown files in content/.
+
+    Wipes post, scam_guide and course_module on every startup so edits to
+    markdown frontmatter or body flow through on the next deploy. Safe because
+    these tables hold derived content only — no user-generated state lives here.
+    """
     async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Check if already seeded
-        cursor = await db.execute("SELECT COUNT(*) FROM post")
-        (post_count,) = await cursor.fetchone()
-        cursor = await db.execute("SELECT COUNT(*) FROM scam_guide")
-        (guide_count,) = await cursor.fetchone()
+        await db.execute("BEGIN")
 
-        if post_count > 0 and guide_count > 0:
-            return  # Already seeded
+        await db.execute("DELETE FROM post")
+        await db.execute("DELETE FROM scam_guide")
+        await db.execute("DELETE FROM course_module")
 
-        # --- Load Scam Guides ---
-        if guide_count == 0:
-            guides = load_markdown_files(CONTENT_DIR / "guides")
-            for meta, content in guides:
+        # Reset AUTOINCREMENT counters so IDs stay small and stable across reseeds.
+        await db.execute(
+            "DELETE FROM sqlite_sequence WHERE name IN ('post','scam_guide','course_module')"
+        )
+
+        for meta, content in load_markdown_files(CONTENT_DIR / "guides"):
+            await db.execute(
+                "INSERT INTO scam_guide "
+                "(slug, title, description, content, icon, threat_level, category, published_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    meta.get("slug", ""),
+                    meta.get("title", ""),
+                    meta.get("description", ""),
+                    content,
+                    meta.get("icon", ""),
+                    meta.get("threat_level", 3),
+                    meta.get("category", ""),
+                    meta.get("published_at", ""),
+                ),
+            )
+
+        for subdir in ("interviews", "newsletters", "articles"):
+            for meta, content in load_markdown_files(CONTENT_DIR / subdir):
+                post_type = meta.get("type", subdir.rstrip("s"))
                 await db.execute(
-                    "INSERT OR IGNORE INTO scam_guide "
-                    "(slug, title, description, content, icon, threat_level, category, published_at) "
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO post "
+                    "(slug, title, subtitle, type, content, cover_image, published_at) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)",
                     (
                         meta.get("slug", ""),
                         meta.get("title", ""),
-                        meta.get("description", ""),
+                        meta.get("subtitle", ""),
+                        post_type,
                         content,
-                        meta.get("icon", ""),
-                        meta.get("threat_level", 3),
-                        meta.get("category", ""),
+                        meta.get("cover_image", ""),
                         meta.get("published_at", ""),
                     ),
                 )
 
-        # --- Load Posts (interviews, newsletters, articles) ---
-        if post_count == 0:
-            for subdir in ["interviews", "newsletters", "articles"]:
-                entries = load_markdown_files(CONTENT_DIR / subdir)
-                for meta, content in entries:
-                    post_type = meta.get("type", subdir.rstrip("s"))
-                    await db.execute(
-                        "INSERT OR IGNORE INTO post "
-                        "(slug, title, subtitle, type, content, cover_image, published_at) "
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                        (
-                            meta.get("slug", ""),
-                            meta.get("title", ""),
-                            meta.get("subtitle", ""),
-                            post_type,
-                            content,
-                            meta.get("cover_image", ""),
-                            meta.get("published_at", ""),
-                        ),
-                    )
-
-        # --- Load Course Modules ---
-        cursor = await db.execute("SELECT COUNT(*) FROM course_module")
-        (module_count,) = await cursor.fetchone()
-        if module_count == 0:
-            for module in COURSE_MODULES:
-                await db.execute(
-                    'INSERT INTO course_module ("order", title, description, content, is_locked) '
-                    "VALUES (?, ?, ?, ?, ?)",
-                    (
-                        module["order"],
-                        module["title"],
-                        module["description"],
-                        module["content"],
-                        module["is_locked"],
-                    ),
-                )
+        for module in COURSE_MODULES:
+            await db.execute(
+                'INSERT INTO course_module ("order", title, description, content, is_locked) '
+                "VALUES (?, ?, ?, ?, ?)",
+                (
+                    module["order"],
+                    module["title"],
+                    module["description"],
+                    module["content"],
+                    module["is_locked"],
+                ),
+            )
 
         await db.commit()
