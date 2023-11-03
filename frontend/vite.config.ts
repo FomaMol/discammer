@@ -12,7 +12,7 @@ export default defineConfig({
       input: 'src/main.tsx',
       output: {
         entryFileNames: 'js/app.js',
-        chunkFileNames: 'js/[name].js',
+        chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
           if (assetInfo.names?.[0]?.endsWith('.css')) {
             return 'css/[name][extname]';

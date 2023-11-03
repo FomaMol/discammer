@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Global CSS -->
-  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="{{ asset_url('/static/css/main.css') }}">
 
 
   {% block head %}{% endblock %}
@@ -123,7 +123,7 @@
   </footer>
 
   <!-- App Script -->
-  <script type="module" src="/static/js/app.js"></script>
+  <script type="module" src="{{ asset_url('/static/js/app.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

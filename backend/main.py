@@ -56,8 +56,27 @@ _env = Environment(
     auto_reload=True,
     cache_size=0,
 )
+
+
+def _asset_url(path: str) -> str:
+    """Append ?v=<file mtime> to a /static URL so browsers re-fetch after deploy.
+
+    Vite emits stable filenames (no hash in name) so without a query string
+    the browser keeps the old CSS/JS until manually cleared.
+    """
+    rel = path.removeprefix("/static/")
+    target = STATIC_DIR / rel
+    try:
+        mtime = int(target.stat().st_mtime)
+    except OSError:
+        return path
+    sep = "&" if "?" in path else "?"
+    return f"{path}{sep}v={mtime}"
+
+
 # Expose `now()` to templates for things like dynamic copyright years.
 _env.globals["now"] = lambda: datetime.now(timezone.utc)
+_env.globals["asset_url"] = _asset_url
 app.state.templates = Jinja2Templates(env=_env)
 
 # Routers
