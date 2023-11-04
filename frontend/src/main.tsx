@@ -10,6 +10,7 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   ScamTypesGrid: React.lazy(() => import('./components/ScamTypesGrid')),
   GlitchText: React.lazy(() => import('./components/GlitchText')),
   TerminalBlock: React.lazy(() => import('./components/TerminalBlock')),
+  HeroTerminal: React.lazy(() => import('./components/HeroTerminal')),
   ScanlineOverlay: React.lazy(() => import('./components/ScanlineOverlay')),
   JournalFilter: React.lazy(() => import('./components/JournalFilter')),
   CourseProgress: React.lazy(() => import('./components/CourseProgress')),

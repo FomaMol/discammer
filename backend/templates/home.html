@@ -2,129 +2,226 @@
 {% block title %}DiScammer - Cybersecurity Education Platform{% endblock %}
 {% block content %}
 
-<!-- Hero Section -->
-<section class="min-h-screen relative flex flex-col items-center justify-center overflow-hidden grid-pattern">
-  <!-- Particle Background Island -->
+<!-- ============================================================ -->
+<!-- HERO — asymmetric 2-column on desktop, stacked on mobile     -->
+<!-- ============================================================ -->
+<section class="relative overflow-hidden grid-pattern">
+  <!-- Background islands -->
   <div data-component="ParticleBackground" data-props='{}'></div>
-
-  <!-- Scanline Overlay Island -->
   <div data-component="ScanlineOverlay" data-props='{}'></div>
 
-  <!-- Glitch Title -->
-  <div class="relative z-10 text-center px-4 sm:px-6 w-full max-w-full">
-    <div data-component="GlitchText" data-props='{"text":"DISCAMMER","size":"xl"}'></div>
-    <noscript>
-      <h1 class="font-['Press_Start_2P'] text-[#00F0FF] text-3xl sm:text-5xl md:text-6xl lg:text-7xl glow-cyan break-all leading-tight">DISCAMMER</h1>
-    </noscript>
+  <!-- Decorative HUD coords (desktop only) -->
+  <div class="hidden lg:block absolute top-6 left-6 z-10 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568] uppercase">
+    SYS://discammer.com :: NODE 0x1A &middot; UPLINK STABLE
+  </div>
+  <div class="hidden lg:block absolute top-6 right-6 z-10 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568] uppercase">
+    v2.1.0 &middot; SECURE CHANNEL
+  </div>
 
-    <!-- Hero Typewriter -->
-    <div class="mt-6">
-      <div data-component="HeroTypewriter" data-props='{"phrases":["PHISHING","DEEPFAKES","SOCIAL ENGINEERING","INVESTMENT FRAUD","FAKE STORES","PHONE SCAMS"]}'></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 lg:pt-24 pb-12 sm:pb-16 lg:pb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+      <!-- Left column: title + tagline + CTAs -->
+      <div class="lg:col-span-7 text-center lg:text-left">
+        <!-- Tag line above title -->
+        <div class="inline-flex items-center gap-2 mb-5 sm:mb-6 px-3 py-1 border border-[#1E2A42] bg-[#131829]/60 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#39FF6B] animate-pulse"></span>
+          <span class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[3px] text-[#8892A8]">
+            CYBERSEC // EDUCATION PLATFORM
+          </span>
+        </div>
+
+        <!-- Title -->
+        <div>
+          <div data-component="GlitchText" data-props='{"text":"DISCAMMER","size":"xl"}'></div>
+          <noscript>
+            <h1 class="font-['Press_Start_2P'] text-[#00F0FF] text-4xl sm:text-6xl lg:text-7xl glow-cyan leading-tight">DISCAMMER</h1>
+          </noscript>
+        </div>
+
+        <!-- Typewriter -->
+        <div class="mt-5 sm:mt-6">
+          <div data-component="HeroTypewriter" data-props='{"phrases":["PHISHING","DEEPFAKES","SOCIAL ENGINEERING","INVESTMENT FRAUD","FAKE STORES","PHONE SCAMS"]}'></div>
+          <noscript>
+            <p class="font-['JetBrains_Mono'] text-[#8892A8] text-sm sm:text-lg uppercase tracking-wider">PHISHING &bull; DEEPFAKES &bull; SOCIAL ENGINEERING</p>
+          </noscript>
+        </div>
+
+        <!-- Subtitle / pitch -->
+        <p class="mt-5 sm:mt-6 max-w-xl mx-auto lg:mx-0 text-[#8892A8] text-sm sm:text-base leading-relaxed">
+          A field guide to modern scams &mdash; phishing kits, deepfakes, pig-butchering, fake stores.
+          Learn the patterns, train your eye, and stop losing money to predictable cons.
+        </p>
+
+        <!-- CTAs — content-sized row on desktop, full-width stacked on mobile -->
+        <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center">
+          <a href="/game"
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-[#39FF6B]/5 border border-[#39FF6B] text-[#39FF6B] hover:bg-[#39FF6B]/10 hover:shadow-[0_0_20px_rgba(57,255,107,0.25)] transition-all duration-300 sm:w-auto">
+            <span>&#9654;</span><span>PLAY GAME</span>
+          </a>
+          <a href="/journal"
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-[#00F0FF]/5 border border-[#00F0FF] text-[#00F0FF] hover:bg-[#00F0FF]/10 hover:shadow-[0_0_20px_rgba(0,240,255,0.25)] transition-all duration-300 sm:w-auto">
+            <span>&#128240;</span><span>READ JOURNAL</span>
+          </a>
+          <a href="/course"
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-transparent border border-[#1E2A42] text-[#8892A8] hover:border-[#FFB547] hover:text-[#FFB547] hover:bg-[#FFB547]/5 transition-all duration-300 sm:w-auto">
+            <span>&#127891;</span><span>TAKE COURSE</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right column: terminal -->
+      <div class="lg:col-span-5 w-full max-w-xl mx-auto lg:max-w-none">
+        <div data-component="HeroTerminal" data-props='{}'></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- STATS STRIP                                                  -->
+<!-- ============================================================ -->
+<section class="border-y border-[#1E2A42] bg-[#0B0E17]/60">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#1E2A42]">
+      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#00F0FF] glow-cyan">10</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Threat Types</div>
+      </div>
+      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#39FF6B]">08</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Interviews</div>
+      </div>
+      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#FFB547]">07</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Articles</div>
+      </div>
+      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#FF4757]">24/7</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Threat Feed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- MISSION + DIRECTIVES  (desktop: side by side)                -->
+<!-- ============================================================ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+    <!-- Mission terminal block -->
+    <div class="lg:col-span-5">
+      <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-3">// 01. ABOUT</div>
+      <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-5 sm:mb-6">
+        &gt; MISSION_BRIEFING
+      </h2>
+      <div data-component="TerminalBlock" data-props='{"title":"MISSION_BRIEFING","content":"We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies."}'></div>
       <noscript>
-        <p class="font-['JetBrains_Mono'] text-[#8892A8] text-sm sm:text-lg uppercase tracking-wider">PHISHING &bull; DEEPFAKES &bull; SOCIAL ENGINEERING</p>
+        <div class="bg-[#0B0E17] border border-[#1E2A42] p-6 font-['JetBrains_Mono']">
+          <div class="text-[#00F0FF] text-sm mb-4">&gt; MISSION_BRIEFING</div>
+          <p class="text-[#8892A8] text-sm leading-relaxed">
+            We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies.
+          </p>
+        </div>
       </noscript>
     </div>
 
-    <!-- CTA Buttons -->
-    <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
-      <a href="/game"
-         class="px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-transparent border border-[#39FF6B] text-[#39FF6B] hover:box-glow-green hover:shadow-[0_0_20px_rgba(57,255,107,0.2)] transition-all duration-300 text-center">
-        &#9654; PLAY GAME
-      </a>
-      <a href="/journal"
-         class="px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-transparent border border-[#00F0FF] text-[#00F0FF] hover:shadow-[0_0_20px_rgba(0,240,255,0.2)] transition-all duration-300 text-center">
-        &#128240; READ JOURNAL
-      </a>
-      <a href="/course"
-         class="px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-transparent border border-[#FFB547] text-[#FFB547] hover:shadow-[0_0_20px_rgba(255,181,71,0.2)] transition-all duration-300 text-center">
-        &#127891; TAKE COURSE
-      </a>
+    <!-- Pillars -->
+    <div class="lg:col-span-7">
+      <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-3">// 02. DIRECTIVES</div>
+      <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-5 sm:mb-6">
+        &gt; CORE_DIRECTIVES
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#00F0FF] transition-all duration-300 hover:box-glow-cyan group">
+          <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">01</div>
+          <div class="w-10 h-10 bg-[#00F0FF]/10 flex items-center justify-center text-xl rounded-sm">
+            &#128737;&#65039;
+          </div>
+          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Protect</h3>
+          <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
+            Identify and defend against sophisticated financial scams targeting individuals and organizations.
+          </p>
+        </div>
+
+        <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#39FF6B] transition-all duration-300 hover:box-glow-green group">
+          <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">02</div>
+          <div class="w-10 h-10 bg-[#39FF6B]/10 flex items-center justify-center text-xl rounded-sm">
+            &#128269;
+          </div>
+          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Aware</h3>
+          <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
+            Stay informed about AI-powered deepfakes, social engineering, and evolving phishing techniques.
+          </p>
+        </div>
+
+        <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#FFB547] transition-all duration-300 hover:box-glow-amber group">
+          <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">03</div>
+          <div class="w-10 h-10 bg-[#FFB547]/10 flex items-center justify-center text-xl rounded-sm">
+            &#127918;
+          </div>
+          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Train</h3>
+          <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
+            Sharpen scam-detection skills with interactive simulations and real-world scenarios.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Interview Section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+<!-- ============================================================ -->
+<!-- INTERVIEWS                                                   -->
+<!-- ============================================================ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 03. ARCHIVE</div>
   <div data-component="ContentCarousel" data-props='{"title":"> INTERVIEW_LOG","apiUrl":"/api/posts?type=interview&limit=8","badge":"INTERVIEW"}'></div>
 </section>
 
-<!-- Newsletter Section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+<!-- ============================================================ -->
+<!-- NEWSLETTERS                                                  -->
+<!-- ============================================================ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 04. DISPATCHES</div>
   <div data-component="ContentCarousel" data-props='{"title":"> NEWSLETTER_FEED","apiUrl":"/api/posts?type=newsletter&limit=8","badge":"NEWSLETTER"}'></div>
 </section>
 
-<!-- Article Section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+<!-- ============================================================ -->
+<!-- ARTICLES                                                     -->
+<!-- ============================================================ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 05. RESEARCH</div>
   <div data-component="ContentCarousel" data-props='{"title":"> ARTICLE_DATABASE","apiUrl":"/api/posts?type=article&limit=8","badge":"ARTICLE"}'></div>
 </section>
 
-<!-- Mission Briefing / About Us -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-  <div data-component="TerminalBlock" data-props='{"title":"> MISSION_BRIEFING","content":"We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies."}'></div>
-  <noscript>
-    <div class="bg-[#0B0E17] border border-[#1E2A42] p-6 mt-8 font-['JetBrains_Mono']">
-      <div class="text-[#00F0FF] text-sm mb-4">&gt; MISSION_BRIEFING</div>
-      <p class="text-[#8892A8] text-sm leading-relaxed">
-        We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies.
-      </p>
-    </div>
-  </noscript>
-</section>
-
-<!-- 3 Pillars / Core Directives -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-  <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-lg sm:text-xl font-bold border-l-2 border-[#00F0FF] pl-4 mb-6 sm:mb-8">
-    &gt; CORE_DIRECTIVES
-  </h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-    <!-- Card 1: Protect -->
-    <div class="bg-[#131829] border border-[#1E2A42] p-6 hover:border-[#00F0FF] transition-all duration-300 hover:box-glow-cyan">
-      <div class="w-12 h-12 bg-[#00F0FF]/10 flex items-center justify-center text-2xl rounded">
-        &#128737;&#65039;
-      </div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-lg mt-4 text-[#E4E8F1]">Protect Against Financial Scams</h3>
-      <p class="text-[#8892A8] text-sm mt-2 leading-relaxed">
-        Learn to identify and defend against the most sophisticated financial scams targeting individuals and organizations in the digital age.
-      </p>
-    </div>
-
-    <!-- Card 2: Awareness -->
-    <div class="bg-[#131829] border border-[#1E2A42] p-6 hover:border-[#39FF6B] transition-all duration-300 hover:box-glow-green">
-      <div class="w-12 h-12 bg-[#39FF6B]/10 flex items-center justify-center text-2xl rounded">
-        &#128269;
-      </div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-lg mt-4 text-[#E4E8F1]">Awareness of Modern Scams</h3>
-      <p class="text-[#8892A8] text-sm mt-2 leading-relaxed">
-        Stay informed about emerging threats including AI-powered deepfakes, social engineering tactics, and evolving phishing techniques.
-      </p>
-    </div>
-
-    <!-- Card 3: Interactive -->
-    <div class="bg-[#131829] border border-[#1E2A42] p-6 hover:border-[#FFB547] transition-all duration-300 hover:box-glow-amber">
-      <div class="w-12 h-12 bg-[#FFB547]/10 flex items-center justify-center text-2xl rounded">
-        &#127918;
-      </div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-lg mt-4 text-[#E4E8F1]">Interactive Games and Tests</h3>
-      <p class="text-[#8892A8] text-sm mt-2 leading-relaxed">
-        Put your skills to the test with interactive simulations and games designed to sharpen your scam-detection abilities in real-world scenarios.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- Threat Database / Scam Types -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+<!-- ============================================================ -->
+<!-- THREAT DATABASE                                              -->
+<!-- ============================================================ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 06. INDEX</div>
   <div data-component="ScamTypesGrid" data-props='{"title":"THREAT_DATABASE"}'></div>
 </section>
 
-<!-- CTA Before Footer -->
-<section class="py-12 sm:py-20 px-4 text-center">
-  <h2 class="font-['JetBrains_Mono'] text-xl sm:text-2xl text-[#E4E8F1] font-bold">Ready to test your skills?</h2>
-  <div class="mt-6 sm:mt-8 inline-block" data-component="GameLauncher" data-props='{}'>
-    <a href="/play/"
-       class="inline-block px-6 sm:px-8 py-3 sm:py-4 font-['JetBrains_Mono'] uppercase text-sm sm:text-lg tracking-wider bg-transparent border border-[#39FF6B] text-[#39FF6B] hover:shadow-[0_0_25px_rgba(57,255,107,0.25)] transition-all duration-300">
-      &#9654; START GAME
-    </a>
+<!-- ============================================================ -->
+<!-- FINAL CTA                                                    -->
+<!-- ============================================================ -->
+<section class="relative overflow-hidden border-t border-[#1E2A42] mt-8">
+  <div class="absolute inset-0 grid-pattern opacity-40"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
+    <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-4">// END_OF_BRIEFING</div>
+    <h2 class="font-['JetBrains_Mono'] text-2xl sm:text-3xl lg:text-4xl text-[#E4E8F1] font-bold">
+      Ready to test your skills?
+    </h2>
+    <p class="mt-4 max-w-xl mx-auto text-[#8892A8] text-sm sm:text-base">
+      Run the simulation. Spot the scam. Walk away sharper than the people trying to fool you.
+    </p>
+    <div class="mt-8 inline-block" data-component="GameLauncher" data-props='{}'>
+      <a href="/play/"
+         class="inline-flex items-center gap-2 px-8 py-4 font-['JetBrains_Mono'] uppercase text-sm sm:text-base tracking-wider bg-[#39FF6B]/5 border border-[#39FF6B] text-[#39FF6B] hover:bg-[#39FF6B]/10 hover:shadow-[0_0_30px_rgba(57,255,107,0.3)] transition-all duration-300">
+        <span>&#9654;</span><span>START GAME</span>
+      </a>
+    </div>
   </div>
 </section>
 

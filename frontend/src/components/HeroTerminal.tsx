@@ -1,0 +1,109 @@
+import { useEffect, useState, useRef } from 'react';
+
+interface HeroTerminalProps {
+  lines?: string[];
+}
+
+const DEFAULT_LINES: string[] = [
+  '> init scanner --module=threat_db',
+  '> loading signatures ............ [OK]',
+  '> connecting feed.discammer.com',
+  '> handshake ESTABLISHED',
+  '> auth: anon-guest                  [200]',
+  '> scanning vector: phishing/2024',
+  '   ├─ kits matched: 218',
+  '   └─ avg lifespan: 38h',
+  '> scanning vector: deepfake/audio',
+  '   ├─ samples: 1,407',
+  '   └─ ROC AUC: 0.93',
+  '> scanning vector: investment-fraud',
+  '   ├─ pump-and-dump: 64 active',
+  '   └─ pig-butchering: 142 tracked',
+  '> threat_db.size = 247 entries',
+  '> last_breach   = 02:14:09 UTC',
+  '> oracle: "trust nothing on first contact"',
+  '> > > AWAITING USER COMMAND _',
+];
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
+  );
+}
+
+export default function HeroTerminal({ lines }: HeroTerminalProps) {
+  const source = lines && lines.length > 0 ? lines : DEFAULT_LINES;
+  const reduce = prefersReducedMotion();
+  const [visible, setVisible] = useState<number>(reduce ? source.length : 0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reduce) return;
+    if (visible >= source.length) return;
+    const t = setTimeout(() => setVisible((v) => v + 1), 180);
+    return () => clearTimeout(t);
+  }, [visible, source.length, reduce]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [visible]);
+
+  function lineColor(line: string): string {
+    if (line.includes('[OK]') || line.includes('ESTABLISHED') || line.includes('200')) return '#39FF6B';
+    if (line.includes('AWAITING')) return '#FFB547';
+    if (line.startsWith('   ')) return '#8892A8';
+    return '#00F0FF';
+  }
+
+  return (
+    <div className="bg-[#0B0E17]/90 border border-[#1E2A42] rounded-md overflow-hidden shadow-[0_0_40px_rgba(0,240,255,0.08)] backdrop-blur-sm">
+      {/* Title bar */}
+      <div className="flex items-center gap-2 px-3 py-2 bg-[#131829] border-b border-[#1E2A42]">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#FF4757]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#FFB547]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#39FF6B]"></span>
+        <span
+          className="ml-3 text-[10px] uppercase tracking-[2px] text-[#8892A8]"
+          style={{ fontFamily: '"JetBrains Mono", monospace' }}
+        >
+          discammer@threat-monitor ~ %
+        </span>
+      </div>
+
+      {/* Output */}
+      <div
+        ref={scrollRef}
+        className="px-4 py-4 h-[280px] sm:h-[320px] lg:h-[360px] overflow-y-auto text-xs sm:text-sm leading-relaxed scrollbar-hide"
+        style={{ fontFamily: '"JetBrains Mono", monospace' }}
+      >
+        {source.slice(0, visible).map((line, i) => (
+          <div
+            key={i}
+            style={{
+              color: lineColor(line),
+              whiteSpace: 'pre',
+              fontFamily: '"JetBrains Mono", monospace',
+            }}
+          >
+            {line}
+          </div>
+        ))}
+        {!reduce && visible < source.length && (
+          <span
+            className="inline-block"
+            style={{
+              color: '#00F0FF',
+              animation: 'blink 1s step-end infinite',
+              fontFamily: '"JetBrains Mono", monospace',
+            }}
+            aria-hidden="true"
+          >
+            &#x25AE;
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
