@@ -2,6 +2,9 @@ FROM node:20-slim AS frontend-build
 WORKDIR /app
 COPY frontend/ ./frontend/
 COPY backend/static/ ./backend/static/
+# Tailwind v4 scans backend/templates/**/*.html via `@source` in globals.css —
+# without these, classes used only in Jinja templates get purged from the bundle.
+COPY backend/templates/ ./backend/templates/
 RUN cd frontend && npm ci && npm run build
 
 FROM python:3.12-slim
