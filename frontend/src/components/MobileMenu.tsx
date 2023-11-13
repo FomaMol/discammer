@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface MobileMenuProps {
   links: Array<{ label: string; href: string }>;
@@ -85,7 +86,9 @@ export default function MobileMenu({ links }: MobileMenuProps) {
         />
       </button>
 
-      {/* Overlay menu */}
+      {/* Overlay menu — portaled to body so it escapes the navbar's
+          backdrop-filter containing block. */}
+      {typeof document !== 'undefined' && createPortal(
       <div
         id={panelId}
         ref={panelRef}
@@ -150,7 +153,9 @@ export default function MobileMenu({ links }: MobileMenuProps) {
             </p>
           </div>
         </nav>
-      </div>
+      </div>,
+      document.body
+      )}
     </>
   );
 }
