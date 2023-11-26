@@ -38,8 +38,8 @@
 
   <!-- Cover Image -->
   {% if post.cover_image %}
-  <div class="mt-6 border border-[#1E2A42] overflow-hidden">
-    <img src="{{ post.cover_image }}" alt="{{ post.title }}" class="w-full object-cover">
+  <div class="mt-6 border border-[#1E2A42] overflow-hidden aspect-[16/9] max-h-[420px]">
+    <img src="{{ post.cover_image }}" alt="{{ post.title }}" class="w-full h-full object-cover">
   </div>
   {% endif %}
 

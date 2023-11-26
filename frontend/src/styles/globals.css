@@ -220,11 +220,20 @@ html, body {
 .prose th { background: #1A2035; color: #00F0FF; font-family: 'JetBrains Mono', monospace; text-align: left; }
 
 /* Video embeds in articles (kinescope / youtube / vimeo iframes wrapped in
-   a 16:9 aspect-ratio div in the markdown). */
+   a 16:9 aspect-ratio div in the markdown). The aspect ratio lives here
+   rather than in inline styles because bleach strips style values. */
 .prose .video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
   margin: 2em 0;
   background: #0B0E17;
   border: 1px solid #1E2A42;
+}
+.prose .video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 .prose iframe { max-width: 100%; border: 0; }
 
