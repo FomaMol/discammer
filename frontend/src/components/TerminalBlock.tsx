@@ -1,9 +1,13 @@
 interface TerminalBlockProps {
   title: string;
+  content?: string;
   dangerouslySetInnerHTML?: { __html: string };
 }
 
-export default function TerminalBlock({ title, dangerouslySetInnerHTML }: TerminalBlockProps) {
+export default function TerminalBlock({ title, content, dangerouslySetInnerHTML }: TerminalBlockProps) {
+  const hasHtml = dangerouslySetInnerHTML && dangerouslySetInnerHTML.__html.trim().length > 0;
+  const hasContent = content && content.trim().length > 0;
+
   return (
     <div className="bg-bg-panel border border-border-default rounded-md overflow-hidden">
       {/* Title bar */}
@@ -20,12 +24,19 @@ export default function TerminalBlock({ title, dangerouslySetInnerHTML }: Termin
       </div>
       {/* Content */}
       <div className="border-l-2 border-accent-cyan p-4">
-        {dangerouslySetInnerHTML ? (
+        {hasHtml ? (
           <div
             className="text-text-primary text-sm leading-relaxed"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
             dangerouslySetInnerHTML={dangerouslySetInnerHTML}
           />
+        ) : hasContent ? (
+          <p
+            className="text-[#8892A8] text-sm leading-relaxed"
+            style={{ fontFamily: '"JetBrains Mono", monospace' }}
+          >
+            {content}
+          </p>
         ) : (
           <div
             className="text-text-muted text-sm"
