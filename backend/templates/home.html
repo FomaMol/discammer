@@ -73,6 +73,23 @@
       <!-- Right column: terminal -->
       <div class="lg:col-span-5 w-full max-w-xl mx-auto lg:max-w-none">
         <div data-component="HeroTerminal" data-props='{}'></div>
+        <noscript>
+          <div class="bg-[#0B0E17]/90 border border-[#1E2A42] rounded-md overflow-hidden">
+            <div class="flex items-center gap-2 px-3 py-2 bg-[#131829] border-b border-[#1E2A42]">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FF4757]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FFB547]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#39FF6B]"></span>
+              <span class="ml-3 text-[10px] uppercase tracking-[2px] text-[#8892A8] font-['JetBrains_Mono']">
+                discammer@threat-monitor ~ %
+              </span>
+            </div>
+            <pre class="px-4 py-4 text-xs text-[#00F0FF] leading-relaxed font-['JetBrains_Mono'] overflow-x-auto">&gt; threat_db.size = {{ stats.threats }} entries
+&gt; interviews     = {{ stats.interviews }}
+&gt; articles       = {{ stats.articles }}
+&gt; oracle: "trust nothing on first contact"
+&gt; AWAITING USER COMMAND _</pre>
+          </div>
+        </noscript>
       </div>
     </div>
   </div>
@@ -85,15 +102,15 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#1E2A42]">
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#00F0FF] glow-cyan">10</div>
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#00F0FF] glow-cyan">{{ "%02d"|format(stats.threats) }}</div>
         <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Threat Types</div>
       </div>
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#39FF6B]">08</div>
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#39FF6B]">{{ "%02d"|format(stats.interviews) }}</div>
         <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Interviews</div>
       </div>
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#FFB547]">07</div>
+        <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#FFB547]">{{ "%02d"|format(stats.articles) }}</div>
         <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Articles</div>
       </div>
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">

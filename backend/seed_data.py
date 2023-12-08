@@ -1,20 +1,27 @@
 """Seed the database with content from markdown files in content/ directory."""
 
+import logging
 import re
 from pathlib import Path
 
 import aiosqlite
 
-from config import CONTENT_DIR, DATABASE_PATH
+import config
+from config import CONTENT_DIR
+
+log = logging.getLogger(__name__)
 
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:
-    """Parse YAML-like frontmatter from markdown text. Returns (metadata, body)."""
-    match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)", text, re.DOTALL)
+    """Parse YAML-like frontmatter from markdown text. Returns (metadata, body).
+
+    Tolerant of a missing trailing newline after the closing ``---``.
+    """
+    match = re.match(r"^---\s*\n(.*?)\n---\s*(?:\n(.*))?\Z", text, re.DOTALL)
     if not match:
         return {}, text
 
-    meta_str, body = match.group(1), match.group(2)
+    meta_str, body = match.group(1), match.group(2) or ""
     meta: dict = {}
     for line in meta_str.strip().split("\n"):
         if ":" not in line:
@@ -38,8 +45,10 @@ def load_markdown_files(directory: Path) -> list[tuple[dict, str]]:
     for md_file in sorted(directory.glob("*.md")):
         text = md_file.read_text(encoding="utf-8")
         meta, body = parse_frontmatter(text)
-        if meta:
-            results.append((meta, body))
+        if not meta:
+            log.warning("Skipping %s: missing or unparseable frontmatter", md_file)
+            continue
+        results.append((meta, body))
     return results
 
 
@@ -152,8 +161,13 @@ async def seed_database() -> None:
     Wipes post, scam_guide and course_module on every startup so edits to
     markdown frontmatter or body flow through on the next deploy. Safe because
     these tables hold derived content only — no user-generated state lives here.
+    Future user-state tables (e.g. course progress) MUST live in separate
+    tables so this wipe never touches them.
+
+    Reads ``config.DATABASE_PATH`` at call time (not import time) so test
+    fixtures can swap it in by mutating the ``config`` module attribute.
     """
-    async with aiosqlite.connect(DATABASE_PATH) as db:
+    async with aiosqlite.connect(config.DATABASE_PATH) as db:
         await db.execute("BEGIN")
 
         await db.execute("DELETE FROM post")

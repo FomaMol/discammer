@@ -30,19 +30,27 @@ def _templates(request: Request):
 
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    interviews = await get_posts(type_filter="interview", limit=4)
-    newsletters = await get_posts(type_filter="newsletter", limit=4)
-    articles = await get_posts(type_filter="article", limit=4)
+    interviews = await get_posts(type_filter="interview")
+    newsletters = await get_posts(type_filter="newsletter")
+    articles = await get_posts(type_filter="article")
     guides = await get_guides()
+
+    stats = {
+        "threats": len(guides),
+        "interviews": len(interviews),
+        "articles": len(articles),
+        "newsletters": len(newsletters),
+    }
 
     return _templates(request).TemplateResponse(
         request,
         "home.html",
         {
-            "interviews": interviews,
-            "newsletters": newsletters,
-            "articles": articles,
+            "interviews": interviews[:4],
+            "newsletters": newsletters[:4],
+            "articles": articles[:4],
             "guides": guides,
+            "stats": stats,
             "page_title": "DiScammer — Cyber Security Education",
         },
     )

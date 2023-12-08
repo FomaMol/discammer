@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 import aiosqlite
 
-from config import DATABASE_PATH, DATA_DIR
+import config
 
 
 SQL_CREATE_TABLES = """
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS course_module (
 
 async def init_db() -> None:
     """Initialise the database: ensure the data directory and tables exist."""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    async with aiosqlite.connect(DATABASE_PATH) as db:
+    config.DATA_DIR.mkdir(parents=True, exist_ok=True)
+    async with aiosqlite.connect(config.DATABASE_PATH) as db:
         await db.executescript(SQL_CREATE_TABLES)
         await db.commit()
 
@@ -53,7 +53,7 @@ async def init_db() -> None:
 @asynccontextmanager
 async def get_db():
     """Async context manager that yields an aiosqlite connection with row_factory."""
-    db = await aiosqlite.connect(DATABASE_PATH)
+    db = await aiosqlite.connect(config.DATABASE_PATH)
     db.row_factory = aiosqlite.Row
     try:
         yield db

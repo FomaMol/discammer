@@ -43,9 +43,10 @@ app = FastAPI(
 # Static files
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-# Jinja2 templates — stored on app.state so routers can access them
-# Workaround: Python 3.14 + Jinja2 LRUCache incompatibility —
-# create the environment with caching disabled and pass it directly.
+# Jinja2 templates — stored on app.state so routers can access them.
+# Workaround: when running locally on Python 3.14 the default Jinja2 LRUCache
+# blows up; building the Environment manually with caching disabled sidesteps
+# it. Harmless under Python 3.12 in the prod container.
 from jinja2 import Environment, FileSystemLoader, select_autoescape  # noqa: E402
 
 from datetime import datetime, timezone  # noqa: E402
@@ -64,8 +65,8 @@ def _asset_url(path: str) -> str:
     Vite emits stable filenames (no hash in name) so without a query string
     the browser keeps the old CSS/JS until manually cleared.
     """
-    rel = path.removeprefix("/static/")
-    target = STATIC_DIR / rel
+    clean, _, _ = path.partition("?")
+    target = STATIC_DIR / clean.removeprefix("/static/")
     try:
         mtime = int(target.stat().st_mtime)
     except OSError:

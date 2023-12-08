@@ -1,6 +1,8 @@
 """Smoke tests — every public surface should at least respond."""
 from __future__ import annotations
 
+from markupsafe import escape
+
 
 def test_home_renders(client):
     r = client.get("/")
@@ -71,7 +73,9 @@ def test_seeded_guide_detail_renders(client):
     slug = guides[0]["slug"]
     r = client.get(f"/guide/{slug}")
     assert r.status_code == 200
-    assert guides[0]["title"] in r.text
+    # Jinja auto-escapes — compare against the escaped form so titles
+    # containing &/</> don't break the assertion.
+    assert str(escape(guides[0]["title"])) in r.text
 
 
 def test_seeded_post_detail_renders(client):

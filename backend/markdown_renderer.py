@@ -12,7 +12,7 @@ _MD = markdown.Markdown(
             "linenums": False,
         },
         "toc": {
-            "permalink": True,
+            "permalink": "#",
             "permalink_class": "toc-anchor",
         },
     },

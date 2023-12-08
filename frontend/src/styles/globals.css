@@ -237,8 +237,9 @@ html, body {
 }
 .prose iframe { max-width: 100%; border: 0; }
 
-/* Permalink anchors next to TOC-generated headings — show as a subtle hash
-   on hover instead of an always-visible pilcrow. */
+/* Permalink anchors next to TOC-generated headings — `#` character is set
+   in markdown_renderer's TOC config (`permalink: "#"`). Hidden until heading
+   hover. */
 .prose .toc-anchor {
   display: inline-block;
   margin-left: 0.5em;
@@ -246,13 +247,10 @@ html, body {
   text-decoration: none;
   color: #00F0FF;
   font-weight: 400;
-  font-size: 0.7em;
+  font-size: 0.85em;
   vertical-align: middle;
   transition: opacity 0.15s;
 }
-.prose .toc-anchor::before { content: "#"; }
-.prose .toc-anchor { font-size: 0; }
-.prose .toc-anchor::before { font-size: 1rem; }
 .prose h1:hover .toc-anchor,
 .prose h2:hover .toc-anchor,
 .prose h3:hover .toc-anchor,

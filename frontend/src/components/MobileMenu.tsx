@@ -88,74 +88,75 @@ export default function MobileMenu({ links }: MobileMenuProps) {
 
       {/* Overlay menu — portaled to body so it escapes the navbar's
           backdrop-filter containing block. */}
-      {typeof document !== 'undefined' && createPortal(
-      <div
-        id={panelId}
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Site navigation"
-        aria-hidden={!isOpen}
-        className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out md:hidden ${
-          isOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
-        }`}
-      >
-        {/* Scanlines */}
-        <div className="scanline-overlay" />
-
-        {/* Menu content */}
-        <nav className="relative z-10 flex flex-col items-start justify-center h-full px-6 sm:px-8 py-16 sm:py-20 overflow-y-auto">
+      {typeof document !== 'undefined' &&
+        createPortal(
           <div
-            className="text-xs text-text-muted mb-8 uppercase tracking-[0.3em]"
-            style={{ fontFamily: '"JetBrains Mono", monospace' }}
+            id={panelId}
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+            aria-hidden={!isOpen}
+            className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out md:hidden ${
+              isOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
+            }`}
           >
-            // Navigation
-          </div>
+            {/* Scanlines */}
+            <div className="scanline-overlay" />
 
-          {links.map((link, i) => (
-            <a
-              key={link.href}
-              href={link.href}
-              tabIndex={isOpen ? 0 : -1}
-              onClick={() => setIsOpen(false)}
-              className="group flex items-center gap-4 py-3 w-full"
-              style={{
-                animation: isOpen
-                  ? `glitch 0.1s linear ${i * 0.05}s 1`
-                  : undefined,
-              }}
-            >
-              <span
-                className="text-text-muted text-xs"
+            {/* Menu content */}
+            <nav className="relative z-10 flex flex-col items-start justify-center h-full px-6 sm:px-8 py-16 sm:py-20 overflow-y-auto">
+              <div
+                className="text-xs text-text-muted mb-8 uppercase tracking-[0.3em]"
                 style={{ fontFamily: '"JetBrains Mono", monospace' }}
               >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span
-                className="text-text-primary text-xl group-hover:text-accent-cyan group-hover:glow-cyan transition-colors duration-200"
-                style={{ fontFamily: '"JetBrains Mono", monospace' }}
-              >
-                &gt; {link.label}
-              </span>
-              <span className="text-accent-cyan text-xs opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
-                [ENTER]
-              </span>
-            </a>
-          ))}
+                // Navigation
+              </div>
 
-          {/* Decorative footer */}
-          <div className="mt-auto pt-8 border-t border-border-default w-full">
-            <p
-              className="text-text-muted text-[10px] tracking-wider"
-              style={{ fontFamily: '"JetBrains Mono", monospace' }}
-            >
-              &gt; DiSCAMMER v1.0 // ANTI-SCAM TERMINAL
-            </p>
-          </div>
-        </nav>
-      </div>,
-      document.body
-      )}
+              {links.map((link, i) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  tabIndex={isOpen ? 0 : -1}
+                  onClick={() => setIsOpen(false)}
+                  className="group flex items-center gap-4 py-3 w-full"
+                  style={{
+                    animation: isOpen
+                      ? `glitch 0.1s linear ${i * 0.05}s 1`
+                      : undefined,
+                  }}
+                >
+                  <span
+                    className="text-text-muted text-xs"
+                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    className="text-text-primary text-xl group-hover:text-accent-cyan group-hover:glow-cyan transition-colors duration-200"
+                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                  >
+                    &gt; {link.label}
+                  </span>
+                  <span className="text-accent-cyan text-xs opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+                    [ENTER]
+                  </span>
+                </a>
+              ))}
+
+              {/* Decorative footer */}
+              <div className="mt-auto pt-8 border-t border-border-default w-full">
+                <p
+                  className="text-text-muted text-[10px] tracking-wider"
+                  style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                >
+                  &gt; DiSCAMMER v1.0 // ANTI-SCAM TERMINAL
+                </p>
+              </div>
+            </nav>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
