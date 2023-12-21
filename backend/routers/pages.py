@@ -142,6 +142,6 @@ async def game(request: Request):
         request,
         "game.html",
         {
-            "page_title": "Cyber Watch — DiScammer",
+            "page_title": "Antifraud Hero — DiScammer",
         },
     )

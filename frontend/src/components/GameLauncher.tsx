@@ -66,12 +66,12 @@ export default function GameLauncher({
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Cyber Watch"
+          aria-label="Antifraud Hero"
           className="fixed inset-0 z-[100] bg-black/95 flex flex-col"
         >
           <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#1E2A42] bg-[#0B0E17]">
             <span className="font-['Press_Start_2P'] text-[#39FF6B] text-xs md:text-sm glow-green tracking-widest">
-              CYBER WATCH
+              ANTIFRAUD HERO
             </span>
             <button
               ref={closeRef}
@@ -87,7 +87,7 @@ export default function GameLauncher({
             <iframe
               ref={iframeRef}
               src={src}
-              title="Cyber Watch"
+              title="Antifraud Hero"
               onLoad={onIframeLoad}
               className="absolute inset-0 w-full h-full border-0"
               allow="autoplay; fullscreen; gamepad; pointer-lock"
