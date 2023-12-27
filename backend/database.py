@@ -1,3 +1,4 @@
+import json
 from typing import Dict, List, Optional
 from contextlib import asynccontextmanager
 
@@ -37,15 +38,34 @@ CREATE TABLE IF NOT EXISTS course_module (
     title TEXT NOT NULL,
     description TEXT,
     content TEXT,
-    is_locked INTEGER DEFAULT 1
+    is_locked INTEGER DEFAULT 1,
+    icon TEXT,
+    duration TEXT,
+    lessons INTEGER DEFAULT 0,
+    difficulty TEXT,
+    topics_json TEXT,
+    objectives_json TEXT,
+    accent TEXT
 );
 """
 
 
 async def init_db() -> None:
-    """Initialise the database: ensure the data directory and tables exist."""
+    """Initialise the database: ensure the data directory and tables exist.
+
+    ``course_module`` is rebuilt from seed on every startup, so it is safe to
+    drop here when its column set is out of sync with the current schema —
+    this lets new fields (duration, lessons, topics_json, …) be added without
+    a manual migration step.
+    """
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        cursor = await db.execute("PRAGMA table_info(course_module)")
+        existing_cols = {row[1] for row in await cursor.fetchall()}
+        required_cols = {"icon", "duration", "lessons", "difficulty", "topics_json", "objectives_json", "accent"}
+        if existing_cols and not required_cols.issubset(existing_cols):
+            await db.execute("DROP TABLE course_module")
+
         await db.executescript(SQL_CREATE_TABLES)
         await db.commit()
 
@@ -109,13 +129,23 @@ async def get_guide_by_slug(slug: str) -> Optional[Dict]:
 
 
 async def get_course_modules() -> List[Dict]:
-    """Return all course modules in order."""
+    """Return all course modules in order, with topics/objectives parsed from JSON."""
     async with get_db() as db:
         cursor = await db.execute(
             'SELECT * FROM course_module ORDER BY "order" ASC'
         )
         rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+        modules = []
+        for row in rows:
+            mod = dict(row)
+            for key, source in (("topics", "topics_json"), ("objectives", "objectives_json")):
+                raw = mod.pop(source, None)
+                try:
+                    mod[key] = json.loads(raw) if raw else []
+                except (json.JSONDecodeError, TypeError):
+                    mod[key] = []
+            modules.append(mod)
+        return modules
 
 
 async def get_related_posts(

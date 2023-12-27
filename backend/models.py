@@ -29,3 +29,10 @@ class CourseModuleResponse(BaseModel):
     title: str
     description: Optional[str] = None
     is_locked: bool = True
+    icon: Optional[str] = None
+    duration: Optional[str] = None
+    lessons: int = 0
+    difficulty: Optional[str] = None
+    topics: list[str] = []
+    objectives: list[str] = []
+    accent: Optional[str] = None

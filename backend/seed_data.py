@@ -1,5 +1,6 @@
 """Seed the database with content from markdown files in content/ directory."""
 
+import json
 import logging
 import re
 from pathlib import Path
@@ -55,100 +56,365 @@ def load_markdown_files(directory: Path) -> list[tuple[dict, str]]:
 COURSE_MODULES = [
     {
         "order": 1,
-        "title": "Introduction to Cyber Threats",
-        "description": "Learn the fundamentals of the modern threat landscape — from malware to social engineering.",
+        "title": "Threat Landscape Fundamentals",
+        "description": (
+            "Map the modern threat landscape and learn how cybercriminals actually "
+            "operate — from opportunistic phishing kits to organized fraud networks."
+        ),
+        "icon": "\U0001F310",
+        "accent": "cyan",
+        "duration": "45 min",
+        "lessons": 6,
+        "difficulty": "Beginner",
+        "topics": [
+            "Anatomy of a modern scam economy",
+            "Attack vectors: email, SMS, voice, web",
+            "Threat actors and their motivations",
+            "Glossary: malware, phishing, ransomware, RAT",
+            "Reading recent breach reports",
+            "Case study: the 2024 deepfake CFO heist",
+        ],
+        "objectives": [
+            "Identify the four major scam delivery channels",
+            "Explain why certain demographics are targeted",
+            "Recognize the eight most common attack patterns",
+        ],
         "content": (
-            "## Module 1: Introduction to Cyber Threats\n\n"
-            "Welcome to the DiScammer Training Program. In this module, you will learn about the most common "
-            "types of cyber threats facing individuals and organizations today.\n\n"
-            "### Topics Covered\n\n"
-            "- What is cybercrime and why it matters\n"
-            "- The evolution of digital threats\n"
-            "- Key terminology: malware, phishing, social engineering, ransomware\n"
-            "- The anatomy of a cyber attack\n"
-            "- Real-world case studies\n\n"
-            "### Key Takeaway\n\n"
-            "Understanding threats is the first step to defending against them. "
-            "By the end of this module, you'll be able to identify the most common attack vectors."
+            "## Module 1 — Threat Landscape Fundamentals\n\n"
+            "Welcome to DiScammer. Before you can defend yourself, you need a clear "
+            "picture of who is attacking, what they want, and how they reach you. "
+            "This module sets the foundation for everything that follows.\n\n"
+            "### What you will learn\n\n"
+            "- How the global scam economy is structured, from solo operators to industrialized fraud rings.\n"
+            "- The four delivery channels attackers use to reach victims and the trade-offs of each.\n"
+            "- A working vocabulary so you can read security news, breach reports, and advisories with confidence.\n\n"
+            "### Key takeaway\n\n"
+            "Cybercrime is a business. Understanding the economics behind a scam tells "
+            "you exactly where to look for the weak link — and it is almost always human."
         ),
         "is_locked": 0,
     },
     {
         "order": 2,
-        "title": "Social Engineering 101",
-        "description": "Understand how attackers exploit human psychology to bypass security.",
+        "title": "Social Engineering & Human Hacking",
+        "description": (
+            "Understand the psychological levers attackers pull — authority, urgency, "
+            "scarcity, reciprocity — and how to spot them in real conversations."
+        ),
+        "icon": "\U0001F9E0",
+        "accent": "green",
+        "duration": "60 min",
+        "lessons": 7,
+        "difficulty": "Beginner",
+        "topics": [
+            "Cialdini's six principles of influence",
+            "Pretexting and impersonation scripts",
+            "Vishing, smishing, and voice deepfakes",
+            "Romance and pig-butchering long cons",
+            "Urgency, fear, and authority triggers",
+            "Verbal red flags and conversational tells",
+            "Building a personal verification routine",
+        ],
+        "objectives": [
+            "Detect at least five emotional manipulation patterns in a sample message",
+            "Apply a two-step verification routine before sending money or credentials",
+            "Disarm a vishing call without escalating the conversation",
+        ],
         "content": (
-            "## Module 2: Social Engineering 101\n\n"
-            "Social engineering attacks exploit trust, authority, urgency, and other psychological triggers.\n\n"
-            "### Topics Covered\n\n"
-            "- The six principles of influence (Cialdini)\n"
-            "- Phishing, vishing, smishing, and pretexting\n"
-            "- Baiting and quid pro quo attacks\n"
-            "- Tailgating and physical social engineering\n"
-            "- How to build a human firewall\n"
+            "## Module 2 — Social Engineering & Human Hacking\n\n"
+            "Most successful attacks never touch a vulnerability in software. They "
+            "exploit a vulnerability in attention. This module trains your ear to "
+            "recognize the patterns of human manipulation before they take hold.\n\n"
+            "### What you will learn\n\n"
+            "- The six principles of influence Cialdini documented — and how attackers weaponize each one.\n"
+            "- How a pretext is built: cover story, urgency hook, plausible authority.\n"
+            "- Why romance scams and pig-butchering work even on skeptical, intelligent victims.\n\n"
+            "### Key takeaway\n\n"
+            "Emotion is the payload. If a message makes you feel rushed, scared, "
+            "flattered, or specially chosen, slow down — that feeling is the attack."
         ),
         "is_locked": 1,
     },
     {
         "order": 3,
-        "title": "Password Security & MFA",
-        "description": "Build strong authentication habits and understand multi-factor authentication.",
+        "title": "Phishing & Malicious Links",
+        "description": (
+            "Dissect real phishing emails, SMS, and landing pages. Learn to spot "
+            "lookalike domains, hidden redirects, and credential-harvest traps in seconds."
+        ),
+        "icon": "\U0001F3A3",
+        "accent": "cyan",
+        "duration": "55 min",
+        "lessons": 6,
+        "difficulty": "Beginner",
+        "topics": [
+            "Anatomy of a phishing email",
+            "Lookalike domains: punycode, homoglyphs, subdomain tricks",
+            "Reading link previews before you click",
+            "Spotting credential-harvest landing pages",
+            "QR-code phishing (quishing)",
+            "Reporting and quarantining suspicious mail",
+        ],
+        "objectives": [
+            "Inspect any URL and decide in under 10 seconds whether to click",
+            "Identify three lookalike-domain techniques used in the wild",
+            "Use email headers and message authentication signals to verify a sender",
+        ],
         "content": (
-            "## Module 3: Password Security & MFA\n\n"
-            "Passwords are the first line of defense, but they are often the weakest link.\n\n"
-            "### Topics Covered\n\n"
-            "- Why passwords get compromised\n"
-            "- Creating strong, memorable passwords\n"
-            "- Password managers: how they work and why you need one\n"
-            "- Multi-factor authentication explained\n"
-            "- Hardware keys vs. authenticator apps vs. SMS\n"
+            "## Module 3 — Phishing & Malicious Links\n\n"
+            "Phishing is still the number-one entry point for cyber attacks. The "
+            "good news: a few seconds of habit will catch the overwhelming majority "
+            "of attempts. This module trains that habit.\n\n"
+            "### What you will learn\n\n"
+            "- The structure of a credential-harvest funnel, from inbox to fake login page.\n"
+            "- The exact characters and tricks attackers use to make `paypa1.com` look like `paypal.com`.\n"
+            "- How to read a link preview, decode shortened URLs, and verify domain ownership before you click.\n\n"
+            "### Key takeaway\n\n"
+            "Never trust the display text of a link. Always read the destination "
+            "URL, character by character, and verify it against the brand you expect."
         ),
         "is_locked": 1,
     },
     {
         "order": 4,
-        "title": "Safe Browsing & Email Hygiene",
-        "description": "Navigate the web and your inbox without falling into traps.",
+        "title": "Passwords, MFA & Account Security",
+        "description": (
+            "Build authentication habits that survive a breach. Compare password "
+            "managers, MFA methods, and recovery strategies."
+        ),
+        "icon": "\U0001F510",
+        "accent": "amber",
+        "duration": "50 min",
+        "lessons": 6,
+        "difficulty": "Intermediate",
+        "topics": [
+            "How credentials get stolen and resold",
+            "Password manager fundamentals",
+            "MFA tiers: SMS vs. TOTP vs. hardware keys",
+            "Passkeys and the post-password future",
+            "Account recovery without back doors",
+            "Auditing your digital footprint",
+        ],
+        "objectives": [
+            "Set up a password manager and migrate at least 20 logins",
+            "Enable phishing-resistant MFA on every critical account",
+            "Run a personal credential audit using a breach-check tool",
+        ],
         "content": (
-            "## Module 4: Safe Browsing & Email Hygiene\n\n"
-            "Every link is a potential threat, every attachment a possible payload.\n\n"
-            "### Topics Covered\n\n"
-            "- Identifying malicious URLs\n"
-            "- Browser security settings and extensions\n"
-            "- Email header analysis\n"
-            "- Safe download practices\n"
-            "- VPNs and secure connections\n"
+            "## Module 4 — Passwords, MFA & Account Security\n\n"
+            "Your password is the lock on the front door of every account you own. "
+            "This module turns that lock into a vault — and teaches you why SMS "
+            "codes are no longer enough.\n\n"
+            "### What you will learn\n\n"
+            "- Where stolen credentials end up and how attackers stuff them across services.\n"
+            "- Why a password manager is the single highest-leverage security tool you can adopt today.\n"
+            "- The real differences between SMS one-time codes, authenticator apps, hardware keys, and passkeys.\n\n"
+            "### Key takeaway\n\n"
+            "A unique password per site plus phishing-resistant MFA blocks "
+            "more than 99% of bulk account takeover attempts. Make it your default posture."
         ),
         "is_locked": 1,
     },
     {
         "order": 5,
-        "title": "Financial Fraud Prevention",
-        "description": "Protect yourself from investment scams, fake stores, and payment fraud.",
+        "title": "Financial Fraud & Payment Safety",
+        "description": (
+            "Spot fake stores, investment scams, and payment fraud before money leaves your "
+            "account. Learn the recovery playbook when it does."
+        ),
+        "icon": "\U0001F4B3",
+        "accent": "red",
+        "duration": "65 min",
+        "lessons": 8,
+        "difficulty": "Intermediate",
+        "topics": [
+            "Anatomy of a fake online store",
+            "Crypto and ICO investment scams",
+            "Romance-to-investment pig-butchering",
+            "Fake invoice and wire-redirection attacks",
+            "Card skimming and digital pickpocketing",
+            "Charity and disaster-relief fraud",
+            "What to do in the first 24 hours after fraud",
+            "How to dispute a charge that actually wins",
+        ],
+        "objectives": [
+            "Evaluate any online store and assign a trust score in under two minutes",
+            "Recognize the five-stage pig-butchering pipeline",
+            "Execute the first 24-hour fraud response playbook from memory",
+        ],
         "content": (
-            "## Module 5: Financial Fraud Prevention\n\n"
-            "Financial scams cause billions in losses annually. Learn to protect your assets.\n\n"
-            "### Topics Covered\n\n"
-            "- Common financial scam patterns\n"
-            "- Cryptocurrency and ICO fraud\n"
-            "- Fake online stores and payment gateways\n"
-            "- Investment pyramid schemes\n"
-            "- Reporting fraud and recovering funds\n"
+            "## Module 5 — Financial Fraud & Payment Safety\n\n"
+            "Scammers stole more than $10 billion from consumers last year, and the "
+            "average loss keeps rising. This module is about keeping your money, "
+            "and getting it back when you can't.\n\n"
+            "### What you will learn\n\n"
+            "- The visual and structural tells of a fake e-commerce site: domain age, payment options, return policy, copy quality.\n"
+            "- How long-con investment scams build trust over weeks before triggering the loss.\n"
+            "- The step-by-step playbook for the first 24 hours after you realize money is missing.\n\n"
+            "### Key takeaway\n\n"
+            "Speed beats sophistication. The faster you freeze cards, file disputes, "
+            "and document the timeline, the more money you recover."
         ),
         "is_locked": 1,
     },
     {
         "order": 6,
-        "title": "Final Assessment",
-        "description": "Test your knowledge and earn your DiScammer certification.",
+        "title": "AI-Powered Threats & Deepfakes",
+        "description": (
+            "Train your eye and ear for synthetic media. Voice clones, video "
+            "deepfakes, and AI-written scams are now mainstream — here is how to spot them."
+        ),
+        "icon": "\U0001F916",
+        "accent": "cyan",
+        "duration": "55 min",
+        "lessons": 6,
+        "difficulty": "Intermediate",
+        "topics": [
+            "How modern generative models produce text, voice, and video",
+            "Voice cloning attacks targeting family and finance",
+            "Video deepfakes in business email compromise",
+            "Detecting AI-written messages",
+            "Provenance signals: C2PA, watermarks, metadata",
+            "Building family verification protocols",
+        ],
+        "objectives": [
+            "Identify three reliable visual artifacts in a deepfake video",
+            "Set up a shared verification phrase with at least one trusted contact",
+            "Distinguish AI-generated text from human writing with 80% accuracy",
+        ],
         "content": (
-            "## Module 6: Final Assessment\n\n"
-            "Put everything you've learned to the test.\n\n"
-            "### What to Expect\n\n"
-            "- 30-question quiz covering all modules\n"
-            "- Scenario-based challenges\n"
-            "- Minimum 80% score to pass\n"
-            "- DiScammer Certification on completion\n"
+            "## Module 6 — AI-Powered Threats & Deepfakes\n\n"
+            "Generative AI has lowered the cost of personalized attacks to near zero. "
+            "A scammer can now clone a CEO's voice from a 30-second podcast clip and "
+            "use it to wire-transfer millions. This module teaches you how to fight back.\n\n"
+            "### What you will learn\n\n"
+            "- A non-technical mental model for how text, voice, and video generation actually work.\n"
+            "- The specific artifacts and behaviors that still betray synthetic media — and which ones are disappearing.\n"
+            "- How to establish a family or team verification protocol that defeats voice cloning.\n\n"
+            "### Key takeaway\n\n"
+            "When AI makes any face or voice cheap to fake, identity must move out "
+            "of the channel. A shared word or callback number is now critical infrastructure."
+        ),
+        "is_locked": 1,
+    },
+    {
+        "order": 7,
+        "title": "Mobile, Browser & Network Hygiene",
+        "description": (
+            "Lock down the devices and connections you use every day. Practical "
+            "settings, extensions, and habits for phones, browsers, and Wi-Fi."
+        ),
+        "icon": "\U0001F4F1",
+        "accent": "green",
+        "duration": "50 min",
+        "lessons": 6,
+        "difficulty": "Intermediate",
+        "topics": [
+            "Mobile permissions and side-loaded apps",
+            "SIM swap defense",
+            "Browser hardening: settings, extensions, profiles",
+            "Public Wi-Fi and the real role of VPNs",
+            "DNS-level filtering for households",
+            "Updates, patches, and end-of-life devices",
+        ],
+        "objectives": [
+            "Audit and reduce app permissions on your primary phone",
+            "Configure a hardened browser profile for banking",
+            "Enable SIM-swap protections with your mobile carrier",
+        ],
+        "content": (
+            "## Module 7 — Mobile, Browser & Network Hygiene\n\n"
+            "Most of your digital life happens on a phone and inside a browser. "
+            "This module fixes the defaults — the ones that ship optimized for "
+            "convenience, not safety — across both.\n\n"
+            "### What you will learn\n\n"
+            "- Which app permissions matter and which are quiet privacy leaks.\n"
+            "- How SIM swap attacks work and the exact carrier controls that block them.\n"
+            "- A browser configuration that resists tracking and credential phishing without breaking your workflow.\n\n"
+            "### Key takeaway\n\n"
+            "Defaults favor advertisers, not you. Ten minutes per device, once a "
+            "year, eliminates the majority of passive attack surface."
+        ),
+        "is_locked": 1,
+    },
+    {
+        "order": 8,
+        "title": "Incident Response & Recovery",
+        "description": (
+            "What to do in the first hour after a breach — freezing accounts, "
+            "preserving evidence, reporting, and rebuilding trust."
+        ),
+        "icon": "\U0001F6E1️",
+        "accent": "amber",
+        "duration": "60 min",
+        "lessons": 7,
+        "difficulty": "Advanced",
+        "topics": [
+            "Recognizing you have been compromised",
+            "The first 60 minutes: triage and containment",
+            "Preserving evidence without tipping off the attacker",
+            "Who to contact: banks, carriers, platforms, law enforcement",
+            "Identity-theft recovery and credit freezes",
+            "Telling your network without spreading panic",
+            "Post-incident hardening checklist",
+        ],
+        "objectives": [
+            "Execute a 60-minute containment playbook end to end",
+            "File a complete report with the FTC, IC3, or local equivalent",
+            "Restore a compromised account and verify no persistence remains",
+        ],
+        "content": (
+            "## Module 8 — Incident Response & Recovery\n\n"
+            "If you live online long enough, something will eventually get through. "
+            "This module is about minimizing the damage when it does, and making "
+            "sure you don't get hit twice through the same hole.\n\n"
+            "### What you will learn\n\n"
+            "- The early warning signs of an active compromise — in your inbox, your bank app, and your phone.\n"
+            "- A printable 60-minute playbook covering containment, communication, and evidence preservation.\n"
+            "- The agencies, hotlines, and forms that actually get fraud investigated in your country.\n\n"
+            "### Key takeaway\n\n"
+            "Calm beats clever in an incident. Follow the playbook, document "
+            "everything, and resist the urge to retaliate or improvise."
+        ),
+        "is_locked": 1,
+    },
+    {
+        "order": 9,
+        "title": "Final Assessment & Certification",
+        "description": (
+            "A 40-question proctored exam plus three scenario-based simulations. "
+            "Pass with 80% to earn your DiScammer certificate."
+        ),
+        "icon": "\U0001F3C6",
+        "accent": "green",
+        "duration": "90 min",
+        "lessons": 3,
+        "difficulty": "Capstone",
+        "topics": [
+            "40 multiple-choice questions covering Modules 1–8",
+            "Phishing-triage simulation",
+            "Voice-deepfake response simulation",
+            "Live incident-response simulation",
+        ],
+        "objectives": [
+            "Score 80% or higher on the written exam",
+            "Complete all three scenario simulations within the time limit",
+            "Receive the DiScammer Defender certificate (shareable to LinkedIn)",
+        ],
+        "content": (
+            "## Module 9 — Final Assessment & Certification\n\n"
+            "This is where it gets real. The assessment mirrors the kind of "
+            "decisions you will actually face — fast, ambiguous, with real "
+            "consequences. Pass it and you have earned the certification.\n\n"
+            "### What to expect\n\n"
+            "- A 40-question written exam covering every topic from Modules 1 through 8.\n"
+            "- Three interactive simulations: phishing triage, deepfake call response, and incident containment.\n"
+            "- A minimum score of 80% across the exam and simulations to pass.\n"
+            "- A signed, verifiable DiScammer Defender certificate on completion.\n\n"
+            "### Why it matters\n\n"
+            "Knowledge is only useful under pressure. The capstone proves you can "
+            "apply what you have learned when the message is urgent, the caller "
+            "sounds familiar, and the clock is running."
         ),
         "is_locked": 1,
     },
@@ -216,14 +482,24 @@ async def seed_database() -> None:
 
         for module in COURSE_MODULES:
             await db.execute(
-                'INSERT INTO course_module ("order", title, description, content, is_locked) '
-                "VALUES (?, ?, ?, ?, ?)",
+                'INSERT INTO course_module ('
+                '"order", title, description, content, is_locked, '
+                'icon, duration, lessons, difficulty, '
+                'topics_json, objectives_json, accent'
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     module["order"],
                     module["title"],
                     module["description"],
                     module["content"],
                     module["is_locked"],
+                    module.get("icon", ""),
+                    module.get("duration", ""),
+                    module.get("lessons", 0),
+                    module.get("difficulty", ""),
+                    json.dumps(module.get("topics", [])),
+                    json.dumps(module.get("objectives", [])),
+                    module.get("accent", "cyan"),
                 ),
             )
 
