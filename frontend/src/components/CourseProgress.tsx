@@ -273,9 +273,12 @@ function ModuleCard({
     >
       <button
         type="button"
-        onClick={onToggle}
+        onClick={locked ? undefined : onToggle}
+        disabled={locked}
         aria-expanded={expanded}
-        className="w-full text-left p-5 sm:p-6 flex flex-col sm:flex-row items-start gap-5 cursor-pointer"
+        className={`w-full text-left p-5 sm:p-6 flex flex-col sm:flex-row items-start gap-5 ${
+          locked ? 'cursor-not-allowed' : 'cursor-pointer'
+        }`}
       >
         <ModuleIcon icon={module.icon} order={orderLabel} accent={accent} locked={locked} />
 
@@ -323,61 +326,51 @@ function ModuleCard({
           </div>
         </div>
 
-        <div className="flex sm:flex-col items-center gap-2 self-start sm:self-center sm:ml-auto">
-          <span
-            className={`font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] ${
-              locked ? 'text-[#4A5568]' : accent.text
-            }`}
-            aria-hidden="true"
-          >
-            {expanded ? 'Collapse' : 'Preview'}
-          </span>
-          <Chevron
-            expanded={expanded}
-            accentText={locked ? 'text-[#4A5568]' : accent.text}
-          />
-        </div>
+        {!locked && (
+          <div className="flex sm:flex-col items-center gap-2 self-start sm:self-center sm:ml-auto">
+            <span
+              className={`font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] ${accent.text}`}
+              aria-hidden="true"
+            >
+              {expanded ? 'Collapse' : 'Expand'}
+            </span>
+            <Chevron expanded={expanded} accentText={accent.text} />
+          </div>
+        )}
       </button>
 
-      {expanded && (
+      {!locked && expanded && (
         <div className="border-t border-[#1E2A42] px-5 sm:px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
           {module.topics && module.topics.length > 0 && (
             <ExpandSection
               label="Topics covered"
-              accentDot={locked ? 'bg-[#4A5568]' : accent.dot}
+              accentDot={accent.dot}
               items={module.topics}
             />
           )}
           {module.objectives && module.objectives.length > 0 && (
             <ExpandSection
               label="By the end you can"
-              accentDot={locked ? 'bg-[#4A5568]' : accent.dot}
+              accentDot={accent.dot}
               items={module.objectives}
             />
           )}
           <div className="md:col-span-2 flex flex-wrap items-center gap-3 pt-2">
-            {locked ? (
-              <>
-                <span className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] border border-[#1E2A42] text-[#4A5568] cursor-not-allowed">
-                  <span>&#128274;</span> Locked
-                </span>
-                <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568]">
-                  Unlocks after Module {(module.order - 1).toString().padStart(2, '0')}
-                </span>
-              </>
-            ) : (
-              <>
-                <span
-                  className={`inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border ${accent.border} ${accent.text}`}
-                >
-                  <span>&#9654;</span> Start module {orderLabel}
-                </span>
-                <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568]">
-                  Interactive lessons launch soon
-                </span>
-              </>
-            )}
+            <span
+              className={`inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border ${accent.border} ${accent.text}`}
+            >
+              <span>&#9654;</span> Start module {orderLabel}
+            </span>
+            <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568]">
+              Interactive lessons launch soon
+            </span>
           </div>
+        </div>
+      )}
+
+      {locked && (
+        <div className="border-t border-[#1E2A42] px-5 sm:px-6 py-4 font-['JetBrains_Mono'] text-[11px] uppercase tracking-[2px] text-[#4A5568]">
+          Unlocks after Module {(module.order - 1).toString().padStart(2, '0')}
         </div>
       )}
     </article>
