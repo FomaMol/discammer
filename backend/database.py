@@ -49,21 +49,33 @@ CREATE TABLE IF NOT EXISTS course_module (
 );
 """
 
+# Columns the ``course_module`` table must carry — kept adjacent to the DDL
+# above so both move together. ``init_db()`` drops the table when any of
+# these is missing in the live DB so newly-added fields land cleanly
+# without a manual migration step. Safe to drop because seed_database
+# rebuilds the table on every startup.
+_COURSE_MODULE_REQUIRED_COLS = {
+    "icon",
+    "duration",
+    "lessons",
+    "difficulty",
+    "topics_json",
+    "objectives_json",
+    "accent",
+}
+
 
 async def init_db() -> None:
     """Initialise the database: ensure the data directory and tables exist.
 
     ``course_module`` is rebuilt from seed on every startup, so it is safe to
-    drop here when its column set is out of sync with the current schema —
-    this lets new fields (duration, lessons, topics_json, …) be added without
-    a manual migration step.
+    drop here when its column set is out of sync with the current schema.
     """
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     async with aiosqlite.connect(config.DATABASE_PATH) as db:
         cursor = await db.execute("PRAGMA table_info(course_module)")
         existing_cols = {row[1] for row in await cursor.fetchall()}
-        required_cols = {"icon", "duration", "lessons", "difficulty", "topics_json", "objectives_json", "accent"}
-        if existing_cols and not required_cols.issubset(existing_cols):
+        if existing_cols and not _COURSE_MODULE_REQUIRED_COLS.issubset(existing_cols):
             await db.execute("DROP TABLE course_module")
 
         await db.executescript(SQL_CREATE_TABLES)

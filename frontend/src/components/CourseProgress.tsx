@@ -35,39 +35,54 @@ interface ApiModule {
   accent?: string;
 }
 
+// IMPORTANT: every Tailwind class in this map must appear as a literal
+// string somewhere Tailwind scans (here counts as that "somewhere"). Do NOT
+// build classes like `hover:${accent.border}` at runtime — Tailwind JIT
+// only sees literal substrings, so the `hover:` variants must be spelled
+// out as their own keys.
 const ACCENT_TOKENS: Record<Accent, {
   text: string;
   border: string;
+  hoverBorder: string;
   bgSoft: string;
   glow: string;
+  hoverGlow: string;
   dot: string;
 }> = {
   cyan: {
     text: 'text-[#00F0FF]',
     border: 'border-[#00F0FF]',
+    hoverBorder: 'hover:border-[#00F0FF]',
     bgSoft: 'bg-[#00F0FF]/10',
     glow: 'shadow-[0_0_25px_rgba(0,240,255,0.18)]',
+    hoverGlow: 'hover:shadow-[0_0_25px_rgba(0,240,255,0.18)]',
     dot: 'bg-[#00F0FF]',
   },
   green: {
     text: 'text-[#39FF6B]',
     border: 'border-[#39FF6B]',
+    hoverBorder: 'hover:border-[#39FF6B]',
     bgSoft: 'bg-[#39FF6B]/10',
     glow: 'shadow-[0_0_25px_rgba(57,255,107,0.18)]',
+    hoverGlow: 'hover:shadow-[0_0_25px_rgba(57,255,107,0.18)]',
     dot: 'bg-[#39FF6B]',
   },
   amber: {
     text: 'text-[#FFB547]',
     border: 'border-[#FFB547]',
+    hoverBorder: 'hover:border-[#FFB547]',
     bgSoft: 'bg-[#FFB547]/10',
     glow: 'shadow-[0_0_25px_rgba(255,181,71,0.18)]',
+    hoverGlow: 'hover:shadow-[0_0_25px_rgba(255,181,71,0.18)]',
     dot: 'bg-[#FFB547]',
   },
   red: {
     text: 'text-[#FF4757]',
     border: 'border-[#FF4757]',
+    hoverBorder: 'hover:border-[#FF4757]',
     bgSoft: 'bg-[#FF4757]/10',
     glow: 'shadow-[0_0_25px_rgba(255,71,87,0.18)]',
+    hoverGlow: 'hover:shadow-[0_0_25px_rgba(255,71,87,0.18)]',
     dot: 'bg-[#FF4757]',
   },
 };
@@ -268,14 +283,14 @@ function ModuleCard({
       className={`relative bg-[#131829]/80 border transition-all duration-300 ${
         locked
           ? 'border-[#1E2A42] opacity-70'
-          : `border-[#1E2A42] hover:${accent.border} hover:${accent.glow}`
+          : `border-[#1E2A42] ${accent.hoverBorder} ${accent.hoverGlow}`
       }`}
     >
       <button
         type="button"
         onClick={locked ? undefined : onToggle}
         disabled={locked}
-        aria-expanded={expanded}
+        aria-expanded={locked ? undefined : expanded}
         className={`w-full text-left p-5 sm:p-6 flex flex-col sm:flex-row items-start gap-5 ${
           locked ? 'cursor-not-allowed' : 'cursor-pointer'
         }`}
@@ -356,11 +371,18 @@ function ModuleCard({
             />
           )}
           <div className="md:col-span-2 flex flex-wrap items-center gap-3 pt-2">
-            <span
-              className={`inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border ${accent.border} ${accent.text}`}
+            {/* Placeholder for the eventual lesson launcher — kept as a
+                disabled button so its semantics match the visual: not yet
+                clickable. */}
+            <button
+              type="button"
+              disabled
+              aria-label={`Start module ${orderLabel} (coming soon)`}
+              className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#0B0E17] border border-dashed border-[#1E2A42] text-[#4A5568] cursor-not-allowed"
             >
-              <span>&#9654;</span> Start module {orderLabel}
-            </span>
+              <span aria-hidden="true">&#9654;</span>
+              Start module {orderLabel}
+            </button>
             <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568]">
               Interactive lessons launch soon
             </span>

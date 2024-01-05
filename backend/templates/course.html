@@ -13,7 +13,7 @@
         <div class="inline-flex items-center gap-2 mb-5 px-3 py-1 border border-[#1E2A42] bg-[#131829]/60 backdrop-blur-sm">
           <span class="w-1.5 h-1.5 rounded-full bg-[#39FF6B] animate-pulse"></span>
           <span class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[3px] text-[#8892A8]">
-            INTERACTIVE TRAINING // 9 MODULES
+            INTERACTIVE TRAINING // {{ course_totals.modules }} MODULES
           </span>
         </div>
 
@@ -56,9 +56,9 @@
           </div>
           <pre class="px-4 py-4 text-xs sm:text-sm text-[#00F0FF] leading-relaxed font-['JetBrains_Mono'] overflow-x-auto whitespace-pre-wrap">
 &gt; loading curriculum.manifest...
-&gt; modules.total      = 09
-&gt; lessons.total      = 55
-&gt; estimated.runtime  = 8h 50m
+&gt; modules.total      = {{ "%02d"|format(course_totals.modules) }}
+&gt; lessons.total      = {{ course_totals.lessons }}
+&gt; estimated.runtime  = {{ course_totals.runtime }}
 &gt; difficulty.range   = beginner -&gt; capstone
 &gt; certificate.issued = on 80% pass
 &gt; <span class="text-[#39FF6B]">status: READY FOR ENROLLMENT _</span></pre>

@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
@@ -13,6 +15,31 @@ from database import (
 from markdown_renderer import render_markdown
 
 router = APIRouter()
+
+
+def _course_totals(modules: list[dict]) -> dict:
+    """Sum module counts / lessons / runtime for the course hero header.
+
+    Pulled from the seeded data so the figures in course.html can't drift
+    when seed_data.py grows or trims a module.
+    """
+    total_minutes = 0
+    for m in modules:
+        match = re.search(r"\d+", m.get("duration") or "")
+        if match:
+            total_minutes += int(match.group())
+    hours, minutes = divmod(total_minutes, 60)
+    if hours and minutes:
+        runtime = f"{hours}h {minutes:02d}m"
+    elif hours:
+        runtime = f"{hours}h"
+    else:
+        runtime = f"{minutes}m"
+    return {
+        "modules": len(modules),
+        "lessons": sum(m.get("lessons") or 0 for m in modules),
+        "runtime": runtime,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -131,6 +158,7 @@ async def course(request: Request):
         "course.html",
         {
             "modules": modules,
+            "course_totals": _course_totals(modules),
             "page_title": "Course — DiScammer",
         },
     )
