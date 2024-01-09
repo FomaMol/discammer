@@ -105,7 +105,7 @@ export default function MobileMenu({ links }: MobileMenuProps) {
             <div className="scanline-overlay" />
 
             {/* Menu content */}
-            <nav className="relative z-10 flex flex-col items-start justify-center h-full px-6 sm:px-8 py-16 sm:py-20 overflow-y-auto">
+            <nav className="relative z-10 flex flex-col items-start justify-center h-full px-6 sm:px-8 pt-28 sm:pt-32 pb-16 sm:pb-20 overflow-y-auto">
               <div
                 className="text-xs text-text-muted mb-8 uppercase tracking-[0.3em]"
                 style={{ fontFamily: '"JetBrains Mono", monospace' }}
