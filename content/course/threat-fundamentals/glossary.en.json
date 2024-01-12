@@ -1,0 +1,33 @@
+{
+  "order": 4,
+  "title": "Glossary: malware, phishing, ransomware, RAT",
+  "est_minutes": 6,
+  "body_md": "## A working vocabulary for the rest of the course\n\nSecurity reporting throws around a lot of jargon. You don't need to memorize an encyclopedia — you need a small working vocabulary that lets you read advisories, breach reports, and news without getting lost.\n\nHere are the eight terms that come up over and over.\n\n### Malware\n\nAny software whose purpose is to harm or surveil. Worms, viruses, trojans, keyloggers, miners — all sub-types. Treat *malware* as the umbrella term.\n\n### Phishing\n\nA message designed to trick you into revealing credentials, transferring money, or installing malware. The bait is the message; the hook is the link or attachment.\n\n- **Spear phishing** — targeted at one specific person, often with personal context.\n- **Whaling** — spear phishing aimed at executives.\n- **Smishing** — phishing over SMS.\n- **Vishing** — phishing over voice calls.\n- **Quishing** — phishing via QR codes.\n\n### Ransomware\n\nMalware that encrypts your files (or a company's) and demands payment for the decryption key. Modern variants also exfiltrate the data first and threaten to publish it — *double extortion*.\n\n### RAT (Remote Access Trojan)\n\nMalware that gives the attacker an interactive shell on your device. They can read your screen, type as you, exfiltrate files. Often delivered through a fake \"support\" call — the operator asks you to install AnyDesk or TeamViewer.\n\n### Credential stuffing\n\nAttackers take leaked username/password pairs from one breach and try them on hundreds of other services. Works because most people reuse passwords.\n\n### BEC (Business Email Compromise)\n\nAttacker compromises (or convincingly spoofs) a high-trust mailbox — CEO, CFO, vendor — and uses it to redirect a wire transfer or change banking details. The single most expensive class of scam, costing companies billions per year.\n\n### Pig-butchering (sha zhu pan)\n\nA long-con investment scam. Build emotional connection over weeks, introduce a \"crypto trading platform,\" let the victim withdraw small amounts to build trust, then drain everything when they invest big.\n\n### Zero-day\n\nA software vulnerability that is being exploited *before* the vendor releases a fix. Rare and expensive — usually held by nation-states or sold for six figures.\n\n## How to use this glossary\n\nWhen you read a breach report or news article, pause when you hit an unfamiliar term and look it up. The first three pieces you struggle with will teach you 80% of the vocabulary you'll ever need.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "An attacker calls a finance employee pretending to be the CFO, asks them to update the bank routing number on a pending vendor invoice, and walks away with $1.2 million. Which term best fits?",
+    "choices": [
+      {
+        "text": "Ransomware",
+        "correct": false,
+        "explanation": "Ransomware encrypts files and demands a ransom. This attack involves no encryption — it's pure social engineering against a finance process."
+      },
+      {
+        "text": "BEC (Business Email Compromise)",
+        "correct": true,
+        "explanation": "Yes. BEC is the umbrella for attacks that abuse executive identity (impersonated or genuinely compromised) to redirect payments. The CFO-pretext + vendor-invoice change is the canonical BEC pattern."
+      },
+      {
+        "text": "Credential stuffing",
+        "correct": false,
+        "explanation": "Credential stuffing is automated re-use of leaked passwords across services. No human-to-human pretext is involved."
+      },
+      {
+        "text": "Quishing",
+        "correct": false,
+        "explanation": "Quishing is phishing via QR codes. No QR code is involved in this scenario."
+      }
+    ],
+    "hint": "The key elements are: trusted-executive pretext, payment redirection. What single term covers that pattern?"
+  }
+}

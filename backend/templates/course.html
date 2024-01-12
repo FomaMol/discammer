@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Training Program — DiScammer{% endblock %}
+{% set _lang = lang | default('en') %}
+{% block title %}{{ t(_lang, 'page_titles.course') }}{% endblock %}
 {% block content %}
 
 {# ---------- Hero ---------- #}
@@ -8,37 +9,35 @@
   <div data-component="ScanlineOverlay" data-props='{}'></div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+    <div class="inline-flex items-center gap-2 mb-5 px-3 py-1 border border-[#1E2A42] bg-[#131829]/60 backdrop-blur-sm">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#39FF6B] animate-pulse"></span>
+      <span class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[3px] text-[#8892A8]">
+        {{ t(_lang, 'course.tag', modules=course_totals.modules) }}
+      </span>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       <div class="lg:col-span-7">
-        <div class="inline-flex items-center gap-2 mb-5 px-3 py-1 border border-[#1E2A42] bg-[#131829]/60 backdrop-blur-sm">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#39FF6B] animate-pulse"></span>
-          <span class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[3px] text-[#8892A8]">
-            INTERACTIVE TRAINING // {{ course_totals.modules }} MODULES
-          </span>
-        </div>
-
         <h1 class="font-['Press_Start_2P'] text-[#00F0FF] text-lg sm:text-2xl md:text-3xl glow-cyan break-words leading-tight">
-          &gt; TRAINING_PROGRAM
+          {{ t(_lang, 'course.title') }}
         </h1>
 
         <p class="mt-5 sm:mt-6 max-w-2xl text-[#C8D0E0] text-sm sm:text-base leading-relaxed">
-          A structured, scenario-driven curriculum that teaches you to recognize, respond
-          to, and recover from modern digital fraud. Each module pairs concise theory with
-          real-world examples, hands-on exercises, and an interactive simulation.
+          {{ t(_lang, 'course.intro') }}
         </p>
 
         <ul class="mt-6 space-y-2 max-w-2xl">
           <li class="flex items-start gap-3 text-sm text-[#8892A8]">
             <span class="mt-2 w-1.5 h-1.5 bg-[#00F0FF] shrink-0"></span>
-            <span><span class="text-[#E4E8F1]">Self-paced.</span> Start any module the moment it unlocks; pick up where you left off.</span>
+            <span><span class="text-[#E4E8F1]">{{ t(_lang, 'course.bullet_self_paced_label') }}</span> {{ t(_lang, 'course.bullet_self_paced_text') }}</span>
           </li>
           <li class="flex items-start gap-3 text-sm text-[#8892A8]">
             <span class="mt-2 w-1.5 h-1.5 bg-[#39FF6B] shrink-0"></span>
-            <span><span class="text-[#E4E8F1]">Practical.</span> Every concept is paired with a decision you will actually face in your inbox or on your phone.</span>
+            <span><span class="text-[#E4E8F1]">{{ t(_lang, 'course.bullet_practical_label') }}</span> {{ t(_lang, 'course.bullet_practical_text') }}</span>
           </li>
           <li class="flex items-start gap-3 text-sm text-[#8892A8]">
             <span class="mt-2 w-1.5 h-1.5 bg-[#FFB547] shrink-0"></span>
-            <span><span class="text-[#E4E8F1]">Verifiable.</span> Pass the capstone simulation to earn a shareable DiScammer Defender certificate.</span>
+            <span><span class="text-[#E4E8F1]">{{ t(_lang, 'course.bullet_verifiable_label') }}</span> {{ t(_lang, 'course.bullet_verifiable_text') }}</span>
           </li>
         </ul>
       </div>
@@ -51,17 +50,16 @@
             <span class="w-2.5 h-2.5 rounded-full bg-[#FFB547]"></span>
             <span class="w-2.5 h-2.5 rounded-full bg-[#39FF6B]"></span>
             <span class="ml-3 text-[10px] uppercase tracking-[2px] text-[#8892A8] font-['JetBrains_Mono']">
-              discammer@academy ~ %
+              {{ t(_lang, 'components.term_academy_label') }}
             </span>
           </div>
-          <pre class="px-4 py-4 text-xs sm:text-sm text-[#00F0FF] leading-relaxed font-['JetBrains_Mono'] overflow-x-auto whitespace-pre-wrap">
-&gt; loading curriculum.manifest...
-&gt; modules.total      = {{ "%02d"|format(course_totals.modules) }}
-&gt; lessons.total      = {{ course_totals.lessons }}
-&gt; estimated.runtime  = {{ course_totals.runtime }}
-&gt; difficulty.range   = beginner -&gt; capstone
-&gt; certificate.issued = on 80% pass
-&gt; <span class="text-[#39FF6B]">status: READY FOR ENROLLMENT _</span></pre>
+          <pre class="px-4 py-4 text-xs sm:text-sm text-[#00F0FF] leading-relaxed font-['JetBrains_Mono'] overflow-x-auto whitespace-pre-wrap">{{ t(_lang, 'course.terminal_loading') }}
+{{ t(_lang, 'course.terminal_modules', modules="%02d"|format(course_totals.modules)) }}
+{{ t(_lang, 'course.terminal_lessons', lessons=course_totals.lessons) }}
+{{ t(_lang, 'course.terminal_runtime', runtime=course_totals.runtime) }}
+{{ t(_lang, 'course.terminal_difficulty') }}
+{{ t(_lang, 'course.terminal_certificate') }}
+<span class="text-[#39FF6B]">{{ t(_lang, 'course.terminal_status') }}</span></pre>
         </div>
       </div>
     </div>
@@ -70,20 +68,20 @@
 
 {# ---------- Curriculum island ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// CURRICULUM</div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'course.section_curriculum') }}</div>
   <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6 sm:mb-8">
-    &gt; LEARNING_PATH
+    {{ t(_lang, 'course.section_curriculum_title') }}
   </h2>
 
-  <div data-component="CourseProgress" data-props='{}'>
+  <div data-component="CourseProgress" data-props='{"locale":"{{ _lang }}"}'>
     {# SEO Fallback: server-rendered module list when JS is disabled #}
     <noscript>
       <div class="space-y-4">
         {% for module in modules %}
-        <div class="bg-[#131829]/80 border border-[#1E2A42] p-6 {% if module.is_locked %}opacity-60{% endif %}">
+        <a href="/{{ _lang }}/course/{{ module.slug }}" class="block bg-[#131829]/80 border border-[#1E2A42] p-6 {% if module.is_locked %}opacity-60 pointer-events-none{% endif %} hover:border-[#00F0FF] transition">
           <div class="flex flex-wrap items-center gap-3 mb-2">
             <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#4A5568]">
-              Module {{ "%02d"|format(module.order) }}
+              {{ t(_lang, 'course.module_label', n="%02d"|format(module.order)) }}
             </span>
             {% if module.difficulty %}
             <span class="px-2 py-0.5 border border-[#1E2A42] font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">
@@ -91,18 +89,14 @@
             </span>
             {% endif %}
             {% if module.is_locked %}
-            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#FF4757]">&#9679; Locked</span>
+            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#FF4757]">{{ t(_lang, 'course.module_locked') }}</span>
             {% else %}
-            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#00F0FF]">&#9679; Available</span>
+            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#00F0FF]">{{ t(_lang, 'course.module_available') }}</span>
             {% endif %}
           </div>
           <h3 class="font-['JetBrains_Mono'] text-lg font-bold text-[#E4E8F1]">{{ module.title }}</h3>
           <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ module.description }}</p>
-          <div class="mt-3 font-['JetBrains_Mono'] text-[11px] uppercase tracking-[2px] text-[#4A5568]">
-            {% if module.duration %}{{ module.duration }} runtime{% endif %}
-            {% if module.lessons %} &middot; {{ module.lessons }} lessons{% endif %}
-          </div>
-        </div>
+        </a>
         {% endfor %}
       </div>
     </noscript>
@@ -111,85 +105,58 @@
 
 {# ---------- How it works ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// HOW IT WORKS</div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'course.section_how') }}</div>
   <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6 sm:mb-8">
-    &gt; PROGRAM_STRUCTURE
+    {{ t(_lang, 'course.section_how_title') }}
   </h2>
 
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
     <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#00F0FF] hover:box-glow-cyan transition-all duration-300">
       <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">01</div>
-      <div class="w-10 h-10 bg-[#00F0FF]/10 border border-[#00F0FF]/40 flex items-center justify-center text-xl">
-        &#128218;
-      </div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Learn</h3>
-      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
-        Read a concise briefing in each module — no fluff, no jargon. Every lesson opens
-        with the question it answers and the decision it improves.
-      </p>
+      <div class="w-10 h-10 bg-[#00F0FF]/10 border border-[#00F0FF]/40 flex items-center justify-center text-xl">&#128218;</div>
+      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'course.step_learn') }}</h3>
+      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">{{ t(_lang, 'course.step_learn_text') }}</p>
     </div>
 
     <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#39FF6B] hover:box-glow-green transition-all duration-300">
       <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">02</div>
-      <div class="w-10 h-10 bg-[#39FF6B]/10 border border-[#39FF6B]/40 flex items-center justify-center text-xl">
-        &#127919;
-      </div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Practice</h3>
-      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
-        Triage real phishing messages, evaluate suspicious stores, and respond to deepfake
-        calls inside short, gamified simulations.
-      </p>
+      <div class="w-10 h-10 bg-[#39FF6B]/10 border border-[#39FF6B]/40 flex items-center justify-center text-xl">&#127919;</div>
+      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'course.step_practice') }}</h3>
+      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">{{ t(_lang, 'course.step_practice_text') }}</p>
     </div>
 
     <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#FFB547] hover:box-glow-amber transition-all duration-300">
       <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">03</div>
-      <div class="w-10 h-10 bg-[#FFB547]/10 border border-[#FFB547]/40 flex items-center justify-center text-xl">
-        &#127942;
-      </div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Certify</h3>
-      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
-        Pass the capstone exam and three scenario simulations to earn the DiScammer
-        Defender certificate — shareable on your résumé and LinkedIn.
-      </p>
+      <div class="w-10 h-10 bg-[#FFB547]/10 border border-[#FFB547]/40 flex items-center justify-center text-xl">&#127942;</div>
+      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'course.step_certify') }}</h3>
+      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">{{ t(_lang, 'course.step_certify_text') }}</p>
     </div>
   </div>
 </section>
 
 {# ---------- FAQ ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// FAQ</div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
   <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6 sm:mb-8">
-    &gt; FREQUENTLY_ASKED
+    {{ t(_lang, 'course.section_faq_title') }}
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
     <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">Who is this for?</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">
-        Anyone who uses email, a phone, or a bank account. The early modules assume zero
-        background; the later ones go deep enough to be useful for IT and security teams.
-      </p>
+      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_who_q') }}</h3>
+      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_who_a') }}</p>
     </div>
     <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">How long will it take?</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">
-        Around nine hours of focused study end to end. Most people finish over two to three weeks,
-        one module per evening, but you can pace it however suits you.
-      </p>
+      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_long_q') }}</h3>
+      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_long_a') }}</p>
     </div>
     <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">Do I need to install anything?</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">
-        No. Everything runs in the browser. The simulations work on desktop and mobile, and
-        your progress is saved automatically.
-      </p>
+      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_install_q') }}</h3>
+      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_install_a') }}</p>
     </div>
     <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">Is it really free?</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">
-        Yes. DiScammer is a public-interest project. We do not sell your data and we do not
-        charge for the curriculum or the certificate.
-      </p>
+      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_free_q') }}</h3>
+      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_free_a') }}</p>
     </div>
   </div>
 </section>

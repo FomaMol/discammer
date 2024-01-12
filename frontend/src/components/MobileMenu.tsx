@@ -1,11 +1,25 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { currentLang, pick, type Locale } from '../utils/i18n';
 
 interface MobileMenuProps {
   links: Array<{ label: string; href: string }>;
+  switchHref?: string;
+  switchLabel?: string;
+  lang?: Locale;
 }
 
-export default function MobileMenu({ links }: MobileMenuProps) {
+export default function MobileMenu({ links, switchHref, switchLabel, lang }: MobileMenuProps) {
+  const locale = currentLang(lang);
+  const openLabel = pick(locale, { en: 'Open menu', ru: 'Открыть меню' });
+  const closeLabel = pick(locale, { en: 'Close menu', ru: 'Закрыть меню' });
+  const navHeader = pick(locale, { en: '// Navigation', ru: '// Навигация' });
+  const footerNote = pick(locale, {
+    en: '> DiSCAMMER v1.0 // ANTI-SCAM TERMINAL',
+    ru: '> DiSCAMMER v1.0 // АНТИ-МОШЕННИЧЕСКИЙ ТЕРМИНАЛ',
+  });
+  const navAria = pick(locale, { en: 'Site navigation', ru: 'Навигация сайта' });
+
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -65,7 +79,7 @@ export default function MobileMenu({ links }: MobileMenuProps) {
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="relative z-50 w-10 h-10 flex flex-col items-center justify-center gap-1.5 md:hidden"
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-label={isOpen ? closeLabel : openLabel}
         aria-expanded={isOpen}
         aria-controls={panelId}
       >
@@ -95,7 +109,7 @@ export default function MobileMenu({ links }: MobileMenuProps) {
             ref={panelRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Site navigation"
+            aria-label={navAria}
             aria-hidden={!isOpen}
             className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out md:hidden ${
               isOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
@@ -110,7 +124,7 @@ export default function MobileMenu({ links }: MobileMenuProps) {
                 className="text-xs text-text-muted mb-8 uppercase tracking-[0.3em]"
                 style={{ fontFamily: '"JetBrains Mono", monospace' }}
               >
-                // Navigation
+                {navHeader}
               </div>
 
               {links.map((link, i) => (
@@ -144,13 +158,38 @@ export default function MobileMenu({ links }: MobileMenuProps) {
                 </a>
               ))}
 
+              {/* Language switch */}
+              {switchHref && switchLabel && (
+                <a
+                  href={switchHref}
+                  tabIndex={isOpen ? 0 : -1}
+                  className="group flex items-center gap-4 py-3 w-full mt-4 border-t border-border-default pt-6"
+                >
+                  <span
+                    className="text-text-muted text-xs"
+                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                  >
+                    {String(links.length + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    className="text-accent-green text-xl group-hover:glow-green transition-colors duration-200"
+                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                  >
+                    &gt; {switchLabel}
+                  </span>
+                  <span className="text-accent-cyan text-xs opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+                    [ENTER]
+                  </span>
+                </a>
+              )}
+
               {/* Decorative footer */}
               <div className="mt-auto pt-8 border-t border-border-default w-full">
                 <p
                   className="text-text-muted text-[10px] tracking-wider"
                   style={{ fontFamily: '"JetBrains Mono", monospace' }}
                 >
-                  &gt; DiSCAMMER v1.0 // ANTI-SCAM TERMINAL
+                  {footerNote}
                 </p>
               </div>
             </nav>

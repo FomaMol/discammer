@@ -1,0 +1,33 @@
+{
+  "order": 3,
+  "title": "Threat actors and their motivations",
+  "est_minutes": 7,
+  "body_md": "## Who is on the other end of the attack\n\nA scam looks scary because it feels arbitrary — *“why me?”* It isn't arbitrary at all. The attacker is making rational decisions based on cost, reward, and risk. Once you understand the actor categories, the targeting logic becomes legible.\n\n### Opportunists\n\nLow-skill, high-volume operators. They buy a phishing kit, rent a server, blast a million emails, and harvest whatever drops in.\n\n- **Motivation:** quick small wins, $10–$1000 per victim.\n- **Targeting:** demographic dragnet (US seniors, EU shoppers).\n- **Signature:** generic copy, copy-pasted templates, dozens of small mistakes.\n\n### Organized fraud rings\n\nProfessional teams. Sometimes hundreds of operators in a call-center building. Specialized roles, scripts, KPIs.\n\n- **Motivation:** $5K–$500K per victim, scaled to thousands of marks.\n- **Targeting:** demographic + behavioral (recent crypto-buyers, lonely retirees, small-business owners).\n- **Signature:** long con, polished scripts, multi-channel pressure, escalation to fake authority figures.\n\n### Nation-state actors\n\nGovernment-backed groups. Their goal is intelligence, sabotage, or hard-currency revenue (North Korea's Lazarus group is the canonical example).\n\n- **Motivation:** strategic — your data, your access, or sometimes just your money.\n- **Targeting:** specific roles (defense contractors, crypto exchange employees, journalists).\n- **Signature:** zero-day exploits, custom malware, extremely tight pretexts.\n\n### Insiders and ex-insiders\n\nNot every threat comes from outside. A disgruntled employee, a contractor with too much access, or a former staffer whose credentials weren't revoked can do enormous damage.\n\n- **Motivation:** revenge, money, ideology, or all three.\n- **Targeting:** the company they know inside out.\n- **Signature:** uses real credentials and legitimate-looking actions; very hard to detect from outside.\n\n## Why this matters for your defense\n\n- If you're a regular person, you'll mostly face **opportunists** (low effort, broad nets) and **fraud rings** (long cons, persistent contact).\n- If you're a journalist, exec, or work in security/finance, you must also assume a **nation-state actor** has at least one eye on you.\n- Hardening starts with figuring out which category is likely to come at you and tuning the defense.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "A scammer spends six weeks chatting on WhatsApp with the target, builds a romantic relationship, and only then introduces an \"investment opportunity.\" Which category of actor is this?",
+    "choices": [
+      {
+        "text": "An opportunist running a quick blast.",
+        "correct": false,
+        "explanation": "Opportunists work on volume, not on six-week conversations. Six weeks of human time is far too expensive for an opportunistic attacker."
+      },
+      {
+        "text": "A nation-state operation.",
+        "correct": false,
+        "explanation": "Nation-state actors do use long pretexts, but a generic romance-to-investment script targeting random people is the calling card of a *commercial* fraud ring, not a state actor."
+      },
+      {
+        "text": "An organized fraud ring running a pig-butchering operation.",
+        "correct": true,
+        "explanation": "Exactly. The 'pig-butchering' pattern — long rapport-building followed by a fake investment platform — is the signature of professional fraud rings, often based out of compounds in Southeast Asia."
+      },
+      {
+        "text": "A disgruntled insider.",
+        "correct": false,
+        "explanation": "Insiders attack their own organization, not strangers via dating apps. The actor profile here is entirely external."
+      }
+    ],
+    "hint": "Look at the time investment per victim and the script. Who would pay for six weeks of human attention?"
+  }
+}

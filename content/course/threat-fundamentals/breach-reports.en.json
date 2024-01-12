@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "title": "Reading breach reports without panic",
+  "est_minutes": 6,
+  "body_md": "## Breach reports are scary — and mostly skimmable\n\nEvery few weeks, a headline announces that another company lost millions of records. Most people react with either panic (\"my data is everywhere!\") or numbness (\"there's nothing I can do\"). Both responses are wrong. A breach report is mostly skimmable — but you need to know which three pieces of information actually matter.\n\n### What matters in a breach report\n\nWhen a breach is announced, look for exactly three things, in this order:\n\n1. **What data leaked.** Email + password is one universe of impact. Email + name + zip is another. Full payment card data + CVV is a third. Each implies different defensive actions.\n2. **Whether passwords were leaked, and how.** *Cleartext* is catastrophic. *Hashed with a strong algorithm* (Argon2, bcrypt, scrypt) is annoying but mostly fine. *Hashed with MD5 or SHA-1 with no salt* is effectively cleartext for short or common passwords.\n3. **Timeline.** When did the breach happen? Often the announcement is months after the fact, meaning credentials may have been actively traded the entire time.\n\nEverything else — the press-release apology, the offered credit monitoring, the technical detail of how the attacker got in — is interesting but does not change what you should *do today*.\n\n### Three defensive actions, in order\n\n1. **If your password leaked**, change it on that service *and on every other service where you reused it*. This is the single most important step. Use a password manager so reuse stops being a thing.\n2. **If your email leaked**, expect a wave of phishing attempts in the next few weeks. They will look more personalized than usual.\n3. **If payment-card data leaked**, freeze or replace the card. Modern card issuers let you do this from the app in 60 seconds.\n\n### Where to find honest data\n\n- **Have I Been Pwned** (haveibeenpwned.com) is the canonical place to check if your email or password has shown up in any known breach.\n- Most password managers now have a built-in breach-monitoring feature. Turn it on.\n- Subscribe to one quality news source for breaches (the Krebs on Security blog is a good free option). One source is enough; ten is panic noise.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "A company announces a breach. The press release says: \"User passwords were stored using SHA-1 hashing.\" How worried should you be about *your password* if you were a user of this service?",
+    "choices": [
+      {
+        "text": "Not worried at all — hashed passwords are safe.",
+        "correct": false,
+        "explanation": "Hashing is not the same as encryption. SHA-1 with no salt is *trivially* cracked for any common or short password. Don't treat 'hashed' as 'safe'."
+      },
+      {
+        "text": "Mildly worried — the hash is salted by default.",
+        "correct": false,
+        "explanation": "SHA-1 has no built-in salt. If the company didn't say 'salted', you have to assume it wasn't. And even salted SHA-1 is weak by today's standards."
+      },
+      {
+        "text": "Very worried — SHA-1 is essentially equivalent to leaked cleartext for short or common passwords.",
+        "correct": true,
+        "explanation": "Exactly. SHA-1 is fast and unsuitable for password storage. With modern GPUs, attackers can try billions of password guesses per second against a SHA-1 hash. Treat this announcement as 'my password leaked' and change it everywhere you reused it."
+      },
+      {
+        "text": "Worried about email, not about the password.",
+        "correct": false,
+        "explanation": "Email leakage is also a problem, but in this scenario the password is the immediate priority because SHA-1 effectively exposes it."
+      }
+    ],
+    "hint": "Look up how fast modern hardware can break SHA-1 hashes. The answer is uncomfortable."
+  }
+}

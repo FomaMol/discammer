@@ -1,13 +1,15 @@
 {% extends "base.html" %}
-{% block title %}{{ guide.title }} - Threat Database - DiScammer{% endblock %}
+{% block title %}{{ guide.title }} — {{ t(lang, 'footer.threat_database') }} — DiScammer{% endblock %}
 {% block content %}
+
+{% set _lang = lang %}
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
   <!-- Breadcrumbs -->
   <nav class="font-['JetBrains_Mono'] text-xs text-[#4A5568] mb-6 flex flex-wrap items-center gap-1 break-all">
-    <a href="/" class="text-[#0A8F99] hover:text-[#00F0FF] transition">~</a>
+    <a href="/{{ _lang }}/" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
     <span>/</span>
-    <a href="/journal" class="text-[#0A8F99] hover:text-[#00F0FF] transition">threat-database</a>
+    <a href="/{{ _lang }}/journal" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
     <span>/</span>
     <span>{{ guide.slug }}</span>
   </nav>
@@ -38,7 +40,7 @@
   <!-- Threat Level Bar -->
   {% if guide.threat_level %}
   <div class="mb-8">
-    <span class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#8892A8]">THREAT LEVEL</span>
+    <span class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#8892A8]">{{ t(_lang, 'guide.threat_level') }}</span>
     <div class="flex items-center gap-1 mt-2 max-w-sm">
       {% for i in range(1, 6) %}
         {% if i <= guide.threat_level %}
@@ -75,10 +77,10 @@
   <!-- Related Guides Carousel -->
   {% if related_guides %}
   <div class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#1E2A42]">
-    <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-sm uppercase tracking-[2px] mb-4 sm:mb-6">&gt; RELATED THREATS</h2>
+    <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-sm uppercase tracking-[2px] mb-4 sm:mb-6">{{ t(_lang, 'guide.related') }}</h2>
     <div class="flex gap-3 sm:gap-4 overflow-x-auto pb-4 -mx-4 sm:-mx-2 px-4 sm:px-2 snap-x snap-mandatory scrollbar-hide">
       {% for related in related_guides %}
-      <a href="/guide/{{ related.slug }}" class="snap-start shrink-0 w-56 sm:w-64 bg-[#131829] border border-[#1E2A42] hover:border-[#00F0FF] transition-all duration-300 p-4 block">
+      <a href="/{{ _lang }}/guide/{{ related.slug }}" class="snap-start shrink-0 w-56 sm:w-64 bg-[#131829] border border-[#1E2A42] hover:border-[#00F0FF] transition-all duration-300 p-4 block">
         <div class="flex items-center gap-2 mb-2 flex-wrap">
           {% if related.icon %}
           <span class="text-lg">{{ related.icon }}</span>
@@ -109,8 +111,8 @@
 
   <!-- Back Link -->
   <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-[#1E2A42]">
-    <a href="/journal" class="font-['JetBrains_Mono'] text-sm text-[#0A8F99] hover:text-[#00F0FF] transition">
-      &larr; Back to Threat Database
+    <a href="/{{ _lang }}/journal" class="font-['JetBrains_Mono'] text-sm text-[#0A8F99] hover:text-[#00F0FF] transition">
+      {{ t(_lang, 'guide.back') }}
     </a>
   </div>
 </div>

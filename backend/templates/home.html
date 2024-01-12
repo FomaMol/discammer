@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block title %}DiScammer - Cybersecurity Education Platform{% endblock %}
+{% block title %}{{ t(lang, 'page_titles.site_full') }}{% endblock %}
 {% block content %}
+
+{% set _lang = lang %}
+{% set _typewriter_phrases = t_list(_lang, 'hero_typewriter_phrases') %}
 
 <!-- ============================================================ -->
 <!-- HERO — asymmetric 2-column on desktop, stacked on mobile     -->
@@ -12,10 +15,10 @@
 
   <!-- Decorative HUD coords (desktop only) -->
   <div class="hidden lg:block absolute top-6 left-6 z-10 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568] uppercase">
-    SYS://discammer.com :: NODE 0x1A &middot; UPLINK STABLE
+    {{ t(_lang, 'home.hud_left') }}
   </div>
   <div class="hidden lg:block absolute top-6 right-6 z-10 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568] uppercase">
-    v2.1.0 &middot; SECURE CHANNEL
+    {{ t(_lang, 'home.hud_right') }}
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 lg:pt-24 pb-12 sm:pb-16 lg:pb-24">
@@ -27,7 +30,7 @@
         <div class="inline-flex items-center gap-2 mb-5 sm:mb-6 px-3 py-1 border border-[#1E2A42] bg-[#131829]/60 backdrop-blur-sm">
           <span class="w-1.5 h-1.5 rounded-full bg-[#39FF6B] animate-pulse"></span>
           <span class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[3px] text-[#8892A8]">
-            CYBERSEC // EDUCATION PLATFORM
+            {{ t(_lang, 'home.tag') }}
           </span>
         </div>
 
@@ -41,38 +44,37 @@
 
         <!-- Typewriter -->
         <div class="mt-5 sm:mt-6">
-          <div data-component="HeroTypewriter" data-props='{"phrases":["PHISHING","DEEPFAKES","SOCIAL ENGINEERING","INVESTMENT FRAUD","FAKE STORES","PHONE SCAMS"]}'></div>
+          <div data-component="HeroTypewriter" data-props='{"phrases": {{ _typewriter_phrases | tojson }}, "prefix": {{ t(_lang, "components.hero_typewriter_prefix") | tojson }}}'></div>
           <noscript>
-            <p class="font-['JetBrains_Mono'] text-[#8892A8] text-sm sm:text-lg uppercase tracking-wider">PHISHING &bull; DEEPFAKES &bull; SOCIAL ENGINEERING</p>
+            <p class="font-['JetBrains_Mono'] text-[#8892A8] text-sm sm:text-lg uppercase tracking-wider">{{ _typewriter_phrases | join(' • ') }}</p>
           </noscript>
         </div>
 
         <!-- Subtitle / pitch -->
         <p class="mt-5 sm:mt-6 max-w-xl mx-auto lg:mx-0 text-[#8892A8] text-sm sm:text-base leading-relaxed">
-          A field guide to modern scams &mdash; phishing kits, deepfakes, pig-butchering, fake stores.
-          Learn the patterns, train your eye, and stop losing money to predictable cons.
+          {{ t(_lang, 'home.subtitle') }}
         </p>
 
         <!-- CTAs — content-sized row on desktop, full-width stacked on mobile -->
         <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center">
-          <a href="/game"
+          <a href="/{{ _lang }}/game"
              class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-[#39FF6B]/5 border border-[#39FF6B] text-[#39FF6B] hover:bg-[#39FF6B]/10 hover:shadow-[0_0_20px_rgba(57,255,107,0.25)] transition-all duration-300 sm:w-auto">
-            <span>&#9654;</span><span>PLAY GAME</span>
+            <span>&#9654;</span><span>{{ t(_lang, 'home.cta_play') }}</span>
           </a>
-          <a href="/journal"
+          <a href="/{{ _lang }}/journal"
              class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-[#00F0FF]/5 border border-[#00F0FF] text-[#00F0FF] hover:bg-[#00F0FF]/10 hover:shadow-[0_0_20px_rgba(0,240,255,0.25)] transition-all duration-300 sm:w-auto">
-            <span>&#128240;</span><span>READ JOURNAL</span>
+            <span>&#128240;</span><span>{{ t(_lang, 'home.cta_read') }}</span>
           </a>
-          <a href="/course"
+          <a href="/{{ _lang }}/course"
              class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-wider bg-transparent border border-[#1E2A42] text-[#8892A8] hover:border-[#FFB547] hover:text-[#FFB547] hover:bg-[#FFB547]/5 transition-all duration-300 sm:w-auto">
-            <span>&#127891;</span><span>TAKE COURSE</span>
+            <span>&#127891;</span><span>{{ t(_lang, 'home.cta_course') }}</span>
           </a>
         </div>
       </div>
 
       <!-- Right column: terminal -->
       <div class="lg:col-span-5 w-full max-w-xl mx-auto lg:max-w-none">
-        <div data-component="HeroTerminal" data-props='{}'></div>
+        <div data-component="HeroTerminal" data-props='{"lang": "{{ _lang }}"}'></div>
         <noscript>
           <div class="bg-[#0B0E17]/90 border border-[#1E2A42] rounded-md overflow-hidden">
             <div class="flex items-center gap-2 px-3 py-2 bg-[#131829] border-b border-[#1E2A42]">
@@ -80,14 +82,14 @@
               <span class="w-2.5 h-2.5 rounded-full bg-[#FFB547]"></span>
               <span class="w-2.5 h-2.5 rounded-full bg-[#39FF6B]"></span>
               <span class="ml-3 text-[10px] uppercase tracking-[2px] text-[#8892A8] font-['JetBrains_Mono']">
-                discammer@threat-monitor ~ %
+                {{ t(_lang, 'components.term_label') }}
               </span>
             </div>
             <pre class="px-4 py-4 text-xs text-[#00F0FF] leading-relaxed font-['JetBrains_Mono'] overflow-x-auto">&gt; threat_db.size = {{ stats.threats }} entries
 &gt; interviews     = {{ stats.interviews }}
 &gt; articles       = {{ stats.articles }}
-&gt; oracle: "trust nothing on first contact"
-&gt; AWAITING USER COMMAND _</pre>
+&gt; {{ t(_lang, 'components.term_oracle') }}
+&gt; {{ t(_lang, 'components.term_awaiting') }}</pre>
           </div>
         </noscript>
       </div>
@@ -103,19 +105,19 @@
     <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#1E2A42]">
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
         <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#00F0FF] glow-cyan">{{ "%02d"|format(stats.threats) }}</div>
-        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Threat Types</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">{{ t(_lang, 'home.stats_threats') }}</div>
       </div>
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
         <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#39FF6B]">{{ "%02d"|format(stats.interviews) }}</div>
-        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Interviews</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">{{ t(_lang, 'home.stats_interviews') }}</div>
       </div>
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
         <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#FFB547]">{{ "%02d"|format(stats.articles) }}</div>
-        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Articles</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">{{ t(_lang, 'home.stats_articles') }}</div>
       </div>
       <div class="py-5 sm:py-6 px-4 text-center md:text-left">
         <div class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#FF4757]">24/7</div>
-        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">Threat Feed</div>
+        <div class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] mt-1">{{ t(_lang, 'home.stats_threat_feed') }}</div>
       </div>
     </div>
   </div>
@@ -128,16 +130,16 @@
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
     <!-- Mission terminal block -->
     <div class="lg:col-span-5">
-      <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-3">// 01. ABOUT</div>
+      <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-3">{{ t(_lang, 'home.section_about') }}</div>
       <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-5 sm:mb-6">
-        &gt; MISSION_BRIEFING
+        {{ t(_lang, 'home.section_mission_title') }}
       </h2>
-      <div data-component="TerminalBlock" data-props='{"title":"MISSION_BRIEFING","content":"We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies."}'></div>
+      <div data-component="TerminalBlock" data-props='{"title": {{ t(_lang, "home.section_mission_title") | tojson }}, "content": {{ t(_lang, "home.mission_text") | tojson }}}'></div>
       <noscript>
         <div class="bg-[#0B0E17] border border-[#1E2A42] p-6 font-['JetBrains_Mono']">
-          <div class="text-[#00F0FF] text-sm mb-4">&gt; MISSION_BRIEFING</div>
+          <div class="text-[#00F0FF] text-sm mb-4">{{ t(_lang, 'home.section_mission_title') }}</div>
           <p class="text-[#8892A8] text-sm leading-relaxed">
-            We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies.
+            {{ t(_lang, 'home.mission_text') }}
           </p>
         </div>
       </noscript>
@@ -145,9 +147,9 @@
 
     <!-- Pillars -->
     <div class="lg:col-span-7">
-      <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-3">// 02. DIRECTIVES</div>
+      <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-3">{{ t(_lang, 'home.section_directives') }}</div>
       <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-5 sm:mb-6">
-        &gt; CORE_DIRECTIVES
+        {{ t(_lang, 'home.section_directives_title') }}
       </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -156,9 +158,9 @@
           <div class="w-10 h-10 bg-[#00F0FF]/10 flex items-center justify-center text-xl rounded-sm">
             &#128737;&#65039;
           </div>
-          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Protect</h3>
+          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'home.directive_protect') }}</h3>
           <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
-            Identify and defend against sophisticated financial scams targeting individuals and organizations.
+            {{ t(_lang, 'home.directive_protect_text') }}
           </p>
         </div>
 
@@ -167,9 +169,9 @@
           <div class="w-10 h-10 bg-[#39FF6B]/10 flex items-center justify-center text-xl rounded-sm">
             &#128269;
           </div>
-          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Aware</h3>
+          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'home.directive_aware') }}</h3>
           <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
-            Stay informed about AI-powered deepfakes, social engineering, and evolving phishing techniques.
+            {{ t(_lang, 'home.directive_aware_text') }}
           </p>
         </div>
 
@@ -178,9 +180,9 @@
           <div class="w-10 h-10 bg-[#FFB547]/10 flex items-center justify-center text-xl rounded-sm">
             &#127918;
           </div>
-          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">Train</h3>
+          <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'home.directive_train') }}</h3>
           <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">
-            Sharpen scam-detection skills with interactive simulations and real-world scenarios.
+            {{ t(_lang, 'home.directive_train_text') }}
           </p>
         </div>
       </div>
@@ -192,32 +194,32 @@
 <!-- INTERVIEWS                                                   -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 03. ARCHIVE</div>
-  <div data-component="ContentCarousel" data-props='{"title":"> INTERVIEW_LOG","apiUrl":"/api/posts?type=interview&limit=8","badge":"INTERVIEW"}'></div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>
 
 <!-- ============================================================ -->
 <!-- NEWSLETTERS                                                  -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 04. DISPATCHES</div>
-  <div data-component="ContentCarousel" data-props='{"title":"> NEWSLETTER_FEED","apiUrl":"/api/posts?type=newsletter&limit=8","badge":"NEWSLETTER"}'></div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>
 
 <!-- ============================================================ -->
 <!-- ARTICLES                                                     -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 05. RESEARCH</div>
-  <div data-component="ContentCarousel" data-props='{"title":"> ARTICLE_DATABASE","apiUrl":"/api/posts?type=article&limit=8","badge":"ARTICLE"}'></div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'home.section_research') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>
 
 <!-- ============================================================ -->
 <!-- THREAT DATABASE                                              -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">// 06. INDEX</div>
-  <div data-component="ScamTypesGrid" data-props='{"title":"THREAT_DATABASE"}'></div>
+  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'home.section_index') }}</div>
+  <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>
 
 <!-- ============================================================ -->
@@ -226,17 +228,17 @@
 <section class="relative overflow-hidden border-t border-[#1E2A42] mt-8">
   <div class="absolute inset-0 grid-pattern opacity-40"></div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
-    <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-4">// END_OF_BRIEFING</div>
+    <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-4">{{ t(_lang, 'home.section_end') }}</div>
     <h2 class="font-['JetBrains_Mono'] text-2xl sm:text-3xl lg:text-4xl text-[#E4E8F1] font-bold">
-      Ready to test your skills?
+      {{ t(_lang, 'home.final_cta_title') }}
     </h2>
     <p class="mt-4 max-w-xl mx-auto text-[#8892A8] text-sm sm:text-base">
-      Run the simulation. Spot the scam. Walk away sharper than the people trying to fool you.
+      {{ t(_lang, 'home.final_cta_text') }}
     </p>
-    <div class="mt-8 inline-block" data-component="GameLauncher" data-props='{}'>
+    <div class="mt-8 inline-block" data-component="GameLauncher" data-props='{"label": {{ t(_lang, "home.start_game") | tojson }}, "closeLabel": {{ t(_lang, "game.close") | tojson }}, "closeAria": {{ t(_lang, "game.close_label") | tojson }}}'>
       <a href="/play/"
          class="inline-flex items-center gap-2 px-8 py-4 font-['JetBrains_Mono'] uppercase text-sm sm:text-base tracking-wider bg-[#39FF6B]/5 border border-[#39FF6B] text-[#39FF6B] hover:bg-[#39FF6B]/10 hover:shadow-[0_0_30px_rgba(57,255,107,0.3)] transition-all duration-300">
-        <span>&#9654;</span><span>START GAME</span>
+        <span>&#9654;</span><span>{{ t(_lang, 'home.start_game') }}</span>
       </a>
     </div>
   </div>

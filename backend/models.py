@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel
 
@@ -25,6 +25,8 @@ class ScamGuideResponse(BaseModel):
 
 class CourseModuleResponse(BaseModel):
     id: int
+    slug: str
+    locale: str = "en"
     order: int
     title: str
     description: Optional[str] = None
@@ -36,3 +38,28 @@ class CourseModuleResponse(BaseModel):
     topics: list[str] = []
     objectives: list[str] = []
     accent: Optional[str] = None
+
+
+class LessonSummary(BaseModel):
+    """Lightweight lesson representation used in module-detail listings."""
+
+    slug: str
+    order: int
+    title: str
+    est_minutes: int = 5
+    widget_type: Optional[str] = None
+
+
+class LessonResponse(BaseModel):
+    """Full lesson payload — body Markdown plus optional widget config."""
+
+    id: int
+    module_slug: str
+    slug: str
+    locale: str
+    order: int
+    title: str
+    body_md: Optional[str] = None
+    widget_type: Optional[str] = None
+    widget_config: Optional[dict[str, Any]] = None
+    est_minutes: int = 5

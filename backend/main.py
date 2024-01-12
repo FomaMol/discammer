@@ -16,6 +16,14 @@ _backend_dir = str(Path(__file__).resolve().parent)
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
+from i18n import (  # noqa: E402
+    DEFAULT_LANG,
+    SUPPORTED_LANGS,
+    other_lang,
+    t,
+    t_list,
+)
+
 
 # ---------------------------------------------------------------------------
 # Lifespan
@@ -78,6 +86,32 @@ def _asset_url(path: str) -> str:
 # Expose `now()` to templates for things like dynamic copyright years.
 _env.globals["now"] = lambda: datetime.now(timezone.utc)
 _env.globals["asset_url"] = _asset_url
+_env.globals["supported_langs"] = list(SUPPORTED_LANGS)
+_env.globals["default_lang"] = DEFAULT_LANG
+_env.globals["other_lang"] = other_lang
+
+
+def _t(lang: str, key: str, **kwargs):
+    return t(lang, key, **kwargs)
+
+
+def _t_list(lang: str, key: str):
+    return t_list(lang, key)
+
+
+_env.globals["t"] = _t
+_env.globals["t_list"] = _t_list
+
+
+def _localized_url(lang: str, path: str = "") -> str:
+    """Build a `/{lang}/path` URL, normalising leading slashes."""
+    clean = path.lstrip("/")
+    if not clean:
+        return f"/{lang}/"
+    return f"/{lang}/{clean}"
+
+
+_env.globals["localized_url"] = _localized_url
 app.state.templates = Jinja2Templates(env=_env)
 
 # Routers
@@ -85,6 +119,10 @@ from routers.pages import router as pages_router  # noqa: E402
 from routers.api import router as api_router  # noqa: E402
 from routers.game import router as game_router  # noqa: E402
 
-app.include_router(pages_router)
+# Include API + game routers FIRST so their /api/... and /play/... routes
+# resolve before the catch-all /{lang}/... patterns in pages_router. Without
+# this order, FastAPI tries the localised path constraint against "api" and
+# returns a 422 instead of dispatching to the API router.
 app.include_router(api_router)
 app.include_router(game_router)
+app.include_router(pages_router)

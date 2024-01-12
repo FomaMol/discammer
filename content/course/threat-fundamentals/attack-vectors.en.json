@@ -1,0 +1,33 @@
+{
+  "order": 2,
+  "title": "Attack vectors: email, SMS, voice, and the web",
+  "est_minutes": 8,
+  "body_md": "## Where scams actually reach you\n\nA scam has to use *some* channel to arrive at your attention. There are four major ones, and each has a different physics — different reach, cost, and trust profile. Knowing the trade-offs helps you size up suspicious messages quickly.\n\n### 1. Email\n\nThe cheapest channel and still the most-used. A modern attacker can send a million messages for under $50. Email lets the attacker include rich formatting, plausible logos, and clickable links — all the visual machinery of legitimacy.\n\n**Strengths for the attacker:** scale, formatting, attachments.\n\n**Weaknesses:** spam filters, link-preview tools, sender authentication signals (SPF, DKIM, DMARC) that defenders can verify.\n\n### 2. SMS (smishing)\n\nMore expensive per message but much higher *open rate* — over 95% within minutes. Texts feel personal and urgent. The biggest trick: a short URL with no preview.\n\n**Strengths:** urgency, personal feel, no link preview.\n\n**Weaknesses:** message length limits, harder to fake brand polish.\n\n### 3. Voice (vishing)\n\nThe expensive, high-conversion channel. A real human (or now an AI clone) calls you. Voice bypasses written caution because tone, urgency, and rapport carry the attack.\n\n**Strengths:** emotional pressure, real-time persuasion, no written evidence to forward to security.\n\n**Weaknesses:** scale (one caller can only run a handful of calls per hour), regulation, call recording.\n\n### 4. Web (drive-by, malvertising, search-ad spoofing)\n\nThe attacker doesn't message you at all — they wait for you to *come to them*. Search-ad spoofing buys ads against terms like “bank login” and routes you to a clone. Malvertising slips malicious code into legitimate ad networks.\n\n**Strengths:** the victim self-selects (high intent), high trust in search results.\n\n**Weaknesses:** ad networks moderate, browsers block known-bad sites.\n\n## The composite attack\n\nReal operations almost never use a single channel. A typical pig-butchering long con starts with SMS (“Hi James?”), moves to WhatsApp (voice + text), and ends with a web step (“log in to our investment portal”).\n\nDefensive habit: when something arrives via one channel, verify on a *different* channel. Got an email from your bank? Don't click the link — open the bank's app yourself.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You receive a text message: \"Your DHL package #C918 is held at customs. Pay $1.99 to release: hxxp://dhl-clearance.delivery.\" What's the single most important reason to be suspicious before anything else?",
+    "choices": [
+      {
+        "text": "DHL never charges money for customs release.",
+        "correct": false,
+        "explanation": "This is actually wrong — customs fees are real for international shipments. The suspicion shouldn't rest on this alone."
+      },
+      {
+        "text": "The link does not go to a real dhl.com address — it goes to a lookalike domain.",
+        "correct": true,
+        "explanation": "Always read the domain. `dhl-clearance.delivery` is not `dhl.com`. Any link that doesn't end in the brand's real domain is suspect, regardless of how plausible the rest of the message sounds."
+      },
+      {
+        "text": "The text uses a tracking number with letters in it.",
+        "correct": false,
+        "explanation": "Tracking numbers legitimately mix letters and digits. That's not the red flag."
+      },
+      {
+        "text": "Customs fees are usually higher than $1.99.",
+        "correct": false,
+        "explanation": "Small amounts ($1–$5) are deliberately chosen because they feel low-risk. The amount is part of the trick, not a reliable tell."
+      }
+    ],
+    "hint": "Look at the URL, character by character. Where does it actually go?"
+  }
+}

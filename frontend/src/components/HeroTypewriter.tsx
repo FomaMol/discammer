@@ -1,10 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
+import { currentLang, pick, type Locale } from '../utils/i18n';
 
 interface HeroTypewriterProps {
   phrases: string[];
+  prefix?: string;
+  lang?: Locale;
 }
 
-export default function HeroTypewriter({ phrases }: HeroTypewriterProps) {
+export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriterProps) {
+  const locale = currentLang(lang);
   const [displayed, setDisplayed] = useState('');
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -39,12 +43,15 @@ export default function HeroTypewriter({ phrases }: HeroTypewriterProps) {
     };
   }, [displayed, isDeleting, phraseIndex, phrases]);
 
+  const resolvedPrefix =
+    prefix ?? pick(locale, { en: '> WHERE THE SCAM IS FOUND: ', ru: '> ГДЕ ВОДЯТСЯ МОШЕННИКИ: ' });
+
   return (
     <p
       className="text-sm sm:text-lg md:text-xl text-text-secondary break-words"
       style={{ fontFamily: '"JetBrains Mono", monospace' }}
     >
-      <span className="text-text-muted">&gt; WHERE THE SCAM IS FOUND:&nbsp;</span>
+      <span className="text-text-muted">{resolvedPrefix}</span>
       <span
         className="text-accent-amber glow-amber"
         aria-live="polite"

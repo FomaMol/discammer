@@ -1,0 +1,33 @@
+{
+  "order": 6,
+  "title": "Case study: the 2024 deepfake CFO heist",
+  "est_minutes": 9,
+  "body_md": "## A $25 million video call\n\nIn early 2024, an employee at the Hong Kong office of multinational firm Arup received a video call invitation that appeared to come from his CFO based in the UK. The CFO had previously emailed him about a confidential acquisition.\n\nOn the call, the CFO was there. So were several other colleagues he recognized. Faces, voices, mannerisms — all checked out. The CFO asked him to authorize 15 wire transfers totaling around $25 million.\n\nHe sent them.\n\nEvery single person on that call, except the victim, was a deepfake. The attackers had stitched together public video footage of the executives — earnings calls, conference talks, LinkedIn videos — and generated a real-time multi-participant video meeting in which the only real human was the target.\n\n### What the attackers did right\n\n- **Built credibility before the call.** The earlier emails about \"a confidential acquisition\" set the frame so the employee was *expecting* an unusual request.\n- **Used multiple fake participants.** Seeing several colleagues nod made the victim discount the small visual artifacts.\n- **Mimicked an internal process.** They didn't invent something exotic — they used the company's actual approval workflow.\n- **Created urgency without panic.** Wire transfers were time-sensitive \"for the deal to close on schedule.\" Just enough pressure to skip the second-channel verification step.\n\n### What would have stopped them\n\nA single phone call to the CFO's known mobile number — using a number the employee already had, *not* a number provided by the call — would have ended the attack instantly. That's the entire defense: when something feels just slightly off, verify on a channel the attacker doesn't control.\n\n### What you should take from this story\n\n- **\"Seeing\" is no longer believing.** A video call, even with multiple participants, is now spoofable at industrial cost.\n- **Out-of-band verification is the only defense.** A second channel, with a number or contact *you* chose in advance, defeats almost every AI-augmented impersonation attack.\n- **Process beats vigilance.** The employee wasn't stupid. He followed the rules he had. The rules were just out of date. Update yours.\n\nThe attackers are now using exactly this technique against companies of every size. Some banks now run mandatory deepfake-awareness training for any employee with payment authority. If your company doesn't, *you* are the firewall.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "After the Arup story breaks, your company emails everyone with payment authority. Which of these new procedures actually defeats a deepfake-video attack like this one?",
+    "choices": [
+      {
+        "text": "Add a written PIN to all wire-transfer approval emails.",
+        "correct": false,
+        "explanation": "A PIN in an email channel that the attacker may also be compromising adds little. PINs help only when transmitted over an independent channel."
+      },
+      {
+        "text": "Require a call-back to a known executive phone number on a different channel before any transfer over $50K.",
+        "correct": true,
+        "explanation": "Yes. The only reliable defense against synthetic-media impersonation is out-of-band verification: hang up, call the person back on a number *you already had*, on a channel the attacker can't control. The Arup attack would have collapsed at this step."
+      },
+      {
+        "text": "Train employees to look for visual artifacts in video calls.",
+        "correct": false,
+        "explanation": "Training the human eye does not scale against improving generative models. Visual artifacts that exist today will disappear in 12 months. Don't pin your defense to a moving target."
+      },
+      {
+        "text": "Move all approval conversations into encrypted email.",
+        "correct": false,
+        "explanation": "Encryption protects the channel from outsiders, but the attack already has a believable participant on the call. Encryption does not solve the impersonation problem."
+      }
+    ],
+    "hint": "The attack succeeds *inside* a video meeting. What kind of check happens *outside* that meeting?"
+  }
+}

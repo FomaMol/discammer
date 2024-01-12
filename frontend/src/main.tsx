@@ -16,6 +16,9 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   CourseProgress: React.lazy(() => import('./components/CourseProgress')),
   GameLauncher: React.lazy(() => import('./components/GameLauncher')),
   MobileMenu: React.lazy(() => import('./components/MobileMenu')),
+  ModuleLessons: React.lazy(() => import('./components/ModuleLessons')),
+  LessonWidget: React.lazy(() => import('./components/LessonWidget')),
+  LessonFooter: React.lazy(() => import('./components/LessonFooter')),
 };
 
 function hydrateIslands() {

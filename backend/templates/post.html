@@ -1,13 +1,15 @@
 {% extends "base.html" %}
-{% block title %}{{ post.title }} - DiScammer{% endblock %}
+{% block title %}{{ post.title }} — DiScammer{% endblock %}
 {% block content %}
+
+{% set _lang = lang %}
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
   <!-- Breadcrumbs -->
   <nav class="font-['JetBrains_Mono'] text-xs text-[#4A5568] mb-6 flex flex-wrap items-center gap-1 break-all">
-    <a href="/" class="text-[#0A8F99] hover:text-[#00F0FF] transition">~</a>
+    <a href="/{{ _lang }}/" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
     <span>/</span>
-    <a href="/journal" class="text-[#0A8F99] hover:text-[#00F0FF] transition">journal</a>
+    <a href="/{{ _lang }}/journal" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'post.breadcrumb_journal') }}</a>
     <span>/</span>
     <span class="text-[#0A8F99]">{{ post.type }}</span>
     <span>/</span>
@@ -17,11 +19,11 @@
   <!-- Badge + Date -->
   <div class="flex items-center gap-3 flex-wrap">
     {% if post.type == 'interview' %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/30">{{ post.type }}</span>
+    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/30">{{ t(_lang, 'journal.filter_interview') }}</span>
     {% elif post.type == 'newsletter' %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#39FF6B]/10 text-[#39FF6B] border border-[#39FF6B]/30">{{ post.type }}</span>
+    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#39FF6B]/10 text-[#39FF6B] border border-[#39FF6B]/30">{{ t(_lang, 'journal.filter_newsletter') }}</span>
     {% elif post.type == 'article' %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#FFB547]/10 text-[#FFB547] border border-[#FFB547]/30">{{ post.type }}</span>
+    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#FFB547]/10 text-[#FFB547] border border-[#FFB547]/30">{{ t(_lang, 'journal.filter_article') }}</span>
     {% else %}
     <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#8892A8]/10 text-[#8892A8] border border-[#8892A8]/30">{{ post.type }}</span>
     {% endif %}
@@ -57,17 +59,17 @@
       <div class="sticky top-24">
         {% if related_posts %}
         <div class="bg-[#131829] border border-[#1E2A42] p-5">
-          <h3 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#00F0FF] mb-4">&gt; RELATED</h3>
+          <h3 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#00F0FF] mb-4">{{ t(_lang, 'post.related') }}</h3>
           <div class="space-y-4">
             {% for related in related_posts %}
-            <a href="/journal/{{ related.slug }}" class="block group">
+            <a href="/{{ _lang }}/journal/{{ related.slug }}" class="block group">
               <div class="flex items-center gap-2 mb-1">
                 {% if related.type == 'interview' %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#00F0FF]/10 text-[#00F0FF]">{{ related.type }}</span>
+                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#00F0FF]/10 text-[#00F0FF]">{{ t(_lang, 'journal.filter_interview') }}</span>
                 {% elif related.type == 'newsletter' %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#39FF6B]/10 text-[#39FF6B]">{{ related.type }}</span>
+                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#39FF6B]/10 text-[#39FF6B]">{{ t(_lang, 'journal.filter_newsletter') }}</span>
                 {% elif related.type == 'article' %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#FFB547]/10 text-[#FFB547]">{{ related.type }}</span>
+                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#FFB547]/10 text-[#FFB547]">{{ t(_lang, 'journal.filter_article') }}</span>
                 {% else %}
                 <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#8892A8]/10 text-[#8892A8]">{{ related.type }}</span>
                 {% endif %}
@@ -85,8 +87,8 @@
 
   <!-- Back Link -->
   <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-[#1E2A42]">
-    <a href="/journal" class="font-['JetBrains_Mono'] text-sm text-[#0A8F99] hover:text-[#00F0FF] transition">
-      &larr; Back to Journal
+    <a href="/{{ _lang }}/journal" class="font-['JetBrains_Mono'] text-sm text-[#0A8F99] hover:text-[#00F0FF] transition">
+      {{ t(_lang, 'post.back') }}
     </a>
   </div>
 </div>

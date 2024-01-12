@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 
 interface CardData {
   id: number;
@@ -15,15 +16,36 @@ interface ContentCarouselProps {
   title: string;
   apiUrl: string;
   badge: string;
+  lang?: Locale;
 }
 
 const BADGE_COLORS: Record<string, string> = {
   INTERVIEW: 'bg-[#00F0FF]/20 text-[#00F0FF] border-[#00F0FF]/30',
   NEWSLETTER: 'bg-[#39FF6B]/20 text-[#39FF6B] border-[#39FF6B]/30',
   ARTICLE: 'bg-[#FFB547]/20 text-[#FFB547] border-[#FFB547]/30',
+  ИНТЕРВЬЮ: 'bg-[#00F0FF]/20 text-[#00F0FF] border-[#00F0FF]/30',
+  РАССЫЛКА: 'bg-[#39FF6B]/20 text-[#39FF6B] border-[#39FF6B]/30',
+  СТАТЬЯ: 'bg-[#FFB547]/20 text-[#FFB547] border-[#FFB547]/30',
 };
 
-export default function ContentCarousel({ title, apiUrl, badge }: ContentCarouselProps) {
+const BUNDLES = {
+  en: {
+    scroll_left: 'Scroll left',
+    scroll_right: 'Scroll right',
+    loading: 'Loading data...',
+    empty: '> No entries available.',
+  },
+  ru: {
+    scroll_left: 'Прокрутить влево',
+    scroll_right: 'Прокрутить вправо',
+    loading: 'Загрузка...',
+    empty: '> Записей пока нет.',
+  },
+} as const;
+
+export default function ContentCarousel({ title, apiUrl, badge, lang }: ContentCarouselProps) {
+  const locale = currentLang(lang);
+  const tr = makeTranslator(locale, BUNDLES);
   const [items, setItems] = useState<CardData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -67,14 +89,14 @@ export default function ContentCarousel({ title, apiUrl, badge }: ContentCarouse
           <button
             onClick={() => scroll('left')}
             className="w-9 h-9 sm:w-10 sm:h-10 border border-[#1E2A42] bg-[#1A2035] text-[#8892A8] hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors flex items-center justify-center"
-            aria-label="Scroll left"
+            aria-label={tr('scroll_left')}
           >
             &#8592;
           </button>
           <button
             onClick={() => scroll('right')}
             className="w-9 h-9 sm:w-10 sm:h-10 border border-[#1E2A42] bg-[#1A2035] text-[#8892A8] hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors flex items-center justify-center"
-            aria-label="Scroll right"
+            aria-label={tr('scroll_right')}
           >
             &#8594;
           </button>
@@ -90,7 +112,7 @@ export default function ContentCarousel({ title, apiUrl, badge }: ContentCarouse
         {items.map((item) => (
           <a
             key={item.id}
-            href={`/journal/${item.slug}`}
+            href={`/${locale}/journal/${item.slug}`}
             className="flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[#131829] border border-[#1E2A42] overflow-hidden hover:border-[#0A8F99] transition-all duration-300 snap-start group block"
             style={{ textDecoration: 'none' }}
           >
@@ -143,7 +165,7 @@ export default function ContentCarousel({ title, apiUrl, badge }: ContentCarouse
 
         {items.length === 0 && (
           <div className="w-full py-12 text-center text-sm" style={{ color: '#4A5568' }}>
-            {isLoading ? 'Loading data...' : '> No entries available.'}
+            {isLoading ? tr('loading') : tr('empty')}
           </div>
         )}
       </div>

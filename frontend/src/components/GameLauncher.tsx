@@ -1,14 +1,26 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { currentLang, pick, type Locale } from '../utils/i18n';
 
 interface GameLauncherProps {
   src?: string;
   label?: string;
+  closeLabel?: string;
+  closeAria?: string;
+  lang?: Locale;
 }
 
 export default function GameLauncher({
   src = '/play/',
-  label = '\u25B6 START GAME',
+  label,
+  closeLabel,
+  closeAria,
+  lang,
 }: GameLauncherProps) {
+  const locale = currentLang(lang);
+  const resolvedLabel = label ?? pick(locale, { en: '▶ START GAME', ru: '▶ ЗАПУСТИТЬ ИГРУ' });
+  const resolvedCloseLabel = closeLabel ?? pick(locale, { en: '[ESC] CLOSE', ru: '[ESC] ЗАКРЫТЬ' });
+  const resolvedCloseAria = closeAria ?? pick(locale, { en: 'Close game', ru: 'Закрыть игру' });
+
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -59,7 +71,7 @@ export default function GameLauncher({
         onClick={() => setOpen(true)}
         className="inline-block px-8 py-4 font-['JetBrains_Mono'] uppercase text-lg tracking-wider bg-transparent border border-[#39FF6B] text-[#39FF6B] hover:shadow-[0_0_25px_rgba(57,255,107,0.25)] transition-all duration-300 cursor-pointer"
       >
-        {label}
+        {resolvedLabel}
       </button>
 
       {open && (
@@ -77,10 +89,10 @@ export default function GameLauncher({
               ref={closeRef}
               type="button"
               onClick={close}
-              aria-label="Close game"
+              aria-label={resolvedCloseAria}
               className="font-['JetBrains_Mono'] uppercase text-xs md:text-sm tracking-[2px] text-[#8892A8] hover:text-[#FF4757] focus:text-[#FF4757] transition-colors px-3 py-1 border border-[#1E2A42] hover:border-[#FF4757] focus:border-[#FF4757] focus:outline-none cursor-pointer"
             >
-              [ESC] CLOSE
+              {resolvedCloseLabel}
             </button>
           </div>
           <div className="flex-1 relative bg-black">

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { fetchPosts, fetchGuides } from '../utils/api';
+import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 
 interface Item {
   id: number;
@@ -12,9 +13,30 @@ interface Item {
   slug: string;
 }
 
-type FilterTab = 'ALL' | 'INTERVIEW' | 'NEWSLETTER' | 'ARTICLE' | 'SCAM GUIDES';
+type FilterKey = 'ALL' | 'INTERVIEW' | 'NEWSLETTER' | 'ARTICLE' | 'GUIDE';
 
-const TABS: FilterTab[] = ['ALL', 'INTERVIEW', 'NEWSLETTER', 'ARTICLE', 'SCAM GUIDES'];
+const FILTER_KEYS: FilterKey[] = ['ALL', 'INTERVIEW', 'NEWSLETTER', 'ARTICLE', 'GUIDE'];
+
+const BUNDLES = {
+  en: {
+    ALL: 'ALL',
+    INTERVIEW: 'INTERVIEW',
+    NEWSLETTER: 'NEWSLETTER',
+    ARTICLE: 'ARTICLE',
+    GUIDE: 'SCAM GUIDES',
+    loading: '> Loading...',
+    empty: '> No entries found for this filter.',
+  },
+  ru: {
+    ALL: 'ВСЁ',
+    INTERVIEW: 'ИНТЕРВЬЮ',
+    NEWSLETTER: 'РАССЫЛКА',
+    ARTICLE: 'СТАТЬЯ',
+    GUIDE: 'ГАЙДЫ ПО МОШЕННИКАМ',
+    loading: '> Загрузка...',
+    empty: '> По этому фильтру ничего не найдено.',
+  },
+} as const;
 
 const BADGE_STYLES: Record<string, string> = {
   interview: 'bg-accent-cyan/20 text-accent-cyan border-accent-cyan/30',
@@ -27,18 +49,25 @@ function badgeClass(type: string): string {
   return BADGE_STYLES[type.toLowerCase()] || BADGE_STYLES.article;
 }
 
-export default function JournalFilter() {
+interface JournalFilterProps {
+  lang?: Locale;
+}
+
+export default function JournalFilter({ lang }: JournalFilterProps) {
+  const locale = currentLang(lang);
+  const tr = makeTranslator(locale, BUNDLES);
+
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<FilterTab>('ALL');
+  const [activeTab, setActiveTab] = useState<FilterKey>('ALL');
 
   useEffect(() => {
     Promise.all([
-      fetchPosts().then((data) => {
+      fetchPosts(undefined, undefined, locale).then((data) => {
         const arr: Item[] = Array.isArray(data) ? data : [];
         return arr.map((i) => ({ ...i, type: i.type || 'article' }));
       }),
-      fetchGuides().then((data) => {
+      fetchGuides(locale).then((data) => {
         const arr: Item[] = Array.isArray(data) ? data : [];
         return arr.map((i) => ({ ...i, type: 'guide' }));
       }),
@@ -46,19 +75,29 @@ export default function JournalFilter() {
       .then(([posts, guides]) => setItems([...posts, ...guides]))
       .catch(() => setItems([]))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [locale]);
 
-  const tabToType: Record<FilterTab, string | null> = {
-    ALL: null,
-    INTERVIEW: 'interview',
-    NEWSLETTER: 'newsletter',
-    ARTICLE: 'article',
-    'SCAM GUIDES': 'guide',
-  };
+  const filtered = useMemo(() => {
+    const tabToType: Record<FilterKey, string | null> = {
+      ALL: null,
+      INTERVIEW: 'interview',
+      NEWSLETTER: 'newsletter',
+      ARTICLE: 'article',
+      GUIDE: 'guide',
+    };
+    const target = tabToType[activeTab];
+    if (!target) return items;
+    return items.filter((i) => i.type.toLowerCase() === target);
+  }, [items, activeTab]);
 
-  const filtered = activeTab === 'ALL'
-    ? items
-    : items.filter((i) => i.type.toLowerCase() === tabToType[activeTab]);
+  function localizedBadge(type: string): string {
+    const lower = type.toLowerCase();
+    if (lower === 'interview') return tr('INTERVIEW');
+    if (lower === 'newsletter') return tr('NEWSLETTER');
+    if (lower === 'article') return tr('ARTICLE');
+    if (lower === 'guide') return locale === 'ru' ? 'ГАЙД' : 'GUIDE';
+    return type;
+  }
 
   return (
     <section className="py-6 sm:py-8">
@@ -67,18 +106,18 @@ export default function JournalFilter() {
         className="flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-2 scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0"
         style={{ scrollbarWidth: 'none' }}
       >
-        {TABS.map((tab) => (
+        {FILTER_KEYS.map((key) => (
           <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
+            key={key}
+            onClick={() => setActiveTab(key)}
             className={`px-2.5 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs uppercase tracking-wider border whitespace-nowrap transition-all duration-200 flex-shrink-0
-              ${activeTab === tab
+              ${activeTab === key
                 ? 'bg-accent-cyan/10 text-accent-cyan border-accent-cyan glow-cyan'
                 : 'bg-bg-panel text-text-secondary border-border-default hover:text-text-primary hover:border-text-muted'
               }`}
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
-            [{tab}]
+            [{tr(key)}]
           </button>
         ))}
       </div>
@@ -89,8 +128,8 @@ export default function JournalFilter() {
           const hasImage = !!item.cover_image;
           const href = item.slug
             ? item.type === 'guide'
-              ? `/guide/${item.slug}`
-              : `/journal/${item.slug}`
+              ? `/${locale}/guide/${item.slug}`
+              : `/${locale}/journal/${item.slug}`
             : '#';
           return (
             <a
@@ -112,7 +151,7 @@ export default function JournalFilter() {
                     className={`absolute top-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-wider border rounded ${badgeClass(item.type)}`}
                     style={{ fontFamily: '"JetBrains Mono", monospace' }}
                   >
-                    {item.type}
+                    {localizedBadge(item.type)}
                   </span>
                 </div>
               )}
@@ -125,7 +164,7 @@ export default function JournalFilter() {
                       className={`px-2 py-0.5 text-[10px] uppercase tracking-wider border rounded ${badgeClass(item.type)}`}
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
-                      {item.type}
+                      {localizedBadge(item.type)}
                     </span>
                   )}
                   {item.published_at && (
@@ -156,7 +195,7 @@ export default function JournalFilter() {
           className="py-16 text-center text-text-muted text-sm"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
-          {isLoading ? '> Loading...' : '> No entries found for this filter.'}
+          {isLoading ? tr('loading') : tr('empty')}
         </div>
       )}
     </section>

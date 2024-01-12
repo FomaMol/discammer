@@ -1,0 +1,33 @@
+{
+  "order": 1,
+  "title": "Anatomy of a modern scam economy",
+  "est_minutes": 7,
+  "body_md": "## Scams are a supply chain, not a lone hacker\n\nThe stereotype of a hooded loner in a basement is decades out of date. Today's fraud ecosystem looks much more like a tech startup with departments, vendors, customers, and a price list.\n\nA typical operation pulls from at least four specialized layers:\n\n- **Tooling.** Off-the-shelf *phishing kits* clone a brand's login page for $30–$200. **Phishing-as-a-Service** (PhaaS) platforms sell subscriptions with dashboards, A/B-tested email templates, and live victim feeds.\n- **Infrastructure.** Bulletproof hosting, lookalike domains, anonymized SMS gateways, and disposable phone numbers are all rented by the hour.\n- **Leads.** Stolen email lists, breach databases, and *lead targeting* by demographic (“65+, US, owns crypto wallet”) trade on closed forums.\n- **Cash-out.** Mule networks, crypto mixers, and gift-card laundries move stolen funds out of the banking system and into the operator's pocket.\n\n## Why the economics matter to you\n\nBecause every layer is specialized and rented, the *cost per attempted scam* is now pennies. Attackers can afford to send a million highly personalized messages to find a handful of victims.\n\nThe defensive lesson follows directly: you cannot rely on attackers being lazy, stupid, or rare. They are industrial. Your defense has to be habits, not luck.\n\n## What you should remember\n\n- Scams are a *business*, with vendors, prices, and quality tiers.\n- Personalization is now cheap; “generic phishing” is no longer a reassuring marker of safety.\n- Defense is about repeatable habits — verification, pauses, second opinions — not about being smart in the moment.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Which of the following is the single biggest reason highly personalized scam messages now reach millions of inboxes per day?",
+    "choices": [
+      {
+        "text": "Modern email providers have weakened their spam filters.",
+        "correct": false,
+        "explanation": "Spam filters have actually improved over time. The drop in cost comes from the attacker side, not the defender side."
+      },
+      {
+        "text": "Phishing-as-a-Service and stolen breach data have made personalization extremely cheap.",
+        "correct": true,
+        "explanation": "Exactly. The supply chain — kits, hosted infrastructure, breach data, cash-out networks — collapses the per-attempt cost to a few cents, so personalization at scale is now economical."
+      },
+      {
+        "text": "Most users now click on any link they receive.",
+        "correct": false,
+        "explanation": "Click-through rates on phishing are actually low (a few percent). Scammers don't need a high rate — they need a low cost per attempt and high volume."
+      },
+      {
+        "text": "Government regulation has made fraud legal in many countries.",
+        "correct": false,
+        "explanation": "Fraud is illegal essentially everywhere. The challenge is jurisdiction and enforcement, not legality."
+      }
+    ],
+    "hint": "Think about the cost side of the equation, not the click rate."
+  }
+}

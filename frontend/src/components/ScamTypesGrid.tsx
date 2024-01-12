@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchGuides } from '../utils/api';
+import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 
 interface Guide {
   id: string;
@@ -10,7 +11,13 @@ interface Guide {
 
 interface ScamTypesGridProps {
   title: string;
+  lang?: Locale;
 }
+
+const BUNDLES = {
+  en: { loading: 'Loading guides...', empty: '> No threats indexed.', read: 'READ →' },
+  ru: { loading: 'Загрузка гайдов...', empty: '> Угрозы пока не проиндексированы.', read: 'ЧИТАТЬ →' },
+} as const;
 
 const ICON_COLORS = [
   'bg-accent-cyan', 'bg-accent-green', 'bg-accent-red', 'bg-accent-amber',
@@ -18,19 +25,21 @@ const ICON_COLORS = [
   'bg-accent-cyan', 'bg-accent-green',
 ];
 
-export default function ScamTypesGrid({ title }: ScamTypesGridProps) {
+export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
+  const locale = currentLang(lang);
+  const tr = makeTranslator(locale, BUNDLES);
   const [guides, setGuides] = useState<Guide[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchGuides()
+    fetchGuides(locale)
       .then((data) => {
         const arr: Guide[] = Array.isArray(data) ? data : [];
         setGuides(arr.filter((g) => !!g.slug).slice(0, 10));
       })
       .catch(() => setGuides([]))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [locale]);
 
   return (
     <section className="py-6 sm:py-8">
@@ -49,7 +58,7 @@ export default function ScamTypesGrid({ title }: ScamTypesGridProps) {
         {guides.map((guide, i) => (
           <a
             key={guide.id}
-            href={`/guide/${guide.slug}`}
+            href={`/${locale}/guide/${guide.slug}`}
             className="flex-shrink-0 w-32 sm:w-40 bg-bg-panel border border-border-default rounded-md p-3 sm:p-4 hover:border-accent-cyan hover:box-glow-cyan transition-all duration-300 group flex flex-col items-center text-center"
           >
             {/* Icon placeholder */}
@@ -72,14 +81,14 @@ export default function ScamTypesGrid({ title }: ScamTypesGridProps) {
             </h3>
 
             <span className="text-accent-cyan text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-              READ &#8594;
+              {tr('read')}
             </span>
           </a>
         ))}
 
         {guides.length === 0 && (
           <div className="w-full py-8 text-center text-text-muted text-sm">
-            {isLoading ? 'Loading guides...' : '> No threats indexed.'}
+            {isLoading ? tr('loading') : tr('empty')}
           </div>
         )}
       </div>

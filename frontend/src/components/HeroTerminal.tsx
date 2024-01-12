@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
+import { currentLang, pick, type Locale } from '../utils/i18n';
 
 interface HeroTerminalProps {
   lines?: string[];
+  lang?: Locale;
 }
 
-const DEFAULT_LINES: string[] = [
+const LINES_EN: string[] = [
   '> init scanner --module=threat_db',
   '> loading signatures ............ [OK]',
   '> connecting feed.discammer.com',
@@ -25,6 +27,32 @@ const DEFAULT_LINES: string[] = [
   '> > > AWAITING USER COMMAND _',
 ];
 
+const LINES_RU: string[] = [
+  '> init scanner --module=threat_db',
+  '> загрузка сигнатур ............ [OK]',
+  '> подключение к feed.discammer.com',
+  '> рукопожатие УСТАНОВЛЕНО',
+  '> auth: anon-guest                  [200]',
+  '> сканирование вектора: phishing/2024',
+  '   ├─ найдено наборов: 218',
+  '   └─ средний срок жизни: 38ч',
+  '> сканирование вектора: deepfake/audio',
+  '   ├─ образцов: 1 407',
+  '   └─ ROC AUC: 0.93',
+  '> сканирование вектора: investment-fraud',
+  '   ├─ pump-and-dump: 64 активных',
+  '   └─ «забой свиньи»: 142 отслежено',
+  '> threat_db.size = 247 записей',
+  '> last_breach   = 02:14:09 UTC',
+  '> оракул: «не доверяй с первого контакта»',
+  '> > > ОЖИДАНИЕ КОМАНДЫ ПОЛЬЗОВАТЕЛЯ _',
+];
+
+const STATUS_TOKENS = {
+  en: { ok: '[OK]', established: 'ESTABLISHED', awaiting: 'AWAITING' },
+  ru: { ok: '[OK]', established: 'УСТАНОВЛЕНО', awaiting: 'ОЖИДАНИЕ' },
+} as const;
+
 function prefersReducedMotion(): boolean {
   return (
     typeof window !== 'undefined' &&
@@ -32,8 +60,11 @@ function prefersReducedMotion(): boolean {
   );
 }
 
-export default function HeroTerminal({ lines }: HeroTerminalProps) {
-  const source = lines && lines.length > 0 ? lines : DEFAULT_LINES;
+export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
+  const locale = currentLang(lang);
+  const defaultLines = pick(locale, { en: LINES_EN, ru: LINES_RU });
+  const source = lines && lines.length > 0 ? lines : defaultLines;
+  const tokens = STATUS_TOKENS[locale];
   const reduce = prefersReducedMotion();
   const [visible, setVisible] = useState<number>(reduce ? source.length : 0);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -51,8 +82,8 @@ export default function HeroTerminal({ lines }: HeroTerminalProps) {
   }, [visible]);
 
   function lineColor(line: string): string {
-    if (line.includes('[OK]') || line.includes('ESTABLISHED') || line.includes('200')) return '#39FF6B';
-    if (line.includes('AWAITING')) return '#FFB547';
+    if (line.includes(tokens.ok) || line.includes(tokens.established) || line.includes('200')) return '#39FF6B';
+    if (line.includes(tokens.awaiting)) return '#FFB547';
     if (line.startsWith('   ')) return '#8892A8';
     return '#00F0FF';
   }
