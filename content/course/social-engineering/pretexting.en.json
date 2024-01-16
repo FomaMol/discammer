@@ -1,0 +1,29 @@
+{
+  "order": 2,
+  "title": "Pretexting: when the story is the attack",
+  "est_minutes": 7,
+  "body_md": "## A scam is a story told to a single audience: you\n\nA pretext is the cover story an attacker constructs to make a request feel routine. The technical exploit doesn't matter if the social context is plausible enough that you don't ask the obvious question.\n\nWell-built pretexts share three properties.\n\n### 1. They fit an existing routine\n\nThe attacker picks a context you already navigate: a parcel delivery, an HR onboarding form, a bank fraud check, an IT password reset. You're not being walked into a foreign room — you're being walked into a room you enter every week.\n\nThis is why **untargeted phishing still works**. A 2% hit rate on a delivery-themed text against millions of recipients is millions of victims.\n\n### 2. They have a small but credible mission\n\n\"Hand over your life savings\" is too big a leap. \"Verify your account so we can release a pending refund\" is small, plausible, and creates forward momentum. The mission is large enough to require action, small enough to seem reasonable.\n\n### 3. They have a built-in answer to your first objection\n\nA good pretexter anticipates what you'd push back on, and answers it before you ask:\n\n- *\"You should be able to do this in your app — but the system is down for a few hours, so I'm calling instead.\"*\n- *\"Normally we'd email — but for security on amounts over $5,000 we always call.\"*\n\nThe pre-emptive explanation feels reassuring. In reality, it's a flag — *because they prepared for it*.\n\n## How to break a pretext\n\nThe single most effective technique: **switch channels**. The pretext lives in *this* conversation. Tell the caller \"I'll call you back through the number on the bank's website.\" Hang up. Look up the number yourself. Call.\n\nNine times out of ten, the attacker won't take the call. They'll claim it's urgent. They'll try to keep you on the line. They'll say \"the call has to happen now or the transaction will fail.\" All three of those reactions are confirmation that you were about to be scammed.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your phone rings. The caller ID shows your bank's name. A woman introduces herself as Maria from the Fraud Prevention team. She says a suspicious $1,200 charge from a hotel chain in Bali has been flagged on your card and asks if you authorized it.",
+    "prompt": "You did not authorize that charge. How do you respond?",
+    "choices": [
+      {
+        "text": "\"No, that's not me — please reverse it. What do you need from me?\"",
+        "outcome": "disaster",
+        "explanation": "You've just confirmed to the caller that there is panic to work with. The next step in the script will be 'we need to move your money to a safe account' — which actually means *the attacker's account*. The caller ID is trivially spoofable."
+      },
+      {
+        "text": "\"Thanks for flagging that. I'll hang up and call the number on the back of my card.\"",
+        "outcome": "good",
+        "explanation": "Correct. The attack lives inside this call. You break it by stepping into a channel the attacker can't control — calling the number you already have. If the call is genuine, the real fraud team will still find your case in their queue."
+      },
+      {
+        "text": "\"Can you read me the last four digits of my card to prove you're really the bank?\"",
+        "outcome": "risky",
+        "explanation": "Plausible-sounding test, but most card-fraud calls genuinely *will* know your last four digits because they were leaked in an earlier breach. The attacker may pass this test and you'll feel reassured. Always switch channel anyway."
+      }
+    ],
+    "moral": "Pretexts are scripts. Step out of the script — change the channel — and the script breaks."
+  }
+}

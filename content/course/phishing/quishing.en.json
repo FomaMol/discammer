@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "title": "QR-code phishing (quishing)",
+  "est_minutes": 6,
+  "body_md": "## QR codes are URLs you can't read\n\nA QR code is just a URL encoded as a black-and-white grid. The pattern looks the same to your eye whether it points to a real site or a phishing kit. That's the whole attack surface.\n\nQR phishing — *quishing* — became a major class of attack in 2022–2024 because three things lined up:\n\n1. People got comfortable scanning QR codes during the pandemic (menus, payment, check-in).\n2. Email security filters were good at reading URLs in text, but most of them couldn't yet decode QR images.\n3. Phones tend to display QR destinations briefly, in small text, and many users tap before reading.\n\nThe result: an email containing only an image of a QR code, with a one-line message like *\"Scan to reset your Microsoft 365 password\"*, slips past corporate spam filters and lands in inboxes intact.\n\n### Common quishing patterns\n\n- **The 'parking meter' sticker swap.** Attackers print fake QR stickers and paste them over the real ones on parking meters or restaurant payment placards. The fake QR routes you to a payment page that captures your card.\n- **The 'company password reset' email.** An image-only email asks employees to scan a code to renew their corporate login. The code leads to a credential-harvest page mimicking the company's SSO.\n- **The 'free Wi-Fi' QR.** A poster in a café offers free Wi-Fi via QR. The code routes you through a captive portal that captures whatever you log into next.\n\n### The defence\n\nThe rule is short. **Read the URL the QR resolves to *before* you act on it.**\n\n- On iOS and Android, scanning a QR with the native camera app shows the URL as a tappable preview. Read it. If it's not the brand you expect, swipe away.\n- Never scan a QR code from a sticker on a public surface for a payment. Use the merchant's app, or the real QR printed inside the menu, or pay in person.\n- Never scan a QR code from an email demanding a password reset. Open your company's SSO portal yourself.\n\nThe attacker's whole advantage is that you can't read the destination by looking at the dots. Once you read it as a URL, *all the lessons from the previous lessons apply* — registered domain, lookalike checks, the works.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "An IT-looking poster appears next to the copier in your office: \"Your Microsoft 365 password is expiring. Scan to renew.\" with a QR code. What's the right next action?",
+    "choices": [
+      {
+        "text": "Scan it — your IT department posts these reminders.",
+        "correct": false,
+        "explanation": "Even if your IT department does send reminders, never scan a QR from a printed surface for credential reset. The poster could have been added by anyone with badge-in access (cleaners, contractors, recently fired employees). The medium is the wrong medium for credential reset."
+      },
+      {
+        "text": "Scan with the native camera, *read the URL preview*, and only then decide.",
+        "correct": false,
+        "explanation": "Reading the URL preview is good practice, but for a *credential reset* you should not use a posted QR at all. Even a URL that looks right might redirect after the first click. Renewals belong in your real SSO portal."
+      },
+      {
+        "text": "Renew the password by going to your company's SSO portal directly. Then tell IT about the poster so they can verify if it's theirs and remove it if not.",
+        "correct": true,
+        "explanation": "Exactly. The trustworthy path to your password is the SSO portal you already use, not a QR on a wall. Reporting the poster is the team move — if it's fake, your colleagues need to know."
+      },
+      {
+        "text": "Ignore it; passwords don't expire anymore.",
+        "correct": false,
+        "explanation": "Many companies still rotate passwords. The 'ignore it' move solves the phishing question but doesn't address the underlying need. Always have a real channel you can go to."
+      }
+    ],
+    "hint": "What channel is appropriate for changing credentials? It's not a wall."
+  }
+}

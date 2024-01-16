@@ -1,0 +1,33 @@
+{
+  "order": 1,
+  "title": "The six principles of influence",
+  "est_minutes": 8,
+  "body_md": "## Why scammers all sound the same\n\nIf you've listened to enough fraud pitches, you've noticed a strange pattern: cold callers from totally different scams use almost identical emotional moves. That isn't a coincidence. They all draw from the same six psychological levers that the social psychologist **Robert Cialdini** documented in his 1984 book *Influence*.\n\nLearning the six principles by name is not academic trivia. Once you can label the move that is being made on you, it stops working.\n\n### 1. Reciprocity\n\nIf someone gives you something — a favour, a small gift, a piece of information — you feel pressure to return the favour. Scammers exploit this with \"free\" gifts, \"insider tips\", or warm-up favours that bind you before the real ask.\n\n### 2. Commitment & Consistency\n\nOnce you've taken a small public step toward something, you'll keep stepping in the same direction to stay consistent with yourself. The classic pig-butchering investment scam starts by getting you to invest $50 — once you do, the larger ask feels like just *more of the same*.\n\n### 3. Social Proof\n\nIf other people are doing it, it must be safe. Fake reviews, fake \"members already invested\" counters, screenshots of a forum thread with hundreds of replies — all manufacture the impression that you'd be the *odd one out* not to participate.\n\n### 4. Authority\n\nWe defer to people who look like authorities. A police badge in a video call, a logo on an email, a confident tone that says *\"I'm calling from the bank's fraud team\"* — these short-circuit the part of you that asks for proof.\n\n### 5. Liking\n\nWe say yes to people we like. Pig-butchering is the extreme form: weeks of rapport so you genuinely *like* the person before they ask for money. But it shows up in much shorter cons too — a friendly voice, a shared hobby, a compliment.\n\n### 6. Scarcity\n\nIf something is rare or about to disappear, we want it more. \"Last 3 spots\", \"price doubles tomorrow\", \"only available to verified customers\". Scarcity collapses your time to think.\n\n## The defensive move\n\nWhen you feel an emotion in response to a message — flattered, rushed, important, *chosen* — name the lever first. \"This is the urgency move.\" \"This is the authority move.\" Once you've labelled it, the message is no longer pulling on the lever — *you are looking at the lever*.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "An email says: \"You've been selected from 0.1% of users for our private beta. Spots close in 12 hours.\" Which two Cialdini principles is this message stacking?",
+    "choices": [
+      {
+        "text": "Authority + Reciprocity",
+        "correct": false,
+        "explanation": "There's no real authority claim (no badge, no agency, no executive) and no gift being offered. Look at what the message is actually doing."
+      },
+      {
+        "text": "Scarcity + Commitment/Consistency",
+        "correct": false,
+        "explanation": "Scarcity is right (the 12-hour timer), but no commitment has been requested yet — you haven't taken any step. Look again at the *flattery* in the message."
+      },
+      {
+        "text": "Scarcity + Liking",
+        "correct": true,
+        "explanation": "Exactly. The 12-hour close is *scarcity*. \"You've been selected from 0.1% of users\" is a flattery move that triggers *liking* — feeling chosen makes you warm to the sender. Stacking two principles is the standard pattern; defenders should look for each one separately."
+      },
+      {
+        "text": "Social Proof + Authority",
+        "correct": false,
+        "explanation": "No other users are being shown ('thousands joined'), and no authority figure is named. The message is talking about *you*, not about a crowd."
+      }
+    ],
+    "hint": "Identify the time pressure first, then look at what the flattering language is doing to your feelings."
+  }
+}

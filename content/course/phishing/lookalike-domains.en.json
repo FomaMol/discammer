@@ -1,0 +1,33 @@
+{
+  "order": 2,
+  "title": "Lookalike domains and homoglyph tricks",
+  "est_minutes": 7,
+  "body_md": "## Reading URLs like a defender\n\nA convincing phishing campaign is mostly about a convincing domain name. Attackers have three reliable patterns to make a fake domain look almost identical to a real one. Once you can name them, you can spot them on first glance.\n\n### 1. Character substitution\n\nReplace one letter with a visually similar one. The most common pairs:\n\n- `paypal.com` → `paypa1.com` (lowercase L replaced by digit 1)\n- `google.com` → `g00gle.com` (letter o replaced by digit 0)\n- `microsoft.com` → `rnicrosoft.com` (letter m replaced by rn)\n\nIn most fonts at small sizes, a casual reader sees the brand name and stops there.\n\n### 2. Punycode and homoglyphs\n\nThe Internet supports international characters in domain names. Cyrillic letters `а`, `е`, `о`, `р`, `с`, `у`, `х` look identical to Latin `a, e, o, p, c, y, x` in many fonts. A domain registered as `аpple.com` (where the first `а` is Cyrillic) is visually identical to `apple.com` but goes to a completely different place.\n\nModern browsers usually display these as their Punycode form (`xn--pple-43d.com`) to expose the trick — but not always, and not in every interface.\n\n### 3. Subdomain framing\n\nThe trick relies on the fact that humans read left to right. The attacker buys a generic-looking domain like `verify-account.io` and constructs subdomains under it:\n\n- `paypal.com.verify-account.io`\n- `appleid.apple.com.security-check.net`\n- `myaccount.google.com.login-flow.cc`\n\nThe registered domain is always the *last* two labels before the slash — `verify-account.io`, `security-check.net`, `login-flow.cc`. Everything before that is just labels the attacker invented.\n\n## The reading rule\n\nFor any URL, *read right-to-left from the first slash until you hit the first dot, then one more dot back*. That's the registered domain. Everything else is decoration.\n\n```\nhttps://login.paypal.com.security-check.net/verify\n                                  ^^^^^^^^^^^^^^^^\n                                  registered domain\n```\n\nWith practice this becomes automatic. Tap or hover the link, read the registered domain, decide. The whole motion takes a second.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Which of these URLs would safely take you to a real Microsoft login page?",
+    "choices": [
+      {
+        "text": "https://login.microsoftonline.com/signin",
+        "correct": true,
+        "explanation": "Correct. The registered domain is `microsoftonline.com`, which is Microsoft's legitimate login domain. Subdomains like `login.` are fine — what matters is the registered domain at the rightmost-but-one position."
+      },
+      {
+        "text": "https://account.microsoft.com.login-secure.cc/auth",
+        "correct": false,
+        "explanation": "The registered domain here is `login-secure.cc`. The `account.microsoft.com.` part is just a deceptive subdomain. Classic subdomain-framing trick."
+      },
+      {
+        "text": "https://login.microsoft-online.com/signin",
+        "correct": false,
+        "explanation": "The registered domain is `microsoft-online.com`, which is **not** Microsoft. Attackers register hyphenated lookalikes precisely because they read fast. Microsoft's real one is `microsoftonline.com` without the hyphen."
+      },
+      {
+        "text": "https://signin.rnicrosoft.com/auth",
+        "correct": false,
+        "explanation": "Look at the second character of the registered domain: `rn` (r + n), not `m`. At small sizes the two are visually identical. This is the character-substitution trick."
+      }
+    ],
+    "hint": "For each URL, find the registered domain by reading right-to-left until you've passed exactly one dot."
+  }
+}

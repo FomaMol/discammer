@@ -1,0 +1,29 @@
+{
+  "order": 5,
+  "title": "Urgency, fear, and authority triggers",
+  "est_minutes": 7,
+  "body_md": "## Time pressure is the universal exploit\n\nEvery successful social-engineering attack has to solve the same problem: how to get you to act before your slower, deliberate self has time to weigh in. Three emotional triggers do most of that work — and you can learn to feel them firing the moment they hit.\n\n### Urgency\n\nA limited-time window forces you to skip steps you'd otherwise take. \"In the next 10 minutes\", \"before the meeting ends\", \"before the warrant is issued\". Real organizations almost never need you to act within minutes. The IRS doesn't. Your bank doesn't. Your boss usually doesn't.\n\n### Fear\n\nLoss aversion is roughly twice as powerful as gain seeking. A message that threatens loss — your account, your money, your reputation, your freedom — short-circuits weighing of evidence. \"Your account will be permanently closed unless...\" is the canonical example.\n\nFear is especially effective combined with shame. Sextortion emails (\"we have a recording of you visiting [adult site]\") work because the target is too embarrassed to talk to anyone before paying.\n\n### Authority\n\nWe defer to figures of authority — police, tax officials, bank fraud teams, our own boss. The deference is mostly automatic. Authority works extra well in cultures where direct disagreement with authority is discouraged.\n\n## The combined exploit\n\nAlmost no real attack uses one trigger at a time. The high-yield pattern is **fear + urgency + authority** stacked:\n\n> *\"This is Officer Daniels from the Federal Trade Commission. A federal warrant for your arrest will be issued within the next 45 minutes unless you cooperate to resolve the irregularity in your account.\"*\n\nEvery sentence is a trigger. The combined cognitive load is the point — *you don't have spare bandwidth left to question the call.*\n\n## The defence\n\nThere is exactly one defensive move that scales to all three triggers: **slow it down**. Every minute you spend not acting is a minute the attacker is not earning. Real organizations tolerate the pause. Scammers can't.\n\nThe physical action: say out loud, in your head or to the caller, *\"I am going to take 10 minutes before I do anything.\"* Then take the 10 minutes. The pretext almost never survives them.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your phone rings. The caller says: \"This is Sergeant Allen from the Federal Police, badge 4421. A federal warrant for tax evasion will be issued against you within the next 30 minutes. Stay on the line — we can resolve this through a controlled-payment protocol if you cooperate now.\"",
+    "prompt": "What is the single best move?",
+    "choices": [
+      {
+        "text": "Stay on the line, get more details, and try to verify the badge number before agreeing to anything.",
+        "outcome": "risky",
+        "explanation": "Staying on the line is exactly the goal of the script. Every additional minute you spend on the call increases the chance the attacker pushes you past your decision point. Badge numbers are trivially fabricated and the caller can claim you 'can't share' the verification with anyone."
+      },
+      {
+        "text": "Hang up. Wait 10 minutes. Then call your country's actual police or tax non-emergency line yourself.",
+        "outcome": "good",
+        "explanation": "Correct. The 10-minute pause and the channel switch defeat all three triggers — urgency, fear, and authority — at once. If the warrant were real (it isn't), it would survive the 10 minutes. If it's a scam, the attacker won't be there when you call back."
+      },
+      {
+        "text": "Refuse to cooperate and threaten to report the caller to your lawyer.",
+        "outcome": "risky",
+        "explanation": "Pushing back keeps you on the call, which is what the attacker wants. A real officer would not be threatened by you mentioning a lawyer. The cleaner move is just to disengage entirely."
+      }
+    ],
+    "moral": "Slow it down. Every minute you don't act, the attacker is the one losing."
+  }
+}

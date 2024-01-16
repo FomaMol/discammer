@@ -1,0 +1,29 @@
+{
+  "order": 4,
+  "title": "Spotting fake login pages",
+  "est_minutes": 7,
+  "body_md": "## The credential harvest funnel\n\nMost phishing attacks end at the same place: a page that looks like a login form, asking for your username and password. The attacker doesn't need to compromise anything technical — they just need you to type your credentials into their form. The form helpfully sends them to a database, possibly even forwards you to the real site so you don't notice.\n\nA credential-harvest page has to look right, but its underlying signals don't match. Here's what to check.\n\n### 1. The URL bar — the only field that can't lie\n\nEverything on the page is HTML the attacker wrote. Logos, layout, fonts, copyright notices — all forgeable. The one thing they can't forge is the URL in the browser's address bar.\n\nLook at the registered domain (you learned how in the previous lesson). If it doesn't match the brand exactly, you are on a phishing page. **No exceptions.** \n\n### 2. The lock icon is not a safety guarantee\n\nThe padlock in the address bar means the connection is encrypted (HTTPS). It does **not** mean the site is legitimate. Most phishing pages today have valid HTTPS certificates — they're free and automatic via Let's Encrypt. A locked padlock on `payp4l-secure.com` is still a phishing page.\n\nThe lock icon's job is to confirm nobody is eavesdropping on the wire. It is not a verdict on who's on the other end.\n\n### 3. Password-manager refusal as a signal\n\nIf you use a password manager (you should), notice when it offers to auto-fill — and when it doesn't. Password managers fill credentials based on *exact domain match*. If your manager refuses to suggest your saved bank credentials on a page that *looks* like your bank, that's because the domain doesn't match. That refusal is a perfect, automatic detector. **Listen to it.**\n\n### 4. Behavioural tells\n\n- The page may accept *any* password on the first try, then redirect you to the real site (so you'll assume you mistyped). The attacker now has working credentials.\n- The page may immediately prompt for a second piece of data (\"For security, please confirm your phone number / SSN / mother's maiden name\") that the real site would never ask for at login.\n- The page may show a generic \"Session error, please log in again\" right after you submit, asking you to retype — they may want to capture a typo correction or a second attempt.\n\n### The cleanest defence\n\nUse a password manager and don't memorize your passwords. The combination means you literally *cannot* be phished on credentials, because:\n\n1. The manager won't auto-fill the wrong domain.\n2. You don't know your password well enough to retype it manually.\n\nThat's it. The most expensive class of social-engineering attack is defeated by a tool that costs nothing.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "You click a link in what looks like a routine email from your bank. The page that loads has the bank's exact logo, layout, and colour scheme. The URL in the address bar is `https://my-bank-login.com/secure-portal`. The padlock icon shows a valid HTTPS certificate.",
+    "prompt": "Your password manager doesn't offer to auto-fill on this page. What do you do?",
+    "choices": [
+      {
+        "text": "Type your password manually — the manager probably just hasn't recognized the new portal yet.",
+        "outcome": "disaster",
+        "explanation": "The password manager's refusal is *not* a glitch. It refused because the domain doesn't match your saved login. The page is a phishing site dressed up as your bank. Typing your password sends it directly to the attacker."
+      },
+      {
+        "text": "Close the tab. Open your bank by opening their app or typing their real domain in a fresh tab. Forget this email.",
+        "outcome": "good",
+        "explanation": "Correct. The password manager just diagnosed the phishing page for you. Closing the tab and going through your known good channel solves the underlying need (whatever the email was about) without exposure."
+      },
+      {
+        "text": "Check if there's a 'remember password' option and try entering the credentials anyway, just in case.",
+        "outcome": "disaster",
+        "explanation": "Same outcome as typing manually — the form sends to the attacker either way. The 'remember password' option here is fake; it's a button the attacker drew."
+      }
+    ],
+    "moral": "The password manager is a credential-phishing detector. When it refuses to auto-fill, that refusal is the answer."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "order": 3,
+  "title": "Reading link previews before you click",
+  "est_minutes": 6,
+  "body_md": "## Hover. Read. Then decide.\n\nThe single highest-leverage habit in this entire course is also the simplest: before you click any link, see where it actually goes. Five seconds, every time, and you avoid the majority of credential-harvest attacks.\n\nThe mechanics are slightly different on each platform, but the move is always the same.\n\n### Desktop browser\n\nHover the link without clicking. Look at the bottom-left corner of the browser window. Almost every browser displays the destination URL there. Read the registered domain.\n\n### Email client (desktop)\n\nSame trick — hover the link in the message, the destination appears in a tooltip or status bar. If you don't see it, your client is hiding it. Most clients let you toggle that on.\n\n### Mobile (iOS / Android)\n\nLong-press the link instead of tapping. A preview card appears showing the actual URL. On iOS, the preview includes a thumbnail and the full destination. On Android, the preview shows the URL plus options.\n\n### Shortened links (bit.ly, t.co, tinyurl.com)\n\nShort URLs deliberately hide their destination. They are unsafe to click without an unshortener. Useful free tools include:\n\n- **unshorten.it** — paste the short URL, see the real destination.\n- **checkshorturl.com** — same idea, slightly different ecosystem.\n\nIn 2024 onward, any unexpected short URL from a brand you trust should be treated as untrusted until you've unshortened it.\n\n### QR codes\n\nA QR code is just a URL in barcode form. When you scan a QR code with a modern phone, it shows you the URL *before* opening it. **Read the preview**. If the destination doesn't match the brand, don't open.\n\n## Two patterns to learn by heart\n\n1. **The phishing redirect.** A link that looks like `https://secure-paypal.com/verify` may actually redirect through three intermediate hops before landing on the credential-harvest page. Modern browsers show the *final* URL in the address bar after redirects — so always re-check the address bar after the page loads, not just the link you clicked.\n2. **The genuine-looking host with attacker-controlled path.** A URL like `https://docs.google.com/forms/abc123` is hosted by Google, but the *form content* is anything the attacker wanted. Brand-name hosts don't make their content safe. The host tells you who's hosting; it doesn't tell you who wrote what's on the page.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You hover over a link in an email from your bank. The destination URL shown at the bottom of your browser is `https://bit.ly/3KhPq2X`. What is the correct next move?",
+    "choices": [
+      {
+        "text": "Click the link — your bank uses URL shorteners for security.",
+        "correct": false,
+        "explanation": "Major banks generally do not use bit.ly-style shorteners for transactional emails — both because it makes phishing detection harder and because it would damage their own trust. A shortener in a bank email is itself a yellow flag."
+      },
+      {
+        "text": "Open the bank's app or website by typing the address yourself; ignore the link.",
+        "correct": true,
+        "explanation": "Correct, and this is the safest move regardless of how the URL looks. You have a known good path to your bank already — use it. The link in the email is suspect until proven otherwise, and proving it requires unshortening *and* a domain check."
+      },
+      {
+        "text": "Forward the email to a colleague and ask their opinion.",
+        "correct": false,
+        "explanation": "Better than clicking, but you've increased the chance that *they* click the link by accident. Always include 'don't click — just look' in any forward like this. The cleaner action is still to verify through your own known channel."
+      },
+      {
+        "text": "Use an unshortener tool to see the real URL, then decide.",
+        "correct": false,
+        "explanation": "Acceptable, but more work than necessary when you already have a trusted path to the bank. Save the unshortener for cases where there's no easier verification route."
+      }
+    ],
+    "hint": "What's the cheapest correct action? You already have a verified path to your bank."
+  }
+}

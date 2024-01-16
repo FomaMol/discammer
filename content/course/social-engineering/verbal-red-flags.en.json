@@ -1,0 +1,33 @@
+{
+  "order": 6,
+  "title": "Verbal red flags in real conversations",
+  "est_minutes": 6,
+  "body_md": "## Hearing the script through the conversation\n\nSocial-engineering attacks are mostly read off a script. Once you've heard the patterns a few times, you can recognize them inside a live call before you've consciously decided anything is wrong.\n\nHere are the phrases and beats that show up over and over.\n\n### \"Don't tell anyone else about this call\"\n\nLegitimate institutions *want* you to verify. Banks invite you to call back. Police are fine with you contacting them through public channels. The only people who insist on secrecy are people who can't survive verification.\n\n### \"This has to happen right now\"\n\nReal organizations operate on hours and days, not minutes. \"Right now\" inside a financial conversation almost always means the script is racing against your better judgement.\n\n### \"I'll stay on the line while you do it\"\n\nA bank fraud team never asks to coach you through transferring money. The only reason to stay on the line is to *prevent you* from independently verifying.\n\n### \"To prove this is real, here's a piece of your data\"\n\nAttackers buy old breach data — your address, the last 4 digits of a card, your mother's maiden name, sometimes much more. Knowing something about you is no longer proof of identity. It's the *first thing* a script provides.\n\n### \"For security, you'll need to install [remote-access app]\"\n\nLegitimate companies have *zero* reason to make you install AnyDesk, TeamViewer, or any other remote-control software. This is the signature move of tech-support scams. The moment the word \"AnyDesk\" or \"TeamViewer\" appears, end the conversation.\n\n### \"Just for security, can you confirm the 6-digit code I just sent you?\"\n\nThe 6-digit code is your *one-time password* (OTP). Sharing it is sharing your account. Banks, exchanges, and platforms will *never* legitimately ask you to read out an OTP that was sent to your phone.\n\n### \"I'll send you instructions on Telegram instead\"\n\nSwitching the conversation onto an end-to-end encrypted channel that the company doesn't actually use is a classic move. A real bank does not coordinate fraud cases over Telegram or WhatsApp.\n\n## How to use these as a checklist\n\nWhen you're in a live call that feels off, listen for any *one* of these phrases. A single one is enough to end the call immediately. You do not have to be polite to a scammer. You do not have to explain. \"I'll call you back through the official number\" is a complete sentence.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "A caller from \"Microsoft support\" says: \"Your computer is sending malware signals to our network. For security, please download AnyDesk so I can clean it remotely. Don't end the call — once you disconnect, the infection spreads.\" Identify the *strongest* single tell that this is a scam.",
+    "choices": [
+      {
+        "text": "Microsoft does not call individual users about malware.",
+        "correct": false,
+        "explanation": "True, but a learner who doesn't already know this fact won't catch it. We want a tell that's diagnostic *inside the conversation itself*."
+      },
+      {
+        "text": "The request to install AnyDesk for remote access.",
+        "correct": true,
+        "explanation": "Yes. No legitimate vendor — Microsoft, Apple, your bank, your ISP — will *ever* legitimately walk you through installing AnyDesk or TeamViewer over a cold call. The remote-access request is the universal red flag of tech-support fraud. The moment you hear it, end the conversation."
+      },
+      {
+        "text": "The claim that 'malware signals' are being sent.",
+        "correct": false,
+        "explanation": "The jargon is fake-sounding, but a non-technical person genuinely doesn't know whether 'malware signals to a network' is a real thing. It's suspicious, but not the strongest single tell."
+      },
+      {
+        "text": "The threat that disconnecting will spread the infection.",
+        "correct": false,
+        "explanation": "This is a fear-and-urgency move (real red flag), but the *single* most diagnostic tell is the AnyDesk request — it has no legitimate context."
+      }
+    ],
+    "hint": "Which sentence in the script has no possible legitimate version, in any company, anywhere?"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "order": 1,
+  "title": "Anatomy of a phishing email",
+  "est_minutes": 7,
+  "body_md": "## Five places a phishing email gives itself away\n\nPhishing emails have gotten visually convincing. Logos are perfect. Grammar is fine. The signature block lists a real address. The graphic-design layer is no longer a useful tell.\n\nWhat hasn't improved is the underlying structure of the attack. Every phishing email still has to hit five jobs to be functional, and each one leaves a fingerprint a defender can read in seconds.\n\n### 1. The sender display name\n\nThe \"From\" field shows whatever the attacker typed. *\"PayPal Service <support@payy-pal-secure.com>\"* is a perfectly valid email header — the brand name is just a label. **Always look at the actual address, not the display name.**\n\n### 2. The subject line\n\nPhishing subject lines have a narrow vocabulary: *Urgent*, *Action Required*, *Account Suspended*, *Unusual Sign-In*, *Pending Refund*, *Final Notice*. They have to engineer the open. Once you've seen the pattern, it's recognizable from the inbox preview.\n\n### 3. The opening hook\n\nThe first paragraph almost always does two things at once: it establishes consequence (\"we noticed unusual activity\") and it offers a path back to safety (\"click here to verify\"). Real customer notifications usually open with the *neutral state* (\"here's your monthly statement\") rather than a threat.\n\n### 4. The link\n\nThe single most diagnostic element. Hover over the link without clicking. The status-bar URL is the truth. If it does not end in the brand's actual domain — `paypal.com`, not `paypal-secure-login.net` or `paypa1.com` or `paypal.com.account-verify.io` — discard.\n\n### 5. The signature\n\nThe footer often lists a real-looking address, a real-looking phone number, copyright notices. These are *meant* to reassure. They are also trivial to copy from a real email. The signature block tells you nothing on its own.\n\n## A 10-second triage routine\n\nWhen an unexpected email lands and asks you to do something, run this in your head:\n\n1. Read the actual sender domain (not the display name).\n2. Hover the call-to-action link and read the destination.\n3. Ask: is this email asking me to log in or transfer something *I wasn't already planning to do?*\n\nThree checks. If anything is off, don't click. Open the brand's app or site by typing the address yourself.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You receive an email with display name \"Apple Account Services\" and the address `noreply@apple-id-services.notify-me.com`. The subject is \"Action Required: Verify your Apple ID within 24 hours.\" The call-to-action link, when you hover, shows `https://appleid.apple.com.verify-account.io/login`. Which is the *strongest* single tell that this is a phishing email?",
+    "choices": [
+      {
+        "text": "The 'Action Required' urgency phrasing.",
+        "correct": false,
+        "explanation": "Urgency phrasing is a red flag, but Apple itself uses urgency-style language in legitimate security emails sometimes. It's suggestive, not diagnostic."
+      },
+      {
+        "text": "The link does not actually go to apple.com — the real domain is `verify-account.io`.",
+        "correct": true,
+        "explanation": "Exactly. Read URLs right-to-left to the registered domain: `https://appleid.apple.com.verify-account.io/login` is owned by **verify-account.io**, not apple.com. The 'appleid.apple.com.' part is just a subdomain label the attacker chose. This is the canonical lookalike-subdomain trick."
+      },
+      {
+        "text": "The display name 'Apple Account Services' is slightly different from the official wording.",
+        "correct": false,
+        "explanation": "Display names are completely under the attacker's control and prove nothing. Real Apple emails come from a wide range of display names. Don't rely on this field."
+      },
+      {
+        "text": "The sender domain `apple-id-services.notify-me.com` is not the real apple.com.",
+        "correct": false,
+        "explanation": "Correct observation, but the *strongest* tell is the destination URL of the call-to-action — that's what would actually steal your credentials if you clicked. The sender domain is one signal; the link target is the deciding signal."
+      }
+    ],
+    "hint": "Read every URL right-to-left until you hit the first dot. What's the registered domain?"
+  }
+}

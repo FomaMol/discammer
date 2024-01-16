@@ -1,0 +1,29 @@
+{
+  "order": 7,
+  "title": "Building a personal verification routine",
+  "est_minutes": 8,
+  "body_md": "## A short script you run on yourself\n\nEverything in this module converges on one practical habit: when an inbound request asks you to do something consequential — move money, install software, share credentials, transfer access — you run a fixed *verification routine* before complying.\n\nThe routine should be short enough to remember under pressure, generic enough to apply to any incoming channel, and *boring* enough that you'll actually do it every time. Below is the canonical version. Use it as a starting template.\n\n### Step 1 — Stop and breathe\n\nThe attacker's biggest asset is your speed. The first move of the routine is to slow yourself down for one breath. If the request can't survive a one-minute pause, it isn't real.\n\n### Step 2 — Identify the channel and switch it\n\nName the channel the request came through: phone call, email, SMS, DM, video meeting. Now choose a *different* channel through which you already had a way to contact the same organization or person.\n\n- Bank fraud team called you? → Hang up. Open the bank's app. Call the number on the back of your card.\n- Boss emailed asking for a wire? → Ping them on Slack/Teams from your contacts list, not from the email.\n- IT asking you to install something? → Walk over, message a known IT colleague, or open a ticket through the official portal.\n\nThe attacker controls the channel they reached you on. They almost never control the one you choose.\n\n### Step 3 — Look up the contact yourself\n\nDo not use a phone number, email, or link from the inbound request. Look up the number on the bank's official site you typed yourself. Look up the company's email in the address book. *Provided* contact info is contaminated by definition.\n\n### Step 4 — State the request out loud or in writing\n\nMake the request explicit on the second channel. *\"Hi — did you just call me asking for a $48,000 wire?\"*. Phrasing it explicitly works because attackers depend on ambiguity and momentum.\n\n### Step 5 — If anyone asks why you delayed, say \"verification routine\"\n\nIf the person turns out to be legitimate, they will absolutely not be angry. They will be relieved you're careful. Anyone who acts insulted that you verified is almost certainly a scammer.\n\n## Make it a household rule\n\nThe routine is more valuable as a *family or team agreement* than as a personal habit. Tell your partner, your parents, your finance team: \"For anything over $X or any urgent request, we always switch channels and verify.\" Now the rule is shared. Nobody has to be brave in the moment — they're just following the routine.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your father calls you in tears. His voice is breaking. He says he's been arrested and the police are asking for $4,500 bail in gift cards before he can be released. He begs you not to tell anyone — he's ashamed.",
+    "prompt": "What do you do?",
+    "choices": [
+      {
+        "text": "Drive immediately to buy the gift cards and read the codes over the phone — your father is in trouble.",
+        "outcome": "disaster",
+        "explanation": "Gift-card bail is not a real legal mechanism — anywhere. The 'don't tell anyone' instruction is the giveaway. This is the grandparent / family-emergency scam, often using an AI clone of the relative's voice. Your money is gone the moment you read the codes."
+      },
+      {
+        "text": "Stay calm, end the call, then call your father directly on the number you already have for him and verify.",
+        "outcome": "good",
+        "explanation": "Correct. The verification routine: switch channels and use a contact you already had. If your father is genuinely in trouble he'll be relieved you're being careful. If the voice was a clone, the real father will be at home, surprised to hear from you."
+      },
+      {
+        "text": "Ask the caller for proof that it's really your father — \"What was our first dog's name?\"",
+        "outcome": "risky",
+        "explanation": "Better than complying, but family scammers often have access to public social-media info that includes pet names and other 'security question' style details. The clone may pass your test. Switch channels instead."
+      }
+    ],
+    "moral": "The verification routine should not be a debate. It is a switch of channel — every time, without exception."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "order": 3,
+  "title": "Vishing, smishing, and voice deepfakes",
+  "est_minutes": 8,
+  "body_md": "## Voice and SMS — the high-trust channels\n\nEmail has been a phishing channel for so long that most people scan it with suspicion. SMS and voice are different — they still feel personal, urgent, and *real*. That trust is exactly what attackers buy when they pay the higher per-message cost to reach you that way.\n\n### Smishing (SMS phishing)\n\nA text message arrives. Short. Sparse. A short URL with no preview. The classics:\n\n- **Delivery hold:** \"DHL package #C918 held — pay $1.99 customs fee: hxxp://...\"\n- **Bank lock:** \"Your account is suspended. Verify identity: hxxp://...\"\n- **Tax refund / rebate:** \"You qualify for a $X tax rebate. Claim now: hxxp://...\"\n\nThe defining feature of smishing is the *short URL with no domain you recognize*. Your phone shows you the URL in tiny grey letters and you'll click it from your couch in two seconds.\n\nThe rule: **never tap a link in an SMS from a sender you don't already know**. If a bank or carrier sends you something genuine, you can always confirm it inside their app.\n\n### Vishing (voice phishing)\n\nA human voice (or now an AI clone) reads from a script with three predictable beats:\n\n1. **Establish authority** — \"This is Officer Daniels from the IRS Investigations Division.\"\n2. **Create urgency + fear** — \"There's a federal warrant being issued in 30 minutes.\"\n3. **Offer a way out** — \"You can resolve this right now over the phone if you stay on the line.\"\n\nThe IRS, your bank, the police, your CEO — none of them will *ever* ask you to stay on the line and complete a financial transaction during a cold call. That single rule defeats the overwhelming majority of vishing attempts.\n\n### Voice deepfakes\n\nWhat used to be a small skilled labour pool of actors imitating relatives or executives is now a $0 button-press. A 30-second sample of your CEO's voice from a podcast is enough to clone them in real time. The clone calls accounting, asks for a wire transfer, sounds *exactly* right.\n\nThe defence is the same as everywhere else: **out-of-band verification**. Hang up. Call back on a number you already had. The deepfake breaks the moment it can't answer the second channel.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Mid-morning at the office, your phone rings. It's your CEO — you recognize the voice instantly. She sounds rushed: \"Hey, I'm in a closing meeting with the acquirer and I need you to wire $48,000 to the seller's escrow agent before noon to lock the deal. I'll explain after — I'm sending the wire details to your email right now.\"",
+    "prompt": "What do you do?",
+    "choices": [
+      {
+        "text": "Confirm the wire details on the email when it arrives and process the transfer — she sounded normal and the email matches.",
+        "outcome": "disaster",
+        "explanation": "Voice + matching email is exactly what a deepfake-plus-spoofed-email attack looks like. The CEO's voice was cloned from a podcast clip; the email was sent from a lookalike domain. This pattern has stolen tens of millions from real companies."
+      },
+      {
+        "text": "Reply: \"Got it — but I need to verify by our written process. Sending you a Slack DM right now to confirm.\"",
+        "outcome": "good",
+        "explanation": "Correct. You moved the conversation to a channel the attacker doesn't control (your internal Slack with the real CEO account). If she's genuine she'll confirm in seconds. If she's a deepfake the Slack DM goes unanswered and the attack is dead."
+      },
+      {
+        "text": "Tell her you'll process it as soon as you finish your current task — buying yourself 30 minutes to think.",
+        "outcome": "risky",
+        "explanation": "Time can help, but the attacker may interpret your delay as friction and just call back with more pressure. Use the time you bought to *actively verify on a different channel* — don't just let the clock run."
+      }
+    ],
+    "moral": "Voice is no longer proof of identity. Make verification a written-channel habit, especially when money is involved."
+  }
+}

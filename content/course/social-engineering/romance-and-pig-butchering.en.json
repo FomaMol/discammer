@@ -1,0 +1,33 @@
+{
+  "order": 4,
+  "title": "Romance scams and pig-butchering",
+  "est_minutes": 9,
+  "body_md": "## The patient con\n\nA pig-butchering scam (from the Chinese *sha zhu pan* — literally *\"pig-butchering plate\"*) is what an investment con looks like when the attacker has weeks instead of minutes. The metaphor is brutal: feed the pig until it's fat, then slaughter.\n\nIt is now the single most expensive class of consumer fraud worldwide. Victims routinely lose six and seven figures. The reason it works on *intelligent, skeptical, well-educated people* is that it does not look like fraud — until the moment the money is already gone.\n\n### The five stages\n\nEvery pig-butchering operation runs the same pipeline:\n\n1. **First contact.** A \"wrong number\" text, a friend request on a dating app, a stranger replying to an old social post. Designed to feel accidental.\n2. **Rapport building.** Days to weeks of friendly conversation. No money is mentioned. The scammer might even decline a token of money you offer. The goal is real warmth.\n3. **The reveal.** The scammer happens to mention they've been making money on a small crypto platform. They show screenshots. They are casual about it.\n4. **The taste.** You try the platform with a small amount. You can withdraw — it works. Trust solidifies.\n5. **The slaughter.** You invest larger amounts, often borrowed. When you try to withdraw, you're told you owe \"tax\", \"customs\", \"verification\". Each payment unlocks the next demand. Eventually the platform disappears.\n\n### What's the same in every case\n\n- **The platform is fake.** It is a website the scam ring runs. The numbers you see are made up. Your \"balance\" is fiction.\n- **There is no special access.** You are not getting an opportunity unavailable to others. You are being run through a script.\n- **The withdrawal works exactly once.** That single allowed withdrawal is the entire investment in your trust.\n\n### How to spot it before stage 4\n\n- **Any stranger who reaches you sideways and stays.** If the conversation drifts toward how they made money, that's the pivot. Recognize it.\n- **Investment platforms only your new friend has heard of.** Real crypto exchanges are not introduced by strangers in DMs.\n- **Your gut says \"this is too good for me, specifically.\"** That gut sense is correct *before* the money is gone — listen to it.\n\nIf you have already invested: stop sending money the moment a \"tax\" or \"fee\" is required to withdraw. You are at stage 5. The platform is fake. Every additional payment is gone.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "A friendly stranger you've been messaging for three weeks casually mentions they've been making solid returns on a crypto platform their cousin works at. They offer to walk you through a small test deposit. Which of these is the strongest *single* indicator this is a pig-butchering operation, not a real opportunity?",
+    "choices": [
+      {
+        "text": "The promised returns are unrealistic.",
+        "correct": false,
+        "explanation": "By stage 3, scammers have learned to quote modest returns (4–8% per week) precisely because hyper-aggressive promises feel like a red flag. Returns alone aren't the strongest tell."
+      },
+      {
+        "text": "The introduction to the platform came from a stranger who reached you sideways and has been building rapport for weeks.",
+        "correct": true,
+        "explanation": "Yes. The pipeline is the giveaway. Real investment platforms acquire customers via advertising, financial advisors, or word-of-mouth from people you've known for years — never through a 'wrong number' message that ripens into a friendship and casually drifts toward 'I have a tip for you.'"
+      },
+      {
+        "text": "They suggest starting with a small test deposit you can withdraw.",
+        "correct": false,
+        "explanation": "The successful test withdrawal is *part of the trap* (stage 4), not the giveaway. By itself it looks like reasonable advice — that's why it works."
+      },
+      {
+        "text": "The cousin connection makes the platform less credible.",
+        "correct": false,
+        "explanation": "A real platform can have an employee cousin. The cousin story is colour to make the source feel personal; it's not the diagnostic tell."
+      }
+    ],
+    "hint": "What did the *conversation that introduced this opportunity* look like — and does that match how real investments get found?"
+  }
+}
