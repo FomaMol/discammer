@@ -1,0 +1,33 @@
+{
+  "order": 3,
+  "title": "MFA tiers: SMS, TOTP, hardware keys",
+  "est_minutes": 8,
+  "body_md": "## Not all second factors are equal\n\nMulti-factor authentication (MFA) adds a *second* check beyond your password, usually something the attacker can't replicate even if they have your credentials. But MFA is not a single thing — it's a tier of methods, each with very different security properties.\n\nKnowing the tiers means you can pick the strongest available for the accounts you care about most.\n\n### Tier 1 — SMS codes\n\nA one-time 6-digit code sent to your phone via text message.\n\n- **Strength:** Better than no MFA. Defeats simple credential stuffing.\n- **Weakness:** Vulnerable to **SIM swap** (attacker convinces your carrier to port your number to their SIM), to interception on compromised carriers, and to user-side phishing (\"please confirm the 6-digit code I just sent you\").\n- **Verdict:** Acceptable last resort. Never the *only* MFA on a high-value account.\n\n### Tier 2 — TOTP authenticator apps\n\nApps like Google Authenticator, Authy, 1Password, Bitwarden Authenticator generate 6-digit codes that rotate every 30 seconds, based on a shared secret stored only on your device.\n\n- **Strength:** No phone number involved, so immune to SIM swap. Codes never travel over a network.\n- **Weakness:** Still phishable — a malicious page can ask for your code and forward it to the real site in real time (\"adversary-in-the-middle\" phishing).\n- **Verdict:** Strongly recommended for most accounts.\n\n### Tier 3 — Hardware keys (FIDO2 / WebAuthn)\n\nA physical USB or NFC device — YubiKey, Google Titan, SoloKey, or the built-in security chip in your phone. You tap the key to approve a login.\n\n- **Strength:** Phishing-resistant by design. The protocol cryptographically binds the login to the *origin* (the URL you're on). A fake login page literally cannot ask the key to sign for the real site.\n- **Weakness:** You have to own the physical device. If you lose it without a backup, you can lose access.\n- **Verdict:** Use for your email account, password manager, and any work-critical login. Always register at least *two* keys (one daily, one backup in a drawer or safety deposit box).\n\n### Tier 4 — Passkeys (the future, available now)\n\nA passkey is essentially a WebAuthn credential synced through your device's account (iCloud Keychain, Google account, password manager). You authenticate with biometrics or device PIN.\n\n- **Strength:** All of Tier 3's phishing-resistance, plus convenience of being synced — no separate hardware to carry.\n- **Weakness:** New ecosystem; cross-platform stories are still rough. Service support is uneven.\n- **Verdict:** Use where offered. The standard is moving here.\n\n### Where to spend your effort\n\nA realistic personal priority list:\n\n1. **Email account.** This is the master key — password resets for everything else flow through here. Hardware key or passkey, ideally both.\n2. **Password manager.** Hardware key.\n3. **Bank, brokerage, primary credit cards.** Hardware key or TOTP. *Move away from SMS.*\n4. **Work accounts.** Use whatever your company supports best — push back if it's still SMS-only.\n5. **Everything else.** TOTP minimum.\n\nThe rule of thumb: if losing this account would be expensive or embarrassing, it deserves Tier 3+.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Your email provider supports SMS codes, an authenticator app (TOTP), and hardware keys (FIDO2). You can pick *one* method to set up today. Which gives the best protection against modern phishing?",
+    "choices": [
+      {
+        "text": "SMS — easiest to set up and works on any device.",
+        "correct": false,
+        "explanation": "SMS is the weakest MFA tier. It's vulnerable to SIM swap and to social-engineered handovers (the user reads the code out loud over the phone)."
+      },
+      {
+        "text": "Authenticator app (TOTP) — codes never leave your phone.",
+        "correct": false,
+        "explanation": "TOTP is significantly better than SMS, but it's still phishable in real time: a fake login page can ask for the rolling code and replay it to the real site before the 30-second window expires."
+      },
+      {
+        "text": "Hardware key (FIDO2) — cryptographically tied to the real domain.",
+        "correct": true,
+        "explanation": "Yes. FIDO2/WebAuthn binds the authentication to the URL you're on. A fake page can't ask the key to sign for the real site, because the protocol won't produce a signature that the real site would accept. This is the only MFA tier that closes phishing at the protocol level."
+      },
+      {
+        "text": "Doesn't matter — any MFA is fine.",
+        "correct": false,
+        "explanation": "Any MFA is much better than none, but the tiers exist for a reason and the email account is high-value enough to justify the strongest available."
+      }
+    ],
+    "hint": "Which tier makes the attacker's *channel* unusable, not just inconvenient?"
+  }
+}

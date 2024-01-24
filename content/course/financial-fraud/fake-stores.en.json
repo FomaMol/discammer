@@ -1,0 +1,63 @@
+{
+  "order": 1,
+  "title": "Anatomy of a fake online store",
+  "est_minutes": 8,
+  "body_md": "## When the shop itself is the scam\n\nFake online stores are a category of fraud that has grown enormously since 2020. The format is consistent: a polished-looking e-commerce site, attractive prices, a brand-adjacent name. You enter card details. The order confirmation arrives. Nothing ever ships. The site disappears within weeks.\n\nThe modern variants are sophisticated enough that visual inspection alone isn't reliable. You need a structural checklist.\n\n### Six signals to check before you check out\n\n1. **Domain age.** Almost every fake store is less than three months old. Use `whois.com` or any domain-age lookup. If the domain was registered last month, default to skeptical.\n\n2. **Pricing that doesn't fit the brand.** A site claiming to be an authorized Sony retailer selling new PS5 consoles for 30% off MSRP is almost certainly fake. Authorized retailers don't discount that aggressively; counterfeit and fraud retailers do.\n\n3. **Payment options.** Real stores accept major cards (Visa, Mastercard) with proper checkout flows. Fake stores often funnel you to wire transfer, crypto, gift cards, or a generic Stripe-style page that doesn't actually go through Stripe. Bank wire and crypto are *not* recoverable; cards are. If a 'store' insists on a non-card payment, walk away.\n\n4. **Customer reviews.** Fakes have either no reviews, a handful of obviously identical 5-star reviews posted the same week, or reviews scraped wholesale from a different store. Check third-party review sites (Trustpilot) — and search for `[storename] scam` on a search engine you trust.\n\n5. **Contact information.** Real stores publish a postal address, a phone number that picks up, an actual support email, registered company details. Fake stores have a contact form, maybe a Gmail address, and nothing verifiable. Look for the registration company name and search it.\n\n6. **Site polish at the seams.** Even good fakes leave threads loose: a 'Privacy Policy' that's plain Lorem Ipsum, broken images in the footer, mixing of currencies, inconsistent product photography. The front page is usually clean; the deep pages aren't.\n\n### A 90-second pre-purchase routine\n\n1. Check domain age.\n2. Look at the price-vs-MSRP gap.\n3. Confirm the payment flow accepts a major card.\n4. Search `[store name] scam` and `[store name] reviews`.\n5. Look at one deep page (Returns policy, FAQ) for obvious copy-paste junk.\n\nIf two or more of these flag, the answer is no. Buy the item from a retailer you already know.",
+  "widget_type": "redflags",
+  "widget_config": {
+    "setup": "You search for 'PlayStation 5 deal' and land on this listing.",
+    "messageBlocks": [
+      { "label": "Store:", "value": "sonyplay-direct-eu.shop" },
+      { "label": "Product:", "value": "PlayStation 5 Slim — 90% off MSRP, only €49.99" },
+      { "label": "Stock:", "value": "Only 3 left! Sale ends in 12 minutes." },
+      { "label": "Payment:", "value": "Bank wire transfer, Bitcoin, or Apple gift card" },
+      { "label": "Domain age:", "value": "Registered 14 days ago" },
+      { "label": "Reviews:", "value": "No reviews on Trustpilot. Search for '[store] scam' returns 200 results." }
+    ],
+    "prompt": "Pick every signal that is a real red flag.",
+    "items": [
+      {
+        "id": "price",
+        "label": "Price is 90% below MSRP for a current-generation product.",
+        "flag": true,
+        "explanation": "No legitimate retailer takes that kind of margin on a flagship console. Discounts beyond ~15-20% on current-gen hardware are vanishingly rare in legitimate channels."
+      },
+      {
+        "id": "payment",
+        "label": "Payment options are wire transfer, Bitcoin, and gift cards — no major cards.",
+        "flag": true,
+        "explanation": "None of these are reversible. A real retailer almost always accepts Visa/Mastercard with consumer protections. The absence is the entire point of the scam — recoverable payments would let victims claw back their money."
+      },
+      {
+        "id": "domain-age",
+        "label": "The domain was registered 14 days ago.",
+        "flag": true,
+        "explanation": "Almost every fake store is a fresh domain. Real merchants don't appear out of nowhere with full inventory and active discounts."
+      },
+      {
+        "id": "urgency",
+        "label": "'Only 3 left, sale ends in 12 minutes' urgency.",
+        "flag": true,
+        "explanation": "Scarcity + countdown is classic pressure to skip diligence. Real retailers don't run 12-minute checkout-or-lose flash sales on flagship products."
+      },
+      {
+        "id": "no-reviews",
+        "label": "Zero reviews on Trustpilot, but 200 results for '[store] scam'.",
+        "flag": true,
+        "explanation": "A clean review search itself wouldn't prove safety, but the *combination* of no reviews + many scam reports is essentially confirmation."
+      },
+      {
+        "id": "store-name",
+        "label": "The store name 'sonyplay-direct-eu.shop' contains 'Sony'.",
+        "flag": true,
+        "explanation": "Using the brand name in the domain is a knockoff signal. Sony's authorised retailers do not register domains containing 'sonyplay' as a marketing label."
+      },
+      {
+        "id": "eu-tld",
+        "label": "It uses the `.shop` TLD instead of `.com`.",
+        "flag": false,
+        "explanation": "TLDs like `.shop` are perfectly legitimate. Real and fake stores both use them. Use other signals; the TLD alone isn't diagnostic."
+      }
+    ]
+  }
+}

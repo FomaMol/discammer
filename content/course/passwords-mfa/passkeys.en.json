@@ -1,0 +1,33 @@
+{
+  "order": 4,
+  "title": "Passkeys and the post-password world",
+  "est_minutes": 7,
+  "body_md": "## What passkeys actually are\n\nA passkey is a cryptographic credential — a public-key keypair — stored in your device's secure enclave, synchronized through your platform account (iCloud Keychain, Google account, or a password manager that supports them).\n\nYou never see the key. You authenticate with whatever your device already trusts: Face ID, Touch ID, Windows Hello, or your device PIN. The site receives a cryptographic signature it can verify, and lets you in.\n\nThe word \"passkey\" is a friendly label on the FIDO2 / WebAuthn protocol. Under the hood, it's the same standard that hardware keys use — just synced rather than physical.\n\n### Why this matters\n\nThree properties make passkeys a meaningful upgrade over passwords:\n\n1. **No shared secret leaves your device.** The site receives only a public key during signup, and signatures at login. There's nothing to steal in a server breach.\n2. **Origin-bound.** The protocol binds the signature to the exact URL. A fake login page literally *cannot* produce a valid signature for the real site, even if you fall for it.\n3. **Sync is end-to-end encrypted.** When your platform account syncs the passkey across devices, it can't be read by the platform vendor.\n\n### What passkeys replace\n\nThe ambition is to retire **both** the password *and* most second factors. A single passkey is treated as both \"something you have\" (the device) and \"something you are\" (the biometric to unlock it). The site can accept it as full MFA.\n\nFor consumer sites, this is already happening. Google, Apple, Microsoft, GitHub, Amazon, PayPal, and most banks now accept passkeys for primary login.\n\n### What's still messy\n\n- **Cross-platform.** A passkey created in iCloud Keychain doesn't move to a Windows PC automatically. You can use the QR-code fallback on the laptop, scanned by your phone, but it's an extra step.\n- **Account recovery.** If you lose access to your platform account (Apple ID, Google), you lose your passkeys with it. Treat your platform account itself as the new high-value target — secure it accordingly.\n- **Coverage.** Many smaller sites still don't offer passkeys. Some do but bury the option.\n\n### When to use them today\n\n- **Always** for big-tech accounts (Google, Apple, Microsoft) — these are the ones that *gate* all your other passkeys.\n- **When offered** on any high-value account (bank, brokerage, email).\n- **As an additional MFA** rather than a replacement on accounts that still require a password — passkeys can coexist with passwords during the transition.\n\nThe direction of travel is clear. Within a few years, typing a password into a high-value site will feel as quaint as faxing a contract.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You just enrolled a passkey for your Google account, stored in iCloud Keychain on your iPhone. What's the most important next step to avoid lockout?",
+    "choices": [
+      {
+        "text": "Print the passkey on paper as a backup.",
+        "correct": false,
+        "explanation": "Passkeys are private keys in secure enclaves. They cannot be exported or printed by design. There's no human-readable copy."
+      },
+      {
+        "text": "Make sure your Apple ID (the account that syncs the passkey) is itself secured with strong MFA and account-recovery contacts.",
+        "correct": true,
+        "explanation": "Yes. The passkey now lives inside your Apple ID's sync. If you lose access to that account, you lose every passkey synced through it. Your Apple ID becomes the new master key — secure it as such (hardware key on the Apple ID, trusted recovery contacts, strong device passcode)."
+      },
+      {
+        "text": "Disable the Google password since you have a passkey.",
+        "correct": false,
+        "explanation": "Reasonable eventually, but premature. Until you're confident about recovery paths and your other devices, keep the password as a fallback alongside the passkey."
+      },
+      {
+        "text": "Enrol a second passkey on a different platform (Android, Windows).",
+        "correct": false,
+        "explanation": "Useful for cross-platform resilience, but the *most important* immediate step is securing the platform account itself — losing it eclipses every other concern."
+      }
+    ],
+    "hint": "Where does the passkey actually live, and what happens if you lose access to that container?"
+  }
+}

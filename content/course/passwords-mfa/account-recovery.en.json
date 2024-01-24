@@ -1,0 +1,29 @@
+{
+  "order": 5,
+  "title": "Account recovery without back doors",
+  "est_minutes": 7,
+  "body_md": "## The hidden weakest link\n\nEvery account-security upgrade you make — strong unique password, hardware-key MFA, passkeys — has a quiet partner: the **account recovery flow**. If a service lets you recover your account via SMS code, secret question, or \"trusted email\", that flow is what an attacker will target. The strength of your account is the strength of its weakest recovery path.\n\nThis lesson is about closing those back doors.\n\n### What attackers actually do\n\n- **SIM-swap.** Pay or social-engineer a carrier employee to port your number. Then trigger \"send recovery code by SMS\" on every account. Every account that recovers via SMS is now theirs.\n- **Secret questions.** \"What's your mother's maiden name?\" Public records, social media, breach data. Each of those answers is data, and data is searchable.\n- **Backup email chain.** Account A recovers to email B. Email B recovers to email C. If C is a long-forgotten Yahoo address with a weak password, you have a chain that ends in a 2012-quality lock.\n- **\"Trusted devices\" stale list.** An old phone you sold five years ago is still on the trusted-devices list. The buyer doesn't have your password, but they can authorize recovery from that device.\n\n### A 30-minute account-recovery audit\n\nFor every important account, open the security settings and check:\n\n1. **Phone numbers attached.** Remove any number you don't use as a primary line. Phone-based recovery should only happen via SMS or call as a *last* resort.\n2. **Recovery emails.** Every recovery email *itself* should be secured with strong MFA. If your backup is a Yahoo account you haven't logged into in five years, change the recovery email to your primary (well-secured) inbox.\n3. **Secret questions.** Where you can't remove them, treat them as passwords: long random strings stored in your password manager. \"Mother's maiden name: 3J2k!sLp9vM\" is a fine answer.\n4. **Trusted devices.** Revoke anything you don't recognise or no longer use. Do this every six months.\n5. **App-specific passwords.** Many services let you generate per-app access tokens (mail clients, calendar apps). Audit these and revoke unused ones.\n6. **Active sessions.** Some accounts (Google, Facebook, etc.) show every device currently logged in. Sign out of anything unfamiliar.\n\n### Carrier-side defenses against SIM-swap\n\nAlmost every mobile carrier now offers a *port-out PIN* — a passphrase that has to be supplied before the number can be moved to another SIM. Turn it on. The setting hides under names like \"Port Freeze\", \"Number Lock\", \"SIM Protection\".\n\nThis is the single highest-leverage call you can make to your carrier this year. It blocks the most common, most damaging recovery-flow attack.\n\n### When you have a hardware key\n\nServices that support FIDO2 usually allow you to designate hardware keys as the *only* recovery path. This is the strongest possible setting: even with full access to your phone number and email, an attacker cannot regain access without the physical key.\n\nWhen you choose this, you **must** have at least two keys. Treat the second one like a passport — keep it physically separate, in a safe place.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your work-critical email account has password + TOTP MFA enabled. While auditing settings, you notice 'Phone number recovery' is also on, listing your personal mobile number. Your bank account also uses the same number for SMS-based MFA.",
+    "prompt": "What's the right move?",
+    "choices": [
+      {
+        "text": "Turn off phone-number recovery on the email account, and switch the bank to TOTP or hardware-key MFA where possible. Also enable a port-out PIN with your carrier.",
+        "outcome": "good",
+        "explanation": "Correct. Reducing reliance on SMS at both ends limits SIM-swap damage. The carrier-level PIN provides an extra wall. This is the standard hardening pattern."
+      },
+      {
+        "text": "Leave both as is — TOTP on email already covers the risk.",
+        "outcome": "disaster",
+        "explanation": "The TOTP doesn't matter if the *recovery* flow allows bypassing it via SMS. An attacker who SIM-swaps you triggers password reset, which sends a code to the phone they now control. TOTP is bypassed because the recovery path doesn't require it."
+      },
+      {
+        "text": "Replace your phone number with a Google Voice / VoIP number — VoIP can't be SIM-swapped.",
+        "outcome": "risky",
+        "explanation": "Helpful idea, but partial: VoIP accounts have their own takeover vectors (password reuse, the underlying email). It's not enough on its own. Combine with disabling SMS recovery and a carrier PIN, and you've improved things significantly."
+      }
+    ],
+    "moral": "The lock on your front door is only as strong as the weakest spare key under the mat."
+  }
+}
