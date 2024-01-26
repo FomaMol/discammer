@@ -1,0 +1,33 @@
+{
+  "order": 3,
+  "title": "Video deepfakes in business email compromise",
+  "est_minutes": 7,
+  "body_md": "## When BEC gets a face\n\nFor most of the last decade, Business Email Compromise relied on email alone — a request from a 'CEO' or 'vendor' to redirect a payment. As employees got better at spotting suspicious emails, attackers added a verification step: a video call with the 'requester' to confirm. That verification call is now the deepfake itself.\n\n### The new pattern\n\n1. **Setup email.** The attacker, using a compromised or lookalike-domain mailbox, sends a polite, ordinary-looking message about a confidential transaction. The mail establishes context.\n\n2. **Video confirmation.** Often the attacker proactively suggests a video call to confirm — and brings to the call a real-time deepfake of the executive, possibly joined by deepfakes of other colleagues. The whole point is to defuse the *one* verification step the target was likely to use.\n\n3. **The wire.** With the call as 'proof', the target processes the transfer.\n\nArup, the 2024 case we covered in module 1, was the canonical version: 15 wire transfers totalling $25M, signed off after a single multi-participant video meeting.\n\n### Today's visual tells (use cautiously)\n\nThese still hold in late 2025, but their reliability is declining:\n\n- **Lighting inconsistencies** — the face's lighting doesn't match the background.\n- **Side profile artifacts** — turn-of-the-head animations are weaker than head-on shots.\n- **Hand-face interactions** — the deepfake often falters when hands cross in front of the face.\n- **Earrings or glasses inconsistency** — appear and disappear between frames.\n- **Lip-sync drift** under high cognitive load (when the operator is reading and typing fast).\n\nThese are useful for *raising your suspicion threshold*. They are not a checklist that decides the case.\n\n### The defence that actually works\n\nDo not trust a video call as identity proof. Treat the meeting as 'this looks like the right person, but I will still verify on a separate channel before acting'.\n\nConcretely:\n\n- After any video-meeting financial request, send a Slack/Teams DM to the requester's *known internal account* asking 'did you just ask me to wire $X?'\n- If the request needs to happen 'before the meeting ends' or 'before close of business', that pressure itself is a flag.\n- Establish in your company a documented rule that video calls do not satisfy verification for payment changes above a certain threshold. The rule needs to exist before the call happens.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You're invited to a Zoom call with your CFO, the COO, and the head of legal. All three are visible, they greet you by name, and they need you to authorize a $200K wire to a new account within 30 minutes 'to close an acquisition'. The call seems normal. Which control would *actually* defeat a multi-participant deepfake here?",
+    "choices": [
+      {
+        "text": "Inspect the faces for visual artifacts like flickering earrings or weird hand interactions.",
+        "correct": false,
+        "explanation": "Some deepfakes have these artifacts; many don't. You may convince yourself either way under time pressure. The control needs to not depend on what's happening *inside* the call."
+      },
+      {
+        "text": "After the meeting, before processing the wire, message the CFO on your company Slack from your contacts list and ask written confirmation.",
+        "correct": true,
+        "explanation": "Yes. The deepfake lives inside the video meeting. A second channel — using your existing contact rather than anything provided during the call — defeats the impersonation regardless of how good the visual is. If the request is legitimate, the CFO will respond in seconds; if not, the silence is the answer."
+      },
+      {
+        "text": "Ask the CFO during the call to confirm a piece of internal trivia only the real person would know.",
+        "correct": false,
+        "explanation": "A determined attacker may have researched the answer. Worse, the question telegraphs that you're suspicious, which may push the script to escalate pressure rather than back off."
+      },
+      {
+        "text": "Process the wire — three executives confirming on video is overwhelming evidence.",
+        "correct": false,
+        "explanation": "Multi-participant deepfakes are now standard in BEC attacks. Visual consensus inside a meeting is no longer evidence of identity. Always step outside the meeting before money moves."
+      }
+    ],
+    "hint": "Where does the attack physically live, and what control happens outside that container?"
+  }
+}

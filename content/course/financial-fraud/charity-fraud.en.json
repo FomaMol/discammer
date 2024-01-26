@@ -1,0 +1,29 @@
+{
+  "order": 6,
+  "title": "Charity and disaster-relief fraud",
+  "est_minutes": 6,
+  "body_md": "## When good intentions get weaponised\n\nAfter every major disaster — earthquake, hurricane, war, mass shooting — fake charities and crowdfunding campaigns appear within hours. They monetize the public's urge to help and rely on the fact that vetting takes longer than giving.\n\nThe core pattern is simple: take an authentic story, attach a payment funnel that goes to the scammer instead of an aid organisation, push it through social-media virality. Done.\n\n### The four most common variants\n\n1. **Lookalike charities.** A charity with a name almost identical to a real one (Red Cross of *...*, Disaster Relief Fund of *...*). Search engine ads place these above legitimate results in moments of crisis.\n\n2. **Spoofed individual fundraisers.** Real victims are identified through news coverage. A fake GoFundMe or Telegram campaign appears claiming to support them — the actual victims never receive any money.\n\n3. **'Direct help' wallets.** A social-media post with a crypto wallet or bank account 'for the family of the victim'. No verification, no oversight, donations go straight to the scammer.\n\n4. **Charity 'recovery' scams.** After you donate to a fake, you may be contacted by 'fund recovery' specialists. Same trick as crypto-recovery scams: take a fee and disappear.\n\n### Defensive habits\n\n1. **Go to the charity directly, not through links.** Type the URL yourself or find the organisation through a directory like Charity Navigator, GuideStar, or your country's tax-exempt registry. Don't follow ads or social-media links.\n\n2. **Look for the registered name and number.** Real charities have legal identifiers — a 501(c)(3) in the US, an OGRN/INN in Russia, a registered charity number in the UK. The number is verifiable in public databases.\n\n3. **Be skeptical of crypto-only donation channels.** Real charities accept multiple payment forms, including credit card. Crypto-only is a red flag.\n\n4. **Wait 24 hours before responding to a disaster appeal you saw on social media.** The 'this is happening right now' framing collapses your evaluation time. Real charities are happy to receive donations 24 hours later; scammers need you to give before you can verify.\n\n5. **Watch for emotional manipulation in the imagery.** Stock photos repurposed across disasters, photos that don't match the supposed location, AI-generated faces — all signs of a fast-built fake campaign.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Two hours after major news about an earthquake, a friend's Facebook post links to a GoFundMe titled 'Direct support for survivors — every dollar goes to families'. The post has 12,000 shares. The campaign organiser is anonymous. There's a heartfelt photo of a child holding a sign.",
+    "prompt": "You want to help. What's the right next step?",
+    "choices": [
+      {
+        "text": "Donate immediately — speed matters in disasters and the share count proves legitimacy.",
+        "outcome": "disaster",
+        "explanation": "Share counts come from emotional contagion, not verification. Anonymous organisers and stock-style images of victims are the calling card of fast-build scam campaigns. Donations to a fake never reach victims."
+      },
+      {
+        "text": "Skip the link entirely. Go to a major established charity (Red Cross / MSF / Direct Relief / a local registered NGO) and donate through their site, picking the relevant disaster appeal.",
+        "outcome": "good",
+        "explanation": "Yes. Major registered charities are already on the ground within hours and have public reporting on how funds are used. Your money goes through audited channels. Your delay of an hour to type the URL yourself is the entire defence."
+      },
+      {
+        "text": "Comment asking the organiser to provide proof of identity before deciding.",
+        "outcome": "risky",
+        "explanation": "The comment signals you're a potential donor and likely targets you for follow-up DMs from the scammers. Going to a verified charity directly is faster and safer."
+      }
+    ],
+    "moral": "Speed of giving doesn't help victims. Speed of verifying does — go to a known charity, not a link."
+  }
+}

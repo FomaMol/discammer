@@ -1,0 +1,29 @@
+{
+  "order": 3,
+  "title": "The pig-butchering financial pipeline",
+  "est_minutes": 7,
+  "body_md": "## A long con as a five-stage funnel\n\nWe covered pig-butchering in the social-engineering module from the *human* angle. This lesson maps the same operation as a *financial pipeline* — because once you can see the funnel, you can identify which stage you're standing in and step off.\n\n### The funnel\n\n1. **Acquisition.** Mass outreach across dating apps, social media, and 'wrong number' texts. The cost per contacted target is cents. The expected conversion to active marks is ~1%.\n\n2. **Grooming.** Active marks are routed to one human (or a small team) who builds a multi-week relationship. *No financial topic surfaces.* This stage burns the most labour and is the actual investment the ring is making in you.\n\n3. **Introduction of the platform.** Almost always casual: a screenshot, an offhand comment, a request for advice. The platform is the scam's product — a clean website with realistic charts and a working frontend. The numbers shown are entirely fictional.\n\n4. **Confidence deposit.** The mark deposits a small amount, sees it appear, requests a small withdrawal, and *it works*. This is the single most important moment in the entire pipeline — it's the only stage at which money flows back to the mark. Everything after it is one-way.\n\n5. **Slaughter.** Larger deposits, often borrowed. When the mark tries to withdraw, the platform invents 'taxes', 'KYC fees', 'minimum balance' requirements. Each new payment unlocks the next demand. Eventually the mark is exhausted, the platform's domain expires, the operator moves on.\n\n### Where to identify the funnel\n\nThe most useful diagnostic is **Stage 4**. If a 'platform' you'd never heard of before a recent acquaintance introduced you is now letting you make small successful withdrawals, you are *almost certainly* on a pig-butchering platform. The successful test withdrawal is not evidence of legitimacy — it's the bait. Stop here.\n\n### What to do if you're already past Stage 4\n\n- **Stop adding money the moment a 'fee to withdraw' appears.** The fee is not a fee. It is an additional extraction. Paying it makes the next demand bigger, not the withdrawal closer.\n- **Document everything.** Screenshots of the platform, the chat history, wallet addresses, transaction hashes. You'll need them for law enforcement and any possible chargebacks.\n- **Report to law enforcement.** In the U.S., file at IC3.gov. In the EU, your national cybercrime unit. In the UK, Action Fraud. Reports drive aggregate investigations even when individual recovery is unlikely.\n- **Tell at least one person you trust.** The isolation around the scam is part of how it works. Breaking the secrecy is the first move out.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your cousin, who lives alone, mentions in passing that her new boyfriend (met online four months ago) has been showing her how to make money on a crypto trading platform. She's already deposited $5,000, made a successful $400 withdrawal, and is about to deposit her savings of $40,000.",
+    "prompt": "She asks you what you think. What's the right response?",
+    "choices": [
+      {
+        "text": "Sounds like she's doing her due diligence — the withdrawal proves the platform is legitimate.",
+        "outcome": "disaster",
+        "explanation": "The successful small withdrawal is precisely the design of stage 4. It is the bait, not the proof. If she deposits the $40K, that is the slaughter. You're confirming her belief at the exact moment to break it."
+      },
+      {
+        "text": "Calmly walk her through the pig-butchering funnel by name — show her she's at stage 4 and the next deposit is the slaughter. Suggest she test the platform with a $20,000 'withdrawal' before adding anything; reality check.",
+        "outcome": "good",
+        "explanation": "Exactly. Naming the funnel breaks the framing. The proposed large-withdrawal test is diagnostic: a real platform will process it; a pig-butchering platform will refuse, blame KYC, request new fees. Either way, she finds out before her savings move."
+      },
+      {
+        "text": "Tell her she's been scammed and demand she call the police immediately.",
+        "outcome": "risky",
+        "explanation": "Correct in direction but emotionally too much. Pig-butchering victims often double down when challenged abruptly because the scammer has built more emotional weight than you have. Walk her through the structure calmly first."
+      }
+    ],
+    "moral": "The successful test withdrawal is the trap, not the proof. Always run a large-withdrawal test before committing real money."
+  }
+}

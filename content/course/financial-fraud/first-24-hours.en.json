@@ -1,0 +1,33 @@
+{
+  "order": 7,
+  "title": "First 24 hours after fraud",
+  "est_minutes": 8,
+  "body_md": "## The window that decides how much you recover\n\nWhen you realize money has been stolen, the next 24 hours matter more than every hour that follows combined. Most successful recoveries happen because the victim moved quickly and methodically — not because they hired a specialist later.\n\nThis lesson is a playbook. Save it somewhere you can find under stress.\n\n### Hour 0 — Stop the bleed\n\n- **Freeze every account that touched the transaction.** Card, bank account, brokerage, payment apps. Most banks let you freeze in their app instantly; if not, call the fraud line.\n- **Change the password on the affected account** plus every account that shares the same password or recovery email.\n- **Sign out of all sessions** on the affected accounts (the security settings page has a 'sign out everywhere' button).\n\n### Hour 0–1 — Document\n\nBefore evidence disappears, screenshot or save:\n\n- The fraudulent transaction details (amount, time, destination).\n- Any chat conversation, email thread, or call log connected to the incident.\n- The URLs and domains involved.\n- For crypto: wallet addresses, transaction hashes, blockchain explorer pages.\n- For wire fraud: the receiving IBAN, the SWIFT message if available, the executing bank.\n\nWrite down a brief timeline. You'll need it for every conversation that follows.\n\n### Hour 1–4 — Notify the right institutions\n\n- **Card transactions:** call the card issuer's fraud line. Ask them to dispute the charge under the relevant zero-liability scheme. Get a case number.\n- **Bank transfers:** call the bank. Ask for a *recall* request to the receiving bank. Speed matters — recalls are easier when the receiving account still holds the funds.\n- **Crypto:** notify the exchange the funds may pass through, if you can identify it. Major exchanges may freeze deposits that match an active fraud report.\n- **Workplace fraud (BEC):** notify your IT/security team *and* finance. They need to know simultaneously.\n\n### Hour 4–24 — File official reports\n\nDifferent countries, different agencies. Pick the right one and file completely.\n\n- **U.S.:** IC3.gov (FBI), and a complaint to the FTC at reportfraud.ftc.gov.\n- **EU:** your national cybercrime unit. Some countries also use Europol's EC3.\n- **UK:** Action Fraud (actionfraud.police.uk).\n- **Russia / CIS:** заявление в МВД (cybercrime unit / Отдел «К»).\n- Also file with the AML/financial-crimes regulator if your country has one (FinCEN in the US, etc.).\n\nThese reports often don't recover *your* money directly. They fuel aggregate investigations that catch the operators eventually. Submit anyway.\n\n### Hours 12–24 — Communicate\n\n- **Tell at least one trusted person** so the secrecy of the scam (especially in romance / pig-butchering) doesn't keep its grip on you.\n- **Inform anyone in your contact list** if the attacker may now be impersonating you. Phishing through compromised mailboxes often targets the victim's contacts next.\n- **Lock or freeze your credit** if any identity data was exposed. In the US, all three credit bureaus offer free freezes online.\n\n### What you should *not* do\n\n- **Don't engage with 'fund recovery' DMs.** Once you've reported publicly, recovery scammers will find you. Real recovery services don't cold-message victims.\n- **Don't pay any new 'fee' to release the funds.** Once a scam asks for an additional payment to refund the original loss, you are being slaughtered in a different costume.\n- **Don't blame yourself in writing on a public forum.** It feels cathartic but it advertises you as a follow-up target.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You just realized that a $30,000 wire transfer you sent last night based on what turned out to be a BEC email is gone. The receiving bank is in another country. What is the *first* action that gives you the best recovery odds?",
+    "choices": [
+      {
+        "text": "Email your bank to request a wire recall.",
+        "correct": false,
+        "explanation": "Email moves at human-business-hours speed. Phone moves at minutes. For a wire recall, you must call."
+      },
+      {
+        "text": "Call your bank's fraud line immediately and request an urgent SWIFT wire recall. Time matters more than completeness of evidence at this stage.",
+        "correct": true,
+        "explanation": "Yes. Wire recalls work much better when the receiving account still holds the funds. Every hour drops your recovery probability. Calling, even with incomplete information, kicks the recall request into motion while the funds may still be reachable."
+      },
+      {
+        "text": "File a police report first so you have an official case number to give the bank.",
+        "correct": false,
+        "explanation": "Police reports are essential, but in the first hour they take 30+ minutes to file and slow the recall. Banks accept fraud reports without an official police number; the police report can be filed in parallel or after."
+      },
+      {
+        "text": "Contact a 'fund recovery' service that messages you on Telegram.",
+        "correct": false,
+        "explanation": "Recovery DMs at this stage are themselves scams. Don't engage."
+      }
+    ],
+    "hint": "What action is *time-decay-sensitive*? Do that first."
+  }
+}

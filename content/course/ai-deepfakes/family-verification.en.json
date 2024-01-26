@@ -1,0 +1,29 @@
+{
+  "order": 6,
+  "title": "Building a family verification protocol",
+  "est_minutes": 6,
+  "body_md": "## A 15-minute family meeting that defeats voice cloning\n\nMost of the AI-powered impersonation attacks in this module fail against a simple thing: a code phrase that the family agreed on in advance. The AI cannot guess it. The attacker cannot research it. The defence is plain and the cost is zero.\n\nThe gap between knowing this exists and actually doing it is what this lesson is about.\n\n### Why a family-level protocol matters\n\n- **AI clones target people who love you.** The emotional weight that powers a 'grandchild emergency' scam doesn't exist between you and a stranger. The clones go where they can hurt people most.\n- **A family member won't have the script you have.** You've taken this course. Your mother, grandfather, or 13-year-old child probably hasn't. The protocol externalises your training so anyone in the family can use it under stress.\n- **Verification routines fail when only one person knows them.** If the scam targets the family member who *doesn't* know there's a code word, you've failed in advance.\n\n### A 4-step family setup\n\n#### 1. Decide who's in the circle\n\nList the people you would actually call in an emergency, or who would call you: spouse, children, parents, siblings, very close friends.\n\nKeep it small. The bigger the circle, the more likely the word leaks.\n\n#### 2. Pick a code phrase\n\nProperties of a good phrase:\n\n- **Not on your social media or in any email.** No anniversaries, no pet names, no kids' names.\n- **Short and memorable.** Something like 'blue elephant Wednesday' or 'green door 7'.\n- **Unique to this purpose.** Not your Wi-Fi password.\n\n#### 3. Define the trigger\n\nState clearly when the code is required:\n\n- Any phone or video call asking for money, transfers, or gift cards.\n- Any message asking the recipient to act urgently on something financial.\n- Any unfamiliar voice claiming to represent a family member in trouble.\n\nThe code is required *every time* — not just when something feels off. Asking is the default; if asking feels rude, that means the protocol is doing its job.\n\n#### 4. Practice it once\n\nRun through the protocol once at the family dinner. Have the parent ask the child to imagine they got a call. The child practices saying 'I need to ask you the code first.' This rehearsal is the difference between knowing the protocol and being able to use it under stress.\n\n### Update cadence\n\n- Refresh the code phrase every 2 years.\n- Refresh immediately if you ever suspect the phrase was overheard or shared accidentally.\n- After a refresh, do one practice round so the new phrase is anchored.\n\n### A complementary corporate version\n\nFor work, the analogue is a documented out-of-band verification policy for payment changes. Same idea: anybody asked to move money knows which channel they must use to confirm, before they act. The cultural goal is exactly the same: take the bravery out of asking.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "You've sat down with your parents and your 19-year-old child for the family security conversation. You're explaining that you want to set up a code word for emergency calls. Your father says: 'But if you call me about something serious, you'd be too stressed to remember it — and I'd recognize your voice anyway.'",
+    "prompt": "How do you respond?",
+    "choices": [
+      {
+        "text": "Agree and abandon the plan. He has a point — under stress people forget things.",
+        "outcome": "disaster",
+        "explanation": "Reasonable-sounding but wrong. Stress-related memory issues affect *what* you say, not the protocol itself. The point of the code word isn't that you remember every detail; it's that you remember to *ask*. Voice recognition is exactly what AI clones beat — that's the whole reason the protocol exists."
+      },
+      {
+        "text": "Calmly explain that AI voice clones can now sound exactly like family members from a 30-second sample, and the code word is what survives even when the voice doesn't. Walk through one rehearsal so everyone has the muscle memory.",
+        "outcome": "good",
+        "explanation": "Yes. You're addressing both objections — voice recognition no longer being reliable, and stress-memory being mitigated by rehearsal. A single 30-second practice run is enough to anchor the protocol."
+      },
+      {
+        "text": "Argue forcefully that he's wrong and refuse to leave the table until everyone agrees.",
+        "outcome": "risky",
+        "explanation": "Right direction, wrong delivery. Making people defensive about a security topic is the fastest way to ensure they won't use the protocol when it matters. Explain calmly; practice; let the muscle memory build."
+      }
+    ],
+    "moral": "Code words don't fail because of stress — they fail because nobody practised them. Practise once, and the protocol survives the stress."
+  }
+}

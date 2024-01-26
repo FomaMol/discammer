@@ -1,0 +1,33 @@
+{
+  "order": 2,
+  "title": "Crypto and ICO investment fraud",
+  "est_minutes": 8,
+  "body_md": "## Why crypto attracts the worst investment scams\n\nCryptocurrency provides several conditions that benefit scammers and disadvantage victims:\n\n- **Pseudonymous wallets.** Money moves to addresses, not bank accounts. Tracing is possible but slow and expensive.\n- **Irreversible transactions.** Once a transfer is confirmed, no central authority can claw it back.\n- **Genuine technical complexity.** Most newcomers can't tell a real protocol from a polished fake.\n- **Genuine winners.** Some people did make life-changing returns. That data point makes the unrealistic promises feel plausible.\n\nThe result: crypto investment scams stole an estimated $4–8 billion per year from retail investors in 2023–2024. Most weren't sophisticated technical hacks. They were old-fashioned investment fraud wearing crypto clothes.\n\n### The four most common patterns\n\n#### 1. Rug pulls\n\nThe developers of a new token promote it, drive the price up, then liquidate their own holdings (the 'rug') and disappear. The token instantly drops to zero. Variants: developers code in a function that lets only them sell.\n\n**Tell:** Anonymous teams, no real product, hype-driven marketing, sudden launch with no real audit history.\n\n#### 2. Pump-and-dump groups\n\nA private Telegram or Discord coordinates a coordinated buy of a low-volume token. Outside investors see the price rise and rush in. The coordinators sell into that wave at the top. The price crashes.\n\n**Tell:** \"Join my private group for the next pump\" — the message itself is the scam. If a group's strategy *depends on outsiders losing*, that's a pump-and-dump.\n\n#### 3. Fake exchanges and 'investment platforms'\n\nA polished website that looks like a trading platform, often introduced through a romance/pig-butchering pipeline. Deposits work; small withdrawals work; large withdrawals require 'tax' or 'verification' payments that never end.\n\n**Tell:** Any platform you'd never heard of before a stranger introduced it. Real platforms (Coinbase, Kraken, Binance, regulated exchanges) are well-known and aren't introduced by your new WhatsApp friend.\n\n#### 4. 'Recovery' scams targeting prior victims\n\nThe most cynical variant. Once you've been scammed and reported it publicly, scammers find you and offer to recover your funds — for a fee. They take the fee and disappear.\n\n**Tell:** Anyone reaching out to *you* offering to recover stolen crypto is a scammer. Legitimate recovery services don't cold-message victims; victims approach law enforcement or specialized firms themselves.\n\n### The defensive frame\n\nApply two filters to every crypto opportunity that crosses your path:\n\n1. **How did this opportunity reach me?** If through advertising in trusted financial press, that's at least a real category. If through a stranger in a DM or a private chat group, treat as adversarial by default.\n\n2. **What is the *real* mechanism by which I'd make money?** If the answer is 'more people will pay more later' (without a specified product or revenue source), that's a Ponzi structure regardless of how the marketing dresses it up.\n\nApply both filters and almost no crypto scam survives.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Six weeks after your wallet was drained in a 'token presale' scam you reported on Reddit, a stranger DMs you on Telegram saying they're a 'blockchain forensics specialist' who can trace and recover your funds for a 20% finder's fee, paid upfront in USDT. They show a screenshot of similar successful recoveries. What's the *highest-leverage* tell that this is a follow-up scam?",
+    "choices": [
+      {
+        "text": "The 20% fee is too high — real recovery firms charge less.",
+        "correct": false,
+        "explanation": "Fee size varies and isn't diagnostic. The structural problem is upstream of the price."
+      },
+      {
+        "text": "They reached out to *you* via DM after seeing your public scam report.",
+        "correct": true,
+        "explanation": "Exactly. This is the universal pattern of recovery scams: the perpetrators or their associates monitor public reports of fraud and contact victims directly. Legitimate forensics firms do not cold-message victims; victims go *to* them, often via law enforcement referrals. The unsolicited contact is the diagnostic tell."
+      },
+      {
+        "text": "Asking for the fee in USDT instead of fiat.",
+        "correct": false,
+        "explanation": "Suspicious, but the more decisive issue is the source of contact. A scammer charging in fiat would still be a scammer."
+      },
+      {
+        "text": "The screenshots of past successes look photoshopped.",
+        "correct": false,
+        "explanation": "Many scams produce convincing screenshots; many real firms produce sloppy ones. Don't outsource the diagnosis to the quality of marketing assets."
+      }
+    ],
+    "hint": "Compare the *direction* of contact. Who approached whom?"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "order": 2,
+  "title": "Voice cloning attacks against family and finance",
+  "est_minutes": 7,
+  "body_md": "## Thirty seconds of audio is all it takes\n\nModern voice cloning tools can produce a convincing imitation of a specific person from less than thirty seconds of recorded audio. Many of them work in real time — the operator types, the cloned voice speaks. The required audio sample is trivial to obtain: a podcast appearance, a YouTube video, a voicemail, an old conference talk.\n\nThis collapsed two attacks from 'expensive' to 'cheap and routine':\n\n### Family emergency scams\n\nThe pattern: a target receives a frantic call that sounds exactly like a close family member (child, parent, sibling). The voice claims to be in trouble — arrested, in an accident, kidnapped — and needs money urgently, often via gift cards or wire transfer. The script always includes 'please don't tell anyone else' to keep the target from cross-checking.\n\nBefore voice cloning, this scam required a skilled impersonator and worked rarely. With a 30-second clip from the target's social media (a wedding speech, a podcast guest spot, a TikTok), the cost of producing the call dropped to zero.\n\n### Corporate CEO/CFO scams\n\nWe covered Arup in module 1 — the version where the whole *video* meeting was deepfaked. The audio-only version is more common because it's cheaper and harder to inspect.\n\nA 'CEO' calls accounting on a Friday afternoon, asks for an urgent wire transfer 'for a confidential deal', promises to explain Monday. The voice is the real CEO's — cloned from their recent earnings call.\n\n### What stays true even with perfect cloning\n\nThe model can imitate the *sound* of the person. It cannot imitate:\n\n- **Things they actually know** that are not in the training data. Your real mother knows the name of your first dog. The clone doesn't (unless the attacker has researched).\n- **What they would actually do.** Your real CEO does not skip controls. The clone, following a script, will press hard against your controls.\n- **A pre-arranged code word.** This is the simplest possible defence and the AI can't bridge it.\n\n### Setting up a family code word\n\nThis is a 30-second conversation that solves the entire problem at the family level:\n\n1. Agree on a word or short phrase with people you'd call in a real emergency. Something unrelated to your normal vocabulary.\n2. The agreement: *anyone* calling about a financial emergency must include the code word. No exceptions.\n3. Update it every couple of years or whenever you suspect it's been heard outside the family.\n\nIf the call doesn't have the code word, hang up. Call back on a known number.\n\n### Corporate equivalent\n\nFor work: any 'urgent transfer' demand from an executive triggers a callback to a known number, and a confirmation in writing through a trusted internal channel (Slack/Teams from the real account). This is just the verification routine from module 2, applied to the new attack surface.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "It's 11 p.m. Your phone rings. The voice on the line is your daughter's — crying, panicked. She says she was in a car accident, the other driver is hurt, the police are arresting her unless she posts $4,000 bail in gift cards within an hour. She begs you not to call anyone else because 'they said it'll make it worse'.",
+    "prompt": "What do you do?",
+    "choices": [
+      {
+        "text": "Drive to buy the gift cards immediately — every second counts.",
+        "outcome": "disaster",
+        "explanation": "The script is the classic family-emergency scam, now powered by voice cloning. Gift-card bail is not a real legal mechanism in any jurisdiction. The 'don't tell anyone' is the structural giveaway."
+      },
+      {
+        "text": "Tell the caller you need to ask the family code word before doing anything. If she can't say it, hang up and call her directly.",
+        "outcome": "good",
+        "explanation": "Yes. The code word is the AI-proof defence. A real daughter under stress will know it. A voice clone built from social-media audio will not. If the call goes silent or pivots, you've identified a scam. Then call her actual number to confirm she's fine."
+      },
+      {
+        "text": "Stay on the line, ask 'put me on with the officer' to verify the situation.",
+        "outcome": "risky",
+        "explanation": "A 'police officer' character is part of the script. The next voice you hear will sound authoritative and apply more pressure. Don't extend the conversation; switch channels."
+      }
+    ],
+    "moral": "A 30-second audio clip can build the voice. A family code word kills the attack regardless of how good the clone is."
+  }
+}

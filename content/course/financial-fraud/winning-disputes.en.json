@@ -1,0 +1,33 @@
+{
+  "order": 8,
+  "title": "How to win a disputed charge",
+  "est_minutes": 6,
+  "body_md": "## The mechanics of a chargeback\n\nA chargeback is a forced reversal of a card transaction, initiated by the cardholder's issuing bank. It is a *consumer-protection mechanism* baked into the major card networks (Visa, Mastercard, American Express). When you dispute a charge, your bank requests the funds back from the merchant's bank; the merchant has a window to contest.\n\nUnderstanding the rules turns disputes from a stressful unknown into a reliable process.\n\n### Three things that matter for a successful dispute\n\n1. **Specific reason codes.** Card networks define reason codes ('fraudulent transaction', 'goods not received', 'goods not as described', 'duplicate charge', etc). Each code has different evidence requirements and different deadlines. Identify the right code before filing — your bank's dispute form usually walks you through it.\n\n2. **Timing.** Most networks give you 60–120 days from the statement date to dispute. Some categories have shorter windows. Earlier is always better — fresh disputes win more often.\n\n3. **Documentation.** Receipts, screenshots, email confirmations, shipping records, photos, conversations with the merchant. The more concrete your documentation, the more likely the merchant won't bother contesting.\n\n### The standard process\n\n1. **Contact the merchant first.** Many card networks require this. A polite email or chat with the merchant attempting to resolve the issue costs you ten minutes and *creates documentation*. If the merchant refunds you, the chargeback is unnecessary.\n\n2. **Open the dispute through your bank's app or site.** This is faster than calling. You'll select a reason code, enter dates and amounts, and upload supporting documents.\n\n3. **Provide a clear written narrative.** Two paragraphs: what you purchased and what the issue is. Stay factual. Avoid emotional language; banks have automated systems and human reviewers neither of whom benefit from anger.\n\n4. **Wait for the provisional credit.** Many banks credit the disputed amount back within a few business days while the formal process plays out. This is provisional — if the merchant successfully contests, the credit reverses.\n\n5. **Respond promptly if the merchant contests.** You may get a chance to submit additional evidence. Do it within the deadline; missed deadlines lose disputes.\n\n### Disputes that tend to win\n\n- **Charges you can prove you didn't authorize** (card was never used in that country, you have receipts showing you were elsewhere, the card was reported lost).\n- **Goods not received** when you have the tracking number showing the package never delivered and a written exchange with the merchant.\n- **Goods materially different** with photos of what arrived next to the product page.\n- **Subscription you cancelled** with a confirmation screenshot of the cancellation.\n\n### Disputes that tend to lose\n\n- **'Buyer's remorse'** — you received what you ordered but changed your mind.\n- **Charges from services where the chargeback would violate the terms you agreed to.**\n- **Vague claims with no documentation** — your word against the merchant's.\n- **Disputes filed months after the transaction** when the rules required action sooner.\n\n### Special cases\n\n- **Crypto purchased through a card.** Most issuers will *not* refund crypto purchases as 'fraud' if you authorized the purchase yourself, even if you were scammed afterwards. The fraud is at a layer above the card transaction.\n- **Wire transfers.** Not eligible for chargeback. The recall request to the receiving bank is your only path.\n- **Peer-to-peer payment apps (Zelle, Venmo).** Limited or no consumer protection on authorized transactions even if the recipient is fraudulent. Treat these payments as cash.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You ordered noise-cancelling headphones for $250 from a store you'd never used before. What arrived was a $20 knockoff in a damaged generic box. You wrote to the seller twice, got no response. The transaction was 3 weeks ago. What's the strongest single action *right now*?",
+    "choices": [
+      {
+        "text": "Leave a public negative review and post about it on social media.",
+        "correct": false,
+        "explanation": "Catharsis is not recovery. The chargeback path is faster and more financially relevant."
+      },
+      {
+        "text": "Open a chargeback dispute under 'goods not as described', uploading the product-page screenshot and a photo of what arrived.",
+        "correct": true,
+        "explanation": "Yes. 'Goods not as described' is the right reason code; the product-page screenshot and arrival photo are the standard winning evidence; you're well within the dispute window; you've already documented an attempt to contact the seller. This is a high-probability win."
+      },
+      {
+        "text": "Wait another week to see if the seller responds.",
+        "correct": false,
+        "explanation": "Delay erodes dispute-success odds. Two contact attempts is enough documentation; file now."
+      },
+      {
+        "text": "Contact the manufacturer of the real headphones to report counterfeit.",
+        "correct": false,
+        "explanation": "Useful as a parallel action — manufacturers do investigate counterfeit channels — but does not recover your money. The chargeback does."
+      }
+    ],
+    "hint": "Which action both *recovers your money* and uses evidence you already have?"
+  }
+}

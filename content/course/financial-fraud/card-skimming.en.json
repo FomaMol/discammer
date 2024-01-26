@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "title": "Card skimming and digital pickpocketing",
+  "est_minutes": 6,
+  "body_md": "## Where your card details get copied without your knowledge\n\nSkimming is the practice of copying a card's data without the cardholder noticing. The data is later either embossed onto clone cards (less common now) or sold for online card-not-present fraud (the dominant use today).\n\nThe environment matters more than the technique. Knowing where the risk is high lets you focus your attention.\n\n### Physical skimming locations\n\n- **Outdoor ATMs and standalone payment terminals.** Anywhere a machine is not actively supervised. Skimmer hardware fits over the card slot or PIN pad; pinhole cameras record PIN entry.\n- **Gas-station pumps.** The most common physical-skimming target in North America. Internal skimmers behind the pump panel can run for months before detection.\n- **Restaurants where the card leaves your sight.** A waiter takes the card to a back terminal. Out of view, the card can be photographed or swiped through a portable skimmer.\n- **Hotels and rental-car desks.** Manual key-entry of card numbers into a system creates a paper or electronic trail an insider can copy.\n\n### Digital skimming (online)\n\n- **Magecart attacks.** Attackers compromise an e-commerce site's checkout JavaScript so the page also sends your card details to their server while submitting the order to the real merchant. The order succeeds; you have no way to know it happened. Operates on big-name brands too — British Airways, Ticketmaster, Newegg have all been hit.\n- **Compromised browser extensions.** A browser extension with permission to read web pages can capture card data on any site.\n- **Open Wi-Fi sniffers.** Less of a risk now because almost all checkouts are HTTPS, but still an attack surface for badly-built sites.\n\n### Defensive practices\n\n1. **Use a virtual card.** Most modern banks and several specialised services (Apple Card numbers, Privacy.com, Revolut, Wise) generate single-use or merchant-locked virtual numbers. Compromise of a virtual number can't be reused elsewhere.\n\n2. **Use tap-to-pay over the card chip wherever possible.** Apple Pay / Google Pay tokenizes every transaction; the merchant never sees your real card number.\n\n3. **Wiggle the card slot before inserting it.** Genuine slots are firmly attached. Skimmer overlays usually wiggle or peel.\n\n4. **Cover the PIN pad with your other hand.** A pinhole camera can be tiny, but it can't see through your hand.\n\n5. **Keep card alerts on.** Real-time SMS or push notifications for every transaction give you minutes (not days) to spot fraud and freeze the card.\n\n6. **Review your statement.** Skimmed cards often get tested with $1 charges before bigger purchases. Catching the test means freezing before the big charge runs.\n\n### After a skim — the first hour\n\n- Freeze the card in your bank's app. *Don't wait* to call a hotline.\n- File a fraud claim while the transaction is still fresh — most issuers cap your liability at $0 with prompt reporting.\n- Request a new card with a new number.\n- Check every recurring subscription tied to the old number; update each.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Which combination of habits provides the *strongest* practical defence against both physical and digital card skimming?",
+    "choices": [
+      {
+        "text": "Memorize your card number so you never need to enter it physically.",
+        "correct": false,
+        "explanation": "Doesn't address physical skimming (which captures the chip / mag-stripe data, not your typing) or digital Magecart (which captures whatever the page submits)."
+      },
+      {
+        "text": "Pay with Apple Pay or Google Pay where possible, use a virtual card for the rest, and enable real-time transaction alerts.",
+        "correct": true,
+        "explanation": "Yes. Tap-to-pay tokenises so the merchant never sees the real number — defeats both skimmer hardware and Magecart-style JS. Virtual cards limit damage where tap isn't available. Alerts give you minutes to react. This trio covers the realistic attack surface."
+      },
+      {
+        "text": "Only shop on websites you've never used before.",
+        "correct": false,
+        "explanation": "The opposite of defensive. New, unknown stores are higher-risk than established ones."
+      },
+      {
+        "text": "Avoid paying for things online entirely.",
+        "correct": false,
+        "explanation": "Removes one attack surface but leaves you fully exposed to physical skimming. Combination of tap + virtual + alerts is more practical and more effective."
+      }
+    ],
+    "hint": "Which choice covers both the *tap-vs-swipe* and the *real-vs-virtual-number* trade-offs simultaneously?"
+  }
+}

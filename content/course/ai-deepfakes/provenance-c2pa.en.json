@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "title": "Provenance signals: C2PA, watermarks, metadata",
+  "est_minutes": 6,
+  "body_md": "## Verifying where media came from\n\nIf 'looks real' is no longer a useful test, the next-best approach is verifying the *provenance* of a piece of media: where did this image / video / audio actually come from, and has it been modified since?\n\nProvenance defences are emerging but not yet universal. Knowing what's available — and what's still missing — sets your expectations correctly.\n\n### C2PA — Content Credentials\n\nThe Coalition for Content Provenance and Authenticity (C2PA) is an industry standard backed by Adobe, Microsoft, Sony, BBC, Reuters, and others. It embeds a cryptographically signed manifest into media files describing:\n\n- The capturing device or generating tool.\n- The editing history (who modified, with what software, when).\n- The signing certificate's chain of trust.\n\nWhen present, you can inspect a 'Content Credentials' badge — small *cr* logo — to see the chain. Adobe's site (contentcredentials.org/verify) lets you upload and inspect a file.\n\n**Limitations.** Only present if the camera, capture software, or editing tool supports C2PA. Most consumer cameras and phones don't yet. The chain proves authenticity only as far back as the first C2PA-aware tool touched it.\n\n### Visible and invisible watermarks\n\nGenerative tools increasingly include watermarks in their output:\n\n- **Visible watermarks** — labels in a corner, sometimes intentionally subtle. Easy to crop, less reliable.\n- **Invisible / perceptual watermarks** — patterns embedded in the pixels or audio waveform, designed to survive cropping, compression, and minor edits. Tools like Google's SynthID add these.\n\n**Limitations.** Adversarial edits can still degrade or remove watermarks. The watermark says 'this came from tool X' but not 'this is true'.\n\n### Metadata (EXIF, etc.)\n\nPhotographs have always carried EXIF metadata — camera model, date, GPS location, exposure settings. Mismatches between metadata and content (a photo claiming to be from 2024 but with EXIF dated 2019, or GPS coordinates in the wrong city) are often diagnostic.\n\n**Limitations.** Metadata is trivially editable. Absence of metadata means nothing — most social platforms strip EXIF on upload, so a real photo from Twitter has no EXIF either.\n\n### Reverse image / video search\n\nThe oldest and still one of the most useful tools. Google Images, TinEye, Yandex (especially strong on faces) can show you where else an image has appeared. A 'photo from yesterday's event' that has been online for three years is dispositive.\n\n### What this means for you\n\n- Treat provenance as *one* evidence channel, not as a verdict.\n- When you have multiple signals — domain of the source, C2PA chain, reverse-image-search result, content metadata — they combine into a confidence judgement. No single signal closes the case.\n- For media you don't have time to investigate, fall back to the rule from the rest of this module: *the channel that delivered the media* needs to be trusted before the media is.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "A news-style video shared on social media shows a politician saying something inflammatory. Which combination of checks gives you the *most reliable* assessment of whether this is genuine?",
+    "choices": [
+      {
+        "text": "Inspect the politician's facial movements for deepfake artifacts.",
+        "correct": false,
+        "explanation": "Visual-artifact detection is now unreliable; perfect-looking video can still be fake. Don't lean here."
+      },
+      {
+        "text": "Check whether the original video appears on the politician's verified channels or established news outlets; cross-reference with reverse video search; if available, inspect Content Credentials.",
+        "correct": true,
+        "explanation": "Yes. The robust approach is multiple provenance signals combined. A genuine clip from a press event will appear on the politician's verified accounts and from established outlets within hours. Reverse-search and C2PA (where available) reinforce. A clip that exists only in viral social shares with no primary source is suspect."
+      },
+      {
+        "text": "Trust the video if the source account has many followers.",
+        "correct": false,
+        "explanation": "Follower count is gamed by every direction. The signal you want is *primary source*, not aggregator account size."
+      },
+      {
+        "text": "Run the video through an AI deepfake detector.",
+        "correct": false,
+        "explanation": "Detectors give mixed results on individual videos. They're inputs into your judgement, not the verdict. Provenance signals are usually more decisive for breaking news."
+      }
+    ],
+    "hint": "What evidence chain leads back to a *primary source* you can trust?"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "order": 1,
+  "title": "How generative AI works — a useful mental model",
+  "est_minutes": 7,
+  "body_md": "## You don't need the maths to defend yourself\n\nGenerative AI — text models like GPT, image models like Midjourney, voice models like ElevenLabs, video models like Sora — has become a fraud tool. To defend yourself, you don't need to understand the architecture. You need a working mental model of *what the technology can and cannot do*.\n\nHere's that model in three claims.\n\n### Claim 1 — These systems are pattern reproducers, not understanders\n\nGenerative models are trained on enormous datasets and learn statistical patterns of how text, images, voice, or video go together. At runtime, they sample new instances that resemble the training distribution.\n\nThis matters because:\n\n- They can produce highly plausible *imitation* without understanding what they're producing.\n- They are very good at imitating styles you've seen many examples of (English writing, a celebrity's voice from a podcast, a specific generic photo style).\n- They are noticeably worse at things rare in their training data — niche dialects, internal company jargon, unusual lighting in a video.\n\n### Claim 2 — The cost of personalization collapsed to near zero\n\nFive years ago, a custom phishing email took a human attacker minutes to write. A voice clone took weeks of skilled work. A convincing fake video required a Hollywood team.\n\nToday, each of those takes seconds to generate from a stock model. Personalization at scale is now cheaper than spam used to be.\n\nDefensive consequence: assumptions that 'this email is too well-written to be a scam' or 'I would recognize my mother's voice' are no longer reliable.\n\n### Claim 3 — Generative systems still leak in detectable ways — but the leaks shrink\n\nIn 2023 you could spot a deepfake video by its weird hands, blurred ear edges, or inconsistent earrings. In 2024 most of those tells were patched. In 2025 the few remaining tells are subtle and inconsistent.\n\nDefensive consequence: do not pin your defence to today's visual artifacts. They will be gone in 12 months. Pin your defence to *process*: verification through channels the attacker can't control.\n\n### What changed for defenders\n\nThe net effect of generative AI on the threat landscape is:\n\n- **Volume up.** Mass-produced personalized attacks against everyone.\n- **Quality up.** No more 'badly translated' or 'awkward grammar' tells.\n- **Specific defences down.** Visual-artifact training is a losing battle.\n- **Process defences unchanged.** Verification-through-separate-channel works against AI exactly as well as it worked before AI.\n\nThe whole rest of this module is about building the process defences that survive the next iteration of the technology.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Which defensive strategy is *most robust* against improving generative-AI capabilities over the next few years?",
+    "choices": [
+      {
+        "text": "Train yourself to spot subtle visual artifacts in deepfake videos.",
+        "correct": false,
+        "explanation": "Visual artifacts are exactly what model developers focus on eliminating. Any specific tell that exists today will likely be gone in 12 months. Defence pinned to artifacts is on a treadmill it can't win."
+      },
+      {
+        "text": "Establish out-of-channel verification protocols (callback to known numbers, family code words, written confirmations through trusted apps).",
+        "correct": true,
+        "explanation": "Yes. Process defences are independent of model capability. Better AI doesn't help an attacker bypass a callback to a number you already had, or a code word you agreed on in advance. These hold up across generations of the technology."
+      },
+      {
+        "text": "Avoid all AI-generated content by refusing to interact with anything you suspect was generated.",
+        "correct": false,
+        "explanation": "Impractical and not protective. Much of normal communication will involve AI assistance. The goal is to make the channel itself untrustworthy by default, not the content."
+      },
+      {
+        "text": "Use AI-detection tools to verify whether messages are human or machine.",
+        "correct": false,
+        "explanation": "Current AI detectors have poor accuracy and false positives. They're better than nothing on bulk text, but unreliable as defensive primitives for individual messages."
+      }
+    ],
+    "hint": "Which defence depends on what the model is *capable of*, and which depends on what the *channel* can carry?"
+  }
+}
