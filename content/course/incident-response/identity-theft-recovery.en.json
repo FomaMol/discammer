@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "title": "Identity-theft recovery and credit freezes",
+  "est_minutes": 7,
+  "body_md": "## When your identity is the target\n\nIdentity theft is what happens when an attacker collects enough of your personal data — name, date of birth, social security or national-ID number, address — to impersonate you to banks, credit issuers, government agencies, and merchants. They open new accounts in your name, take loans, file tax returns, claim benefits, sometimes commit crimes attributed to you.\n\nThe recovery is slow. The leverage is in stopping the attacker's *next* moves while you clean up the current ones.\n\n### The single most useful tool: credit freezes\n\nA credit freeze (sometimes called a security freeze) tells the major credit bureaus to refuse any new credit application in your name until you temporarily lift the freeze with a PIN. New cards, loans, mortgages — all blocked.\n\nIt does *not* affect existing accounts. You can still use your real cards and pay your bills.\n\nIt's free, online, and reversible.\n\n**Where to freeze:**\n\n- **U.S.:** Equifax, Experian, TransUnion — each has its own site and free freeze flow.\n- **U.K.:** Equifax UK, Experian UK, TransUnion UK.\n- **EU / others:** the local credit-bureau equivalent, varies by country. In Russia — Объединённое бюро, НБКИ, Эквифакс through Госуслуги.\n\nThe freeze should be your *first* identity-theft action. Many later steps depend on knowing what fraudulent accounts were opened; freezing prevents new ones from accumulating while you sort that out.\n\n### Fraud alerts (US, weaker than a freeze)\n\nThe US offers a 'fraud alert' as a softer alternative — it requires creditors to take additional steps to verify your identity, but doesn't outright block applications. Use a freeze unless there's a specific reason you can't (extremely rare — most freezes can be lifted in 60 seconds when you need credit).\n\n### Government accounts to check\n\n- **Tax / revenue.** An IRS-style account with a stolen identity allows the attacker to file a fraudulent return and claim your refund. Check your account; enable IP-PIN where offered.\n- **Social security / national-ID portal.** Confirm there are no changes to address, beneficiaries, or contact info.\n- **Driving licence / passport.** Report stolen identity documents to the issuing agency.\n- **Healthcare / insurance portals.** Medical-identity theft is real — attackers obtain prescription drugs or services billed to your insurance.\n\n### Specific paperwork that helps\n\n- **A police report.** Required by some creditors and insurers before they'll process disputes.\n- **An Identity Theft Affidavit** (FTC has a template; many countries' equivalents exist). Submit to creditors when disputing fraudulent accounts.\n- **Letters confirming dispute outcomes** from each creditor. Keep them — re-dispute requests sometimes happen years later and you want the paper trail.\n\n### Long-term hygiene after identity theft\n\n- **Sign up for free annual credit reports** in jurisdictions that offer them. Review them. Anything you don't recognise — dispute immediately.\n- **Leave freezes in place** between active credit applications. Lifting a freeze for a specific application takes a minute; the security benefit of leaving it on by default is large.\n- **Be alert to mail-stream attacks.** If physical mail is part of the problem, consider a P.O. box or 'informed delivery' to monitor what's being mailed in your name.\n\nIdentity-theft recovery commonly takes 6 to 12 months to fully resolve. The freezes are what stop the bleeding while the recovery runs.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You're in the US and have just discovered your social security number was leaked in a major breach. You haven't seen fraudulent activity yet. What's the *most leveraged single action* to take today?",
+    "choices": [
+      {
+        "text": "Sign up for an identity-theft monitoring service.",
+        "correct": false,
+        "explanation": "Monitoring services *detect* fraud after it happens. They don't *prevent* it. A freeze does, and it's free."
+      },
+      {
+        "text": "Place a credit freeze with all three major bureaus.",
+        "correct": true,
+        "explanation": "Yes. The freeze prevents new credit accounts being opened in your name, which is the most expensive form of identity theft to recover from. It's free, fast, and reversible when you actually need credit. Do this first, before anything else."
+      },
+      {
+        "text": "Change your social security number.",
+        "correct": false,
+        "explanation": "The SSA does not change SSNs except in extreme cases — your old number lives on in records and you create more problems than you solve. Freezing is the correct first move."
+      },
+      {
+        "text": "Buy a credit-monitoring product.",
+        "correct": false,
+        "explanation": "Paid monitoring duplicates much of what a freeze already prevents, and many free monitoring services exist (banks, credit-card issuers, government agencies in some jurisdictions). Freeze first, monitor second if useful."
+      }
+    ],
+    "hint": "Which action stops *future* unauthorized accounts being opened, not just detects them?"
+  }
+}

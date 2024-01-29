@@ -1,0 +1,29 @@
+{
+  "order": 2,
+  "title": "The first 60 minutes: triage and containment",
+  "est_minutes": 8,
+  "body_md": "## A printable playbook for the hour you can't afford to wing\n\nWhen you realise you've been compromised, your brain will try to do everything at once. The result of that is usually nothing useful. The point of a playbook is to take the thinking out of the first hour so you can act fast and in the right order.\n\nSave or print this. You'll thank yourself.\n\n### Minute 0–5 — Stop the bleed\n\n- **Disconnect the compromised device from the internet** if you suspect active malware on it. Wi-Fi off, ethernet unplugged. This denies the attacker their channel while you act.\n- **From a known-clean device** (a partner's phone, a different laptop), open a private/incognito browser window. You'll do the rest of the response from this device.\n- **Don't reboot the compromised device** if you suspect forensics will be needed. Some evidence lives in memory and is gone after a restart.\n\n### Minute 5–15 — Lock the master keys\n\n- **Change the password on your primary email account first.** Everything else recovers through email; if the attacker has email, they have everything.\n- **Sign out all sessions on the email account.** The 'sign out everywhere' button is on every major provider's security page.\n- **Confirm or re-enable strong MFA on the email account** (hardware key or TOTP, *not* SMS).\n- **Then change the password on your password manager.** Sign out all sessions.\n- **Check the password manager's vault** for unfamiliar entries — attackers sometimes add their own entries to the vault to maintain access.\n\n### Minute 15–30 — Lock the money\n\n- **Bank and brokerage:** sign in (from the clean device), check for unauthorized transactions, freeze cards in-app, call the fraud line for anything you don't recognise.\n- **Crypto exchanges:** sign in, withdraw funds to a separate hardware wallet if possible, rotate API keys.\n- **Payment apps (PayPal, Venmo, Cash App, etc.):** sign in, review recent activity, change password.\n- **Subscription services with payment on file** (Amazon, Apple, Google): less urgent but worth checking for unauthorized purchases.\n\n### Minute 30–45 — Lock the identity\n\n- **Carrier:** call to confirm no SIM-swap was triggered. While on the line, set or update the port-out PIN if you haven't already.\n- **Government / identity services:** check for changes (tax accounts, social security, residency portals).\n- **Credit-bureau freezes (US):** Equifax, Experian, TransUnion. Free, online, prevents new credit being opened in your name. Equivalent services exist in the UK, EU, and most other jurisdictions.\n\n### Minute 45–60 — Inventory and report\n\n- **Make a written inventory** of every account or device that may be involved, with timestamps of when you noticed each signal. This becomes the case file you'll reference for weeks.\n- **File initial reports** while details are fresh: bank fraud team (usually a case number on the spot), local police, the cybercrime unit of your country.\n- **Notify one or two trusted people** so the secrecy of the incident doesn't isolate you.\n\n### After the first hour\n\nThe acute phase is over. The cleanup will take days. You now know your master keys (email, password manager) and your money are locked down — that's the goal of hour 1. The next module covers the longer game: evidence preservation, who else to contact, how to dispute, and how to harden so this doesn't happen again.\n\n### What *not* to do\n\n- **Don't pay any 'recovery' fee** that someone offers in DMs. We covered this in module 5 — every unsolicited recovery offer is itself a scam.\n- **Don't post a public 'I was hacked' message** before you've locked the accounts. Doing so just signals to attackers that you're a vulnerable target for follow-up.\n- **Don't engage with the attacker** if you can identify them. It rarely gets you information; it usually gets you more attacks.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "It's 9 p.m. You see a 'login from Singapore' alert on your email. Two minutes later you can't sign in — the password has been changed. You see this on your phone, which is currently sitting on the kitchen counter charging.",
+    "prompt": "What's the right *first* action?",
+    "choices": [
+      {
+        "text": "Try to reset the email password from your phone immediately.",
+        "outcome": "risky",
+        "explanation": "If your phone itself is the source of the compromise (and email password was just changed *while* you held it), resetting from the same device may not help — or may tip off attacker software watching. Switching to a clean device costs you 60 seconds and removes that uncertainty."
+      },
+      {
+        "text": "Grab your partner's laptop (or another known-clean device), open an incognito window, and initiate the email password reset from there.",
+        "outcome": "good",
+        "explanation": "Yes. The clean-device rule keeps you out of any compromised software on your phone. Incognito mode prevents cookies or extensions from interfering. From here you reset the email, sign out all sessions, then move on to the password manager and bank, exactly the order in the playbook."
+      },
+      {
+        "text": "Call your email provider's customer support to lock the account.",
+        "outcome": "risky",
+        "explanation": "Major providers don't have meaningful real-time customer service, and the self-serve reset flow is faster than anything you'd get from a phone call. Save the call for cases where self-serve has actually failed."
+      }
+    ],
+    "moral": "First minute: switch to a clean device. Every other action in the playbook works better from there."
+  }
+}

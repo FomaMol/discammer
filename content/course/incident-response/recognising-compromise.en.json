@@ -1,0 +1,57 @@
+{
+  "order": 1,
+  "title": "Recognising you have been compromised",
+  "est_minutes": 7,
+  "body_md": "## The signals that you're under attack right now\n\nMost compromises don't announce themselves. By the time you notice 'something is wrong', the attacker has been inside for hours, days, or months. Recognising the early signals is the difference between a minor cleanup and a full identity-theft event.\n\nThis lesson is the diagnostic. The next lessons in this module are the response.\n\n### Signals on your email account\n\n- **Unexpected password-reset emails** for services you didn't ask to reset. Each one means an attacker tried to take over that account.\n- **Login notifications from unfamiliar locations or devices.** Most providers send these by default; don't dismiss them as noise.\n- **Sent items you didn't send.** Even one. Attackers often delete them, so spot-checking 'Sent' for things you don't remember is a useful audit.\n- **Forwarding or filtering rules you didn't create.** A common attacker move is to auto-forward incoming mail to themselves and then delete it before you see it.\n- **Recovery email or phone number you don't recognise.** Always check the security settings page once a quarter.\n\n### Signals on your phone\n\n- **Sudden 'No service' for more than a few minutes** while other devices on the same carrier work fine. Treat as a SIM-swap until proven otherwise.\n- **Unfamiliar profile or device-management certificates** installed (iOS: Settings → General → VPN & Device Management).\n- **Apps you don't remember installing.**\n- **Battery drain and warmth at idle.** Sometimes caused by spyware running in the background.\n- **Strange SMS messages received but mysteriously read.**\n\n### Signals on your computer\n\n- **New browser extensions** you didn't install.\n- **Unexpected pop-ups asking you to 'verify' something** after you arrive at a routine site.\n- **CPU at 100% when you're not doing anything heavy.** Could be a cryptominer.\n- **A 'support' window that appears out of nowhere with a phone number to call.** This is always a scam. Real OS-level support never works that way.\n\n### Signals on your bank or brokerage\n\n- **Logins you don't remember** in the activity log.\n- **Transactions you didn't make**, especially small 'test' charges of $1-$5 followed by larger ones.\n- **Mailing-address change confirmations** you didn't request.\n- **Statements that don't arrive** when they normally would (the attacker may have changed the address to suppress notifications).\n\n### A signal worth special attention: 'cleanup' messages\n\nA particularly chilling pattern: you receive a message *apparently from yourself* — your own email or social account — apologizing for sending malware or claiming to be hacked. Attackers send this from your account *after* compromising it, to discourage your contacts from believing real follow-up warnings from you. If you see one of these to or from yourself, treat it as confirmation that your account is compromised.\n\n### The integrative check\n\nOnce a quarter, spend 10 minutes:\n\n1. Open the security/activity page on your email, bank, primary social account, and password manager.\n2. Review login devices. Sign out anything you don't recognise.\n3. Check for unfamiliar recovery contacts or forwarding rules.\n4. Spot-check your Sent folder.\n\nA quarterly review is your tripwire. Anything caught early is much cheaper to clean up.",
+  "widget_type": "redflags",
+  "widget_config": {
+    "setup": "You open your email and find these signals across the last 48 hours. Identify each one that is genuinely suspicious.",
+    "messageBlocks": [
+      { "label": "01.", "value": "Three password-reset emails from sites you've never used." },
+      { "label": "02.", "value": "Login notification: 'New device signed in from Lagos, Nigeria' (you live in Berlin)." },
+      { "label": "03.", "value": "A new 'Auto-forward' rule in your email settings sends everything to an unfamiliar @gmail address." },
+      { "label": "04.", "value": "Your monthly bank statement arrived in the inbox as usual." },
+      { "label": "05.", "value": "Three Sent emails to your contacts apologising 'I'm so sorry, my account was hacked yesterday.'" },
+      { "label": "06.", "value": "An email from your password manager noting you logged in from a new device this morning." }
+    ],
+    "prompt": "Mark every item that is a real red flag.",
+    "items": [
+      {
+        "id": "resets",
+        "label": "Three password-reset emails from sites you don't use.",
+        "flag": true,
+        "explanation": "Someone has your email and is trying to take over accounts attached to it. Every reset attempt is a probe."
+      },
+      {
+        "id": "login-foreign",
+        "label": "Login from Lagos when you live in Berlin.",
+        "flag": true,
+        "explanation": "Unusual-geography logins are the canonical signal of account takeover. Don't dismiss it as 'maybe a VPN' — investigate immediately."
+      },
+      {
+        "id": "auto-forward",
+        "label": "An auto-forward rule to an unfamiliar Gmail address.",
+        "flag": true,
+        "explanation": "Attackers create forwarding rules to silently siphon mail. This is one of the most diagnostic signs of email-account takeover. Remove it and rotate the password immediately."
+      },
+      {
+        "id": "statement",
+        "label": "Bank statement arrived normally.",
+        "flag": false,
+        "explanation": "Routine statement is not a red flag. (Watch for *missed* statements, which can indicate an address change.)"
+      },
+      {
+        "id": "fake-apology",
+        "label": "Sent items containing apologies for 'being hacked yesterday'.",
+        "flag": true,
+        "explanation": "Classic attacker cleanup move. They send a pre-emptive 'sorry, I was hacked' from your account so your contacts dismiss any genuine warning you send later. Confirms compromise."
+      },
+      {
+        "id": "manager-login",
+        "label": "Password-manager notification about a new-device login.",
+        "flag": true,
+        "explanation": "Critically diagnostic. If your password manager itself was accessed from a device you don't recognise, the attacker may now have *every* password. This is the most urgent signal in the list."
+      }
+    ]
+  }
+}

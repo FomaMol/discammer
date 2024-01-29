@@ -1,0 +1,33 @@
+{
+  "order": 3,
+  "title": "Browser hardening: settings, extensions, profiles",
+  "est_minutes": 7,
+  "body_md": "## A 20-minute browser tune-up\n\nYour browser is the single most exposed piece of software on your device. It runs untrusted code from every site you visit. Modern browsers are mostly safe out of the box — but the defaults are tuned for *convenience and advertising compatibility*, not for security. Twenty minutes of configuration tightens the surface noticeably.\n\n### The settings that matter\n\n#### Block third-party cookies\n\nThe single highest-leverage change. Almost every browser exposes 'block third-party cookies' in its privacy settings. Turn it on. This breaks the cross-site tracking that powers ad networks; most legitimate sites still work fine because their first-party cookies are preserved.\n\n#### Turn on HTTPS-only mode\n\nMost modern browsers offer 'always use secure connections' or 'HTTPS-only mode'. Enable it. Sites that try to serve content over plain HTTP will be blocked or warn before loading.\n\n#### Disable unused permissions globally\n\nIn Chrome / Firefox / Safari, the global permissions list lets you set defaults for camera, microphone, location, notifications, and so on. Set them all to *Ask* rather than *Allow*. Specific sites that need them will prompt; everything else stays blocked.\n\n#### Enable Safe Browsing / Enhanced Tracking Protection\n\nEvery major browser ships a list-based protection against known phishing and malware sites. The 'enhanced' version adds heuristic detection. Turn it on — the tracking-prevention features that come with it cost you nothing.\n\n### Extensions — the leakiest surface\n\nA single malicious or compromised extension with broad permissions can read every page you visit, including your password as you type it. Treat extensions like apps:\n\n- **Install only what you actively use.** Audit your list every six months and remove dead ones.\n- **Stick to well-known publishers.** Browser stores have removed thousands of malicious extensions over the past few years, often after they accumulated millions of installs. Number of installs is not a safety signal.\n- **Read the permissions on install.** 'Read and change data on all websites' is the most dangerous permission. Be very stingy about granting it.\n- **Disable extensions in incognito / private mode** by default. Reduces blast radius.\n\n### Use browser profiles to compartmentalize\n\nA browser profile is its own cookie store, extensions, history, and saved logins. Splitting your browsing into profiles creates security boundaries:\n\n- **Banking profile.** A separate profile with no extensions, used only for your bank and brokerage. Closing this profile after every session prevents most session-hijack attacks.\n- **Work profile.** Your work logins, tools, and bookmarks isolated from personal browsing.\n- **General profile.** Everything else.\n\nThe friction is small — switching profiles is a one-click action — and the security benefit is large.\n\n### Specific high-risk patterns to avoid\n\n- **Don't 'allow notifications' to sites you don't trust.** Notification spam is now a phishing vector — sites push fake alerts shaped like system messages.\n- **Don't reuse the same browser instance for sketchy downloads and your bank.** A compromised download can persist as a process that watches subsequent banking activity.\n- **Don't sync extensions across profiles.** Each profile should have its own minimum set.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You install a popular ad-blocking extension recommended by friends. On installation, it asks for permission to 'read and change all your data on the websites you visit'. What's the safest stance?",
+    "choices": [
+      {
+        "text": "Grant the permission immediately — that's how ad-blockers work.",
+        "correct": false,
+        "explanation": "Most ad-blockers do need broad page access to function. But granting it blindly is risky because that permission is also exactly what a malicious extension would request. The first action should be verification, not consent."
+      },
+      {
+        "text": "Verify the publisher first (official site, store listing reputation, time on store, code on GitHub for open-source extensions). Then, if legitimate, accept — but disable the extension in incognito mode and confine it to a single browser profile.",
+        "correct": true,
+        "explanation": "Yes. Broad permissions are unavoidable for some categories of extension. The right protection is verification before install + scoping after install (disable in incognito, restrict to one profile). This contains the blast radius if the extension is later compromised."
+      },
+      {
+        "text": "Refuse the permission and install a different ad-blocker that doesn't need it.",
+        "correct": false,
+        "explanation": "An ad-blocker that doesn't request broad page access can't actually block ads. The 'lighter permission' alternatives are usually either dummies or rely on a remote service that sees your traffic."
+      },
+      {
+        "text": "Install it but only as a temporary trial.",
+        "correct": false,
+        "explanation": "Temporary trials still grant the permission for the time they're installed. The verification step has to happen *before* you grant access, not as a parallel-track plan."
+      }
+    ],
+    "hint": "What can you verify *before* clicking 'add to browser', and what can you limit *after*?"
+  }
+}

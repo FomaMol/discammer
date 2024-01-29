@@ -1,0 +1,33 @@
+{
+  "order": 4,
+  "title": "Who to contact: banks, carriers, platforms, law enforcement",
+  "est_minutes": 7,
+  "body_md": "## A map of the right doors to knock on\n\nDifferent kinds of compromise need different escalation paths. Knowing the right institution for each piece of damage saves hours of being bounced between desks. This lesson is a reference map.\n\n### Money in or out of an account\n\n- **Bank or credit card.** The card issuer's fraud line is the first stop. Initiate a chargeback or dispute. Most issuers prioritise reports made within 24 hours.\n- **Wire transfer.** Call the bank — *call*, don't email. Request an urgent SWIFT recall. The faster the recall lands, the higher the chance of recovery.\n- **Crypto exchange.** Contact the exchange directly through their official support flow, plus law enforcement. If you know the receiving address may pass through a major exchange (Binance, Coinbase, Kraken), report there too — they sometimes freeze deposits matching reports.\n- **Peer-to-peer payment apps (Zelle, Venmo, Cash App, СБП).** These have limited fraud protection on authorized transfers; report anyway, file a police complaint to support the dispute.\n\n### Identity theft\n\n- **Credit-bureau freeze.** Equifax, Experian, TransUnion (US) — all free, all online, prevents new credit being opened. UK equivalents: Equifax, Experian, TransUnion UK. EU: varies by country. In Russia — БКИ через Госуслуги.\n- **Tax authority.** If your tax account was touched, contact the agency (IRS, HMRC, ФНС, etc.). They have fraud-specific processes.\n- **Driver's licence or passport authority.** If documents are involved, report immediately and request reissue.\n\n### Account takeover on a major platform\n\n- **Google / Apple / Microsoft.** Each has a dedicated account-recovery / hijacked-account flow. Search 'recover hacked [platform] account'. They usually require verification of identity and prior access markers.\n- **Social media (Facebook, Instagram, Twitter/X, LinkedIn, TikTok).** All have hijacked-account forms in their help centres. Response times vary — expect days, not hours.\n- **Banking, brokerage, exchange.** Account-recovery flow varies. Customer service phone first, follow up in writing.\n\n### Telecom\n\n- **Your mobile carrier.** Call for SIM-swap reversal, port-out freeze, and port-out PIN setup.\n- **Land-line carrier** (if you still have one). Similar protections for number porting.\n\n### Law enforcement (where to file)\n\n- **United States:** IC3.gov (FBI Internet Crime Complaint Center), plus the FTC at reportfraud.ftc.gov, plus local police for the official record.\n- **United Kingdom:** Action Fraud (actionfraud.police.uk).\n- **EU:** national cybercrime unit. Some countries route through Europol's EC3.\n- **Canada:** Canadian Anti-Fraud Centre.\n- **Russia / CIS:** заявление в МВД (отдел «К» / отдел киберпреступлений).\n- **Australia:** Scamwatch and ReportCyber.\n- **Globally — if cross-border:** Interpol may pick up aggregate cases. National police typically coordinate.\n\nPolice reports rarely result in your money returning *directly*. They feed aggregate investigations that catch operators eventually. File anyway. Many financial dispute processes also require a police report.\n\n### Specialised authorities\n\n- **Anti-Phishing Working Group:** reportphishing@apwg.org for forwarded phishing emails.\n- **Brand owner:** PayPal, Apple, Microsoft each accept phishing reports at dedicated addresses (covered in module 3).\n- **AML / FinCEN-style regulator:** for large or organised fraud, the financial-crime regulator in your country tracks aggregate patterns.\n\n### Your employer\n\nIf the compromise touched any work account or device, tell your employer's security or IT team *immediately*. Delay is the main reason corporate breaches escalate. They have tools, contracts, and contacts you don't.\n\n### A trusted person\n\nDon't try to handle this alone. Especially for romance/financial scams, the secrecy is part of the trap. Tell one trusted person — partner, sibling, close friend — before you finish hour 2. Their job is not to fix it, but to keep you grounded while you work the playbook.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You discover that someone has opened a new credit card in your name. You're in the United States. Which combination of actions is most useful in the first day?",
+    "choices": [
+      {
+        "text": "Call the issuer of the fraudulent card to close it.",
+        "correct": false,
+        "explanation": "Necessary, but alone it doesn't stop *more* fraudulent accounts being opened. You need to address the upstream cause."
+      },
+      {
+        "text": "Freeze all three credit bureaus, file an IC3 / FTC complaint, file a local police report, and dispute the fraudulent card with its issuer.",
+        "correct": true,
+        "explanation": "Yes. Bureau freezes stop further accounts being opened in your name — the most leveraged single action. Federal reports (IC3, FTC) feed aggregate investigations. Local police gives you a case number that the bureaus, banks, and creditors will reference during disputes. The card-issuer dispute closes the specific fraud."
+      },
+      {
+        "text": "Wait for the credit report to update so you can see all the fraudulent accounts before acting.",
+        "correct": false,
+        "explanation": "Days of delay = days of more accounts being opened. Freeze immediately; details can be reconciled afterwards."
+      },
+      {
+        "text": "Post about it on social media to warn friends.",
+        "correct": false,
+        "explanation": "Increases your visibility as a victim and invites secondary scams (fake recovery offers). Friends can be warned privately."
+      }
+    ],
+    "hint": "Which set of actions addresses both the *current* fraud and the *next* potential fraud through the same channel?"
+  }
+}

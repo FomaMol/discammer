@@ -1,0 +1,29 @@
+{
+  "order": 2,
+  "title": "Defending against SIM-swap attacks",
+  "est_minutes": 7,
+  "body_md": "## When losing your number means losing your accounts\n\nA SIM-swap attack is when an attacker convinces your mobile carrier to move your phone number to a SIM card they control. From that moment, every SMS — including bank one-time codes, password-reset links, and Telegram login codes — arrives on the attacker's phone. Your phone shows 'No service'.\n\nThe technique is over a decade old and still works because:\n\n- Carrier support staff handle hundreds of legitimate SIM transfers per day.\n- Identity verification at retail counters is often weak.\n- The information used to verify you (date of birth, last bill amount) is widely leaked in breaches.\n- Many high-value accounts still recover via SMS code.\n\n### How it actually unfolds\n\n1. **Target selection.** Attackers either work from breach data or from public crypto holdings / wealth signals.\n\n2. **Information gathering.** They collect your name, phone number, date of birth, last four of your social/national ID — all available from past breach dumps and your own public profiles.\n\n3. **Carrier social engineering.** They call the carrier (or walk into a store) impersonating you, claim they lost their phone, and request the number be transferred to a new SIM in their hand. If the front-line agent is skeptical, they hang up and try again until they get a less skeptical agent.\n\n4. **Account takeover sprint.** Within minutes of the swap, they trigger password resets and OTP flows on email, bank, exchange, and social accounts. Most resets land within 5 minutes.\n\n### What you can do — the carrier side\n\nEvery major carrier now offers a **port-out / SIM-change PIN** — sometimes called *Number Lock*, *Port Freeze*, or *SIM Protection*. With this enabled, no SIM transfer can happen without you supplying the PIN. **Turning this on is the single most effective defence.**\n\nHow to enable it varies by carrier. In your carrier's app, look for: 'account security', 'SIM protection', 'port-out PIN', or 'number lock'. If you can't find it, call customer service and explicitly ask.\n\nWhile you're there, also:\n\n- Ask if your account has a separate *account PIN* for any account changes.\n- Confirm that recovery contact info (alternate phone, email) on the carrier account is current and uses *your* contacts, not the attacker's.\n- Ask for *port-out notifications* to be enabled — many carriers will text you on multiple channels if a port is requested.\n\n### What you can do — the account side\n\nIndependent of carrier hardening, reduce your dependence on SMS:\n\n- **Move every high-value account off SMS MFA** to TOTP, hardware key, or passkey (covered in module 4).\n- **Remove your phone number from recovery options** wherever the account allows. If a service refuses to let you remove it (your bank, etc.), make sure there's also another factor required for recovery.\n- **Set up SMS-independent backup recovery** — printed recovery codes stored physically (in a safe, with documents), an authenticator app on a separate device, hardware keys.\n\n### What to do if it happens\n\nIf your phone suddenly shows 'No service' for more than a few minutes and other people's phones work:\n\n1. **Immediately call the carrier from a different phone** (a partner, family member, even a hotel desk). Ask if a port-out was triggered on your number. If yes, demand it be reversed and the SIM cancelled.\n2. **Sign in to email and rotate the password** from a computer.\n3. **Sign in to bank apps** and check for unauthorized transactions; freeze cards.\n4. **File a report** with the carrier, the bank fraud team, and local police. Time-stamped reports help with later dispute resolution.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "You wake up to find your phone shows 'No service' — and won't reconnect after a restart. Your spouse's phone on the same carrier works fine. You also have an email from your bank: 'Your withdrawal of $9,800 has been processed.'",
+    "prompt": "What is the right first move?",
+    "choices": [
+      {
+        "text": "Walk to the carrier store to fix the SIM in person.",
+        "outcome": "disaster",
+        "explanation": "Driving to a store costs you the most critical resource: time. While you're in transit, more accounts are being drained. The store is the right place *after* you've contained on the digital channels."
+      },
+      {
+        "text": "Borrow a phone, immediately call the carrier's fraud line to freeze the SIM transfer, then sign into your email and bank from a computer to change passwords and freeze cards.",
+        "outcome": "good",
+        "explanation": "Yes. SIM-swap is a race; every minute matters. Calling the carrier to reverse or freeze the swap shortens the attacker's window. Then logging into email (the master account) and the bank from a computer that doesn't depend on the phone gets back in front of the attacker. Cards/freezes prevent further damage."
+      },
+      {
+        "text": "Wait an hour to see if it's just a carrier outage.",
+        "outcome": "disaster",
+        "explanation": "An hour is enough to lose your email, bank, and any crypto exchanges. Treat sudden 'no service' as an emergency until proven otherwise."
+      }
+    ],
+    "moral": "If your phone suddenly stops working, assume it's not the network — it's an attack until you've checked."
+  }
+}

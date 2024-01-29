@@ -1,0 +1,33 @@
+{
+  "order": 3,
+  "title": "Preserving evidence without tipping off the attacker",
+  "est_minutes": 6,
+  "body_md": "## What you keep determines what gets investigated\n\nOnce you've contained the immediate damage, the next priority is preserving evidence. Without it, dispute claims fail, police reports go nowhere, and the same operator keeps targeting other people. With it, banks reverse transactions more often, law enforcement aggregates cases, and you have leverage to demand insurance payouts or company settlements.\n\nThe rules are simple but easy to violate under stress.\n\n### Capture before you clean\n\nBefore you delete anything, change anything, or sign out of anything — take screenshots. Many people, in their hurry to clean up, delete the very emails or messages that prove what happened. Once gone, they're gone.\n\nCapture:\n\n- **The full email** with headers visible. Most clients let you 'view source' or 'show original' — that's the version forensics teams need.\n- **The chat history** for any messaging platform involved. Many platforms have an export function (Telegram, WhatsApp, iMessage).\n- **Transaction details** from your bank: amount, time, destination, reference number.\n- **The URL bar** of any malicious site you visited, before you close the tab.\n- **The phone number** of any caller (your phone's recent calls log usually has it).\n- **Crypto specifics:** wallet addresses, transaction hashes, blockchain explorer pages.\n\nA dated screenshot is more credible than your testimony two weeks later.\n\n### Don't tip off the attacker\n\nIf you've discovered an active compromise — say, an attacker still has a session open on your account, or is mid-way through a fraud — you have a choice between two strategies:\n\n1. **Contain quickly**, accepting that the attacker will know they were caught.\n2. **Monitor briefly** while collecting evidence, accepting some additional risk.\n\nFor individuals, **almost always choose option 1.** The marginal evidence gained from monitoring is small; the marginal risk is high. For organizations with security teams, option 2 may be appropriate, but it's a deliberate, supervised decision — not a default.\n\nIn either case, don't *confront* the attacker. Don't reply to their messages. Don't 'try to keep them talking'. You are not a counter-intelligence agent; this is rarely useful and frequently provokes more aggressive attacks.\n\n### Sources of evidence you might miss\n\n- **Browser history** on the compromised account, even from the attacker's session, can be useful.\n- **Email-account activity log** typically shows IP addresses, devices, and times for the last 30+ days.\n- **Carrier records** of any SIM-swap or port-out request. Ask explicitly.\n- **Surveillance footage** if the attack was in person (skimmer installations at gas pumps, etc.).\n- **Witness accounts** from anyone else who saw the activity (e.g., your IT team if a work device was involved).\n\n### Where to keep your evidence\n\nNot on the compromised device. Save screenshots and documents to a folder on a clean device, named with the date of the incident. Consider also uploading a backup copy to cloud storage you trust — losing the evidence later is a real failure mode.\n\n### The timeline document\n\nIn parallel to collecting artifacts, keep a simple chronological note: 'On April 12 at 9:43pm I noticed X. Did Y. At 9:55pm noticed Z.' This timeline is the spine of every conversation that follows. Banks ask for it; police ask for it; insurance asks for it. It's far easier to keep it as you go than to reconstruct it later.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You discover the attacker is still actively logged into your email and reading your inbox. You're not part of a corporate security team. What's the right move?",
+    "choices": [
+      {
+        "text": "Wait quietly and screenshot what they're doing for evidence before they leave.",
+        "correct": false,
+        "explanation": "For an individual, the marginal evidence you'd collect this way is small compared to the active risk while the attacker is reading your inbox. Forensic logs from the email provider will reveal most of this after the fact."
+      },
+      {
+        "text": "Sign out all sessions immediately, change the password, and capture the activity log from the security page right after.",
+        "correct": true,
+        "explanation": "Yes. Containment first. The email provider's activity / login history is preserved even after you kick the attacker out, so you can still capture that evidence in the next minute. The risk of leaving them in to gather marginal evidence outweighs the gain."
+      },
+      {
+        "text": "Reply to one of the attacker's emails to confirm their address for the police report.",
+        "correct": false,
+        "explanation": "Engaging with the attacker rarely helps an investigation (their replying address is often a throwaway anyway) and frequently escalates the situation. Don't confront; contain."
+      },
+      {
+        "text": "Try to remote-monitor the account with browser developer tools.",
+        "correct": false,
+        "explanation": "Overkill, ineffective in the consumer context, and time you should be spending on containment."
+      }
+    ],
+    "hint": "Are you a security team with detection infrastructure, or an individual who needs the attacker out *now*?"
+  }
+}

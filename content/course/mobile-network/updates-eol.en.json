@@ -1,0 +1,29 @@
+{
+  "order": 6,
+  "title": "Updates, patches, and end-of-life devices",
+  "est_minutes": 6,
+  "body_md": "## Boring, free, and one of the highest-leverage defences\n\nA shocking fraction of successful attacks succeed because the target was running outdated software. The vulnerabilities the attacks exploit are usually months or years old; patches existed; users hadn't installed them. Microsoft, Apple, Google, and major OS vendors publish security updates routinely, and the gap between 'released' and 'installed' is where the attack lives.\n\nThe defence is uninteresting: keep things current. The challenge is making the habit automatic so you don't have to remember.\n\n### A simple update policy\n\n- **OS updates: install within a week of release.** Don't postpone them indefinitely. On phones, enable automatic updates. On laptops, set the OS to install during off-hours.\n- **Browser: install on the same day it prompts you.** Browser flaws are exploited unusually fast.\n- **Critical apps (password manager, banking app, email, VPN): automatic updates on.**\n- **Everything else: automatic updates on if available, monthly review otherwise.**\n\n### Why people delay updates — and how to fix that\n\n- *'It might break something I rely on.'* True occasionally. Hedge: turn on automatic updates for security-relevant patches but keep major-version upgrades manual.\n- *'It's annoying when it asks during the day.'* Schedule the update window for overnight; most OSes support this.\n- *'I'm afraid it'll change settings I've tweaked.'* Modern updates rarely reset preferences. The risk of staying on an unpatched system far exceeds the risk of a settings reset.\n\n### End-of-life (EOL) hardware and software\n\nEvery device and every OS has a date past which the vendor stops shipping security patches. From that point onward, any newly-discovered vulnerability stays unpatched forever. Some examples to know:\n\n- **Windows 10** is on Extended Security Updates phase-out — most home users are on the clock to upgrade or switch.\n- **iPhones older than the current N–5** typically lose iOS updates. Check Apple's support page yearly.\n- **Android phones** vary wildly — Pixel and recent Samsung get 7+ years of updates; many off-brand devices get 1–2.\n- **Older smart-TV firmware and IoT devices** often *never* get patches after launch.\n\nWhen something hits EOL, options are:\n\n1. Replace it. Especially for phones used for banking, this is non-negotiable.\n2. Repurpose it for a non-internet-connected use (a Wi-Fi-off media player, a kitchen recipe terminal).\n3. Isolate it on a guest Wi-Fi or VLAN that can't reach your important devices.\n\nDo *not* keep an EOL device on your main network performing security-sensitive tasks.\n\n### The IoT problem\n\nSmart bulbs, thermostats, cameras, plugs, fridges, vacuum cleaners — every connected device is a network endpoint with its own attack surface. Many ship with weak default passwords or unpatched firmware. Three rules contain the damage:\n\n- **Buy from established brands that publish a security update commitment.**\n- **Change every default password during setup.**\n- **Put all IoT devices on a separate Wi-Fi network (guest network or VLAN).** Most routers support a separate SSID; this prevents an exploited smart fridge from reaching your laptop.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your father uses an iPhone 7 (released 2016) as his daily phone, including his bank app and email. Apple no longer ships iOS updates for the iPhone 7. He says it works fine and he doesn't want to spend money on a new one.",
+    "prompt": "What's the right way to address this?",
+    "choices": [
+      {
+        "text": "Leave it — it works, no need to fix what isn't broken.",
+        "outcome": "disaster",
+        "explanation": "The phone runs banking and email — the two most sensitive apps. An iPhone 7 will accumulate unpatched vulnerabilities indefinitely; banking malware will eventually exploit them. 'Works fine' is the wrong frame for a security-critical device that no longer receives updates."
+      },
+      {
+        "text": "Help him upgrade to a current (or refurbished recent) iPhone, even if it means subsidising it. Move banking and email to the new device; keep the old phone for non-internet uses if he wants to.",
+        "outcome": "good",
+        "explanation": "Yes. The economics are simple: a successful banking compromise costs much more than the phone. For an older relative, helping with the upgrade is the right move; a refurbished phone from the last 2-3 years gives him several more years of security updates."
+      },
+      {
+        "text": "Put a strong password on the banking app and trust that to compensate.",
+        "outcome": "risky",
+        "explanation": "Strong passwords don't compensate for an unpatched OS that can read the screen or memory. The attack vector is below the app's defences. Mitigates almost nothing in practice."
+      }
+    ],
+    "moral": "The cost of an upgraded phone is small compared to the cost of one successful banking compromise. EOL devices and security-sensitive tasks don't mix."
+  }
+}

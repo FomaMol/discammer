@@ -1,0 +1,29 @@
+{
+  "order": 6,
+  "title": "Telling your network without spreading panic",
+  "est_minutes": 5,
+  "body_md": "## You're contagious now — let people know calmly\n\nWhen your accounts get compromised, the attacker often uses them to attack the people who trust you. Your contacts, colleagues, family members are all reasonable next targets — they're used to getting messages from you, so a phishing message from your real address has a much higher success rate than a generic one.\n\nThis means warning your network is not optional. It's part of the response. The question is how to do it without inflaming the situation or making yourself a target for follow-up scams.\n\n### The audience tiers\n\n- **Immediate family / close colleagues.** Tell them now, individually, in a channel you trust. They need actionable information, not reassurance.\n- **Wider professional network.** A single thoughtful message — once you've contained the breach — telling them which channel was compromised and over what window.\n- **Public.** Generally don't post publicly until you've fully contained. Public posts mostly invite recovery scammers and follow-up attacks.\n\n### What to actually say\n\nA good warning message is short, factual, and gives them an action:\n\n*'My email account was compromised between Monday and Wednesday. I've now regained control. If you received any message from me during that window asking for money, gift cards, urgent help, or asking you to click a link — please ignore it. If you already responded, let me know so I can flag it.'*\n\nNotice what this message does:\n\n- **Specifies the window.** People can self-assess whether they got anything.\n- **Specifies the type of bad request.** People know what pattern to look for.\n- **Gives them an action.** 'Reply if you responded' creates feedback so you can scope the damage.\n- **Doesn't ask anything of them on the same channel that was compromised.** Send through a different channel — phone, Slack, in person — than the one that was breached.\n\n### Channel discipline\n\nWhen you send the warning, use a channel *other* than the one that was compromised. If your email was breached, don't send the warning *from email*. Sit down with the family in person, text them, call them, or use a messaging app whose identity isn't dependent on the email.\n\nIf the email *must* be the channel because that's the only way you reach some contacts, that's fine — but flag it: 'I'm sending this from email but my email was compromised; verify by calling me at [known number] before acting'.\n\n### What you don't need to share\n\n- **Specific account details.** 'My email was compromised' is enough; not 'attackers from IP 203.x got past my MFA via...'\n- **Your master-password or recovery details.** Obvious in principle, common to leak in panic emails.\n- **Personal information about other accounts.** Don't mass-broadcast that your bank was also touched, for instance — narrower disclosure to the specifically affected channel.\n\n### The follow-up scam to watch for\n\nWhen you publicly announce a compromise, scam 'recovery' artists notice and message you. Sometimes they pose as security professionals; sometimes as past acquaintances offering help. Both are scams. Don't engage. Trust your existing relationships and use the official agencies from the previous lesson.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Your email was compromised for 36 hours. You've now locked it down. During the window, the attacker sent messages from your address to several colleagues asking for an 'urgent favour' that turned out to be a wire-transfer ask. One colleague almost sent the money before catching themselves.",
+    "prompt": "What's the right way to warn your contacts now?",
+    "choices": [
+      {
+        "text": "Send a mass email to everyone in your address book, from your now-secured email, telling them everything.",
+        "outcome": "risky",
+        "explanation": "Mass-broadcast from the formerly-compromised channel is awkward — some contacts will be skeptical it's really you. Also 'telling them everything' opens you up to further attacks. Stay specific."
+      },
+      {
+        "text": "Send a brief, factual message through a different channel (Slack, SMS, in person) describing the compromise window, the type of bad request, and what to do.",
+        "outcome": "good",
+        "explanation": "Yes. Different channel signals you've thought about the trust problem; brevity keeps the message actionable; specifying the window lets people self-assess. Follow up with a phone call to anyone who actually got tricked into engaging."
+      },
+      {
+        "text": "Post a public Facebook update so everyone in your social graph sees the warning at once.",
+        "outcome": "risky",
+        "explanation": "Public posts reach more people but also bring secondary scams. Better to use direct channels for warnings; reserve public posts for after the recovery is fully behind you and only if there's a useful pattern to share."
+      }
+    ],
+    "moral": "Use a different channel to warn people about the compromised one. Make the message specific, brief, and actionable."
+  }
+}

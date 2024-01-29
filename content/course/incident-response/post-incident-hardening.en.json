@@ -1,0 +1,33 @@
+{
+  "order": 7,
+  "title": "Post-incident hardening checklist",
+  "est_minutes": 8,
+  "body_md": "## Don't get hit twice through the same hole\n\nThe goal of post-incident hardening is to make sure the *next* attack — and there will eventually be a next attack — doesn't succeed through the same path. This is the moment when motivation is at its highest. Use it.\n\nWork through the checklist below over the week following the incident. Most items take minutes; the combined effect is large.\n\n### Authentication hygiene\n\n- [ ] Rotate every password that may have been seen during the incident, starting with the master ones (email, password manager) and working outward.\n- [ ] Move every account off SMS-only MFA to TOTP, hardware key, or passkey.\n- [ ] Register a *second* hardware key as a backup if your primary platforms support FIDO2.\n- [ ] Set or refresh a port-out PIN with your mobile carrier.\n- [ ] Verify recovery email and phone number on every important account — *no* old or unused contact info should remain.\n\n### Account scope\n\n- [ ] Sign out of every session on every important account ('sign out everywhere').\n- [ ] Remove any third-party app or browser-extension authorizations you don't actively use. The OAuth / connected-apps page on Google, Microsoft, Apple, GitHub etc.\n- [ ] Audit any active API keys or app-specific passwords; revoke anything you can't justify.\n- [ ] Audit forwarding rules and filters in your email and remove unfamiliar ones.\n- [ ] Audit address-book or contact-list integrations and disconnect anything you don't actively use.\n\n### Device hygiene\n\n- [ ] Update OS and browsers on every device.\n- [ ] Audit browser extensions, remove anything you don't actively need.\n- [ ] Audit installed apps on every device, uninstall anything you don't recognise.\n- [ ] Run a reputable malware scan on the compromised device. If it was deeply compromised, consider a clean reinstall rather than trusting a scan.\n- [ ] Replace the device entirely if it's past its OS-update end-of-life and was involved in the breach.\n\n### Financial hygiene\n\n- [ ] Reissue the cards involved in any fraudulent transactions. Don't keep using the old numbers.\n- [ ] Update saved card numbers on legitimate subscriptions to the new card.\n- [ ] Enable real-time transaction alerts on every account.\n- [ ] Keep the credit freeze in place. Lift only when actively applying for credit, then re-freeze.\n- [ ] Set up a separate 'banking' browser profile for sensitive financial activity.\n\n### Identity hygiene\n\n- [ ] Sign up for free credit-report reviews in your jurisdiction.\n- [ ] Check tax-authority and other government portals for unfamiliar activity.\n- [ ] Set up identity-monitoring on any service that provides it for free (many banks and platforms now do).\n\n### Process hygiene (for the whole household)\n\n- [ ] Set up a family code word if you haven't already (module 6, lesson 6).\n- [ ] Walk through the verification routine with everyone in the household (module 2, lesson 7).\n- [ ] Discuss with your employer if any work account was touched; agree on follow-up controls.\n\n### A 6-month review\n\nPut a calendar reminder for six months out: revisit the incident timeline, confirm freezes are still in place, audit accounts again, run the credit-bureau report check. This catches anything the attacker tried to set up for delayed exploitation (forwarding rules, sleeper accounts, weak recovery contacts).\n\n### What 'done' looks like\n\nWhen you can answer 'yes' to all of these, the incident is closed:\n\n- I know which channel was the entry point.\n- I know what was accessed.\n- Every account with a connection to the incident has had its credentials and MFA reset.\n- All recovery paths are owned by *current* contacts that I control.\n- I have a written timeline that can be handed to a bank, police, or insurer if requested.\n\nClose the file. Move on. You're now meaningfully harder to attack than you were before — that's the silver lining.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "Three months after a credential-stuffing incident in which your email was briefly compromised, what's the single most useful follow-up action you can take to catch any lingering attacker access?",
+    "choices": [
+      {
+        "text": "Set up a brand-new email address and migrate everything.",
+        "correct": false,
+        "explanation": "Massive cost; migration of every linked account; doesn't address the *systemic* hygiene issue. Almost never the right answer."
+      },
+      {
+        "text": "Re-audit the email's security settings: active sessions, forwarding rules, third-party app authorizations, recovery contacts, and login history.",
+        "correct": true,
+        "explanation": "Yes. Attackers commonly leave behind delayed-action footholds — forwarding rules, OAuth tokens, recovery-email changes — that can be silent for months. A re-audit at the 3-6 month mark catches sleeper persistence. This is exactly what the calendar reminder in the playbook is for."
+      },
+      {
+        "text": "Buy an identity-theft insurance product.",
+        "correct": false,
+        "explanation": "Reasonable as a separate decision but doesn't address whether the attacker still has access. Re-audit first; then consider insurance as part of overall hygiene."
+      },
+      {
+        "text": "Reinstall the operating system on all your devices.",
+        "correct": false,
+        "explanation": "Overkill for a credential-stuffing incident where the compromise was at the account level, not the device. Specific re-imaging is warranted only if device compromise was confirmed."
+      }
+    ],
+    "hint": "What kind of persistence might an attacker leave behind that takes weeks or months to notice?"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "order": 4,
+  "title": "Public Wi-Fi and the real role of a VPN",
+  "est_minutes": 6,
+  "body_md": "## What public Wi-Fi actually risks today\n\nFor years, public Wi-Fi was a textbook example of an unsafe network — anyone in the same coffee shop could see your traffic. That picture is mostly out of date now. Almost every consequential site uses HTTPS, which encrypts your traffic end-to-end. The local network operator cannot see what you typed into your bank app.\n\nWhat *is* still risky on public Wi-Fi:\n\n- **Captive portal phishing.** The 'login to Wi-Fi' page can be served by a malicious operator, asking for an email + password that you might reuse from another service.\n- **Network-level redirection.** A hostile network can route you to a fake DNS, sending requests for `bank.com` to a lookalike. HTTPS prevents the impersonation from succeeding because of certificate checks — *as long as you don't click through certificate warnings*.\n- **Targeted attacks on specific software.** Older devices, unpatched software, or insecure protocols (FTP, plain HTTP) are still vulnerable.\n- **Evil twin networks.** A fake hotspot with the same SSID as a trusted one (a hotel, airport, café), set up to harvest connections.\n\nNotice what's *not* on the list: 'someone in the café can read your bank password as you type it'. They can't.\n\n### What a VPN actually does\n\nA consumer VPN encrypts your traffic between your device and the VPN provider's servers, then sends the request onward from there. The benefits:\n\n- **Defeats local-network observation and interference.** The VPN tunnel ends well outside the café's network.\n- **Hides your real IP** from the destination site.\n- **Bypasses some forms of regional content blocking.**\n\nThe limits:\n\n- **The VPN provider can see whatever the café could.** You've shifted trust from the local network to the VPN company. Choose providers carefully.\n- **It does not prevent phishing or malware.** A VPN can still happily transport you to a fake bank login page.\n- **It does not anonymize you to the websites you log into.** You're still signed in.\n\n### When a VPN is genuinely useful\n\n- Public Wi-Fi where you can't fully trust the operator (especially hotels with weird captive portals).\n- Cellular networks in countries where the carrier injects ads or modifies traffic.\n- Bypassing region-locked services (a legitimate use within the terms you've agreed to).\n- Reducing the data your ISP collects about you.\n\n### When a VPN is *not* the right tool\n\n- 'Hiding from hackers' on home Wi-Fi — your router's WPA2/3 encryption already does this.\n- Anonymity from law enforcement — most consumer VPNs comply with subpoenas.\n- Replacing actual security habits (passwords, MFA, phishing awareness). A VPN doesn't help with any of those.\n\n### Practical setup\n\n- **Choose a paid VPN with a real reputation.** Free VPNs often monetise by logging or by injecting ads. The names that come up repeatedly in honest reviews: Mullvad, ProtonVPN, IVPN.\n- **Enable the kill switch.** This setting drops your connection if the VPN tunnel breaks, preventing accidental leaks.\n- **Don't accept any HTTPS certificate warning.** Ever. That warning is what stands between you and the impersonation HTTPS is designed to prevent.\n- **Treat unfamiliar captive portals with extra suspicion.** Don't paste credentials into them.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You're in a café working on your laptop. You connect to the café's Wi-Fi and want to log into your bank to pay a bill. Which describes the strongest *practical* security posture?",
+    "choices": [
+      {
+        "text": "Connect to a paid VPN before logging in.",
+        "correct": false,
+        "explanation": "Helpful (and harmless) but not by itself sufficient. A VPN protects the network channel; it doesn't help if you click a phishing certificate warning or arrive at a fake login domain."
+      },
+      {
+        "text": "Use the bank's official mobile app on cellular data instead of the laptop on Wi-Fi.",
+        "correct": true,
+        "explanation": "Yes. Mobile data avoids the café's network entirely. The bank's app pins certificates and is generally hardened beyond what a browser session is. If you must use the laptop, the next-best is browser-based login over the cellular hotspot from your phone."
+      },
+      {
+        "text": "Tether to a friend's hotspot to be safer.",
+        "correct": false,
+        "explanation": "Tethering to an unknown hotspot is the same trust shift as the café network. Use your own cellular connection or a trusted VPN, not a random hotspot."
+      },
+      {
+        "text": "Trust HTTPS — modern banks are safe over any network.",
+        "correct": false,
+        "explanation": "HTTPS does protect transit, but the practical posture should include the *certificate-warning* and *evil-twin* risks. The 'always your own connection' approach removes those entirely."
+      }
+    ],
+    "hint": "Which option removes you from the café's network rather than trying to secure traffic over it?"
+  }
+}

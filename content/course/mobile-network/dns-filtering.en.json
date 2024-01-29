@@ -1,0 +1,33 @@
+{
+  "order": 5,
+  "title": "Household DNS filtering",
+  "est_minutes": 6,
+  "body_md": "## Block the bad domain before anyone in the house clicks it\n\nDNS — the Domain Name System — is what turns `bank.com` into an IP address your browser can talk to. Every web request your devices make starts with a DNS lookup. That makes the DNS layer a high-leverage place to block known-malicious destinations: if the lookup fails, your device never even tries to connect.\n\nThis is the basic idea of a **filtering DNS resolver**: instead of returning the real IP for a known phishing or malware domain, the resolver returns a 'blocked' page or nothing at all.\n\nA filtering resolver doesn't replace endpoint protection. It does add a quiet layer that catches a meaningful fraction of attacks before they reach the user.\n\n### Three setup options, from easiest to deepest\n\n#### Option 1 — Change DNS on each device\n\nThe lightest setup. In your phone or laptop's Wi-Fi settings, change the DNS server from automatic to:\n\n- **NextDNS** (`https://nextdns.io`) — free for personal use, customizable lists.\n- **Cloudflare for Families** — `1.1.1.2` blocks known malware; `1.1.1.3` adds adult content blocking.\n- **Quad9** — `9.9.9.9` blocks known malicious domains via threat intelligence feeds.\n\nFive minutes per device. Works only on that device, only on that network.\n\n#### Option 2 — Change DNS on your home router\n\nLog into the router admin (often `192.168.1.1`), find DNS settings, set them to the filtering resolver. Now every device on the home network — including guests, smart TVs, cameras — uses the filter automatically. Roughly an order of magnitude more leverage than Option 1.\n\nLimitations: smart devices that hard-code DNS (some Google and Amazon hardware) bypass router DNS. You can sometimes block their hard-coded DNS at the firewall.\n\n#### Option 3 — Run a local Pi-hole or AdGuard Home\n\nA Raspberry Pi or any always-on computer in the home runs a local resolver that filters at the household level. Gives you visibility (you can see which devices are querying which domains), plus deep customization. Time to set up: an evening for the technically curious.\n\n### What filtering catches\n\n- Known phishing domains (kits often reuse the same backend domains).\n- Malware command-and-control servers — even if a device gets infected, the malware can't 'phone home' to its operator.\n- Domains tied to ad tracking and cross-site profiling.\n- Adult content on family-shared networks (if you opt for that).\n\n### What filtering misses\n\n- Brand-new phishing domains in their first hours, before they hit threat-intelligence feeds.\n- Attacks that work over IP addresses directly without DNS.\n- Anything inside an end-to-end-encrypted channel where you've already authorized the connection.\n\n### Why it's worth it anyway\n\nDNS filtering is the cybersecurity equivalent of locking the front door: it doesn't stop every burglar, but it stops the casual ones and the lazy bots that would otherwise succeed in volume. For families with older relatives or kids on the same network, the household-level layer is especially worthwhile — it protects people who haven't taken this course.",
+  "widget_type": "quiz",
+  "widget_config": {
+    "question": "You want to protect your whole household — including your parents' iPad and your kids' laptops — from accidentally connecting to phishing domains. What's the highest-leverage setup with the least ongoing maintenance?",
+    "choices": [
+      {
+        "text": "Install an antivirus on every device.",
+        "correct": false,
+        "explanation": "Endpoint AV helps but doesn't catch the DNS-layer redirection, and it's hard to keep current across a mix of devices and users. The leverage is lower than a single setting change."
+      },
+      {
+        "text": "Configure your home router to use a filtering DNS provider (NextDNS, Cloudflare for Families, or Quad9).",
+        "correct": true,
+        "explanation": "Yes. One configuration change at the router level protects every device that uses the home Wi-Fi automatically. No software on each device, no per-user training. The maintenance is essentially zero after setup."
+      },
+      {
+        "text": "Give each family member a paid VPN subscription.",
+        "correct": false,
+        "explanation": "VPN doesn't directly filter known-bad domains (unless the VPN provider also offers DNS filtering, in which case the DNS layer is doing the work). And per-device VPN management on family devices is awkward."
+      },
+      {
+        "text": "Tell everyone to be careful what they click.",
+        "correct": false,
+        "explanation": "Education matters but doesn't scale to kids and older relatives at busy moments. Defence-in-depth means catching mistakes at the network layer too."
+      }
+    ],
+    "hint": "Which single change protects every device that joins your network, without any per-device setup?"
+  }
+}
