@@ -2,6 +2,8 @@ import { Locale, normalizeLocale } from '../utils/i18n';
 import QuizWidget, { QuizConfig } from './QuizWidget';
 import ScenarioWidget, { ScenarioConfig } from './ScenarioWidget';
 import RedFlagsWidget, { RedFlagsConfig } from './RedFlagsWidget';
+import ExamWidget, { ExamConfig } from './ExamWidget';
+import CertificateWidget, { CertificateConfig } from './CertificateWidget';
 
 interface Props {
   type: string;
@@ -25,6 +27,12 @@ export default function LessonWidget({ type, config, locale }: Props) {
       return <ScenarioWidget config={config as unknown as ScenarioConfig} locale={lang} />;
     case 'redflags':
       return <RedFlagsWidget config={config as unknown as RedFlagsConfig} locale={lang} />;
+    case 'exam':
+      return <ExamWidget config={config as unknown as ExamConfig} locale={lang} />;
+    case 'certificate':
+      return (
+        <CertificateWidget config={config as unknown as CertificateConfig} locale={lang} />
+      );
     default:
       return (
         <div className="bg-[#131829] border border-[#1E2A42] p-5 text-sm text-[#8892A8]">

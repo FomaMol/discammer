@@ -1,0 +1,21 @@
+{
+  "order": 3,
+  "title": "Сертификат DiScammer Defender",
+  "est_minutes": 5,
+  "body_md": "## Ты дошёл до конца программы\n\nЕсли все пункты ниже подсвечены зелёным — сертификат разблокирован.\n\nЧтобы его получить, нужно:\n\n- Все уроки во всех модулях отмечены как пройденные.\n- Финальный экзамен сдан на 80% и выше.\n\nКогда и то и другое сделано, введи имя, которое должно появиться на сертификате. Сертификат генерируется локально, в твоём браузере, — данные не уходят с устройства.\n\nКнопка **Печать / сохранить PDF** сохранит копию. Используй результат в резюме, LinkedIn или просто как личную запись о том, что ты прошёл этот путь.\n\n## Короткая заметка про то, что ты выучил\n\nДевять модулей вместе сводятся к одной повторяющейся идее: *защита — это процесс, а не знания*. Любая продвинутая угроза — клонированный голос, дипфейк-видео, ИИ-персонализированный фишинг, многоэтапные длинные разводы — обрушивается одним и тем же набором привычек:\n\n- Проверяй через канал, который атакующий не контролирует.\n- Не доверяй каналу, через который пришёл запрос.\n- Замедляйся. Время — самый дорогой ресурс атакующего.\n- Используй инструменты, убирающие смелость из «спросить»: менеджеры паролей, MFA, кодовые слова, перезвоны.\n\nЭти привычки не эффектны. Они невероятно эффективны и переживают каждую итерацию технологии.\n\nДобро пожаловать на другую сторону. Тебя теперь существенно труднее развести, чем девять модулей назад.",
+  "widget_type": "certificate",
+  "widget_config": {
+    "requirements": [
+      { "module": "threat-fundamentals", "lessons": ["scam-economy","attack-vectors","threat-actors","glossary","breach-reports","cfo-deepfake-heist"] },
+      { "module": "social-engineering", "lessons": ["cialdini-principles","pretexting","vishing-and-smishing","romance-and-pig-butchering","urgency-triggers","verbal-red-flags","verification-routine"] },
+      { "module": "phishing", "lessons": ["email-anatomy","lookalike-domains","link-previews","fake-login-pages","quishing","reporting-suspicious"] },
+      { "module": "passwords-mfa", "lessons": ["how-credentials-leak","password-manager-basics","mfa-tiers","passkeys","account-recovery","credential-audit"] },
+      { "module": "financial-fraud", "lessons": ["fake-stores","crypto-investment-scams","pig-butchering-pipeline","invoice-fraud","card-skimming","charity-fraud","first-24-hours","winning-disputes"] },
+      { "module": "ai-deepfakes", "lessons": ["how-generative-ai-works","voice-cloning-attacks","video-deepfake-bec","detecting-ai-text","provenance-c2pa","family-verification"] },
+      { "module": "mobile-network", "lessons": ["mobile-permissions","sim-swap-defense","browser-hardening","public-wifi-vpn","dns-filtering","updates-eol"] },
+      { "module": "incident-response", "lessons": ["recognising-compromise","first-60-minutes","preserving-evidence","who-to-contact","identity-theft-recovery","telling-your-network","post-incident-hardening"] },
+      { "module": "final-assessment", "lessons": ["final-exam","capstone-simulation"] }
+    ],
+    "examKey": "discammer:exam:v1"
+  }
+}

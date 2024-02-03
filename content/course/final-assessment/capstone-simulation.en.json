@@ -1,0 +1,29 @@
+{
+  "order": 2,
+  "title": "Capstone simulation — a Tuesday at the office",
+  "est_minutes": 12,
+  "body_md": "## A scenario that uses every module\n\nIt's a normal Tuesday morning. You're an operations lead at a 200-person company. You've completed the DiScammer programme — and now everything you learned is about to land in one afternoon.\n\nThe simulation has multiple decision points. Each one is a small scenario; the right answer in each frames the next.\n\n### 09:14 — An odd email\n\nYour inbox shows a message from a vendor you pay every month. The CFO of the vendor company, copied with you, asks you to update their banking IBAN before tomorrow's invoice. The email comes from the right domain. The signature block is identical to past emails.\n\nThe attached PDF gives the new IBAN — in a different country than the previous one.\n\n### 11:47 — A call\n\nYour phone rings. The caller ID shows the name of someone from your bank's fraud team. Calm voice, professional tone. She says she's calling because three accounts in your country were just hit by the same suspicious pattern as one of yours, and she wants to walk you through enabling 'enhanced protection' on your account by reading you a code that was just sent to your phone.\n\nA verification SMS code does land on your phone as she speaks.\n\n### 14:32 — A Zoom invite\n\nYour CEO sends a Slack message: an unexpected Zoom call in five minutes about a confidential acquisition discussion. The Zoom invite is from her real account. On the call, the CEO and head of legal greet you by name and ask you to authorize a $180,000 wire to an escrow account before market close.\n\nDecision time. The scenario below asks you to choose the right move at each of the three flashpoints.",
+  "widget_type": "scenario",
+  "widget_config": {
+    "setup": "Three escalating events have hit you in one day: the IBAN-change email, the 'fraud team' phone call asking for your SMS code, and the deepfake-suspicious Zoom call. You need one *general rule* to apply to all three.",
+    "prompt": "What's the rule that defends you against all three at once?",
+    "choices": [
+      {
+        "text": "Verify everything with a written audit trail before doing anything.",
+        "outcome": "risky",
+        "explanation": "Closer to right, but 'written' doesn't help against the Zoom case if the written confirmation lives in the same email thread. The defining property must be the channel itself."
+      },
+      {
+        "text": "For any consequential request, verify on a *separate channel using a contact you already had* before acting — and refuse to read out one-time codes ever.",
+        "outcome": "good",
+        "explanation": "Yes. This single rule kills all three attacks: callback the vendor's CFO on the number you already had to confirm the IBAN; refuse the SMS code over phone (banks never ask) and call back the bank on the number on your card; after the Zoom, message the CEO on internal Slack from your contacts list before processing the wire. One pattern, all three defeated."
+      },
+      {
+        "text": "Look for visual / linguistic artifacts (deepfake faces, AI-style prose) and trust the request if you can't find any.",
+        "outcome": "disaster",
+        "explanation": "All three attacks are now polished enough to pass surface inspection. Relying on 'doesn't look fake to me' is exactly what these schemes are engineered to clear."
+      }
+    ],
+    "moral": "Verification through a channel the attacker can't control is a single rule that survives every modern attack — voice cloning, BEC, vishing, deepfake video — that you'll meet in the wild."
+  }
+}
