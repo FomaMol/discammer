@@ -17,6 +17,7 @@
   {% set _meta_image = page_image | default('/static/images/discammer-og.png') %}
   {% set _meta_url = page_url | default(request.url._url if request else '') %}
   <meta name="description" content="{{ _meta_description }}">
+  <meta name="theme-color" content="#0b0f1a">
   <meta property="og:title" content="{{ _meta_title }}">
   <meta property="og:description" content="{{ _meta_description }}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
@@ -30,47 +31,63 @@
   <meta name="twitter:description" content="{{ _meta_description }}">
   <meta name="twitter:image" content="{{ _meta_image }}">
 
-  <!-- Google Fonts -->
+  <!-- Fonts: Geist (reading) + JetBrains Mono (voice). No Press Start 2P, no Inter. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Global CSS -->
   <link rel="stylesheet" href="{{ asset_url('/static/css/main.css') }}">
 
-
   {% block head %}{% endblock %}
 </head>
-<body
-  class="bg-[#0B0E17] text-[#E4E8F1] min-h-screen font-['Inter']"
-  data-lang="{{ _lang }}"
->
+<body class="bg-canvas text-ink min-h-screen font-sans" data-lang="{{ _lang }}">
 
-  <!-- Fixed Navbar -->
-  <nav class="fixed top-0 left-0 right-0 bg-[#0B0E17]/90 backdrop-blur-md border-b border-[#1E2A42] z-50">
-    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-3 sm:py-4">
-      <!-- Logo -->
-      <a href="/{{ _lang }}/" class="font-['Press_Start_2P'] text-[#00F0FF] text-[10px] sm:text-sm glow-cyan hover:opacity-80 transition">
+  <!-- Skip to content (a11y) -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-canvas-raised focus:text-cyan focus:border focus:border-cyan focus:rounded-sm font-mono text-xs uppercase tracking-[2px]">
+    Skip to content
+  </a>
+
+  <!-- ─────────────────────────────────────────────────────────────────────
+       Top navigation — backdrop-blurred, hairline border.
+       Wordmark = JetBrains Mono 800 (no Press Start 2P).
+       ───────────────────────────────────────────────────────────────────── -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-hairline" style="background-color: rgba(11,15,26,0.86);">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-14 sm:h-16">
+
+      <!-- Logo wordmark -->
+      <a href="/{{ _lang }}/" class="font-display-wordmark text-cyan text-base sm:text-lg hover:text-cyan-strong transition-colors">
         DISCAMMER
       </a>
 
-      <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-8">
-        <a href="/{{ _lang }}/course" class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#00F0FF] transition">{{ t(_lang, 'nav.course') }}</a>
-        <a href="/{{ _lang }}/journal" class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#00F0FF] transition">{{ t(_lang, 'nav.journal') }}</a>
-        <a href="/{{ _lang }}/game" class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#00F0FF] transition">{{ t(_lang, 'nav.play_game') }}</a>
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-1">
+        <a href="/{{ _lang }}/course"
+           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-soft hover:text-ink hover:bg-canvas-soft transition-colors px-3 py-2 rounded-sm">
+          {{ t(_lang, 'nav.course') }}
+        </a>
+        <a href="/{{ _lang }}/journal"
+           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-soft hover:text-ink hover:bg-canvas-soft transition-colors px-3 py-2 rounded-sm">
+          {{ t(_lang, 'nav.journal') }}
+        </a>
+        <a href="/{{ _lang }}/game"
+           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-soft hover:text-ink hover:bg-canvas-soft transition-colors px-3 py-2 rounded-sm">
+          {{ t(_lang, 'nav.play_game') }}
+        </a>
 
-        {# Language switcher (desktop) #}
+        <span class="w-px h-5 bg-hairline mx-2"></span>
+
+        {# Language switch — inline route, never a modal. #}
         <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
-           class="font-['JetBrains_Mono'] uppercase text-xs tracking-[3px] text-[#8892A8] hover:text-[#39FF6B] transition border border-[#1E2A42] px-2 py-1 hover:border-[#39FF6B]"
+           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-mute hover:text-cyan transition-colors px-3 py-2 rounded-sm border border-hairline hover:border-cyan-dim"
            aria-label="{{ t(_lang, 'lang.switch_to') }}"
            rel="alternate"
            hreflang="{{ _other }}">
-          {{ t(_lang, 'lang.short') }} / <span class="text-[#39FF6B]">{{ t(_lang, 'lang.other_short') }}</span>
+          {{ t(_lang, 'lang.short') }}<span class="text-ink-faint mx-1">/</span><span class="text-cyan">{{ t(_lang, 'lang.other_short') }}</span>
         </a>
       </div>
 
-      <!-- Mobile Menu Island (hamburger + overlay) -->
+      <!-- Mobile menu island -->
       <div data-component="MobileMenu" data-props='{
         "lang": "{{ _lang }}",
         "switchHref": "/lang/{{ _other }}?next={{ _switch_url | urlencode }}",
@@ -82,74 +99,93 @@
         ]
       }'>
         <noscript>
-          <div class="md:hidden flex gap-3 font-['JetBrains_Mono'] uppercase text-[10px] tracking-[2px]">
-            <a href="/{{ _lang }}/course" class="text-[#00F0FF]">{{ t(_lang, 'nav.course') }}</a>
-            <a href="/{{ _lang }}/journal" class="text-[#00F0FF]">{{ t(_lang, 'nav.journal') }}</a>
-            <a href="/{{ _lang }}/game" class="text-[#00F0FF]">{{ t(_lang, 'nav.game_short') }}</a>
-            <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-[#39FF6B]">{{ t(_lang, 'lang.other_short') }}</a>
+          <div class="md:hidden flex gap-3 font-mono uppercase text-[10px] tracking-[0.16em]">
+            <a href="/{{ _lang }}/course" class="text-cyan">{{ t(_lang, 'nav.course') }}</a>
+            <a href="/{{ _lang }}/journal" class="text-cyan">{{ t(_lang, 'nav.journal') }}</a>
+            <a href="/{{ _lang }}/game" class="text-cyan">{{ t(_lang, 'nav.game_short') }}</a>
+            <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-green">{{ t(_lang, 'lang.other_short') }}</a>
           </div>
         </noscript>
       </div>
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <main class="pt-16 sm:pt-20">
+  <!-- Main content -->
+  <main id="main-content" class="pt-14 sm:pt-16">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-[#131829] border-t border-[#1E2A42] mt-12 sm:mt-20 py-8 sm:py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-        <!-- Col 1: Logo & Description -->
-        <div>
-          <span class="font-['Press_Start_2P'] text-[#00F0FF] text-xs glow-cyan">DISCAMMER</span>
-          <p class="text-[#8892A8] text-sm mt-4 leading-relaxed">
+  <!-- ─────────────────────────────────────────────────────────────────────
+       Footer — 3 columns (DESIGN.md max). Brand / Threat Database / Site.
+       ───────────────────────────────────────────────────────────────────── -->
+  <footer class="bg-canvas-soft border-t border-hairline mt-16 sm:mt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+
+        <!-- Col 1: Brand block (4/12 on desktop) -->
+        <div class="md:col-span-4">
+          <a href="/{{ _lang }}/" class="font-display-wordmark text-cyan text-sm hover:text-cyan-strong transition-colors">
+            DISCAMMER
+          </a>
+          <p class="text-ink-soft text-sm mt-4 leading-relaxed max-w-[36ch]">
             {{ t(_lang, 'footer.tagline') }}
           </p>
+
+          <!-- Language switch -->
+          <div class="mt-6">
+            <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
+               class="inline-flex items-center gap-2 font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-mute hover:text-cyan transition-colors px-3 py-2 border border-hairline hover:border-cyan-dim rounded-sm">
+              <span>{{ t(_lang, 'lang.short') }}</span>
+              <span class="text-ink-faint">/</span>
+              <span class="text-cyan">{{ t(_lang, 'lang.other_short') }}</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Col 2: Threat Database (1-5) -->
-        <div>
-          <h4 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#E4E8F1] mb-4">{{ t(_lang, 'footer.threat_database') }}</h4>
-          <ul class="space-y-2">
-            <li><a href="/{{ _lang }}/guide/phishing" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.phishing') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/nigerian-letters" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.nigerian-letters') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/get-rich-quick-schemes" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.get-rich-quick-schemes') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/investment-pyramids" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.investment-pyramids') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/false-charities" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.false-charities') }}</a></li>
+        <!-- Col 2: Threat Database — 10 entries in a 2-up sub-grid (5/12) -->
+        <div class="md:col-span-5">
+          <h4 class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-ink mb-4 flex items-center gap-2">
+            <span class="text-cyan">▸</span>
+            {{ t(_lang, 'footer.threat_database') }}
+          </h4>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+            <li><a href="/{{ _lang }}/guide/phishing" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.phishing') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/nigerian-letters" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.nigerian-letters') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/get-rich-quick-schemes" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.get-rich-quick-schemes') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/investment-pyramids" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.investment-pyramids') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/false-charities" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.false-charities') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/fake-online-stores" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.fake-online-stores') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/abuse-on-dating-sites" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.abuse-on-dating-sites') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/sms-and-phone-scams" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.sms-and-phone-scams') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/fraud-with-lotteries" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.fraud-with-lotteries') }}</a></li>
+            <li><a href="/{{ _lang }}/guide/scam-sites-working-at-home" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.scam-sites-working-at-home') }}</a></li>
           </ul>
         </div>
 
-        <!-- Col 3: Threat Database (6-10) -->
-        <div>
-          <h4 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#E4E8F1] mb-4">{{ t(_lang, 'footer.threat_database') }}</h4>
+        <!-- Col 3: Site navigation (3/12) -->
+        <div class="md:col-span-3">
+          <h4 class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-ink mb-4 flex items-center gap-2">
+            <span class="text-cyan">▸</span>
+            {{ t(_lang, 'footer.navigation') }}
+          </h4>
           <ul class="space-y-2">
-            <li><a href="/{{ _lang }}/guide/fake-online-stores" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.fake-online-stores') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/abuse-on-dating-sites" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.abuse-on-dating-sites') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/sms-and-phone-scams" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.sms-and-phone-scams') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/fraud-with-lotteries" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.fraud-with-lotteries') }}</a></li>
-            <li><a href="/{{ _lang }}/guide/scam-sites-working-at-home" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'guide_labels.scam-sites-working-at-home') }}</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4: Navigation -->
-        <div>
-          <h4 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#E4E8F1] mb-4">{{ t(_lang, 'footer.navigation') }}</h4>
-          <ul class="space-y-2">
-            <li><a href="/{{ _lang }}/" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'footer.home') }}</a></li>
-            <li><a href="/{{ _lang }}/journal" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'footer.journal') }}</a></li>
-            <li><a href="/{{ _lang }}/course" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'footer.course') }}</a></li>
-            <li><a href="/{{ _lang }}/game" class="text-[#8892A8] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'footer.game') }}</a></li>
-            <li><a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-[#39FF6B] text-sm hover:text-[#00F0FF] transition">{{ t(_lang, 'lang.short') }} / {{ t(_lang, 'lang.other_short') }}</a></li>
+            <li><a href="/{{ _lang }}/" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.home') }}</a></li>
+            <li><a href="/{{ _lang }}/journal" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.journal') }}</a></li>
+            <li><a href="/{{ _lang }}/course" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.course') }}</a></li>
+            <li><a href="/{{ _lang }}/game" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.game') }}</a></li>
           </ul>
         </div>
       </div>
 
-      <!-- Copyright -->
-      <div class="border-t border-[#1E2A42] mt-8 pt-8 text-center">
-        <p class="text-[#4A5568] font-mono text-xs">&copy; {{ now().year }} DiScammer. {{ t(_lang, 'footer.rights') }}</p>
+      <!-- Bottom strip: copyright + status line in mono meta -->
+      <div class="border-t border-hairline mt-12 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <p class="text-ink-faint font-mono text-[11px] tracking-[0.02em] tabular-nums">
+          &copy; {{ now().year }} DISCAMMER · {{ t(_lang, 'footer.rights') }}
+        </p>
+        <div class="flex items-center gap-2 font-mono text-[11px] tracking-[0.04em] text-ink-faint uppercase">
+          <span class="status-dot"></span>
+          <span>SYS · OK</span>
+        </div>
       </div>
     </div>
   </footer>
