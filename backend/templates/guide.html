@@ -5,116 +5,272 @@
 {% set _lang = lang %}
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-  <!-- Breadcrumbs -->
-  <nav class="font-['JetBrains_Mono'] text-xs text-[#4A5568] mb-6 flex flex-wrap items-center gap-1 break-all">
-    <a href="/{{ _lang }}/" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
-    <span>/</span>
-    <a href="/{{ _lang }}/journal" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
-    <span>/</span>
-    <span>{{ guide.slug }}</span>
-  </nav>
 
-  <!-- Header: Icon + Title -->
-  <div class="flex items-center gap-3 sm:gap-4 mb-6">
-    <!-- Icon -->
-    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-[#1A2035] border border-[#1E2A42] flex items-center justify-center shrink-0">
-      {% if guide.icon %}
-      <span class="text-2xl sm:text-3xl">{{ guide.icon }}</span>
-      {% else %}
-      <span class="font-['Press_Start_2P'] text-[#FF4757] text-lg sm:text-xl">{{ guide.title[0] | upper }}</span>
+  <!-- ============== HEADER: 2-COL SPEC SHEET LAYOUT ============== -->
+  <header class="lg:grid lg:grid-cols-12 lg:gap-10 mb-12">
+
+    <!-- LEFT 8/12 -->
+    <div class="lg:col-span-8 min-w-0">
+      <!-- Breadcrumbs: ~/threat-database/<slug> -->
+      <nav class="font-mono text-xs text-[#6b7588] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="breadcrumb">
+        <a href="/{{ _lang }}/" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
+        <span class="text-[#475064]">/</span>
+        <a href="/{{ _lang }}/journal" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
+        <span class="text-[#475064]">/</span>
+        <span class="text-[#65def0]">{{ guide.slug }}</span>
+      </nav>
+
+      <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
+        {{ t(_lang, 'guide.eyebrow_threat_profile') }}
+      </div>
+
+      <!-- H1: display-article -->
+      <h1 class="font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] break-words"
+          style="font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);">
+        {{ guide.title }}
+      </h1>
+
+      <!-- Subtitle (body-lead) -->
+      {% if guide.description %}
+      <p class="font-sans text-[#aab2c4] text-[18px] leading-[1.6] mt-5 max-w-[62ch]">
+        {{ guide.description }}
+      </p>
       {% endif %}
-    </div>
-    <div class="min-w-0 flex-1">
-      {% if guide.category %}
-      <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#FF4757]/10 text-[#FF4757] border border-[#FF4757]/30">{{ guide.category }}</span>
-      {% endif %}
-      <h1 class="font-['JetBrains_Mono'] font-bold text-xl sm:text-2xl md:text-3xl text-[#E4E8F1] mt-1 leading-tight break-words">{{ guide.title }}</h1>
-    </div>
-  </div>
 
-  <!-- Description -->
-  {% if guide.description %}
-  <p class="text-[#8892A8] text-sm sm:text-base mb-8 max-w-3xl">{{ guide.description }}</p>
-  {% endif %}
-
-  <!-- Threat Level Bar -->
-  {% if guide.threat_level %}
-  <div class="mb-8">
-    <span class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#8892A8]">{{ t(_lang, 'guide.threat_level') }}</span>
-    <div class="flex items-center gap-1 mt-2 max-w-sm">
-      {% for i in range(1, 6) %}
-        {% if i <= guide.threat_level %}
-          {% if guide.threat_level <= 2 %}
-          <div class="flex-1 h-3 bg-[#39FF6B]"></div>
-          {% elif guide.threat_level == 3 %}
-          <div class="flex-1 h-3 bg-[#FFB547]"></div>
-          {% elif guide.threat_level == 4 %}
-          <div class="flex-1 h-3 bg-[#FF8C42]"></div>
-          {% else %}
-          <div class="flex-1 h-3 bg-[#FF4757]"></div>
-          {% endif %}
-        {% else %}
-        <div class="flex-1 h-3 bg-[#1E2A42]"></div>
-        {% endif %}
-      {% endfor %}
-      <span class="font-['JetBrains_Mono'] text-xs text-[#8892A8] ml-2 flex-shrink-0">{{ guide.threat_level }}/5</span>
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- Published Date -->
-  {% if guide.published_at %}
-  <div class="mb-8">
-    <span class="text-xs font-['JetBrains_Mono'] text-[#FFB547]">{{ guide.published_at }}</span>
-  </div>
-  {% endif %}
-
-  <!-- Content -->
-  <article class="prose max-w-none mt-8">
-    {{ guide.content_html | safe }}
-  </article>
-
-  <!-- Related Guides Carousel -->
-  {% if related_guides %}
-  <div class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#1E2A42]">
-    <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-sm uppercase tracking-[2px] mb-4 sm:mb-6">{{ t(_lang, 'guide.related') }}</h2>
-    <div class="flex gap-3 sm:gap-4 overflow-x-auto pb-4 -mx-4 sm:-mx-2 px-4 sm:px-2 snap-x snap-mandatory scrollbar-hide">
-      {% for related in related_guides %}
-      <a href="/{{ _lang }}/guide/{{ related.slug }}" class="snap-start shrink-0 w-56 sm:w-64 bg-[#131829] border border-[#1E2A42] hover:border-[#00F0FF] transition-all duration-300 p-4 block">
-        <div class="flex items-center gap-2 mb-2 flex-wrap">
-          {% if related.icon %}
-          <span class="text-lg">{{ related.icon }}</span>
-          {% else %}
-          <span class="font-['Press_Start_2P'] text-[#FF4757] text-xs">{{ related.title[0] | upper }}</span>
-          {% endif %}
-          {% if related.category %}
-          <span class="text-[10px] font-['JetBrains_Mono'] uppercase text-[#8892A8]">{{ related.category }}</span>
-          {% endif %}
+      <!-- Threat Level Bar: 5 vertical slats -->
+      {% if guide.threat_level %}
+      <div class="mt-7" aria-label="threat level {{ guide.threat_level }} of 5">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#6b7588] mb-2 tabular-nums">
+          {{ t(_lang, 'guide.threat_level') }}: {{ guide.threat_level }}/5
         </div>
-        <h3 class="font-['JetBrains_Mono'] font-bold text-sm text-[#E4E8F1] break-words">{{ related.title }}</h3>
-        {% if related.threat_level %}
-        <div class="flex gap-0.5 mt-2">
+        <div class="flex items-end gap-1" role="img" aria-hidden="true">
           {% for i in range(1, 6) %}
-            {% if i <= related.threat_level %}
-            <div class="flex-1 h-1.5 bg-[#FF4757]"></div>
+            {% if i <= guide.threat_level %}
+              {% if guide.threat_level == 5 %}
+                <div class="w-6 h-4 bg-[#e76670]"></div>
+              {% elif guide.threat_level == 4 %}
+                <div class="w-6 h-4 bg-[#f29b6c]"></div>
+              {% elif guide.threat_level == 3 %}
+                <div class="w-6 h-4 bg-[#f4b965]"></div>
+              {% else %}
+                <div class="w-6 h-4 bg-[#7ce896]"></div>
+              {% endif %}
             {% else %}
-            <div class="flex-1 h-1.5 bg-[#1E2A42]"></div>
+              <div class="w-6 h-4 bg-[#202a44]"></div>
             {% endif %}
           {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- RIGHT 4/12: SOC analyst spec sheet -->
+    <aside class="lg:col-span-4 mt-8 lg:mt-0">
+      <div class="bg-[#121828] border border-[#202a44] p-5">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4 pb-3 border-b border-[#202a44]">
+          {{ t(_lang, 'guide.spec_sheet_label') }}
+        </div>
+        <dl class="font-mono text-[12px] space-y-3 tabular-nums">
+          {% if guide.category %}
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_category') }}</dt>
+            <dd class="text-[#e7ecf5] uppercase text-right break-all">{{ guide.category }}</dd>
+          </div>
+          {% endif %}
+          {% if guide.threat_level %}
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_threat_level') }}</dt>
+            <dd class="{% if guide.threat_level == 5 %}text-[#e76670]{% elif guide.threat_level == 4 %}text-[#f29b6c]{% elif guide.threat_level == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %} text-right">{{ guide.threat_level }}/5</dd>
+          </div>
+          {% endif %}
+          {% if guide.published_at %}
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_indexed') }}</dt>
+            <dd class="text-[#e7ecf5] text-right">{{ guide.published_at }}</dd>
+          </div>
+          {% endif %}
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_status') }}</dt>
+            <dd class="text-[#7ce896] uppercase text-right inline-flex items-center gap-2">
+              <span class="w-1.5 h-1.5 bg-[#7ce896] rounded-full inline-block"></span>
+              {{ t(_lang, 'guide.spec_active') }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </aside>
+  </header>
+
+  <!-- ============== BODY: ARTICLE + STICKY TOC ============== -->
+  <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+
+    <!-- Sticky ToC: desktop only -->
+    <aside class="hidden lg:block lg:col-span-3 lg:order-2">
+      <div class="sticky top-24">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
+          {{ t(_lang, 'guide.contents_label') }}
+        </div>
+        <nav id="guide-toc" aria-label="article sections" class="font-mono text-[12px] space-y-2 border-l border-[#202a44] pl-4">
+          <!-- populated by inline script below -->
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Article: container-narrow inside col-span-9 -->
+    <main class="lg:col-span-9 lg:order-1 min-w-0">
+      <article id="guide-article" class="prose max-w-3xl mx-auto">
+        {{ guide.content_html | safe }}
+      </article>
+    </main>
+  </div>
+
+  <!-- ============== OTHER THREATS ============== -->
+  {% if related_guides %}
+  <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
+    <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-6">
+      {{ t(_lang, 'guide.other_threats_label') }}
+    </div>
+
+    {# Pick top 2 for the bento; remainder for the list. #}
+    {% set featured = related_guides[:2] %}
+    {% set remaining = related_guides[2:] %}
+
+    {% if featured %}
+    <!-- 2-up bento: first card wider -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-10">
+      {% for related in featured %}
+      {% set is_wide = loop.first %}
+      <a href="/{{ _lang }}/guide/{{ related.slug }}"
+         class="group bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-all duration-260 p-5 sm:p-6 block min-w-0
+                {% if is_wide %}lg:col-span-3{% else %}lg:col-span-2{% endif %}">
+        <div class="flex items-center gap-2 mb-3 flex-wrap">
+          {% if related.icon %}
+          <span class="text-lg">{{ related.icon }}</span>
+          {% endif %}
+          {% if related.category %}
+          <span class="font-mono text-[10px] font-semibold tracking-[0.14em] uppercase text-[#6b7588]">{{ related.category }}</span>
+          {% endif %}
+        </div>
+        <h3 class="font-mono font-bold {% if is_wide %}text-lg sm:text-xl{% else %}text-base{% endif %} text-[#e7ecf5] group-hover:text-[#f3f5fa] break-words leading-[1.25] tracking-[-0.01em]">
+          {{ related.title }}
+        </h3>
+        {% if related.description and is_wide %}
+        <p class="font-sans text-sm text-[#aab2c4] mt-3 leading-[1.55] line-clamp-2">{{ related.description }}</p>
+        {% endif %}
+        {% if related.threat_level %}
+        <div class="mt-4" aria-label="threat level {{ related.threat_level }} of 5">
+          <div class="flex items-end gap-1" aria-hidden="true">
+            {% for i in range(1, 6) %}
+              {% if i <= related.threat_level %}
+                {% if related.threat_level == 5 %}
+                  <div class="w-4 h-2 bg-[#e76670]"></div>
+                {% elif related.threat_level == 4 %}
+                  <div class="w-4 h-2 bg-[#f29b6c]"></div>
+                {% elif related.threat_level == 3 %}
+                  <div class="w-4 h-2 bg-[#f4b965]"></div>
+                {% else %}
+                  <div class="w-4 h-2 bg-[#7ce896]"></div>
+                {% endif %}
+              {% else %}
+                <div class="w-4 h-2 bg-[#202a44]"></div>
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
         {% endif %}
       </a>
       {% endfor %}
     </div>
-  </div>
+    {% endif %}
+
+    {% if remaining %}
+    <!-- More patterns: compact mono list -->
+    <div>
+      <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#6b7588] mb-3">
+        {{ t(_lang, 'guide.more_patterns_label') }}
+      </div>
+      <ul class="divide-y divide-[#202a44] border-y border-[#202a44]">
+        {% for related in remaining %}
+        <li>
+          <a href="/{{ _lang }}/guide/{{ related.slug }}"
+             class="group flex items-center justify-between gap-4 py-3 px-2 hover:bg-[#121828] transition-colors duration-180">
+            <div class="flex items-center gap-3 min-w-0">
+              {% if related.icon %}
+              <span class="text-base shrink-0">{{ related.icon }}</span>
+              {% endif %}
+              <span class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] truncate">{{ related.title }}</span>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              {% if related.category %}
+              <span class="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.12em] text-[#6b7588]">{{ related.category }}</span>
+              {% endif %}
+              {% if related.threat_level %}
+              <span class="font-mono text-[11px] tabular-nums {% if related.threat_level >= 5 %}text-[#e76670]{% elif related.threat_level == 4 %}text-[#f29b6c]{% elif related.threat_level == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ related.threat_level }}/5</span>
+              {% endif %}
+              <span class="font-mono text-[#3a8b9a] group-hover:text-[#65def0]" aria-hidden="true">→</span>
+            </div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </section>
   {% endif %}
 
+  <!-- ============== NEXT STEPS CTA ============== -->
+  <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
+    <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-5">
+      {{ t(_lang, 'guide.next_steps_label') }}
+    </div>
+    <div class="space-y-2 max-w-3xl">
+      <a href="/{{ _lang }}/game"
+         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
+        <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6]">{{ t(_lang, 'guide.next_step_simulator') }}</span>
+        <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
+      </a>
+      <a href="/{{ _lang }}/journal"
+         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
+        <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6]">{{ t(_lang, 'guide.next_step_briefings') }}</span>
+        <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
+      </a>
+      <a href="/{{ _lang }}/course"
+         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
+        <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6]">{{ t(_lang, 'guide.next_step_course') }}</span>
+        <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
   <!-- Back Link -->
-  <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-[#1E2A42]">
-    <a href="/{{ _lang }}/journal" class="font-['JetBrains_Mono'] text-sm text-[#0A8F99] hover:text-[#00F0FF] transition">
+  <div class="mt-12 pt-8 border-t border-[#202a44]">
+    <a href="/{{ _lang }}/journal" class="font-mono text-sm text-[#3a8b9a] hover:text-[#65def0] transition">
       {{ t(_lang, 'guide.back') }}
     </a>
   </div>
 </div>
+
+<!-- Auto-populate the sticky ToC from rendered h2 headings -->
+<script>
+  (function () {
+    const article = document.getElementById('guide-article');
+    const toc = document.getElementById('guide-toc');
+    if (!article || !toc) return;
+    const headings = article.querySelectorAll('h2[id]');
+    if (!headings.length) {
+      toc.parentElement && (toc.parentElement.style.display = 'none');
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    headings.forEach((h, i) => {
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = String(i + 1).padStart(2, '0') + '. ' + h.textContent.trim();
+      a.className = 'block text-[#aab2c4] hover:text-[#65def0] transition-colors leading-snug tabular-nums';
+      frag.appendChild(a);
+    });
+    toc.appendChild(frag);
+  })();
+</script>
 
 {% endblock %}

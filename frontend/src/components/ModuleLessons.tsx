@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Locale, STRINGS, normalizeLocale, t } from '../utils/i18n';
+import { Locale, STRINGS, normalizeLocale, pick, t } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
 
 interface Lesson {
@@ -50,73 +50,83 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
 
   if (loading) {
     return (
-      <div className="text-center py-6 font-['JetBrains_Mono'] text-sm text-[#4A5568]">
-        {lang === 'ru' ? '> Загрузка уроков...' : '> Loading lessons...'}
+      <div className="text-center py-6 font-mono text-[13px] text-[#6b7588]">
+        {pick(lang, { en: '> Loading lessons...', ru: '> Загрузка уроков...' })}
+        <span className="cursor-blink" />
       </div>
     );
   }
   if (error) {
     return (
-      <div className="bg-[#131829] border border-[#FF4757]/40 p-5 text-sm text-[#FF4757]">
-        {lang === 'ru' ? 'Не удалось загрузить уроки.' : 'Failed to load lessons.'}
+      <div className="bg-[#121828] border border-[#e76670]/40 p-5 text-sm text-[#e76670] font-sans">
+        {pick(lang, { en: 'Failed to load lessons.', ru: 'Не удалось загрузить уроки.' })}
       </div>
     );
   }
   if (lessons.length === 0) {
     return (
-      <div className="bg-[#131829] border border-[#1E2A42] p-6 text-center text-[#8892A8] text-sm">
-        {lang === 'ru'
-          ? 'Уроки этого модуля скоро появятся. Загляни через пару дней.'
-          : 'Lessons for this module are launching soon. Check back in a few days.'}
+      <div className="bg-[#121828] border border-[#202a44] p-6 text-center text-[#aab2c4] font-sans text-[15px]">
+        {pick(lang, {
+          en: 'Lessons for this module are launching soon. Check back in a few days.',
+          ru: 'Уроки этого модуля скоро появятся. Загляни через пару дней.',
+        })}
       </div>
     );
   }
 
   return (
-    <ol className="space-y-3">
+    <ol className="border border-[#202a44] bg-[#121828]/60 divide-y divide-[#202a44]">
       {lessons.map((lesson) => {
         const isDone = completed.has(lesson.slug);
         return (
           <li key={lesson.slug}>
             <a
               href={`/${lang}/course/${moduleSlug}/${lesson.slug}`}
-              className={`group flex items-center gap-4 p-4 sm:p-5 bg-[#131829] border transition ${
+              className={`group flex items-center gap-4 sm:gap-5 px-4 sm:px-5 py-4 transition ${
                 isDone
-                  ? 'border-[#39FF6B]/60 hover:border-[#39FF6B] hover:bg-[#39FF6B]/5'
-                  : 'border-[#1E2A42] hover:border-[#00F0FF] hover:bg-[#00F0FF]/5'
+                  ? 'hover:bg-[#7ce896]/5'
+                  : 'hover:bg-[#1a2236]'
               }`}
             >
+              {/* Number / done badge */}
               <span
-                className={`shrink-0 w-9 h-9 flex items-center justify-center border font-['JetBrains_Mono'] text-xs font-bold ${
-                  isDone
-                    ? 'border-[#39FF6B] text-[#39FF6B] bg-[#39FF6B]/10'
-                    : 'border-[#1E2A42] text-[#8892A8]'
+                className={`shrink-0 w-8 sm:w-9 font-mono text-[12px] sm:text-[13px] font-bold tabular-nums text-center ${
+                  isDone ? 'text-[#7ce896]' : 'text-[#6b7588] group-hover:text-[#65def0]'
                 }`}
                 aria-hidden="true"
               >
                 {isDone ? '✓' : lesson.order.toString().padStart(2, '0')}
               </span>
 
+              {/* Title */}
               <div className="flex-1 min-w-0">
-                <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568]">
-                  {t(STRINGS.module, lang)} · {lang === 'ru' ? 'УРОК' : 'LESSON'} {lesson.order.toString().padStart(2, '0')}
-                  {lesson.widget_type && (
-                    <span className="ml-2 text-[#00F0FF]">
-                      · {lesson.widget_type.toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <div className="mt-0.5 text-sm sm:text-base text-[#E4E8F1] group-hover:text-[#00F0FF] transition truncate">
+                <div
+                  className={`font-mono font-medium text-[14px] sm:text-[15px] tracking-[-0.005em] truncate ${
+                    isDone
+                      ? 'text-[#aab2c4] group-hover:text-[#7ce896]'
+                      : 'text-[#e7ecf5] group-hover:text-[#65def0]'
+                  } transition`}
+                >
                   {lesson.title}
                 </div>
+                {lesson.widget_type && (
+                  <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+                    {lesson.widget_type === 'quiz' && pick(lang, { en: 'KNOWLEDGE CHECK', ru: 'ПРОВЕРКА' })}
+                    {lesson.widget_type === 'scenario' && pick(lang, { en: 'SCENARIO', ru: 'СЦЕНАРИЙ' })}
+                    {lesson.widget_type === 'redflags' && pick(lang, { en: 'RED FLAGS', ru: 'КРАСНЫЕ ФЛАГИ' })}
+                    {lesson.widget_type === 'exam' && pick(lang, { en: 'EXAM', ru: 'ЭКЗАМЕН' })}
+                    {lesson.widget_type === 'certificate' && pick(lang, { en: 'CERTIFICATE', ru: 'СЕРТИФИКАТ' })}
+                  </div>
+                )}
               </div>
 
+              {/* Right side: time + completion */}
               <div className="shrink-0 text-right">
-                <div className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[2px] text-[#8892A8]">
+                <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
                   {lesson.est_minutes} {t(STRINGS.estMinutes, lang)}
                 </div>
                 {isDone && (
-                  <div className="mt-0.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#39FF6B]">
+                  <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">
                     {t(STRINGS.completed, lang)}
                   </div>
                 )}

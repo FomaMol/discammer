@@ -69,7 +69,7 @@ export default function GameLauncher({
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-block px-8 py-4 font-['JetBrains_Mono'] uppercase text-lg tracking-wider bg-transparent border border-[#39FF6B] text-[#39FF6B] hover:shadow-[0_0_25px_rgba(57,255,107,0.25)] transition-all duration-300 cursor-pointer"
+        className="inline-block px-8 py-4 font-mono uppercase text-lg tracking-wider bg-transparent border border-[#7ce896] text-[#7ce896] hover:shadow-[0_0_25px_rgba(124,232,150,0.25)] transition-all duration-300 cursor-pointer"
       >
         {resolvedLabel}
       </button>
@@ -81,8 +81,8 @@ export default function GameLauncher({
           aria-label="Antifraud Hero"
           className="fixed inset-0 z-[100] bg-black/95 flex flex-col"
         >
-          <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#1E2A42] bg-[#0B0E17]">
-            <span className="font-['Press_Start_2P'] text-[#39FF6B] text-xs md:text-sm glow-green tracking-widest">
+          <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#202a44] bg-[#0b0f1a]">
+            <span className="font-display-wordmark text-[#7ce896] text-xs md:text-sm glow-green tracking-widest">
               ANTIFRAUD HERO
             </span>
             <button
@@ -90,7 +90,7 @@ export default function GameLauncher({
               type="button"
               onClick={close}
               aria-label={resolvedCloseAria}
-              className="font-['JetBrains_Mono'] uppercase text-xs md:text-sm tracking-[2px] text-[#8892A8] hover:text-[#FF4757] focus:text-[#FF4757] transition-colors px-3 py-1 border border-[#1E2A42] hover:border-[#FF4757] focus:border-[#FF4757] focus:outline-none cursor-pointer"
+              className="font-mono uppercase text-xs md:text-sm tracking-[2px] text-[#aab2c4] hover:text-[#e76670] focus:text-[#e76670] transition-colors px-3 py-1 border border-[#202a44] hover:border-[#e76670] focus:border-[#e76670] focus:outline-none cursor-pointer"
             >
               {resolvedCloseLabel}
             </button>

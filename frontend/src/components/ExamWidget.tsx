@@ -67,7 +67,9 @@ export default function ExamWidget({ config, locale }: Props) {
   const finishLabel = pick(lang, { en: 'Finish exam', ru: 'Завершить' });
   const restartLabel = pick(lang, { en: 'Restart exam', ru: 'Пройти заново' });
   const passedLabel = pick(lang, { en: 'PASSED', ru: 'ЗАЧЁТ' });
-  const failedLabel = pick(lang, { en: 'Below threshold', ru: 'Ниже порога' });
+  const failedLabel = pick(lang, { en: 'BELOW THRESHOLD', ru: 'НИЖЕ ПОРОГА' });
+  const correctLabel = pick(lang, { en: 'CORRECT', ru: 'ВЕРНО' });
+  const incorrectLabel = pick(lang, { en: 'INCORRECT', ru: 'НЕВЕРНО' });
 
   function submit() {
     if (picked === null) return;
@@ -104,27 +106,27 @@ export default function ExamWidget({ config, locale }: Props) {
     const passed = ratio >= threshold;
 
     return (
-      <div className="bg-[#131829] border border-[#1E2A42] p-6">
-        <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-3">
+      <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
           {heading} // {pick(lang, { en: 'RESULT', ru: 'РЕЗУЛЬТАТ' })}
         </div>
         <div className="flex flex-wrap items-baseline gap-4">
           <div
-            className={`font-['Press_Start_2P'] text-3xl sm:text-4xl ${
-              passed ? 'text-[#39FF6B] glow-green' : 'text-[#FFB547] glow-amber'
+            className={`font-mono font-bold text-3xl sm:text-4xl tabular-nums ${
+              passed ? 'text-[#7ce896]' : 'text-[#f4b965]'
             }`}
           >
             {score}/{total}
           </div>
           <div
-            className={`font-['JetBrains_Mono'] text-sm uppercase tracking-[3px] ${
-              passed ? 'text-[#39FF6B]' : 'text-[#FFB547]'
+            className={`font-mono text-[13px] uppercase tracking-[0.18em] ${
+              passed ? 'text-[#7ce896]' : 'text-[#f4b965]'
             }`}
           >
             {passed ? passedLabel : failedLabel}
           </div>
         </div>
-        <p className="mt-4 text-sm text-[#C8D0E0] leading-relaxed">
+        <p className="mt-4 font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
           {passed
             ? pick(lang, {
                 en: `You scored ${Math.round(ratio * 100)}% — at or above the ${Math.round(
@@ -144,7 +146,7 @@ export default function ExamWidget({ config, locale }: Props) {
               })}
         </p>
         <details className="mt-4">
-          <summary className="cursor-pointer font-['JetBrains_Mono'] text-[11px] uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF]">
+          <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0]">
             {pick(lang, { en: 'Review answers', ru: 'Разбор ответов' })}
           </summary>
           <ol className="mt-3 space-y-3">
@@ -152,14 +154,23 @@ export default function ExamWidget({ config, locale }: Props) {
               const userIdx = answers[i];
               const correct = q.choices[userIdx]?.correct === true;
               return (
-                <li key={i} className="border-l-2 pl-3 border-[#1E2A42]">
-                  <div className="text-[11px] font-['JetBrains_Mono'] text-[#4A5568]">
-                    Q{i + 1} {q.module ? `· ${q.module}` : ''} {correct ? '· ✓' : '· ✗'}
+                <li
+                  key={i}
+                  className={`p-3 border rounded-[3px] ${
+                    correct ? 'border-[#7ce896]/40 bg-[#7ce896]/5' : 'border-[#e76670]/40 bg-[#e76670]/5'
+                  }`}
+                >
+                  <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em]">
+                    <span className="text-[#6b7588] tabular-nums">Q{(i + 1).toString().padStart(2, '0')}</span>
+                    {q.module && <span className="text-[#aab2c4]">· {q.module}</span>}
+                    <span className={correct ? 'text-[#7ce896]' : 'text-[#e76670]'}>
+                      · {correct ? `✓ ${correctLabel}` : `✗ ${incorrectLabel}`}
+                    </span>
                   </div>
-                  <div className="text-sm text-[#E4E8F1] mt-0.5">{q.question}</div>
+                  <div className="mt-1.5 font-sans text-[14px] text-[#e7ecf5] leading-snug">{q.question}</div>
                   {!correct && q.choices.find((c) => c.correct) && (
-                    <div className="mt-1 text-xs text-[#8892A8]">
-                      <span className="text-[#39FF6B]">
+                    <div className="mt-1.5 font-sans text-[13px] text-[#aab2c4]">
+                      <span className="text-[#7ce896]">
                         {pick(lang, { en: 'Correct:', ru: 'Верно:' })}
                       </span>{' '}
                       {q.choices.find((c) => c.correct)?.text}
@@ -174,12 +185,12 @@ export default function ExamWidget({ config, locale }: Props) {
           <button
             type="button"
             onClick={restart}
-            className="inline-flex items-center gap-2 px-4 py-2 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition"
+            className="inline-flex items-center gap-2 px-4 py-2 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
           >
             ↺ {restartLabel}
           </button>
         </div>
-      </div>
+      </section>
     );
   }
 
@@ -188,20 +199,20 @@ export default function ExamWidget({ config, locale }: Props) {
   const isLast = index === total - 1;
 
   return (
-    <div className="bg-[#131829] border border-[#1E2A42] p-5 sm:p-6">
+    <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
       <div className="flex items-center justify-between mb-3">
-        <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0]">
           {heading}
         </div>
-        <div className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[2px] text-[#8892A8]">
-          {progressLabel} {index + 1}/{total}
+        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
+          {progressLabel} {(index + 1).toString().padStart(2, '0')}/{total.toString().padStart(2, '0')}
         </div>
       </div>
 
-      {/* Bar */}
-      <div className="h-1 bg-[#0B0E17] border border-[#1E2A42] mb-5 overflow-hidden">
+      {/* Progress bar */}
+      <div className="h-[3px] bg-[#0b0f1a] border border-[#202a44] mb-5 overflow-hidden">
         <div
-          className="h-full bg-[#00F0FF] transition-all"
+          className="h-full bg-[#65def0] transition-all duration-300"
           style={{ width: `${((index + (answeredThis ? 1 : 0)) / total) * 100}%` }}
         />
       </div>
@@ -209,32 +220,38 @@ export default function ExamWidget({ config, locale }: Props) {
       {current && (
         <>
           {current.module && (
-            <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568] mb-2">
+            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2">
               {current.module}
             </div>
           )}
-          <h3 className="text-[#E4E8F1] text-base sm:text-lg font-semibold leading-snug">
+          <h3 className="font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
             {current.question}
           </h3>
 
           <fieldset className="mt-5 space-y-2.5" disabled={answeredThis}>
             {current.choices.map((choice, i) => {
               const isPicked = picked === i;
-              const showCorrect = answeredThis && i === correctIndex;
-              const showWrong = answeredThis && isPicked && !choice.correct;
+              const isCorrectShown = answeredThis && i === correctIndex;
+              const isWrongShown = answeredThis && isPicked && !choice.correct;
 
-              const cls = showCorrect
-                ? 'border-[#39FF6B] bg-[#39FF6B]/5'
-                : showWrong
-                ? 'border-[#FF4757] bg-[#FF4757]/5'
-                : isPicked
-                ? 'border-[#00F0FF] bg-[#00F0FF]/5'
-                : 'border-[#1E2A42] hover:border-[#00F0FF]/40';
+              let stateClass: string;
+              let badge: { text: string; cls: string } | null = null;
+              if (isCorrectShown) {
+                stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
+                badge = { text: `✓ ${correctLabel}`, cls: 'text-[#7ce896]' };
+              } else if (isWrongShown) {
+                stateClass = 'border-[#e76670] bg-[#e76670]/10';
+                badge = { text: `✗ ${incorrectLabel}`, cls: 'text-[#e76670]' };
+              } else if (isPicked) {
+                stateClass = 'border-[#65def0] bg-[#65def0]/8';
+              } else {
+                stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+              }
 
               return (
                 <label
                   key={i}
-                  className={`flex items-start gap-3 p-3.5 border cursor-pointer transition ${cls}`}
+                  className={`relative flex items-start gap-3 p-3.5 sm:p-4 border cursor-pointer transition rounded-[3px] ${stateClass}`}
                 >
                   <input
                     type="radio"
@@ -242,11 +259,18 @@ export default function ExamWidget({ config, locale }: Props) {
                     value={i}
                     checked={isPicked}
                     onChange={() => setPicked(i)}
-                    className="mt-1 accent-[#00F0FF]"
+                    className="mt-1 accent-[#65def0] shrink-0"
                   />
-                  <span className="flex-1 text-sm text-[#C8D0E0] leading-relaxed">
+                  <span className="flex-1 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
                     {choice.text}
                   </span>
+                  {badge && (
+                    <span
+                      className={`shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] ${badge.cls} pt-0.5`}
+                    >
+                      {badge.text}
+                    </span>
+                  )}
                 </label>
               );
             })}
@@ -254,13 +278,13 @@ export default function ExamWidget({ config, locale }: Props) {
 
           {answeredThis && current.choices[answers[index]]?.explanation && (
             <div
-              className={`mt-4 p-3 border-l-2 ${
+              className={`mt-4 p-3 border rounded-[3px] ${
                 current.choices[answers[index]]?.correct
-                  ? 'border-[#39FF6B] bg-[#39FF6B]/5'
-                  : 'border-[#FFB547] bg-[#FFB547]/5'
+                  ? 'border-[#7ce896]/40 bg-[#7ce896]/5'
+                  : 'border-[#f4b965]/40 bg-[#f4b965]/5'
               }`}
             >
-              <p className="text-sm text-[#C8D0E0] leading-relaxed">
+              <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed">
                 {current.choices[answers[index]]?.explanation}
               </p>
             </div>
@@ -272,23 +296,23 @@ export default function ExamWidget({ config, locale }: Props) {
                 type="button"
                 onClick={submit}
                 disabled={picked === null}
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border border-[#00F0FF] text-[#00F0FF] hover:bg-[#00F0FF]/10 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
               >
-                {submitLabel}
+                {submitLabel} <span aria-hidden="true">▸</span>
               </button>
             ) : isLast ? (
               <button
                 type="button"
                 onClick={finish}
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#39FF6B]/5 border border-[#39FF6B] text-[#39FF6B] hover:bg-[#39FF6B]/10 transition"
+                className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold"
               >
-                {finishLabel}
+                {finishLabel} <span aria-hidden="true">▸</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={next}
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border border-[#00F0FF] text-[#00F0FF] hover:bg-[#00F0FF]/10 transition"
+                className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold"
               >
                 {nextLabel} →
               </button>
@@ -296,6 +320,6 @@ export default function ExamWidget({ config, locale }: Props) {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

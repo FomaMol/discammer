@@ -5,47 +5,60 @@
 
 <section class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-  {# Breadcrumb #}
-  <div class="mb-6">
-    <a href="/{{ _lang }}/course" class="inline-flex items-center gap-2 font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition">
-      {{ t(_lang, 'course.back_to_modules') }}
-    </a>
-  </div>
+  {# Breadcrumb path — ~/course/<module-slug> #}
+  <nav aria-label="Breadcrumb" class="mb-6">
+    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#6b7588]">
+      <li>
+        <a href="/{{ _lang }}" class="hover:text-[#65def0] transition">~</a>
+      </li>
+      <li aria-hidden="true">/</li>
+      <li>
+        <a href="/{{ _lang }}/course" class="hover:text-[#65def0] transition">course</a>
+      </li>
+      <li aria-hidden="true">/</li>
+      <li class="text-[#aab2c4]" aria-current="page">{{ module.slug }}</li>
+    </ol>
+  </nav>
 
-  {# Module header #}
+  {# Module header — h1 in display-article style #}
   <div class="flex items-start gap-5 sm:gap-6">
-    <div class="shrink-0 w-16 h-16 sm:w-20 sm:h-20 border border-[#00F0FF] bg-[#00F0FF]/10 text-[#00F0FF] flex flex-col items-center justify-center">
-      <span class="text-3xl sm:text-4xl leading-none">{{ module.icon }}</span>
-      <span class="mt-1 font-['JetBrains_Mono'] text-[9px] tracking-[2px]">{{ "%02d"|format(module.order) }}</span>
+    <div class="shrink-0 w-14 h-14 sm:w-16 sm:h-16 flex flex-col items-center justify-center border border-[#65def0] bg-[#65def0]/5 text-[#65def0]">
+      {% if module.icon %}
+      <span class="text-2xl sm:text-3xl leading-none">{{ module.icon }}</span>
+      {% endif %}
+      <span class="mt-1 font-mono text-[10px] tabular-nums tracking-[0.14em]">{{ "%02d"|format(module.order) }}</span>
     </div>
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#4A5568]">
+        <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">
           {{ t(_lang, 'course.module_label', n="%02d"|format(module.order)) }}
         </span>
         {% if module.difficulty %}
-        <span class="px-2 py-0.5 border border-[#1E2A42] font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">{{ module.difficulty }}</span>
+        <span class="px-2 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">{{ module.difficulty }}</span>
         {% endif %}
         {% if module.duration %}
-        <span class="px-2 py-0.5 border border-[#1E2A42] font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">{{ module.duration }}</span>
+        <span class="px-2 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">{{ module.duration }}</span>
         {% endif %}
       </div>
-      <h1 class="mt-2 font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#E4E8F1] font-bold leading-tight">{{ module.title }}</h1>
-      <p class="mt-3 text-[#C8D0E0] text-sm sm:text-base leading-relaxed">{{ module.description }}</p>
+      <h1 class="mt-3 font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)]">
+        {{ module.title }}
+      </h1>
+      <p class="mt-4 font-sans text-[18px] text-[#cdd4e3] leading-[1.6] max-w-[62ch]">{{ module.description }}</p>
     </div>
   </div>
 
   {# Topics + objectives #}
+  {% if module.topics or module.objectives %}
   <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
     {% if module.topics %}
     <div>
-      <div class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#4A5568] mb-3">
+      <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3">
         {{ t(_lang, 'course.topics_label') }}
       </div>
       <ul class="space-y-2">
         {% for topic in module.topics %}
-        <li class="flex items-start gap-3 text-sm text-[#C8D0E0]">
-          <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#00F0FF] shrink-0"></span>
+        <li class="flex items-start gap-3 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
+          <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#65def0] shrink-0"></span>
           <span>{{ topic }}</span>
         </li>
         {% endfor %}
@@ -54,13 +67,13 @@
     {% endif %}
     {% if module.objectives %}
     <div>
-      <div class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#4A5568] mb-3">
+      <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3">
         {{ t(_lang, 'course.objectives_label') }}
       </div>
       <ul class="space-y-2">
         {% for obj in module.objectives %}
-        <li class="flex items-start gap-3 text-sm text-[#C8D0E0]">
-          <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#39FF6B] shrink-0"></span>
+        <li class="flex items-start gap-3 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
+          <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#7ce896] shrink-0"></span>
           <span>{{ obj }}</span>
         </li>
         {% endfor %}
@@ -68,34 +81,47 @@
     </div>
     {% endif %}
   </div>
+  {% endif %}
 
   {# Lessons list — React island reads localStorage to mark completed ones #}
   <div class="mt-12">
-    <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6">
+    <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-6">
       {{ t(_lang, 'course.lessons_heading') }}
     </h2>
 
     <div data-component="ModuleLessons" data-props='{"moduleSlug":"{{ module.slug }}","locale":"{{ _lang }}"}'>
       <noscript>
         {% if lessons %}
-        <ol class="space-y-3">
+        <ol class="border border-[#202a44] bg-[#121828]/60 divide-y divide-[#202a44]">
           {% for ls in lessons %}
           <li>
-            <a href="/{{ _lang }}/course/{{ module.slug }}/{{ ls.slug }}" class="flex items-center gap-4 p-4 bg-[#131829] border border-[#1E2A42] hover:border-[#00F0FF] transition">
-              <span class="font-['JetBrains_Mono'] text-[#4A5568] text-xs w-6">{{ "%02d"|format(ls.order) }}</span>
-              <span class="flex-1 text-[#E4E8F1] text-sm">{{ ls.title }}</span>
-              <span class="font-['JetBrains_Mono'] text-[#4A5568] text-[10px] uppercase tracking-[2px]">{{ ls.est_minutes }} {{ t(_lang, 'course.minutes_short') }}</span>
+            <a href="/{{ _lang }}/course/{{ module.slug }}/{{ ls.slug }}" class="flex items-center gap-4 px-4 sm:px-5 py-4 hover:bg-[#1a2236] hover:border-[#65def0] transition group">
+              <span class="font-mono text-[#6b7588] text-[12px] tabular-nums w-8 shrink-0">{{ "%02d"|format(ls.order) }}</span>
+              <span class="flex-1 font-mono font-medium text-[#e7ecf5] text-[14px] group-hover:text-[#65def0] transition">{{ ls.title }}</span>
+              <span class="font-mono text-[#aab2c4] text-[11px] uppercase tracking-[0.14em] tabular-nums shrink-0">{{ ls.est_minutes }} {{ t(_lang, 'course.minutes_short') }}</span>
             </a>
           </li>
           {% endfor %}
         </ol>
         {% else %}
-        <div class="bg-[#131829] border border-[#1E2A42] p-6 text-center text-[#8892A8] text-sm">
+        <div class="bg-[#121828] border border-[#202a44] p-6 text-center text-[#aab2c4] font-sans text-[15px]">
           {{ t(_lang, 'course.lessons_empty') }}
         </div>
         {% endif %}
       </noscript>
     </div>
+  </div>
+
+  {# Footer CTA — ghost back + primary start #}
+  <div class="mt-12 pt-6 border-t border-[#202a44] flex flex-wrap items-center justify-between gap-4">
+    <a href="/{{ _lang }}/course" class="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] hover:bg-[#121828] transition rounded-[3px]">
+      &larr; {{ t(_lang, 'module.back_to_course') }}
+    </a>
+    {% if lessons and lessons|length > 0 %}
+    <a href="/{{ _lang }}/course/{{ module.slug }}/{{ lessons[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold">
+      {{ t(_lang, 'module.start_first_lesson') }} &rarr;
+    </a>
+    {% endif %}
   </div>
 
 </section>

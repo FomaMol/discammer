@@ -39,10 +39,10 @@ const BUNDLES = {
 } as const;
 
 const BADGE_STYLES: Record<string, string> = {
-  interview: 'bg-accent-cyan/20 text-accent-cyan border-accent-cyan/30',
-  newsletter: 'bg-accent-green/20 text-accent-green border-accent-green/30',
-  article: 'bg-accent-amber/20 text-accent-amber border-accent-amber/30',
-  guide: 'bg-accent-red/20 text-accent-red border-accent-red/30',
+  interview: 'bg-[#65def0]/10 text-[#65def0] border-[#65def0]/40',
+  newsletter: 'bg-[#7ce896]/10 text-[#7ce896] border-[#7ce896]/40',
+  article: 'bg-[#f4b965]/10 text-[#f4b965] border-[#f4b965]/40',
+  guide: 'bg-[#e76670]/10 text-[#e76670] border-[#e76670]/40',
 };
 
 function badgeClass(type: string): string {
@@ -101,31 +101,44 @@ export default function JournalFilter({ lang }: JournalFilterProps) {
 
   return (
     <section className="py-6 sm:py-8">
-      {/* Tabs */}
+      {/* Tabs — DESIGN.md nav-link: 2px cyan bottom-border on active, cyan-veil bg, cyan text. */}
       <div
-        className="flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-2 scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0"
+        role="tablist"
+        aria-label="Journal filter"
+        className="flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-2 scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0 border-b border-[#202a44]"
         style={{ scrollbarWidth: 'none' }}
       >
-        {FILTER_KEYS.map((key) => (
-          <button
-            key={key}
-            onClick={() => setActiveTab(key)}
-            className={`px-2.5 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs uppercase tracking-wider border whitespace-nowrap transition-all duration-200 flex-shrink-0
-              ${activeTab === key
-                ? 'bg-accent-cyan/10 text-accent-cyan border-accent-cyan glow-cyan'
-                : 'bg-bg-panel text-text-secondary border-border-default hover:text-text-primary hover:border-text-muted'
+        {FILTER_KEYS.map((key) => {
+          const isActive = activeTab === key;
+          return (
+            <button
+              key={key}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setActiveTab(key)}
+              className={`relative px-3 sm:px-4 py-2 text-[10px] sm:text-[11px] uppercase whitespace-nowrap transition-colors duration-200 flex-shrink-0 border-b-2 -mb-px ${
+                isActive
+                  ? 'bg-[#65def0]/8 text-[#65def0] border-[#65def0] border-l border-r border-t border-l-[#65def0]/40 border-r-[#65def0]/40 border-t-[#65def0]/40 rounded-t-sm'
+                  : 'bg-transparent text-[#aab2c4] border-transparent border-l border-r border-t border-l-transparent border-r-transparent border-t-transparent hover:text-[#e7ecf5] hover:bg-[#121828] hover:border-l-[#3a8b9a]/40 hover:border-r-[#3a8b9a]/40 hover:border-t-[#3a8b9a]/40 hover:border-b-[#3a8b9a] rounded-t-sm'
               }`}
-            style={{ fontFamily: '"JetBrains Mono", monospace' }}
-          >
-            [{tr(key)}]
-          </button>
-        ))}
+              style={{
+                fontFamily: '"JetBrains Mono", monospace',
+                letterSpacing: '0.14em',
+                fontWeight: 600,
+              }}
+            >
+              {tr(key)}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((item) => {
+      {/* Bento grid: first card on desktop is wide (col-span-2), rest are 3-up.
+          Avoids the 'three equal cards repeated endlessly' AI tell per DESIGN.md bans. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        {filtered.map((item, idx) => {
           const hasImage = !!item.cover_image;
+          const isFeatured = idx === 0 && filtered.length > 1;
           const href = item.slug
             ? item.type === 'guide'
               ? `/${locale}/guide/${item.slug}`
@@ -135,52 +148,82 @@ export default function JournalFilter({ lang }: JournalFilterProps) {
             <a
               key={`${item.type}-${item.id}`}
               href={href}
-              className="bg-bg-panel border border-border-default rounded-md overflow-hidden hover:border-accent-cyan-dim hover:box-glow-cyan transition-all duration-300 group flex flex-col"
+              className={`group flex flex-col overflow-hidden rounded-md transition-colors duration-300 ${
+                isFeatured
+                  ? 'sm:col-span-2 lg:col-span-2 bg-[#1a2236] border border-[#3a8b9a] hover:border-[#65def0] hover:box-glow-cyan'
+                  : 'bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236]'
+              }`}
               style={{ textDecoration: 'none' }}
             >
-              {/* Image (only when cover_image is set) */}
               {hasImage && (
-                <div className="relative aspect-video bg-bg-secondary overflow-hidden">
+                <div
+                  className={`relative bg-[#0a0d16] overflow-hidden ${
+                    isFeatured ? 'aspect-[16/9] lg:aspect-[21/9]' : 'aspect-video'
+                  }`}
+                >
                   <img
                     src={item.cover_image}
                     alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover transition-transform duration-500"
+                    style={{ filter: 'saturate(0.85) contrast(1.05)' }}
                     loading="lazy"
                   />
                   <span
-                    className={`absolute top-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-wider border rounded ${badgeClass(item.type)}`}
-                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                    className={`absolute top-2 right-2 px-2 py-0.5 text-[10px] uppercase border rounded-sm ${badgeClass(item.type)}`}
+                    style={{
+                      fontFamily: '"JetBrains Mono", monospace',
+                      letterSpacing: '0.14em',
+                      fontWeight: 600,
+                    }}
                   >
                     {localizedBadge(item.type)}
                   </span>
                 </div>
               )}
 
-              {/* Content */}
-              <div className="p-4 flex flex-col gap-2 flex-1">
+              <div className={`flex flex-col gap-2 flex-1 ${isFeatured ? 'p-5 sm:p-6' : 'p-4'}`}>
                 <div className="flex items-center gap-2 flex-wrap">
                   {!hasImage && (
                     <span
-                      className={`px-2 py-0.5 text-[10px] uppercase tracking-wider border rounded ${badgeClass(item.type)}`}
-                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                      className={`px-2 py-0.5 text-[10px] uppercase border rounded-sm ${badgeClass(item.type)}`}
+                      style={{
+                        fontFamily: '"JetBrains Mono", monospace',
+                        letterSpacing: '0.14em',
+                        fontWeight: 600,
+                      }}
                     >
                       {localizedBadge(item.type)}
                     </span>
                   )}
                   {item.published_at && (
                     <time
-                      className="text-xs text-accent-amber"
-                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                      className="text-[11px] text-[#6b7588] tabular-nums"
+                      style={{
+                        fontFamily: '"JetBrains Mono", monospace',
+                        letterSpacing: '0.02em',
+                      }}
                     >
                       {item.published_at}
                     </time>
                   )}
                 </div>
-                <h3 className="text-text-primary text-sm font-semibold line-clamp-2 leading-snug">
+                <h3
+                  className={`text-[#e7ecf5] font-bold leading-snug line-clamp-2 group-hover:text-[#65def0] transition-colors ${
+                    isFeatured ? 'text-base sm:text-lg lg:text-xl' : 'text-sm'
+                  }`}
+                  style={{
+                    fontFamily: '"JetBrains Mono", monospace',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
                   {item.title}
                 </h3>
                 {(item.subtitle || item.description) && (
-                  <p className="text-text-secondary text-xs line-clamp-3 leading-relaxed">
+                  <p
+                    className={`text-[#aab2c4] leading-relaxed ${
+                      isFeatured ? 'text-sm line-clamp-3 sm:line-clamp-4' : 'text-xs line-clamp-3'
+                    }`}
+                  >
                     {item.subtitle || item.description}
                   </p>
                 )}
@@ -192,7 +235,7 @@ export default function JournalFilter({ lang }: JournalFilterProps) {
 
       {filtered.length === 0 && (
         <div
-          className="py-16 text-center text-text-muted text-sm"
+          className="py-16 text-center text-[#6b7588] text-sm"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
           {isLoading ? tr('loading') : tr('empty')}

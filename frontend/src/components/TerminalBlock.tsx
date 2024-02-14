@@ -32,7 +32,7 @@ export default function TerminalBlock({ title, content, dangerouslySetInnerHTML 
           />
         ) : hasContent ? (
           <p
-            className="text-[#8892A8] text-sm leading-relaxed"
+            className="text-[#aab2c4] text-sm leading-relaxed"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {content}

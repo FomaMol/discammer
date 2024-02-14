@@ -1,4 +1,4 @@
-import { Locale, normalizeLocale } from '../utils/i18n';
+import { Locale, normalizeLocale, pick } from '../utils/i18n';
 import QuizWidget, { QuizConfig } from './QuizWidget';
 import ScenarioWidget, { ScenarioConfig } from './ScenarioWidget';
 import RedFlagsWidget, { RedFlagsConfig } from './RedFlagsWidget';
@@ -35,10 +35,16 @@ export default function LessonWidget({ type, config, locale }: Props) {
       );
     default:
       return (
-        <div className="bg-[#131829] border border-[#1E2A42] p-5 text-sm text-[#8892A8]">
-          {lang === 'ru'
-            ? `Виджет «${type}» появится в следующем релизе.`
-            : `The "${type}" widget is launching in a future release.`}
+        <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#f4b965] mb-2">
+            // {pick(lang, { en: 'WIDGET PENDING', ru: 'ВИДЖЕТ В РАЗРАБОТКЕ' })}
+          </div>
+          <p className="font-sans text-[14px] text-[#aab2c4] leading-relaxed">
+            {pick(lang, {
+              en: `The "${type}" widget is launching in a future release.`,
+              ru: `Виджет «${type}» появится в следующем релизе.`,
+            })}
+          </p>
         </div>
       );
   }

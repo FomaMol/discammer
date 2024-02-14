@@ -82,21 +82,21 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
   }, [visible]);
 
   function lineColor(line: string): string {
-    if (line.includes(tokens.ok) || line.includes(tokens.established) || line.includes('200')) return '#39FF6B';
-    if (line.includes(tokens.awaiting)) return '#FFB547';
-    if (line.startsWith('   ')) return '#8892A8';
-    return '#00F0FF';
+    if (line.includes(tokens.ok) || line.includes(tokens.established) || line.includes('200')) return '#7ce896';
+    if (line.includes(tokens.awaiting)) return '#f4b965';
+    if (line.startsWith('   ')) return '#aab2c4';
+    return '#65def0';
   }
 
   return (
-    <div className="bg-[#0B0E17]/90 border border-[#1E2A42] rounded-md overflow-hidden shadow-[0_0_40px_rgba(0,240,255,0.08)] backdrop-blur-sm">
+    <div className="bg-[#0b0f1a]/90 border border-[#202a44] rounded-md overflow-hidden shadow-[0_0_40px_rgba(101,222,240,0.08)] backdrop-blur-sm">
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-3 py-2 bg-[#131829] border-b border-[#1E2A42]">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#FF4757]"></span>
-        <span className="w-2.5 h-2.5 rounded-full bg-[#FFB547]"></span>
-        <span className="w-2.5 h-2.5 rounded-full bg-[#39FF6B]"></span>
+      <div className="flex items-center gap-2 px-3 py-2 bg-[#121828] border-b border-[#202a44]">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#e76670]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#f4b965]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#7ce896]"></span>
         <span
-          className="ml-3 text-[10px] uppercase tracking-[2px] text-[#8892A8]"
+          className="ml-3 text-[10px] uppercase tracking-[2px] text-[#aab2c4]"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
           discammer@threat-monitor ~ %
@@ -125,7 +125,7 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
           <span
             className="inline-block"
             style={{
-              color: '#00F0FF',
+              color: '#65def0',
               animation: 'blink 1s step-end infinite',
               fontFamily: '"JetBrains Mono", monospace',
             }}

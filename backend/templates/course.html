@@ -4,159 +4,177 @@
 {% block content %}
 
 {# ---------- Hero ---------- #}
-<section class="relative overflow-hidden border-b border-[#1E2A42]">
-  <div class="absolute inset-0 grid-pattern opacity-50"></div>
-  <div data-component="ScanlineOverlay" data-props='{}'></div>
+<section class="relative border-b border-[#202a44]">
+  <div class="absolute inset-0 grid-pattern opacity-40 pointer-events-none"></div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
-    <div class="inline-flex items-center gap-2 mb-5 px-3 py-1 border border-[#1E2A42] bg-[#131829]/60 backdrop-blur-sm">
-      <span class="w-1.5 h-1.5 rounded-full bg-[#39FF6B] animate-pulse"></span>
-      <span class="font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[3px] text-[#8892A8]">
-        {{ t(_lang, 'course.tag', modules=course_totals.modules) }}
-      </span>
-    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      {# Left: eyebrow + h1 + lead #}
       <div class="lg:col-span-7">
-        <h1 class="font-['Press_Start_2P'] text-[#00F0FF] text-lg sm:text-2xl md:text-3xl glow-cyan break-words leading-tight">
-          {{ t(_lang, 'course.title') }}
+        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-4">
+          {{ t(_lang, 'course.eyebrow_training_program') }}
+        </div>
+
+        <h1 class="font-mono font-bold uppercase text-[#f3f5fa] leading-[1.05] tracking-[-0.02em] text-[clamp(1.75rem,1.1rem+2.5vw,2.5rem)]">
+          {{ t(_lang, 'course.title_long') }}
         </h1>
 
-        <p class="mt-5 sm:mt-6 max-w-2xl text-[#C8D0E0] text-sm sm:text-base leading-relaxed">
+        <p class="mt-6 font-sans text-[#aab2c4] text-[18px] leading-[1.6] max-w-[62ch]">
           {{ t(_lang, 'course.intro') }}
         </p>
 
-        <ul class="mt-6 space-y-2 max-w-2xl">
-          <li class="flex items-start gap-3 text-sm text-[#8892A8]">
-            <span class="mt-2 w-1.5 h-1.5 bg-[#00F0FF] shrink-0"></span>
-            <span><span class="text-[#E4E8F1]">{{ t(_lang, 'course.bullet_self_paced_label') }}</span> {{ t(_lang, 'course.bullet_self_paced_text') }}</span>
+        <ul class="mt-6 space-y-2 max-w-[62ch]">
+          <li class="flex items-start gap-3 text-[15px] text-[#aab2c4] leading-relaxed">
+            <span class="mt-2 w-1.5 h-1.5 bg-[#65def0] shrink-0"></span>
+            <span><span class="text-[#e7ecf5]">{{ t(_lang, 'course.bullet_self_paced_label') }}</span> {{ t(_lang, 'course.bullet_self_paced_text') }}</span>
           </li>
-          <li class="flex items-start gap-3 text-sm text-[#8892A8]">
-            <span class="mt-2 w-1.5 h-1.5 bg-[#39FF6B] shrink-0"></span>
-            <span><span class="text-[#E4E8F1]">{{ t(_lang, 'course.bullet_practical_label') }}</span> {{ t(_lang, 'course.bullet_practical_text') }}</span>
+          <li class="flex items-start gap-3 text-[15px] text-[#aab2c4] leading-relaxed">
+            <span class="mt-2 w-1.5 h-1.5 bg-[#7ce896] shrink-0"></span>
+            <span><span class="text-[#e7ecf5]">{{ t(_lang, 'course.bullet_practical_label') }}</span> {{ t(_lang, 'course.bullet_practical_text') }}</span>
           </li>
-          <li class="flex items-start gap-3 text-sm text-[#8892A8]">
-            <span class="mt-2 w-1.5 h-1.5 bg-[#FFB547] shrink-0"></span>
-            <span><span class="text-[#E4E8F1]">{{ t(_lang, 'course.bullet_verifiable_label') }}</span> {{ t(_lang, 'course.bullet_verifiable_text') }}</span>
+          <li class="flex items-start gap-3 text-[15px] text-[#aab2c4] leading-relaxed">
+            <span class="mt-2 w-1.5 h-1.5 bg-[#f4b965] shrink-0"></span>
+            <span><span class="text-[#e7ecf5]">{{ t(_lang, 'course.bullet_verifiable_label') }}</span> {{ t(_lang, 'course.bullet_verifiable_text') }}</span>
           </li>
         </ul>
       </div>
 
-      {# Terminal aside #}
-      <div class="lg:col-span-5 w-full">
-        <div class="bg-[#0B0E17]/90 border border-[#1E2A42] rounded-md overflow-hidden">
-          <div class="flex items-center gap-2 px-3 py-2 bg-[#131829] border-b border-[#1E2A42]">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#FF4757]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#FFB547]"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-[#39FF6B]"></span>
-            <span class="ml-3 text-[10px] uppercase tracking-[2px] text-[#8892A8] font-['JetBrains_Mono']">
-              {{ t(_lang, 'components.term_academy_label') }}
+      {# Right: operator stats card #}
+      <aside class="lg:col-span-5 w-full">
+        <div class="border border-[#202a44] bg-[#121828]/80 rounded-[4px]">
+          <div class="flex items-center gap-2 px-4 py-2.5 border-b border-[#202a44]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] animate-pulse"></span>
+            <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4]">
+              {{ t(_lang, 'course.briefing_label') }}
             </span>
           </div>
-          <pre class="px-4 py-4 text-xs sm:text-sm text-[#00F0FF] leading-relaxed font-['JetBrains_Mono'] overflow-x-auto whitespace-pre-wrap">{{ t(_lang, 'course.terminal_loading') }}
-{{ t(_lang, 'course.terminal_modules', modules="%02d"|format(course_totals.modules)) }}
-{{ t(_lang, 'course.terminal_lessons', lessons=course_totals.lessons) }}
-{{ t(_lang, 'course.terminal_runtime', runtime=course_totals.runtime) }}
-{{ t(_lang, 'course.terminal_difficulty') }}
-{{ t(_lang, 'course.terminal_certificate') }}
-<span class="text-[#39FF6B]">{{ t(_lang, 'course.terminal_status') }}</span></pre>
+
+          <dl class="divide-y divide-[#202a44]">
+            <div class="flex items-baseline justify-between px-4 py-3">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_modules') }}</dt>
+              <dd class="font-mono text-[15px] text-[#e7ecf5] tabular-nums">{{ "%02d"|format(course_totals.modules) }}</dd>
+            </div>
+            <div class="flex items-baseline justify-between px-4 py-3">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_lessons') }}</dt>
+              <dd class="font-mono text-[15px] text-[#e7ecf5] tabular-nums">{{ "%02d"|format(course_totals.lessons) }}</dd>
+            </div>
+            <div class="flex items-baseline justify-between px-4 py-3">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_estimated') }}</dt>
+              <dd class="font-mono text-[15px] text-[#e7ecf5] tabular-nums">{{ course_totals.runtime }}</dd>
+            </div>
+            <div class="flex items-baseline justify-between px-4 py-3">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_certificate') }}</dt>
+              <dd class="font-mono text-[15px] text-[#7ce896] tabular-nums">&check;</dd>
+            </div>
+            <div class="flex items-baseline justify-between px-4 py-3">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_status') }}</dt>
+              <dd class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0]">{{ t(_lang, 'course.briefing_status_ready') }}</dd>
+            </div>
+          </dl>
         </div>
-      </div>
+      </aside>
     </div>
   </div>
 </section>
 
-{# ---------- Curriculum island ---------- #}
+{# ---------- Curriculum island (vertical timeline) ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'course.section_curriculum') }}</div>
-  <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6 sm:mb-8">
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-1">
+    {{ t(_lang, 'course.section_curriculum') }}
+  </div>
+  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_curriculum_title') }}
   </h2>
 
   <div data-component="CourseProgress" data-props='{"locale":"{{ _lang }}"}'>
-    {# SEO Fallback: server-rendered module list when JS is disabled #}
+    {# SEO fallback when JS is disabled — server-rendered vertical timeline #}
     <noscript>
-      <div class="space-y-4">
+      <ol class="relative">
         {% for module in modules %}
-        <a href="/{{ _lang }}/course/{{ module.slug }}" class="block bg-[#131829]/80 border border-[#1E2A42] p-6 {% if module.is_locked %}opacity-60 pointer-events-none{% endif %} hover:border-[#00F0FF] transition">
-          <div class="flex flex-wrap items-center gap-3 mb-2">
-            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#4A5568]">
-              {{ t(_lang, 'course.module_label', n="%02d"|format(module.order)) }}
+        <li class="relative flex items-start gap-5 pb-5 pl-0">
+          {# vertical connector line, except on last item #}
+          {% if not loop.last %}
+          <span aria-hidden="true" class="absolute left-[19px] top-10 bottom-0 w-px bg-[#202a44]"></span>
+          {% endif %}
+          <a href="/{{ _lang }}/course/{{ module.slug }}" class="group flex items-start gap-5 w-full {% if module.is_locked %}opacity-60 pointer-events-none{% endif %}">
+            <span class="relative z-[1] shrink-0 w-10 h-10 flex items-center justify-center border border-[#202a44] bg-[#0b0f1a] font-mono text-[12px] font-bold text-[#aab2c4] tabular-nums">
+              {{ "%02d"|format(module.order) }}
             </span>
-            {% if module.difficulty %}
-            <span class="px-2 py-0.5 border border-[#1E2A42] font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">
-              {{ module.difficulty }}
-            </span>
-            {% endif %}
-            {% if module.is_locked %}
-            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#FF4757]">{{ t(_lang, 'course.module_locked') }}</span>
-            {% else %}
-            <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#00F0FF]">{{ t(_lang, 'course.module_available') }}</span>
-            {% endif %}
-          </div>
-          <h3 class="font-['JetBrains_Mono'] text-lg font-bold text-[#E4E8F1]">{{ module.title }}</h3>
-          <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ module.description }}</p>
-        </a>
+            <div class="flex-1 min-w-0 pt-2">
+              <div class="flex flex-wrap items-center gap-3">
+                <h3 class="font-mono font-bold text-[#e7ecf5] text-[17px] tracking-[-0.01em] group-hover:text-[#65def0] transition">
+                  {{ module.title }}
+                </h3>
+                {% if module.is_locked %}
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">&#9675; {{ t(_lang, 'course.module_locked') }}</span>
+                {% else %}
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#65def0]">&#9654; {{ t(_lang, 'course.module_available') }}</span>
+                {% endif %}
+              </div>
+              {% if module.description %}
+              <p class="mt-1.5 font-sans text-[14px] text-[#aab2c4] leading-relaxed">{{ module.description }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </li>
         {% endfor %}
-      </div>
+      </ol>
     </noscript>
   </div>
 </section>
 
 {# ---------- How it works ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'course.section_how') }}</div>
-  <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6 sm:mb-8">
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-1">{{ t(_lang, 'course.section_how') }}</div>
+  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_how_title') }}
   </h2>
 
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-    <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#00F0FF] hover:box-glow-cyan transition-all duration-300">
-      <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">01</div>
-      <div class="w-10 h-10 bg-[#00F0FF]/10 border border-[#00F0FF]/40 flex items-center justify-center text-xl">&#128218;</div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'course.step_learn') }}</h3>
-      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">{{ t(_lang, 'course.step_learn_text') }}</p>
+    <div class="relative bg-[#121828] border border-[#202a44] p-5 hover:border-[#65def0] hover:bg-[#1a2236] transition rounded-[4px]">
+      <div class="absolute top-3 right-3 font-mono text-[10px] tracking-[0.14em] text-[#6b7588] tabular-nums">01</div>
+      <h3 class="font-mono font-bold text-[13px] mt-2 text-[#65def0] uppercase tracking-[0.1em]">{{ t(_lang, 'course.step_learn') }}</h3>
+      <p class="font-sans text-[#aab2c4] text-[14px] mt-2 leading-relaxed">{{ t(_lang, 'course.step_learn_text') }}</p>
     </div>
 
-    <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#39FF6B] hover:box-glow-green transition-all duration-300">
-      <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">02</div>
-      <div class="w-10 h-10 bg-[#39FF6B]/10 border border-[#39FF6B]/40 flex items-center justify-center text-xl">&#127919;</div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'course.step_practice') }}</h3>
-      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">{{ t(_lang, 'course.step_practice_text') }}</p>
+    <div class="relative bg-[#121828] border border-[#202a44] p-5 hover:border-[#7ce896] hover:bg-[#1a2236] transition rounded-[4px]">
+      <div class="absolute top-3 right-3 font-mono text-[10px] tracking-[0.14em] text-[#6b7588] tabular-nums">02</div>
+      <h3 class="font-mono font-bold text-[13px] mt-2 text-[#7ce896] uppercase tracking-[0.1em]">{{ t(_lang, 'course.step_practice') }}</h3>
+      <p class="font-sans text-[#aab2c4] text-[14px] mt-2 leading-relaxed">{{ t(_lang, 'course.step_practice_text') }}</p>
     </div>
 
-    <div class="relative bg-[#131829] border border-[#1E2A42] p-5 hover:border-[#FFB547] hover:box-glow-amber transition-all duration-300">
-      <div class="absolute top-3 right-3 font-['JetBrains_Mono'] text-[10px] tracking-[2px] text-[#4A5568]">03</div>
-      <div class="w-10 h-10 bg-[#FFB547]/10 border border-[#FFB547]/40 flex items-center justify-center text-xl">&#127942;</div>
-      <h3 class="font-['JetBrains_Mono'] font-bold text-sm mt-4 text-[#E4E8F1] uppercase tracking-wider">{{ t(_lang, 'course.step_certify') }}</h3>
-      <p class="text-[#8892A8] text-xs mt-2 leading-relaxed">{{ t(_lang, 'course.step_certify_text') }}</p>
+    <div class="relative bg-[#121828] border border-[#202a44] p-5 hover:border-[#f4b965] hover:bg-[#1a2236] transition rounded-[4px]">
+      <div class="absolute top-3 right-3 font-mono text-[10px] tracking-[0.14em] text-[#6b7588] tabular-nums">03</div>
+      <h3 class="font-mono font-bold text-[13px] mt-2 text-[#f4b965] uppercase tracking-[0.1em]">{{ t(_lang, 'course.step_certify') }}</h3>
+      <p class="font-sans text-[#aab2c4] text-[14px] mt-2 leading-relaxed">{{ t(_lang, 'course.step_certify_text') }}</p>
     </div>
   </div>
 </section>
 
 {# ---------- FAQ ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-['JetBrains_Mono'] text-xs uppercase tracking-[3px] text-[#4A5568] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
-  <h2 class="font-['JetBrains_Mono'] text-[#00F0FF] text-xl sm:text-2xl font-bold mb-6 sm:mb-8">
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
+  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_faq_title') }}
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-    <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_who_q') }}</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_who_a') }}</p>
+    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_who_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_who_a') }}</p>
     </div>
-    <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_long_q') }}</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_long_a') }}</p>
+    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_long_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_long_a') }}</p>
     </div>
-    <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_install_q') }}</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_install_a') }}</p>
+    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_install_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_install_a') }}</p>
     </div>
-    <div class="bg-[#131829] border border-[#1E2A42] p-5">
-      <h3 class="font-['JetBrains_Mono'] text-sm text-[#00F0FF] uppercase tracking-wider">{{ t(_lang, 'course.faq_free_q') }}</h3>
-      <p class="mt-2 text-sm text-[#8892A8] leading-relaxed">{{ t(_lang, 'course.faq_free_a') }}</p>
+    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_free_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_free_a') }}</p>
     </div>
   </div>
 </section>

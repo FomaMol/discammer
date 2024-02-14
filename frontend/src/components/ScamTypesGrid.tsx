@@ -67,7 +67,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
             >
               <span
                 className="text-bg-primary text-lg font-bold"
-                style={{ fontFamily: '"Press Start 2P", monospace' }}
+                style={{ fontFamily: '"JetBrains Mono", monospace' }}
               >
                 {guide.title.charAt(0).toUpperCase()}
               </span>

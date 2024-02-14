@@ -26,23 +26,29 @@ interface Props {
   locale: Locale;
 }
 
-const OUTCOME_STYLES: Record<Outcome, { ring: string; text: string; bar: string; label: { en: string; ru: string } }> = {
+const OUTCOME_STYLES: Record<
+  Outcome,
+  { border: string; bg: string; text: string; symbol: string; label: { en: string; ru: string } }
+> = {
   good: {
-    ring: 'border-[#39FF6B] bg-[#39FF6B]/5',
-    text: 'text-[#39FF6B]',
-    bar: 'bg-[#39FF6B]',
+    border: 'border-[#7ce896]',
+    bg: 'bg-[#7ce896]/10',
+    text: 'text-[#7ce896]',
+    symbol: '✓',
     label: { en: 'GOOD CALL', ru: 'ХОРОШИЙ ХОД' },
   },
   risky: {
-    ring: 'border-[#FFB547] bg-[#FFB547]/5',
-    text: 'text-[#FFB547]',
-    bar: 'bg-[#FFB547]',
+    border: 'border-[#f4b965]',
+    bg: 'bg-[#f4b965]/10',
+    text: 'text-[#f4b965]',
+    symbol: '!',
     label: { en: 'RISKY', ru: 'РИСКОВАННО' },
   },
   disaster: {
-    ring: 'border-[#FF4757] bg-[#FF4757]/5',
-    text: 'text-[#FF4757]',
-    bar: 'bg-[#FF4757]',
+    border: 'border-[#e76670]',
+    bg: 'bg-[#e76670]/10',
+    text: 'text-[#e76670]',
+    symbol: '✗',
     label: { en: 'DISASTER', ru: 'КАТАСТРОФА' },
   },
 };
@@ -55,7 +61,7 @@ export default function ScenarioWidget({ config, locale }: Props) {
     en: '// SCENARIO',
     ru: '// СЦЕНАРИЙ',
   });
-  const promptLabel = pick(lang, {
+  const promptDefault = pick(lang, {
     en: 'What do you do?',
     ru: 'Что ты делаешь?',
   });
@@ -64,34 +70,44 @@ export default function ScenarioWidget({ config, locale }: Props) {
     ru: 'Выбрать другой вариант',
   });
   const moralLabel = pick(lang, {
-    en: 'The lesson',
-    ru: 'Вывод',
+    en: '// LESSON',
+    ru: '// ВЫВОД',
   });
 
   return (
-    <div className="relative bg-[#131829] border border-[#1E2A42] p-5 sm:p-6">
-      <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-3">
+    <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
         {headingLabel}
       </div>
 
       {config.setup && (
-        <p className="text-sm text-[#C8D0E0] leading-relaxed">{config.setup}</p>
+        <p className="font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
+          {config.setup}
+        </p>
       )}
 
-      <p className="mt-4 text-[#E4E8F1] text-base sm:text-lg font-semibold">
-        {config.prompt || promptLabel}
+      <p className="mt-4 font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
+        {config.prompt || promptDefault}
       </p>
 
-      <div className="mt-5 space-y-3">
+      <div className="mt-5 space-y-2.5">
         {config.choices.map((choice, i) => {
           const isPicked = picked === i;
           const style = OUTCOME_STYLES[choice.outcome];
-          // After a pick, only the chosen option is highlighted; others stay calm.
-          const visualClass = isPicked
-            ? `${style.ring}`
-            : picked === null
-            ? 'border-[#1E2A42] hover:border-[#00F0FF]/40'
-            : 'border-[#1E2A42] opacity-50';
+          let stateClass: string;
+          let badge: { text: string; cls: string } | null = null;
+
+          if (isPicked) {
+            stateClass = `${style.border} ${style.bg}`;
+            badge = {
+              text: `${style.symbol} ${choice.label || pick(lang, style.label)}`,
+              cls: style.text,
+            };
+          } else if (picked === null) {
+            stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+          } else {
+            stateClass = 'border-[#202a44] opacity-50';
+          }
 
           return (
             <button
@@ -100,44 +116,38 @@ export default function ScenarioWidget({ config, locale }: Props) {
               onClick={() => setPicked(i)}
               disabled={picked !== null && picked !== i}
               aria-pressed={isPicked}
-              className={`w-full text-left p-4 border transition ${visualClass} ${
+              className={`w-full text-left p-4 border transition rounded-[3px] ${stateClass} ${
                 picked !== null && picked !== i ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
-              <div className="flex items-start gap-3">
-                <span
-                  className={`mt-1 inline-block w-1.5 h-6 ${isPicked ? style.bar : 'bg-[#1E2A42]'} shrink-0`}
-                  aria-hidden="true"
-                />
-                <div className="flex-1">
-                  <p className="text-sm text-[#E4E8F1] leading-relaxed">{choice.text}</p>
-                  {isPicked && (
-                    <div className="mt-3">
-                      <span
-                        className={`font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] ${style.text}`}
-                      >
-                        {choice.label || pick(lang, style.label)}
-                      </span>
-                      {choice.explanation && (
-                        <p className="mt-2 text-sm text-[#C8D0E0] leading-relaxed">
-                          {choice.explanation}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
+              <div className="flex items-start justify-between gap-3">
+                <p className="flex-1 font-sans text-[15px] text-[#e7ecf5] leading-relaxed">
+                  {choice.text}
+                </p>
+                {badge && (
+                  <span
+                    className={`shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] ${badge.cls} pt-0.5`}
+                  >
+                    {badge.text}
+                  </span>
+                )}
               </div>
+              {isPicked && choice.explanation && (
+                <p className="mt-3 font-sans text-[14px] text-[#cdd4e3] leading-relaxed">
+                  {choice.explanation}
+                </p>
+              )}
             </button>
           );
         })}
       </div>
 
       {picked !== null && config.moral && (
-        <div className="mt-5 p-4 border-l-2 border-[#00F0FF] bg-[#00F0FF]/5">
-          <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-2">
+        <div className="mt-5 p-4 border border-[#65def0]/40 bg-[#65def0]/5 rounded-[3px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-2">
             {moralLabel}
           </div>
-          <p className="text-sm text-[#C8D0E0] leading-relaxed">{config.moral}</p>
+          <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed">{config.moral}</p>
         </div>
       )}
 
@@ -146,12 +156,12 @@ export default function ScenarioWidget({ config, locale }: Props) {
           <button
             type="button"
             onClick={() => setPicked(null)}
-            className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition"
+            className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
           >
             ↺ {resetLabel}
           </button>
         </div>
       )}
-    </div>
+    </section>
   );
 }

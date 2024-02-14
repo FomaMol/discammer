@@ -51,7 +51,7 @@ export default function RedFlagsWidget({ config, locale }: Props) {
   const correctLabel = pick(lang, { en: 'CORRECT FLAG', ru: 'ВЕРНЫЙ ФЛАГ' });
   const missedLabel = pick(lang, { en: 'MISSED FLAG', ru: 'ПРОПУЩЕНО' });
   const wrongLabel = pick(lang, { en: 'NOT A FLAG', ru: 'НЕ ФЛАГ' });
-  const scoreLabel = pick(lang, { en: 'Score', ru: 'Счёт' });
+  const scoreLabel = pick(lang, { en: '// SCORE', ru: '// СЧЁТ' });
 
   function toggle(id: string) {
     if (submitted) return;
@@ -82,31 +82,33 @@ export default function RedFlagsWidget({ config, locale }: Props) {
   }, [config.items, picked]);
 
   return (
-    <div className="bg-[#131829] border border-[#1E2A42] p-5 sm:p-6">
-      <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-3">
+    <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
         {heading}
       </div>
 
       {config.setup && (
-        <p className="text-sm text-[#C8D0E0] leading-relaxed mb-4">{config.setup}</p>
+        <p className="font-sans text-[15px] text-[#cdd4e3] leading-relaxed mb-4 max-w-[62ch]">
+          {config.setup}
+        </p>
       )}
 
       {/* Mock-up of the suspicious message. */}
       {(config.messageBlocks?.length || config.body) && (
-        <div className="rounded border border-[#1E2A42] bg-[#0B0E17] mb-5">
+        <div className="rounded-[3px] border border-[#202a44] bg-[#0a0d16] mb-5">
           {config.messageBlocks?.map((block, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 px-4 py-2 border-b border-[#1E2A42] last:border-b-0"
+              className="flex items-start gap-3 px-4 py-2 border-b border-[#202a44] last:border-b-0"
             >
               {block.label && (
-                <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568] shrink-0 w-16">
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] shrink-0 w-16 pt-0.5">
                   {block.label}
                 </span>
               )}
               <span
-                className={`text-sm text-[#E4E8F1] break-all ${
-                  block.mono ? "font-['JetBrains_Mono']" : ''
+                className={`text-[14px] text-[#e7ecf5] break-all ${
+                  block.mono ? 'font-mono' : 'font-sans'
                 }`}
               >
                 {block.value}
@@ -114,40 +116,40 @@ export default function RedFlagsWidget({ config, locale }: Props) {
             </div>
           ))}
           {config.body && (
-            <div className="px-4 py-3 text-sm text-[#C8D0E0] leading-relaxed whitespace-pre-wrap">
+            <div className="px-4 py-3 font-sans text-[14px] text-[#cdd4e3] leading-relaxed whitespace-pre-wrap">
               {config.body}
             </div>
           )}
         </div>
       )}
 
-      <p className="text-[#E4E8F1] text-sm sm:text-base">
+      <p className="font-sans text-[15px] sm:text-[16px] text-[#e7ecf5] max-w-[62ch]">
         {config.prompt || promptDefault}
       </p>
 
       <ul className="mt-4 space-y-2">
         {config.items.map((item) => {
           const isPicked = picked.has(item.id);
-          let stateClass = 'border-[#1E2A42] hover:border-[#00F0FF]/40';
+          let stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
           let badge: { text: string; cls: string } | null = null;
           if (submitted) {
             if (item.flag && isPicked) {
-              stateClass = 'border-[#39FF6B] bg-[#39FF6B]/5';
-              badge = { text: correctLabel, cls: 'text-[#39FF6B]' };
+              stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
+              badge = { text: `✓ ${correctLabel}`, cls: 'text-[#7ce896]' };
             } else if (item.flag && !isPicked) {
-              stateClass = 'border-[#FFB547] bg-[#FFB547]/5';
-              badge = { text: missedLabel, cls: 'text-[#FFB547]' };
+              stateClass = 'border-[#f4b965] bg-[#f4b965]/10';
+              badge = { text: `! ${missedLabel}`, cls: 'text-[#f4b965]' };
             } else if (!item.flag && isPicked) {
-              stateClass = 'border-[#FF4757] bg-[#FF4757]/5';
-              badge = { text: wrongLabel, cls: 'text-[#FF4757]' };
+              stateClass = 'border-[#e76670] bg-[#e76670]/10';
+              badge = { text: `✗ ${wrongLabel}`, cls: 'text-[#e76670]' };
             }
           } else if (isPicked) {
-            stateClass = 'border-[#00F0FF] bg-[#00F0FF]/5';
+            stateClass = 'border-[#65def0] bg-[#65def0]/8';
           }
           return (
             <li key={item.id}>
               <label
-                className={`flex items-start gap-3 p-3.5 border transition ${stateClass} ${
+                className={`flex items-start gap-3 p-3.5 sm:p-4 border transition rounded-[3px] ${stateClass} ${
                   submitted ? 'cursor-default' : 'cursor-pointer'
                 }`}
               >
@@ -156,21 +158,23 @@ export default function RedFlagsWidget({ config, locale }: Props) {
                   checked={isPicked}
                   onChange={() => toggle(item.id)}
                   disabled={submitted}
-                  className="mt-1 accent-[#00F0FF]"
+                  className="mt-1 accent-[#65def0] shrink-0"
                 />
                 <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-sm text-[#E4E8F1] leading-snug">{item.label}</span>
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <span className="font-sans text-[15px] text-[#e7ecf5] leading-snug">
+                      {item.label}
+                    </span>
                     {badge && (
                       <span
-                        className={`font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] ${badge.cls}`}
+                        className={`shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] ${badge.cls} pt-0.5`}
                       >
                         {badge.text}
                       </span>
                     )}
                   </div>
                   {submitted && item.explanation && (
-                    <p className="mt-2 text-xs text-[#8892A8] leading-relaxed">
+                    <p className="mt-2 font-sans text-[13px] text-[#aab2c4] leading-relaxed">
                       {item.explanation}
                     </p>
                   )}
@@ -182,24 +186,25 @@ export default function RedFlagsWidget({ config, locale }: Props) {
       </ul>
 
       {submitted && (
-        <div className="mt-5 p-4 border-l-2 border-[#00F0FF] bg-[#00F0FF]/5">
-          <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-1">
+        <div className="mt-5 p-4 border border-[#65def0]/40 bg-[#65def0]/5 rounded-[3px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-2">
             {scoreLabel}
           </div>
-          <p className="text-sm text-[#E4E8F1]">
-            <span className="text-[#39FF6B]">{correctHits}</span> / {totalFlags}{' '}
+          <p className="font-sans text-[15px] text-[#e7ecf5] leading-relaxed">
+            <span className="font-mono text-[#7ce896] tabular-nums">{correctHits}</span>
+            <span className="font-mono text-[#aab2c4]"> / {totalFlags}</span>{' '}
             {pick(lang, { en: 'flags caught', ru: 'флагов поймано' })}
             {falsePositives > 0 && (
               <>
                 {' · '}
-                <span className="text-[#FF4757]">{falsePositives}</span>{' '}
+                <span className="font-mono text-[#e76670] tabular-nums">{falsePositives}</span>{' '}
                 {pick(lang, { en: 'false positives', ru: 'ложных срабатываний' })}
               </>
             )}
             {missed > 0 && (
               <>
                 {' · '}
-                <span className="text-[#FFB547]">{missed}</span>{' '}
+                <span className="font-mono text-[#f4b965] tabular-nums">{missed}</span>{' '}
                 {pick(lang, { en: 'missed', ru: 'пропущено' })}
               </>
             )}
@@ -213,20 +218,20 @@ export default function RedFlagsWidget({ config, locale }: Props) {
             type="button"
             onClick={() => setSubmitted(true)}
             disabled={picked.size === 0}
-            className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border border-[#00F0FF] text-[#00F0FF] hover:bg-[#00F0FF]/10 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
           >
-            {submitLabel}
+            {submitLabel} <span aria-hidden="true">▸</span>
           </button>
         ) : (
           <button
             type="button"
             onClick={reset}
-            className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition"
+            className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
           >
             ↺ {resetLabel}
           </button>
         )}
       </div>
-    </div>
+    </section>
   );
 }

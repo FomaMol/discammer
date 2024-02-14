@@ -6,14 +6,12 @@
     "other_code": "ru",
     "other_short": "RU"
   },
-
   "nav": {
     "course": "COURSE",
     "journal": "JOURNAL",
     "play_game": "PLAY GAME",
     "game_short": "GAME"
   },
-
   "footer": {
     "tagline": "Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.",
     "threat_database": "THREAT DATABASE",
@@ -24,7 +22,6 @@
     "game": "Game",
     "rights": "All rights reserved."
   },
-
   "guide_labels": {
     "phishing": "Phishing",
     "nigerian-letters": "Nigerian Letters",
@@ -37,7 +34,6 @@
     "fraud-with-lotteries": "Fraud with Lotteries",
     "scam-sites-working-at-home": "Work-at-Home Scams"
   },
-
   "page_titles": {
     "home": "DiScammer — Cyber Security Education",
     "journal": "Journal — DiScammer",
@@ -47,7 +43,6 @@
     "site_full": "DiScammer - Cybersecurity Education Platform",
     "site_description": "Empowering digital literacy to combat scams, fraud, and emerging cyber threats."
   },
-
   "home": {
     "hud_left": "SYS://discammer.com :: NODE 0x1A · UPLINK STABLE",
     "hud_right": "v2.1.0 · SECURE CHANNEL",
@@ -84,7 +79,6 @@
     "final_cta_text": "Run the simulation. Spot the scam. Walk away sharper than the people trying to fool you.",
     "start_game": "START GAME"
   },
-
   "journal": {
     "title": "DISCAMMER TIMES",
     "subtitle": "> All intelligence reports in one place",
@@ -96,23 +90,38 @@
     "filter_article": "ARTICLE",
     "filter_guides": "SCAM GUIDES",
     "loading": "> Loading...",
-    "no_results": "> No entries found for this filter."
+    "no_results": "> No entries found for this filter.",
+    "reading_room": "// READING_ROOM",
+    "entries_indexed": "entries indexed"
   },
-
   "post": {
     "breadcrumb_home": "~",
     "breadcrumb_journal": "journal",
     "back": "← Back to Journal",
-    "related": "> RELATED"
+    "related": "> RELATED",
+    "next_label": "NEXT",
+    "cover_label": "// COVER"
   },
-
   "guide": {
     "breadcrumb_threat_db": "threat-database",
     "threat_level": "THREAT LEVEL",
     "back": "← Back to Threat Database",
-    "related": "> RELATED THREATS"
+    "related": "> RELATED THREATS",
+    "eyebrow_threat_profile": "// THREAT_PROFILE",
+    "spec_sheet_label": "// SPEC_SHEET",
+    "spec_category": "CATEGORY",
+    "spec_threat_level": "THREAT_LEVEL",
+    "spec_indexed": "INDEXED",
+    "spec_status": "STATUS",
+    "spec_active": "ACTIVE",
+    "contents_label": "// CONTENTS",
+    "other_threats_label": "// OTHER_THREATS",
+    "more_patterns_label": "// MORE_PATTERNS",
+    "next_steps_label": "// NEXT_STEPS",
+    "next_step_simulator": "Test yourself in the simulator",
+    "next_step_briefings": "Get the field guide briefings",
+    "next_step_course": "Take the structured course"
   },
-
   "course": {
     "tag": "INTERACTIVE TRAINING // {modules} MODULES",
     "title": "> TRAINING_PROGRAM",
@@ -155,7 +164,6 @@
     "faq_install_a": "No. Everything runs in the browser. The simulations work on desktop and mobile, and your progress is saved automatically.",
     "faq_free_q": "Is it really free?",
     "faq_free_a": "Yes. DiScammer is a public-interest project. We do not sell your data and we do not charge for the curriculum or the certificate.",
-
     "stat_modules": "Modules",
     "stat_lessons": "Lessons",
     "stat_total_time": "Total time",
@@ -175,7 +183,6 @@
     "cert_title": "Earn the DiScammer Defender certificate.",
     "cert_text": "Finish all nine modules and pass the capstone simulation to receive a shareable certificate verifying that you can recognize, respond to, and recover from modern digital fraud.",
     "cert_cta": "Warm up in the simulator",
-
     "back_to_modules": "← All modules",
     "back_to_lessons": "← Back to lessons",
     "back_to_module": "↑ Back to lessons",
@@ -203,9 +210,17 @@
     "widget_unsupported": "The \"{type}\" widget is launching in a future release.",
     "continue_module": "Continue module",
     "open_module": "Open module",
-    "completed_lessons": "{done}/{total} lessons"
+    "completed_lessons": "{done}/{total} lessons",
+    "eyebrow_training_program": "// TRAINING_PROGRAM",
+    "briefing_label": "// OPERATOR_BRIEFING",
+    "briefing_modules": "MODULES",
+    "briefing_lessons": "LESSONS",
+    "briefing_estimated": "ESTIMATED",
+    "briefing_certificate": "CERTIFICATE",
+    "briefing_status": "STATUS",
+    "briefing_status_ready": "READY",
+    "title_long": "Anti-Fraud Operator Course"
   },
-
   "game": {
     "title": "ANTIFRAUD HERO",
     "intro": "Test your scam-detection skills in real-time scenarios. Analyze suspicious messages, emails, and websites to determine if they are legitimate or fraudulent. The faster and more accurately you identify threats, the higher your score.",
@@ -221,14 +236,12 @@
     "close": "[ESC] CLOSE",
     "close_label": "Close game"
   },
-
   "not_found": {
     "title": "404",
     "subtitle": "FILE NOT FOUND",
     "description": "> The requested resource does not exist in this system.",
     "return": "← RETURN TO BASE"
   },
-
   "components": {
     "carousel_scroll_left": "Scroll left",
     "carousel_scroll_right": "Scroll right",
@@ -248,7 +261,6 @@
     "term_awaiting": "AWAITING USER COMMAND _",
     "term_oracle": "oracle: \"trust nothing on first contact\""
   },
-
   "hero_typewriter_phrases": [
     "PHISHING",
     "DEEPFAKES",
@@ -256,5 +268,12 @@
     "INVESTMENT FRAUD",
     "FAKE STORES",
     "PHONE SCAMS"
-  ]
+  ],
+  "module": {
+    "back_to_course": "BACK TO COURSE",
+    "start_first_lesson": "START FIRST LESSON"
+  },
+  "lesson": {
+    "of": "OF"
+  }
 }

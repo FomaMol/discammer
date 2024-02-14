@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Locale, STRINGS, normalizeLocale, t } from '../utils/i18n';
+import { Locale, STRINGS, normalizeLocale, pick, t } from '../utils/i18n';
 
 export interface QuizChoice {
   text: string;
@@ -48,33 +48,46 @@ export default function QuizWidget({ config, locale }: Props) {
     setSelected(null);
   }
 
+  const headingLabel = pick(lang, { en: '// KNOWLEDGE CHECK', ru: '// ПРОВЕРКА' });
+  const correctLabel = pick(lang, { en: 'CORRECT', ru: 'ВЕРНО' });
+  const incorrectLabel = pick(lang, { en: 'INCORRECT', ru: 'НЕВЕРНО' });
+
   return (
-    <div className="relative bg-[#131829] border border-[#1E2A42] p-5 sm:p-6">
-      <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-3">
-        // {lang === 'ru' ? 'ПРОВЕРКА' : 'KNOWLEDGE CHECK'}
+    <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
+        {headingLabel}
       </div>
-      <h3 className="text-[#E4E8F1] text-base sm:text-lg font-semibold leading-snug">
+
+      {/* Question — Geist sans, reads like prose */}
+      <h3 className="font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
         {config.question}
       </h3>
 
       <fieldset className="mt-5 space-y-2.5" disabled={checked && isCorrect}>
         {config.choices.map((choice, i) => {
           const active = selected === i;
-          const showCorrect = checked && i === correctIndex;
-          const showWrong = checked && active && !choice.correct;
+          const isCorrectShown = checked && i === correctIndex;
+          const isWrongShown = checked && active && !choice.correct;
 
-          const baseBorder = showCorrect
-            ? 'border-[#39FF6B] bg-[#39FF6B]/5'
-            : showWrong
-            ? 'border-[#FF4757] bg-[#FF4757]/5'
-            : active
-            ? 'border-[#00F0FF] bg-[#00F0FF]/5'
-            : 'border-[#1E2A42] hover:border-[#00F0FF]/40';
+          let stateClass: string;
+          let badge: { text: string; cls: string } | null = null;
+
+          if (isCorrectShown) {
+            stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
+            badge = { text: `✓ ${correctLabel}`, cls: 'text-[#7ce896]' };
+          } else if (isWrongShown) {
+            stateClass = 'border-[#e76670] bg-[#e76670]/10';
+            badge = { text: `✗ ${incorrectLabel}`, cls: 'text-[#e76670]' };
+          } else if (active) {
+            stateClass = 'border-[#65def0] bg-[#65def0]/8 text-[#65def0]';
+          } else {
+            stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+          }
 
           return (
             <label
               key={i}
-              className={`flex items-start gap-3 p-3.5 border cursor-pointer transition ${baseBorder}`}
+              className={`relative flex items-start gap-3 p-3.5 sm:p-4 border cursor-pointer transition rounded-[3px] ${stateClass}`}
             >
               <input
                 type="radio"
@@ -85,17 +98,26 @@ export default function QuizWidget({ config, locale }: Props) {
                   setSelected(i);
                   if (checked) setChecked(false);
                 }}
-                className="mt-1 accent-[#00F0FF]"
+                className="mt-1 accent-[#65def0] shrink-0"
               />
-              <span className="flex-1 text-sm text-[#C8D0E0] leading-relaxed">{choice.text}</span>
-              {showCorrect && (
-                <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#39FF6B] shrink-0">
-                  ✓ {t(STRINGS.quizCorrect, lang)}
-                </span>
-              )}
-              {showWrong && (
-                <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#FF4757] shrink-0">
-                  ✗ {t(STRINGS.quizWrong, lang)}
+              <span
+                className={`flex-1 font-sans text-[15px] leading-relaxed ${
+                  active && !checked
+                    ? 'text-[#65def0]'
+                    : isCorrectShown
+                    ? 'text-[#e7ecf5]'
+                    : isWrongShown
+                    ? 'text-[#e7ecf5]'
+                    : 'text-[#cdd4e3]'
+                }`}
+              >
+                {choice.text}
+              </span>
+              {badge && (
+                <span
+                  className={`shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] ${badge.cls} pt-0.5`}
+                >
+                  {badge.text}
                 </span>
               )}
             </label>
@@ -103,20 +125,22 @@ export default function QuizWidget({ config, locale }: Props) {
         })}
       </fieldset>
 
-      {/* Explanation appears when the user has checked their answer */}
+      {/* Explanation — full hairline border, no side-stripe */}
       {checked && selected !== null && config.choices[selected]?.explanation && (
         <div
-          className={`mt-4 p-4 border-l-2 ${
-            isCorrect ? 'border-[#39FF6B] bg-[#39FF6B]/5' : 'border-[#FFB547] bg-[#FFB547]/5'
+          className={`mt-4 p-4 border rounded-[3px] ${
+            isCorrect
+              ? 'border-[#7ce896]/40 bg-[#7ce896]/5'
+              : 'border-[#f4b965]/40 bg-[#f4b965]/5'
           }`}
         >
-          <p className="text-sm text-[#C8D0E0] leading-relaxed">
+          <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed">
             {config.choices[selected]?.explanation}
           </p>
         </div>
       )}
       {checked && !isCorrect && config.hint && (
-        <p className="mt-3 text-xs text-[#8892A8] italic">{config.hint}</p>
+        <p className="mt-3 font-sans text-[13px] text-[#aab2c4] italic">{config.hint}</p>
       )}
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -125,12 +149,12 @@ export default function QuizWidget({ config, locale }: Props) {
             type="button"
             onClick={check}
             disabled={selected === null}
-            className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#00F0FF]/5 border border-[#00F0FF] text-[#00F0FF] hover:bg-[#00F0FF]/10 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
           >
-            {t(STRINGS.quizCheck, lang)}
+            {t(STRINGS.quizCheck, lang)} <span aria-hidden="true">▸</span>
           </button>
         ) : (
-          <span className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#39FF6B]/10 border border-[#39FF6B] text-[#39FF6B]">
+          <span className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/10 border border-[#7ce896] text-[#7ce896] rounded-[4px]">
             ✓ {t(STRINGS.quizCorrect, lang)}
           </span>
         )}
@@ -138,12 +162,12 @@ export default function QuizWidget({ config, locale }: Props) {
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center gap-2 px-4 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] text-[#8892A8] hover:text-[#E4E8F1] transition"
+            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#e7ecf5] transition"
           >
-            {t(STRINGS.quizTryAgain, lang)}
+            ↺ {t(STRINGS.quizTryAgain, lang)}
           </button>
         )}
       </div>
-    </div>
+    </section>
   );
 }

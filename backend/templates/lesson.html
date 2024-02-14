@@ -5,35 +5,40 @@
 
 <section class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
-  {# Breadcrumb #}
-  <div class="mb-6">
-    <a href="/{{ _lang }}/course/{{ module.slug }}" class="inline-flex items-center gap-2 font-['JetBrains_Mono'] text-[10px] sm:text-xs uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition">
-      &larr; {{ module.title }}
-    </a>
+  {# Breadcrumb path #}
+  <nav aria-label="Breadcrumb" class="mb-5">
+    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#6b7588]">
+      <li><a href="/{{ _lang }}/course" class="hover:text-[#65def0] transition">course</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/{{ _lang }}/course/{{ module.slug }}" class="hover:text-[#65def0] transition">{{ module.slug }}</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-[#aab2c4]" aria-current="page">{{ lesson.slug }}</li>
+    </ol>
+  </nav>
+
+  {# Top strip: where this lesson lives in the program #}
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3 tabular-nums">
+    {{ t(_lang, 'course.module_label', n="%02d"|format(module.order)) }}
+    &middot; {{ t(_lang, 'course.lesson_label') }} {{ "%02d"|format(lesson.order) }}/{{ "%02d"|format(lessons|length) }}
+    &middot; <span class="text-[#aab2c4]">{{ lesson.est_minutes }} {{ t(_lang, 'course.minutes_short') }}</span>
   </div>
 
-  {# Lesson header #}
-  <div class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#4A5568] mb-2">
-    {{ t(_lang, 'course.lesson_label') }} {{ "%02d"|format(lesson.order) }} / {{ lessons|length }}
-    &middot; {{ lesson.est_minutes }} {{ t(_lang, 'course.minutes_short') }}
-  </div>
-  <h1 class="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#E4E8F1] font-bold leading-tight">
-    {{ lesson.title }}
-  </h1>
-
-  {# Progress indicator within module #}
-  <div class="mt-5 mb-8">
-    <div class="h-1.5 bg-[#0B0E17] border border-[#1E2A42] overflow-hidden">
-      <div class="h-full flex gap-[1px]">
-        {% for l in lessons %}
-        <div class="flex-1 {% if l.slug == lesson.slug %}bg-[#00F0FF]{% else %}bg-[#1A2035]{% endif %}"></div>
-        {% endfor %}
-      </div>
+  {# Thin progress bar — slats per lesson in this module #}
+  <div class="mb-8">
+    <div class="h-[3px] bg-[#0b0f1a] border border-[#202a44] overflow-hidden flex gap-[1px] p-px">
+      {% for l in lessons %}
+      <div class="flex-1 {% if l.order < lesson.order %}bg-[#3a8b9a]{% elif l.slug == lesson.slug %}bg-[#65def0]{% else %}bg-[#1a2236]{% endif %}"></div>
+      {% endfor %}
     </div>
   </div>
 
+  {# h1 — display-article style (sentence case) #}
+  <h1 class="font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)]">
+    {{ lesson.title }}
+  </h1>
+
   {# Body — Markdown rendered to HTML server-side #}
-  <article class="prose">
+  <article class="prose mt-8">
     {{ lesson.body_html | safe }}
   </article>
 
@@ -54,7 +59,7 @@
   {% endif %}
 
   {# Footer: mark complete + prev/next #}
-  <div class="mt-12 pt-6 border-t border-[#1E2A42]">
+  <div class="mt-12 pt-6 border-t border-[#202a44]">
     <div data-component="LessonFooter" data-props="{{ {
       'moduleSlug': module.slug,
       'lessonSlug': lesson.slug,
@@ -68,10 +73,10 @@
       <noscript>
         <div class="flex items-center justify-between">
           {% if prev_lesson %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ prev_lesson.slug }}" class="text-[#8892A8] hover:text-[#00F0FF] text-sm font-['JetBrains_Mono'] uppercase tracking-[2px]">&larr; {{ t(_lang, 'course.prev_label') }}</a>
+          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ prev_lesson.slug }}" class="text-[#aab2c4] hover:text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]">&larr; {{ t(_lang, 'course.prev_label') }}</a>
           {% else %}<span></span>{% endif %}
           {% if next_lesson %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ next_lesson.slug }}" class="text-[#00F0FF] text-sm font-['JetBrains_Mono'] uppercase tracking-[2px]">{{ t(_lang, 'course.next_label') }} &rarr;</a>
+          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ next_lesson.slug }}" class="text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'course.next_label') }} &rarr;</a>
           {% endif %}
         </div>
       </noscript>

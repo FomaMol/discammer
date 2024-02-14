@@ -5,7 +5,7 @@ import {
   markLessonIncomplete,
   subscribe,
 } from '../utils/progress';
-import { Locale, STRINGS, normalizeLocale, t } from '../utils/i18n';
+import { Locale, STRINGS, normalizeLocale, pick, t } from '../utils/i18n';
 
 interface Props {
   moduleSlug: string;
@@ -53,33 +53,33 @@ export default function LessonFooter({
         <button
           type="button"
           onClick={toggle}
-          className={`inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs sm:text-sm tracking-[2px] border transition ${
+          className={`inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border transition rounded-[4px] ${
             done
-              ? 'border-[#39FF6B] text-[#39FF6B] bg-[#39FF6B]/10'
-              : 'border-[#00F0FF] text-[#00F0FF] bg-[#00F0FF]/5 hover:bg-[#00F0FF]/10'
+              ? 'border-[#7ce896] text-[#7ce896] bg-[#7ce896]/10 hover:bg-[#7ce896]/15'
+              : 'border-[#65def0] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] font-bold'
           }`}
         >
-          {done ? `✓ ${t(STRINGS.completed, lang)}` : t(STRINGS.markComplete, lang)}
+          {done ? <>✓ {t(STRINGS.completed, lang)}</> : t(STRINGS.markComplete, lang)}
         </button>
         <a
           href={moduleHref}
-          className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
         >
-          {lang === 'ru' ? '↑ К списку уроков' : '↑ Back to lessons'}
+          ↑ {pick(lang, { en: 'Back to lessons', ru: 'К списку уроков' })}
         </a>
       </div>
 
-      {/* Prev / Next */}
+      {/* Prev / Next nav */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {prevHref ? (
           <a
             href={prevHref}
-            className="group flex flex-col gap-1 p-4 border border-[#1E2A42] hover:border-[#00F0FF]/60 transition"
+            className="group flex flex-col gap-1 p-4 border border-[#202a44] bg-[#121828]/60 hover:border-[#65def0] hover:bg-[#1a2236] transition rounded-[4px]"
           >
-            <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#4A5568]">
-              &larr; {t(STRINGS.prev, lang)}
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+              ← {t(STRINGS.prev, lang)}
             </span>
-            <span className="text-sm text-[#E4E8F1] group-hover:text-[#00F0FF] transition">
+            <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">
               {prevTitle}
             </span>
           </a>
@@ -89,25 +89,25 @@ export default function LessonFooter({
         {nextHref ? (
           <a
             href={nextHref}
-            className="group flex flex-col gap-1 p-4 border border-[#00F0FF] bg-[#00F0FF]/5 hover:bg-[#00F0FF]/10 transition text-right"
+            className="group flex flex-col gap-1 p-4 border border-[#65def0] bg-[#65def0]/5 hover:bg-[#65def0]/10 transition text-right rounded-[4px]"
           >
-            <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#00F0FF]">
-              {t(STRINGS.next, lang)} &rarr;
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#65def0]">
+              {t(STRINGS.next, lang)} →
             </span>
-            <span className="text-sm text-[#E4E8F1] group-hover:text-[#00F0FF] transition">
+            <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">
               {nextTitle}
             </span>
           </a>
         ) : (
           <a
             href={moduleHref}
-            className="group flex flex-col gap-1 p-4 border border-[#39FF6B] bg-[#39FF6B]/5 hover:bg-[#39FF6B]/10 transition text-right"
+            className="group flex flex-col gap-1 p-4 border border-[#7ce896] bg-[#7ce896]/5 hover:bg-[#7ce896]/10 transition text-right rounded-[4px]"
           >
-            <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#39FF6B]">
-              {t(STRINGS.finishModule, lang)} &rarr;
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">
+              {t(STRINGS.finishModule, lang)} →
             </span>
-            <span className="text-sm text-[#E4E8F1] group-hover:text-[#39FF6B] transition">
-              {lang === 'ru' ? 'Вернуться к модулю' : 'Return to module'}
+            <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#7ce896] transition truncate">
+              {pick(lang, { en: 'Return to module', ru: 'Вернуться к модулю' })}
             </span>
           </a>
         )}

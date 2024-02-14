@@ -35,7 +35,7 @@ export default function GlitchText({ text, size = 'xl' }: GlitchTextProps) {
   return (
     <span
       className={`relative inline-block text-accent-cyan glow-cyan ${sizeClass}`}
-      style={{ fontFamily: '"Press Start 2P", monospace', lineHeight: 1.1 }}
+      style={{ fontFamily: '"JetBrains Mono", monospace', lineHeight: 1.1 }}
     >
       <span className="relative z-[1]">{text}</span>
       {isGlitching && (
@@ -46,7 +46,7 @@ export default function GlitchText({ text, size = 'xl' }: GlitchTextProps) {
             style={{
               clipPath: 'polygon(0 0, 100% 0, 100% 45%, 0 45%)',
               animation: 'glitch 0.3s linear 4',
-              fontFamily: '"Press Start 2P", monospace',
+              fontFamily: '"JetBrains Mono", monospace',
               lineHeight: 1.1,
             }}
           >
@@ -58,7 +58,7 @@ export default function GlitchText({ text, size = 'xl' }: GlitchTextProps) {
             style={{
               clipPath: 'polygon(0 55%, 100% 55%, 100% 100%, 0 100%)',
               animation: 'glitch 0.3s linear 4 reverse',
-              fontFamily: '"Press Start 2P", monospace',
+              fontFamily: '"JetBrains Mono", monospace',
               lineHeight: 1.1,
             }}
           >

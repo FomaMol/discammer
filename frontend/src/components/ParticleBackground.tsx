@@ -10,7 +10,7 @@ interface Particle {
   drift: number;
 }
 
-const COLORS = ['#00F0FF', '#39FF6B', '#FFB547'];
+const COLORS = ['#65def0', '#7ce896', '#f4b965'];
 const PARTICLE_COUNT = 35;
 
 export default function ParticleBackground() {

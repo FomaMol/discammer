@@ -3,93 +3,124 @@
 {% block content %}
 
 {% set _lang = lang %}
+{% set _next_post = related_posts[0] if related_posts and related_posts|length > 0 else None %}
+{% set _next_label = t(_lang, 'post.next_label') %}
+{% set _cover_label = t(_lang, 'post.cover_label') %}
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-  <!-- Breadcrumbs -->
-  <nav class="font-['JetBrains_Mono'] text-xs text-[#4A5568] mb-6 flex flex-wrap items-center gap-1 break-all">
-    <a href="/{{ _lang }}/" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
-    <span>/</span>
-    <a href="/{{ _lang }}/journal" class="text-[#0A8F99] hover:text-[#00F0FF] transition">{{ t(_lang, 'post.breadcrumb_journal') }}</a>
-    <span>/</span>
-    <span class="text-[#0A8F99]">{{ post.type }}</span>
-    <span>/</span>
-    <span>{{ post.slug }}</span>
+<!-- Reading surface: container-narrow per DESIGN.md article spec (max-w-3xl ≈ 44rem) -->
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  <!-- Breadcrumbs — mono path style: ~/journal/<type>/<slug> -->
+  <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;">
+    <span class="text-[#6b7588]">
+      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]">/</span>{{ post.type }}<span class="text-[#475064]">/</span><span class="text-[#65def0]">{{ post.slug }}</span>
+    </span>
   </nav>
 
-  <!-- Badge + Date -->
-  <div class="flex items-center gap-3 flex-wrap">
+  <!-- Badge + Date row — DESIGN.md badge styles per type -->
+  <div class="flex items-center gap-3 flex-wrap mb-5">
     {% if post.type == 'interview' %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/30">{{ t(_lang, 'journal.filter_interview') }}</span>
+    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
     {% elif post.type == 'newsletter' %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#39FF6B]/10 text-[#39FF6B] border border-[#39FF6B]/30">{{ t(_lang, 'journal.filter_newsletter') }}</span>
+    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#7ce896]/10 text-[#7ce896] border border-[#7ce896]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
     {% elif post.type == 'article' %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#FFB547]/10 text-[#FFB547] border border-[#FFB547]/30">{{ t(_lang, 'journal.filter_article') }}</span>
+    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#f4b965]/10 text-[#f4b965] border border-[#f4b965]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
     {% else %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] uppercase px-2 py-1 bg-[#8892A8]/10 text-[#8892A8] border border-[#8892A8]/30">{{ post.type }}</span>
+    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#aab2c4]/10 text-[#aab2c4] border border-[#aab2c4]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ post.type }}</span>
     {% endif %}
-    <span class="text-[10px] sm:text-xs font-['JetBrains_Mono'] text-[#FFB547]">{{ post.published_at }}</span>
+    {% if post.published_at %}
+    <time class="text-[11px] font-mono text-[#6b7588] tabular-nums" style="letter-spacing: 0.02em;">{{ post.published_at }}</time>
+    {% endif %}
   </div>
 
-  <!-- Title -->
-  <h1 class="font-['JetBrains_Mono'] font-bold text-xl sm:text-2xl md:text-3xl text-[#E4E8F1] mt-4 leading-tight break-words">{{ post.title }}</h1>
+  <!-- Article header: display-article (JetBrains Mono 700, sentence-case, NOT uppercase) -->
+  <header>
+    <h1
+      class="font-mono font-bold text-[#e7ecf5] break-words"
+      style="font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem); letter-spacing: -0.02em; line-height: 1.15;"
+    >
+      {{ post.title }}
+    </h1>
 
-  <!-- Subtitle -->
-  {% if post.subtitle %}
-  <p class="text-[#8892A8] text-base sm:text-lg mt-2 break-words">{{ post.subtitle }}</p>
-  {% endif %}
+    {% if post.subtitle %}
+    <p
+      class="text-[#aab2c4] mt-4 break-words"
+      style="font-size: 1.125rem; line-height: 1.6; max-width: 62ch;"
+    >
+      {{ post.subtitle }}
+    </p>
+    {% endif %}
+  </header>
 
-  <!-- Cover Image -->
+  <!-- Cover image — card-mockup-style frame, mono label above -->
   {% if post.cover_image %}
-  <div class="mt-6 border border-[#1E2A42] overflow-hidden aspect-[16/9] max-h-[420px]">
-    <img src="{{ post.cover_image }}" alt="{{ post.title }}" class="w-full h-full object-cover">
-  </div>
+  <figure class="mt-7 sm:mt-9">
+    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;">{{ _cover_label }}</div>
+    <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-sm">
+      <img
+        src="{{ post.cover_image }}"
+        alt="{{ post.title }}"
+        class="w-full h-auto block"
+        style="filter: saturate(0.85) contrast(1.05); aspect-ratio: 16 / 9; object-fit: cover;"
+      >
+    </div>
+  </figure>
   {% endif %}
 
-  <!-- Two Column Layout -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mt-6 sm:mt-8">
-    <!-- Main Content -->
-    <div class="lg:col-span-2 min-w-0">
-      <article class="prose max-w-none">
-        {{ post.content_html | safe }}
-      </article>
-    </div>
+  <!-- Article body — .prose has its own typography (Geist 17-18px, 65ch max).
+       The h2 side-stripe in .prose is the SINGLE grandfathered exception per DESIGN.md. -->
+  <article class="prose max-w-none mt-8 sm:mt-10">
+    {{ post.content_html | safe }}
+  </article>
 
-    <!-- Sidebar -->
-    <aside class="hidden lg:block lg:col-span-1">
-      <div class="sticky top-24">
-        {% if related_posts %}
-        <div class="bg-[#131829] border border-[#1E2A42] p-5">
-          <h3 class="font-['JetBrains_Mono'] text-xs uppercase tracking-[2px] text-[#00F0FF] mb-4">{{ t(_lang, 'post.related') }}</h3>
-          <div class="space-y-4">
-            {% for related in related_posts %}
-            <a href="/{{ _lang }}/journal/{{ related.slug }}" class="block group">
-              <div class="flex items-center gap-2 mb-1">
-                {% if related.type == 'interview' %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#00F0FF]/10 text-[#00F0FF]">{{ t(_lang, 'journal.filter_interview') }}</span>
-                {% elif related.type == 'newsletter' %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#39FF6B]/10 text-[#39FF6B]">{{ t(_lang, 'journal.filter_newsletter') }}</span>
-                {% elif related.type == 'article' %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#FFB547]/10 text-[#FFB547]">{{ t(_lang, 'journal.filter_article') }}</span>
-                {% else %}
-                <span class="text-[10px] font-['JetBrains_Mono'] uppercase px-1.5 py-0.5 bg-[#8892A8]/10 text-[#8892A8]">{{ related.type }}</span>
-                {% endif %}
-                <span class="text-[10px] font-['JetBrains_Mono'] text-[#4A5568]">{{ related.published_at }}</span>
-              </div>
-              <p class="text-sm text-[#8892A8] group-hover:text-[#E4E8F1] transition leading-snug">{{ related.title }}</p>
-            </a>
-            {% endfor %}
+  <!-- Related (compact strip, inline below article rather than sidebar) -->
+  {% if related_posts and related_posts|length > 1 %}
+  <aside class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#202a44]">
+    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-4" style="font-weight: 600;">{{ t(_lang, 'post.related') }}</div>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      {% for related in related_posts[:4] %}
+      <li>
+        <a href="/{{ _lang }}/journal/{{ related.slug }}" class="block bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors duration-300 p-4 rounded-md group">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            {% if related.type == 'interview' %}
+            <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
+            {% elif related.type == 'newsletter' %}
+            <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#7ce896]/10 text-[#7ce896] border border-[#7ce896]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
+            {% elif related.type == 'article' %}
+            <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#f4b965]/10 text-[#f4b965] border border-[#f4b965]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
+            {% endif %}
+            <span class="text-[10px] font-mono text-[#6b7588] tabular-nums">{{ related.published_at }}</span>
           </div>
-        </div>
-        {% endif %}
-      </div>
-    </aside>
-  </div>
+          <p class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] transition-colors leading-snug" style="letter-spacing: -0.01em;">{{ related.title }}</p>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
 
-  <!-- Back Link -->
-  <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-[#1E2A42]">
-    <a href="/{{ _lang }}/journal" class="font-['JetBrains_Mono'] text-sm text-[#0A8F99] hover:text-[#00F0FF] transition">
+  <!-- Footer: back to journal (left), next post (right) -->
+  <div class="mt-10 sm:mt-14 pt-6 border-t border-[#202a44] grid grid-cols-1 {% if _next_post %}sm:grid-cols-2{% endif %} gap-4">
+    <a
+      href="/{{ _lang }}/journal"
+      class="block px-4 py-3 border border-[#202a44] bg-transparent text-[#aab2c4] hover:text-[#65def0] hover:border-[#3a8b9a] hover:bg-[#65def0]/5 transition-colors duration-200 rounded-md font-mono uppercase text-[11px]"
+      style="letter-spacing: 0.14em; font-weight: 600;"
+    >
       {{ t(_lang, 'post.back') }}
     </a>
+    {% if _next_post %}
+    <a
+      href="/{{ _lang }}/journal/{{ _next_post.slug }}"
+      class="block px-4 py-3 border border-[#3a8b9a]/60 bg-[#65def0]/5 text-[#65def0] hover:bg-[#65def0]/10 hover:border-[#65def0] transition-colors duration-200 rounded-md group sm:text-right"
+    >
+      <div class="font-mono uppercase text-[10px] text-[#6b7588] group-hover:text-[#65def0] transition-colors" style="letter-spacing: 0.14em; font-weight: 600;">
+        {{ _next_label }} →
+      </div>
+      <div class="font-mono text-sm mt-1 line-clamp-2 leading-snug" style="letter-spacing: -0.01em;">
+        {{ _next_post.title }}
+      </div>
+    </a>
+    {% endif %}
   </div>
 </div>
 

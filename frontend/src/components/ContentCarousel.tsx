@@ -20,12 +20,12 @@ interface ContentCarouselProps {
 }
 
 const BADGE_COLORS: Record<string, string> = {
-  INTERVIEW: 'bg-[#00F0FF]/20 text-[#00F0FF] border-[#00F0FF]/30',
-  NEWSLETTER: 'bg-[#39FF6B]/20 text-[#39FF6B] border-[#39FF6B]/30',
-  ARTICLE: 'bg-[#FFB547]/20 text-[#FFB547] border-[#FFB547]/30',
-  ИНТЕРВЬЮ: 'bg-[#00F0FF]/20 text-[#00F0FF] border-[#00F0FF]/30',
-  РАССЫЛКА: 'bg-[#39FF6B]/20 text-[#39FF6B] border-[#39FF6B]/30',
-  СТАТЬЯ: 'bg-[#FFB547]/20 text-[#FFB547] border-[#FFB547]/30',
+  INTERVIEW: 'bg-[#65def0]/20 text-[#65def0] border-[#65def0]/30',
+  NEWSLETTER: 'bg-[#7ce896]/20 text-[#7ce896] border-[#7ce896]/30',
+  ARTICLE: 'bg-[#f4b965]/20 text-[#f4b965] border-[#f4b965]/30',
+  ИНТЕРВЬЮ: 'bg-[#65def0]/20 text-[#65def0] border-[#65def0]/30',
+  РАССЫЛКА: 'bg-[#7ce896]/20 text-[#7ce896] border-[#7ce896]/30',
+  СТАТЬЯ: 'bg-[#f4b965]/20 text-[#f4b965] border-[#f4b965]/30',
 };
 
 const BUNDLES = {
@@ -81,21 +81,21 @@ export default function ContentCarousel({ title, apiUrl, badge, lang }: ContentC
       <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3">
         <h2
           className="text-base sm:text-xl md:text-2xl glow-cyan truncate"
-          style={{ fontFamily: '"JetBrains Mono", monospace', color: '#00F0FF' }}
+          style={{ fontFamily: '"JetBrains Mono", monospace', color: '#65def0' }}
         >
           {title}
         </h2>
         <div className="flex gap-2 flex-shrink-0">
           <button
             onClick={() => scroll('left')}
-            className="w-9 h-9 sm:w-10 sm:h-10 border border-[#1E2A42] bg-[#1A2035] text-[#8892A8] hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors flex items-center justify-center"
+            className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#1a2236] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
             aria-label={tr('scroll_left')}
           >
             &#8592;
           </button>
           <button
             onClick={() => scroll('right')}
-            className="w-9 h-9 sm:w-10 sm:h-10 border border-[#1E2A42] bg-[#1A2035] text-[#8892A8] hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors flex items-center justify-center"
+            className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#1a2236] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
             aria-label={tr('scroll_right')}
           >
             &#8594;
@@ -113,11 +113,11 @@ export default function ContentCarousel({ title, apiUrl, badge, lang }: ContentC
           <a
             key={item.id}
             href={`/${locale}/journal/${item.slug}`}
-            className="flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[#131829] border border-[#1E2A42] overflow-hidden hover:border-[#0A8F99] transition-all duration-300 snap-start group block"
+            className="flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[#121828] border border-[#202a44] overflow-hidden hover:border-[#3a8b9a] transition-all duration-300 snap-start group block"
             style={{ textDecoration: 'none' }}
           >
             {/* Image */}
-            <div className="relative aspect-video bg-[#0B0E17] overflow-hidden">
+            <div className="relative aspect-video bg-[#0b0f1a] overflow-hidden">
               {item.cover_image && item.cover_image !== '' ? (
                 <img
                   src={item.cover_image}
@@ -126,10 +126,10 @@ export default function ContentCarousel({ title, apiUrl, badge, lang }: ContentC
                   loading="lazy"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center" style={{ color: '#4A5568' }}>
+                <div className="w-full h-full flex items-center justify-center" style={{ color: '#6b7588' }}>
                   <span
                     className="text-3xl opacity-30"
-                    style={{ fontFamily: '"Press Start 2P", monospace' }}
+                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
                   >
                     ?
                   </span>
@@ -146,16 +146,16 @@ export default function ContentCarousel({ title, apiUrl, badge, lang }: ContentC
               {item.published_at && (
                 <time
                   className="block text-xs mb-1"
-                  style={{ fontFamily: '"JetBrains Mono", monospace', color: '#FFB547' }}
+                  style={{ fontFamily: '"JetBrains Mono", monospace', color: '#f4b965' }}
                 >
                   {item.published_at}
                 </time>
               )}
-              <h3 className="text-sm font-semibold mb-1 line-clamp-2" style={{ color: '#E4E8F1' }}>
+              <h3 className="text-sm font-semibold mb-1 line-clamp-2" style={{ color: '#e7ecf5' }}>
                 {item.title}
               </h3>
               {item.subtitle && (
-                <p className="text-xs line-clamp-2" style={{ color: '#8892A8' }}>
+                <p className="text-xs line-clamp-2" style={{ color: '#aab2c4' }}>
                   {item.subtitle}
                 </p>
               )}
@@ -164,7 +164,7 @@ export default function ContentCarousel({ title, apiUrl, badge, lang }: ContentC
         ))}
 
         {items.length === 0 && (
-          <div className="w-full py-12 text-center text-sm" style={{ color: '#4A5568' }}>
+          <div className="w-full py-12 text-center text-sm" style={{ color: '#6b7588' }}>
             {isLoading ? tr('loading') : tr('empty')}
           </div>
         )}

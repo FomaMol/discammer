@@ -129,20 +129,20 @@ export default function CertificateWidget({ config, locale }: Props) {
       />
 
       {!earned ? (
-        <div className="bg-[#131829] border border-[#1E2A42] p-5 sm:p-6">
-          <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#FFB547] mb-3">
+        <div className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#f4b965] mb-3">
             {pick(lang, { en: '// CERTIFICATE LOCKED', ru: '// СЕРТИФИКАТ НЕ ОТКРЫТ' })}
           </div>
-          <p className="text-sm text-[#C8D0E0] leading-relaxed">
+          <p className="font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
             {pick(lang, {
-              en: 'Complete every lesson in every module and pass the final exam (≥80%) to unlock your DiScammer Defender certificate.',
-              ru: 'Закрой все уроки во всех модулях и сдай финальный экзамен (≥80%), чтобы открыть сертификат DiScammer Defender.',
+              en: 'Complete every lesson in every module and pass the final exam (at least 80%) to unlock your DiScammer Defender certificate.',
+              ru: 'Закрой все уроки во всех модулях и сдай финальный экзамен (не ниже 80%), чтобы открыть сертификат DiScammer Defender.',
             })}
           </p>
 
           {allModulesDone && examPassed && !name.trim() && (
             <div className="mt-4">
-              <label className="block font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8] mb-2">
+              <label className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] mb-2">
                 {pick(lang, {
                   en: 'Enter the name to print on the certificate',
                   ru: 'Имя, которое будет на сертификате',
@@ -153,7 +153,7 @@ export default function CertificateWidget({ config, locale }: Props) {
                 value={name}
                 onChange={(e) => updateName(e.target.value)}
                 placeholder={pick(lang, { en: 'Full name', ru: 'Полное имя' })}
-                className="w-full max-w-md bg-[#0B0E17] border border-[#1E2A42] focus:border-[#00F0FF] outline-none px-3 py-2 text-[#E4E8F1] text-sm"
+                className="w-full max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
               />
             </div>
           )}
@@ -185,42 +185,42 @@ function PrerequisitesPanel({
   lang: Locale;
 }) {
   return (
-    <div className="bg-[#131829] border border-[#1E2A42] p-5">
-      <div className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#00F0FF] mb-3">
+    <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
         {pick(lang, { en: '// PREREQUISITES', ru: '// УСЛОВИЯ ДОСТУПА' })}
       </div>
       <ul className="space-y-2">
         {moduleStatus.map((m) => (
-          <li key={m.module} className="flex items-center gap-3 text-sm">
+          <li key={m.module} className="flex items-center gap-3 font-sans text-[14px]">
             <span
-              className={`inline-flex items-center justify-center w-5 h-5 border font-['JetBrains_Mono'] text-[10px] shrink-0 ${
+              className={`inline-flex items-center justify-center w-5 h-5 border font-mono text-[10px] shrink-0 ${
                 m.done
-                  ? 'border-[#39FF6B] text-[#39FF6B] bg-[#39FF6B]/10'
-                  : 'border-[#1E2A42] text-[#8892A8]'
+                  ? 'border-[#7ce896] text-[#7ce896] bg-[#7ce896]/10'
+                  : 'border-[#202a44] text-[#aab2c4]'
               }`}
             >
               {m.done ? '✓' : '·'}
             </span>
-            <span className="flex-1 text-[#C8D0E0]">{m.module}</span>
-            <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">
+            <span className="flex-1 text-[#cdd4e3]">{m.module}</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
               {m.complete}/{m.total}
             </span>
           </li>
         ))}
-        <li className="flex items-center gap-3 text-sm pt-2 border-t border-[#1E2A42]">
+        <li className="flex items-center gap-3 font-sans text-[14px] pt-2 border-t border-[#202a44]">
           <span
-            className={`inline-flex items-center justify-center w-5 h-5 border font-['JetBrains_Mono'] text-[10px] shrink-0 ${
+            className={`inline-flex items-center justify-center w-5 h-5 border font-mono text-[10px] shrink-0 ${
               examPassed
-                ? 'border-[#39FF6B] text-[#39FF6B] bg-[#39FF6B]/10'
-                : 'border-[#1E2A42] text-[#8892A8]'
+                ? 'border-[#7ce896] text-[#7ce896] bg-[#7ce896]/10'
+                : 'border-[#202a44] text-[#aab2c4]'
             }`}
           >
             {examPassed ? '✓' : '·'}
           </span>
-          <span className="flex-1 text-[#C8D0E0]">
-            {pick(lang, { en: 'Final exam (≥80%)', ru: 'Финальный экзамен (≥80%)' })}
+          <span className="flex-1 text-[#cdd4e3]">
+            {pick(lang, { en: 'Final exam (at least 80%)', ru: 'Финальный экзамен (от 80%)' })}
           </span>
-          <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
             {exam ? `${exam.score}/${exam.total}` : '—'}
           </span>
         </li>
@@ -229,6 +229,13 @@ function PrerequisitesPanel({
   );
 }
 
+/**
+ * The actual certificate frame.
+ *
+ * Frame style: 2px cyan border + corner brackets (└ ┐ ┘ ┌ in mono, one in each
+ * corner) + subtle inset grid pattern. No 4-corner-border-flourish (too
+ * AI-decorative).
+ */
 function Certificate({
   name,
   dateLabel,
@@ -265,58 +272,88 @@ function Certificate({
   const dateLabelText = pick(lang, { en: 'Issued on', ru: 'Дата выдачи' });
   const scoreLabel = pick(lang, { en: 'Final score', ru: 'Финальный результат' });
   const codeLabel = pick(lang, { en: 'Verification code', ru: 'Код проверки' });
-  const printLabel = pick(lang, { en: 'Print / save as PDF', ru: 'Печать / сохранить PDF' });
+  const printLabel = pick(lang, { en: 'Print or save as PDF', ru: 'Печать / сохранить PDF' });
   const renameLabel = pick(lang, { en: 'Change name', ru: 'Изменить имя' });
 
   return (
     <div className="space-y-4">
       <div
         id="discammer-certificate"
-        className="relative bg-[#0B0E17] border-2 border-[#00F0FF] p-8 sm:p-12 overflow-hidden"
+        className="relative bg-[#0b0f1a] border-2 border-[#65def0] p-8 sm:p-12 overflow-hidden"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(0,240,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,0.04) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
+            'linear-gradient(rgba(101,222,240,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(101,222,240,0.04) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
         }}
       >
+        {/* Corner brackets — mono characters anchored in each corner */}
+        <span
+          aria-hidden="true"
+          className="absolute top-2 left-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+        >
+          ┌
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute top-2 right-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+        >
+          ┐
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute bottom-2 left-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+        >
+          └
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute bottom-2 right-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+        >
+          ┘
+        </span>
+
         <div className="relative">
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <span className="font-['Press_Start_2P'] text-[#00F0FF] text-xs sm:text-sm glow-cyan">
+            <span className="font-display-wordmark text-[#65def0] text-[13px] sm:text-[15px] glow-cyan">
               DISCAMMER
             </span>
-            <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[3px] text-[#8892A8]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
               {dateLabelText}: {dateLabel}
             </span>
           </div>
 
-          <div className="mt-8 text-center">
-            <div className="font-['JetBrains_Mono'] text-[11px] sm:text-xs uppercase tracking-[6px] text-[#00F0FF]">
+          <div className="mt-10 text-center">
+            <div className="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.4em] text-[#65def0]">
               {heading}
             </div>
-            <div className="font-['JetBrains_Mono'] text-base sm:text-lg uppercase tracking-[3px] text-[#39FF6B] mt-1">
+            <div className="mt-1 font-mono text-[14px] sm:text-[16px] uppercase tracking-[0.18em] text-[#7ce896]">
               {subheading}
             </div>
 
-            <div className="mt-10 text-[#8892A8] text-sm">{presented}</div>
-            <div className="mt-2 font-['JetBrains_Mono'] text-2xl sm:text-4xl text-[#E4E8F1] font-bold break-words">
+            <div className="mt-10 font-sans text-[#aab2c4] text-[15px]">{presented}</div>
+            <div className="mt-3 font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)] break-words">
               {name}
             </div>
 
-            <p className="mt-8 max-w-2xl mx-auto text-[#C8D0E0] text-sm sm:text-base leading-relaxed">
+            <p className="mt-8 max-w-[62ch] mx-auto font-sans text-[#cdd4e3] text-[15px] sm:text-[16px] leading-[1.6]">
               {description}
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8]">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <div className="text-[#4A5568]">{scoreLabel}</div>
-              <div className="text-[#39FF6B] text-base mt-1">
-                {score} / {total}
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+                {scoreLabel}
+              </div>
+              <div className="font-mono text-[#7ce896] text-[18px] mt-1 tabular-nums">
+                {score}/{total}
               </div>
             </div>
             <div className="sm:text-right">
-              <div className="text-[#4A5568]">{codeLabel}</div>
-              <div className="text-[#00F0FF] text-base mt-1">DSC-{code}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+                {codeLabel}
+              </div>
+              <div className="font-mono text-[#65def0] text-[18px] mt-1 tabular-nums">DSC-{code}</div>
             </div>
           </div>
         </div>
@@ -326,14 +363,14 @@ function Certificate({
         <button
           type="button"
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 px-5 py-2.5 font-['JetBrains_Mono'] uppercase text-xs tracking-[2px] bg-[#39FF6B]/5 border border-[#39FF6B] text-[#39FF6B] hover:bg-[#39FF6B]/10 hover:shadow-[0_0_25px_rgba(57,255,107,0.25)] transition"
+          className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/5 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/10 transition rounded-[4px]"
         >
           {printLabel}
         </button>
         <button
           type="button"
           onClick={onRename}
-          className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[2px] text-[#8892A8] hover:text-[#00F0FF] transition"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
         >
           {renameLabel}
         </button>
