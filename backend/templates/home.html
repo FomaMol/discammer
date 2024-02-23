@@ -4,83 +4,121 @@
 
 {% set _lang = lang %}
 {% set _typewriter_phrases = t_list(_lang, 'hero_typewriter_phrases') %}
+{% set _now = now() %}
 
 <!-- ============================================================ -->
-<!-- HERO — asymmetric 2-column on desktop, stacked on mobile     -->
+<!-- HERO — left-aligned wordmark, 3-column desktop, stacked mobile -->
 <!-- ============================================================ -->
-<section class="relative overflow-hidden grid-pattern">
+<section class="relative overflow-hidden min-h-[100dvh] flex flex-col">
   <!-- Background islands -->
-  <div data-component="ParticleBackground" data-props='{}'></div>
-  <div data-component="ScanlineOverlay" data-props='{}'></div>
+  <div data-component="HeroShader" data-props='{}'></div>
+
+  <!-- Faint grid as fallback texture (under shader) -->
+  <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none" aria-hidden="true"></div>
 
   <!-- Decorative HUD coords (desktop only) -->
-  <div class="hidden lg:block absolute top-6 left-6 z-10 font-mono text-[10px] tracking-[2px] text-[#6b7588] uppercase">
+  <div class="hidden lg:block absolute top-6 left-6 z-10 font-mono text-[10px] tracking-[2.5px] text-[#475064] uppercase tabular-nums">
     {{ t(_lang, 'home.hud_left') }}
   </div>
-  <div class="hidden lg:block absolute top-6 right-6 z-10 font-mono text-[10px] tracking-[2px] text-[#6b7588] uppercase">
-    {{ t(_lang, 'home.hud_right') }}
+  <div class="hidden lg:block absolute top-6 right-6 z-10 font-mono text-[10px] tracking-[2.5px] text-[#475064] uppercase tabular-nums">
+    LAT 55.755826 N · LONG 37.617300 E
   </div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 lg:pt-24 pb-12 sm:pb-16 lg:pb-24">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 lg:pt-28 pb-12 sm:pb-16 lg:pb-20 flex-1 flex items-center">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-[1fr_56px_minmax(380px,440px)] gap-8 lg:gap-10 items-center">
 
-      <!-- Left column: title + tagline + CTAs -->
-      <div class="lg:col-span-7 text-center lg:text-left">
+      <!-- LEFT COLUMN: wordmark + incident feed -->
+      <div class="lg:max-w-none">
         <!-- Tag line above title -->
-        <div class="inline-flex items-center gap-2 mb-5 sm:mb-6 px-3 py-1 border border-[#202a44] bg-[#121828]/60 backdrop-blur-sm">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] animate-pulse"></span>
+        <div class="inline-flex items-center gap-2 mb-4 px-3 py-1 border border-[#202a44] bg-[#0a0d16]/70 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot" aria-hidden="true"></span>
           <span class="font-mono text-[10px] sm:text-xs uppercase tracking-[3px] text-[#aab2c4]">
             {{ t(_lang, 'home.tag') }}
           </span>
         </div>
 
-        <!-- Title -->
-        <div>
-          <div data-component="GlitchText" data-props='{"text":"DISCAMMER","size":"xl"}'></div>
-          <noscript>
-            <h1 class="font-display-wordmark text-[#65def0] text-4xl sm:text-6xl lg:text-7xl glow-cyan leading-tight">DISCAMMER</h1>
-          </noscript>
+        <!-- Wordmark wrapper — large faint "D" glyph behind -->
+        <div class="relative">
+          <!-- Oversized decorative D glyph -->
+          <span
+            aria-hidden="true"
+            class="hidden sm:block absolute left-[-4px] top-[-90px] lg:top-[-110px] pointer-events-none select-none"
+            style="
+              font-family: 'JetBrains Mono', monospace;
+              font-weight: 800;
+              font-size: clamp(220px, 26vw, 360px);
+              line-height: 0.84;
+              color: #121828;
+              z-index: 0;
+              letter-spacing: -0.06em;
+            "
+          >D</span>
+
+          <!-- Actual wordmark — left-aligned, NOT centered -->
+          <div class="relative z-10">
+            <h1
+              class="text-left text-[#65def0] glow-cyan break-all"
+              style="
+                font-family: 'JetBrains Mono', monospace;
+                font-weight: 800;
+                letter-spacing: -0.045em;
+                line-height: 0.92;
+                text-transform: uppercase;
+                font-size: clamp(2.75rem, 8vw, 6.5rem);
+              "
+            >DISCAMMER</h1>
+          </div>
         </div>
 
-        <!-- Typewriter -->
-        <div class="mt-5 sm:mt-6">
-          <div data-component="HeroTypewriter" data-props='{"phrases": {{ _typewriter_phrases | tojson }}, "prefix": {{ t(_lang, "components.hero_typewriter_prefix") | tojson }}}'></div>
-          <noscript>
-            <p class="font-mono text-[#aab2c4] text-sm sm:text-lg uppercase tracking-wider">{{ _typewriter_phrases | join(' • ') }}</p>
-          </noscript>
-        </div>
-
-        <!-- Subtitle / pitch -->
-        <p class="mt-5 sm:mt-6 max-w-xl mx-auto lg:mx-0 text-[#aab2c4] text-sm sm:text-base leading-relaxed">
+        <!-- Subtitle / pitch — sentence case, Geist body -->
+        <p class="mt-5 sm:mt-6 max-w-xl text-[#aab2c4] text-sm sm:text-base leading-relaxed">
           {{ t(_lang, 'home.subtitle') }}
         </p>
 
-        <!-- CTAs — content-sized row on desktop, full-width stacked on mobile -->
-        <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center">
+        <!-- Typewriter (smaller, secondary) -->
+        <div class="mt-4">
+          <div data-component="HeroTypewriter" data-props='{"phrases": {{ _typewriter_phrases | tojson }}, "prefix": {{ t(_lang, "components.hero_typewriter_prefix") | tojson }}}'></div>
+          <noscript>
+            <p class="font-mono text-[#aab2c4] text-sm uppercase tracking-wider">{{ _typewriter_phrases | join(' / ') }}</p>
+          </noscript>
+        </div>
+
+        <!-- CTAs — left-aligned, mono uppercase -->
+        <div class="mt-6 sm:mt-7 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <a href="/{{ _lang }}/game"
-             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-wider bg-[#7ce896]/5 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/10 hover:shadow-[0_0_20px_rgba(124,232,150,0.25)] transition-all duration-300 sm:w-auto">
-            <span>&#9654;</span><span>{{ t(_lang, 'home.cta_play') }}</span>
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-[#7ce896]/8 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/15 hover:shadow-[0_0_24px_rgba(124,232,150,0.25)] transition-all duration-300">
+            <span aria-hidden="true">&#9654;</span><span>{{ t(_lang, 'home.cta_play') }}</span>
           </a>
           <a href="/{{ _lang }}/journal"
-             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-wider bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 hover:shadow-[0_0_20px_rgba(101,222,240,0.25)] transition-all duration-300 sm:w-auto">
-            <span>&#128240;</span><span>{{ t(_lang, 'home.cta_read') }}</span>
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-transparent border border-[#65def0]/60 text-[#65def0] hover:bg-[#65def0]/10 hover:border-[#65def0] transition-all duration-300">
+            <span aria-hidden="true">&#9656;</span><span>{{ t(_lang, 'home.cta_read') }}</span>
           </a>
           <a href="/{{ _lang }}/course"
-             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-wider bg-transparent border border-[#202a44] text-[#aab2c4] hover:border-[#f4b965] hover:text-[#f4b965] hover:bg-[#f4b965]/5 transition-all duration-300 sm:w-auto">
-            <span>&#127891;</span><span>{{ t(_lang, 'home.cta_course') }}</span>
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-transparent border border-[#202a44] text-[#aab2c4] hover:border-[#f4b965] hover:text-[#f4b965] hover:bg-[#f4b965]/5 transition-all duration-300">
+            <span aria-hidden="true">&#9656;</span><span>{{ t(_lang, 'home.cta_course') }}</span>
           </a>
+        </div>
+
+        <!-- Live incident feed -->
+        <div class="mt-8 sm:mt-10 max-w-lg">
+          <div data-component="IncidentFeed" data-props='{"lang":"{{ _lang }}"}'></div>
         </div>
       </div>
 
-      <!-- Right column: terminal -->
-      <div class="lg:col-span-5 w-full max-w-xl mx-auto lg:max-w-none">
+      <!-- CENTER GUTTER (desktop only): vertical kinetic marquee -->
+      <div class="hidden lg:flex justify-center h-full max-h-[640px] w-[56px]">
+        <div data-component="FraudMarquee" data-props='{"lang":"{{ _lang }}"}'></div>
+      </div>
+
+      <!-- RIGHT COLUMN: terminal (framed as MONITOR 02) -->
+      <div class="w-full max-w-xl mx-auto lg:max-w-none">
         <div data-component="HeroTerminal" data-props='{"lang": "{{ _lang }}"}'></div>
         <noscript>
-          <div class="bg-[#0b0f1a]/90 border border-[#202a44] rounded-md overflow-hidden">
+          <div class="bg-[#0b0f1a]/90 border border-[#202a44] overflow-hidden">
             <div class="flex items-center gap-2 px-3 py-2 bg-[#121828] border-b border-[#202a44]">
-              <span class="w-2.5 h-2.5 rounded-full bg-[#e76670]"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-[#f4b965]"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-[#7ce896]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#2b3759]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#475064]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#475064]"></span>
               <span class="ml-3 text-[10px] uppercase tracking-[2px] text-[#aab2c4] font-mono">
                 {{ t(_lang, 'components.term_label') }}
               </span>
@@ -98,148 +136,281 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- STATS STRIP                                                  -->
+<!-- SITUATION REPORT — bento stats                                -->
 <!-- ============================================================ -->
-<section class="border-y border-[#202a44] bg-[#0b0f1a]/60">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#202a44]">
-      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-mono text-2xl sm:text-3xl text-[#65def0] glow-cyan">{{ "%02d"|format(stats.threats) }}</div>
-        <div class="font-mono text-[10px] sm:text-xs uppercase tracking-[2px] text-[#aab2c4] mt-1">{{ t(_lang, 'home.stats_threats') }}</div>
+<section class="border-y border-[#202a44] bg-[#0a0d16]/70">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-7">
+    <!-- Date stamp header -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 sm:mb-5 pb-3 border-b border-dashed border-[#202a44]">
+      <div class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot" aria-hidden="true"></span>
+        <span class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[3px] text-[#aab2c4] tabular-nums">
+          <!-- TODO: i18n key -->
+          {% if _lang == 'ru' %}СВОДКА ОБСТАНОВКИ{% else %}SITUATION REPORT{% endif %}
+          <span class="text-[#475064] mx-1.5">&middot;</span>
+          {{ "%04d"|format(_now.year) }}-{{ "%02d"|format(_now.month) }}-{{ "%02d"|format(_now.day) }}
+          <span class="text-[#475064] mx-1.5">&middot;</span>
+          {{ "%02d"|format(_now.hour) }}:{{ "%02d"|format(_now.minute) }} UTC
+        </span>
       </div>
-      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-mono text-2xl sm:text-3xl text-[#7ce896]">{{ "%02d"|format(stats.interviews) }}</div>
-        <div class="font-mono text-[10px] sm:text-xs uppercase tracking-[2px] text-[#aab2c4] mt-1">{{ t(_lang, 'home.stats_interviews') }}</div>
+      <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
+        <!-- TODO: i18n key -->
+        {% if _lang == 'ru' %}ИСТОЧНИК: ВНУТРЕННИЙ{% else %}SOURCE: INTERNAL{% endif %}
+      </span>
+    </div>
+
+    <!-- Bento: 1 wide + 3 narrow stacked -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
+
+      <!-- WIDE: active threats indexed -->
+      <div class="lg:col-span-7 relative overflow-hidden bg-[#0b0f1a] border border-[#202a44] hover:border-[#3a8b9a] transition-all duration-300 p-5 sm:p-6 group">
+        <div class="flex items-start justify-between">
+          <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#aab2c4]">
+            {{ t(_lang, 'home.stats_threats') }}
+          </div>
+          <div class="font-mono text-[10px] uppercase tracking-[2px] text-[#65def0] tabular-nums">
+            <!-- TODO: i18n key -->
+            {% if _lang == 'ru' %}АКТИВНО{% else %}LIVE{% endif %}
+          </div>
+        </div>
+        <div class="mt-3 flex items-baseline gap-3">
+          <span
+            class="font-mono text-[#65def0] glow-cyan tabular-nums leading-none"
+            style="font-size: clamp(4rem, 10vw, 6.5rem); font-weight: 800; letter-spacing: -0.05em;"
+          >{{ "%02d"|format(stats.threats) }}</span>
+          <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
+            <!-- TODO: i18n key -->
+            {% if _lang == 'ru' %}ЗАПИСЕЙ{% else %}ENTRIES{% endif %}
+          </span>
+        </div>
+        <!-- Live pulse indicator bar -->
+        <div class="mt-4 relative h-[2px] bg-[#202a44] overflow-hidden" aria-hidden="true">
+          <div
+            class="absolute inset-y-0 left-0 bg-[#65def0]"
+            style="
+              width: 30%;
+              animation: livePulse 6.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+            "
+          ></div>
+        </div>
+        <style>
+          @keyframes livePulse {
+            0%   { transform: translateX(-100%); }
+            55%  { transform: translateX(240%); }
+            100% { transform: translateX(240%); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            @keyframes livePulse { from {} to {} }
+          }
+        </style>
       </div>
-      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-mono text-2xl sm:text-3xl text-[#f4b965]">{{ "%02d"|format(stats.articles) }}</div>
-        <div class="font-mono text-[10px] sm:text-xs uppercase tracking-[2px] text-[#aab2c4] mt-1">{{ t(_lang, 'home.stats_articles') }}</div>
-      </div>
-      <div class="py-5 sm:py-6 px-4 text-center md:text-left">
-        <div class="font-mono text-2xl sm:text-3xl text-[#e76670]">24/7</div>
-        <div class="font-mono text-[10px] sm:text-xs uppercase tracking-[2px] text-[#aab2c4] mt-1">{{ t(_lang, 'home.stats_threat_feed') }}</div>
+
+      <!-- 3 NARROW stacked right -->
+      <div class="lg:col-span-5 grid grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4">
+
+        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#7ce896]/40 transition-colors">
+          <div class="flex items-center justify-between">
+            <div class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[2.5px] text-[#aab2c4]">
+              {{ t(_lang, 'home.stats_interviews') }}
+            </div>
+            <span class="font-mono text-[9px] tabular-nums text-[#7ce896]">&#9656;</span>
+          </div>
+          <div class="font-mono text-2xl sm:text-3xl text-[#7ce896] tabular-nums mt-1" style="font-weight: 700;">{{ "%02d"|format(stats.interviews) }}</div>
+        </div>
+
+        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#f4b965]/40 transition-colors">
+          <div class="flex items-center justify-between">
+            <div class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[2.5px] text-[#aab2c4]">
+              {{ t(_lang, 'home.stats_articles') }}
+            </div>
+            <span class="font-mono text-[9px] tabular-nums text-[#f4b965]">&#9656;</span>
+          </div>
+          <div class="font-mono text-2xl sm:text-3xl text-[#f4b965] tabular-nums mt-1" style="font-weight: 700;">{{ "%02d"|format(stats.articles) }}</div>
+        </div>
+
+        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#e76670]/40 transition-colors">
+          <div class="flex items-center justify-between">
+            <div class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[2.5px] text-[#aab2c4]">
+              {{ t(_lang, 'home.stats_threat_feed') }}
+            </div>
+            <span class="font-mono text-[9px] tabular-nums text-[#e76670]">&#9656;</span>
+          </div>
+          <div class="font-mono text-2xl sm:text-3xl text-[#e76670] tabular-nums mt-1" style="font-weight: 700;">24/7</div>
+        </div>
+
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- MISSION + DIRECTIVES  (desktop: side by side)                -->
+<!-- MISSION + DIRECTIVES — bento: 1 wide mission + checklist     -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-    <!-- Mission terminal block -->
-    <div class="lg:col-span-5">
-      <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-3">{{ t(_lang, 'home.section_about') }}</div>
-      <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-5 sm:mb-6">
-        {{ t(_lang, 'home.section_mission_title') }}
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+
+    <!-- WIDE: Mission terminal — more elaborate -->
+    <div class="lg:col-span-7">
+      <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-3">{{ t(_lang, 'home.section_about') }}</div>
+      <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-4" style="letter-spacing: -0.02em;">
+        <span class="text-[#475064]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_mission_title') }}
       </h2>
-      <div data-component="TerminalBlock" data-props='{"title": {{ t(_lang, "home.section_mission_title") | tojson }}, "content": {{ t(_lang, "home.mission_text") | tojson }}}'></div>
-      <noscript>
-        <div class="bg-[#0b0f1a] border border-[#202a44] p-6 font-mono">
-          <div class="text-[#65def0] text-sm mb-4">{{ t(_lang, 'home.section_mission_title') }}</div>
-          <p class="text-[#aab2c4] text-sm leading-relaxed">
+
+      <!-- Elaborate terminal block: header strip + mission body + cursor -->
+      <div class="bg-[#0a0d16] border border-[#202a44] overflow-hidden">
+        <!-- Header dots -->
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#121828] border-b border-[#202a44]">
+          <span class="w-2 h-2 rounded-full bg-[#2b3759]"></span>
+          <span class="w-2 h-2 rounded-full bg-[#475064]"></span>
+          <span class="w-2 h-2 rounded-full bg-[#475064]"></span>
+          <span class="ml-2 text-[10px] uppercase tracking-[2px] text-[#6b7588] font-mono">
+            mission.brief
+          </span>
+          <span class="ml-auto text-[9px] tabular-nums uppercase tracking-[2px] text-[#475064] font-mono">
+            v 1.0.0
+          </span>
+        </div>
+        <!-- Body -->
+        <div class="px-4 sm:px-5 py-4 sm:py-5">
+          <div class="font-mono text-[11px] uppercase tracking-[2.5px] text-[#65def0] mb-3">
+            <!-- TODO: i18n key -->
+            {% if _lang == 'ru' %}&gt; ОТКРЫТЬ /docs/mission.txt{% else %}&gt; CAT /docs/mission.txt{% endif %}
+          </div>
+          <p class="text-[#cdd4e3] text-[14px] sm:text-[15px] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
             {{ t(_lang, 'home.mission_text') }}
           </p>
-        </div>
-      </noscript>
-    </div>
-
-    <!-- Pillars -->
-    <div class="lg:col-span-7">
-      <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-3">{{ t(_lang, 'home.section_directives') }}</div>
-      <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-5 sm:mb-6">
-        {{ t(_lang, 'home.section_directives_title') }}
-      </h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="relative bg-[#121828] border border-[#202a44] p-5 hover:border-[#65def0] transition-all duration-300 hover:box-glow-cyan group">
-          <div class="absolute top-3 right-3 font-mono text-[10px] tracking-[2px] text-[#6b7588]">01</div>
-          <div class="w-10 h-10 bg-[#65def0]/10 flex items-center justify-center text-xl rounded-sm">
-            &#128737;&#65039;
+          <div class="mt-4 flex items-center gap-2 font-mono text-[11px] text-[#475064]">
+            <span class="text-[#65def0]">$</span>
+            <span aria-hidden="true">_</span>
+            <span class="inline-block w-2 h-3.5 bg-[#65def0]" style="animation: blink 1s step-end infinite;" aria-hidden="true"></span>
           </div>
-          <h3 class="font-mono font-bold text-sm mt-4 text-[#e7ecf5] uppercase tracking-wider">{{ t(_lang, 'home.directive_protect') }}</h3>
-          <p class="text-[#aab2c4] text-xs mt-2 leading-relaxed">
-            {{ t(_lang, 'home.directive_protect_text') }}
-          </p>
-        </div>
-
-        <div class="relative bg-[#121828] border border-[#202a44] p-5 hover:border-[#7ce896] transition-all duration-300 hover:box-glow-green group">
-          <div class="absolute top-3 right-3 font-mono text-[10px] tracking-[2px] text-[#6b7588]">02</div>
-          <div class="w-10 h-10 bg-[#7ce896]/10 flex items-center justify-center text-xl rounded-sm">
-            &#128269;
-          </div>
-          <h3 class="font-mono font-bold text-sm mt-4 text-[#e7ecf5] uppercase tracking-wider">{{ t(_lang, 'home.directive_aware') }}</h3>
-          <p class="text-[#aab2c4] text-xs mt-2 leading-relaxed">
-            {{ t(_lang, 'home.directive_aware_text') }}
-          </p>
-        </div>
-
-        <div class="relative bg-[#121828] border border-[#202a44] p-5 hover:border-[#f4b965] transition-all duration-300 hover:box-glow-amber group">
-          <div class="absolute top-3 right-3 font-mono text-[10px] tracking-[2px] text-[#6b7588]">03</div>
-          <div class="w-10 h-10 bg-[#f4b965]/10 flex items-center justify-center text-xl rounded-sm">
-            &#127918;
-          </div>
-          <h3 class="font-mono font-bold text-sm mt-4 text-[#e7ecf5] uppercase tracking-wider">{{ t(_lang, 'home.directive_train') }}</h3>
-          <p class="text-[#aab2c4] text-xs mt-2 leading-relaxed">
-            {{ t(_lang, 'home.directive_train_text') }}
-          </p>
         </div>
       </div>
+    </div>
+
+    <!-- NARROW: Directives as checklist -->
+    <div class="lg:col-span-5 flex flex-col">
+      <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-3">{{ t(_lang, 'home.section_directives') }}</div>
+      <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-4" style="letter-spacing: -0.02em;">
+        <span class="text-[#475064]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_directives_title') }}
+      </h2>
+
+      <ul class="bg-[#0b0f1a] border border-[#202a44] divide-y divide-[#202a44] flex-1">
+        <li class="px-4 sm:px-5 py-4 hover:bg-[#121828] transition-colors group">
+          <div class="flex items-start gap-3">
+            <span class="mt-0.5 font-mono text-[10px] tabular-nums text-[#475064] tracking-[2px]">01</span>
+            <span class="mt-0.5 text-[#65def0]" aria-hidden="true">&#9656;</span>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-mono text-[13px] text-[#f3f5fa] uppercase tracking-[1.5px]" style="font-weight: 700; letter-spacing: -0.005em;">{{ t(_lang, 'home.directive_protect') }}</h3>
+              <p class="mt-1.5 text-[12px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
+                {{ t(_lang, 'home.directive_protect_text') }}
+              </p>
+            </div>
+          </div>
+        </li>
+
+        <li class="px-4 sm:px-5 py-4 hover:bg-[#121828] transition-colors group">
+          <div class="flex items-start gap-3">
+            <span class="mt-0.5 font-mono text-[10px] tabular-nums text-[#475064] tracking-[2px]">02</span>
+            <span class="mt-0.5 text-[#7ce896]" aria-hidden="true">&#9656;</span>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-mono text-[13px] text-[#f3f5fa] uppercase tracking-[1.5px]" style="font-weight: 700; letter-spacing: -0.005em;">{{ t(_lang, 'home.directive_aware') }}</h3>
+              <p class="mt-1.5 text-[12px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
+                {{ t(_lang, 'home.directive_aware_text') }}
+              </p>
+            </div>
+          </div>
+        </li>
+
+        <li class="px-4 sm:px-5 py-4 hover:bg-[#121828] transition-colors group">
+          <div class="flex items-start gap-3">
+            <span class="mt-0.5 font-mono text-[10px] tabular-nums text-[#475064] tracking-[2px]">03</span>
+            <span class="mt-0.5 text-[#f4b965]" aria-hidden="true">&#9656;</span>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-mono text-[13px] text-[#f3f5fa] uppercase tracking-[1.5px]" style="font-weight: 700; letter-spacing: -0.005em;">{{ t(_lang, 'home.directive_train') }}</h3>
+              <p class="mt-1.5 text-[12px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
+                {{ t(_lang, 'home.directive_train_text') }}
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- INTERVIEWS                                                   -->
+<!-- INTERVIEWS                                                    -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}"}'></div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
 </section>
 
 <!-- ============================================================ -->
-<!-- NEWSLETTERS                                                  -->
+<!-- NEWSLETTERS                                                   -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}"}'></div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
 </section>
 
 <!-- ============================================================ -->
-<!-- ARTICLES                                                     -->
+<!-- ARTICLES                                                      -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-  <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-1">{{ t(_lang, 'home.section_research') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}"}'></div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
 </section>
 
 <!-- ============================================================ -->
-<!-- THREAT DATABASE                                              -->
+<!-- THREAT DATABASE                                               -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
-  <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-1">{{ t(_lang, 'home.section_index') }}</div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
   <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>
 
 <!-- ============================================================ -->
-<!-- FINAL CTA                                                    -->
+<!-- FINAL CTA — typed CLI command                                 -->
 <!-- ============================================================ -->
 <section class="relative overflow-hidden border-t border-[#202a44] mt-8">
-  <div class="absolute inset-0 grid-pattern opacity-40"></div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
-    <div class="font-mono text-xs uppercase tracking-[3px] text-[#6b7588] mb-4">{{ t(_lang, 'home.section_end') }}</div>
-    <h2 class="font-mono text-2xl sm:text-3xl lg:text-4xl text-[#e7ecf5] font-bold">
-      {{ t(_lang, 'home.final_cta_title') }}
-    </h2>
-    <p class="mt-4 max-w-xl mx-auto text-[#aab2c4] text-sm sm:text-base">
-      {{ t(_lang, 'home.final_cta_text') }}
-    </p>
-    <div class="mt-8 inline-block" data-component="GameLauncher" data-props='{"label": {{ t(_lang, "home.start_game") | tojson }}, "closeLabel": {{ t(_lang, "game.close") | tojson }}, "closeAria": {{ t(_lang, "game.close_label") | tojson }}}'>
-      <a href="/play/"
-         class="inline-flex items-center gap-2 px-8 py-4 font-mono uppercase text-sm sm:text-base tracking-wider bg-[#7ce896]/5 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/10 hover:shadow-[0_0_30px_rgba(124,232,150,0.3)] transition-all duration-300">
-        <span>&#9654;</span><span>{{ t(_lang, 'home.start_game') }}</span>
-      </a>
+  <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+      <!-- Left: heading -->
+      <div class="lg:col-span-5">
+        <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-4">{{ t(_lang, 'home.section_end') }}</div>
+        <h2
+          class="font-mono text-[#e7ecf5]"
+          style="
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.0;
+            font-size: clamp(1.875rem, 4.2vw, 3.25rem);
+          "
+        >
+          {{ t(_lang, 'home.final_cta_title') }}
+        </h2>
+        <p class="mt-4 max-w-xl text-[#aab2c4] text-sm sm:text-base leading-relaxed">
+          {{ t(_lang, 'home.final_cta_text') }}
+        </p>
+      </div>
+
+      <!-- Right: typed terminal + CTA -->
+      <div class="lg:col-span-7">
+        <div data-component="SimulateTerminal" data-props='{"lang":"{{ _lang }}"}'></div>
+        <noscript>
+          <div class="bg-[#0a0d16] border border-[#202a44] p-4 mb-4">
+            <pre class="font-mono text-[12px] text-[#65def0] leading-relaxed">&gt; ./discammer simulate
+[OK]   sandbox ready
+$ _</pre>
+          </div>
+          <a href="/play/" class="inline-flex items-center gap-2 px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-[#7ce896]/8 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/15 transition-all duration-300">
+            <span aria-hidden="true">&#9654;</span><span>{{ t(_lang, 'home.start_game') }}</span>
+          </a>
+        </noscript>
+      </div>
     </div>
   </div>
 </section>

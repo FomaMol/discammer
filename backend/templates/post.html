@@ -7,52 +7,144 @@
 {% set _next_label = t(_lang, 'post.next_label') %}
 {% set _cover_label = t(_lang, 'post.cover_label') %}
 
-<!-- Reading surface: container-narrow per DESIGN.md article spec (max-w-3xl ≈ 44rem) -->
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+{# ─────────────────────────────────────────────────────────────────────
+   ISSUE NUMBER COMPUTATION
+   ISSUE_NO is derived from published_at's ISO week (if available) so each
+   post carries a stable editorial-flavored issue number. Falls back to the
+   post id when no date is set.
+   ───────────────────────────────────────────────────────────────────── #}
+{% set _issue_no = post.id %}
+{% if post.published_at %}
+  {% set _pub_parts = post.published_at.split('-') %}
+  {% if _pub_parts | length >= 3 %}
+    {# Crude but stable: ISO-week-ish identifier from yyyy + mm + dd.
+       Avoids a datetime parse hop and gives every post a unique 4-digit issue. #}
+    {% set _issue_no = (_pub_parts[1] | int) * 100 + (_pub_parts[2] | int) %}
+  {% endif %}
+{% endif %}
 
-  <!-- Breadcrumbs — mono path style: ~/journal/<type>/<slug> -->
+{# Reading time estimate — server-side, deterministic. ~220 wpm. #}
+{% set _word_count = (post.content | default('') | wordcount) %}
+{% set _est_minutes = (_word_count / 220) | round(0, 'ceil') | int %}
+{% if _est_minutes < 1 %}{% set _est_minutes = 1 %}{% endif %}
+
+{# Localized month / weekday labels for the byline. #}
+{% set _months_en = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'] %}
+{% set _months_ru = ['ЯНВ','ФЕВ','МАР','АПР','МАЙ','ИЮН','ИЮЛ','АВГ','СЕН','ОКТ','НОЯ','ДЕК'] %}
+{% set _byline_date = '' %}
+{% if post.published_at %}
+  {% set _pub_parts = post.published_at.split('-') %}
+  {% if _pub_parts | length >= 3 %}
+    {% set _yyyy = _pub_parts[0] %}
+    {% set _mm = _pub_parts[1] | int %}
+    {% set _dd = _pub_parts[2] | int %}
+    {% if _lang == 'ru' %}
+      {% set _byline_date = '%02d'|format(_dd) ~ ' ' ~ _months_ru[_mm - 1] ~ ' ' ~ _yyyy %}
+    {% else %}
+      {% set _byline_date = '%02d'|format(_dd) ~ ' ' ~ _months_en[_mm - 1] ~ ' ' ~ _yyyy %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{# Type label uppercase, in language. #}
+{% if post.type == 'interview' %}
+  {% set _type_label = t(_lang, 'journal.filter_interview') %}
+  {% set _type_color = '#65def0' %}
+  {% set _type_bg = 'rgba(101,222,240,0.08)' %}
+  {% set _type_border = 'rgba(101,222,240,0.4)' %}
+{% elif post.type == 'newsletter' %}
+  {% set _type_label = t(_lang, 'journal.filter_newsletter') %}
+  {% set _type_color = '#7ce896' %}
+  {% set _type_bg = 'rgba(124,232,150,0.08)' %}
+  {% set _type_border = 'rgba(124,232,150,0.4)' %}
+{% elif post.type == 'article' %}
+  {% set _type_label = t(_lang, 'journal.filter_article') %}
+  {% set _type_color = '#f4b965' %}
+  {% set _type_bg = 'rgba(244,185,101,0.08)' %}
+  {% set _type_border = 'rgba(244,185,101,0.4)' %}
+{% else %}
+  {% set _type_label = post.type | upper %}
+  {% set _type_color = '#aab2c4' %}
+  {% set _type_bg = 'rgba(170,178,196,0.08)' %}
+  {% set _type_border = 'rgba(170,178,196,0.4)' %}
+{% endif %}
+
+{# Localized labels (parent will lift to translations if desired). #}
+{% if _lang == 'ru' %}
+  {% set _byline_label = 'РЕДАКЦИЯ DCM' %}
+  {% set _min_label = 'МИН' %}
+  {% set _filed_under_label = '// РУБРИКА' %}
+  {% set _next_in_section_label = 'СЛЕДУЮЩЕЕ В РУБРИКЕ' %}
+  {% set _issue_label = 'ВЫПУСК' %}
+{% else %}
+  {% set _byline_label = 'BY DCM EDITORIAL' %}
+  {% set _min_label = 'MIN' %}
+  {% set _filed_under_label = '// FILED UNDER' %}
+  {% set _next_in_section_label = 'NEXT IN THIS SECTION' %}
+  {% set _issue_label = 'ISSUE' %}
+{% endif %}
+
+{# ─────────────────────────────────────────────────────────────────────
+   READING SURFACE — narrower than the journal grid (max-w-2xl ≈ 42rem ≈ 60ch).
+   Per DESIGN.md article spec, the article is the product; reading line length
+   stays under 65ch even at 1080px viewport.
+   ───────────────────────────────────────────────────────────────────── #}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  {# Breadcrumbs — kept as mono path style ~/journal/<type>/<slug> #}
   <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;">
     <span class="text-[#6b7588]">
       <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]">/</span>{{ post.type }}<span class="text-[#475064]">/</span><span class="text-[#65def0]">{{ post.slug }}</span>
     </span>
   </nav>
 
-  <!-- Badge + Date row — DESIGN.md badge styles per type -->
-  <div class="flex items-center gap-3 flex-wrap mb-5">
-    {% if post.type == 'interview' %}
-    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
-    {% elif post.type == 'newsletter' %}
-    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#7ce896]/10 text-[#7ce896] border border-[#7ce896]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
-    {% elif post.type == 'article' %}
-    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#f4b965]/10 text-[#f4b965] border border-[#f4b965]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
-    {% else %}
-    <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#aab2c4]/10 text-[#aab2c4] border border-[#aab2c4]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ post.type }}</span>
-    {% endif %}
-    {% if post.published_at %}
-    <time class="text-[11px] font-mono text-[#6b7588] tabular-nums" style="letter-spacing: 0.02em;">{{ post.published_at }}</time>
-    {% endif %}
+  <!-- Section kicker: // TYPE · ISSUE 0521 -->
+  <div
+    class="font-mono text-[10px] sm:text-[11px] uppercase mb-4"
+    style="letter-spacing: 0.14em; font-weight: 600; color: {{ _type_color }};"
+  >
+    // {{ _type_label }} <span class="text-[#475064] mx-1">·</span> <span class="text-[#aab2c4] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
   </div>
 
-  <!-- Article header: display-article (JetBrains Mono 700, sentence-case, NOT uppercase) -->
+  {# Article header: display-article — JetBrains Mono 700, sentence-case, NOT uppercase.
+     max-w-24ch keeps the headline within editorial measure. #}
   <header>
     <h1
-      class="font-mono font-bold text-[#e7ecf5] break-words"
-      style="font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem); letter-spacing: -0.02em; line-height: 1.15;"
+      class="font-mono font-bold text-[#f3f5fa] break-words"
+      style="font-size: clamp(2rem, 1.4rem + 2vw, 3rem); letter-spacing: -0.02em; line-height: 1.08; max-width: 24ch;"
     >
       {{ post.title }}
     </h1>
 
-    {% if post.subtitle %}
-    <p
-      class="text-[#aab2c4] mt-4 break-words"
-      style="font-size: 1.125rem; line-height: 1.6; max-width: 62ch;"
+    <!-- Byline strip — BY DCM EDITORIAL · 26 APR 2025 · 7 MIN -->
+    <div
+      class="mt-5 sm:mt-6 font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] flex flex-wrap items-center gap-2"
+      style="letter-spacing: 0.14em; font-weight: 600;"
     >
-      {{ post.subtitle }}
-    </p>
-    {% endif %}
+      <span class="text-[#aab2c4]">{{ _byline_label }}</span>
+      {% if _byline_date %}
+      <span aria-hidden="true" class="text-[#475064]">·</span>
+      <time class="tabular-nums">{{ _byline_date }}</time>
+      {% endif %}
+      <span aria-hidden="true" class="text-[#475064]">·</span>
+      <span class="tabular-nums">{{ _est_minutes }} {{ _min_label }}</span>
+    </div>
+
+    <!-- Hairline rule below byline -->
+    <div class="h-px w-full mt-5 sm:mt-7 bg-[#202a44]" aria-hidden="true"></div>
   </header>
 
-  <!-- Cover image — card-mockup-style frame, mono label above -->
+  {# Optional subtitle as a body-lead. Distinct from the prose body. #}
+  {% if post.subtitle %}
+  <p
+    class="text-[#cdd4e3] mt-7 sm:mt-9 break-words"
+    style="font-size: 1.1875rem; line-height: 1.5; max-width: 60ch;"
+  >
+    {{ post.subtitle }}
+  </p>
+  {% endif %}
+
+  {# Cover image — minimal label, hairline frame. #}
   {% if post.cover_image %}
   <figure class="mt-7 sm:mt-9">
     <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;">{{ _cover_label }}</div>
@@ -67,20 +159,65 @@
   </figure>
   {% endif %}
 
-  <!-- Article body — .prose has its own typography (Geist 17-18px, 65ch max).
-       The h2 side-stripe in .prose is the SINGLE grandfathered exception per DESIGN.md. -->
-  <article class="prose max-w-none mt-8 sm:mt-10">
+  {# Article body — .prose has its own typography (Geist 17-18px, 65ch max).
+     The h2 side-stripe in .prose is the SINGLE grandfathered exception per DESIGN.md.
+     The .post-prose wrapper adds: (a) drop-cap on the first letter of the first
+     <p>, (b) a slightly larger lead style on the first <p>. #}
+  <article class="prose post-prose max-w-none mt-8 sm:mt-10">
     {{ post.content_html | safe }}
   </article>
 
-  <!-- Related (compact strip, inline below article rather than sidebar) -->
+  {# FILED UNDER + NEXT IN SECTION — broadsheet "end of article" panel #}
+  <section
+    class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#202a44]"
+    aria-label="End of article"
+  >
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+      <div>
+        <div
+          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] mb-2"
+          style="letter-spacing: 0.14em; font-weight: 600;"
+        >
+          {{ _filed_under_label }}
+        </div>
+        <div
+          class="font-mono text-sm uppercase"
+          style="letter-spacing: 0.04em; font-weight: 600; color: {{ _type_color }};"
+        >
+          {% if post.category %}{{ post.category }}{% else %}{{ _type_label }}{% endif %}
+        </div>
+      </div>
+      {% if _next_post %}
+      <a
+        href="/{{ _lang }}/journal/{{ _next_post.slug }}"
+        class="group block sm:text-right"
+        style="text-decoration: none;"
+      >
+        <div
+          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] group-hover:text-[#65def0] transition-colors mb-2"
+          style="letter-spacing: 0.14em; font-weight: 600;"
+        >
+          {{ _next_in_section_label }} →
+        </div>
+        <div
+          class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] transition-colors line-clamp-2"
+          style="letter-spacing: -0.01em; font-weight: 600; line-height: 1.3;"
+        >
+          {{ _next_post.title }}
+        </div>
+      </a>
+      {% endif %}
+    </div>
+  </section>
+
+  {# Related (compact strip below the end-of-article panel) #}
   {% if related_posts and related_posts|length > 1 %}
-  <aside class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#202a44]">
+  <aside class="mt-12 sm:mt-16">
     <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-4" style="font-weight: 600;">{{ t(_lang, 'post.related') }}</div>
     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       {% for related in related_posts[:4] %}
       <li>
-        <a href="/{{ _lang }}/journal/{{ related.slug }}" class="block bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors duration-300 p-4 rounded-md group">
+        <a href="/{{ _lang }}/journal/{{ related.slug }}" class="block bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors duration-300 p-4 rounded-sm group">
           <div class="flex items-center gap-2 mb-2 flex-wrap">
             {% if related.type == 'interview' %}
             <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
@@ -99,29 +236,49 @@
   </aside>
   {% endif %}
 
-  <!-- Footer: back to journal (left), next post (right) -->
-  <div class="mt-10 sm:mt-14 pt-6 border-t border-[#202a44] grid grid-cols-1 {% if _next_post %}sm:grid-cols-2{% endif %} gap-4">
+  {# Back link — kept minimal, mono uppercase #}
+  <div class="mt-10 sm:mt-14 pt-6 border-t border-[#202a44]">
     <a
       href="/{{ _lang }}/journal"
-      class="block px-4 py-3 border border-[#202a44] bg-transparent text-[#aab2c4] hover:text-[#65def0] hover:border-[#3a8b9a] hover:bg-[#65def0]/5 transition-colors duration-200 rounded-md font-mono uppercase text-[11px]"
+      class="inline-block px-4 py-3 border border-[#202a44] bg-transparent text-[#aab2c4] hover:text-[#65def0] hover:border-[#3a8b9a] hover:bg-[#65def0]/5 transition-colors duration-200 rounded-sm font-mono uppercase text-[11px]"
       style="letter-spacing: 0.14em; font-weight: 600;"
     >
       {{ t(_lang, 'post.back') }}
     </a>
-    {% if _next_post %}
-    <a
-      href="/{{ _lang }}/journal/{{ _next_post.slug }}"
-      class="block px-4 py-3 border border-[#3a8b9a]/60 bg-[#65def0]/5 text-[#65def0] hover:bg-[#65def0]/10 hover:border-[#65def0] transition-colors duration-200 rounded-md group sm:text-right"
-    >
-      <div class="font-mono uppercase text-[10px] text-[#6b7588] group-hover:text-[#65def0] transition-colors" style="letter-spacing: 0.14em; font-weight: 600;">
-        {{ _next_label }} →
-      </div>
-      <div class="font-mono text-sm mt-1 line-clamp-2 leading-snug" style="letter-spacing: -0.01em;">
-        {{ _next_post.title }}
-      </div>
-    </a>
-    {% endif %}
   </div>
 </div>
+
+{# Drop-cap + lead-paragraph styles for the article body. Scoped to .post-prose
+   so the existing .prose styles on guide.html / module.html / lesson.html are
+   untouched. These rules sit in the post template (style block) rather than
+   globals.css because the user's hard rule is: don't touch globals.css. #}
+<style>
+  /* Lead paragraph (first <p> in the rendered article) — Geist 19px, ink, no top margin */
+  .post-prose > p:first-of-type {
+    font-size: 1.1875rem;     /* 19px */
+    line-height: 1.6;
+    color: var(--color-ink);
+    margin-top: 0;
+  }
+  /* Drop-cap on the first letter of the first paragraph — JetBrains Mono 800 4em */
+  .post-prose > p:first-of-type::first-letter {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    color: var(--color-cyan);
+    float: left;
+    font-size: 4em;
+    line-height: 0.86;
+    margin-right: 0.08em;
+    margin-top: 0.05em;
+    margin-bottom: -0.06em;
+  }
+  /* Reduced-motion friendly — no animation here, but reset the float on very narrow
+     viewports if the first paragraph is short to avoid awkward wrapping. */
+  @media (max-width: 380px) {
+    .post-prose > p:first-of-type::first-letter {
+      font-size: 3.4em;
+    }
+  }
+</style>
 
 {% endblock %}

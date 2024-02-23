@@ -34,22 +34,25 @@ const OUTCOME_STYLES: Record<
     border: 'border-[#7ce896]',
     bg: 'bg-[#7ce896]/10',
     text: 'text-[#7ce896]',
-    symbol: '✓',
-    label: { en: 'GOOD CALL', ru: 'ХОРОШИЙ ХОД' },
+    symbol: '▶',
+    // TODO: i18n key for scenario.outcome.optimal
+    label: { en: 'OPTIMAL', ru: 'ОПТИМАЛЬНО' },
   },
   risky: {
     border: 'border-[#f4b965]',
     bg: 'bg-[#f4b965]/10',
     text: 'text-[#f4b965]',
-    symbol: '!',
-    label: { en: 'RISKY', ru: 'РИСКОВАННО' },
+    symbol: '▲',
+    // TODO: i18n key for scenario.outcome.compromised
+    label: { en: 'COMPROMISED', ru: 'СКОМПРОМЕТИРОВАНО' },
   },
   disaster: {
     border: 'border-[#e76670]',
     bg: 'bg-[#e76670]/10',
     text: 'text-[#e76670]',
     symbol: '✗',
-    label: { en: 'DISASTER', ru: 'КАТАСТРОФА' },
+    // TODO: i18n key for scenario.outcome.mission_failed
+    label: { en: 'MISSION FAILED', ru: 'МИССИЯ ПРОВАЛЕНА' },
   },
 };
 
@@ -57,21 +60,25 @@ export default function ScenarioWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
   const [picked, setPicked] = useState<number | null>(null);
 
+  // TODO: i18n key for scenario.heading
   const headingLabel = pick(lang, {
-    en: '// SCENARIO',
-    ru: '// СЦЕНАРИЙ',
+    en: '// FIELD SIMULATION',
+    ru: '// ПОЛЕВАЯ СИМУЛЯЦИЯ',
   });
+  // TODO: i18n key for scenario.prompt_default
   const promptDefault = pick(lang, {
     en: 'What do you do?',
     ru: 'Что ты делаешь?',
   });
+  // TODO: i18n key for scenario.reset
   const resetLabel = pick(lang, {
-    en: 'Try a different choice',
-    ru: 'Выбрать другой вариант',
+    en: 'Re-run simulation',
+    ru: 'Перезапустить симуляцию',
   });
+  // TODO: i18n key for scenario.moral
   const moralLabel = pick(lang, {
-    en: '// LESSON',
-    ru: '// ВЫВОД',
+    en: '// FIELD NOTE',
+    ru: '// ЗАМЕТКА С ПОЛЯ',
   });
 
   return (

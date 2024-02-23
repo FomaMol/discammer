@@ -13,12 +13,20 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   HeroTerminal: React.lazy(() => import('./components/HeroTerminal')),
   ScanlineOverlay: React.lazy(() => import('./components/ScanlineOverlay')),
   JournalFilter: React.lazy(() => import('./components/JournalFilter')),
+  JournalBroadsheet: React.lazy(() => import('./components/JournalBroadsheet')),
   CourseProgress: React.lazy(() => import('./components/CourseProgress')),
   GameLauncher: React.lazy(() => import('./components/GameLauncher')),
   MobileMenu: React.lazy(() => import('./components/MobileMenu')),
   ModuleLessons: React.lazy(() => import('./components/ModuleLessons')),
   LessonWidget: React.lazy(() => import('./components/LessonWidget')),
   LessonFooter: React.lazy(() => import('./components/LessonFooter')),
+  HeroShader: React.lazy(() => import('./components/HeroShader')),
+  IncidentFeed: React.lazy(() => import('./components/IncidentFeed')),
+  FraudMarquee: React.lazy(() => import('./components/FraudMarquee')),
+  SimulateTerminal: React.lazy(() => import('./components/SimulateTerminal')),
+  MissionBriefingTerminal: React.lazy(() => import('./components/MissionBriefingTerminal')),
+  ObjectivesPanel: React.lazy(() => import('./components/ObjectivesPanel')),
+  OpsDebriefPanel: React.lazy(() => import('./components/OpsDebriefPanel')),
 };
 
 function hydrateIslands() {

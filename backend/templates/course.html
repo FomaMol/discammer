@@ -3,118 +3,98 @@
 {% block title %}{{ t(_lang, 'page_titles.course') }}{% endblock %}
 {% block content %}
 
-{# ---------- Hero ---------- #}
-<section class="relative border-b border-[#202a44]">
-  <div class="absolute inset-0 grid-pattern opacity-40 pointer-events-none"></div>
+{# ---------- Mission Briefing Hero ---------- #}
+<section class="relative border-b border-[#202a44] bg-[#0a0d16]">
+  <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none"></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16">
 
-      {# Left: eyebrow + h1 + lead #}
-      <div class="lg:col-span-7">
-        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-4">
-          {{ t(_lang, 'course.eyebrow_training_program') }}
-        </div>
+    {# Eyebrow line — current op-stamp #}
+    <div class="flex items-center flex-wrap gap-x-4 gap-y-1 mb-5">
+      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6b7588]">
+        <!-- TODO: i18n key for course.hero.eyebrow_op_stamp -->
+        {% if _lang == 'ru' %}// АКАДЕМИЯ DCM · СЕКТОР ОБУЧЕНИЯ{% else %}// DCM ACADEMY · TRAINING SECTOR{% endif %}
+      </span>
+      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3a8b9a] tabular-nums">
+        {{ "%02d"|format(course_totals.modules) }}.{{ "%02d"|format(course_totals.lessons) }}.001
+      </span>
+    </div>
 
-        <h1 class="font-mono font-bold uppercase text-[#f3f5fa] leading-[1.05] tracking-[-0.02em] text-[clamp(1.75rem,1.1rem+2.5vw,2.5rem)]">
-          {{ t(_lang, 'course.title_long') }}
-        </h1>
-
-        <p class="mt-6 font-sans text-[#aab2c4] text-[18px] leading-[1.6] max-w-[62ch]">
-          {{ t(_lang, 'course.intro') }}
-        </p>
-
-        <ul class="mt-6 space-y-2 max-w-[62ch]">
-          <li class="flex items-start gap-3 text-[15px] text-[#aab2c4] leading-relaxed">
-            <span class="mt-2 w-1.5 h-1.5 bg-[#65def0] shrink-0"></span>
-            <span><span class="text-[#e7ecf5]">{{ t(_lang, 'course.bullet_self_paced_label') }}</span> {{ t(_lang, 'course.bullet_self_paced_text') }}</span>
-          </li>
-          <li class="flex items-start gap-3 text-[15px] text-[#aab2c4] leading-relaxed">
-            <span class="mt-2 w-1.5 h-1.5 bg-[#7ce896] shrink-0"></span>
-            <span><span class="text-[#e7ecf5]">{{ t(_lang, 'course.bullet_practical_label') }}</span> {{ t(_lang, 'course.bullet_practical_text') }}</span>
-          </li>
-          <li class="flex items-start gap-3 text-[15px] text-[#aab2c4] leading-relaxed">
-            <span class="mt-2 w-1.5 h-1.5 bg-[#f4b965] shrink-0"></span>
-            <span><span class="text-[#e7ecf5]">{{ t(_lang, 'course.bullet_verifiable_label') }}</span> {{ t(_lang, 'course.bullet_verifiable_text') }}</span>
-          </li>
-        </ul>
-      </div>
-
-      {# Right: operator stats card #}
-      <aside class="lg:col-span-5 w-full">
-        <div class="border border-[#202a44] bg-[#121828]/80 rounded-[4px]">
-          <div class="flex items-center gap-2 px-4 py-2.5 border-b border-[#202a44]">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] animate-pulse"></span>
-            <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4]">
-              {{ t(_lang, 'course.briefing_label') }}
-            </span>
+    {# Mission briefing terminal — React island, full-width hero #}
+    <div data-component="MissionBriefingTerminal" data-props='{{ {
+      "locale": _lang,
+      "courseTitle": t(_lang, "course.title_long"),
+      "moduleCount": course_totals.modules,
+      "lessonCount": course_totals.lessons,
+      "runtime": course_totals.runtime,
+      "firstModuleSlug": modules[0].slug if modules else None
+    } | tojson | forceescape }}'>
+      {# SEO fallback — server-rendered version of the briefing #}
+      <noscript>
+        <div class="bg-[#121828] border border-[#202a44] rounded-[4px] overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60 font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4]">
+            dcm-ops@academy ~ % ./brief.sh
           </div>
-
-          <dl class="divide-y divide-[#202a44]">
-            <div class="flex items-baseline justify-between px-4 py-3">
-              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_modules') }}</dt>
-              <dd class="font-mono text-[15px] text-[#e7ecf5] tabular-nums">{{ "%02d"|format(course_totals.modules) }}</dd>
-            </div>
-            <div class="flex items-baseline justify-between px-4 py-3">
-              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_lessons') }}</dt>
-              <dd class="font-mono text-[15px] text-[#e7ecf5] tabular-nums">{{ "%02d"|format(course_totals.lessons) }}</dd>
-            </div>
-            <div class="flex items-baseline justify-between px-4 py-3">
-              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_estimated') }}</dt>
-              <dd class="font-mono text-[15px] text-[#e7ecf5] tabular-nums">{{ course_totals.runtime }}</dd>
-            </div>
-            <div class="flex items-baseline justify-between px-4 py-3">
-              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_certificate') }}</dt>
-              <dd class="font-mono text-[15px] text-[#7ce896] tabular-nums">&check;</dd>
-            </div>
-            <div class="flex items-baseline justify-between px-4 py-3">
-              <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">{{ t(_lang, 'course.briefing_status') }}</dt>
-              <dd class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0]">{{ t(_lang, 'course.briefing_status_ready') }}</dd>
-            </div>
-          </dl>
+          <div class="px-4 sm:px-6 py-6 font-mono text-[12px] sm:text-[13px] leading-[1.7]">
+            <div class="text-[#65def0]">&gt; OPERATOR DCM-117 ▸ ACCESS GRANTED</div>
+            <div class="text-[#6b7588]">&gt; INCOMING TRANSMISSION ...</div>
+            <div class="text-[#65def0] mt-3 font-bold">&gt; {{ t(_lang, 'course.title_long') | upper }}</div>
+            <div class="text-[#cdd4e3] mt-3">▸ {{ course_totals.modules }} MODULES · {{ course_totals.lessons }} LESSONS · ESTIMATED {{ course_totals.runtime | upper }}</div>
+            <div class="text-[#cdd4e3]">▸ CERTIFICATE: ISSUED ON COMPLETION</div>
+            <div class="text-[#7ce896]">▸ STATUS: READY</div>
+          </div>
+          <div class="px-4 sm:px-6 py-5 border-t border-[#202a44] flex flex-wrap gap-3">
+            {% if modules %}
+            <a href="/{{ _lang }}/course/{{ modules[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] rounded-[4px] font-bold">▸ <!-- TODO: i18n key for course.hero.cta_start -->{% if _lang == 'ru' %}НАЧАТЬ МИССИЮ{% else %}START MISSION{% endif %}</a>
+            {% endif %}
+            <a href="#modules" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[#2b3759] text-[#e7ecf5] rounded-[4px]">▸ <!-- TODO: i18n key for course.hero.cta_modules -->{% if _lang == 'ru' %}СПИСОК МОДУЛЕЙ{% else %}VIEW MODULES{% endif %}</a>
+          </div>
         </div>
-      </aside>
+      </noscript>
     </div>
   </div>
 </section>
 
-{# ---------- Curriculum island (vertical timeline) ---------- #}
+{# ---------- Mission list ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-1">
-    {{ t(_lang, 'course.section_curriculum') }}
+  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-1">
+    <!-- TODO: i18n key for course.section_missions_eyebrow -->
+    {% if _lang == 'ru' %}// СПИСОК МИССИЙ{% else %}// MISSION ROSTER{% endif %}
   </div>
-  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
-    {{ t(_lang, 'course.section_curriculum_title') }}
+  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-2">
+    <!-- TODO: i18n key for course.section_missions_title -->
+    {% if _lang == 'ru' %}&gt; ОПЕРАТИВНАЯ КАРТА{% else %}&gt; OPERATOR ROADMAP{% endif %}
   </h2>
+  <p class="font-sans text-[15px] text-[#aab2c4] leading-relaxed max-w-[62ch] mb-8 sm:mb-10">
+    <!-- TODO: i18n key for course.section_missions_lead -->
+    {% if _lang == 'ru' %}Девять миссий, выполняемых по порядку. Каждая разблокируется, когда сдан предыдущий брифинг.{% else %}Nine missions, executed in sequence. Each unlocks once the prior briefing is debriefed.{% endif %}
+  </p>
 
   <div data-component="CourseProgress" data-props='{"locale":"{{ _lang }}"}'>
-    {# SEO fallback when JS is disabled — server-rendered vertical timeline #}
+    {# SEO fallback when JS is disabled — server-rendered mission list #}
     <noscript>
-      <ol class="relative">
+      <ol class="space-y-3 sm:space-y-4">
         {% for module in modules %}
-        <li class="relative flex items-start gap-5 pb-5 pl-0">
-          {# vertical connector line, except on last item #}
-          {% if not loop.last %}
-          <span aria-hidden="true" class="absolute left-[19px] top-10 bottom-0 w-px bg-[#202a44]"></span>
-          {% endif %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}" class="group flex items-start gap-5 w-full {% if module.is_locked %}opacity-60 pointer-events-none{% endif %}">
-            <span class="relative z-[1] shrink-0 w-10 h-10 flex items-center justify-center border border-[#202a44] bg-[#0b0f1a] font-mono text-[12px] font-bold text-[#aab2c4] tabular-nums">
-              {{ "%02d"|format(module.order) }}
-            </span>
-            <div class="flex-1 min-w-0 pt-2">
-              <div class="flex flex-wrap items-center gap-3">
-                <h3 class="font-mono font-bold text-[#e7ecf5] text-[17px] tracking-[-0.01em] group-hover:text-[#65def0] transition">
-                  {{ module.title }}
-                </h3>
-                {% if module.is_locked %}
-                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">&#9675; {{ t(_lang, 'course.module_locked') }}</span>
-                {% else %}
-                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#65def0]">&#9654; {{ t(_lang, 'course.module_available') }}</span>
+        <li class="relative flex items-stretch gap-3 sm:gap-4">
+          <div class="shrink-0 w-12 h-12 sm:w-[55px] sm:h-[55px] flex items-center justify-center border {% if module.is_locked %}border-[#202a44] text-[#6b7588]{% else %}border-[#3a8b9a] text-[#65def0]{% endif %} bg-[#0b0f1a] font-mono text-[16px] sm:text-[20px] font-extrabold tabular-nums rounded-[3px] mt-1">
+            {{ "%02d"|format(module.order) }}
+          </div>
+          <a href="/{{ _lang }}/course/{{ module.slug }}" class="flex-1 min-w-0 {% if module.is_locked %}pointer-events-none opacity-70{% endif %}">
+            <div class="border border-[#202a44] bg-[#121828] rounded-[4px] flex flex-col sm:flex-row">
+              <div class="flex-1 p-4 sm:p-5 sm:basis-[60%]">
+                <div class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588] mb-2">MISSION {{ "%02d"|format(module.order) }}</div>
+                <h3 class="font-mono font-bold uppercase text-[#e7ecf5] text-[15px] sm:text-[17px] tracking-[-0.01em]">{{ module.title }}</h3>
+                {% if module.description %}
+                <p class="mt-2 font-sans text-[14px] text-[#aab2c4] leading-relaxed line-clamp-2">{{ module.description }}</p>
                 {% endif %}
               </div>
-              {% if module.description %}
-              <p class="mt-1.5 font-sans text-[14px] text-[#aab2c4] leading-relaxed">{{ module.description }}</p>
-              {% endif %}
+              <div class="sm:basis-[40%] p-4 sm:p-5 sm:border-l border-t sm:border-t-0 border-[#202a44] bg-[#0b0f1a]/40 font-mono text-[11px] uppercase tracking-[0.14em]">
+                {% if module.is_locked %}
+                <span class="text-[#e76670]"><!-- TODO: i18n key for course.cards.statusLocked -->✗ LOCKED</span>
+                {% else %}
+                <span class="text-[#7ce896]"><!-- TODO: i18n key for course.cards.statusReady -->● READY</span>
+                {% endif %}
+              </div>
             </div>
           </a>
         </li>

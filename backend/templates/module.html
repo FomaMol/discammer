@@ -31,7 +31,8 @@
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2">
         <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">
-          {{ t(_lang, 'course.module_label', n="%02d"|format(module.order)) }}
+          <!-- TODO: i18n key for module.header.mission_label -->
+          {% if _lang == 'ru' %}МИССИЯ {{ "%02d"|format(module.order) }}{% else %}MISSION {{ "%02d"|format(module.order) }}{% endif %}
         </span>
         {% if module.difficulty %}
         <span class="px-2 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">{{ module.difficulty }}</span>
@@ -47,64 +48,93 @@
     </div>
   </div>
 
-  {# Topics + objectives #}
-  {% if module.topics or module.objectives %}
-  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-    {% if module.topics %}
-    <div>
-      <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3">
-        {{ t(_lang, 'course.topics_label') }}
-      </div>
-      <ul class="space-y-2">
-        {% for topic in module.topics %}
-        <li class="flex items-start gap-3 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
-          <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#65def0] shrink-0"></span>
-          <span>{{ topic }}</span>
-        </li>
-        {% endfor %}
-      </ul>
+  {# Objectives panel — terminal-style operator brief #}
+  <div class="mt-8">
+    <div data-component="ObjectivesPanel" data-props='{{ {
+      "locale": _lang,
+      "moduleTitle": module.title,
+      "objectives": module.objectives or []
+    } | tojson | forceescape }}'>
+      <noscript>
+        <section class="bg-[#121828] border border-[#202a44] rounded-[4px] overflow-hidden">
+          <header class="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60">
+            <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
+            <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
+            <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
+            <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
+              <!-- TODO: i18n key for course.objectives.header -->
+              {% if _lang == 'ru' %}// ЗАДАЧИ ОПЕРАТОРА{% else %}// OBJECTIVES{% endif %}
+            </span>
+          </header>
+          <ul class="px-4 sm:px-6 py-4 space-y-2">
+            {% if module.objectives %}
+              {% for obj in module.objectives %}
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]">
+                <span class="text-[#f4b965] shrink-0">▸</span>
+                <span class="flex-1">{{ obj }}</span>
+              </li>
+              {% endfor %}
+            {% else %}
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {% if _lang == 'ru' %}РАСПОЗНАТЬ ПАТТЕРН В РЕАЛЬНЫХ ПРИМЕРАХ{% else %}RECOGNIZE THE PATTERN IN REAL-WORLD EXAMPLES{% endif %}</li>
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {% if _lang == 'ru' %}ВЫЯВИТЬ ТРИ КРАСНЫХ ФЛАГА{% else %}IDENTIFY THE THREE RED FLAGS{% endif %}</li>
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {% if _lang == 'ru' %}СДАТЬ АТТЕСТАЦИЮ С РЕЗУЛЬТАТОМ ≥ 80%{% else %}PASS THE ASSESSMENT WITH ≥ 80%{% endif %}</li>
+            {% endif %}
+          </ul>
+        </section>
+      </noscript>
     </div>
-    {% endif %}
-    {% if module.objectives %}
-    <div>
-      <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3">
-        {{ t(_lang, 'course.objectives_label') }}
-      </div>
-      <ul class="space-y-2">
-        {% for obj in module.objectives %}
-        <li class="flex items-start gap-3 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
-          <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#7ce896] shrink-0"></span>
-          <span>{{ obj }}</span>
-        </li>
-        {% endfor %}
-      </ul>
+  </div>
+
+  {# Topics (only if present and not duplicated by objectives) #}
+  {% if module.topics %}
+  <div class="mt-8">
+    <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3">
+      {{ t(_lang, 'course.topics_label') }}
     </div>
-    {% endif %}
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+      {% for topic in module.topics %}
+      <li class="flex items-start gap-3 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
+        <span class="mt-2 inline-block w-1.5 h-1.5 bg-[#65def0] shrink-0"></span>
+        <span>{{ topic }}</span>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
   {% endif %}
 
   {# Lessons list — React island reads localStorage to mark completed ones #}
   <div class="mt-12">
     <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-6">
-      {{ t(_lang, 'course.lessons_heading') }}
+      <!-- TODO: i18n key for module.lessons_heading -->
+      {% if _lang == 'ru' %}&gt; БРИФИНГИ МИССИИ{% else %}&gt; MISSION BRIEFINGS{% endif %}
     </h2>
 
     <div data-component="ModuleLessons" data-props='{"moduleSlug":"{{ module.slug }}","locale":"{{ _lang }}"}'>
       <noscript>
         {% if lessons %}
-        <ol class="border border-[#202a44] bg-[#121828]/60 divide-y divide-[#202a44]">
-          {% for ls in lessons %}
-          <li>
-            <a href="/{{ _lang }}/course/{{ module.slug }}/{{ ls.slug }}" class="flex items-center gap-4 px-4 sm:px-5 py-4 hover:bg-[#1a2236] hover:border-[#65def0] transition group">
-              <span class="font-mono text-[#6b7588] text-[12px] tabular-nums w-8 shrink-0">{{ "%02d"|format(ls.order) }}</span>
-              <span class="flex-1 font-mono font-medium text-[#e7ecf5] text-[14px] group-hover:text-[#65def0] transition">{{ ls.title }}</span>
-              <span class="font-mono text-[#aab2c4] text-[11px] uppercase tracking-[0.14em] tabular-nums shrink-0">{{ ls.est_minutes }} {{ t(_lang, 'course.minutes_short') }}</span>
-            </a>
-          </li>
-          {% endfor %}
-        </ol>
+        <div class="bg-[#0b0f1a] border border-[#202a44] rounded-[4px] overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-[#202a44] bg-[#121828]/60 flex items-center justify-between gap-3">
+            <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
+              <!-- TODO: i18n key for module.checklist.header -->
+              {% if _lang == 'ru' %}// ЧЕК-ЛИСТ МИССИИ{% else %}// MISSION CHECKLIST{% endif %}
+            </span>
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">0/{{ lessons|length }}</span>
+          </div>
+          <ol class="divide-y divide-[#202a44]">
+            {% for ls in lessons %}
+            <li>
+              <a href="/{{ _lang }}/course/{{ module.slug }}/{{ ls.slug }}" class="flex items-center gap-4 px-4 sm:px-5 py-4 hover:bg-[#65def0]/8 transition group">
+                <span class="font-mono text-[14px] text-[#6b7588] shrink-0" aria-hidden="true">[ ]</span>
+                <span class="font-mono text-[11px] tabular-nums text-[#6b7588] w-7">{{ "%02d"|format(ls.order) }}</span>
+                <span class="flex-1 font-mono font-semibold text-[13px] uppercase tracking-[0.04em] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">{{ ls.title }}</span>
+                <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums shrink-0">{{ ls.est_minutes }} {{ t(_lang, 'course.minutes_short') }}</span>
+              </a>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
         {% else %}
-        <div class="bg-[#121828] border border-[#202a44] p-6 text-center text-[#aab2c4] font-sans text-[15px]">
+        <div class="bg-[#121828] border border-[#202a44] p-6 text-center text-[#aab2c4] font-sans text-[15px] rounded-[4px]">
           {{ t(_lang, 'course.lessons_empty') }}
         </div>
         {% endif %}
@@ -112,14 +142,16 @@
     </div>
   </div>
 
-  {# Footer CTA — ghost back + primary start #}
+  {# Footer CTA — ghost back + primary begin #}
   <div class="mt-12 pt-6 border-t border-[#202a44] flex flex-wrap items-center justify-between gap-4">
     <a href="/{{ _lang }}/course" class="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] hover:bg-[#121828] transition rounded-[3px]">
-      &larr; {{ t(_lang, 'module.back_to_course') }}
+      <!-- TODO: i18n key for module.footer.abort -->
+      {% if _lang == 'ru' %}◁ ВЕРНУТЬСЯ К КУРСУ{% else %}◁ ABORT TO COURSE{% endif %}
     </a>
     {% if lessons and lessons|length > 0 %}
     <a href="/{{ _lang }}/course/{{ module.slug }}/{{ lessons[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold">
-      {{ t(_lang, 'module.start_first_lesson') }} &rarr;
+      <!-- TODO: i18n key for module.footer.begin_mission -->
+      {% if _lang == 'ru' %}▸ НАЧАТЬ МИССИЮ{% else %}▸ BEGIN MISSION{% endif %}
     </a>
     {% endif %}
   </div>

@@ -41,17 +41,25 @@ export default function RedFlagsWidget({ config, locale }: Props) {
   const [picked, setPicked] = useState<Set<string>>(new Set());
   const [submitted, setSubmitted] = useState(false);
 
-  const heading = pick(lang, { en: '// SPOT THE RED FLAGS', ru: '// НАЙДИ КРАСНЫЕ ФЛАГИ' });
-  const submitLabel = pick(lang, { en: 'Submit selection', ru: 'Проверить' });
-  const resetLabel = pick(lang, { en: 'Try again', ru: 'Заново' });
+  // TODO: i18n key for redflags.heading
+  const heading = pick(lang, { en: '// THREAT INDICATORS', ru: '// ИНДИКАТОРЫ УГРОЗЫ' });
+  // TODO: i18n key for redflags.submit
+  const submitLabel = pick(lang, { en: 'ANALYZE TRANSMISSION', ru: 'ПРОАНАЛИЗИРОВАТЬ' });
+  // TODO: i18n key for redflags.reset
+  const resetLabel = pick(lang, { en: 'Re-scan transmission', ru: 'Перепроанализировать' });
+  // TODO: i18n key for redflags.prompt_default
   const promptDefault = pick(lang, {
-    en: 'Tick every item below that is a genuine red flag in this message.',
-    ru: 'Отметь всё, что ниже, что является настоящим красным флагом в этом сообщении.',
+    en: 'Flag every line below that is a genuine threat indicator in this transmission.',
+    ru: 'Отметь каждую строку ниже, которая является настоящим индикатором угрозы.',
   });
-  const correctLabel = pick(lang, { en: 'CORRECT FLAG', ru: 'ВЕРНЫЙ ФЛАГ' });
-  const missedLabel = pick(lang, { en: 'MISSED FLAG', ru: 'ПРОПУЩЕНО' });
-  const wrongLabel = pick(lang, { en: 'NOT A FLAG', ru: 'НЕ ФЛАГ' });
-  const scoreLabel = pick(lang, { en: '// SCORE', ru: '// СЧЁТ' });
+  // TODO: i18n key for redflags.correct
+  const correctLabel = pick(lang, { en: '▸ INDICATOR DETECTED', ru: '▸ ИНДИКАТОР ОБНАРУЖЕН' });
+  // TODO: i18n key for redflags.missed
+  const missedLabel = pick(lang, { en: '✗ MISSED', ru: '✗ ПРОПУЩЕН' });
+  // TODO: i18n key for redflags.wrong
+  const wrongLabel = pick(lang, { en: '✗ NOT AN INDICATOR', ru: '✗ НЕ ИНДИКАТОР' });
+  // TODO: i18n key for redflags.score_heading
+  const scoreLabel = pick(lang, { en: '// THREAT REPORT', ru: '// ОТЧЁТ ОБ УГРОЗАХ' });
 
   function toggle(id: string) {
     if (submitted) return;
@@ -193,19 +201,22 @@ export default function RedFlagsWidget({ config, locale }: Props) {
           <p className="font-sans text-[15px] text-[#e7ecf5] leading-relaxed">
             <span className="font-mono text-[#7ce896] tabular-nums">{correctHits}</span>
             <span className="font-mono text-[#aab2c4]"> / {totalFlags}</span>{' '}
-            {pick(lang, { en: 'flags caught', ru: 'флагов поймано' })}
+            {/* TODO: i18n key for redflags.score_caught */}
+            {pick(lang, { en: 'indicators flagged', ru: 'индикаторов отмечено' })}
             {falsePositives > 0 && (
               <>
                 {' · '}
                 <span className="font-mono text-[#e76670] tabular-nums">{falsePositives}</span>{' '}
-                {pick(lang, { en: 'false positives', ru: 'ложных срабатываний' })}
+                {/* TODO: i18n key for redflags.score_false_positive */}
+                {pick(lang, { en: 'false flags', ru: 'ложных тревог' })}
               </>
             )}
             {missed > 0 && (
               <>
                 {' · '}
                 <span className="font-mono text-[#f4b965] tabular-nums">{missed}</span>{' '}
-                {pick(lang, { en: 'missed', ru: 'пропущено' })}
+                {/* TODO: i18n key for redflags.score_missed */}
+                {pick(lang, { en: 'indicators missed', ru: 'индикаторов пропущено' })}
               </>
             )}
           </p>

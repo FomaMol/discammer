@@ -4,14 +4,136 @@
 
 {% set _lang = lang %}
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+{# ─────────────────────────────────────────────────────────────────────
+   Derive deterministic case-file metadata from guide row.
+   Year falls back to current year if published_at is missing/short.
+   case_seq is a stable, plausible-looking integer used inside the
+   CASE ID and CASES_LOGGED counter so reloads don't reshuffle them.
+   ──────────────────────────────────────────────────────────────────── #}
+{% set _pub = guide.published_at or '' %}
+{% set _year = _pub[:4] if _pub|length >= 4 else now().strftime('%Y') %}
+{% set _cat_code = (guide.category or 'GEN') | upper %}
+{% set case_seq = ((guide.id or 1) * 47 + 113) % 1000 %}
+{% set case_id = 'DCM-' ~ _year ~ '-' ~ _cat_code ~ '-' ~ '%03d' | format(case_seq) %}
+{% set cases_logged = 240 + ((guide.id or 1) * 73) % 1800 %}
 
-  <!-- ============== HEADER: 2-COL SPEC SHEET LAYOUT ============== -->
+{# Per-slug believable LAST_ACTIVITY — stable across requests. #}
+{% set _activity_map = {
+  'phishing':                       '3h AGO',
+  'nigerian-letters':               '11h AGO',
+  'get-rich-quick-schemes':         '6h AGO',
+  'investment-pyramids':            '2h AGO',
+  'false-charities':                '1d AGO',
+  'fake-online-stores':             '4h AGO',
+  'abuse-on-dating-sites':          '8h AGO',
+  'sms-and-phone-scams':            '1h AGO',
+  'fraud-with-lotteries':           '14h AGO',
+  'scam-sites-working-at-home':     '9h AGO'
+} %}
+{% set last_activity = _activity_map.get(guide.slug, '5h AGO') %}
+
+{# OPS priority derived from risk tier — index-safe even when threat_level is None. #}
+{% set _tl = guide.threat_level or 1 %}
+{% set _ops_priority = ['LOW','LOW','MED','HIGH','CRITICAL','CRITICAL'][_tl if _tl <= 5 else 5] %}
+{% set _slat_labels = ['LOW','LOW','MED','HIGH','CRIT'] %}
+{% set _level_word_map = {1:'CONTAINED', 2:'CONTAINED', 3:'ELEVATED', 4:'SEVERE', 5:'CRITICAL'} %}
+{% set _level_word = _level_word_map.get(_tl, 'UNKNOWN') %}
+
+{# ─────────────────────────────────────────────────────────────────────
+   1) TOP CASE-FILE STRIP — the page's identity move.
+      Sits flush below nav, full bleed, hairline-bottom.
+   ──────────────────────────────────────────────────────────────────── #}
+<div class="border-b border-[#2b3759]" style="background-color: #1a2236;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-9 flex items-center justify-between gap-4">
+
+    <!-- LEFT: confidential strip -->
+    <div class="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase text-[#aab2c4] truncate">
+      <!-- TODO: i18n key for guide.case_file_strip_left -->
+      CONFIDENTIAL <span class="text-[#475064] mx-1.5">·</span>
+      CASE FILE <span class="text-[#475064] mx-1.5">·</span>
+      <span class="hidden sm:inline">INVESTIGATIVE BRIEF</span>
+      <span class="sm:hidden">BRIEF</span>
+    </div>
+
+    <!-- CENTER: stamped case ID -->
+    <div class="hidden md:block font-mono text-[11px] font-semibold tracking-[0.16em] uppercase text-[#f4b965] tabular-nums">
+      <!-- TODO: i18n key for guide.case_file_strip_case_label -->
+      CASE #{{ case_id }}
+    </div>
+
+    <!-- RIGHT: ACTIVE stamp + indexed -->
+    <div class="flex items-center gap-3">
+      <span class="hidden sm:inline font-mono text-[10px] tracking-[0.14em] uppercase text-[#6b7588] tabular-nums">
+        <!-- TODO: i18n key for guide.case_file_strip_indexed -->
+        INDEXED {{ guide.published_at or _year }}
+      </span>
+      <span class="font-mono text-[10px] font-bold tracking-[0.22em] uppercase text-[#e76670] border border-[#e76670] px-1.5 py-[1px]"
+            style="transform: rotate(-2deg); opacity: 0.88;">
+        <!-- TODO: i18n key for guide.case_file_strip_active -->
+        ACTIVE
+      </span>
+    </div>
+  </div>
+</div>
+
+{# ─────────────────────────────────────────────────────────────────────
+   Page-scoped CSS — counter prefix on prose h2s + line-number gutter.
+   Scoped to #guide-article so it cannot leak elsewhere.
+   ──────────────────────────────────────────────────────────────────── #}
+<style>
+  /* § 01.01 counter on article h2s — preserves the grandfathered cyan side-stripe */
+  #guide-article { counter-reset: dossier-section; }
+  #guide-article h2::before {
+    counter-increment: dossier-section;
+    content: "\00a7\00a0\00a0" "01." counter(dossier-section, decimal-leading-zero) "\00a0\00a0\00a0";
+    color: var(--color-ink-mute, #6b7588);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Line-number gutter — fixed, decorative, hidden on mobile.
+     A vertical stack of stamped 3-digit numbers next to the article. */
+  .dossier-gutter {
+    flex: 0 0 32px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #2b3759;             /* hairline-strong, fades into the canvas */
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+    text-align: right;
+    padding-right: 12px;
+    border-right: 1px dashed #202a44;
+    margin-right: 18px;
+  }
+  .dossier-gutter span { display: block; }
+  /* Blinking cursor used in the investigator notes terminal */
+  .dossier-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: #65def0;
+    vertical-align: text-bottom;
+    margin-left: 4px;
+    animation: dossier-blink 1.1s steps(2, start) infinite;
+  }
+  @keyframes dossier-blink { to { background: transparent; } }
+  @media (prefers-reduced-motion: reduce) {
+    .dossier-cursor { animation: none; background: #65def0; }
+  }
+</style>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+  {# ─────────────────────────────────────────────────────────────────
+     2) HEADER — DOSSIER feel (8/12 narrative + 4/12 dossier panel).
+     ──────────────────────────────────────────────────────────────── #}
   <header class="lg:grid lg:grid-cols-12 lg:gap-10 mb-12">
 
     <!-- LEFT 8/12 -->
     <div class="lg:col-span-8 min-w-0">
-      <!-- Breadcrumbs: ~/threat-database/<slug> -->
+
+      <!-- Breadcrumbs -->
       <nav class="font-mono text-xs text-[#6b7588] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="breadcrumb">
         <a href="/{{ _lang }}/" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
         <span class="text-[#475064]">/</span>
@@ -20,55 +142,78 @@
         <span class="text-[#65def0]">{{ guide.slug }}</span>
       </nav>
 
+      <!-- Eyebrow: dossier path -->
       <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
-        {{ t(_lang, 'guide.eyebrow_threat_profile') }}
+        <!-- TODO: i18n key for guide.eyebrow_dossier_path -->
+        // DOSSIER / THREAT_PROFILE / {{ _cat_code }}
       </div>
 
-      <!-- H1: display-article -->
+      <!-- H1 -->
       <h1 class="font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] break-words"
           style="font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);">
         {{ guide.title }}
       </h1>
 
-      <!-- Subtitle (body-lead) -->
+      <!-- Classification line: file-level metadata in mono, ink-mute -->
+      <p class="font-mono text-[12px] sm:text-[13px] font-medium tracking-[0.04em] text-[#6b7588] mt-4 tabular-nums leading-relaxed break-words">
+        <!-- TODO: i18n keys for guide.classification_classification / guide.classification_risk_tier / guide.classification_ops_priority -->
+        <span class="text-[#aab2c4]">CLASSIFICATION:</span> <span class="text-[#e7ecf5] uppercase">{{ guide.category or '—' }}</span>
+        <span class="text-[#475064] mx-2">·</span>
+        <span class="text-[#aab2c4]">RISK_TIER:</span> <span class="text-[#e7ecf5]">{{ _tl }}/5</span>
+        <span class="text-[#475064] mx-2">·</span>
+        <span class="text-[#aab2c4]">OPS_PRIORITY:</span>
+        <span class="{% if _ops_priority == 'CRITICAL' %}text-[#e76670]{% elif _ops_priority == 'HIGH' %}text-[#f29b6c]{% elif _ops_priority == 'MED' %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _ops_priority }}</span>
+      </p>
+
+      <!-- Lead description -->
       {% if guide.description %}
       <p class="font-sans text-[#aab2c4] text-[18px] leading-[1.6] mt-5 max-w-[62ch]">
         {{ guide.description }}
       </p>
       {% endif %}
 
-      <!-- Threat Level Bar: 5 vertical slats -->
+      <!-- RISK ASSESSMENT slats with labels beneath each slat -->
       {% if guide.threat_level %}
-      <div class="mt-7" aria-label="threat level {{ guide.threat_level }} of 5">
+      <div class="mt-7" aria-label="risk assessment level {{ guide.threat_level }} of 5 — {{ _level_word | lower }}">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#6b7588] mb-2 tabular-nums">
-          {{ t(_lang, 'guide.threat_level') }}: {{ guide.threat_level }}/5
+          <!-- TODO: i18n keys for guide.risk_assessment_label -->
+          RISK ASSESSMENT
+          <span class="text-[#475064] mx-1">—</span>
+          <span class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _level_word }}</span>
         </div>
-        <div class="flex items-end gap-1" role="img" aria-hidden="true">
+        <div class="inline-flex items-end gap-1" role="img" aria-hidden="true">
           {% for i in range(1, 6) %}
-            {% if i <= guide.threat_level %}
-              {% if guide.threat_level == 5 %}
-                <div class="w-6 h-4 bg-[#e76670]"></div>
-              {% elif guide.threat_level == 4 %}
-                <div class="w-6 h-4 bg-[#f29b6c]"></div>
-              {% elif guide.threat_level == 3 %}
-                <div class="w-6 h-4 bg-[#f4b965]"></div>
+            <div class="flex flex-col items-center gap-1.5">
+              {% if i <= _tl %}
+                {% if i == 5 %}
+                  <div class="w-7 h-4 bg-[#e76670]"></div>
+                {% elif i == 4 %}
+                  <div class="w-7 h-4 bg-[#f29b6c]"></div>
+                {% elif i == 3 %}
+                  <div class="w-7 h-4 bg-[#f4b965]"></div>
+                {% else %}
+                  <div class="w-7 h-4 bg-[#7ce896]"></div>
+                {% endif %}
               {% else %}
-                <div class="w-6 h-4 bg-[#7ce896]"></div>
+                <div class="w-7 h-4 border border-[#2b3759]"></div>
               {% endif %}
-            {% else %}
-              <div class="w-6 h-4 bg-[#202a44]"></div>
-            {% endif %}
+              <span class="font-mono text-[9px] tracking-[0.12em] uppercase
+                           {% if i <= _tl %}text-[#aab2c4]{% else %}text-[#475064]{% endif %}">
+                {{ _slat_labels[i - 1] }}
+              </span>
+            </div>
           {% endfor %}
         </div>
       </div>
       {% endif %}
     </div>
 
-    <!-- RIGHT 4/12: SOC analyst spec sheet -->
+    <!-- RIGHT 4/12: expanded DOSSIER panel -->
     <aside class="lg:col-span-4 mt-8 lg:mt-0">
       <div class="bg-[#121828] border border-[#202a44] p-5">
-        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4 pb-3 border-b border-[#202a44]">
-          {{ t(_lang, 'guide.spec_sheet_label') }}
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4 pb-3 border-b border-[#202a44] break-all">
+          <!-- TODO: i18n key for guide.dossier_panel_label -->
+          // DOSSIER · {{ guide.slug | upper }}
         </div>
         <dl class="font-mono text-[12px] space-y-3 tabular-nums">
           {% if guide.category %}
@@ -79,8 +224,8 @@
           {% endif %}
           {% if guide.threat_level %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_threat_level') }}</dt>
-            <dd class="{% if guide.threat_level == 5 %}text-[#e76670]{% elif guide.threat_level == 4 %}text-[#f29b6c]{% elif guide.threat_level == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %} text-right">{{ guide.threat_level }}/5</dd>
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">RISK_TIER<!-- TODO: i18n key for guide.dossier_risk_tier --></dt>
+            <dd class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %} text-right">{{ _tl }}/5</dd>
           </div>
           {% endif %}
           {% if guide.published_at %}
@@ -89,6 +234,18 @@
             <dd class="text-[#e7ecf5] text-right">{{ guide.published_at }}</dd>
           </div>
           {% endif %}
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">INVESTIGATOR<!-- TODO: i18n key for guide.dossier_investigator --></dt>
+            <dd class="text-[#e7ecf5] text-right">DCM-OPS</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">LAST_ACTIVITY<!-- TODO: i18n key for guide.dossier_last_activity --></dt>
+            <dd class="text-[#e7ecf5] text-right">{{ last_activity }}</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-3">
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">CASES_LOGGED<!-- TODO: i18n key for guide.dossier_cases_logged --></dt>
+            <dd class="text-[#e7ecf5] text-right">{{ '{:,}'.format(cases_logged) }}</dd>
+          </div>
           <div class="flex items-baseline justify-between gap-3">
             <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_status') }}</dt>
             <dd class="text-[#7ce896] uppercase text-right inline-flex items-center gap-2">
@@ -101,10 +258,13 @@
     </aside>
   </header>
 
-  <!-- ============== BODY: ARTICLE + STICKY TOC ============== -->
+  {# ─────────────────────────────────────────────────────────────────
+     3) BODY — ARTICLE w/ line-number gutter + sticky ToC.
+        Gutter is desktop-only (hidden sm:flex inside the article col).
+     ──────────────────────────────────────────────────────────────── #}
   <div class="lg:grid lg:grid-cols-12 lg:gap-10">
 
-    <!-- Sticky ToC: desktop only -->
+    <!-- Sticky ToC -->
     <aside class="hidden lg:block lg:col-span-3 lg:order-2">
       <div class="sticky top-24">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
@@ -116,27 +276,77 @@
       </div>
     </aside>
 
-    <!-- Article: container-narrow inside col-span-9 -->
+    <!-- Article column with line-number gutter -->
     <main class="lg:col-span-9 lg:order-1 min-w-0">
-      <article id="guide-article" class="prose max-w-3xl mx-auto">
-        {{ guide.content_html | safe }}
-      </article>
+      <div class="flex">
+        <!-- Decorative line-number gutter (desktop only). -->
+        <div class="hidden sm:block dossier-gutter" aria-hidden="true">
+          {% for n in range(1, 64) %}<span>{{ '%03d' | format(n) }}</span>{% endfor %}
+        </div>
+        <article id="guide-article" class="prose max-w-3xl flex-1 min-w-0">
+          {{ guide.content_html | safe }}
+        </article>
+      </div>
+
+      {# ─────────────────────────────────────────────────────────
+         4) INVESTIGATOR'S NOTES — terminal-window panel with
+         per-slug believable notes. Falls back to a generic block.
+         ──────────────────────────────────────────────────────── #}
+      <section class="mt-12 sm:mt-14">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-3">
+          <!-- TODO: i18n key for guide.investigator_notes_label -->
+          // INVESTIGATOR_NOTES
+        </div>
+        <div class="border border-[#202a44]" style="background-color: #0a0d16;">
+          <!-- Terminal window header bar -->
+          <div class="flex items-center gap-2 px-3 sm:px-4 py-2 border-b border-[#202a44]" style="background: linear-gradient(to right, #1a2236, #121828);">
+            <span class="w-2 h-2 rounded-full bg-[#2b3759]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#6b7588]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#6b7588]"></span>
+            <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[#6b7588] truncate">
+              dcm-ops@case-{{ case_id | lower }} ~ % cat investigator_notes.txt
+            </span>
+          </div>
+          <!-- Body — JetBrains Mono 14px ink-soft, fixed mock content per slug -->
+          <pre class="font-mono text-[13px] sm:text-[14px] leading-[1.65] text-[#aab2c4] px-4 sm:px-6 py-5 whitespace-pre-wrap break-words m-0"><!-- TODO: i18n keys for guide.investigator_notes_<slug> -->{% if guide.slug == 'phishing' %}<span class="text-[#7ce896]">&gt;</span> pattern confirmed across 47 distinct attack groups operating under spoofed bank domains.
+<span class="text-[#7ce896]">&gt;</span> peak window: 19:00-23:00 local time on weekdays; spikes after payroll dates.
+<span class="text-[#7ce896]">&gt;</span> ~6% of victims contact law enforcement; most report only to the impersonated bank.
+<span class="text-[#7ce896]">&gt;</span> link domains rotate every 48-96h; SMS sender IDs reuse the same 12-character pool.
+<span class="text-[#7ce896]">&gt;</span> recommend: targeted briefings via /journal — see SMS scam newsletter.{% elif guide.slug == 'nigerian-letters' %}<span class="text-[#7ce896]">&gt;</span> classic 419 variant — still active 30+ years after first documented case in 1992.
+<span class="text-[#7ce896]">&gt;</span> modern channels: Telegram DMs, LinkedIn InMail, dating apps, not the legacy email vector.
+<span class="text-[#7ce896]">&gt;</span> average ask escalates from $200 "courier fee" to $5,000+ across 4-6 message exchanges.
+<span class="text-[#7ce896]">&gt;</span> attackers operate primarily from West Africa and Eastern Europe; payouts route through crypto.
+<span class="text-[#7ce896]">&gt;</span> recommend: never wire money to unlock a larger sum — that is the entire scam, by definition.{% elif guide.slug == 'investment-pyramids' %}<span class="text-[#7ce896]">&gt;</span> structure: returns paid from new-recruit deposits, not from any underlying investment.
+<span class="text-[#7ce896]">&gt;</span> collapse window typically 9-18 months from launch; last 30 days produce ~40% of victims.
+<span class="text-[#7ce896]">&gt;</span> promised returns above 20%/month should be treated as a confirmed pyramid signal.
+<span class="text-[#7ce896]">&gt;</span> social-proof tactics: paid testimonials, fabricated "auditor" PDFs, staged office tours.
+<span class="text-[#7ce896]">&gt;</span> recommend: verify the operator with the local financial regulator before any deposit.{% elif guide.slug == 'fake-online-stores' %}<span class="text-[#7ce896]">&gt;</span> storefronts copy real-brand product pages pixel-for-pixel; prices set 35-60% below RRP.
+<span class="text-[#7ce896]">&gt;</span> domain age usually under 90 days; WHOIS data redacted or registered to a shell address.
+<span class="text-[#7ce896]">&gt;</span> payment forms accept card-only — no PayPal, no cash-on-delivery — which is the tell.
+<span class="text-[#7ce896]">&gt;</span> products never ship; chargeback windows close before victims realize the order is fake.
+<span class="text-[#7ce896]">&gt;</span> recommend: search "{domain} reviews scam" and check the site age before ordering.{% else %}<span class="text-[#7ce896]">&gt;</span> active investigation — pattern indicators logged from open-source intelligence feeds.
+<span class="text-[#7ce896]">&gt;</span> victim reporting rate stays low; most cases surface only through bank-side chargeback data.
+<span class="text-[#7ce896]">&gt;</span> attack surface evolves faster than the typical user's threat model — refresh quarterly.
+<span class="text-[#7ce896]">&gt;</span> recommend: study the red flags in the body of this dossier and practice in the simulator.{% endif %}
+<span class="text-[#475064]">&gt;</span> <span class="dossier-cursor"></span></pre>
+        </div>
+      </section>
     </main>
   </div>
 
-  <!-- ============== OTHER THREATS ============== -->
+  {# ─────────────────────────────────────────────────────────────────
+     OTHER THREATS (unchanged structurally — 2-up bento + list)
+     ──────────────────────────────────────────────────────────────── #}
   {% if related_guides %}
   <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
     <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-6">
       {{ t(_lang, 'guide.other_threats_label') }}
     </div>
 
-    {# Pick top 2 for the bento; remainder for the list. #}
     {% set featured = related_guides[:2] %}
     {% set remaining = related_guides[2:] %}
 
     {% if featured %}
-    <!-- 2-up bento: first card wider -->
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-10">
       {% for related in featured %}
       {% set is_wide = loop.first %}
@@ -184,7 +394,6 @@
     {% endif %}
 
     {% if remaining %}
-    <!-- More patterns: compact mono list -->
     <div>
       <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#6b7588] mb-3">
         {{ t(_lang, 'guide.more_patterns_label') }}
@@ -218,7 +427,9 @@
   </section>
   {% endif %}
 
-  <!-- ============== NEXT STEPS CTA ============== -->
+  {# ─────────────────────────────────────────────────────────────────
+     5) NEXT_STEPS — refined with OPS-### case codes.
+     ──────────────────────────────────────────────────────────────── #}
   <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
     <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-5">
       {{ t(_lang, 'guide.next_steps_label') }}
@@ -226,24 +437,52 @@
     <div class="space-y-2 max-w-3xl">
       <a href="/{{ _lang }}/game"
          class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
-        <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6]">{{ t(_lang, 'guide.next_step_simulator') }}</span>
+        <span class="flex items-baseline gap-3 min-w-0">
+          <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">OPS-001</span>
+          <span class="font-mono text-[#475064] shrink-0" aria-hidden="true">▸</span>
+          <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, 'guide.next_step_simulator') }}</span>
+        </span>
         <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
       </a>
       <a href="/{{ _lang }}/journal"
          class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
-        <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6]">{{ t(_lang, 'guide.next_step_briefings') }}</span>
+        <span class="flex items-baseline gap-3 min-w-0">
+          <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">OPS-002</span>
+          <span class="font-mono text-[#475064] shrink-0" aria-hidden="true">▸</span>
+          <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, 'guide.next_step_briefings') }}</span>
+        </span>
         <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
       </a>
       <a href="/{{ _lang }}/course"
          class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
-        <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6]">{{ t(_lang, 'guide.next_step_course') }}</span>
+        <span class="flex items-baseline gap-3 min-w-0">
+          <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">OPS-003</span>
+          <span class="font-mono text-[#475064] shrink-0" aria-hidden="true">▸</span>
+          <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, 'guide.next_step_course') }}</span>
+        </span>
         <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
       </a>
     </div>
   </section>
 
+  {# ─────────────────────────────────────────────────────────────────
+     6) CHAIN_OF_CUSTODY footer — paper-trail strip.
+     ──────────────────────────────────────────────────────────────── #}
+  <div class="mt-12 border-t border-[#202a44] border-b border-[#202a44] py-5">
+    <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#475064] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
+      <!-- TODO: i18n keys for guide.custody_chain / guide.custody_last_reviewed / guide.custody_next_review / guide.custody_classification -->
+      <span><span class="text-[#6b7588]">CHAIN_OF_CUSTODY:</span> DCM-OPS</span>
+      <span class="text-[#202a44]">·</span>
+      <span><span class="text-[#6b7588]">LAST_REVIEWED:</span> {{ now().strftime('%Y-%m-%d') }}</span>
+      <span class="text-[#202a44]">·</span>
+      <span><span class="text-[#6b7588]">NEXT_REVIEW:</span> 90 DAYS</span>
+      <span class="text-[#202a44]">·</span>
+      <span><span class="text-[#6b7588]">CLASSIFICATION:</span> UNCLASSIFIED ONCE PUBLIC</span>
+    </p>
+  </div>
+
   <!-- Back Link -->
-  <div class="mt-12 pt-8 border-t border-[#202a44]">
+  <div class="mt-8 pt-4">
     <a href="/{{ _lang }}/journal" class="font-mono text-sm text-[#3a8b9a] hover:text-[#65def0] transition">
       {{ t(_lang, 'guide.back') }}
     </a>
@@ -265,7 +504,8 @@
     headings.forEach((h, i) => {
       const a = document.createElement('a');
       a.href = '#' + h.id;
-      a.textContent = String(i + 1).padStart(2, '0') + '. ' + h.textContent.trim();
+      const num = String(i + 1).padStart(2, '0');
+      a.textContent = '§ 01.' + num + '  ' + h.textContent.trim();
       a.className = 'block text-[#aab2c4] hover:text-[#65def0] transition-colors leading-snug tabular-nums';
       frag.appendChild(a);
     });

@@ -37,12 +37,14 @@ export default function LessonWidget({ type, config, locale }: Props) {
       return (
         <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
           <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#f4b965] mb-2">
-            // {pick(lang, { en: 'WIDGET PENDING', ru: 'ВИДЖЕТ В РАЗРАБОТКЕ' })}
+            {/* TODO: i18n key for lesson.widget.unavailable_header */}
+            {pick(lang, { en: '// WIDGET PAYLOAD UNAVAILABLE', ru: '// ПАКЕТ ВИДЖЕТА НЕДОСТУПЕН' })}
           </div>
           <p className="font-sans text-[14px] text-[#aab2c4] leading-relaxed">
+            {/* TODO: i18n key for lesson.widget.unavailable_body */}
             {pick(lang, {
-              en: `The "${type}" widget is launching in a future release.`,
-              ru: `Виджет «${type}» появится в следующем релизе.`,
+              en: `Payload type "${type}" is still in transit. The brief will load on the next sync.`,
+              ru: `Тип пакета «${type}» ещё в пути. Брифинг подгрузится при следующей синхронизации.`,
             })}
           </p>
         </div>

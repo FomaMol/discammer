@@ -60,16 +60,28 @@ export default function ExamWidget({ config, locale }: Props) {
   const total = questions.length;
   const current = questions[index];
 
-  const heading = pick(lang, { en: '// FINAL EXAM', ru: '// ФИНАЛЬНЫЙ ЭКЗАМЕН' });
-  const progressLabel = pick(lang, { en: 'Question', ru: 'Вопрос' });
-  const submitLabel = pick(lang, { en: 'Submit answer', ru: 'Ответить' });
-  const nextLabel = pick(lang, { en: 'Next question', ru: 'Следующий' });
-  const finishLabel = pick(lang, { en: 'Finish exam', ru: 'Завершить' });
-  const restartLabel = pick(lang, { en: 'Restart exam', ru: 'Пройти заново' });
-  const passedLabel = pick(lang, { en: 'PASSED', ru: 'ЗАЧЁТ' });
-  const failedLabel = pick(lang, { en: 'BELOW THRESHOLD', ru: 'НИЖЕ ПОРОГА' });
-  const correctLabel = pick(lang, { en: 'CORRECT', ru: 'ВЕРНО' });
-  const incorrectLabel = pick(lang, { en: 'INCORRECT', ru: 'НЕВЕРНО' });
+  // TODO: i18n key for exam.heading
+  const heading = pick(lang, { en: '// FINAL EXAMINATION', ru: '// ФИНАЛЬНОЕ ИСПЫТАНИЕ' });
+  // TODO: i18n key for exam.progressLabel
+  const progressLabel = pick(lang, { en: 'Q', ru: 'В' });
+  // TODO: i18n key for exam.transmit
+  const submitLabel = pick(lang, { en: 'TRANSMIT', ru: 'ОТПРАВИТЬ' });
+  // TODO: i18n key for exam.next
+  const nextLabel = pick(lang, { en: 'NEXT QUESTION ▷', ru: 'СЛЕДУЮЩИЙ ▷' });
+  // TODO: i18n key for exam.finish
+  const finishLabel = pick(lang, { en: 'FINALIZE EXAM ▷', ru: 'ЗАВЕРШИТЬ ЭКЗАМЕН ▷' });
+  // TODO: i18n key for exam.restart
+  const restartLabel = pick(lang, { en: 'Re-run examination', ru: 'Пройти заново' });
+  // TODO: i18n key for exam.passed (no longer used in pass screen)
+  const passedLabel = pick(lang, { en: 'CLEARANCE GRANTED', ru: 'ДОПУСК ВЫДАН' });
+  // TODO: i18n key for exam.failed
+  const failedLabel = pick(lang, { en: 'CLEARANCE DENIED', ru: 'В ДОПУСКЕ ОТКАЗАНО' });
+  // TODO: i18n key for exam.correct
+  const correctLabel = pick(lang, { en: '[OK] CORRECT', ru: '[OK] ВЕРНО' });
+  // TODO: i18n key for exam.incorrect
+  const incorrectLabel = pick(lang, { en: '[FAIL] INCORRECT', ru: '[FAIL] НЕВЕРНО' });
+  // TODO: i18n key for exam.review
+  const reviewLabel = pick(lang, { en: 'Inspect transmission log', ru: 'Открыть лог передачи' });
 
   function submit() {
     if (picked === null) return;
@@ -104,50 +116,82 @@ export default function ExamWidget({ config, locale }: Props) {
     const score = answers.filter((a, i) => questions[i].choices[a]?.correct).length;
     const ratio = total > 0 ? score / total : 0;
     const passed = ratio >= threshold;
+    const pct100 = Math.round(ratio * 100);
 
     return (
       <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
-        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
-          {heading} // {pick(lang, { en: 'RESULT', ru: 'РЕЗУЛЬТАТ' })}
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
+          {heading}
+          {/* TODO: i18n key for exam.result_suffix */}
+          {' // '}
+          {pick(lang, { en: 'TRANSMISSION REPORT', ru: 'ОТЧЁТ О ПЕРЕДАЧЕ' })}
         </div>
-        <div className="flex flex-wrap items-baseline gap-4">
+
+        {/* Clearance verdict */}
+        <div
+          className={`mt-2 p-4 sm:p-5 border rounded-[3px] ${
+            passed
+              ? 'border-[#7ce896] bg-[#7ce896]/8'
+              : 'border-[#e76670] bg-[#e76670]/8'
+          }`}
+        >
           <div
-            className={`font-mono font-bold text-3xl sm:text-4xl tabular-nums ${
-              passed ? 'text-[#7ce896]' : 'text-[#f4b965]'
+            className={`font-mono text-[12px] sm:text-[14px] uppercase tracking-[0.18em] font-bold ${
+              passed ? 'text-[#7ce896]' : 'text-[#e76670]'
+            }`}
+          >
+            {passed ? (
+              <>
+                {/* TODO: i18n key for exam.clearance_granted */}
+                <span aria-hidden="true">▶</span>{' '}
+                {pick(lang, {
+                  en: `CLEARANCE GRANTED · LEVEL ${pct100}/100`,
+                  ru: `ДОПУСК ВЫДАН · УРОВЕНЬ ${pct100}/100`,
+                })}
+              </>
+            ) : (
+              <>
+                {/* TODO: i18n key for exam.clearance_denied */}
+                <span aria-hidden="true">✗</span>{' '}
+                {pick(lang, {
+                  en: `CLEARANCE DENIED · RETRY REQUIRED`,
+                  ru: `В ДОПУСКЕ ОТКАЗАНО · НУЖНА ПОВТОРНАЯ ПОПЫТКА`,
+                })}
+              </>
+            )}
+          </div>
+          <div
+            className={`mt-2 font-mono text-2xl sm:text-3xl tabular-nums font-extrabold ${
+              passed ? 'text-[#7ce896]' : 'text-[#e76670]'
             }`}
           >
             {score}/{total}
           </div>
-          <div
-            className={`font-mono text-[13px] uppercase tracking-[0.18em] ${
-              passed ? 'text-[#7ce896]' : 'text-[#f4b965]'
-            }`}
-          >
-            {passed ? passedLabel : failedLabel}
-          </div>
         </div>
+
         <p className="mt-4 font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
           {passed
             ? pick(lang, {
-                en: `You scored ${Math.round(ratio * 100)}% — at or above the ${Math.round(
+                en: `Score: ${pct100}%, at or above the ${Math.round(
                   threshold * 100,
-                )}% pass mark. Your exam result is recorded for the certificate page.`,
-                ru: `Результат ${Math.round(ratio * 100)}% — это на проходном пороге ${Math.round(
+                )}% pass mark. Result is recorded and visible on the clearance page.`,
+                ru: `Результат ${pct100}% — это проходной порог ${Math.round(
                   threshold * 100,
-                )}% или выше. Зачёт сохранён для страницы сертификата.`,
+                )}% или выше. Результат сохранён и виден на странице допуска.`,
               })
             : pick(lang, {
-                en: `You scored ${Math.round(ratio * 100)}% — below the ${Math.round(
+                en: `Score: ${pct100}%, below the ${Math.round(
                   threshold * 100,
-                )}% pass mark. Review the missed areas and run the exam again when you're ready.`,
-                ru: `Результат ${Math.round(ratio * 100)}% — ниже проходного порога ${Math.round(
+                )}% pass mark. Review the missed areas in the log below and re-transmit when ready.`,
+                ru: `Результат ${pct100}% — ниже порога ${Math.round(
                   threshold * 100,
-                )}%. Перечитай тему по пропущенным вопросам и проходи снова.`,
+                )}%. Разбери пропуски в логе ниже и пройди снова, когда будешь готов.`,
               })}
         </p>
+
         <details className="mt-4">
           <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0]">
-            {pick(lang, { en: 'Review answers', ru: 'Разбор ответов' })}
+            ▸ {reviewLabel}
           </summary>
           <ol className="mt-3 space-y-3">
             {questions.map((q, i) => {
@@ -164,14 +208,15 @@ export default function ExamWidget({ config, locale }: Props) {
                     <span className="text-[#6b7588] tabular-nums">Q{(i + 1).toString().padStart(2, '0')}</span>
                     {q.module && <span className="text-[#aab2c4]">· {q.module}</span>}
                     <span className={correct ? 'text-[#7ce896]' : 'text-[#e76670]'}>
-                      · {correct ? `✓ ${correctLabel}` : `✗ ${incorrectLabel}`}
+                      · {correct ? correctLabel : incorrectLabel}
                     </span>
                   </div>
                   <div className="mt-1.5 font-sans text-[14px] text-[#e7ecf5] leading-snug">{q.question}</div>
                   {!correct && q.choices.find((c) => c.correct) && (
                     <div className="mt-1.5 font-sans text-[13px] text-[#aab2c4]">
                       <span className="text-[#7ce896]">
-                        {pick(lang, { en: 'Correct:', ru: 'Верно:' })}
+                        {/* TODO: i18n key for exam.review_correct_label */}
+                        {pick(lang, { en: 'Expected:', ru: 'Ожидалось:' })}
                       </span>{' '}
                       {q.choices.find((c) => c.correct)?.text}
                     </div>
@@ -181,6 +226,7 @@ export default function ExamWidget({ config, locale }: Props) {
             })}
           </ol>
         </details>
+
         <div className="mt-5">
           <button
             type="button"
@@ -190,6 +236,9 @@ export default function ExamWidget({ config, locale }: Props) {
             ↺ {restartLabel}
           </button>
         </div>
+
+        {/* Suppress unused-warning while keeping translation in code for future use. */}
+        <span className="hidden" aria-hidden="true">{passedLabel} · {failedLabel}</span>
       </section>
     );
   }
@@ -201,20 +250,22 @@ export default function ExamWidget({ config, locale }: Props) {
   return (
     <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
       <div className="flex items-center justify-between mb-3">
-        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
           {heading}
         </div>
         <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
-          {progressLabel} {(index + 1).toString().padStart(2, '0')}/{total.toString().padStart(2, '0')}
+          {progressLabel}{(index + 1).toString().padStart(2, '0')} / {total.toString().padStart(2, '0')}
         </div>
       </div>
 
-      {/* Progress bar */}
-      <div className="h-[3px] bg-[#0b0f1a] border border-[#202a44] mb-5 overflow-hidden">
-        <div
-          className="h-full bg-[#65def0] transition-all duration-300"
-          style={{ width: `${((index + (answeredThis ? 1 : 0)) / total) * 100}%` }}
-        />
+      {/* Progress bar — slats per question */}
+      <div className="mb-5 flex gap-[2px]" aria-hidden="true">
+        {Array.from({ length: total }).map((_, i) => {
+          let bg = 'bg-[#202a44]';
+          if (i < index) bg = 'bg-[#7ce896]';
+          else if (i === index) bg = 'bg-[#65def0]';
+          return <div key={i} className={`flex-1 h-[3px] ${bg} rounded-[1px]`} />;
+        })}
       </div>
 
       {current && (
@@ -238,10 +289,10 @@ export default function ExamWidget({ config, locale }: Props) {
               let badge: { text: string; cls: string } | null = null;
               if (isCorrectShown) {
                 stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
-                badge = { text: `✓ ${correctLabel}`, cls: 'text-[#7ce896]' };
+                badge = { text: correctLabel, cls: 'text-[#7ce896]' };
               } else if (isWrongShown) {
                 stateClass = 'border-[#e76670] bg-[#e76670]/10';
-                badge = { text: `✗ ${incorrectLabel}`, cls: 'text-[#e76670]' };
+                badge = { text: incorrectLabel, cls: 'text-[#e76670]' };
               } else if (isPicked) {
                 stateClass = 'border-[#65def0] bg-[#65def0]/8';
               } else {
@@ -298,7 +349,7 @@ export default function ExamWidget({ config, locale }: Props) {
                 disabled={picked === null}
                 className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
               >
-                {submitLabel} <span aria-hidden="true">▸</span>
+                <span aria-hidden="true">▸</span> {submitLabel}
               </button>
             ) : isLast ? (
               <button
@@ -306,7 +357,7 @@ export default function ExamWidget({ config, locale }: Props) {
                 onClick={finish}
                 className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold"
               >
-                {finishLabel} <span aria-hidden="true">▸</span>
+                {finishLabel}
               </button>
             ) : (
               <button
@@ -314,7 +365,7 @@ export default function ExamWidget({ config, locale }: Props) {
                 onClick={next}
                 className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold"
               >
-                {nextLabel} →
+                {nextLabel}
               </button>
             )}
           </div>

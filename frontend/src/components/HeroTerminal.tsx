@@ -89,12 +89,25 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
   }
 
   return (
-    <div className="bg-[#0b0f1a]/90 border border-[#202a44] rounded-md overflow-hidden shadow-[0_0_40px_rgba(101,222,240,0.08)] backdrop-blur-sm">
+    <div>
+      {/* MONITOR 02 label — frames the terminal as a second screen */}
+      <div
+        className="flex items-center justify-between mb-1.5 px-1"
+        style={{ fontFamily: '"JetBrains Mono", monospace' }}
+      >
+        <span className="text-[9px] uppercase tracking-[2.5px] text-[#475064]">
+          MONITOR 02
+        </span>
+        <span className="text-[9px] uppercase tracking-[2px] text-[#475064] tabular-nums">
+          {locale === 'ru' ? 'СКАНЕР УГРОЗ' : 'THREAT SCAN'}
+        </span>
+      </div>
+    <div className="bg-[#0b0f1a]/90 border border-[#202a44] overflow-hidden shadow-[0_0_40px_rgba(101,222,240,0.08)] backdrop-blur-sm">
       {/* Title bar */}
       <div className="flex items-center gap-2 px-3 py-2 bg-[#121828] border-b border-[#202a44]">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#e76670]"></span>
-        <span className="w-2.5 h-2.5 rounded-full bg-[#f4b965]"></span>
-        <span className="w-2.5 h-2.5 rounded-full bg-[#7ce896]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2b3759]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#475064]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[#475064]"></span>
         <span
           className="ml-3 text-[10px] uppercase tracking-[2px] text-[#aab2c4]"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
@@ -135,6 +148,7 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
           </span>
         )}
       </div>
+    </div>
     </div>
   );
 }

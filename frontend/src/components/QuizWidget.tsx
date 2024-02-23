@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Locale, STRINGS, normalizeLocale, pick, t } from '../utils/i18n';
+import { Locale, normalizeLocale, pick } from '../utils/i18n';
 
 export interface QuizChoice {
   text: string;
@@ -48,14 +48,29 @@ export default function QuizWidget({ config, locale }: Props) {
     setSelected(null);
   }
 
-  const headingLabel = pick(lang, { en: '// KNOWLEDGE CHECK', ru: '// ПРОВЕРКА' });
-  const correctLabel = pick(lang, { en: 'CORRECT', ru: 'ВЕРНО' });
-  const incorrectLabel = pick(lang, { en: 'INCORRECT', ru: 'НЕВЕРНО' });
+  // TODO: i18n key for quiz.heading
+  const headingLabel = pick(lang, { en: '// ASSESSMENT', ru: '// ОЦЕНКА' });
+  // TODO: i18n key for quiz.correct
+  const correctLabel = pick(lang, { en: '[OK] CORRECT', ru: '[OK] ВЕРНО' });
+  // TODO: i18n key for quiz.incorrect
+  const incorrectLabel = pick(lang, { en: '[FAIL] INCORRECT', ru: '[FAIL] НЕВЕРНО' });
+  // TODO: i18n key for quiz.submit
+  const submitLabel = pick(lang, { en: 'SUBMIT ANSWERS', ru: 'ОТПРАВИТЬ ОТВЕТ' });
+  // TODO: i18n key for quiz.try_again
+  const tryAgainLabel = pick(lang, { en: 'Re-run assessment', ru: 'Пройти заново' });
+  // TODO: i18n key for quiz.passed_pill
+  const passedPill = pick(lang, { en: '✓ ASSESSMENT PASSED', ru: '✓ ОЦЕНКА СДАНА' });
 
   return (
     <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
-      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
-        {headingLabel}
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
+          {headingLabel}
+        </div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+          {config.choices.length} {pick(lang, { en: 'options', ru: 'вариантов' })}
+          {/* TODO: i18n key for quiz.options_caption */}
+        </div>
       </div>
 
       {/* Question — Geist sans, reads like prose */}
@@ -74,10 +89,10 @@ export default function QuizWidget({ config, locale }: Props) {
 
           if (isCorrectShown) {
             stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
-            badge = { text: `✓ ${correctLabel}`, cls: 'text-[#7ce896]' };
+            badge = { text: correctLabel, cls: 'text-[#7ce896]' };
           } else if (isWrongShown) {
             stateClass = 'border-[#e76670] bg-[#e76670]/10';
-            badge = { text: `✗ ${incorrectLabel}`, cls: 'text-[#e76670]' };
+            badge = { text: incorrectLabel, cls: 'text-[#e76670]' };
           } else if (active) {
             stateClass = 'border-[#65def0] bg-[#65def0]/8 text-[#65def0]';
           } else {
@@ -151,11 +166,11 @@ export default function QuizWidget({ config, locale }: Props) {
             disabled={selected === null}
             className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
           >
-            {t(STRINGS.quizCheck, lang)} <span aria-hidden="true">▸</span>
+            <span aria-hidden="true">▸</span> {submitLabel}
           </button>
         ) : (
           <span className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/10 border border-[#7ce896] text-[#7ce896] rounded-[4px]">
-            ✓ {t(STRINGS.quizCorrect, lang)}
+            {passedPill}
           </span>
         )}
         {checked && !isCorrect && (
@@ -164,7 +179,7 @@ export default function QuizWidget({ config, locale }: Props) {
             onClick={reset}
             className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#e7ecf5] transition"
           >
-            ↺ {t(STRINGS.quizTryAgain, lang)}
+            ↺ {tryAgainLabel}
           </button>
         )}
       </div>

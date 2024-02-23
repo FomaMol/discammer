@@ -101,36 +101,49 @@ export default function JournalFilter({ lang }: JournalFilterProps) {
 
   return (
     <section className="py-6 sm:py-8">
-      {/* Tabs — DESIGN.md nav-link: 2px cyan bottom-border on active, cyan-veil bg, cyan text. */}
+      {/* Section index — numbered tab strip wrapped in a hairline top + bottom rule.
+          Active section gets a cyan 2px underline + a ↓ glyph; inactive sit in ink-soft.
+          See JournalBroadsheet.tsx for the canonical version — this kept in sync
+          so existing mount points don't visually drift. */}
       <div
         role="tablist"
-        aria-label="Journal filter"
-        className="flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-2 scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0 border-b border-[#202a44]"
+        aria-label="Journal sections"
+        className="border-y border-[#202a44] py-3 mb-6 sm:mb-8 overflow-x-auto scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0"
         style={{ scrollbarWidth: 'none' }}
       >
-        {FILTER_KEYS.map((key) => {
-          const isActive = activeTab === key;
-          return (
-            <button
-              key={key}
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => setActiveTab(key)}
-              className={`relative px-3 sm:px-4 py-2 text-[10px] sm:text-[11px] uppercase whitespace-nowrap transition-colors duration-200 flex-shrink-0 border-b-2 -mb-px ${
-                isActive
-                  ? 'bg-[#65def0]/8 text-[#65def0] border-[#65def0] border-l border-r border-t border-l-[#65def0]/40 border-r-[#65def0]/40 border-t-[#65def0]/40 rounded-t-sm'
-                  : 'bg-transparent text-[#aab2c4] border-transparent border-l border-r border-t border-l-transparent border-r-transparent border-t-transparent hover:text-[#e7ecf5] hover:bg-[#121828] hover:border-l-[#3a8b9a]/40 hover:border-r-[#3a8b9a]/40 hover:border-t-[#3a8b9a]/40 hover:border-b-[#3a8b9a] rounded-t-sm'
-              }`}
-              style={{
-                fontFamily: '"JetBrains Mono", monospace',
-                letterSpacing: '0.14em',
-                fontWeight: 600,
-              }}
-            >
-              {tr(key)}
-            </button>
-          );
-        })}
+        <div className="flex items-center gap-3 sm:gap-5 min-w-max">
+          {FILTER_KEYS.map((key, idx) => {
+            const isActive = activeTab === key;
+            const num = String(idx + 1).padStart(2, '0');
+            return (
+              <div key={key} className="flex items-center gap-3 sm:gap-5">
+                {idx > 0 && (
+                  <span className="font-mono text-[#3a8b9a] select-none" aria-hidden="true">·</span>
+                )}
+                <button
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(key)}
+                  className={`inline-flex items-baseline gap-1.5 whitespace-nowrap transition-colors duration-200 font-mono text-[11px] uppercase ${
+                    isActive ? 'text-[#65def0]' : 'text-[#aab2c4] hover:text-[#9eecf6]'
+                  }`}
+                  style={{
+                    letterSpacing: '0.14em',
+                    fontWeight: 600,
+                    borderBottom: isActive ? '2px solid #65def0' : '2px solid transparent',
+                    paddingBottom: '4px',
+                  }}
+                >
+                  <span className="text-[#6b7588] tabular-nums">{num}.</span>
+                  <span>{tr(key)}</span>
+                  {isActive && (
+                    <span aria-hidden="true" className="ml-0.5 text-[#65def0]">↓</span>
+                  )}
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Bento grid: first card on desktop is wide (col-span-2), rest are 3-up.

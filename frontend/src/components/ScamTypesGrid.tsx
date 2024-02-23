@@ -7,6 +7,9 @@ interface Guide {
   title: string;
   slug?: string;
   icon_color?: string;
+  threat_level?: number;
+  subtitle?: string;
+  description?: string;
 }
 
 interface ScamTypesGridProps {
@@ -15,15 +18,52 @@ interface ScamTypesGridProps {
 }
 
 const BUNDLES = {
-  en: { loading: 'Loading guides...', empty: '> No threats indexed.', read: 'READ →' },
-  ru: { loading: 'Загрузка гайдов...', empty: '> Угрозы пока не проиндексированы.', read: 'ЧИТАТЬ →' },
+  en: {
+    loading: 'Loading guides...',
+    empty: '> No threats indexed.',
+    read: 'READ',
+    threat: 'THREAT',
+    most_common: 'MOST COMMON',
+    full_index: 'FULL INDEX',
+    threat_l: 'L',
+  },
+  ru: {
+    loading: 'Загрузка гайдов...',
+    empty: '> Угрозы пока не проиндексированы.',
+    read: 'ЧИТАТЬ',
+    threat: 'УГРОЗА',
+    most_common: 'РАСПРОСТРАНЁННЫЕ',
+    full_index: 'ПОЛНЫЙ ИНДЕКС',
+    threat_l: 'У',
+  },
 } as const;
 
-const ICON_COLORS = [
-  'bg-accent-cyan', 'bg-accent-green', 'bg-accent-red', 'bg-accent-amber',
-  'bg-accent-cyan', 'bg-accent-green', 'bg-accent-red', 'bg-accent-amber',
-  'bg-accent-cyan', 'bg-accent-green',
-];
+// Color mapping by threat level (matches DESIGN.md semantic accents)
+function threatColor(level: number | undefined): string {
+  if (!level || level <= 2) return '#7ce896'; // green: safe
+  if (level === 3) return '#f4b965';            // amber: caution
+  if (level === 4) return '#f29b6c';            // mid: warn
+  return '#e76670';                              // red: severe
+}
+
+// Threat-bar widget — 5 slats, filled per level
+function ThreatBar({ level, color }: { level: number; color: string }) {
+  return (
+    <div className="flex gap-1 items-end" aria-label={`Threat level ${level} of 5`}>
+      {[1, 2, 3, 4, 5].map((slot) => (
+        <span
+          key={slot}
+          className="block w-[3px]"
+          style={{
+            height: `${6 + slot * 2}px`,
+            background: slot <= level ? color : 'rgba(101, 116, 136, 0.25)',
+          }}
+          aria-hidden="true"
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
   const locale = currentLang(lang);
@@ -41,57 +81,181 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
       .finally(() => setIsLoading(false));
   }, [locale]);
 
+  const featured = guides.slice(0, 3);
+  const rest = guides.slice(3);
+
   return (
     <section className="py-6 sm:py-8">
       <h2
-        className="text-base sm:text-xl md:text-2xl text-accent-cyan glow-cyan mb-4 sm:mb-6"
-        style={{ fontFamily: '"JetBrains Mono", monospace' }}
+        className="text-base sm:text-xl md:text-2xl mb-5 sm:mb-7"
+        style={{
+          fontFamily: '"JetBrains Mono", monospace',
+          color: '#65def0',
+          fontWeight: 700,
+          letterSpacing: '-0.02em',
+        }}
       >
-        <span className="text-text-muted">&gt;&nbsp;</span>
+        <span className="text-[#475064]">&gt;&nbsp;</span>
         {title}
       </h2>
 
-      <div
-        className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0"
-        style={{ scrollbarWidth: 'none' }}
-      >
-        {guides.map((guide, i) => (
-          <a
-            key={guide.id}
-            href={`/${locale}/guide/${guide.slug}`}
-            className="flex-shrink-0 w-32 sm:w-40 bg-bg-panel border border-border-default rounded-md p-3 sm:p-4 hover:border-accent-cyan hover:box-glow-cyan transition-all duration-300 group flex flex-col items-center text-center"
+      {guides.length === 0 && (
+        <div className="w-full py-8 text-center text-sm" style={{ color: '#6b7588' }}>
+          {isLoading ? tr('loading') : tr('empty')}
+        </div>
+      )}
+
+      {/* TOP 3 — big cards */}
+      {featured.length > 0 && (
+        <>
+          <div
+            className="text-[10px] uppercase tracking-[3px] text-[#475064] mb-3"
+            style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
-            {/* Icon placeholder */}
-            <div
-              className={`w-12 h-12 ${ICON_COLORS[i % ICON_COLORS.length]} rounded flex items-center justify-center mb-3 opacity-80 group-hover:opacity-100 transition-opacity`}
-            >
-              <span
-                className="text-bg-primary text-lg font-bold"
-                style={{ fontFamily: '"JetBrains Mono", monospace' }}
-              >
-                {guide.title.charAt(0).toUpperCase()}
-              </span>
-            </div>
-
-            <h3
-              className="text-text-primary text-xs mb-3 line-clamp-2 leading-relaxed"
-              style={{ fontFamily: '"JetBrains Mono", monospace' }}
-            >
-              {guide.title}
-            </h3>
-
-            <span className="text-accent-cyan text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-              {tr('read')}
-            </span>
-          </a>
-        ))}
-
-        {guides.length === 0 && (
-          <div className="w-full py-8 text-center text-text-muted text-sm">
-            {isLoading ? tr('loading') : tr('empty')}
+            {tr('most_common')}
           </div>
-        )}
-      </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            {featured.map((g) => {
+              const level = g.threat_level ?? 3;
+              const color = threatColor(level);
+              const first = g.title.charAt(0).toUpperCase();
+              const description = g.subtitle || g.description || '';
+              return (
+                <a
+                  key={g.id}
+                  href={`/${locale}/guide/${g.slug}`}
+                  className="group block bg-[#121828] border border-[#202a44] p-5 hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-all duration-300"
+                  style={{ textDecoration: 'none' }}
+                >
+                  {/* Header strip */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div
+                      className="w-10 h-10 flex items-center justify-center"
+                      style={{
+                        background: 'rgba(244, 185, 101, 0.08)',
+                        border: `1px solid ${color}30`,
+                      }}
+                    >
+                      <span
+                        className="text-base"
+                        style={{
+                          fontFamily: '"JetBrains Mono", monospace',
+                          fontWeight: 700,
+                          color,
+                        }}
+                      >
+                        {first}
+                      </span>
+                    </div>
+                    <span
+                      className="text-[10px] uppercase tracking-[2px] tabular-nums"
+                      style={{
+                        fontFamily: '"JetBrains Mono", monospace',
+                        color,
+                      }}
+                    >
+                      {tr('threat_l')}{level}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3
+                    className="text-[15px] leading-snug text-[#f3f5fa] mb-2 line-clamp-2"
+                    style={{
+                      fontFamily: '"JetBrains Mono", monospace',
+                      fontWeight: 700,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    {g.title}
+                  </h3>
+
+                  {/* Single-line description */}
+                  {description && (
+                    <p
+                      className="text-[12px] leading-snug text-[#aab2c4] line-clamp-2 mb-4"
+                      style={{ fontFamily: 'Geist, system-ui, sans-serif' }}
+                    >
+                      {description}
+                    </p>
+                  )}
+
+                  {/* Bottom: threat slats + read */}
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-dashed border-[#202a44]">
+                    <ThreatBar level={level} color={color} />
+                    <span
+                      className="text-[10px] uppercase tracking-[2px] text-[#aab2c4] group-hover:text-[#65def0] transition-colors"
+                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                    >
+                      {tr('read')} <span aria-hidden="true">&#8594;</span>
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {/* REMAINING — compact list */}
+      {rest.length > 0 && (
+        <>
+          <div
+            className="text-[10px] uppercase tracking-[3px] text-[#475064] mb-2"
+            style={{ fontFamily: '"JetBrains Mono", monospace' }}
+          >
+            {tr('full_index')}
+          </div>
+          <ul className="border border-[#202a44] bg-[#0a0d16]/60 divide-y divide-[#202a44]">
+            {rest.map((g) => {
+              const level = g.threat_level ?? 2;
+              const color = threatColor(level);
+              const first = g.title.charAt(0).toUpperCase();
+              return (
+                <li key={g.id}>
+                  <a
+                    href={`/${locale}/guide/${g.slug}`}
+                    className="flex items-center gap-3 px-3 sm:px-4 py-2.5 hover:bg-[#121828] transition-colors group"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <span
+                      className="w-6 h-6 flex-shrink-0 flex items-center justify-center text-[11px] tabular-nums"
+                      style={{
+                        fontFamily: '"JetBrains Mono", monospace',
+                        fontWeight: 700,
+                        color,
+                        background: 'rgba(101, 222, 240, 0.04)',
+                        border: `1px solid ${color}30`,
+                      }}
+                      aria-hidden="true"
+                    >
+                      {first}
+                    </span>
+                    <span
+                      className="flex-1 text-[13px] text-[#cdd4e3] group-hover:text-[#f3f5fa] transition-colors truncate"
+                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                    >
+                      {g.title}
+                    </span>
+                    <span
+                      className="text-[10px] tabular-nums uppercase tracking-[2px] hidden sm:inline"
+                      style={{ fontFamily: '"JetBrains Mono", monospace', color }}
+                    >
+                      {tr('threat_l')}{level}
+                    </span>
+                    <span
+                      className="text-[#475064] group-hover:text-[#65def0] transition-colors"
+                      aria-hidden="true"
+                    >
+                      &#8594;
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </section>
   );
 }

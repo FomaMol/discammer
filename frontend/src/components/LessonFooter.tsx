@@ -5,7 +5,7 @@ import {
   markLessonIncomplete,
   subscribe,
 } from '../utils/progress';
-import { Locale, STRINGS, normalizeLocale, pick, t } from '../utils/i18n';
+import { Locale, normalizeLocale, pick } from '../utils/i18n';
 
 interface Props {
   moduleSlug: string;
@@ -46,6 +46,24 @@ export default function LessonFooter({
     }
   }
 
+  // TODO: i18n key for lesson.footer.mark_debrief_complete
+  const markCompleteLabel = pick(lang, {
+    en: '▸ MARK DEBRIEF COMPLETE',
+    ru: '▸ ОТМЕТИТЬ ДЕБРИФ',
+  });
+  // TODO: i18n key for lesson.footer.completed
+  const completedLabel = pick(lang, { en: '✓ DEBRIEF LOGGED', ru: '✓ ДЕБРИФ ЗАПИСАН' });
+  // TODO: i18n key for lesson.footer.back_to_module
+  const backToModule = pick(lang, { en: '↑ Mission checklist', ru: '↑ Чек-лист миссии' });
+  // TODO: i18n key for lesson.footer.prev_briefing
+  const prevLabel = pick(lang, { en: '◁ PREV BRIEFING', ru: '◁ ПРЕД. БРИФИНГ' });
+  // TODO: i18n key for lesson.footer.next_briefing
+  const nextLabel = pick(lang, { en: 'NEXT BRIEFING ▷', ru: 'СЛЕД. БРИФИНГ ▷' });
+  // TODO: i18n key for lesson.footer.finish_mission
+  const finishLabel = pick(lang, { en: 'COMPLETE MISSION ▷', ru: 'ЗАВЕРШИТЬ МИССИЮ ▷' });
+  // TODO: i18n key for lesson.footer.return_to_mission
+  const returnLabel = pick(lang, { en: 'Return to mission', ru: 'Вернуться к миссии' });
+
   return (
     <div className="space-y-6">
       {/* Mark complete row */}
@@ -59,13 +77,13 @@ export default function LessonFooter({
               : 'border-[#65def0] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] font-bold'
           }`}
         >
-          {done ? <>✓ {t(STRINGS.completed, lang)}</> : t(STRINGS.markComplete, lang)}
+          {done ? completedLabel : markCompleteLabel}
         </button>
         <a
           href={moduleHref}
           className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
         >
-          ↑ {pick(lang, { en: 'Back to lessons', ru: 'К списку уроков' })}
+          {backToModule}
         </a>
       </div>
 
@@ -77,7 +95,7 @@ export default function LessonFooter({
             className="group flex flex-col gap-1 p-4 border border-[#202a44] bg-[#121828]/60 hover:border-[#65def0] hover:bg-[#1a2236] transition rounded-[4px]"
           >
             <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
-              ← {t(STRINGS.prev, lang)}
+              {prevLabel}
             </span>
             <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">
               {prevTitle}
@@ -92,7 +110,7 @@ export default function LessonFooter({
             className="group flex flex-col gap-1 p-4 border border-[#65def0] bg-[#65def0]/5 hover:bg-[#65def0]/10 transition text-right rounded-[4px]"
           >
             <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#65def0]">
-              {t(STRINGS.next, lang)} →
+              {nextLabel}
             </span>
             <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">
               {nextTitle}
@@ -104,10 +122,10 @@ export default function LessonFooter({
             className="group flex flex-col gap-1 p-4 border border-[#7ce896] bg-[#7ce896]/5 hover:bg-[#7ce896]/10 transition text-right rounded-[4px]"
           >
             <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">
-              {t(STRINGS.finishModule, lang)} →
+              {finishLabel}
             </span>
             <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#7ce896] transition truncate">
-              {pick(lang, { en: 'Return to module', ru: 'Вернуться к модулю' })}
+              {returnLabel}
             </span>
           </a>
         )}

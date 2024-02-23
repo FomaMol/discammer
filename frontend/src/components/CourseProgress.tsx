@@ -43,29 +43,50 @@ interface Props {
   locale?: Locale;
 }
 
+// TODO: i18n key for course.cards.loading
 const LABEL = {
-  loading: { en: '> Loading training program', ru: '> Загрузка курса' },
+  loading: { en: '> Loading mission list', ru: '> Загрузка списка миссий' },
+  // TODO: i18n key for course.cards.error
   error: { en: '> ERROR: training modules unavailable.', ru: '> ОШИБКА: модули недоступны.' },
-  modules: { en: 'Modules', ru: 'Модулей' },
-  lessons: { en: 'Lessons', ru: 'Уроков' },
-  totalTime: { en: 'Total time', ru: 'Всего времени' },
-  progress: { en: 'Progress', ru: 'Прогресс' },
-  module: { en: 'Module', ru: 'Модуль' },
-  locked: { en: 'Locked', ru: 'Закрыт' },
-  available: { en: 'In progress', ru: 'В работе' },
-  ready: { en: 'Ready', ru: 'Открыт' },
-  done: { en: 'Completed', ru: 'Пройден' },
-  certificationTag: { en: '// CERTIFICATION', ru: '// СЕРТИФИКАТ' },
+  // TODO: i18n key for course.cards.statusReady
+  ready: { en: '● READY', ru: '● ГОТОВ' },
+  // TODO: i18n key for course.cards.statusInProgress
+  inProgress: { en: '▷ IN PROGRESS', ru: '▷ В РАБОТЕ' },
+  // TODO: i18n key for course.cards.statusCompleted
+  completed: { en: '✓ COMPLETED', ru: '✓ ЗАВЕРШЁН' },
+  // TODO: i18n key for course.cards.statusLocked
+  locked: { en: '✗ LOCKED', ru: '✗ ЗАБЛОКИРОВАН' },
+  // TODO: i18n key for course.cards.prereq
+  prereq: { en: 'PREREQ: MODULE', ru: 'УСЛОВИЕ: МОДУЛЬ' },
+  // TODO: i18n key for course.cards.flowTag
+  flowTag: { en: '// MISSION FLOW', ru: '// ХОД ОПЕРАЦИИ' },
+  // TODO: i18n key for course.cards.lessonsShort
+  lessonsShort: { en: 'lessons', ru: 'уроков' },
+  // TODO: i18n key for course.cards.completedAt
+  completedAt: { en: 'COMPLETED', ru: 'ЗАВЕРШЕНО' },
+  // TODO: i18n key for course.stats.modulesLabel
+  statsModules: { en: 'MISSIONS', ru: 'МИССИЙ' },
+  // TODO: i18n key for course.stats.lessonsLabel
+  statsLessons: { en: 'BRIEFINGS', ru: 'БРИФИНГОВ' },
+  // TODO: i18n key for course.stats.runtimeLabel
+  statsRuntime: { en: 'EST RUNTIME', ru: 'ОЦЕНКА ВРЕМЕНИ' },
+  // TODO: i18n key for course.stats.progressLabel
+  statsProgress: { en: 'CLEARANCE', ru: 'ДОПУСК' },
+  // TODO: i18n key for course.cert.section
+  certificationTag: { en: '// CLEARANCE', ru: '// ДОПУСК' },
+  // TODO: i18n key for course.cert.headline
   certHeadline: {
-    en: 'Earn the DiScammer Defender certificate.',
+    en: 'Earn the DiScammer Defender clearance.',
     ru: 'Получи сертификат DiScammer Defender.',
   },
+  // TODO: i18n key for course.cert.body
   certBody: {
     en:
-      'Finish all nine modules and pass the capstone simulation to receive a shareable certificate verifying that you can recognize, respond to, and recover from modern digital fraud.',
+      'Finish all nine missions and pass the final examination to be issued a shareable clearance verifying that you can recognize, respond to, and recover from modern digital fraud.',
     ru:
-      'Пройди все девять модулей и сдай итоговую симуляцию, чтобы получить публично-проверяемый сертификат — он подтверждает, что ты умеешь распознавать, реагировать и восстанавливаться после современного цифрового мошенничества.',
+      'Заверши все девять миссий и сдай финальный экзамен — и получи проверяемый сертификат: подтверждение того, что ты умеешь распознавать, реагировать и восстанавливаться после современного цифрового мошенничества.',
   },
+  // TODO: i18n key for course.cert.warmUp
   warmUp: { en: 'Warm up in the simulator', ru: 'Разогрейся в симуляторе' },
 };
 
@@ -97,18 +118,27 @@ function normalize(api: ApiModule, idx: number): Module {
  * decide which modules are open right now. Rule: a module is open if
  * is_locked is false OR every prior module's lessons are completed.
  */
-function applyProgressiveUnlock(modules: Module[], completedByModule: Map<string, number>): Module[] {
+function applyProgressiveUnlock(
+  modules: Module[],
+  completedByModule: Map<string, number>,
+): Module[] {
   let prevDone = true;
-  return modules.map((m) => {
+  let prevModuleOrder = 0;
+  const out: Module[] = [];
+  for (const m of modules) {
     const completed = completedByModule.get(m.slug) ?? 0;
     const requires = m.lessons ?? 0;
     const lockedBySeed = m.is_locked;
     const lockedByProgress = !prevDone;
     const open = !lockedBySeed || !lockedByProgress;
-    // Carry forward whether *this* module is fully completed for the next iteration.
+    out.push({ ...m, is_locked: !open });
+    // Track prerequisite chain (which module gates THIS one).
+    prevModuleOrder = m.order;
     prevDone = requires === 0 ? prevDone : completed >= requires;
-    return { ...m, is_locked: !open };
-  });
+  }
+  // No-op marker so prevModuleOrder is consumed; keeps the var pattern clean.
+  if (prevModuleOrder < 0) console.log(prevModuleOrder);
+  return out;
 }
 
 export default function CourseProgress({ locale }: Props) {
@@ -142,7 +172,7 @@ export default function CourseProgress({ locale }: Props) {
 
   const liveModules = useMemo(
     () => applyProgressiveUnlock(modules, completed),
-    [modules, completed]
+    [modules, completed],
   );
 
   const stats = useMemo(() => {
@@ -185,9 +215,9 @@ export default function CourseProgress({ locale }: Props) {
   }
 
   return (
-    <section className="space-y-12">
+    <section className="space-y-10 sm:space-y-12" id="modules">
       <StatsBanner stats={stats} progressPercent={progressPercent} lang={lang} />
-      <ModuleTimeline modules={liveModules} completed={completed} lang={lang} />
+      <MissionFlow modules={liveModules} completed={completed} lang={lang} />
       <CertificationCallout lang={lang} />
     </section>
   );
@@ -205,22 +235,22 @@ function StatsBanner({
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 border border-[#202a44] bg-[#121828]/60 divide-y md:divide-y-0 md:divide-x divide-[#202a44]">
       <StatCell
-        label={t(LABEL.modules, lang)}
+        label={t(LABEL.statsModules, lang)}
         value={stats.moduleCount.toString().padStart(2, '0')}
         accent="text-[#65def0]"
       />
       <StatCell
-        label={t(LABEL.lessons, lang)}
+        label={t(LABEL.statsLessons, lang)}
         value={`${stats.completedLessons}/${stats.totalLessons}`}
         accent="text-[#7ce896]"
       />
       <StatCell
-        label={t(LABEL.totalTime, lang)}
+        label={t(LABEL.statsRuntime, lang)}
         value={stats.duration}
         accent="text-[#f4b965]"
       />
       <StatCell
-        label={t(LABEL.progress, lang)}
+        label={t(LABEL.statsProgress, lang)}
         value={`${progressPercent}%`}
         accent="text-[#e7ecf5]"
       />
@@ -242,11 +272,11 @@ function StatCell({ label, value, accent }: { label: string; value: string; acce
 }
 
 /**
- * Vertical timeline of modules. Each row: numbered badge (square, hairline,
- * mono tabular-nums) on the left, vertical 1px hairline connecting badges,
- * module title + 1-line description + status indicator to the right.
+ * Mission Flow — vertical sequence of mission cards. Each row pairs a square
+ * number badge (with a vertical hairline connector visible between rows on
+ * desktop) and a wide mission card with title + status panel.
  */
-function ModuleTimeline({
+function MissionFlow({
   modules,
   completed,
   lang,
@@ -256,119 +286,122 @@ function ModuleTimeline({
   lang: Locale;
 }) {
   return (
-    <ol className="relative">
-      {modules.map((mod, i) => (
-        <TimelineRow
-          key={mod.id}
-          module={mod}
-          completedLessons={completed.get(mod.slug) ?? 0}
-          isLast={i === modules.length - 1}
-          lang={lang}
+    <div className="relative">
+      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-4">
+        {t(LABEL.flowTag, lang)}
+        <span className="ml-2 text-[#3a8b9a]" aria-hidden="true">
+          ━━━━━━━━━━
+        </span>
+      </div>
+      <ol className="relative space-y-3 sm:space-y-4">
+        {/* Decorative vertical mission line — desktop only, behind the badge column */}
+        <span
+          aria-hidden="true"
+          className="hidden md:block absolute top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-[#202a44] to-transparent left-[27px]"
         />
-      ))}
-    </ol>
+        {modules.map((mod, i) => (
+          <MissionCard
+            key={mod.id}
+            module={mod}
+            previousModule={i > 0 ? modules[i - 1] : null}
+            completedLessons={completed.get(mod.slug) ?? 0}
+            lang={lang}
+          />
+        ))}
+      </ol>
+    </div>
   );
 }
 
-function TimelineRow({
-  module,
-  completedLessons,
-  isLast,
-  lang,
-}: {
+interface MissionCardProps {
   module: Module;
+  previousModule: Module | null;
   completedLessons: number;
-  isLast: boolean;
   lang: Locale;
-}) {
+}
+
+function MissionCard({ module, previousModule, completedLessons, lang }: MissionCardProps) {
   const locked = module.is_locked;
   const total = module.lessons ?? 0;
   const moduleDone = total > 0 && completedLessons >= total;
   const inProgress = !locked && !moduleDone && completedLessons > 0;
   const order = module.order.toString().padStart(2, '0');
+  const lessonsShort = t(LABEL.lessonsShort, lang);
 
-  // status indicator: ✓ done · ▶ in progress · ◯ ready · ● locked
-  let statusIcon: string;
-  let statusText: string;
-  let statusColor: string;
-  if (moduleDone) {
-    statusIcon = '✓';
-    statusText = t(LABEL.done, lang);
-    statusColor = 'text-[#7ce896]';
-  } else if (inProgress) {
-    statusIcon = '▶';
-    statusText = t(LABEL.available, lang);
-    statusColor = 'text-[#f4b965]';
-  } else if (locked) {
-    statusIcon = '●';
-    statusText = t(LABEL.locked, lang);
-    statusColor = 'text-[#6b7588]';
-  } else {
-    statusIcon = '◯';
-    statusText = t(LABEL.ready, lang);
-    statusColor = 'text-[#65def0]';
-  }
-
-  // Badge color: completed → green, in progress → amber, ready → cyan, locked → muted
   let badgeBorder: string;
-  let badgeText: string;
   let badgeBg: string;
+  let badgeText: string;
+  let badgePulse = '';
   if (moduleDone) {
     badgeBorder = 'border-[#7ce896]';
     badgeText = 'text-[#7ce896]';
     badgeBg = 'bg-[#7ce896]/10';
   } else if (inProgress) {
-    badgeBorder = 'border-[#f4b965]';
-    badgeText = 'text-[#f4b965]';
-    badgeBg = 'bg-[#f4b965]/10';
+    badgeBorder = 'border-[#65def0]';
+    badgeText = 'text-[#65def0]';
+    badgeBg = 'bg-[#65def0]/10';
+    badgePulse = 'dcm-badge-pulse';
   } else if (locked) {
     badgeBorder = 'border-[#202a44]';
     badgeText = 'text-[#6b7588]';
     badgeBg = 'bg-[#0b0f1a]';
   } else {
-    badgeBorder = 'border-[#65def0]';
+    badgeBorder = 'border-[#3a8b9a]';
     badgeText = 'text-[#65def0]';
     badgeBg = 'bg-[#0b0f1a]';
   }
 
-  const RowInner = (
-    <div className="flex items-start gap-4 sm:gap-5 w-full">
-      {/* Numbered square badge */}
-      <div
-        className={`relative z-[1] shrink-0 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center border ${badgeBorder} ${badgeBg} font-mono text-[12px] sm:text-[13px] font-bold tabular-nums ${badgeText}`}
-        aria-hidden="true"
-      >
-        {order}
-      </div>
+  // Status badge content
+  let statusText: string;
+  let statusColor: string;
+  if (moduleDone) {
+    statusText = t(LABEL.completed, lang);
+    statusColor = 'text-[#6b7588] line-through decoration-[#6b7588]/40';
+  } else if (inProgress) {
+    statusText = t(LABEL.inProgress, lang);
+    statusColor = 'text-[#65def0]';
+  } else if (locked) {
+    statusText = t(LABEL.locked, lang);
+    statusColor = 'text-[#e76670]';
+  } else {
+    statusText = t(LABEL.ready, lang);
+    statusColor = 'text-[#7ce896]';
+  }
 
-      {/* Content */}
-      <div className="flex-1 min-w-0 pt-1 pb-1">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <h3
-            className={`font-mono font-bold text-[16px] sm:text-[17px] tracking-[-0.01em] leading-snug ${
-              locked ? 'text-[#aab2c4]' : 'text-[#e7ecf5] group-hover:text-[#65def0]'
-            } transition`}
-          >
-            {module.title}
-          </h3>
-          <span className={`font-mono text-[10px] uppercase tracking-[0.14em] ${statusColor}`}>
-            <span aria-hidden="true">{statusIcon}</span> {statusText}
+  const progressRatio = total > 0 ? Math.min(1, Math.max(0, completedLessons / total)) : 0;
+
+  const cardBase =
+    'dcm-mission-card relative w-full border bg-[#121828] rounded-[4px] transition group';
+  const cardState = locked
+    ? 'border-[#202a44] opacity-70'
+    : 'border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] hover:-translate-y-px';
+
+  const RowContent = (
+    <div className="flex flex-col sm:flex-row gap-0 sm:gap-0">
+      {/* LEFT — title + description */}
+      <div className="flex-1 p-4 sm:p-5 sm:pr-4 min-w-0 sm:basis-[60%]">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588]">
+            MISSION {order}
           </span>
-          {!locked && total > 0 && (
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
-              {completedLessons}/{total} {lang === 'ru' ? 'уроков' : 'lessons'}
-            </span>
-          )}
-          {module.duration && (
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
-              {module.duration}
+          {module.difficulty && (
+            <span className="px-1.5 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">
+              {module.difficulty}
             </span>
           )}
         </div>
-
+        <h3
+          className={`font-mono font-bold text-[15px] sm:text-[17px] uppercase tracking-[-0.01em] leading-snug ${
+            locked
+              ? 'text-[#aab2c4]'
+              : 'text-[#e7ecf5] group-hover:text-[#65def0] transition-colors'
+          }`}
+        >
+          {module.title}
+        </h3>
         {module.description && (
           <p
-            className={`mt-1.5 font-sans text-[14px] leading-relaxed ${
+            className={`mt-2 font-sans text-[14px] leading-relaxed line-clamp-2 ${
               locked ? 'text-[#6b7588]' : 'text-[#aab2c4]'
             }`}
           >
@@ -377,39 +410,83 @@ function TimelineRow({
         )}
       </div>
 
-      {/* Arrow chevron — only when actionable */}
-      {!locked && (
-        <div
-          className="shrink-0 pt-2.5 font-mono text-[#65def0] text-[14px] group-hover:translate-x-0.5 transition-transform"
-          aria-hidden="true"
-        >
-          &rarr;
+      {/* RIGHT — status panel */}
+      <div className="sm:basis-[40%] sm:max-w-[280px] flex flex-col gap-1.5 p-4 sm:p-5 sm:pl-4 sm:border-l border-t sm:border-t-0 border-[#202a44] bg-[#0b0f1a]/40">
+        <div className={`font-mono text-[11px] uppercase tracking-[0.14em] ${statusColor}`}>
+          {statusText}
         </div>
-      )}
+        {inProgress && total > 0 && (
+          <div className="mt-1.5">
+            <div className="h-[3px] bg-[#0b0f1a] border border-[#202a44] overflow-hidden rounded-[1px]">
+              <div
+                className="h-full bg-[#65def0] transition-[width] duration-300"
+                style={{ width: `${Math.round(progressRatio * 100)}%` }}
+                aria-hidden="true"
+              />
+            </div>
+            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+              {completedLessons}/{total} {lessonsShort}
+            </div>
+          </div>
+        )}
+        {moduleDone && (
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+            {completedLessons}/{total} {lessonsShort} · {t(LABEL.completedAt, lang)}
+          </div>
+        )}
+        {locked && previousModule && (
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#e76670]/80 tabular-nums">
+            {t(LABEL.prereq, lang)} {previousModule.order.toString().padStart(2, '0')}
+          </div>
+        )}
+        {!locked && !moduleDone && !inProgress && (
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+            {total} {lessonsShort}
+            {module.duration ? ` · ${module.duration}` : ''}
+          </div>
+        )}
+        {!locked && (
+          <div className="mt-auto pt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#3a8b9a] group-hover:text-[#65def0] transition-colors">
+            <span aria-hidden="true">▸</span> OPEN BRIEFING
+          </div>
+        )}
+      </div>
     </div>
   );
 
   return (
-    <li className="relative">
-      {/* Vertical hairline connector — from the badge bottom to the next badge top */}
-      {!isLast && (
-        <span
-          aria-hidden="true"
-          className="absolute left-[19px] sm:left-[21px] top-10 sm:top-11 bottom-0 w-px bg-[#202a44]"
-        />
-      )}
-      <div className="pb-6 sm:pb-7">
+    <li className="relative flex items-stretch gap-3 sm:gap-4">
+      {/* Number badge — square mono on the left */}
+      <div
+        className={`relative z-[1] shrink-0 w-12 h-12 sm:w-[55px] sm:h-[55px] flex items-center justify-center border ${badgeBorder} ${badgeBg} ${badgeText} ${badgePulse} font-mono text-[16px] sm:text-[20px] font-extrabold tabular-nums rounded-[3px] mt-1`}
+        aria-hidden="true"
+      >
+        {order}
+      </div>
+
+      <div className="flex-1 min-w-0">
         {locked ? (
-          <div className="opacity-60 cursor-not-allowed">{RowInner}</div>
+          <div className={`${cardBase} ${cardState} cursor-not-allowed`}>{RowContent}</div>
         ) : (
           <a
             href={`/${lang}/course/${module.slug}`}
-            className="group block focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+            className={`${cardBase} ${cardState} block focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]`}
           >
-            {RowInner}
+            {RowContent}
           </a>
         )}
       </div>
+
+      <style>{`
+        .dcm-mission-card { transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes dcm-badge-pulse { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+        .dcm-badge-pulse { animation: dcm-badge-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .dcm-mission-card { transition: none !important; transform: none !important; }
+          .dcm-mission-card:hover { transform: none !important; }
+          .dcm-badge-pulse { animation: none !important; opacity: 1 !important; }
+        }
+      `}</style>
     </li>
   );
 }
