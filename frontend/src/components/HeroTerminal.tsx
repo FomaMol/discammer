@@ -1,10 +1,21 @@
 import { useEffect, useState, useRef } from 'react';
-import { currentLang, pick, type Locale } from '../utils/i18n';
+import { currentLang, makeTranslator, pick, type Locale } from '../utils/i18n';
 
 interface HeroTerminalProps {
   lines?: string[];
   lang?: Locale;
 }
+
+const BUNDLES = {
+  en: {
+    monitor_label: 'MONITOR 02',
+    monitor_subtitle: 'THREAT SCAN',
+  },
+  ru: {
+    monitor_label: 'MONITOR 02',
+    monitor_subtitle: 'СКАНЕР УГРОЗ',
+  },
+} as const;
 
 const LINES_EN: string[] = [
   '> init scanner --module=threat_db',
@@ -62,6 +73,7 @@ function prefersReducedMotion(): boolean {
 
 export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
   const locale = currentLang(lang);
+  const tr = makeTranslator(locale, BUNDLES);
   const defaultLines = pick(locale, { en: LINES_EN, ru: LINES_RU });
   const source = lines && lines.length > 0 ? lines : defaultLines;
   const tokens = STATUS_TOKENS[locale];
@@ -92,14 +104,14 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
     <div>
       {/* MONITOR 02 label — frames the terminal as a second screen */}
       <div
-        className="flex items-center justify-between mb-1.5 px-1"
+        className="flex items-center justify-between mb-2 px-1"
         style={{ fontFamily: '"JetBrains Mono", monospace' }}
       >
-        <span className="text-[9px] uppercase tracking-[2.5px] text-[#475064]">
-          MONITOR 02
+        <span className="text-[10px] uppercase tracking-[2.5px] text-[#6b7588]">
+          {tr('monitor_label')}
         </span>
-        <span className="text-[9px] uppercase tracking-[2px] text-[#475064] tabular-nums">
-          {locale === 'ru' ? 'СКАНЕР УГРОЗ' : 'THREAT SCAN'}
+        <span className="text-[10px] uppercase tracking-[2px] text-[#6b7588] tabular-nums">
+          {tr('monitor_subtitle')}
         </span>
       </div>
     <div className="bg-[#0b0f1a]/90 border border-[#202a44] overflow-hidden shadow-[0_0_40px_rgba(101,222,240,0.08)] backdrop-blur-sm">

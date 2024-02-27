@@ -1,9 +1,22 @@
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import QuizWidget, { QuizConfig } from './QuizWidget';
 import ScenarioWidget, { ScenarioConfig } from './ScenarioWidget';
 import RedFlagsWidget, { RedFlagsConfig } from './RedFlagsWidget';
 import ExamWidget, { ExamConfig } from './ExamWidget';
 import CertificateWidget, { CertificateConfig } from './CertificateWidget';
+
+const BUNDLES = {
+  en: {
+    unavailable_header: '// WIDGET PAYLOAD UNAVAILABLE',
+    unavailable_body:
+      'Payload type "{type}" is still in transit. The brief will load on the next sync.',
+  },
+  ru: {
+    unavailable_header: '// ПАКЕТ ВИДЖЕТА НЕДОСТУПЕН',
+    unavailable_body:
+      'Тип пакета «{type}» ещё в пути. Брифинг подгрузится при следующей синхронизации.',
+  },
+} as const;
 
 interface Props {
   type: string;
@@ -19,6 +32,7 @@ interface Props {
  */
 export default function LessonWidget({ type, config, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
 
   switch (type) {
     case 'quiz':
@@ -37,15 +51,10 @@ export default function LessonWidget({ type, config, locale }: Props) {
       return (
         <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
           <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#f4b965] mb-2">
-            {/* TODO: i18n key for lesson.widget.unavailable_header */}
-            {pick(lang, { en: '// WIDGET PAYLOAD UNAVAILABLE', ru: '// ПАКЕТ ВИДЖЕТА НЕДОСТУПЕН' })}
+            {tr('unavailable_header')}
           </div>
           <p className="font-sans text-[14px] text-[#aab2c4] leading-relaxed">
-            {/* TODO: i18n key for lesson.widget.unavailable_body */}
-            {pick(lang, {
-              en: `Payload type "${type}" is still in transit. The brief will load on the next sync.`,
-              ru: `Тип пакета «${type}» ещё в пути. Брифинг подгрузится при следующей синхронизации.`,
-            })}
+            {tr('unavailable_body', { type })}
           </p>
         </div>
       );

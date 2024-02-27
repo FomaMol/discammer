@@ -19,17 +19,13 @@
   {# OPERATOR LOG header strip — mono single-line, tabular-nums #}
   {% set _entry_no = ((module.order|int) * 100) + (lesson.order|int) %}
   <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-3 tabular-nums break-words">
-    <!-- TODO: i18n key for lesson.header.operator_log -->
-    {% if _lang == 'ru' %}// ЛОГ ОПЕРАТОРА{% else %}// OPERATOR LOG{% endif %}
+    {{ t(_lang, 'lesson.operator_log_label') }}
     <span class="text-[#aab2c4]">·</span>
-    <!-- TODO: i18n key for lesson.header.entry -->
-    {% if _lang == 'ru' %}ЗАПИСЬ{% else %}ENTRY{% endif %} {{ "%03d"|format(_entry_no) }}
+    {{ t(_lang, 'lesson.entry_label') }} {{ "%03d"|format(_entry_no) }}
     <span class="text-[#aab2c4]">·</span>
-    <!-- TODO: i18n key for lesson.header.mission_short -->
-    {% if _lang == 'ru' %}МИССИЯ{% else %}MISSION{% endif %} {{ "%02d"|format(module.order) }}
+    {{ t(_lang, 'lesson.mission_short') }} {{ "%02d"|format(module.order) }}
     <span class="text-[#aab2c4]">·</span>
-    <!-- TODO: i18n key for lesson.header.briefing_progress -->
-    {% if _lang == 'ru' %}БРИФИНГ{% else %}BRIEFING{% endif %} {{ "%02d"|format(lesson.order) }} <span class="text-[#aab2c4]">OF</span> {{ "%02d"|format(lessons|length) }}
+    {{ t(_lang, 'lesson.briefing_label') }} {{ "%02d"|format(lesson.order) }} <span class="text-[#aab2c4]">{{ t(_lang, 'lesson.of') }}</span> {{ "%02d"|format(lessons|length) }}
     <span class="text-[#aab2c4]">·</span>
     <span class="text-[#aab2c4]">EST {{ lesson.est_minutes }} {{ t(_lang, 'course.minutes_short') | upper }}</span>
   </div>
@@ -81,20 +77,17 @@
           <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
           <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
           <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
-            <!-- TODO: i18n key for course.debrief.header -->
-            {% if _lang == 'ru' %}// ДЕБРИФ ОПЕРАЦИИ{% else %}// OPS DEBRIEF{% endif %}
+            {{ t(_lang, 'course.debrief_header') }}
           </span>
         </header>
         <div class="px-4 sm:px-6 py-4 space-y-3">
           <p class="font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
-            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">▸ <!-- TODO: i18n key for course.debrief.takeaway_label -->{% if _lang == 'ru' %}ГЛАВНЫЙ ВЫВОД{% else %}KEY TAKEAWAY{% endif %}</span><br>
-            <!-- TODO: i18n key for course.debrief.fallback_takeaway -->
-            {% if _lang == 'ru' %}Паттерн, разобранный в этом брифинге, редко приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.{% else %}The pattern in this briefing rarely appears alone — expect a time-pressure trigger and an unverifiable channel alongside it.{% endif %}
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">▸ {{ t(_lang, 'course.debrief_takeaway_label') }}</span><br>
+            {{ t(_lang, 'course.debrief_fallback_takeaway') }}
           </p>
           <p class="font-sans text-[15px] text-[#cdd4e3] leading-relaxed pt-3 border-t border-[#202a44]">
-            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#f4b965]">▸ <!-- TODO: i18n key for course.debrief.next_action_label -->{% if _lang == 'ru' %}СЛЕДУЮЩИЙ ШАГ{% else %}NEXT ACTION{% endif %}</span><br>
-            <!-- TODO: i18n key for course.debrief.fallback_next_action -->
-            {% if _lang == 'ru' %}Отметь этот дебриф как пройденный и открой следующий брифинг или аттестацию.{% else %}Mark this debrief complete, then open the next briefing or run the assessment.{% endif %}
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#f4b965]">▸ {{ t(_lang, 'course.debrief_next_action_label') }}</span><br>
+            {{ t(_lang, 'course.debrief_fallback_next_action') }}
           </p>
         </div>
       </section>
@@ -116,10 +109,10 @@
       <noscript>
         <div class="flex items-center justify-between">
           {% if prev_lesson %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ prev_lesson.slug }}" class="text-[#aab2c4] hover:text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]"><!-- TODO: i18n key for lesson.footer.prev_briefing -->{% if _lang == 'ru' %}◁ ПРЕД. БРИФИНГ{% else %}◁ PREV BRIEFING{% endif %}</a>
+          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ prev_lesson.slug }}" class="text-[#aab2c4] hover:text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'lesson.prev_briefing') }}</a>
           {% else %}<span></span>{% endif %}
           {% if next_lesson %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ next_lesson.slug }}" class="text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]"><!-- TODO: i18n key for lesson.footer.next_briefing -->{% if _lang == 'ru' %}СЛЕД. БРИФИНГ ▷{% else %}NEXT BRIEFING ▷{% endif %}</a>
+          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ next_lesson.slug }}" class="text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'lesson.next_briefing') }}</a>
           {% endif %}
         </div>
       </noscript>

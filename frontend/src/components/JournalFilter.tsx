@@ -24,6 +24,7 @@ const BUNDLES = {
     NEWSLETTER: 'NEWSLETTER',
     ARTICLE: 'ARTICLE',
     GUIDE: 'SCAM GUIDES',
+    guide_badge: 'GUIDE',
     loading: '> Loading...',
     empty: '> No entries found for this filter.',
   },
@@ -33,6 +34,7 @@ const BUNDLES = {
     NEWSLETTER: 'РАССЫЛКА',
     ARTICLE: 'СТАТЬЯ',
     GUIDE: 'ГАЙДЫ ПО МОШЕННИКАМ',
+    guide_badge: 'ГАЙД',
     loading: '> Загрузка...',
     empty: '> По этому фильтру ничего не найдено.',
   },
@@ -95,7 +97,7 @@ export default function JournalFilter({ lang }: JournalFilterProps) {
     if (lower === 'interview') return tr('INTERVIEW');
     if (lower === 'newsletter') return tr('NEWSLETTER');
     if (lower === 'article') return tr('ARTICLE');
-    if (lower === 'guide') return locale === 'ru' ? 'ГАЙД' : 'GUIDE';
+    if (lower === 'guide') return tr('guide_badge');
     return type;
   }
 

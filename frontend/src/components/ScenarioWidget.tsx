@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 
 type Outcome = 'good' | 'risky' | 'disaster';
 
@@ -26,60 +26,65 @@ interface Props {
   locale: Locale;
 }
 
+const BUNDLES = {
+  en: {
+    heading: '// FIELD SIMULATION',
+    prompt_default: 'What do you do?',
+    reset: 'Re-run simulation',
+    moral: '// FIELD NOTE',
+    outcome_optimal: 'OPTIMAL',
+    outcome_compromised: 'COMPROMISED',
+    outcome_mission_failed: 'MISSION FAILED',
+  },
+  ru: {
+    heading: '// ПОЛЕВАЯ СИМУЛЯЦИЯ',
+    prompt_default: 'Что ты делаешь?',
+    reset: 'Перезапустить симуляцию',
+    moral: '// ЗАМЕТКА С ПОЛЯ',
+    outcome_optimal: 'ОПТИМАЛЬНО',
+    outcome_compromised: 'СКОМПРОМЕТИРОВАНО',
+    outcome_mission_failed: 'МИССИЯ ПРОВАЛЕНА',
+  },
+} as const;
+
+type OutcomeKey = 'outcome_optimal' | 'outcome_compromised' | 'outcome_mission_failed';
+
 const OUTCOME_STYLES: Record<
   Outcome,
-  { border: string; bg: string; text: string; symbol: string; label: { en: string; ru: string } }
+  { border: string; bg: string; text: string; symbol: string; labelKey: OutcomeKey }
 > = {
   good: {
     border: 'border-[#7ce896]',
     bg: 'bg-[#7ce896]/10',
     text: 'text-[#7ce896]',
     symbol: '▶',
-    // TODO: i18n key for scenario.outcome.optimal
-    label: { en: 'OPTIMAL', ru: 'ОПТИМАЛЬНО' },
+    labelKey: 'outcome_optimal',
   },
   risky: {
     border: 'border-[#f4b965]',
     bg: 'bg-[#f4b965]/10',
     text: 'text-[#f4b965]',
     symbol: '▲',
-    // TODO: i18n key for scenario.outcome.compromised
-    label: { en: 'COMPROMISED', ru: 'СКОМПРОМЕТИРОВАНО' },
+    labelKey: 'outcome_compromised',
   },
   disaster: {
     border: 'border-[#e76670]',
     bg: 'bg-[#e76670]/10',
     text: 'text-[#e76670]',
     symbol: '✗',
-    // TODO: i18n key for scenario.outcome.mission_failed
-    label: { en: 'MISSION FAILED', ru: 'МИССИЯ ПРОВАЛЕНА' },
+    labelKey: 'outcome_mission_failed',
   },
 };
 
 export default function ScenarioWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const [picked, setPicked] = useState<number | null>(null);
 
-  // TODO: i18n key for scenario.heading
-  const headingLabel = pick(lang, {
-    en: '// FIELD SIMULATION',
-    ru: '// ПОЛЕВАЯ СИМУЛЯЦИЯ',
-  });
-  // TODO: i18n key for scenario.prompt_default
-  const promptDefault = pick(lang, {
-    en: 'What do you do?',
-    ru: 'Что ты делаешь?',
-  });
-  // TODO: i18n key for scenario.reset
-  const resetLabel = pick(lang, {
-    en: 'Re-run simulation',
-    ru: 'Перезапустить симуляцию',
-  });
-  // TODO: i18n key for scenario.moral
-  const moralLabel = pick(lang, {
-    en: '// FIELD NOTE',
-    ru: '// ЗАМЕТКА С ПОЛЯ',
-  });
+  const headingLabel = tr('heading');
+  const promptDefault = tr('prompt_default');
+  const resetLabel = tr('reset');
+  const moralLabel = tr('moral');
 
   return (
     <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
@@ -107,7 +112,7 @@ export default function ScenarioWidget({ config, locale }: Props) {
           if (isPicked) {
             stateClass = `${style.border} ${style.bg}`;
             badge = {
-              text: `${style.symbol} ${choice.label || pick(lang, style.label)}`,
+              text: `${style.symbol} ${choice.label || tr(style.labelKey)}`,
               cls: style.text,
             };
           } else if (picked === null) {

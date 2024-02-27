@@ -184,13 +184,13 @@ export default function ContentCarousel({
                     </div>
                   )}
                   <span
-                    className={`absolute top-2 left-2 px-2 py-0.5 text-[9px] uppercase tracking-[2px] border ${colorClass}`}
+                    className={`absolute top-2 left-2 px-2 py-0.5 text-[10px] uppercase tracking-[2px] border ${colorClass}`}
                     style={{ fontFamily: '"JetBrains Mono", monospace' }}
                   >
                     {badge}
                   </span>
                   <span
-                    className="absolute bottom-2 right-2 px-2 py-0.5 text-[9px] uppercase tracking-[2px] border border-[#7ce896]/40 bg-[#7ce896]/10 text-[#7ce896]"
+                    className="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-[2px] border border-[#7ce896]/40 bg-[#7ce896]/10 text-[#7ce896]"
                     style={{ fontFamily: '"JetBrains Mono", monospace' }}
                   >
                     {tr('portrait_verified')}
@@ -230,7 +230,7 @@ export default function ContentCarousel({
                   {/* Wire-service dateline */}
                   <div className="flex items-center gap-2 mb-3 pb-2 border-b border-dashed border-[#202a44]">
                     <span
-                      className={`px-1.5 py-0.5 text-[9px] uppercase tracking-[2px] border ${colorClass}`}
+                      className={`px-1.5 py-0.5 text-[10px] uppercase tracking-[2px] border ${colorClass}`}
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
                       {tr('dispatch')}
@@ -297,7 +297,7 @@ export default function ContentCarousel({
                   {/* Right: editorial content */}
                   <div className="flex-1 min-w-0 flex flex-col">
                     <span
-                      className={`self-start px-1.5 py-0.5 text-[9px] uppercase tracking-[2px] border ${colorClass} mb-2`}
+                      className={`self-start px-1.5 py-0.5 text-[10px] uppercase tracking-[2px] border ${colorClass} mb-2`}
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
                       {tr('field_note')}

@@ -25,32 +25,21 @@
 {% set _vol_roman = _roman_map.get(_vol_num, _vol_num | string) %}
 {% set _iso_week = _today.isocalendar()[1] %}
 
-{# Weekday + month lookup (uppercase). Russian abbreviations match the editorial register. #}
-{% set _weekdays_en = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY'] %}
-{% set _weekdays_ru = ['ПОНЕДЕЛЬНИК','ВТОРНИК','СРЕДА','ЧЕТВЕРГ','ПЯТНИЦА','СУББОТА','ВОСКРЕСЕНЬЕ'] %}
-{% set _months_en   = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'] %}
-{% set _months_ru   = ['ЯНВ','ФЕВ','МАР','АПР','МАЙ','ИЮН','ИЮЛ','АВГ','СЕН','ОКТ','НОЯ','ДЕК'] %}
+{# Weekday + month lookup (uppercase). Keys live in locales/{lang}.json. #}
+{% set _weekday_keys = ['weekday_monday','weekday_tuesday','weekday_wednesday','weekday_thursday','weekday_friday','weekday_saturday','weekday_sunday'] %}
+{% set _month_keys   = ['month_jan','month_feb','month_mar','month_apr','month_may','month_jun','month_jul','month_aug','month_sep','month_oct','month_nov','month_dec'] %}
 {% set _wkday_idx = _today.weekday() %}{# Python: Mon=0..Sun=6 #}
 {% set _mo_idx = _today.month - 1 %}
-{% if _lang == 'ru' %}
-  {% set _weekday_label = _weekdays_ru[_wkday_idx] %}
-  {% set _month_label   = _months_ru[_mo_idx] %}
-{% else %}
-  {% set _weekday_label = _weekdays_en[_wkday_idx] %}
-  {% set _month_label   = _months_en[_mo_idx] %}
-{% endif %}
+{% set _weekday_label = t(_lang, 'journal.' ~ _weekday_keys[_wkday_idx]) %}
+{% set _month_label   = t(_lang, 'journal.' ~ _month_keys[_mo_idx]) %}
 {% set _dateline_center = _weekday_label ~ ' · ' ~ "%02d"|format(_today.day) ~ ' ' ~ _month_label ~ ' ' ~ _year %}
 
-{# Labels (localized inline; parent agent will lift these to translations if desired). #}
-{% if _lang == 'ru' %}
-  {% set _vol_no_label = 'ТОМ ' ~ _vol_roman ~ ' · №' ~ _iso_week %}
-  {% set _edition_label = 'ВЫПУСК: ' ~ _total ~ ' В АРХИВЕ' %}
-  {% set _masthead_kicker = 'ИЗДАЁТСЯ С 2022' %}
-{% else %}
-  {% set _vol_no_label = 'VOL. ' ~ _vol_roman ~ ' · NO. ' ~ _iso_week %}
-  {% set _edition_label = 'EDITION: ' ~ _total ~ ' ARCHIVED' %}
-  {% set _masthead_kicker = 'PUBLISHED SINCE 2022' %}
-{% endif %}
+{# Composed dateline labels — values from locale, format glued together here.
+   Note: journal.vol_label_no carries its own trailing space style — EN keeps a space
+   ("NO. 21"), RU does not ("№21") — so we don't add a space before _iso_week. #}
+{% set _vol_no_label = t(_lang, 'journal.vol_label_left') ~ ' ' ~ _vol_roman ~ ' · ' ~ t(_lang, 'journal.vol_label_no') ~ _iso_week | string %}
+{% set _edition_label = t(_lang, 'journal.edition_label_prefix') ~ ' ' ~ _total ~ ' ' ~ t(_lang, 'journal.edition_label_suffix') %}
+{% set _masthead_kicker = t(_lang, 'journal.masthead_kicker') %}
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
@@ -69,7 +58,6 @@
         class="font-mono text-[#f3f5fa] break-words"
         style="font-weight: 800; font-size: clamp(2.5rem, 1.8rem + 3.6vw, 4rem); letter-spacing: -0.04em; line-height: 0.94; text-transform: uppercase;"
       >
-        <!-- TODO: i18n key for journal.masthead_title (DISCAMMER TIMES is intentionally the same in both langs) -->
         DISCAMMER<span class="text-[#65def0]"> TIMES</span>
       </h1>
       <div
@@ -172,25 +160,13 @@
       class="font-mono text-[10px] sm:text-[11px] uppercase text-[#65def0] mb-4"
       style="letter-spacing: 0.14em; font-weight: 600;"
     >
-      {% if _lang == 'ru' %}
-      <!-- TODO: i18n key for journal.archive_label -->
-      // АРХИВ
-      {% else %}
-      <!-- TODO: i18n key for journal.archive_label -->
-      // ARCHIVE
-      {% endif %}
+      {{ t(_lang, 'journal.archive_label') }}
     </div>
     <p
       class="text-[#6b7588] text-sm mb-4"
       style="max-width: 50ch;"
     >
-      {% if _lang == 'ru' %}
-      <!-- TODO: i18n key for journal.archive_intro -->
-      Прошлые выпуски DISCAMMER TIMES. Архив пополняется еженедельно, каждый понедельник выходит новый номер.
-      {% else %}
-      <!-- TODO: i18n key for journal.archive_intro -->
-      Previous editions of DISCAMMER TIMES. The archive grows weekly, with a new issue every Monday.
-      {% endif %}
+      {{ t(_lang, 'journal.archive_intro') }}
     </p>
 
     <!-- Mono uppercase link strip — last 8 editions (dead links for now) -->
@@ -217,7 +193,7 @@
           class="text-[#aab2c4] hover:text-[#65def0] transition-colors"
           aria-label="VOL. {{ _prev_vol }} NO. {{ _prev_no }}"
         >
-          {% if _lang == 'ru' %}ТОМ {{ _prev_vol }} №{{ _prev_no }}{% else %}VOL. {{ _prev_vol }} NO. {{ _prev_no }}{% endif %}
+          {{ t(_lang, 'journal.vol_label_left') }} {{ _prev_vol }} {{ t(_lang, 'journal.vol_label_no') }}{{ _prev_no }}
         </a>
       {% endfor %}
     </div>

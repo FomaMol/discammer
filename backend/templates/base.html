@@ -55,9 +55,10 @@
   <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-hairline" style="background-color: rgba(11,15,26,0.86);">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-14 sm:h-16">
 
-      <!-- Logo wordmark -->
-      <a href="/{{ _lang }}/" class="font-display-wordmark text-cyan text-base sm:text-lg hover:text-cyan-strong transition-colors">
-        DISCAMMER
+      <!-- Logo: logomark (cursor block + prompt) + wordmark -->
+      <a href="/{{ _lang }}/" class="inline-flex items-center gap-2.5 text-cyan hover:text-cyan-strong transition-colors">
+        <img src="{{ asset_url('/static/logomark.svg') }}" alt="" aria-hidden="true" class="w-6 h-6 shrink-0">
+        <span class="font-display-wordmark text-base sm:text-lg">DISCAMMER</span>
       </a>
 
       <!-- Desktop nav -->
@@ -77,13 +78,24 @@
 
         <span class="w-px h-5 bg-hairline mx-2"></span>
 
-        {# Language switch — inline route, never a modal. #}
+        {# Language switch — inline route, never a modal.
+           Current language is the bordered cyan chip; target language is muted with an arrow,
+           lighting up to cyan only on hover so the affordance reads as "click to switch".
+           Inline styles used for cyan-veil bg and cyan-dim border because those tokens live in
+           DESIGN.md but aren't compiled into main.css (no frontend rebuild in scope). #}
         <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
-           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-mute hover:text-cyan transition-colors px-3 py-2 rounded-sm border border-hairline hover:border-cyan-dim"
+           class="inline-flex items-center px-2 py-1 rounded-sm hover:bg-canvas-soft transition-colors"
            aria-label="{{ t(_lang, 'lang.switch_to') }}"
            rel="alternate"
            hreflang="{{ _other }}">
-          {{ t(_lang, 'lang.short') }}<span class="text-ink-faint mx-1">/</span><span class="text-cyan">{{ t(_lang, 'lang.other_short') }}</span>
+          <span class="inline-flex items-center justify-center h-6 px-1.5 text-cyan font-mono text-[10px] font-bold tracking-[0.14em] rounded-sm tabular-nums border"
+                style="background-color: rgba(101,222,240,0.08); border-color: #3a8b9a; min-width: 1.625rem;">
+            {{ t(_lang, 'lang.short') }}
+          </span>
+          <span class="font-mono text-ink-faint text-[11px] mx-1.5" aria-hidden="true">&rarr;</span>
+          <span class="font-mono text-ink-mute text-[10px] font-semibold tracking-[0.14em] hover:text-cyan transition-colors">
+            {{ t(_lang, 'lang.other_short') }}
+          </span>
         </a>
       </div>
 
@@ -92,6 +104,9 @@
         "lang": "{{ _lang }}",
         "switchHref": "/lang/{{ _other }}?next={{ _switch_url | urlencode }}",
         "switchLabel": "{{ t(_lang, "lang.short") }} / {{ t(_lang, "lang.other_short") }}",
+        "currentLangShort": "{{ t(_lang, "lang.short") }}",
+        "otherLangShort": "{{ t(_lang, "lang.other_short") }}",
+        "switchAriaLabel": "{{ t(_lang, "lang.switch_to") }}",
         "links": [
           {"label": "{{ t(_lang, "nav.course") }}", "href": "/{{ _lang }}/course"},
           {"label": "{{ t(_lang, "nav.journal") }}", "href": "/{{ _lang }}/journal"},
@@ -124,20 +139,29 @@
 
         <!-- Col 1: Brand block (4/12 on desktop) -->
         <div class="md:col-span-4">
-          <a href="/{{ _lang }}/" class="font-display-wordmark text-cyan text-sm hover:text-cyan-strong transition-colors">
-            DISCAMMER
+          <a href="/{{ _lang }}/" class="inline-flex items-center gap-2 text-cyan hover:text-cyan-strong transition-colors">
+            <img src="{{ asset_url('/static/logomark.svg') }}" alt="" aria-hidden="true" class="w-5 h-5 shrink-0">
+            <span class="font-display-wordmark text-sm">DISCAMMER</span>
           </a>
           <p class="text-ink-soft text-sm mt-4 leading-relaxed max-w-[36ch]">
             {{ t(_lang, 'footer.tagline') }}
           </p>
 
-          <!-- Language switch -->
+          <!-- Language switch — current is the bordered cyan chip; target is muted with arrow. -->
           <div class="mt-6">
             <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
-               class="inline-flex items-center gap-2 font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-mute hover:text-cyan transition-colors px-3 py-2 border border-hairline hover:border-cyan-dim rounded-sm">
-              <span>{{ t(_lang, 'lang.short') }}</span>
-              <span class="text-ink-faint">/</span>
-              <span class="text-cyan">{{ t(_lang, 'lang.other_short') }}</span>
+               class="inline-flex items-center px-2 py-1 rounded-sm hover:bg-canvas-soft transition-colors"
+               aria-label="{{ t(_lang, 'lang.switch_to') }}"
+               rel="alternate"
+               hreflang="{{ _other }}">
+              <span class="inline-flex items-center justify-center h-6 px-1.5 text-cyan font-mono text-[10px] font-bold tracking-[0.14em] rounded-sm tabular-nums border"
+                    style="background-color: rgba(101,222,240,0.08); border-color: #3a8b9a; min-width: 1.625rem;">
+                {{ t(_lang, 'lang.short') }}
+              </span>
+              <span class="font-mono text-ink-faint text-[11px] mx-1.5" aria-hidden="true">&rarr;</span>
+              <span class="font-mono text-ink-mute text-[10px] font-semibold tracking-[0.14em] hover:text-cyan transition-colors">
+                {{ t(_lang, 'lang.other_short') }}
+              </span>
             </a>
           </div>
         </div>

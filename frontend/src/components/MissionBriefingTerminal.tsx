@@ -1,5 +1,30 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    shell_label: 'dcm-ops@academy ~ % ./brief.sh',
+    access: 'OPERATOR DCM-117  ACCESS GRANTED',
+    transmission: 'INCOMING TRANSMISSION ...',
+    counts: '{modules} MODULES · {lessons} LESSONS · ESTIMATED {runtime}',
+    cert: 'CERTIFICATE: ISSUED ON COMPLETION',
+    status_ready: 'STATUS: READY',
+    cta_start: 'START MISSION',
+    cta_modules: 'VIEW MODULES',
+    cta_brief: 'DOWNLOAD BRIEF',
+  },
+  ru: {
+    shell_label: 'dcm-ops@academy ~ % ./brief.sh',
+    access: 'ОПЕРАТОР DCM-117  ДОСТУП ОТКРЫТ',
+    transmission: 'ВХОДЯЩАЯ ПЕРЕДАЧА ...',
+    counts: '{modules} МОДУЛЕЙ · {lessons} УРОКОВ · ОЦЕНКА {runtime}',
+    cert: 'СЕРТИФИКАТ: ВЫДАЁТСЯ ПО ОКОНЧАНИИ',
+    status_ready: 'СТАТУС: ГОТОВ',
+    cta_start: 'НАЧАТЬ МИССИЮ',
+    cta_modules: 'СПИСОК МОДУЛЕЙ',
+    cta_brief: 'СКАЧАТЬ БРИФИНГ',
+  },
+} as const;
 
 interface Props {
   locale?: Locale;
@@ -72,44 +97,22 @@ export default function MissionBriefingTerminal({
   firstModuleSlug,
 }: Props) {
   const lang = normalizeLocale(locale);
-  // TODO: i18n key for course.terminal.shell_label
-  const shellLabel = pick(lang, {
-    en: 'dcm-ops@academy ~ % ./brief.sh',
-    ru: 'dcm-ops@academy ~ % ./brief.sh',
-  });
+  const tr = makeTranslator(lang, BUNDLES);
+  const shellLabel = tr('shell_label');
 
-  // TODO: i18n key for course.terminal.access
-  const accessLine = pick(lang, {
-    en: 'OPERATOR DCM-117  ACCESS GRANTED',
-    ru: 'ОПЕРАТОР DCM-117  ДОСТУП ОТКРЫТ',
+  const accessLine = tr('access');
+  const transmissionLine = tr('transmission');
+  const countsLine = tr('counts', {
+    modules: moduleCount,
+    lessons: lessonCount,
+    runtime: runtime.toUpperCase(),
   });
-  // TODO: i18n key for course.terminal.transmission
-  const transmissionLine = pick(lang, {
-    en: 'INCOMING TRANSMISSION ...',
-    ru: 'ВХОДЯЩАЯ ПЕРЕДАЧА ...',
-  });
-  // TODO: i18n key for course.terminal.counts
-  const countsLine = pick(lang, {
-    en: `${moduleCount} MODULES · ${lessonCount} LESSONS · ESTIMATED ${runtime.toUpperCase()}`,
-    ru: `${moduleCount} МОДУЛЕЙ · ${lessonCount} УРОКОВ · ОЦЕНКА ${runtime.toUpperCase()}`,
-  });
-  // TODO: i18n key for course.terminal.cert
-  const certLine = pick(lang, {
-    en: 'CERTIFICATE: ISSUED ON COMPLETION',
-    ru: 'СЕРТИФИКАТ: ВЫДАЁТСЯ ПО ОКОНЧАНИИ',
-  });
-  // TODO: i18n key for course.terminal.status_ready
-  const statusLine = pick(lang, {
-    en: 'STATUS: READY',
-    ru: 'СТАТУС: ГОТОВ',
-  });
+  const certLine = tr('cert');
+  const statusLine = tr('status_ready');
 
-  // TODO: i18n key for course.terminal.cta_start
-  const ctaStart = pick(lang, { en: 'START MISSION', ru: 'НАЧАТЬ МИССИЮ' });
-  // TODO: i18n key for course.terminal.cta_modules
-  const ctaModules = pick(lang, { en: 'VIEW MODULES', ru: 'СПИСОК МОДУЛЕЙ' });
-  // TODO: i18n key for course.terminal.cta_brief
-  const ctaBrief = pick(lang, { en: 'DOWNLOAD BRIEF', ru: 'СКАЧАТЬ БРИФИНГ' });
+  const ctaStart = tr('cta_start');
+  const ctaModules = tr('cta_modules');
+  const ctaBrief = tr('cta_brief');
 
   const lines: Line[] = useMemo(
     () => [

@@ -28,9 +28,8 @@
 {% set _est_minutes = (_word_count / 220) | round(0, 'ceil') | int %}
 {% if _est_minutes < 1 %}{% set _est_minutes = 1 %}{% endif %}
 
-{# Localized month / weekday labels for the byline. #}
-{% set _months_en = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'] %}
-{% set _months_ru = ['ЯНВ','ФЕВ','МАР','АПР','МАЙ','ИЮН','ИЮЛ','АВГ','СЕН','ОКТ','НОЯ','ДЕК'] %}
+{# Localized month labels for the byline. Keys live in locales/{lang}.json. #}
+{% set _month_keys = ['month_jan','month_feb','month_mar','month_apr','month_may','month_jun','month_jul','month_aug','month_sep','month_oct','month_nov','month_dec'] %}
 {% set _byline_date = '' %}
 {% if post.published_at %}
   {% set _pub_parts = post.published_at.split('-') %}
@@ -38,11 +37,7 @@
     {% set _yyyy = _pub_parts[0] %}
     {% set _mm = _pub_parts[1] | int %}
     {% set _dd = _pub_parts[2] | int %}
-    {% if _lang == 'ru' %}
-      {% set _byline_date = '%02d'|format(_dd) ~ ' ' ~ _months_ru[_mm - 1] ~ ' ' ~ _yyyy %}
-    {% else %}
-      {% set _byline_date = '%02d'|format(_dd) ~ ' ' ~ _months_en[_mm - 1] ~ ' ' ~ _yyyy %}
-    {% endif %}
+    {% set _byline_date = '%02d'|format(_dd) ~ ' ' ~ t(_lang, 'journal.' ~ _month_keys[_mm - 1]) ~ ' ' ~ _yyyy %}
   {% endif %}
 {% endif %}
 
@@ -69,20 +64,12 @@
   {% set _type_border = 'rgba(170,178,196,0.4)' %}
 {% endif %}
 
-{# Localized labels (parent will lift to translations if desired). #}
-{% if _lang == 'ru' %}
-  {% set _byline_label = 'РЕДАКЦИЯ DCM' %}
-  {% set _min_label = 'МИН' %}
-  {% set _filed_under_label = '// РУБРИКА' %}
-  {% set _next_in_section_label = 'СЛЕДУЮЩЕЕ В РУБРИКЕ' %}
-  {% set _issue_label = 'ВЫПУСК' %}
-{% else %}
-  {% set _byline_label = 'BY DCM EDITORIAL' %}
-  {% set _min_label = 'MIN' %}
-  {% set _filed_under_label = '// FILED UNDER' %}
-  {% set _next_in_section_label = 'NEXT IN THIS SECTION' %}
-  {% set _issue_label = 'ISSUE' %}
-{% endif %}
+{# Localized labels — resolved from locales/{lang}.json #}
+{% set _byline_label = t(_lang, 'journal.byline_label') %}
+{% set _min_label = t(_lang, 'journal.min_label') %}
+{% set _filed_under_label = t(_lang, 'journal.filed_under_label') %}
+{% set _next_in_section_label = t(_lang, 'journal.next_in_section_label') %}
+{% set _issue_label = t(_lang, 'journal.issue_label') %}
 
 {# ─────────────────────────────────────────────────────────────────────
    READING SURFACE — narrower than the journal grid (max-w-2xl ≈ 42rem ≈ 60ch).

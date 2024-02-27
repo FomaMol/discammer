@@ -17,8 +17,8 @@ import { useEffect, useRef } from 'react';
  *     as the static fallback)
  *   - prefers-reduced-motion → renders a single static frame, then stops
  *
- * Opacity capped at 0.45 via CSS so the shader sits *behind* the content
- * rather than competing with it.
+ * Opacity capped at 0.35 via CSS so the shader sits *behind* the content
+ * rather than competing with it. (Brand chrome rule: hero animations ≤ 0.4.)
  */
 
 function prefersReducedMotion(): boolean {
@@ -272,7 +272,7 @@ export default function HeroShader() {
       ref={canvasRef}
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.45 }}
+      style={{ opacity: 0.35 }}
     />
   );
 }

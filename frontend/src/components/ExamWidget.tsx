@@ -1,5 +1,56 @@
 import { useMemo, useState } from 'react';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    heading: '// FINAL EXAMINATION',
+    progress_label: 'Q',
+    transmit: 'TRANSMIT',
+    next: 'NEXT QUESTION ▷',
+    finish: 'FINALIZE EXAM ▷',
+    restart: 'Re-run examination',
+    passed: 'CLEARANCE GRANTED',
+    failed: 'CLEARANCE DENIED',
+    correct: '[OK] CORRECT',
+    incorrect: '[FAIL] INCORRECT',
+    review: 'Inspect transmission log',
+    result_suffix: 'TRANSMISSION REPORT',
+    clearance_granted_prefix: 'CLEARANCE GRANTED · LEVEL',
+    clearance_granted_suffix: '/100',
+    clearance_denied: 'CLEARANCE DENIED · RETRY REQUIRED',
+    review_correct_label: 'Expected:',
+    score_passed_prefix: 'Score:',
+    score_passed_body:
+      ', at or above the {threshold}% pass mark. Result is recorded and visible on the clearance page.',
+    score_failed_prefix: 'Score:',
+    score_failed_body:
+      ', below the {threshold}% pass mark. Review the missed areas in the log below and re-transmit when ready.',
+  },
+  ru: {
+    heading: '// ФИНАЛЬНОЕ ИСПЫТАНИЕ',
+    progress_label: 'В',
+    transmit: 'ОТПРАВИТЬ',
+    next: 'СЛЕДУЮЩИЙ ▷',
+    finish: 'ЗАВЕРШИТЬ ЭКЗАМЕН ▷',
+    restart: 'Пройти заново',
+    passed: 'ДОПУСК ВЫДАН',
+    failed: 'В ДОПУСКЕ ОТКАЗАНО',
+    correct: '[OK] ВЕРНО',
+    incorrect: '[FAIL] НЕВЕРНО',
+    review: 'Открыть лог передачи',
+    result_suffix: 'ОТЧЁТ О ПЕРЕДАЧЕ',
+    clearance_granted_prefix: 'ДОПУСК ВЫДАН · УРОВЕНЬ',
+    clearance_granted_suffix: '/100',
+    clearance_denied: 'В ДОПУСКЕ ОТКАЗАНО · НУЖНА ПОВТОРНАЯ ПОПЫТКА',
+    review_correct_label: 'Ожидалось:',
+    score_passed_prefix: 'Результат',
+    score_passed_body:
+      '% — это проходной порог {threshold}% или выше. Результат сохранён и виден на странице допуска.',
+    score_failed_prefix: 'Результат',
+    score_failed_body:
+      '% — ниже порога {threshold}%. Разбери пропуски в логе ниже и пройди снова, когда будешь готов.',
+  },
+} as const;
 
 export interface ExamQuestion {
   module?: string;
@@ -38,6 +89,7 @@ function persistResult(payload: PersistedExam) {
 
 export default function ExamWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
 
   // Stable display order, optionally shuffled once on mount.
   const questions = useMemo(() => {
@@ -60,28 +112,17 @@ export default function ExamWidget({ config, locale }: Props) {
   const total = questions.length;
   const current = questions[index];
 
-  // TODO: i18n key for exam.heading
-  const heading = pick(lang, { en: '// FINAL EXAMINATION', ru: '// ФИНАЛЬНОЕ ИСПЫТАНИЕ' });
-  // TODO: i18n key for exam.progressLabel
-  const progressLabel = pick(lang, { en: 'Q', ru: 'В' });
-  // TODO: i18n key for exam.transmit
-  const submitLabel = pick(lang, { en: 'TRANSMIT', ru: 'ОТПРАВИТЬ' });
-  // TODO: i18n key for exam.next
-  const nextLabel = pick(lang, { en: 'NEXT QUESTION ▷', ru: 'СЛЕДУЮЩИЙ ▷' });
-  // TODO: i18n key for exam.finish
-  const finishLabel = pick(lang, { en: 'FINALIZE EXAM ▷', ru: 'ЗАВЕРШИТЬ ЭКЗАМЕН ▷' });
-  // TODO: i18n key for exam.restart
-  const restartLabel = pick(lang, { en: 'Re-run examination', ru: 'Пройти заново' });
-  // TODO: i18n key for exam.passed (no longer used in pass screen)
-  const passedLabel = pick(lang, { en: 'CLEARANCE GRANTED', ru: 'ДОПУСК ВЫДАН' });
-  // TODO: i18n key for exam.failed
-  const failedLabel = pick(lang, { en: 'CLEARANCE DENIED', ru: 'В ДОПУСКЕ ОТКАЗАНО' });
-  // TODO: i18n key for exam.correct
-  const correctLabel = pick(lang, { en: '[OK] CORRECT', ru: '[OK] ВЕРНО' });
-  // TODO: i18n key for exam.incorrect
-  const incorrectLabel = pick(lang, { en: '[FAIL] INCORRECT', ru: '[FAIL] НЕВЕРНО' });
-  // TODO: i18n key for exam.review
-  const reviewLabel = pick(lang, { en: 'Inspect transmission log', ru: 'Открыть лог передачи' });
+  const heading = tr('heading');
+  const progressLabel = tr('progress_label');
+  const submitLabel = tr('transmit');
+  const nextLabel = tr('next');
+  const finishLabel = tr('finish');
+  const restartLabel = tr('restart');
+  const passedLabel = tr('passed');
+  const failedLabel = tr('failed');
+  const correctLabel = tr('correct');
+  const incorrectLabel = tr('incorrect');
+  const reviewLabel = tr('review');
 
   function submit() {
     if (picked === null) return;
@@ -122,9 +163,8 @@ export default function ExamWidget({ config, locale }: Props) {
       <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
         <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
           {heading}
-          {/* TODO: i18n key for exam.result_suffix */}
           {' // '}
-          {pick(lang, { en: 'TRANSMISSION REPORT', ru: 'ОТЧЁТ О ПЕРЕДАЧЕ' })}
+          {tr('result_suffix')}
         </div>
 
         {/* Clearance verdict */}
@@ -142,21 +182,13 @@ export default function ExamWidget({ config, locale }: Props) {
           >
             {passed ? (
               <>
-                {/* TODO: i18n key for exam.clearance_granted */}
                 <span aria-hidden="true">▶</span>{' '}
-                {pick(lang, {
-                  en: `CLEARANCE GRANTED · LEVEL ${pct100}/100`,
-                  ru: `ДОПУСК ВЫДАН · УРОВЕНЬ ${pct100}/100`,
-                })}
+                {tr('clearance_granted_prefix')} {pct100}{tr('clearance_granted_suffix')}
               </>
             ) : (
               <>
-                {/* TODO: i18n key for exam.clearance_denied */}
                 <span aria-hidden="true">✗</span>{' '}
-                {pick(lang, {
-                  en: `CLEARANCE DENIED · RETRY REQUIRED`,
-                  ru: `В ДОПУСКЕ ОТКАЗАНО · НУЖНА ПОВТОРНАЯ ПОПЫТКА`,
-                })}
+                {tr('clearance_denied')}
               </>
             )}
           </div>
@@ -171,22 +203,12 @@ export default function ExamWidget({ config, locale }: Props) {
 
         <p className="mt-4 font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
           {passed
-            ? pick(lang, {
-                en: `Score: ${pct100}%, at or above the ${Math.round(
-                  threshold * 100,
-                )}% pass mark. Result is recorded and visible on the clearance page.`,
-                ru: `Результат ${pct100}% — это проходной порог ${Math.round(
-                  threshold * 100,
-                )}% или выше. Результат сохранён и виден на странице допуска.`,
-              })
-            : pick(lang, {
-                en: `Score: ${pct100}%, below the ${Math.round(
-                  threshold * 100,
-                )}% pass mark. Review the missed areas in the log below and re-transmit when ready.`,
-                ru: `Результат ${pct100}% — ниже порога ${Math.round(
-                  threshold * 100,
-                )}%. Разбери пропуски в логе ниже и пройди снова, когда будешь готов.`,
-              })}
+            ? `${tr('score_passed_prefix')} ${pct100}${tr('score_passed_body', {
+                threshold: Math.round(threshold * 100),
+              })}`
+            : `${tr('score_failed_prefix')} ${pct100}${tr('score_failed_body', {
+                threshold: Math.round(threshold * 100),
+              })}`}
         </p>
 
         <details className="mt-4">
@@ -215,8 +237,7 @@ export default function ExamWidget({ config, locale }: Props) {
                   {!correct && q.choices.find((c) => c.correct) && (
                     <div className="mt-1.5 font-sans text-[13px] text-[#aab2c4]">
                       <span className="text-[#7ce896]">
-                        {/* TODO: i18n key for exam.review_correct_label */}
-                        {pick(lang, { en: 'Expected:', ru: 'Ожидалось:' })}
+                        {tr('review_correct_label')}
                       </span>{' '}
                       {q.choices.find((c) => c.correct)?.text}
                     </div>

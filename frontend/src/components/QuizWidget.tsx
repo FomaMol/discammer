@@ -1,5 +1,26 @@
 import { useState } from 'react';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    heading: '// ASSESSMENT',
+    correct: '[OK] CORRECT',
+    incorrect: '[FAIL] INCORRECT',
+    submit: 'SUBMIT ANSWERS',
+    try_again: 'Re-run assessment',
+    passed_pill: '✓ ASSESSMENT PASSED',
+    options_caption: 'options',
+  },
+  ru: {
+    heading: '// ОЦЕНКА',
+    correct: '[OK] ВЕРНО',
+    incorrect: '[FAIL] НЕВЕРНО',
+    submit: 'ОТПРАВИТЬ ОТВЕТ',
+    try_again: 'Пройти заново',
+    passed_pill: '✓ ОЦЕНКА СДАНА',
+    options_caption: 'вариантов',
+  },
+} as const;
 
 export interface QuizChoice {
   text: string;
@@ -25,6 +46,7 @@ interface Props {
 
 export default function QuizWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const [selected, setSelected] = useState<number | null>(null);
   const [checked, setChecked] = useState(false);
 
@@ -48,18 +70,12 @@ export default function QuizWidget({ config, locale }: Props) {
     setSelected(null);
   }
 
-  // TODO: i18n key for quiz.heading
-  const headingLabel = pick(lang, { en: '// ASSESSMENT', ru: '// ОЦЕНКА' });
-  // TODO: i18n key for quiz.correct
-  const correctLabel = pick(lang, { en: '[OK] CORRECT', ru: '[OK] ВЕРНО' });
-  // TODO: i18n key for quiz.incorrect
-  const incorrectLabel = pick(lang, { en: '[FAIL] INCORRECT', ru: '[FAIL] НЕВЕРНО' });
-  // TODO: i18n key for quiz.submit
-  const submitLabel = pick(lang, { en: 'SUBMIT ANSWERS', ru: 'ОТПРАВИТЬ ОТВЕТ' });
-  // TODO: i18n key for quiz.try_again
-  const tryAgainLabel = pick(lang, { en: 'Re-run assessment', ru: 'Пройти заново' });
-  // TODO: i18n key for quiz.passed_pill
-  const passedPill = pick(lang, { en: '✓ ASSESSMENT PASSED', ru: '✓ ОЦЕНКА СДАНА' });
+  const headingLabel = tr('heading');
+  const correctLabel = tr('correct');
+  const incorrectLabel = tr('incorrect');
+  const submitLabel = tr('submit');
+  const tryAgainLabel = tr('try_again');
+  const passedPill = tr('passed_pill');
 
   return (
     <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
@@ -68,8 +84,7 @@ export default function QuizWidget({ config, locale }: Props) {
           {headingLabel}
         </div>
         <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
-          {config.choices.length} {pick(lang, { en: 'options', ru: 'вариантов' })}
-          {/* TODO: i18n key for quiz.options_caption */}
+          {config.choices.length} {tr('options_caption')}
         </div>
       </div>
 

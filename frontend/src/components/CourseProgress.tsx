@@ -1,7 +1,56 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchCourseModules } from '../utils/api';
-import { Locale, normalizeLocale, t } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
+
+const BUNDLES = {
+  en: {
+    loading: '> Loading mission list',
+    error: '> ERROR: training modules unavailable.',
+    status_ready: '● READY',
+    status_in_progress: '▷ IN PROGRESS',
+    status_completed: '✓ COMPLETED',
+    status_locked: '✗ LOCKED',
+    prereq: 'PREREQ: MODULE',
+    flow_tag: '// MISSION FLOW',
+    lessons_short: 'lessons',
+    completed_at: 'COMPLETED',
+    stats_modules: 'MISSIONS',
+    stats_lessons: 'BRIEFINGS',
+    stats_runtime: 'EST RUNTIME',
+    stats_progress: 'CLEARANCE',
+    certification_tag: '// CLEARANCE',
+    cert_headline: 'Earn the DiScammer Defender clearance.',
+    cert_body:
+      'Finish all nine missions and pass the final examination to be issued a shareable clearance verifying that you can recognize, respond to, and recover from modern digital fraud.',
+    warm_up: 'Warm up in the simulator',
+    mission_prefix: 'MISSION',
+    open_briefing: '▸ OPEN BRIEFING',
+  },
+  ru: {
+    loading: '> Загрузка списка миссий',
+    error: '> ОШИБКА: модули недоступны.',
+    status_ready: '● ГОТОВ',
+    status_in_progress: '▷ В РАБОТЕ',
+    status_completed: '✓ ЗАВЕРШЁН',
+    status_locked: '✗ ЗАБЛОКИРОВАН',
+    prereq: 'УСЛОВИЕ: МОДУЛЬ',
+    flow_tag: '// ХОД ОПЕРАЦИИ',
+    lessons_short: 'уроков',
+    completed_at: 'ЗАВЕРШЕНО',
+    stats_modules: 'МИССИЙ',
+    stats_lessons: 'БРИФИНГОВ',
+    stats_runtime: 'ОЦЕНКА ВРЕМЕНИ',
+    stats_progress: 'ДОПУСК',
+    certification_tag: '// ДОПУСК',
+    cert_headline: 'Получи сертификат DiScammer Defender.',
+    cert_body:
+      'Заверши все девять миссий и сдай финальный экзамен — и получи проверяемый сертификат: подтверждение того, что ты умеешь распознавать, реагировать и восстанавливаться после современного цифрового мошенничества.',
+    warm_up: 'Разогрейся в симуляторе',
+    mission_prefix: 'МИССИЯ',
+    open_briefing: '▸ ОТКРЫТЬ БРИФИНГ',
+  },
+} as const;
 
 type Accent = 'cyan' | 'green' | 'amber' | 'red';
 
@@ -42,53 +91,6 @@ interface ApiModule {
 interface Props {
   locale?: Locale;
 }
-
-// TODO: i18n key for course.cards.loading
-const LABEL = {
-  loading: { en: '> Loading mission list', ru: '> Загрузка списка миссий' },
-  // TODO: i18n key for course.cards.error
-  error: { en: '> ERROR: training modules unavailable.', ru: '> ОШИБКА: модули недоступны.' },
-  // TODO: i18n key for course.cards.statusReady
-  ready: { en: '● READY', ru: '● ГОТОВ' },
-  // TODO: i18n key for course.cards.statusInProgress
-  inProgress: { en: '▷ IN PROGRESS', ru: '▷ В РАБОТЕ' },
-  // TODO: i18n key for course.cards.statusCompleted
-  completed: { en: '✓ COMPLETED', ru: '✓ ЗАВЕРШЁН' },
-  // TODO: i18n key for course.cards.statusLocked
-  locked: { en: '✗ LOCKED', ru: '✗ ЗАБЛОКИРОВАН' },
-  // TODO: i18n key for course.cards.prereq
-  prereq: { en: 'PREREQ: MODULE', ru: 'УСЛОВИЕ: МОДУЛЬ' },
-  // TODO: i18n key for course.cards.flowTag
-  flowTag: { en: '// MISSION FLOW', ru: '// ХОД ОПЕРАЦИИ' },
-  // TODO: i18n key for course.cards.lessonsShort
-  lessonsShort: { en: 'lessons', ru: 'уроков' },
-  // TODO: i18n key for course.cards.completedAt
-  completedAt: { en: 'COMPLETED', ru: 'ЗАВЕРШЕНО' },
-  // TODO: i18n key for course.stats.modulesLabel
-  statsModules: { en: 'MISSIONS', ru: 'МИССИЙ' },
-  // TODO: i18n key for course.stats.lessonsLabel
-  statsLessons: { en: 'BRIEFINGS', ru: 'БРИФИНГОВ' },
-  // TODO: i18n key for course.stats.runtimeLabel
-  statsRuntime: { en: 'EST RUNTIME', ru: 'ОЦЕНКА ВРЕМЕНИ' },
-  // TODO: i18n key for course.stats.progressLabel
-  statsProgress: { en: 'CLEARANCE', ru: 'ДОПУСК' },
-  // TODO: i18n key for course.cert.section
-  certificationTag: { en: '// CLEARANCE', ru: '// ДОПУСК' },
-  // TODO: i18n key for course.cert.headline
-  certHeadline: {
-    en: 'Earn the DiScammer Defender clearance.',
-    ru: 'Получи сертификат DiScammer Defender.',
-  },
-  // TODO: i18n key for course.cert.body
-  certBody: {
-    en:
-      'Finish all nine missions and pass the final examination to be issued a shareable clearance verifying that you can recognize, respond to, and recover from modern digital fraud.',
-    ru:
-      'Заверши все девять миссий и сдай финальный экзамен — и получи проверяемый сертификат: подтверждение того, что ты умеешь распознавать, реагировать и восстанавливаться после современного цифрового мошенничества.',
-  },
-  // TODO: i18n key for course.cert.warmUp
-  warmUp: { en: 'Warm up in the simulator', ru: 'Разогрейся в симуляторе' },
-};
 
 function normalize(api: ApiModule, idx: number): Module {
   const order = api.order ?? api.number ?? idx + 1;
@@ -143,6 +145,7 @@ function applyProgressiveUnlock(
 
 export default function CourseProgress({ locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const [modules, setModules] = useState<Module[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -200,7 +203,7 @@ export default function CourseProgress({ locale }: Props) {
   if (loading) {
     return (
       <div className="py-12 text-center font-mono text-sm text-[#6b7588]">
-        {t(LABEL.loading, lang)}
+        {tr('loading')}
         <span className="cursor-blink" />
       </div>
     );
@@ -209,7 +212,7 @@ export default function CourseProgress({ locale }: Props) {
   if (error || modules.length === 0) {
     return (
       <div className="py-12 text-center font-mono text-sm text-[#e76670]">
-        {t(LABEL.error, lang)}
+        {tr('error')}
       </div>
     );
   }
@@ -232,25 +235,26 @@ function StatsBanner({
   progressPercent: number;
   lang: Locale;
 }) {
+  const tr = makeTranslator(lang, BUNDLES);
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 border border-[#202a44] bg-[#121828]/60 divide-y md:divide-y-0 md:divide-x divide-[#202a44]">
       <StatCell
-        label={t(LABEL.statsModules, lang)}
+        label={tr('stats_modules')}
         value={stats.moduleCount.toString().padStart(2, '0')}
         accent="text-[#65def0]"
       />
       <StatCell
-        label={t(LABEL.statsLessons, lang)}
+        label={tr('stats_lessons')}
         value={`${stats.completedLessons}/${stats.totalLessons}`}
         accent="text-[#7ce896]"
       />
       <StatCell
-        label={t(LABEL.statsRuntime, lang)}
+        label={tr('stats_runtime')}
         value={stats.duration}
         accent="text-[#f4b965]"
       />
       <StatCell
-        label={t(LABEL.statsProgress, lang)}
+        label={tr('stats_progress')}
         value={`${progressPercent}%`}
         accent="text-[#e7ecf5]"
       />
@@ -285,10 +289,11 @@ function MissionFlow({
   completed: Map<string, number>;
   lang: Locale;
 }) {
+  const tr = makeTranslator(lang, BUNDLES);
   return (
     <div className="relative">
       <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-4">
-        {t(LABEL.flowTag, lang)}
+        {tr('flow_tag')}
         <span className="ml-2 text-[#3a8b9a]" aria-hidden="true">
           ━━━━━━━━━━
         </span>
@@ -321,12 +326,13 @@ interface MissionCardProps {
 }
 
 function MissionCard({ module, previousModule, completedLessons, lang }: MissionCardProps) {
+  const tr = makeTranslator(lang, BUNDLES);
   const locked = module.is_locked;
   const total = module.lessons ?? 0;
   const moduleDone = total > 0 && completedLessons >= total;
   const inProgress = !locked && !moduleDone && completedLessons > 0;
   const order = module.order.toString().padStart(2, '0');
-  const lessonsShort = t(LABEL.lessonsShort, lang);
+  const lessonsShort = tr('lessons_short');
 
   let badgeBorder: string;
   let badgeBg: string;
@@ -355,16 +361,16 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
   let statusText: string;
   let statusColor: string;
   if (moduleDone) {
-    statusText = t(LABEL.completed, lang);
+    statusText = tr('status_completed');
     statusColor = 'text-[#6b7588] line-through decoration-[#6b7588]/40';
   } else if (inProgress) {
-    statusText = t(LABEL.inProgress, lang);
+    statusText = tr('status_in_progress');
     statusColor = 'text-[#65def0]';
   } else if (locked) {
-    statusText = t(LABEL.locked, lang);
+    statusText = tr('status_locked');
     statusColor = 'text-[#e76670]';
   } else {
-    statusText = t(LABEL.ready, lang);
+    statusText = tr('status_ready');
     statusColor = 'text-[#7ce896]';
   }
 
@@ -382,7 +388,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
       <div className="flex-1 p-4 sm:p-5 sm:pr-4 min-w-0 sm:basis-[60%]">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588]">
-            MISSION {order}
+            {tr('mission_prefix')} {order}
           </span>
           {module.difficulty && (
             <span className="px-1.5 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">
@@ -431,12 +437,12 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         )}
         {moduleDone && (
           <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
-            {completedLessons}/{total} {lessonsShort} · {t(LABEL.completedAt, lang)}
+            {completedLessons}/{total} {lessonsShort} · {tr('completed_at')}
           </div>
         )}
         {locked && previousModule && (
           <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#e76670]/80 tabular-nums">
-            {t(LABEL.prereq, lang)} {previousModule.order.toString().padStart(2, '0')}
+            {tr('prereq')} {previousModule.order.toString().padStart(2, '0')}
           </div>
         )}
         {!locked && !moduleDone && !inProgress && (
@@ -447,7 +453,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         )}
         {!locked && (
           <div className="mt-auto pt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#3a8b9a] group-hover:text-[#65def0] transition-colors">
-            <span aria-hidden="true">▸</span> OPEN BRIEFING
+            {tr('open_briefing')}
           </div>
         )}
       </div>
@@ -492,18 +498,19 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
 }
 
 function CertificationCallout({ lang }: { lang: Locale }) {
+  const tr = makeTranslator(lang, BUNDLES);
   return (
     <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 grid-pattern rounded-[4px]">
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
         <div className="md:col-span-2">
           <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-2">
-            {t(LABEL.certificationTag, lang)}
+            {tr('certification_tag')}
           </div>
           <h3 className="font-mono font-bold text-[#e7ecf5] text-[clamp(1.25rem,1rem+1vw,1.75rem)] leading-snug tracking-[-0.01em]">
-            {t(LABEL.certHeadline, lang)}
+            {tr('cert_headline')}
           </h3>
           <p className="mt-3 font-sans text-[15px] sm:text-[16px] text-[#aab2c4] leading-relaxed max-w-2xl">
-            {t(LABEL.certBody, lang)}
+            {tr('cert_body')}
           </p>
         </div>
         <div className="flex justify-start md:justify-end">
@@ -511,7 +518,7 @@ function CertificationCallout({ lang }: { lang: Locale }) {
             href={`/${lang}/game`}
             className="inline-flex items-center gap-2 px-5 py-3 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/5 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/10 transition rounded-[4px]"
           >
-            <span aria-hidden="true">▸</span> {t(LABEL.warmUp, lang)}
+            <span aria-hidden="true">▸</span> {tr('warm_up')}
           </a>
         </div>
       </div>

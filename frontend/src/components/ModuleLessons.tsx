@@ -1,6 +1,33 @@
 import { useEffect, useState } from 'react';
-import { Locale, STRINGS, normalizeLocale, pick, t } from '../utils/i18n';
+import { Locale, STRINGS, makeTranslator, normalizeLocale, t } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
+
+const BUNDLES = {
+  en: {
+    loading: '> Loading mission briefings...',
+    error: 'Failed to load lessons.',
+    empty: 'Briefings for this mission are launching soon. Check back in a few days.',
+    checklist_header: '// MISSION CHECKLIST',
+    open_label: 'OPEN BRIEFING',
+    widget_quiz: '▸ ASSESSMENT',
+    widget_scenario: '▸ FIELD SIMULATION',
+    widget_redflags: '▸ THREAT INDICATORS',
+    widget_exam: '▸ FINAL EXAMINATION',
+    widget_certificate: '▸ CLEARANCE',
+  },
+  ru: {
+    loading: '> Загрузка брифингов...',
+    error: 'Не удалось загрузить уроки.',
+    empty: 'Брифинги этой миссии скоро появятся. Загляни через пару дней.',
+    checklist_header: '// ЧЕК-ЛИСТ МИССИИ',
+    open_label: 'ОТКРЫТЬ',
+    widget_quiz: '▸ ОЦЕНКА',
+    widget_scenario: '▸ ПОЛЕВАЯ СИМУЛЯЦИЯ',
+    widget_redflags: '▸ ИНДИКАТОРЫ УГРОЗЫ',
+    widget_exam: '▸ ФИНАЛЬНЫЙ ЭКЗАМЕН',
+    widget_certificate: '▸ ДОПУСК',
+  },
+} as const;
 
 interface Lesson {
   slug: string;
@@ -25,6 +52,7 @@ interface Props {
  */
 export default function ModuleLessons({ moduleSlug, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -56,19 +84,11 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
     return subscribe(sync);
   }, [moduleSlug]);
 
-  // TODO: i18n key for module.checklist.loading
-  const loadingLabel = pick(lang, { en: '> Loading mission briefings...', ru: '> Загрузка брифингов...' });
-  // TODO: i18n key for module.checklist.error
-  const errorLabel = pick(lang, { en: 'Failed to load lessons.', ru: 'Не удалось загрузить уроки.' });
-  // TODO: i18n key for module.checklist.empty
-  const emptyLabel = pick(lang, {
-    en: 'Briefings for this mission are launching soon. Check back in a few days.',
-    ru: 'Брифинги этой миссии скоро появятся. Загляни через пару дней.',
-  });
-  // TODO: i18n key for module.checklist.header
-  const checklistHeader = pick(lang, { en: '// MISSION CHECKLIST', ru: '// ЧЕК-ЛИСТ МИССИИ' });
-  // TODO: i18n key for module.checklist.openLabel
-  const openLabel = pick(lang, { en: 'OPEN BRIEFING', ru: 'ОТКРЫТЬ' });
+  const loadingLabel = tr('loading');
+  const errorLabel = tr('error');
+  const emptyLabel = tr('empty');
+  const checklistHeader = tr('checklist_header');
+  const openLabel = tr('open_label');
 
   if (loading) {
     return (
@@ -147,12 +167,11 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
                   </div>
                   {lesson.widget_type && (
                     <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
-                      {/* TODO: i18n key for module.checklist.widget_<type> */}
-                      {lesson.widget_type === 'quiz' && pick(lang, { en: '▸ ASSESSMENT', ru: '▸ ОЦЕНКА' })}
-                      {lesson.widget_type === 'scenario' && pick(lang, { en: '▸ FIELD SIMULATION', ru: '▸ ПОЛЕВАЯ СИМУЛЯЦИЯ' })}
-                      {lesson.widget_type === 'redflags' && pick(lang, { en: '▸ THREAT INDICATORS', ru: '▸ ИНДИКАТОРЫ УГРОЗЫ' })}
-                      {lesson.widget_type === 'exam' && pick(lang, { en: '▸ FINAL EXAMINATION', ru: '▸ ФИНАЛЬНЫЙ ЭКЗАМЕН' })}
-                      {lesson.widget_type === 'certificate' && pick(lang, { en: '▸ CLEARANCE', ru: '▸ ДОПУСК' })}
+                      {lesson.widget_type === 'quiz' && tr('widget_quiz')}
+                      {lesson.widget_type === 'scenario' && tr('widget_scenario')}
+                      {lesson.widget_type === 'redflags' && tr('widget_redflags')}
+                      {lesson.widget_type === 'exam' && tr('widget_exam')}
+                      {lesson.widget_type === 'certificate' && tr('widget_certificate')}
                     </div>
                   )}
                 </div>

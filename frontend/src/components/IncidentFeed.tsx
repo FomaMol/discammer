@@ -138,7 +138,7 @@ export default function IncidentFeed({ lang }: IncidentFeedProps) {
           </span>
         </div>
         <span
-          className="text-[9px] uppercase tracking-[2px] text-[#475064] tabular-nums"
+          className="text-[10px] uppercase tracking-[2px] text-[#6b7588] tabular-nums"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
           {bundle.monitor_label}
@@ -165,11 +165,11 @@ export default function IncidentFeed({ lang }: IncidentFeedProps) {
                 animation: reduce ? undefined : 'feedRowIn 360ms cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
-              <span className="text-[#475064] tabular-nums">{item.time}</span>
+              <span className="text-[#6b7588] tabular-nums">{item.time}</span>
               <span className="text-[#65def0]" aria-hidden="true">&#9656;</span>
-              <span className="text-[#aab2c4] truncate flex-1">{item.body}</span>
+              <span className="text-[#cdd4e3] truncate flex-1">{item.body}</span>
               {item.region && (
-                <span className="text-[#6b7588] text-[10px] tabular-nums ml-auto">{item.region}</span>
+                <span className="text-[#aab2c4] text-[10px] tabular-nums ml-auto">{item.region}</span>
               )}
             </li>
           );

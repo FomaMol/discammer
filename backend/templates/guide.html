@@ -36,8 +36,8 @@
 {% set _tl = guide.threat_level or 1 %}
 {% set _ops_priority = ['LOW','LOW','MED','HIGH','CRITICAL','CRITICAL'][_tl if _tl <= 5 else 5] %}
 {% set _slat_labels = ['LOW','LOW','MED','HIGH','CRIT'] %}
-{% set _level_word_map = {1:'CONTAINED', 2:'CONTAINED', 3:'ELEVATED', 4:'SEVERE', 5:'CRITICAL'} %}
-{% set _level_word = _level_word_map.get(_tl, 'UNKNOWN') %}
+{% set _level_key_map = {1:'risk_word_contained', 2:'risk_word_contained', 3:'risk_word_elevated', 4:'risk_word_severe', 5:'risk_word_critical'} %}
+{% set _level_word = t(_lang, 'guide.' ~ _level_key_map.get(_tl, 'risk_word_unknown')) %}
 
 {# ─────────────────────────────────────────────────────────────────────
    1) TOP CASE-FILE STRIP — the page's identity move.
@@ -48,29 +48,25 @@
 
     <!-- LEFT: confidential strip -->
     <div class="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase text-[#aab2c4] truncate">
-      <!-- TODO: i18n key for guide.case_file_strip_left -->
-      CONFIDENTIAL <span class="text-[#475064] mx-1.5">·</span>
-      CASE FILE <span class="text-[#475064] mx-1.5">·</span>
-      <span class="hidden sm:inline">INVESTIGATIVE BRIEF</span>
-      <span class="sm:hidden">BRIEF</span>
+      {{ t(_lang, 'guide.case_file_strip_confidential') }} <span class="text-[#475064] mx-1.5">·</span>
+      {{ t(_lang, 'guide.case_file_strip_file_label') }} <span class="text-[#475064] mx-1.5">·</span>
+      <span class="hidden sm:inline">{{ t(_lang, 'guide.case_file_strip_investigative') }}</span>
+      <span class="sm:hidden">{{ t(_lang, 'guide.case_file_strip_brief') }}</span>
     </div>
 
     <!-- CENTER: stamped case ID -->
     <div class="hidden md:block font-mono text-[11px] font-semibold tracking-[0.16em] uppercase text-[#f4b965] tabular-nums">
-      <!-- TODO: i18n key for guide.case_file_strip_case_label -->
-      CASE #{{ case_id }}
+      {{ t(_lang, 'guide.case_file_case_prefix') }}{{ case_id }}
     </div>
 
     <!-- RIGHT: ACTIVE stamp + indexed -->
     <div class="flex items-center gap-3">
       <span class="hidden sm:inline font-mono text-[10px] tracking-[0.14em] uppercase text-[#6b7588] tabular-nums">
-        <!-- TODO: i18n key for guide.case_file_strip_indexed -->
-        INDEXED {{ guide.published_at or _year }}
+        {{ t(_lang, 'guide.case_file_indexed_prefix') }} {{ guide.published_at or _year }}
       </span>
       <span class="font-mono text-[10px] font-bold tracking-[0.22em] uppercase text-[#e76670] border border-[#e76670] px-1.5 py-[1px]"
             style="transform: rotate(-2deg); opacity: 0.88;">
-        <!-- TODO: i18n key for guide.case_file_strip_active -->
-        ACTIVE
+        {{ t(_lang, 'guide.case_file_active_stamp') }}
       </span>
     </div>
   </div>
@@ -144,8 +140,7 @@
 
       <!-- Eyebrow: dossier path -->
       <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
-        <!-- TODO: i18n key for guide.eyebrow_dossier_path -->
-        // DOSSIER / THREAT_PROFILE / {{ _cat_code }}
+        {{ t(_lang, 'guide.eyebrow_dossier_path_prefix') }} {{ _cat_code }}
       </div>
 
       <!-- H1 -->
@@ -156,12 +151,11 @@
 
       <!-- Classification line: file-level metadata in mono, ink-mute -->
       <p class="font-mono text-[12px] sm:text-[13px] font-medium tracking-[0.04em] text-[#6b7588] mt-4 tabular-nums leading-relaxed break-words">
-        <!-- TODO: i18n keys for guide.classification_classification / guide.classification_risk_tier / guide.classification_ops_priority -->
-        <span class="text-[#aab2c4]">CLASSIFICATION:</span> <span class="text-[#e7ecf5] uppercase">{{ guide.category or '—' }}</span>
+        <span class="text-[#aab2c4]">{{ t(_lang, 'guide.classification_label') }}</span> <span class="text-[#e7ecf5] uppercase">{{ guide.category or '—' }}</span>
         <span class="text-[#475064] mx-2">·</span>
-        <span class="text-[#aab2c4]">RISK_TIER:</span> <span class="text-[#e7ecf5]">{{ _tl }}/5</span>
+        <span class="text-[#aab2c4]">{{ t(_lang, 'guide.risk_tier_label') }}</span> <span class="text-[#e7ecf5]">{{ _tl }}/5</span>
         <span class="text-[#475064] mx-2">·</span>
-        <span class="text-[#aab2c4]">OPS_PRIORITY:</span>
+        <span class="text-[#aab2c4]">{{ t(_lang, 'guide.ops_priority_label') }}</span>
         <span class="{% if _ops_priority == 'CRITICAL' %}text-[#e76670]{% elif _ops_priority == 'HIGH' %}text-[#f29b6c]{% elif _ops_priority == 'MED' %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _ops_priority }}</span>
       </p>
 
@@ -176,8 +170,7 @@
       {% if guide.threat_level %}
       <div class="mt-7" aria-label="risk assessment level {{ guide.threat_level }} of 5 — {{ _level_word | lower }}">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#6b7588] mb-2 tabular-nums">
-          <!-- TODO: i18n keys for guide.risk_assessment_label -->
-          RISK ASSESSMENT
+          {{ t(_lang, 'guide.risk_assessment_label') }}
           <span class="text-[#475064] mx-1">—</span>
           <span class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _level_word }}</span>
         </div>
@@ -212,8 +205,7 @@
     <aside class="lg:col-span-4 mt-8 lg:mt-0">
       <div class="bg-[#121828] border border-[#202a44] p-5">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4 pb-3 border-b border-[#202a44] break-all">
-          <!-- TODO: i18n key for guide.dossier_panel_label -->
-          // DOSSIER · {{ guide.slug | upper }}
+          {{ t(_lang, 'guide.dossier_panel_label_prefix') }} {{ guide.slug | upper }}
         </div>
         <dl class="font-mono text-[12px] space-y-3 tabular-nums">
           {% if guide.category %}
@@ -224,7 +216,7 @@
           {% endif %}
           {% if guide.threat_level %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">RISK_TIER<!-- TODO: i18n key for guide.dossier_risk_tier --></dt>
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_risk_tier_label') }}</dt>
             <dd class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %} text-right">{{ _tl }}/5</dd>
           </div>
           {% endif %}
@@ -235,15 +227,15 @@
           </div>
           {% endif %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">INVESTIGATOR<!-- TODO: i18n key for guide.dossier_investigator --></dt>
-            <dd class="text-[#e7ecf5] text-right">DCM-OPS</dd>
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_investigator_label') }}</dt>
+            <dd class="text-[#e7ecf5] text-right">{{ t(_lang, 'guide.dossier_investigator_value') }}</dd>
           </div>
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">LAST_ACTIVITY<!-- TODO: i18n key for guide.dossier_last_activity --></dt>
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_last_activity_label') }}</dt>
             <dd class="text-[#e7ecf5] text-right">{{ last_activity }}</dd>
           </div>
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">CASES_LOGGED<!-- TODO: i18n key for guide.dossier_cases_logged --></dt>
+            <dt class="text-[#6b7588] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_cases_logged_label') }}</dt>
             <dd class="text-[#e7ecf5] text-right">{{ '{:,}'.format(cases_logged) }}</dd>
           </div>
           <div class="flex items-baseline justify-between gap-3">
@@ -294,8 +286,7 @@
          ──────────────────────────────────────────────────────── #}
       <section class="mt-12 sm:mt-14">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-3">
-          <!-- TODO: i18n key for guide.investigator_notes_label -->
-          // INVESTIGATOR_NOTES
+          {{ t(_lang, 'guide.investigator_notes_label') }}
         </div>
         <div class="border border-[#202a44]" style="background-color: #0a0d16;">
           <!-- Terminal window header bar -->
@@ -304,30 +295,23 @@
             <span class="w-2 h-2 rounded-full bg-[#6b7588]"></span>
             <span class="w-2 h-2 rounded-full bg-[#6b7588]"></span>
             <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[#6b7588] truncate">
-              dcm-ops@case-{{ case_id | lower }} ~ % cat investigator_notes.txt
+              {{ t(_lang, 'guide.investigator_notes_command_prefix') }}{{ case_id | lower }} {{ t(_lang, 'guide.investigator_notes_command_suffix') }}
             </span>
           </div>
-          <!-- Body — JetBrains Mono 14px ink-soft, fixed mock content per slug -->
-          <pre class="font-mono text-[13px] sm:text-[14px] leading-[1.65] text-[#aab2c4] px-4 sm:px-6 py-5 whitespace-pre-wrap break-words m-0"><!-- TODO: i18n keys for guide.investigator_notes_<slug> -->{% if guide.slug == 'phishing' %}<span class="text-[#7ce896]">&gt;</span> pattern confirmed across 47 distinct attack groups operating under spoofed bank domains.
-<span class="text-[#7ce896]">&gt;</span> peak window: 19:00-23:00 local time on weekdays; spikes after payroll dates.
-<span class="text-[#7ce896]">&gt;</span> ~6% of victims contact law enforcement; most report only to the impersonated bank.
-<span class="text-[#7ce896]">&gt;</span> link domains rotate every 48-96h; SMS sender IDs reuse the same 12-character pool.
-<span class="text-[#7ce896]">&gt;</span> recommend: targeted briefings via /journal — see SMS scam newsletter.{% elif guide.slug == 'nigerian-letters' %}<span class="text-[#7ce896]">&gt;</span> classic 419 variant — still active 30+ years after first documented case in 1992.
-<span class="text-[#7ce896]">&gt;</span> modern channels: Telegram DMs, LinkedIn InMail, dating apps, not the legacy email vector.
-<span class="text-[#7ce896]">&gt;</span> average ask escalates from $200 "courier fee" to $5,000+ across 4-6 message exchanges.
-<span class="text-[#7ce896]">&gt;</span> attackers operate primarily from West Africa and Eastern Europe; payouts route through crypto.
-<span class="text-[#7ce896]">&gt;</span> recommend: never wire money to unlock a larger sum — that is the entire scam, by definition.{% elif guide.slug == 'investment-pyramids' %}<span class="text-[#7ce896]">&gt;</span> structure: returns paid from new-recruit deposits, not from any underlying investment.
-<span class="text-[#7ce896]">&gt;</span> collapse window typically 9-18 months from launch; last 30 days produce ~40% of victims.
-<span class="text-[#7ce896]">&gt;</span> promised returns above 20%/month should be treated as a confirmed pyramid signal.
-<span class="text-[#7ce896]">&gt;</span> social-proof tactics: paid testimonials, fabricated "auditor" PDFs, staged office tours.
-<span class="text-[#7ce896]">&gt;</span> recommend: verify the operator with the local financial regulator before any deposit.{% elif guide.slug == 'fake-online-stores' %}<span class="text-[#7ce896]">&gt;</span> storefronts copy real-brand product pages pixel-for-pixel; prices set 35-60% below RRP.
-<span class="text-[#7ce896]">&gt;</span> domain age usually under 90 days; WHOIS data redacted or registered to a shell address.
-<span class="text-[#7ce896]">&gt;</span> payment forms accept card-only — no PayPal, no cash-on-delivery — which is the tell.
-<span class="text-[#7ce896]">&gt;</span> products never ship; chargeback windows close before victims realize the order is fake.
-<span class="text-[#7ce896]">&gt;</span> recommend: search "{domain} reviews scam" and check the site age before ordering.{% else %}<span class="text-[#7ce896]">&gt;</span> active investigation — pattern indicators logged from open-source intelligence feeds.
-<span class="text-[#7ce896]">&gt;</span> victim reporting rate stays low; most cases surface only through bank-side chargeback data.
-<span class="text-[#7ce896]">&gt;</span> attack surface evolves faster than the typical user's threat model — refresh quarterly.
-<span class="text-[#7ce896]">&gt;</span> recommend: study the red flags in the body of this dossier and practice in the simulator.{% endif %}
+          {# Body — JetBrains Mono 14px ink-soft, fixed mock content per slug.
+             Notes text comes from guide.investigator_notes_<slug> in locales/{lang}.json,
+             with lines separated by \n. We wrap each line in a coloured "> " caret span
+             here so the JSON keys stay plain text. #}
+          {% set _slug_to_notes_key = {
+            'phishing': 'investigator_notes_phishing',
+            'nigerian-letters': 'investigator_notes_nigerian_letters',
+            'investment-pyramids': 'investigator_notes_investment_pyramids',
+            'fake-online-stores': 'investigator_notes_fake_online_stores'
+          } %}
+          {% set _notes_key = _slug_to_notes_key.get(guide.slug, 'investigator_notes_generic') %}
+          {% set _notes_lines = t(_lang, 'guide.' ~ _notes_key).split('\n') %}
+          <pre class="font-mono text-[13px] sm:text-[14px] leading-[1.65] text-[#aab2c4] px-4 sm:px-6 py-5 whitespace-pre-wrap break-words m-0">{% for line in _notes_lines %}<span class="text-[#7ce896]">&gt;</span> {{ line }}{% if not loop.last %}
+{% endif %}{% endfor %}
 <span class="text-[#475064]">&gt;</span> <span class="dossier-cursor"></span></pre>
         </div>
       </section>
@@ -470,14 +454,13 @@
      ──────────────────────────────────────────────────────────────── #}
   <div class="mt-12 border-t border-[#202a44] border-b border-[#202a44] py-5">
     <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#475064] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
-      <!-- TODO: i18n keys for guide.custody_chain / guide.custody_last_reviewed / guide.custody_next_review / guide.custody_classification -->
-      <span><span class="text-[#6b7588]">CHAIN_OF_CUSTODY:</span> DCM-OPS</span>
+      <span><span class="text-[#6b7588]">{{ t(_lang, 'guide.custody_chain_label') }}</span> {{ t(_lang, 'guide.custody_investigator_value') }}</span>
       <span class="text-[#202a44]">·</span>
-      <span><span class="text-[#6b7588]">LAST_REVIEWED:</span> {{ now().strftime('%Y-%m-%d') }}</span>
+      <span><span class="text-[#6b7588]">{{ t(_lang, 'guide.custody_last_reviewed_label') }}</span> {{ now().strftime('%Y-%m-%d') }}</span>
       <span class="text-[#202a44]">·</span>
-      <span><span class="text-[#6b7588]">NEXT_REVIEW:</span> 90 DAYS</span>
+      <span><span class="text-[#6b7588]">{{ t(_lang, 'guide.custody_next_review_label') }}</span> {{ t(_lang, 'guide.custody_next_review_value') }}</span>
       <span class="text-[#202a44]">·</span>
-      <span><span class="text-[#6b7588]">CLASSIFICATION:</span> UNCLASSIFIED ONCE PUBLIC</span>
+      <span><span class="text-[#6b7588]">{{ t(_lang, 'guide.custody_classification_label') }}</span> {{ t(_lang, 'guide.custody_classification_value') }}</span>
     </p>
   </div>
 

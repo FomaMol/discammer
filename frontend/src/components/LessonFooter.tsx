@@ -5,7 +5,28 @@ import {
   markLessonIncomplete,
   subscribe,
 } from '../utils/progress';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    mark_debrief_complete: '▸ MARK DEBRIEF COMPLETE',
+    completed: '✓ DEBRIEF LOGGED',
+    back_to_module: '↑ Mission checklist',
+    prev_briefing: '◁ PREV BRIEFING',
+    next_briefing: 'NEXT BRIEFING ▷',
+    finish_mission: 'COMPLETE MISSION ▷',
+    return_to_mission: 'Return to mission',
+  },
+  ru: {
+    mark_debrief_complete: '▸ ОТМЕТИТЬ ДЕБРИФ',
+    completed: '✓ ДЕБРИФ ЗАПИСАН',
+    back_to_module: '↑ Чек-лист миссии',
+    prev_briefing: '◁ ПРЕД. БРИФИНГ',
+    next_briefing: 'СЛЕД. БРИФИНГ ▷',
+    finish_mission: 'ЗАВЕРШИТЬ МИССИЮ ▷',
+    return_to_mission: 'Вернуться к миссии',
+  },
+} as const;
 
 interface Props {
   moduleSlug: string;
@@ -29,6 +50,7 @@ export default function LessonFooter({
   moduleHref,
 }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const [done, setDone] = useState(false);
 
   // Hydrate from localStorage on mount and subscribe to cross-tab updates.
@@ -46,23 +68,13 @@ export default function LessonFooter({
     }
   }
 
-  // TODO: i18n key for lesson.footer.mark_debrief_complete
-  const markCompleteLabel = pick(lang, {
-    en: '▸ MARK DEBRIEF COMPLETE',
-    ru: '▸ ОТМЕТИТЬ ДЕБРИФ',
-  });
-  // TODO: i18n key for lesson.footer.completed
-  const completedLabel = pick(lang, { en: '✓ DEBRIEF LOGGED', ru: '✓ ДЕБРИФ ЗАПИСАН' });
-  // TODO: i18n key for lesson.footer.back_to_module
-  const backToModule = pick(lang, { en: '↑ Mission checklist', ru: '↑ Чек-лист миссии' });
-  // TODO: i18n key for lesson.footer.prev_briefing
-  const prevLabel = pick(lang, { en: '◁ PREV BRIEFING', ru: '◁ ПРЕД. БРИФИНГ' });
-  // TODO: i18n key for lesson.footer.next_briefing
-  const nextLabel = pick(lang, { en: 'NEXT BRIEFING ▷', ru: 'СЛЕД. БРИФИНГ ▷' });
-  // TODO: i18n key for lesson.footer.finish_mission
-  const finishLabel = pick(lang, { en: 'COMPLETE MISSION ▷', ru: 'ЗАВЕРШИТЬ МИССИЮ ▷' });
-  // TODO: i18n key for lesson.footer.return_to_mission
-  const returnLabel = pick(lang, { en: 'Return to mission', ru: 'Вернуться к миссии' });
+  const markCompleteLabel = tr('mark_debrief_complete');
+  const completedLabel = tr('completed');
+  const backToModule = tr('back_to_module');
+  const prevLabel = tr('prev_briefing');
+  const nextLabel = tr('next_briefing');
+  const finishLabel = tr('finish_mission');
+  const returnLabel = tr('return_to_mission');
 
   return (
     <div className="space-y-6">

@@ -1,11 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#0B0E17"/>
-  <g fill="#00F0FF">
-    <rect x="4" y="2" width="4" height="28"/>
-    <rect x="8" y="2" width="12" height="4"/>
-    <rect x="20" y="6" width="4" height="4"/>
-    <rect x="24" y="10" width="4" height="12"/>
-    <rect x="20" y="22" width="4" height="4"/>
-    <rect x="8" y="26" width="12" height="4"/>
+  <!-- Canvas background so the mark holds up against light browser-tab chrome -->
+  <rect width="32" height="32" rx="4" fill="#0b0f1a"/>
+  <g fill="#65def0">
+    <!-- Cursor block: scaled and centered to 24x24 viewBox math (x4 -> x4, y6 -> y6 etc.) -->
+    <rect x="4" y="6" width="14.5" height="17" rx="0.5"/>
+    <!-- Prompt underscore -->
+    <rect x="4" y="25" width="24" height="2.5" rx="0.5"/>
   </g>
 </svg>

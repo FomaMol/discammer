@@ -12,8 +12,7 @@
     {# Eyebrow line — current op-stamp #}
     <div class="flex items-center flex-wrap gap-x-4 gap-y-1 mb-5">
       <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6b7588]">
-        <!-- TODO: i18n key for course.hero.eyebrow_op_stamp -->
-        {% if _lang == 'ru' %}// АКАДЕМИЯ DCM · СЕКТОР ОБУЧЕНИЯ{% else %}// DCM ACADEMY · TRAINING SECTOR{% endif %}
+        {{ t(_lang, 'course.hero_eyebrow_op_stamp') }}
       </span>
       <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3a8b9a] tabular-nums">
         {{ "%02d"|format(course_totals.modules) }}.{{ "%02d"|format(course_totals.lessons) }}.001
@@ -45,9 +44,9 @@
           </div>
           <div class="px-4 sm:px-6 py-5 border-t border-[#202a44] flex flex-wrap gap-3">
             {% if modules %}
-            <a href="/{{ _lang }}/course/{{ modules[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] rounded-[4px] font-bold">▸ <!-- TODO: i18n key for course.hero.cta_start -->{% if _lang == 'ru' %}НАЧАТЬ МИССИЮ{% else %}START MISSION{% endif %}</a>
+            <a href="/{{ _lang }}/course/{{ modules[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] rounded-[4px] font-bold">▸ {{ t(_lang, 'course.hero_cta_start') }}</a>
             {% endif %}
-            <a href="#modules" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[#2b3759] text-[#e7ecf5] rounded-[4px]">▸ <!-- TODO: i18n key for course.hero.cta_modules -->{% if _lang == 'ru' %}СПИСОК МОДУЛЕЙ{% else %}VIEW MODULES{% endif %}</a>
+            <a href="#modules" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[#2b3759] text-[#e7ecf5] rounded-[4px]">▸ {{ t(_lang, 'course.hero_cta_modules') }}</a>
           </div>
         </div>
       </noscript>
@@ -58,16 +57,13 @@
 {# ---------- Mission list ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
   <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-1">
-    <!-- TODO: i18n key for course.section_missions_eyebrow -->
-    {% if _lang == 'ru' %}// СПИСОК МИССИЙ{% else %}// MISSION ROSTER{% endif %}
+    {{ t(_lang, 'course.section_missions_eyebrow') }}
   </div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-2">
-    <!-- TODO: i18n key for course.section_missions_title -->
-    {% if _lang == 'ru' %}&gt; ОПЕРАТИВНАЯ КАРТА{% else %}&gt; OPERATOR ROADMAP{% endif %}
+    {{ t(_lang, 'course.section_missions_title') }}
   </h2>
   <p class="font-sans text-[15px] text-[#aab2c4] leading-relaxed max-w-[62ch] mb-8 sm:mb-10">
-    <!-- TODO: i18n key for course.section_missions_lead -->
-    {% if _lang == 'ru' %}Девять миссий, выполняемых по порядку. Каждая разблокируется, когда сдан предыдущий брифинг.{% else %}Nine missions, executed in sequence. Each unlocks once the prior briefing is debriefed.{% endif %}
+    {{ t(_lang, 'course.section_missions_lead') }}
   </p>
 
   <div data-component="CourseProgress" data-props='{"locale":"{{ _lang }}"}'>
@@ -90,9 +86,9 @@
               </div>
               <div class="sm:basis-[40%] p-4 sm:p-5 sm:border-l border-t sm:border-t-0 border-[#202a44] bg-[#0b0f1a]/40 font-mono text-[11px] uppercase tracking-[0.14em]">
                 {% if module.is_locked %}
-                <span class="text-[#e76670]"><!-- TODO: i18n key for course.cards.statusLocked -->✗ LOCKED</span>
+                <span class="text-[#e76670]">{{ t(_lang, 'course.card_status_locked') }}</span>
                 {% else %}
-                <span class="text-[#7ce896]"><!-- TODO: i18n key for course.cards.statusReady -->● READY</span>
+                <span class="text-[#7ce896]">{{ t(_lang, 'course.card_status_ready') }}</span>
                 {% endif %}
               </div>
             </div>

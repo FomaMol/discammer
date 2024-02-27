@@ -1,6 +1,57 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
+
+const BUNDLES = {
+  en: {
+    locked_heading: '// CLEARANCE PENDING',
+    locked_body:
+      'Complete every briefing in every mission and pass the final examination (at least 80%) to unlock your DiScammer Defender clearance.',
+    name_label: 'Operator name (printed on clearance)',
+    name_placeholder: 'Full name',
+    prereq_heading: '// CLEARANCE PREREQUISITES',
+    prereq_exam: 'Final examination (≥ 80%)',
+    heading: '// CLEARANCE GRANTED',
+    title: 'CERTIFICATE OF CLEARANCE',
+    programme: 'DiScammer Defender Programme',
+    presented_to: 'is hereby issued to',
+    description:
+      'for completion of all nine training missions and the passing of the final examination of the DiScammer anti-fraud curriculum.',
+    date_label: 'Issued on',
+    score_label: 'Final score',
+    verification_label: 'Verification code',
+    operator_code_label: 'Operator code',
+    issuing_officer_label: 'Issuing officer',
+    issuing_officer_signature: 'DCM Chief Operations',
+    print_label: 'Print or save as PDF',
+    rename_label: 'Change operator name',
+    authority_block: 'DCM ACADEMY · ANTI-FRAUD DIVISION',
+  },
+  ru: {
+    locked_heading: '// ДОПУСК ОЖИДАЕТСЯ',
+    locked_body:
+      'Заверши все брифинги во всех миссиях и сдай финальное испытание (не ниже 80%), чтобы получить допуск DiScammer Defender.',
+    name_label: 'Имя оператора (напечатается на допуске)',
+    name_placeholder: 'Полное имя',
+    prereq_heading: '// УСЛОВИЯ ДОПУСКА',
+    prereq_exam: 'Финальное испытание (≥ 80%)',
+    heading: '// ДОПУСК ВЫДАН',
+    title: 'СЕРТИФИКАТ ДОПУСКА',
+    programme: 'Программа DiScammer Defender',
+    presented_to: 'настоящим выдан',
+    description:
+      'за прохождение всех девяти тренировочных миссий и сдачу финального испытания антифрод-программы DiScammer.',
+    date_label: 'Дата выдачи',
+    score_label: 'Финальный результат',
+    verification_label: 'Код проверки',
+    operator_code_label: 'Код оператора',
+    issuing_officer_label: 'Выдавший офицер',
+    issuing_officer_signature: 'Шеф операций DCM',
+    print_label: 'Печать / сохранить PDF',
+    rename_label: 'Изменить имя',
+    authority_block: 'АКАДЕМИЯ DCM · ОТДЕЛ АНТИФРОДА',
+  },
+} as const;
 
 export interface CertificateConfig {
   /** Modules required for the certificate, with the lesson slugs that count. */
@@ -100,6 +151,7 @@ function operatorSuffix(name: string, exam: ExamRecord): string {
 
 export default function CertificateWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const examKey = config.examKey || 'discammer:exam:v1';
 
   const [exam, setExam] = useState<ExamRecord | null>(null);
@@ -184,31 +236,22 @@ export default function CertificateWidget({ config, locale }: Props) {
       {!earned ? (
         <div className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
           <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#f4b965] mb-3">
-            {/* TODO: i18n key for cert.locked_heading */}
-            {pick(lang, { en: '// CLEARANCE PENDING', ru: '// ДОПУСК ОЖИДАЕТСЯ' })}
+            {tr('locked_heading')}
           </div>
           <p className="font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
-            {/* TODO: i18n key for cert.locked_body */}
-            {pick(lang, {
-              en: 'Complete every briefing in every mission and pass the final examination (at least 80%) to unlock your DiScammer Defender clearance.',
-              ru: 'Заверши все брифинги во всех миссиях и сдай финальное испытание (не ниже 80%), чтобы получить допуск DiScammer Defender.',
-            })}
+            {tr('locked_body')}
           </p>
 
           {allModulesDone && examPassed && !name.trim() && (
             <div className="mt-4">
               <label className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] mb-2">
-                {/* TODO: i18n key for cert.name_label */}
-                {pick(lang, {
-                  en: 'Operator name (printed on clearance)',
-                  ru: 'Имя оператора (напечатается на допуске)',
-                })}
+                {tr('name_label')}
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => updateName(e.target.value)}
-                placeholder={pick(lang, { en: 'Full name', ru: 'Полное имя' })}
+                placeholder={tr('name_placeholder')}
                 className="w-full max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
               />
             </div>
@@ -241,11 +284,11 @@ function PrerequisitesPanel({
   exam: ExamRecord | null;
   lang: Locale;
 }) {
+  const tr = makeTranslator(lang, BUNDLES);
   return (
     <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
       <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
-        {/* TODO: i18n key for cert.prereq_heading */}
-        {pick(lang, { en: '// CLEARANCE PREREQUISITES', ru: '// УСЛОВИЯ ДОПУСКА' })}
+        {tr('prereq_heading')}
       </div>
       <ul className="space-y-2">
         {moduleStatus.map((m) => (
@@ -276,8 +319,7 @@ function PrerequisitesPanel({
             {examPassed ? '✓' : '·'}
           </span>
           <span className="flex-1 text-[#cdd4e3]">
-            {/* TODO: i18n key for cert.prereq_exam */}
-            {pick(lang, { en: 'Final examination (≥ 80%)', ru: 'Финальное испытание (≥ 80%)' })}
+            {tr('prereq_exam')}
           </span>
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
             {exam ? `${exam.score}/${exam.total}` : '—'}
@@ -314,50 +356,20 @@ function Certificate({
   lang: Locale;
   onRename: () => void;
 }) {
-  // TODO: i18n key for cert.heading
-  const heading = pick(lang, {
-    en: '// CLEARANCE GRANTED',
-    ru: '// ДОПУСК ВЫДАН',
-  });
-  // TODO: i18n key for cert.title
-  const title = pick(lang, {
-    en: 'CERTIFICATE OF CLEARANCE',
-    ru: 'СЕРТИФИКАТ ДОПУСКА',
-  });
-  // TODO: i18n key for cert.programme
-  const programme = pick(lang, {
-    en: 'DiScammer Defender Programme',
-    ru: 'Программа DiScammer Defender',
-  });
-  // TODO: i18n key for cert.presented_to
-  const presented = pick(lang, {
-    en: 'is hereby issued to',
-    ru: 'настоящим выдан',
-  });
-  // TODO: i18n key for cert.description
-  const description = pick(lang, {
-    en: 'for completion of all nine training missions and the passing of the final examination of the DiScammer anti-fraud curriculum.',
-    ru: 'за прохождение всех девяти тренировочных миссий и сдачу финального испытания антифрод-программы DiScammer.',
-  });
-  // TODO: i18n key for cert.date_label
-  const dateLabelText = pick(lang, { en: 'Issued on', ru: 'Дата выдачи' });
-  // TODO: i18n key for cert.score_label
-  const scoreLabel = pick(lang, { en: 'Final score', ru: 'Финальный результат' });
-  // TODO: i18n key for cert.verification_label
-  const verificationLabel = pick(lang, { en: 'Verification code', ru: 'Код проверки' });
-  // TODO: i18n key for cert.operator_code_label
-  const operatorLabel = pick(lang, { en: 'Operator code', ru: 'Код оператора' });
-  // TODO: i18n key for cert.issuing_officer_label
-  const issuingOfficerLabel = pick(lang, { en: 'Issuing officer', ru: 'Выдавший офицер' });
-  // TODO: i18n key for cert.issuing_officer_signature
-  const issuingOfficer = pick(lang, {
-    en: 'DCM Chief Operations',
-    ru: 'Шеф операций DCM',
-  });
-  // TODO: i18n key for cert.print_label
-  const printLabel = pick(lang, { en: 'Print or save as PDF', ru: 'Печать / сохранить PDF' });
-  // TODO: i18n key for cert.rename_label
-  const renameLabel = pick(lang, { en: 'Change operator name', ru: 'Изменить имя' });
+  const tr = makeTranslator(lang, BUNDLES);
+  const heading = tr('heading');
+  const title = tr('title');
+  const programme = tr('programme');
+  const presented = tr('presented_to');
+  const description = tr('description');
+  const dateLabelText = tr('date_label');
+  const scoreLabel = tr('score_label');
+  const verificationLabel = tr('verification_label');
+  const operatorLabel = tr('operator_code_label');
+  const issuingOfficerLabel = tr('issuing_officer_label');
+  const issuingOfficer = tr('issuing_officer_signature');
+  const printLabel = tr('print_label');
+  const renameLabel = tr('rename_label');
 
   return (
     <div className="space-y-4">
@@ -466,11 +478,7 @@ function Certificate({
               </div>
             </div>
             <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588] text-right">
-              {/* TODO: i18n key for cert.authority_block */}
-              {pick(lang, {
-                en: 'DCM ACADEMY · ANTI-FRAUD DIVISION',
-                ru: 'АКАДЕМИЯ DCM · ОТДЕЛ АНТИФРОДА',
-              })}
+              {tr('authority_block')}
             </div>
           </div>
         </div>

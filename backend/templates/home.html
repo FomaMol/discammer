@@ -7,7 +7,7 @@
 {% set _now = now() %}
 
 <!-- ============================================================ -->
-<!-- HERO — left-aligned wordmark, 3-column desktop, stacked mobile -->
+<!-- HERO — left-aligned wordmark, 2-column desktop, stacked mobile -->
 <!-- ============================================================ -->
 <section class="relative overflow-hidden min-h-[100dvh] flex flex-col">
   <!-- Background islands -->
@@ -25,58 +25,40 @@
   </div>
 
   <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 lg:pt-28 pb-12 sm:pb-16 lg:pb-20 flex-1 flex items-center">
-    <div class="w-full grid grid-cols-1 lg:grid-cols-[1fr_56px_minmax(380px,440px)] gap-8 lg:gap-10 items-center">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(400px,460px)] gap-10 lg:gap-16 items-center">
 
       <!-- LEFT COLUMN: wordmark + incident feed -->
-      <div class="lg:max-w-none">
+      <div class="min-w-0">
         <!-- Tag line above title -->
-        <div class="inline-flex items-center gap-2 mb-4 px-3 py-1 border border-[#202a44] bg-[#0a0d16]/70 backdrop-blur-sm">
+        <div class="inline-flex items-center gap-2 mb-5 sm:mb-6 px-3 py-1 border border-[#202a44] bg-[#0a0d16]/70 backdrop-blur-sm">
           <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot" aria-hidden="true"></span>
           <span class="font-mono text-[10px] sm:text-xs uppercase tracking-[3px] text-[#aab2c4]">
             {{ t(_lang, 'home.tag') }}
           </span>
         </div>
 
-        <!-- Wordmark wrapper — large faint "D" glyph behind -->
-        <div class="relative">
-          <!-- Oversized decorative D glyph -->
-          <span
-            aria-hidden="true"
-            class="hidden sm:block absolute left-[-4px] top-[-90px] lg:top-[-110px] pointer-events-none select-none"
-            style="
-              font-family: 'JetBrains Mono', monospace;
-              font-weight: 800;
-              font-size: clamp(220px, 26vw, 360px);
-              line-height: 0.84;
-              color: #121828;
-              z-index: 0;
-              letter-spacing: -0.06em;
-            "
-          >D</span>
-
-          <!-- Actual wordmark — left-aligned, NOT centered -->
-          <div class="relative z-10">
-            <h1
-              class="text-left text-[#65def0] glow-cyan break-all"
-              style="
-                font-family: 'JetBrains Mono', monospace;
-                font-weight: 800;
-                letter-spacing: -0.045em;
-                line-height: 0.92;
-                text-transform: uppercase;
-                font-size: clamp(2.75rem, 8vw, 6.5rem);
-              "
-            >DISCAMMER</h1>
-          </div>
-        </div>
+        <!-- Wordmark — left-aligned, single dominant element -->
+        <h1
+          class="text-left text-[#65def0] glow-cyan"
+          style="
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            letter-spacing: -0.045em;
+            line-height: 0.92;
+            text-transform: uppercase;
+            font-size: clamp(2.75rem, 8vw, 6.5rem);
+            word-break: keep-all;
+            overflow-wrap: normal;
+          "
+        >DISCAMMER</h1>
 
         <!-- Subtitle / pitch — sentence case, Geist body -->
-        <p class="mt-5 sm:mt-6 max-w-xl text-[#aab2c4] text-sm sm:text-base leading-relaxed">
+        <p class="mt-6 sm:mt-7 max-w-[58ch] text-[#cdd4e3] text-base sm:text-lg leading-relaxed">
           {{ t(_lang, 'home.subtitle') }}
         </p>
 
         <!-- Typewriter (smaller, secondary) -->
-        <div class="mt-4">
+        <div class="mt-5 sm:mt-6">
           <div data-component="HeroTypewriter" data-props='{"phrases": {{ _typewriter_phrases | tojson }}, "prefix": {{ t(_lang, "components.hero_typewriter_prefix") | tojson }}}'></div>
           <noscript>
             <p class="font-mono text-[#aab2c4] text-sm uppercase tracking-wider">{{ _typewriter_phrases | join(' / ') }}</p>
@@ -84,9 +66,9 @@
         </div>
 
         <!-- CTAs — left-aligned, mono uppercase -->
-        <div class="mt-6 sm:mt-7 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+        <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <a href="/{{ _lang }}/game"
-             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-[#7ce896]/8 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/15 hover:shadow-[0_0_24px_rgba(124,232,150,0.25)] transition-all duration-300">
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-[#7ce896]/10 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/15 hover:shadow-[0_0_24px_rgba(124,232,150,0.25)] transition-all duration-300">
             <span aria-hidden="true">&#9654;</span><span>{{ t(_lang, 'home.cta_play') }}</span>
           </a>
           <a href="/{{ _lang }}/journal"
@@ -94,20 +76,15 @@
             <span aria-hidden="true">&#9656;</span><span>{{ t(_lang, 'home.cta_read') }}</span>
           </a>
           <a href="/{{ _lang }}/course"
-             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-transparent border border-[#202a44] text-[#aab2c4] hover:border-[#f4b965] hover:text-[#f4b965] hover:bg-[#f4b965]/5 transition-all duration-300">
+             class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-transparent border border-[#2b3759] text-[#aab2c4] hover:border-[#f4b965] hover:text-[#f4b965] hover:bg-[#f4b965]/5 transition-all duration-300">
             <span aria-hidden="true">&#9656;</span><span>{{ t(_lang, 'home.cta_course') }}</span>
           </a>
         </div>
 
         <!-- Live incident feed -->
-        <div class="mt-8 sm:mt-10 max-w-lg">
+        <div class="mt-10 sm:mt-12 max-w-lg">
           <div data-component="IncidentFeed" data-props='{"lang":"{{ _lang }}"}'></div>
         </div>
-      </div>
-
-      <!-- CENTER GUTTER (desktop only): vertical kinetic marquee -->
-      <div class="hidden lg:flex justify-center h-full max-h-[640px] w-[56px]">
-        <div data-component="FraudMarquee" data-props='{"lang":"{{ _lang }}"}'></div>
       </div>
 
       <!-- RIGHT COLUMN: terminal (framed as MONITOR 02) -->
@@ -145,8 +122,7 @@
       <div class="flex items-center gap-2">
         <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot" aria-hidden="true"></span>
         <span class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[3px] text-[#aab2c4] tabular-nums">
-          <!-- TODO: i18n key -->
-          {% if _lang == 'ru' %}СВОДКА ОБСТАНОВКИ{% else %}SITUATION REPORT{% endif %}
+          {{ t(_lang, 'home.situation_report') }}
           <span class="text-[#475064] mx-1.5">&middot;</span>
           {{ "%04d"|format(_now.year) }}-{{ "%02d"|format(_now.month) }}-{{ "%02d"|format(_now.day) }}
           <span class="text-[#475064] mx-1.5">&middot;</span>
@@ -154,8 +130,7 @@
         </span>
       </div>
       <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
-        <!-- TODO: i18n key -->
-        {% if _lang == 'ru' %}ИСТОЧНИК: ВНУТРЕННИЙ{% else %}SOURCE: INTERNAL{% endif %}
+        {{ t(_lang, 'home.source_internal') }}
       </span>
     </div>
 
@@ -169,8 +144,7 @@
             {{ t(_lang, 'home.stats_threats') }}
           </div>
           <div class="font-mono text-[10px] uppercase tracking-[2px] text-[#65def0] tabular-nums">
-            <!-- TODO: i18n key -->
-            {% if _lang == 'ru' %}АКТИВНО{% else %}LIVE{% endif %}
+            {{ t(_lang, 'home.live_label') }}
           </div>
         </div>
         <div class="mt-3 flex items-baseline gap-3">
@@ -179,8 +153,7 @@
             style="font-size: clamp(4rem, 10vw, 6.5rem); font-weight: 800; letter-spacing: -0.05em;"
           >{{ "%02d"|format(stats.threats) }}</span>
           <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
-            <!-- TODO: i18n key -->
-            {% if _lang == 'ru' %}ЗАПИСЕЙ{% else %}ENTRIES{% endif %}
+            {{ t(_lang, 'home.entries_label') }}
           </span>
         </div>
         <!-- Live pulse indicator bar -->
@@ -266,24 +239,19 @@
           <span class="ml-2 text-[10px] uppercase tracking-[2px] text-[#6b7588] font-mono">
             mission.brief
           </span>
-          <span class="ml-auto text-[9px] tabular-nums uppercase tracking-[2px] text-[#475064] font-mono">
+          <span class="ml-auto text-[10px] tabular-nums uppercase tracking-[2px] text-[#6b7588] font-mono">
             v 1.0.0
           </span>
         </div>
         <!-- Body -->
         <div class="px-4 sm:px-5 py-4 sm:py-5">
           <div class="font-mono text-[11px] uppercase tracking-[2.5px] text-[#65def0] mb-3">
-            <!-- TODO: i18n key -->
-            {% if _lang == 'ru' %}&gt; ОТКРЫТЬ /docs/mission.txt{% else %}&gt; CAT /docs/mission.txt{% endif %}
+            {{ t(_lang, 'home.mission_cat_command') }}
+            <span class="inline-block w-1.5 h-3 bg-[#65def0] align-middle ml-1" style="animation: blink 1s step-end infinite;" aria-hidden="true"></span>
           </div>
           <p class="text-[#cdd4e3] text-[14px] sm:text-[15px] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
             {{ t(_lang, 'home.mission_text') }}
           </p>
-          <div class="mt-4 flex items-center gap-2 font-mono text-[11px] text-[#475064]">
-            <span class="text-[#65def0]">$</span>
-            <span aria-hidden="true">_</span>
-            <span class="inline-block w-2 h-3.5 bg-[#65def0]" style="animation: blink 1s step-end infinite;" aria-hidden="true"></span>
-          </div>
         </div>
       </div>
     </div>
@@ -340,33 +308,28 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- INTERVIEWS                                                    -->
+<!-- JOURNAL TRIO — interviews / newsletters / articles            -->
+<!-- Tight grouping (one logical block: the field journal)         -->
 <!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4">
   <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
 </section>
 
-<!-- ============================================================ -->
-<!-- NEWSLETTERS                                                   -->
-<!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
   <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
 </section>
 
-<!-- ============================================================ -->
-<!-- ARTICLES                                                      -->
-<!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16">
   <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
 </section>
 
 <!-- ============================================================ -->
-<!-- THREAT DATABASE                                               -->
+<!-- THREAT DATABASE — distinct section, generous separation       -->
 <!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 border-t border-[#202a44]">
   <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
   <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>

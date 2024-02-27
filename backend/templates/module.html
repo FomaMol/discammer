@@ -31,8 +31,7 @@
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2">
         <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">
-          <!-- TODO: i18n key for module.header.mission_label -->
-          {% if _lang == 'ru' %}МИССИЯ {{ "%02d"|format(module.order) }}{% else %}MISSION {{ "%02d"|format(module.order) }}{% endif %}
+          {{ t(_lang, 'module.mission_label_prefix') }} {{ "%02d"|format(module.order) }}
         </span>
         {% if module.difficulty %}
         <span class="px-2 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">{{ module.difficulty }}</span>
@@ -62,8 +61,7 @@
             <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
             <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
-              <!-- TODO: i18n key for course.objectives.header -->
-              {% if _lang == 'ru' %}// ЗАДАЧИ ОПЕРАТОРА{% else %}// OBJECTIVES{% endif %}
+              {{ t(_lang, 'course.objectives_header') }}
             </span>
           </header>
           <ul class="px-4 sm:px-6 py-4 space-y-2">
@@ -75,9 +73,9 @@
               </li>
               {% endfor %}
             {% else %}
-              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {% if _lang == 'ru' %}РАСПОЗНАТЬ ПАТТЕРН В РЕАЛЬНЫХ ПРИМЕРАХ{% else %}RECOGNIZE THE PATTERN IN REAL-WORLD EXAMPLES{% endif %}</li>
-              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {% if _lang == 'ru' %}ВЫЯВИТЬ ТРИ КРАСНЫХ ФЛАГА{% else %}IDENTIFY THE THREE RED FLAGS{% endif %}</li>
-              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {% if _lang == 'ru' %}СДАТЬ АТТЕСТАЦИЮ С РЕЗУЛЬТАТОМ ≥ 80%{% else %}PASS THE ASSESSMENT WITH ≥ 80%{% endif %}</li>
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {{ t(_lang, 'course.objectives_default_recognize') }}</li>
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {{ t(_lang, 'course.objectives_default_identify') }}</li>
+              <li class="flex items-start gap-3 font-mono text-[12px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"><span class="text-[#f4b965]">▸</span> {{ t(_lang, 'course.objectives_default_pass') }}</li>
             {% endif %}
           </ul>
         </section>
@@ -105,8 +103,7 @@
   {# Lessons list — React island reads localStorage to mark completed ones #}
   <div class="mt-12">
     <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-6">
-      <!-- TODO: i18n key for module.lessons_heading -->
-      {% if _lang == 'ru' %}&gt; БРИФИНГИ МИССИИ{% else %}&gt; MISSION BRIEFINGS{% endif %}
+      {{ t(_lang, 'module.lessons_heading') }}
     </h2>
 
     <div data-component="ModuleLessons" data-props='{"moduleSlug":"{{ module.slug }}","locale":"{{ _lang }}"}'>
@@ -115,8 +112,7 @@
         <div class="bg-[#0b0f1a] border border-[#202a44] rounded-[4px] overflow-hidden">
           <div class="px-4 py-2.5 border-b border-[#202a44] bg-[#121828]/60 flex items-center justify-between gap-3">
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
-              <!-- TODO: i18n key for module.checklist.header -->
-              {% if _lang == 'ru' %}// ЧЕК-ЛИСТ МИССИИ{% else %}// MISSION CHECKLIST{% endif %}
+              {{ t(_lang, 'course.checklist_header') }}
             </span>
             <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">0/{{ lessons|length }}</span>
           </div>
@@ -145,13 +141,11 @@
   {# Footer CTA — ghost back + primary begin #}
   <div class="mt-12 pt-6 border-t border-[#202a44] flex flex-wrap items-center justify-between gap-4">
     <a href="/{{ _lang }}/course" class="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] hover:bg-[#121828] transition rounded-[3px]">
-      <!-- TODO: i18n key for module.footer.abort -->
-      {% if _lang == 'ru' %}◁ ВЕРНУТЬСЯ К КУРСУ{% else %}◁ ABORT TO COURSE{% endif %}
+      {{ t(_lang, 'module.footer_abort') }}
     </a>
     {% if lessons and lessons|length > 0 %}
     <a href="/{{ _lang }}/course/{{ module.slug }}/{{ lessons[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold">
-      <!-- TODO: i18n key for module.footer.begin_mission -->
-      {% if _lang == 'ru' %}▸ НАЧАТЬ МИССИЮ{% else %}▸ BEGIN MISSION{% endif %}
+      {{ t(_lang, 'module.begin_mission') }}
     </a>
     {% endif %}
   </div>

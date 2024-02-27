@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchPosts, fetchGuides } from '../utils/api';
-import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
+import { currentLang, makeTranslator, pick, type Locale } from '../utils/i18n';
 
 /**
  * JournalBroadsheet — single React island that owns the entire post grid for
@@ -37,6 +37,7 @@ const BUNDLES = {
     NEWSLETTER: 'NEWSLETTER',
     ARTICLE: 'ARTICLE',
     GUIDE: 'THREAT_DB',
+    guide_badge: 'GUIDE',
     section_eyebrow: '// SECTION {num} · {label}',
     loading: '> Loading edition…',
     empty: '> No entries filed under this section.',
@@ -53,6 +54,7 @@ const BUNDLES = {
     NEWSLETTER: 'РАССЫЛКА',
     ARTICLE: 'СТАТЬЯ',
     GUIDE: 'БАЗА_УГРОЗ',
+    guide_badge: 'ГАЙД',
     section_eyebrow: '// РАЗДЕЛ {num} · {label}',
     loading: '> Загружаем выпуск…',
     empty: '> В этом разделе записей пока нет.',
@@ -103,7 +105,7 @@ function formatBylineDate(iso: string | undefined, locale: Locale): string {
   const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!m) return iso;
   const [, y, mo, d] = m;
-  const months = locale === 'ru' ? MONTHS_RU : MONTHS_EN;
+  const months = pick(locale, { en: MONTHS_EN, ru: MONTHS_RU });
   const monthIdx = parseInt(mo, 10) - 1;
   return `${parseInt(d, 10).toString().padStart(2, '0')} ${months[monthIdx] || mo} ${y}`;
 }
@@ -154,7 +156,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
     if (lower === 'interview') return tr('INTERVIEW');
     if (lower === 'newsletter') return tr('NEWSLETTER');
     if (lower === 'article') return tr('ARTICLE');
-    if (lower === 'guide') return locale === 'ru' ? 'ГАЙД' : 'GUIDE';
+    if (lower === 'guide') return tr('guide_badge');
     return type;
   }
 

@@ -1,5 +1,36 @@
 import { useMemo, useState } from 'react';
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    heading: '// THREAT INDICATORS',
+    submit: 'ANALYZE TRANSMISSION',
+    reset: 'Re-scan transmission',
+    prompt_default:
+      'Flag every line below that is a genuine threat indicator in this transmission.',
+    correct: '▸ INDICATOR DETECTED',
+    missed: '✗ MISSED',
+    wrong: '✗ NOT AN INDICATOR',
+    score_heading: '// THREAT REPORT',
+    score_caught: 'indicators flagged',
+    score_false_positive: 'false flags',
+    score_missed: 'indicators missed',
+  },
+  ru: {
+    heading: '// ИНДИКАТОРЫ УГРОЗЫ',
+    submit: 'ПРОАНАЛИЗИРОВАТЬ',
+    reset: 'Перепроанализировать',
+    prompt_default:
+      'Отметь каждую строку ниже, которая является настоящим индикатором угрозы.',
+    correct: '▸ ИНДИКАТОР ОБНАРУЖЕН',
+    missed: '✗ ПРОПУЩЕН',
+    wrong: '✗ НЕ ИНДИКАТОР',
+    score_heading: '// ОТЧЁТ ОБ УГРОЗАХ',
+    score_caught: 'индикаторов отмечено',
+    score_false_positive: 'ложных тревог',
+    score_missed: 'индикаторов пропущено',
+  },
+} as const;
 
 export interface RedFlagItem {
   id: string;
@@ -38,28 +69,18 @@ interface Props {
 
 export default function RedFlagsWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
   const [picked, setPicked] = useState<Set<string>>(new Set());
   const [submitted, setSubmitted] = useState(false);
 
-  // TODO: i18n key for redflags.heading
-  const heading = pick(lang, { en: '// THREAT INDICATORS', ru: '// ИНДИКАТОРЫ УГРОЗЫ' });
-  // TODO: i18n key for redflags.submit
-  const submitLabel = pick(lang, { en: 'ANALYZE TRANSMISSION', ru: 'ПРОАНАЛИЗИРОВАТЬ' });
-  // TODO: i18n key for redflags.reset
-  const resetLabel = pick(lang, { en: 'Re-scan transmission', ru: 'Перепроанализировать' });
-  // TODO: i18n key for redflags.prompt_default
-  const promptDefault = pick(lang, {
-    en: 'Flag every line below that is a genuine threat indicator in this transmission.',
-    ru: 'Отметь каждую строку ниже, которая является настоящим индикатором угрозы.',
-  });
-  // TODO: i18n key for redflags.correct
-  const correctLabel = pick(lang, { en: '▸ INDICATOR DETECTED', ru: '▸ ИНДИКАТОР ОБНАРУЖЕН' });
-  // TODO: i18n key for redflags.missed
-  const missedLabel = pick(lang, { en: '✗ MISSED', ru: '✗ ПРОПУЩЕН' });
-  // TODO: i18n key for redflags.wrong
-  const wrongLabel = pick(lang, { en: '✗ NOT AN INDICATOR', ru: '✗ НЕ ИНДИКАТОР' });
-  // TODO: i18n key for redflags.score_heading
-  const scoreLabel = pick(lang, { en: '// THREAT REPORT', ru: '// ОТЧЁТ ОБ УГРОЗАХ' });
+  const heading = tr('heading');
+  const submitLabel = tr('submit');
+  const resetLabel = tr('reset');
+  const promptDefault = tr('prompt_default');
+  const correctLabel = tr('correct');
+  const missedLabel = tr('missed');
+  const wrongLabel = tr('wrong');
+  const scoreLabel = tr('score_heading');
 
   function toggle(id: string) {
     if (submitted) return;
@@ -201,22 +222,19 @@ export default function RedFlagsWidget({ config, locale }: Props) {
           <p className="font-sans text-[15px] text-[#e7ecf5] leading-relaxed">
             <span className="font-mono text-[#7ce896] tabular-nums">{correctHits}</span>
             <span className="font-mono text-[#aab2c4]"> / {totalFlags}</span>{' '}
-            {/* TODO: i18n key for redflags.score_caught */}
-            {pick(lang, { en: 'indicators flagged', ru: 'индикаторов отмечено' })}
+            {tr('score_caught')}
             {falsePositives > 0 && (
               <>
                 {' · '}
                 <span className="font-mono text-[#e76670] tabular-nums">{falsePositives}</span>{' '}
-                {/* TODO: i18n key for redflags.score_false_positive */}
-                {pick(lang, { en: 'false flags', ru: 'ложных тревог' })}
+                {tr('score_false_positive')}
               </>
             )}
             {missed > 0 && (
               <>
                 {' · '}
                 <span className="font-mono text-[#f4b965] tabular-nums">{missed}</span>{' '}
-                {/* TODO: i18n key for redflags.score_missed */}
-                {pick(lang, { en: 'indicators missed', ru: 'индикаторов пропущено' })}
+                {tr('score_missed')}
               </>
             )}
           </p>

@@ -1,4 +1,29 @@
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    heading: '// OPS DEBRIEF',
+    takeaway_label: 'KEY TAKEAWAY',
+    next_action_label: 'NEXT ACTION',
+    fallback_takeaway_with_title:
+      'the pattern you just studied ({title}) almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.',
+    fallback_takeaway_generic:
+      'the pattern you just studied almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.',
+    fallback_next_action:
+      'mark this debrief complete, then open the next briefing or run the assessment when this module ends.',
+  },
+  ru: {
+    heading: '// ДЕБРИФ ОПЕРАЦИИ',
+    takeaway_label: 'ГЛАВНЫЙ ВЫВОД',
+    next_action_label: 'СЛЕДУЮЩИЙ ШАГ',
+    fallback_takeaway_with_title:
+      'паттерн, который ты только что разобрал ({title}), почти никогда не приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.',
+    fallback_takeaway_generic:
+      'паттерн, который ты только что разобрал, почти никогда не приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.',
+    fallback_next_action:
+      'отметь этот дебриф как пройденный, затем открой следующий брифинг или пройди аттестацию в конце модуля.',
+  },
+} as const;
 
 interface Props {
   locale?: Locale;
@@ -21,29 +46,17 @@ interface Props {
  */
 export default function OpsDebriefPanel({ locale, takeaway, nextAction, lessonTitle }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
 
-  // TODO: i18n key for course.debrief.header
-  const heading = pick(lang, { en: '// OPS DEBRIEF', ru: '// ДЕБРИФ ОПЕРАЦИИ' });
-  // TODO: i18n key for course.debrief.takeaway_label
-  const takeawayLabel = pick(lang, { en: 'KEY TAKEAWAY', ru: 'ГЛАВНЫЙ ВЫВОД' });
-  // TODO: i18n key for course.debrief.next_action_label
-  const nextActionLabel = pick(lang, { en: 'NEXT ACTION', ru: 'СЛЕДУЮЩИЙ ШАГ' });
+  const heading = tr('heading');
+  const takeawayLabel = tr('takeaway_label');
+  const nextActionLabel = tr('next_action_label');
 
-  // TODO: i18n key for course.debrief.fallback_takeaway
-  const fallbackTakeaway = pick(lang, {
-    en: lessonTitle
-      ? `the pattern you just studied (${lessonTitle.toLowerCase()}) almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.`
-      : 'the pattern you just studied almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.',
-    ru: lessonTitle
-      ? `паттерн, который ты только что разобрал (${lessonTitle.toLowerCase()}), почти никогда не приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.`
-      : 'паттерн, который ты только что разобрал, почти никогда не приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.',
-  });
+  const fallbackTakeaway = lessonTitle
+    ? tr('fallback_takeaway_with_title', { title: lessonTitle.toLowerCase() })
+    : tr('fallback_takeaway_generic');
 
-  // TODO: i18n key for course.debrief.fallback_next_action
-  const fallbackNextAction = pick(lang, {
-    en: 'mark this debrief complete, then open the next briefing or run the assessment when this module ends.',
-    ru: 'отметь этот дебриф как пройденный, затем открой следующий брифинг или пройди аттестацию в конце модуля.',
-  });
+  const fallbackNextAction = tr('fallback_next_action');
 
   const final = {
     takeaway: takeaway || fallbackTakeaway,

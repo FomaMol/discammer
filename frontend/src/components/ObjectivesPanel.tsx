@@ -1,4 +1,23 @@
-import { Locale, normalizeLocale, pick } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+
+const BUNDLES = {
+  en: {
+    heading: '// OBJECTIVES',
+    subtitle: 'three things you should be able to do after this briefing',
+    fallback_recognize_with_title: 'recognize the {title} pattern in real-world examples',
+    fallback_recognize_generic: 'recognize the pattern in real-world examples',
+    fallback_identify: 'identify the three red flags before any money or credentials move',
+    fallback_pass: 'pass the module assessment with at least eighty percent',
+  },
+  ru: {
+    heading: '// ЗАДАЧИ ОПЕРАТОРА',
+    subtitle: 'что ты должен уметь после этого брифинга',
+    fallback_recognize_with_title: 'распознать паттерн в реальных примерах',
+    fallback_recognize_generic: 'распознать паттерн в реальных примерах',
+    fallback_identify: 'выявить три красных флага до того, как уйдут деньги или учётные данные',
+    fallback_pass: 'сдать аттестацию модуля с результатом не ниже восьмидесяти процентов',
+  },
+} as const;
 
 interface Props {
   locale?: Locale;
@@ -16,33 +35,17 @@ interface Props {
  */
 export default function ObjectivesPanel({ locale, objectives, moduleTitle }: Props) {
   const lang = normalizeLocale(locale);
+  const tr = makeTranslator(lang, BUNDLES);
 
-  // TODO: i18n key for course.objectives.header
-  const heading = pick(lang, { en: '// OBJECTIVES', ru: '// ЗАДАЧИ ОПЕРАТОРА' });
-  // TODO: i18n key for course.objectives.subtitle
-  const subtitle = pick(lang, {
-    en: 'three things you should be able to do after this briefing',
-    ru: 'что ты должен уметь после этого брифинга',
-  });
+  const heading = tr('heading');
+  const subtitle = tr('subtitle');
 
   // Generic fallback objectives if the module record has none.
-  // TODO: i18n key for course.objectives.fallback.recognize
-  const fallbackRecognize = pick(lang, {
-    en: moduleTitle
-      ? `recognize the ${moduleTitle.toLowerCase()} pattern in real-world examples`
-      : 'recognize the pattern in real-world examples',
-    ru: 'распознать паттерн в реальных примерах',
-  });
-  // TODO: i18n key for course.objectives.fallback.identify
-  const fallbackIdentify = pick(lang, {
-    en: 'identify the three red flags before any money or credentials move',
-    ru: 'выявить три красных флага до того, как уйдут деньги или учётные данные',
-  });
-  // TODO: i18n key for course.objectives.fallback.pass
-  const fallbackPass = pick(lang, {
-    en: 'pass the module assessment with at least eighty percent',
-    ru: 'сдать аттестацию модуля с результатом не ниже восьмидесяти процентов',
-  });
+  const fallbackRecognize = moduleTitle && lang === 'en'
+    ? tr('fallback_recognize_with_title', { title: moduleTitle.toLowerCase() })
+    : tr('fallback_recognize_generic');
+  const fallbackIdentify = tr('fallback_identify');
+  const fallbackPass = tr('fallback_pass');
 
   const items =
     objectives && objectives.length > 0
