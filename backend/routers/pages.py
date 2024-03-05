@@ -128,6 +128,11 @@ async def game_compat(request: Request):
     return _legacy_redirect(request, "/game")
 
 
+@router.get("/about", include_in_schema=False)
+async def about_compat(request: Request):
+    return _legacy_redirect(request, "/about")
+
+
 @router.get("/lang/{target}", include_in_schema=False)
 async def switch_lang(target: str, request: Request):
     """Set the lang cookie and redirect to ``?next=...`` (defaults to /<lang>/)."""
@@ -352,6 +357,18 @@ async def game(request: Request, lang: str = LangPath):
         {
             **_base_context(request, lang),
             "page_title": t(lang, "page_titles.game"),
+        },
+    )
+
+
+@router.get("/{lang}/about", response_class=HTMLResponse)
+async def about(request: Request, lang: str = LangPath):
+    return _templates(request).TemplateResponse(
+        request,
+        "about.html",
+        {
+            **_base_context(request, lang),
+            "page_title": t(lang, "about.page_title"),
         },
     )
 

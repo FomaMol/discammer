@@ -22,11 +22,12 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   LessonFooter: React.lazy(() => import('./components/LessonFooter')),
   HeroShader: React.lazy(() => import('./components/HeroShader')),
   IncidentFeed: React.lazy(() => import('./components/IncidentFeed')),
-  FraudMarquee: React.lazy(() => import('./components/FraudMarquee')),
   SimulateTerminal: React.lazy(() => import('./components/SimulateTerminal')),
   MissionBriefingTerminal: React.lazy(() => import('./components/MissionBriefingTerminal')),
   ObjectivesPanel: React.lazy(() => import('./components/ObjectivesPanel')),
   OpsDebriefPanel: React.lazy(() => import('./components/OpsDebriefPanel')),
+  ScrollReveal: React.lazy(() => import('./components/ScrollReveal')),
+  WordmarkReveal: React.lazy(() => import('./components/WordmarkReveal')),
 };
 
 function hydrateIslands() {

@@ -4,58 +4,237 @@
 
 {% set _lang = lang %}
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-  <!-- Hero Area -->
-  <div class="text-center mb-8 sm:mb-12">
-    <h1 class="font-display-wordmark text-[#7ce896] text-xl sm:text-2xl md:text-3xl glow-green break-words leading-tight">{{ t(_lang, 'game.title') }}</h1>
-    <p class="text-[#aab2c4] text-sm sm:text-base mt-4 sm:mt-6 max-w-2xl mx-auto leading-relaxed">
-      {{ t(_lang, 'game.intro') }}
-    </p>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16">
+
+  {# ─────────────────────────────────────────────────────────────────────
+     1. OPERATIONAL DEPLOYMENT TERMINAL
+     The hero is a wide terminal block — flavored as a deployment console
+     (not a course briefing). Header dots in muted hairline gray (per the
+     terminal-block spec), prompt label, mission body, then the launcher
+     CTA lives inside the same container so the moment reads as one.
+     ───────────────────────────────────────────────────────────────────── #}
+  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#6b7588] mb-3 sm:mb-4">
+    {{ t(_lang, 'game.mission_briefing_eyebrow') }}
   </div>
 
-  <!-- Game Launcher Island -->
-  <div class="mt-6 sm:mt-8 text-center">
-    <div class="inline-block" data-component="GameLauncher" data-props='{"label": {{ t(_lang, "game.start") | tojson }}, "closeLabel": {{ t(_lang, "game.close") | tojson }}, "closeAria": {{ t(_lang, "game.close_label") | tojson }}}'>
-      <a href="/play/"
-         class="inline-block px-6 sm:px-8 py-3 sm:py-4 font-mono uppercase text-sm sm:text-lg tracking-wider bg-transparent border border-[#7ce896] text-[#7ce896] hover:shadow-[0_0_25px_rgba(124,232,150,0.25)] transition-all duration-300">
-        {{ t(_lang, 'game.start') }}
-      </a>
+  <div class="border border-[#202a44] bg-[#0a0d16] rounded-[4px] overflow-hidden">
+    {# Header strip — three dots + console label #}
+    <div class="flex items-center gap-2 px-4 py-2.5 border-b border-[#202a44] bg-gradient-to-r from-[#1a2236] to-[#121828]">
+      <span class="w-2 h-2 rounded-full bg-[#2b3759]" aria-hidden="true"></span>
+      <span class="w-2 h-2 rounded-full bg-[#475064]" aria-hidden="true"></span>
+      <span class="w-2 h-2 rounded-full bg-[#475064]" aria-hidden="true"></span>
+      <span class="ml-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4] tabular-nums">
+        dcm-ops@sim ~ % ./deploy.sh
+      </span>
     </div>
-    <p class="font-mono text-[10px] sm:text-xs uppercase tracking-[2px] text-[#6b7588] mt-3 sm:mt-4 px-2">
-      {{ t(_lang, 'game.hint') }}
-    </p>
+
+    {# Body: the briefing transcript #}
+    <div class="px-5 sm:px-7 py-6 sm:py-8 font-mono text-[12px] sm:text-[14px] leading-[1.7]">
+      <div class="text-[#65def0] font-bold">
+        // {{ t(_lang, 'game.mission_briefing_eyebrow') }}
+      </div>
+      <div class="mt-5 space-y-1.5 text-[#cdd4e3]">
+        <div>
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#aab2c4]">{{ t(_lang, 'game.mission_label') }}:</span>
+          <span class="text-[#e7ecf5]">{{ t(_lang, 'game.mission_text') }}</span>
+        </div>
+        <div>
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#aab2c4]">{{ t(_lang, 'game.environment_label') }}:</span>
+          <span class="text-[#e7ecf5]">{{ t(_lang, 'game.environment_text') }}</span>
+        </div>
+        <div>
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#aab2c4]">{{ t(_lang, 'game.duration_label') }}:</span>
+          <span class="text-[#e7ecf5] tabular-nums">{{ t(_lang, 'game.duration_text') }}</span>
+          <span class="text-[#6b7588]">·</span>
+          <span class="text-[#aab2c4]">{{ t(_lang, 'game.difficulty_label') }}:</span>
+          <span class="text-[#f4b965]">{{ t(_lang, 'game.difficulty_value') }}</span>
+        </div>
+        <div>
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#aab2c4]">{{ t(_lang, 'game.loss_limit_label') }}:</span>
+          <span class="text-[#e76670]">{{ t(_lang, 'game.loss_limit_value') }}</span>
+        </div>
+      </div>
+
+      <div class="mt-5 text-[#6b7588]" aria-hidden="true">&gt;</div>
+      <div class="mt-1 text-[#65def0]">
+        &gt; [ <span class="font-bold tracking-[0.14em]">{{ t(_lang, 'game.press_start_label') }}</span><span class="cursor-blink inline-block w-[8px] h-[12px] sm:h-[14px] align-middle bg-[#65def0] ml-1" aria-hidden="true"></span> ]
+      </div>
+    </div>
+
+    {# CTA strip inside the terminal frame — big, decisive primary action.
+       Renders as the existing GameLauncher React island; SEO fallback link
+       keeps the route usable with JS off. #}
+    <div class="px-5 sm:px-7 py-5 sm:py-6 border-t border-[#202a44] bg-[#0b0f1a]/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div data-component="GameLauncher" data-props='{"label": {{ t(_lang, "game.start") | tojson }}, "closeLabel": {{ t(_lang, "game.close") | tojson }}, "closeAria": {{ t(_lang, "game.close_label") | tojson }}}'>
+        <noscript>
+          <a href="/play/"
+             class="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 font-mono uppercase text-[12px] sm:text-[13px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[4px]">
+            {{ t(_lang, 'game.start') }}
+          </a>
+        </noscript>
+      </div>
+      <p class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#6b7588]">
+        {{ t(_lang, 'game.hint') }}
+      </p>
+    </div>
   </div>
 
-  <!-- Scam Types in the Game -->
-  <div class="mt-12 sm:mt-16 max-w-2xl mx-auto">
-    <h2 class="font-mono text-[#65def0] text-sm uppercase tracking-[2px] border-l-2 border-[#65def0] pl-4 mb-4 sm:mb-6">{{ t(_lang, 'game.threats_header') }}</h2>
-    <ul class="space-y-3">
-      <li class="flex items-center gap-3">
-        <span class="w-2 h-2 bg-[#e76670] shrink-0"></span>
-        <span class="font-mono text-sm text-[#aab2c4]">{{ t(_lang, 'game.threat_phishing') }}</span>
+  {# ─────────────────────────────────────────────────────────────────────
+     2. MISSION HINTS
+     Three short tracked-uppercase tips — the kind of pre-mission reminder
+     a senior analyst slides across the desk. Not a list of rules.
+     ───────────────────────────────────────────────────────────────────── #}
+  <section class="mt-12 sm:mt-16" aria-labelledby="hints-heading">
+    <h2 id="hints-heading"
+        class="font-mono text-[11px] uppercase tracking-[0.18em] font-semibold text-[#65def0] mb-4 sm:mb-5">
+      // {{ t(_lang, 'game.hints_heading') }}
+    </h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4" role="list">
+      <li class="border border-[#202a44] bg-[#121828] px-4 py-3.5 rounded-[3px] flex items-start gap-3">
+        <span aria-hidden="true" class="text-[#65def0] font-mono text-[14px] leading-none mt-0.5">&#9656;</span>
+        <span class="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-[#aab2c4] leading-[1.45]">
+          {{ t(_lang, 'game.hint_1') }}
+        </span>
       </li>
-      <li class="flex items-center gap-3">
-        <span class="w-2 h-2 bg-[#f4b965] shrink-0"></span>
-        <span class="font-mono text-sm text-[#aab2c4]">{{ t(_lang, 'game.threat_fake_stores') }}</span>
+      <li class="border border-[#202a44] bg-[#121828] px-4 py-3.5 rounded-[3px] flex items-start gap-3">
+        <span aria-hidden="true" class="text-[#65def0] font-mono text-[14px] leading-none mt-0.5">&#9656;</span>
+        <span class="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-[#aab2c4] leading-[1.45]">
+          {{ t(_lang, 'game.hint_2') }}
+        </span>
       </li>
-      <li class="flex items-center gap-3">
-        <span class="w-2 h-2 bg-[#65def0] shrink-0"></span>
-        <span class="font-mono text-sm text-[#aab2c4]">{{ t(_lang, 'game.threat_social') }}</span>
-      </li>
-      <li class="flex items-center gap-3">
-        <span class="w-2 h-2 bg-[#7ce896] shrink-0"></span>
-        <span class="font-mono text-sm text-[#aab2c4]">{{ t(_lang, 'game.threat_investment') }}</span>
-      </li>
-      <li class="flex items-center gap-3">
-        <span class="w-2 h-2 bg-[#f29b6c] shrink-0"></span>
-        <span class="font-mono text-sm text-[#aab2c4]">{{ t(_lang, 'game.threat_deepfake') }}</span>
-      </li>
-      <li class="flex items-center gap-3">
-        <span class="w-2 h-2 bg-[#e7ecf5] shrink-0"></span>
-        <span class="font-mono text-sm text-[#aab2c4]">{{ t(_lang, 'game.threat_phone') }}</span>
+      <li class="border border-[#202a44] bg-[#121828] px-4 py-3.5 rounded-[3px] flex items-start gap-3">
+        <span aria-hidden="true" class="text-[#65def0] font-mono text-[14px] leading-none mt-0.5">&#9656;</span>
+        <span class="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-[#aab2c4] leading-[1.45]">
+          {{ t(_lang, 'game.hint_3') }}
+        </span>
       </li>
     </ul>
-  </div>
+  </section>
+
+  {# ─────────────────────────────────────────────────────────────────────
+     3. THREAT VECTORS
+     Grounded 2x3 bento. Each row gets a Phosphor-style mono glyph, a
+     threat name, and a one-line description. Color stays per-threat but
+     only as a thin 1px left bar (list-item indicator, not a side stripe
+     used as decorative border).
+     ───────────────────────────────────────────────────────────────────── #}
+  <section class="mt-12 sm:mt-16" aria-labelledby="vectors-heading">
+    <h2 id="vectors-heading"
+        class="font-mono text-[11px] uppercase tracking-[0.18em] font-semibold text-[#65def0] mb-4 sm:mb-5">
+      // {{ t(_lang, 'game.threat_vectors_heading') }}
+    </h2>
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4" role="list">
+
+      {# 1. Phishing — red (high-severity confirmed-fraud color) #}
+      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#e76670]"></span>
+        <div class="flex items-start gap-3">
+          <span aria-hidden="true" class="font-mono text-[16px] text-[#e76670] leading-none mt-0.5">&#9742;</span>
+          <div class="min-w-0 flex-1">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+              {{ t(_lang, 'game.threat_phishing') }}
+            </div>
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+              {{ t(_lang, 'game.threat_phishing_desc') }}
+            </p>
+          </div>
+        </div>
+      </li>
+
+      {# 2. Fake online stores — amber #}
+      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#f4b965]"></span>
+        <div class="flex items-start gap-3">
+          <span aria-hidden="true" class="font-mono text-[16px] text-[#f4b965] leading-none mt-0.5">&#8709;</span>
+          <div class="min-w-0 flex-1">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+              {{ t(_lang, 'game.threat_fake_stores') }}
+            </div>
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+              {{ t(_lang, 'game.threat_fake_stores_desc') }}
+            </p>
+          </div>
+        </div>
+      </li>
+
+      {# 3. Social engineering — cyan #}
+      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#65def0]"></span>
+        <div class="flex items-start gap-3">
+          <span aria-hidden="true" class="font-mono text-[16px] text-[#65def0] leading-none mt-0.5">&#9670;</span>
+          <div class="min-w-0 flex-1">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+              {{ t(_lang, 'game.threat_social') }}
+            </div>
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+              {{ t(_lang, 'game.threat_social_desc') }}
+            </p>
+          </div>
+        </div>
+      </li>
+
+      {# 4. Investment fraud — green (financial-instrument coding) #}
+      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#7ce896]"></span>
+        <div class="flex items-start gap-3">
+          <span aria-hidden="true" class="font-mono text-[16px] text-[#7ce896] leading-none mt-0.5">&uarr;</span>
+          <div class="min-w-0 flex-1">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+              {{ t(_lang, 'game.threat_investment') }}
+            </div>
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+              {{ t(_lang, 'game.threat_investment_desc') }}
+            </p>
+          </div>
+        </div>
+      </li>
+
+      {# 5. Deepfakes — amber #}
+      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#f4b965]"></span>
+        <div class="flex items-start gap-3">
+          <span aria-hidden="true" class="font-mono text-[16px] text-[#f4b965] leading-none mt-0.5">&#9785;</span>
+          <div class="min-w-0 flex-1">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+              {{ t(_lang, 'game.threat_deepfake') }}
+            </div>
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+              {{ t(_lang, 'game.threat_deepfake_desc') }}
+            </p>
+          </div>
+        </div>
+      </li>
+
+      {# 6. Phone scams — red #}
+      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#e76670]"></span>
+        <div class="flex items-start gap-3">
+          <span aria-hidden="true" class="font-mono text-[16px] text-[#e76670] leading-none mt-0.5">&#9990;</span>
+          <div class="min-w-0 flex-1">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+              {{ t(_lang, 'game.threat_phone') }}
+            </div>
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+              {{ t(_lang, 'game.threat_phone_desc') }}
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  {# ─────────────────────────────────────────────────────────────────────
+     4. CAUTION STRIP
+     Mono uppercase footer note — small, amber, single line. Sets honest
+     expectations that the simulator approximates real fraud, not is it.
+     ───────────────────────────────────────────────────────────────────── #}
+  <p class="mt-12 sm:mt-14 border-l-2 border-[#f4b965] pl-3 sm:pl-4 py-1.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#f4b965] leading-[1.6]">
+    <span aria-hidden="true">&#9650;</span> {{ t(_lang, 'game.caution_strip') }}
+  </p>
 </div>
 
 {% endblock %}

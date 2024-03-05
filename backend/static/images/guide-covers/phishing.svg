@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Phishing">
+  <!-- Canvas -->
+  <rect width="1200" height="630" fill="#0b0f1a"/>
+
+  <!-- Faint grid pattern (analyst's screen overlay) -->
+  <g stroke="#202a44" stroke-width="1" opacity="0.4">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="150" y1="0" x2="150" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
+  </g>
+
+  <!-- Top-left category label -->
+  <text x="80" y="100" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="22" font-weight="600" letter-spacing="3" fill="#6b7588">// PHISHING</text>
+
+  <!-- Top-right tag -->
+  <text x="1120" y="100" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="18" font-weight="500" letter-spacing="2.5" fill="#475064" text-anchor="end">DCM-OPS · THREAT_DB</text>
+
+  <!-- Centered hook glyph -->
+  <g transform="translate(600 315)" stroke="#65def0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Line from top -->
+    <line x1="0" y1="-150" x2="0" y2="0"/>
+    <!-- Hook curve (open-bottom J shape) -->
+    <path d="M 0 0 A 70 70 0 1 0 -70 70" />
+    <!-- Barb -->
+    <line x1="-70" y1="70" x2="-95" y2="40"/>
+    <line x1="-70" y1="70" x2="-45" y2="95"/>
+  </g>
+
+  <!-- Caption under glyph -->
+  <text x="600" y="540" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="36" font-weight="800" letter-spacing="-1" text-anchor="middle" fill="#e7ecf5">PHISHING</text>
+  <text x="600" y="580" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="18" font-weight="500" letter-spacing="3" text-anchor="middle" fill="#3a8b9a">THREAT PROFILE · CASE FILE</text>
+</svg>

@@ -1,5 +1,40 @@
 {% extends "base.html" %}
 {% block title %}{{ post.title }} — DiScammer{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block jsonld %}
+{# Article + BreadcrumbList. Strings escaped via | tojson so quotes / linebreaks survive. #}
+{% set _post_url = request.url._url if request else '' %}
+{% set _post_image = post.cover_image or '/static/images/og/discammer-og.svg' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": {{ ("NewsArticle" if post.type == 'newsletter' else "Article") | tojson }},
+      "headline": {{ post.title | tojson }},
+      "datePublished": {{ (post.published_at or '') | tojson }},
+      "image": {{ _post_image | tojson }},
+      "author": { "@type": "Organization", "name": "DiScammer Editorial" },
+      "publisher": { "@id": "https://discammer.com/#org" },
+      "inLanguage": {{ (lang | default('en')) | tojson }},
+      "url": {{ _post_url | tojson }},
+      "description": {{ (post.subtitle or post.title) | tojson }},
+      "isPartOf": { "@id": "https://discammer.com/#site" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ t(lang, 'post.breadcrumb_home') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(lang, 'post.breadcrumb_journal') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/journal') | tojson }} },
+        { "@type": "ListItem", "position": 3, "name": {{ post.title | tojson }}, "item": {{ _post_url | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% set _lang = lang %}
@@ -79,9 +114,9 @@
 <div class="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
   {# Breadcrumbs — kept as mono path style ~/journal/<type>/<slug> #}
-  <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;">
+  <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="Breadcrumb">
     <span class="text-[#6b7588]">
-      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]">/</span>{{ post.type }}<span class="text-[#475064]">/</span><span class="text-[#65def0]">{{ post.slug }}</span>
+      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]" aria-hidden="true">/</span>{{ post.type }}<span class="text-[#475064]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
     </span>
   </nav>
 
@@ -134,11 +169,11 @@
   {# Cover image — minimal label, hairline frame. #}
   {% if post.cover_image %}
   <figure class="mt-7 sm:mt-9">
-    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;">{{ _cover_label }}</div>
+    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
     <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-sm">
       <img
         src="{{ post.cover_image }}"
-        alt="{{ post.title }}"
+        alt="{{ _type_label }}: {{ post.title }}"
         class="w-full h-auto block"
         style="filter: saturate(0.85) contrast(1.05); aspect-ratio: 16 / 9; object-fit: cover;"
       >
@@ -235,10 +270,10 @@
   </div>
 </div>
 
-{# Drop-cap + lead-paragraph styles for the article body. Scoped to .post-prose
-   so the existing .prose styles on guide.html / module.html / lesson.html are
-   untouched. These rules sit in the post template (style block) rather than
-   globals.css because the user's hard rule is: don't touch globals.css. #}
+{# Lead-paragraph style for the article body. Scoped to .post-prose so the
+   existing .prose styles on guide.html / module.html / lesson.html are
+   untouched. Drop-cap removed — inconsistent application across cards/posts
+   read as a bug, not editorial; per /impeccable distill. #}
 <style>
   /* Lead paragraph (first <p> in the rendered article) — Geist 19px, ink, no top margin */
   .post-prose > p:first-of-type {
@@ -246,25 +281,6 @@
     line-height: 1.6;
     color: var(--color-ink);
     margin-top: 0;
-  }
-  /* Drop-cap on the first letter of the first paragraph — JetBrains Mono 800 4em */
-  .post-prose > p:first-of-type::first-letter {
-    font-family: var(--font-mono);
-    font-weight: 800;
-    color: var(--color-cyan);
-    float: left;
-    font-size: 4em;
-    line-height: 0.86;
-    margin-right: 0.08em;
-    margin-top: 0.05em;
-    margin-bottom: -0.06em;
-  }
-  /* Reduced-motion friendly — no animation here, but reset the float on very narrow
-     viewports if the first paragraph is short to avoid awkward wrapping. */
-  @media (max-width: 380px) {
-    .post-prose > p:first-of-type::first-letter {
-      font-size: 3.4em;
-    }
   }
 </style>
 

@@ -14,14 +14,24 @@
   <!-- SEO Meta -->
   {% set _meta_title = page_title | default(t(_lang, 'page_titles.site_full')) %}
   {% set _meta_description = page_description | default(t(_lang, 'page_titles.site_description')) %}
-  {% set _meta_image = page_image | default('/static/images/discammer-og.png') %}
+  {% set _meta_image = page_image | default('/static/images/og/discammer-og.svg') %}
   {% set _meta_url = page_url | default(request.url._url if request else '') %}
+  {% set _canonical_url = canonical_url | default(_meta_url) %}
   <meta name="description" content="{{ _meta_description }}">
   <meta name="theme-color" content="#0b0f1a">
+  <meta name="generator" content="DiScammer">
+  {% if _canonical_url %}<link rel="canonical" href="{{ _canonical_url }}">{% endif %}
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="DiScammer journal RSS" href="/feed.xml">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <meta property="og:site_name" content="DiScammer">
   <meta property="og:title" content="{{ _meta_title }}">
   <meta property="og:description" content="{{ _meta_description }}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:image" content="{{ _meta_image }}">
+  <meta property="og:image:type" content="{{ 'image/svg+xml' if _meta_image.endswith('.svg') else 'image/png' }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="{{ 'ru_RU' if _lang == 'ru' else 'en_US' }}">
   {% if _meta_url %}<meta property="og:url" content="{{ _meta_url }}">{% endif %}
   <link rel="alternate" hreflang="en" href="{{ '/en' + (request.url.path[3:] if request and request.url.path.startswith('/' ~ _lang) else '/') }}">
@@ -39,7 +49,33 @@
   <!-- Global CSS -->
   <link rel="stylesheet" href="{{ asset_url('/static/css/main.css') }}">
 
+  {# Base JSON-LD: Organization + WebSite. Per-page templates can append more via the jsonld block. #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://discammer.com/#org",
+        "name": "DiScammer",
+        "url": "https://discammer.com/",
+        "logo": "https://discammer.com/static/logomark.svg",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://discammer.com/#site",
+        "url": "https://discammer.com/",
+        "name": "DiScammer",
+        "publisher": { "@id": "https://discammer.com/#org" },
+        "inLanguage": ["en", "ru"]
+      }
+    ]
+  }
+  </script>
+
   {% block head %}{% endblock %}
+  {% block jsonld %}{% endblock %}
 </head>
 <body class="bg-canvas text-ink min-h-screen font-sans" data-lang="{{ _lang }}">
 
@@ -197,6 +233,7 @@
             <li><a href="/{{ _lang }}/journal" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.journal') }}</a></li>
             <li><a href="/{{ _lang }}/course" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.course') }}</a></li>
             <li><a href="/{{ _lang }}/game" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.game') }}</a></li>
+            <li><a href="/{{ _lang }}/about" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.about') }}</a></li>
           </ul>
         </div>
       </div>

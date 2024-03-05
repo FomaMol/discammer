@@ -339,14 +339,13 @@ function FeaturedCard({
   const c = typeColor(item.type);
   const minutes = estReadingTime(item);
   const headlineRaw = item.title || '';
-  const firstChar = headlineRaw.charAt(0);
-  const restOfHeadline = headlineRaw.slice(1);
 
   return (
     <a
       href={hrefFor(item)}
-      className="group block mt-10 sm:mt-14 border border-[#202a44] hover:border-[#3a8b9a] bg-[#0b0f1a] transition-colors duration-300"
+      className="card-interactive group block mt-10 sm:mt-14 border border-[#202a44] bg-[#0b0f1a]"
       style={{ textDecoration: 'none' }}
+      aria-label={`${localizedBadge(item.type)}: ${headlineRaw}`}
     >
       <div className="grid grid-cols-1 lg:grid-cols-5">
         {/* Cover — 60% on desktop (3/5 cols) */}
@@ -354,7 +353,8 @@ function FeaturedCard({
           <div className="lg:col-span-3 relative overflow-hidden bg-[#0a0d16] aspect-[4/3] lg:aspect-auto lg:min-h-[360px]">
             <img
               src={item.cover_image}
-              alt={item.title}
+              alt=""
+              aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ filter: 'saturate(0.85) contrast(1.05)' }}
               loading="eager"
@@ -393,7 +393,7 @@ function FeaturedCard({
               {localizedBadge(item.type)}
             </span>
 
-            {/* Headline — JetBrains Mono 700, sentence-case, drop-cap on first letter */}
+            {/* Headline — JetBrains Mono 700, sentence-case */}
             <h2
               className="font-mono font-bold text-[#f3f5fa] mt-5 sm:mt-6 group-hover:text-[#65def0] transition-colors"
               style={{
@@ -403,25 +403,7 @@ function FeaturedCard({
                 maxWidth: '22ch',
               }}
             >
-              <span
-                aria-hidden="true"
-                style={{
-                  fontFamily: '"JetBrains Mono", monospace',
-                  fontWeight: 700,
-                  color: '#65def0',
-                  float: 'left',
-                  fontSize: '3.5em',
-                  lineHeight: '0.85',
-                  marginRight: '0.08em',
-                  marginTop: '0.06em',
-                  marginBottom: '-0.04em',
-                }}
-              >
-                {firstChar}
-              </span>
-              {/* Visually-hidden full headline for SR users (so the drop-cap split doesn't break reading) */}
-              <span className="sr-only">{headlineRaw}</span>
-              <span aria-hidden="true">{restOfHeadline}</span>
+              {headlineRaw}
             </h2>
 
             {/* Lead paragraph — Geist 18px, max-w-60ch */}
@@ -482,16 +464,15 @@ function ZigzagCard({
 }) {
   const c = typeColor(item.type);
   const imageOnRight = idx % 2 === 1; // image-left on odd cards (0,2,4), image-right on even (1,3,5)
-  const isFirstZigzag = idx === 0;
   const headline = item.title || '';
   const firstChar = headline.charAt(0);
-  const restOfHeadline = headline.slice(1);
 
   return (
     <a
       href={hrefFor(item)}
-      className="group block border border-[#202a44] hover:border-[#3a8b9a] bg-[#121828] transition-colors duration-300"
+      className="card-interactive group block border border-[#202a44] bg-[#121828]"
       style={{ textDecoration: 'none' }}
+      aria-label={`${localizedBadge(item.type)}: ${headline}`}
     >
       <div
         className={`grid grid-cols-1 sm:grid-cols-5 ${
@@ -506,7 +487,8 @@ function ZigzagCard({
           >
             <img
               src={item.cover_image}
-              alt={item.title}
+              alt=""
+              aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ filter: 'saturate(0.85) contrast(1.05)' }}
               loading="lazy"
@@ -573,30 +555,7 @@ function ZigzagCard({
                 lineHeight: '1.18',
               }}
             >
-              {isFirstZigzag ? (
-                <>
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      fontFamily: '"JetBrains Mono", monospace',
-                      fontWeight: 700,
-                      color: '#f4b965',
-                      float: 'left',
-                      fontSize: '3.5em',
-                      lineHeight: '0.85',
-                      marginRight: '0.08em',
-                      marginTop: '0.04em',
-                      marginBottom: '-0.06em',
-                    }}
-                  >
-                    {firstChar}
-                  </span>
-                  <span className="sr-only">{headline}</span>
-                  <span aria-hidden="true">{restOfHeadline}</span>
-                </>
-              ) : (
-                headline
-              )}
+              {headline}
             </h3>
 
             {(item.subtitle || item.description) && (

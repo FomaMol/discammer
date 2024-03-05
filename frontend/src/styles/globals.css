@@ -163,6 +163,40 @@ body {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+   Global :focus-visible — keyboard users always get a high-contrast cyan
+   ring on every interactive element. Mouse/touch focus is suppressed.
+   The outline-offset keeps the ring outside the element so cards/buttons
+   with backgrounds still read the ring clearly.
+   ────────────────────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+/* If a component already has explicit focus-visible styling, let it win — the
+   :focus-visible above is a baseline, not a hammer. */
+
+/* Card hover/active interaction — pair the cyan-dim border shift with a tiny
+   vertical lift and subtle shadow halo. Use on any element that behaves as a
+   card surface. Active state retracts the lift for tactile press feedback.
+   Color/transform-only; no width/height/layout animation. */
+@utility card-interactive {
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.card-interactive:hover {
+  border-color: var(--color-cyan-dim) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--color-cyan-dim),
+              0 12px 24px -16px rgba(0, 0, 0, 0.6);
+}
+.card-interactive:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
    Display-wordmark utility — JetBrains Mono 800, tight tracking, uppercase.
    Replaces all former `font-['Press_Start_2P']` usages.
    ────────────────────────────────────────────────────────────────────────── */
@@ -400,7 +434,9 @@ body {
   animation: blink 1s step-end infinite;
 }
 
-/* Status dot pulse — used in nav metadata strip ("MONITORING" indicator) */
+/* Status dot pulse — used in nav metadata strip ("MONITORING" indicator).
+   The base .status-dot is green (SYS OK). Color variants below let other
+   contexts (warnings, critical alerts, generic-live) reuse the same pulse. */
 @keyframes status-pulse {
   0%, 100% { opacity: 0.85; transform: scale(1); }
   50%      { opacity: 1;    transform: scale(1.18); }
@@ -413,14 +449,73 @@ body {
   background: var(--color-green);
   animation: status-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
+.status-dot--amber { background: var(--color-amber); }
+.status-dot--red   { background: var(--color-red); }
+.status-dot--cyan  { background: var(--color-cyan); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Scroll-triggered reveal — used by the ScrollReveal island. Top-level
+   wrappers start hidden, then animate to visible once ≥30% in viewport.
+   Children with [data-reveal-index] inherit a delay so the parent's reveal
+   feels staggered without a wave of motion per element. Capped at 6 children
+   to bound total stagger time (~480ms).
+   ────────────────────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 480ms cubic-bezier(0.25, 1, 0.5, 1),
+              transform 480ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal-stagger] > [data-reveal-index="0"] { transition-delay: 0ms; }
+[data-reveal-stagger] > [data-reveal-index="1"] { transition-delay: 80ms; }
+[data-reveal-stagger] > [data-reveal-index="2"] { transition-delay: 160ms; }
+[data-reveal-stagger] > [data-reveal-index="3"] { transition-delay: 240ms; }
+[data-reveal-stagger] > [data-reveal-index="4"] { transition-delay: 320ms; }
+[data-reveal-stagger] > [data-reveal-index="5"] { transition-delay: 400ms; }
+
+/* Wordmark page-load reveal — one-shot on home hero. Single short transition
+   on opacity + translateY. Gated by sessionStorage from the React island, so
+   reload-spam doesn't replay. Disabled under reduced motion. */
+@keyframes wordmark-reveal {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wordmark-reveal {
+  animation: wordmark-reveal 600ms cubic-bezier(0.25, 1, 0.5, 1) both;
+}
 
 /* ──────────────────────────────────────────────────────────────────────────
    Reduced motion — kill decorative animations, keep affordance transitions.
+   Color/opacity transitions on hover remain (they aren't vestibular triggers).
    ────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .scanline-overlay { display: none; }
   .cursor-blink::after { animation: none; }
-  .status-dot { animation: none; opacity: 0.9; }
+  .status-dot,
+  .status-dot--amber,
+  .status-dot--red,
+  .status-dot--cyan { animation: none; opacity: 0.9; }
   [style*="animation: glitch"],
   [style*="animation:glitch"] { animation: none !important; }
+
+  /* ScrollReveal — show immediately, never animate in */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  /* Wordmark reveal — show fully, never animate */
+  .wordmark-reveal { animation: none !important; }
+  /* Card lift — no transform on hover, color shifts still allowed */
+  .card-interactive,
+  .card-interactive:hover,
+  .card-interactive:active {
+    transform: none !important;
+    transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
 }

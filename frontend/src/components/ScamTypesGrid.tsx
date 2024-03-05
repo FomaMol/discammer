@@ -49,7 +49,14 @@ function threatColor(level: number | undefined): string {
 // Threat-bar widget — 5 slats, filled per level
 function ThreatBar({ level, color }: { level: number; color: string }) {
   return (
-    <div className="flex gap-1 items-end" aria-label={`Threat level ${level} of 5`}>
+    <div
+      className="flex gap-1 items-end"
+      role="meter"
+      aria-valuenow={level}
+      aria-valuemin={1}
+      aria-valuemax={5}
+      aria-label={`Threat level ${level} of 5`}
+    >
       {[1, 2, 3, 4, 5].map((slot) => (
         <span
           key={slot}
@@ -124,8 +131,9 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                 <a
                   key={g.id}
                   href={`/${locale}/guide/${g.slug}`}
-                  className="group block bg-[#121828] border border-[#202a44] p-5 hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-all duration-300"
+                  className="card-interactive group block bg-[#121828] border border-[#202a44] p-5"
                   style={{ textDecoration: 'none' }}
+                  aria-label={`${g.title} — ${tr('threat')} L${level}`}
                 >
                   {/* Header strip */}
                   <div className="flex items-start justify-between mb-3">
@@ -217,6 +225,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                     href={`/${locale}/guide/${g.slug}`}
                     className="flex items-center gap-3 px-3 sm:px-4 py-2.5 hover:bg-[#121828] transition-colors group"
                     style={{ textDecoration: 'none' }}
+                    aria-label={`${g.title} — ${tr('threat')} L${level}`}
                   >
                     <span
                       className="w-6 h-6 flex-shrink-0 flex items-center justify-center text-[11px] tabular-nums"

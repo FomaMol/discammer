@@ -1,5 +1,41 @@
 {% extends "base.html" %}
 {% block title %}{{ t(lang, 'page_titles.journal') }}{% endblock %}
+
+{% block jsonld %}
+{% set _journal_url = request.url._url if request else '' %}
+{% set _lang_j = lang | default('en') %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": {{ t(_lang_j, 'page_titles.journal') | tojson }},
+      "url": {{ _journal_url | tojson }},
+      "inLanguage": {{ _lang_j | tojson }},
+      "isPartOf": { "@id": "https://discammer.com/#site" },
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": {{ (posts | length) | tojson }},
+        "itemListElement": [
+          {% for p in posts[:20] %}
+          { "@type": "ListItem", "position": {{ loop.index }}, "url": {{ ('/' ~ _lang_j ~ '/journal/' ~ p.slug) | tojson }}, "name": {{ p.title | tojson }} }{% if not loop.last %},{% endif %}
+          {% endfor %}
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ _lang_j ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang_j, 'page_titles.journal') | tojson }}, "item": {{ _journal_url | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% set _lang = lang %}

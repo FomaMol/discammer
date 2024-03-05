@@ -17,6 +17,9 @@ export default function GameLauncher({
   lang,
 }: GameLauncherProps) {
   const locale = currentLang(lang);
+  // Solid-triangle prefix (no emoji) — primary cyan CTA in the mission-select
+  // terminal frame. Label text comes from the caller; we prepend ▶ only when
+  // the caller hasn't already provided one.
   const resolvedLabel = label ?? pick(locale, { en: '▶ START GAME', ru: '▶ ЗАПУСТИТЬ ИГРУ' });
   const resolvedCloseLabel = closeLabel ?? pick(locale, { en: '[ESC] CLOSE', ru: '[ESC] ЗАКРЫТЬ' });
   const resolvedCloseAria = closeAria ?? pick(locale, { en: 'Close game', ru: 'Закрыть игру' });
@@ -69,7 +72,7 @@ export default function GameLauncher({
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-block px-8 py-4 font-mono uppercase text-lg tracking-wider bg-transparent border border-[#7ce896] text-[#7ce896] hover:shadow-[0_0_25px_rgba(124,232,150,0.25)] transition-all duration-300 cursor-pointer"
+        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-mono uppercase text-[13px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] rounded-[4px] hover:bg-[#9eecf6] hover:-translate-y-px active:translate-y-0 active:bg-[#3a8b9a] focus:outline-none focus-visible:shadow-[0_0_0_2px_#0b0f1a,0_0_0_4px_#65def0] transition-all duration-200 cursor-pointer"
       >
         {resolvedLabel}
       </button>

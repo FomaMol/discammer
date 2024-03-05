@@ -110,11 +110,19 @@ export default function ContentCarousel({
 
   const colorClass = BADGE_COLORS[badge] || BADGE_COLORS.INTERVIEW;
 
+  const carouselId = `carousel-${title.replace(/\W+/g, '-').toLowerCase()}`;
+
   return (
-    <section className="py-6 sm:py-8">
+    <section
+      className="py-6 sm:py-8"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={title}
+    >
       {/* Section title strip */}
       <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3">
         <h2
+          id={carouselId}
           className="text-base sm:text-xl md:text-2xl truncate"
           style={{
             fontFamily: '"JetBrains Mono", monospace',
@@ -123,32 +131,38 @@ export default function ContentCarousel({
             letterSpacing: '-0.02em',
           }}
         >
-          <span className="text-[#475064]">&gt;&nbsp;</span>
+          <span className="text-[#475064]" aria-hidden="true">&gt;&nbsp;</span>
           {title}
         </h2>
         <div className="flex gap-2 flex-shrink-0">
           <button
+            type="button"
             onClick={() => scroll('left')}
             className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#0b0f1a] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
-            aria-label={tr('scroll_left')}
+            aria-label={`${tr('scroll_left')}: ${title}`}
+            aria-controls={carouselId}
           >
             <span aria-hidden="true">&#8592;</span>
           </button>
           <button
+            type="button"
             onClick={() => scroll('right')}
             className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#0b0f1a] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
-            aria-label={tr('scroll_right')}
+            aria-label={`${tr('scroll_right')}: ${title}`}
+            aria-controls={carouselId}
           >
             <span aria-hidden="true">&#8594;</span>
           </button>
         </div>
       </div>
 
-      {/* Carousel */}
+      {/* Carousel — keyboard users can also Tab through cards directly. */}
       <div
         ref={scrollRef}
         className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0"
         style={{ scrollbarWidth: 'none' }}
+        tabIndex={0}
+        aria-label={title}
       >
         {items.map((item) => {
           const href = `/${locale}/journal/${item.slug}`;
@@ -161,8 +175,9 @@ export default function ContentCarousel({
               <a
                 key={item.id}
                 href={href}
-                className="flex-shrink-0 w-[78vw] sm:w-[300px] md:w-[320px] lg:w-[calc(33.333%-12px)] max-w-[360px] bg-[#121828] border border-[#202a44] overflow-hidden hover:border-[#3a8b9a] transition-all duration-300 snap-start group block"
+                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[300px] md:w-[320px] lg:w-[calc(33.333%-12px)] max-w-[360px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
                 style={{ textDecoration: 'none' }}
+                aria-label={`${badge}: ${item.title}`}
               >
                 {/* Square portrait, large */}
                 <div className="relative aspect-square bg-[#0a0d16] overflow-hidden">
@@ -223,8 +238,9 @@ export default function ContentCarousel({
               <a
                 key={item.id}
                 href={href}
-                className="flex-shrink-0 w-[78vw] sm:w-[320px] md:w-[360px] lg:w-[calc(33.333%-12px)] max-w-[420px] bg-[#121828] border border-[#202a44] overflow-hidden hover:border-[#7ce896]/50 transition-all duration-300 snap-start group block"
+                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[320px] md:w-[360px] lg:w-[calc(33.333%-12px)] max-w-[420px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
                 style={{ textDecoration: 'none' }}
+                aria-label={`${tr('dispatch')}: ${item.title}`}
               >
                 <div className="p-4 sm:p-5">
                   {/* Wire-service dateline */}
@@ -269,8 +285,9 @@ export default function ContentCarousel({
               <a
                 key={item.id}
                 href={href}
-                className="flex-shrink-0 w-[78vw] sm:w-[340px] md:w-[400px] lg:w-[calc(33.333%-12px)] max-w-[480px] bg-[#121828] border border-[#202a44] overflow-hidden hover:border-[#f4b965]/50 transition-all duration-300 snap-start group block"
+                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[340px] md:w-[400px] lg:w-[calc(33.333%-12px)] max-w-[480px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
                 style={{ textDecoration: 'none' }}
+                aria-label={`${tr('field_note')}: ${item.title}`}
               >
                 <div className="flex gap-3 p-3">
                   {/* Left: cover, 40% */}
@@ -331,8 +348,9 @@ export default function ContentCarousel({
             <a
               key={item.id}
               href={href}
-              className="flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[#121828] border border-[#202a44] overflow-hidden hover:border-[#3a8b9a] transition-all duration-300 snap-start group block"
+              className="card-interactive flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
               style={{ textDecoration: 'none' }}
+              aria-label={`${badge}: ${item.title}`}
             >
               <div className="relative aspect-video bg-[#0b0f1a] overflow-hidden">
                 {item.cover_image && item.cover_image !== '' ? (

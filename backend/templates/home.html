@@ -1,5 +1,38 @@
 {% extends "base.html" %}
 {% block title %}{{ t(lang, 'page_titles.site_full') }}{% endblock %}
+
+{% block jsonld %}
+{% set _home_url = request.url._url if request else '' %}
+{% set _lang_h = lang | default('en') %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "name": {{ t(_lang_h, 'page_titles.site_full') | tojson }},
+      "description": {{ t(_lang_h, 'page_titles.site_description') | tojson }},
+      "url": {{ _home_url | tojson }},
+      "inLanguage": {{ _lang_h | tojson }},
+      "isPartOf": { "@id": "https://discammer.com/#site" },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "/static/images/og/discammer-og.svg",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ _lang_h ~ '/') | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% set _lang = lang %}
@@ -9,7 +42,7 @@
 <!-- ============================================================ -->
 <!-- HERO — left-aligned wordmark, 2-column desktop, stacked mobile -->
 <!-- ============================================================ -->
-<section class="relative overflow-hidden min-h-[100dvh] flex flex-col">
+<section class="relative overflow-hidden min-h-[100dvh] flex flex-col" aria-label="{{ t(_lang, 'home.tag') }}">
   <!-- Background islands -->
   <div data-component="HeroShader" data-props='{}'></div>
 
@@ -37,20 +70,24 @@
           </span>
         </div>
 
-        <!-- Wordmark — left-aligned, single dominant element -->
-        <h1
-          class="text-left text-[#65def0] glow-cyan"
-          style="
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            letter-spacing: -0.045em;
-            line-height: 0.92;
-            text-transform: uppercase;
-            font-size: clamp(2.75rem, 8vw, 6.5rem);
-            word-break: keep-all;
-            overflow-wrap: normal;
-          "
-        >DISCAMMER</h1>
+        <!-- Wordmark — left-aligned, single dominant element.
+             Wrapped in WordmarkReveal so it gets a single page-load entry
+             animation per session (per DESIGN.md chrome.glitch rules). -->
+        <div data-component="WordmarkReveal">
+          <h1
+            class="text-left text-[#65def0] glow-cyan"
+            style="
+              font-family: 'JetBrains Mono', monospace;
+              font-weight: 800;
+              letter-spacing: -0.045em;
+              line-height: 0.92;
+              text-transform: uppercase;
+              font-size: clamp(2.75rem, 8vw, 6.5rem);
+              word-break: keep-all;
+              overflow-wrap: normal;
+            "
+          >DISCAMMER</h1>
+        </div>
 
         <!-- Subtitle / pitch — sentence case, Geist body -->
         <p class="mt-6 sm:mt-7 max-w-[58ch] text-[#cdd4e3] text-base sm:text-lg leading-relaxed">
@@ -115,7 +152,7 @@
 <!-- ============================================================ -->
 <!-- SITUATION REPORT — bento stats                                -->
 <!-- ============================================================ -->
-<section class="border-y border-[#202a44] bg-[#0a0d16]/70">
+<section class="border-y border-[#202a44] bg-[#0a0d16]/70" aria-label="{{ t(_lang, 'home.situation_report') }}">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-7">
     <!-- Date stamp header -->
     <div class="flex flex-wrap items-center justify-between gap-3 mb-4 sm:mb-5 pb-3 border-b border-dashed border-[#202a44]">
@@ -219,7 +256,7 @@
 <!-- ============================================================ -->
 <!-- MISSION + DIRECTIVES — bento: 1 wide mission + checklist     -->
 <!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20" aria-label="{{ t(_lang, 'home.section_mission_title') }}">
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
 
     <!-- WIDE: Mission terminal — more elaborate -->
@@ -311,33 +348,42 @@
 <!-- JOURNAL TRIO — interviews / newsletters / articles            -->
 <!-- Tight grouping (one logical block: the field journal)         -->
 <!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
-</section>
+<div data-component="ScrollReveal">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4" aria-label="{{ t(_lang, 'home.interview_log_title') }}">
+    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
+    <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
+  </section>
+</div>
 
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
-</section>
+<div data-component="ScrollReveal">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-4" aria-label="{{ t(_lang, 'home.newsletter_feed_title') }}">
+    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
+    <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
+  </section>
+</div>
 
-<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
-</section>
+<div data-component="ScrollReveal">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16" aria-label="{{ t(_lang, 'home.article_database_title') }}">
+    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
+    <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
+  </section>
+</div>
 
 <!-- ============================================================ -->
 <!-- THREAT DATABASE — distinct section, generous separation       -->
 <!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 border-t border-[#202a44]">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
-  <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
-</section>
+<div data-component="ScrollReveal">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 border-t border-[#202a44]" aria-label="{{ t(_lang, 'home.threat_database_title') }}">
+    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
+    <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
+  </section>
+</div>
 
 <!-- ============================================================ -->
 <!-- FINAL CTA — typed CLI command                                 -->
 <!-- ============================================================ -->
-<section class="relative overflow-hidden border-t border-[#202a44] mt-8">
+<div data-component="ScrollReveal">
+<section class="relative overflow-hidden border-t border-[#202a44] mt-8" aria-label="{{ t(_lang, 'home.final_cta_title') }}">
   <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none" aria-hidden="true"></div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
@@ -377,5 +423,6 @@ $ _</pre>
     </div>
   </div>
 </section>
+</div>
 
 {% endblock %}

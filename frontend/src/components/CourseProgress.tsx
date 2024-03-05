@@ -477,6 +477,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
           <a
             href={`/${lang}/course/${module.slug}`}
             className={`${cardBase} ${cardState} block focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]`}
+            aria-label={`${tr('mission_prefix')} ${order} — ${module.title} — ${statusText.replace(/^[^A-Za-zА-Яа-я]+/, '')}`}
           >
             {RowContent}
           </a>
@@ -484,12 +485,27 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
       </div>
 
       <style>{`
-        .dcm-mission-card { transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms cubic-bezier(0.16, 1, 0.3, 1); }
+        .dcm-mission-card {
+          transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                      border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                      background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        a.dcm-mission-card:hover {
+          box-shadow: 0 0 0 1px #3a8b9a, 0 12px 24px -16px rgba(0,0,0,0.6);
+        }
+        a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
         @keyframes dcm-badge-pulse { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
         .dcm-badge-pulse { animation: dcm-badge-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
         @media (prefers-reduced-motion: reduce) {
-          .dcm-mission-card { transition: none !important; transform: none !important; }
-          .dcm-mission-card:hover { transform: none !important; }
+          .dcm-mission-card,
+          a.dcm-mission-card:hover,
+          a.dcm-mission-card:active {
+            transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                        background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform: none !important;
+          }
           .dcm-badge-pulse { animation: none !important; opacity: 1 !important; }
         }
       `}</style>

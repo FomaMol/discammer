@@ -118,11 +118,65 @@ app.state.templates = Jinja2Templates(env=_env)
 from routers.pages import router as pages_router  # noqa: E402
 from routers.api import router as api_router  # noqa: E402
 from routers.game import router as game_router  # noqa: E402
+from routers.seo import router as seo_router  # noqa: E402
 
-# Include API + game routers FIRST so their /api/... and /play/... routes
-# resolve before the catch-all /{lang}/... patterns in pages_router. Without
-# this order, FastAPI tries the localised path constraint against "api" and
-# returns a 422 instead of dispatching to the API router.
+# Include API + game + seo routers FIRST so their /api/..., /play/..., and
+# /sitemap.xml-style routes resolve before the catch-all /{lang}/... patterns
+# in pages_router. Without this order, FastAPI tries the localised path
+# constraint against "api" / "sitemap.xml" / "robots.txt" and returns a 422
+# instead of dispatching to the correct router.
 app.include_router(api_router)
 app.include_router(game_router)
+app.include_router(seo_router)
 app.include_router(pages_router)
+
+
+# ---------------------------------------------------------------------------
+# Custom 404 handler — render the terminal-style 404 template instead of
+# FastAPI's default {"detail": "Not Found"} JSON. Detect lang from the URL
+# prefix (/en/... → en, /ru/... → ru) or fall back to the cookie / default.
+# ---------------------------------------------------------------------------
+
+from fastapi import Request  # noqa: E402
+from fastapi.responses import JSONResponse  # noqa: E402
+from starlette.exceptions import HTTPException as StarletteHTTPException  # noqa: E402
+
+from i18n import normalize_lang, detect_lang  # noqa: E402
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """Render 404.html for HTML 404s; pass non-404s through as JSON."""
+    if exc.status_code != 404:
+        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
+    # API and game routes keep the JSON detail — only HTML clients get the template.
+    path = request.url.path
+    if path.startswith("/api/") or path.startswith("/play/"):
+        return JSONResponse(status_code=404, content={"detail": exc.detail})
+
+    # Lang detection: URL prefix → cookie → Accept-Language → default.
+    lang = None
+    parts = path.lstrip("/").split("/", 1)
+    if parts and parts[0] in SUPPORTED_LANGS:
+        lang = parts[0]
+    if lang is None:
+        cookie_lang = request.cookies.get("lang")
+        lang = detect_lang(request.headers.get("accept-language"), cookie_lang)
+    lang = normalize_lang(lang)
+    other = other_lang(lang)
+
+    templates: Jinja2Templates = app.state.templates
+    context = {
+        "lang": lang,
+        "locale": lang,
+        "other_lang_code": other,
+        "switch_url": f"/{other}/",
+        "page_title": t(lang, "not_found.title"),
+    }
+    return templates.TemplateResponse(
+        request=request,
+        name="404.html",
+        context=context,
+        status_code=404,
+    )

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { currentLang, pick, type Locale } from '../utils/i18n';
+import { useReducedMotion } from '../utils/useReducedMotion';
 
 interface HeroTypewriterProps {
   phrases: string[];
@@ -9,13 +10,21 @@ interface HeroTypewriterProps {
 
 export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriterProps) {
   const locale = currentLang(lang);
-  const [displayed, setDisplayed] = useState('');
+  const reduce = useReducedMotion();
+  // Under reduced motion: render the first phrase fully and stop cycling.
+  // Per DESIGN.md motion notes, typewriter cycling is suppressed entirely.
+  const initialPhrase = phrases?.[0] ?? '';
+  const [displayed, setDisplayed] = useState(reduce ? initialPhrase : '');
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (!phrases || phrases.length === 0) return;
+    if (reduce) {
+      setDisplayed(phrases[0]);
+      return;
+    }
 
     const currentPhrase = phrases[phraseIndex];
 
@@ -41,10 +50,10 @@ export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriter
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [displayed, isDeleting, phraseIndex, phrases]);
+  }, [displayed, isDeleting, phraseIndex, phrases, reduce]);
 
   const resolvedPrefix =
-    prefix ?? pick(locale, { en: '> WHERE THE SCAM IS FOUND: ', ru: '> ГДЕ ВОДЯТСЯ МОШЕННИКИ: ' });
+    prefix ?? pick(locale, { en: '> WHERE THE SCAM IS FOUND: ', ru: '> ГДЕ ВОДЯТСЯ МОШЕННИКИ: ' });
 
   return (
     <p
@@ -61,7 +70,7 @@ export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriter
       </span>
       <span
         className="text-accent-cyan ml-0.5 inline-block"
-        style={{ animation: 'blink 1s step-end infinite' }}
+        style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
         aria-hidden="true"
       >
         &#x25AE;

@@ -1,5 +1,40 @@
 {% extends "base.html" %}
 {% block title %}{{ guide.title }} — {{ t(lang, 'footer.threat_database') }} — DiScammer{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block jsonld %}
+{% set _guide_url = request.url._url if request else '' %}
+{% set _guide_image = '/static/images/og/discammer-og.svg' %}
+{% set _guide_category = (guide.category or 'fraud') | replace('-', ' ') | title %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": {{ guide.title | tojson }},
+      "datePublished": {{ (guide.published_at or '') | tojson }},
+      "image": {{ _guide_image | tojson }},
+      "publisher": { "@id": "https://discammer.com/#org" },
+      "inLanguage": {{ (lang | default('en')) | tojson }},
+      "url": {{ _guide_url | tojson }},
+      "description": {{ (guide.description or guide.title) | tojson }},
+      "about": { "@type": "Thing", "name": {{ _guide_category | tojson }} },
+      "isPartOf": { "@id": "https://discammer.com/#site" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ (lang | default('en')) ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(lang, 'footer.threat_database') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/journal') | tojson }} },
+        { "@type": "ListItem", "position": 3, "name": {{ guide.title | tojson }}, "item": {{ _guide_url | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% set _lang = lang %}
@@ -130,12 +165,12 @@
     <div class="lg:col-span-8 min-w-0">
 
       <!-- Breadcrumbs -->
-      <nav class="font-mono text-xs text-[#6b7588] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="breadcrumb">
+      <nav class="font-mono text-xs text-[#6b7588] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="Breadcrumb">
         <a href="/{{ _lang }}/" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
-        <span class="text-[#475064]">/</span>
+        <span class="text-[#475064]" aria-hidden="true">/</span>
         <a href="/{{ _lang }}/journal" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
-        <span class="text-[#475064]">/</span>
-        <span class="text-[#65def0]">{{ guide.slug }}</span>
+        <span class="text-[#475064]" aria-hidden="true">/</span>
+        <span class="text-[#65def0]" aria-current="page">{{ guide.slug }}</span>
       </nav>
 
       <!-- Eyebrow: dossier path -->
@@ -168,13 +203,18 @@
 
       <!-- RISK ASSESSMENT slats with labels beneath each slat -->
       {% if guide.threat_level %}
-      <div class="mt-7" aria-label="risk assessment level {{ guide.threat_level }} of 5 — {{ _level_word | lower }}">
+      <div class="mt-7"
+           role="meter"
+           aria-valuenow="{{ guide.threat_level }}"
+           aria-valuemin="1"
+           aria-valuemax="5"
+           aria-label="{{ t(_lang, 'guide.risk_assessment_label') }}: {{ guide.threat_level }}/5 — {{ _level_word | lower }}">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#6b7588] mb-2 tabular-nums">
           {{ t(_lang, 'guide.risk_assessment_label') }}
-          <span class="text-[#475064] mx-1">—</span>
+          <span class="text-[#475064] mx-1" aria-hidden="true">—</span>
           <span class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _level_word }}</span>
         </div>
-        <div class="inline-flex items-end gap-1" role="img" aria-hidden="true">
+        <div class="inline-flex items-end gap-1" aria-hidden="true">
           {% for i in range(1, 6) %}
             <div class="flex flex-col items-center gap-1.5">
               {% if i <= _tl %}
@@ -352,7 +392,12 @@
         <p class="font-sans text-sm text-[#aab2c4] mt-3 leading-[1.55] line-clamp-2">{{ related.description }}</p>
         {% endif %}
         {% if related.threat_level %}
-        <div class="mt-4" aria-label="threat level {{ related.threat_level }} of 5">
+        <div class="mt-4"
+             role="meter"
+             aria-valuenow="{{ related.threat_level }}"
+             aria-valuemin="1"
+             aria-valuemax="5"
+             aria-label="{{ t(_lang, 'guide.risk_assessment_label') }}: {{ related.threat_level }}/5">
           <div class="flex items-end gap-1" aria-hidden="true">
             {% for i in range(1, 6) %}
               {% if i <= related.threat_level %}
