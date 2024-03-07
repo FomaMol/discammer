@@ -97,7 +97,11 @@ COURSE_MODULES = [
         "slug": "threat-fundamentals",
         "order": 1,
         "is_locked": 0,
-        "icon": "\U0001F310",
+        # Module icon = single uppercase letter (rendered as a mono "category
+        # code"). OS emoji were dropped to match the analyst-console voice and
+        # avoid OS-dependent emoji rendering. See guide.html / game.html for the
+        # same treatment in the threat-vector and related-guide cards.
+        "icon": "T",
         "accent": "cyan",
         "duration": "45 min",
         "lessons": 6,
@@ -165,7 +169,7 @@ COURSE_MODULES = [
         "slug": "social-engineering",
         "order": 2,
         "is_locked": 1,
-        "icon": "\U0001F9E0",
+        "icon": "S",
         "accent": "green",
         "duration": "60 min",
         "lessons": 7,
@@ -235,7 +239,7 @@ COURSE_MODULES = [
         "slug": "phishing",
         "order": 3,
         "is_locked": 1,
-        "icon": "\U0001F3A3",
+        "icon": "P",
         "accent": "cyan",
         "duration": "55 min",
         "lessons": 6,
@@ -303,7 +307,7 @@ COURSE_MODULES = [
         "slug": "passwords-mfa",
         "order": 4,
         "is_locked": 1,
-        "icon": "\U0001F510",
+        "icon": "A",
         "accent": "amber",
         "duration": "50 min",
         "lessons": 6,
@@ -370,7 +374,7 @@ COURSE_MODULES = [
         "slug": "financial-fraud",
         "order": 5,
         "is_locked": 1,
-        "icon": "\U0001F4B3",
+        "icon": "F",
         "accent": "red",
         "duration": "65 min",
         "lessons": 8,
@@ -440,7 +444,7 @@ COURSE_MODULES = [
         "slug": "ai-deepfakes",
         "order": 6,
         "is_locked": 1,
-        "icon": "\U0001F916",
+        "icon": "D",
         "accent": "cyan",
         "duration": "55 min",
         "lessons": 6,
@@ -506,7 +510,7 @@ COURSE_MODULES = [
         "slug": "mobile-network",
         "order": 7,
         "is_locked": 1,
-        "icon": "\U0001F4F1",
+        "icon": "M",
         "accent": "green",
         "duration": "50 min",
         "lessons": 6,
@@ -571,7 +575,7 @@ COURSE_MODULES = [
         "slug": "incident-response",
         "order": 8,
         "is_locked": 1,
-        "icon": "\U0001F6E1",
+        "icon": "R",
         "accent": "amber",
         "duration": "60 min",
         "lessons": 7,
@@ -639,7 +643,7 @@ COURSE_MODULES = [
         "slug": "final-assessment",
         "order": 9,
         "is_locked": 1,
-        "icon": "\U0001F3C6",
+        "icon": "C",
         "accent": "green",
         "duration": "90 min",
         "lessons": 3,
@@ -698,6 +702,30 @@ COURSE_MODULES = [
         },
     },
 ]
+
+
+# ---------------------------------------------------------------------------
+# Scam-guide icon overrides
+# ---------------------------------------------------------------------------
+# Original markdown frontmatter shipped OS emoji (💔, 🛒, 🎰, etc.) in each
+# guide's ``icon`` field. Those render unpredictably across operating systems
+# and conflict with the analyst-console voice (DESIGN.md bans icon-set drift +
+# the Lucide / Feather / OS-emoji reflex). Replace per-slug with a single
+# uppercase mono letter that the templates render as a small bordered
+# "category code". Letters are picked from the most-distinguishing word of
+# each scam-pattern title, with no collisions across the ten guides.
+SCAM_GUIDE_ICONS = {
+    "phishing":                   "P",   # Phishing
+    "nigerian-letters":           "N",   # Nigerian
+    "investment-pyramids":        "I",   # Investment
+    "fake-online-stores":         "F",   # Fake stores
+    "abuse-on-dating-sites":      "D",   # Dating
+    "sms-and-phone-scams":        "S",   # SMS / phone
+    "fraud-with-lotteries":       "L",   # Lottery
+    "scam-sites-working-at-home": "W",   # Work-at-home
+    "false-charities":            "C",   # Charities
+    "get-rich-quick-schemes":     "G",   # Get-rich-quick
+}
 
 
 # ---------------------------------------------------------------------------
@@ -786,17 +814,23 @@ async def seed_database() -> None:
         )
 
         for meta, content, locale in load_markdown_files(CONTENT_DIR / "guides"):
+            slug = meta.get("slug", "")
+            # Per-slug override beats whatever the markdown frontmatter shipped
+            # (those were OS emoji — see SCAM_GUIDE_ICONS docstring). Fall back
+            # to the frontmatter value for any slug not yet in the table so a
+            # newly-added guide still renders something until it's mapped.
+            icon = SCAM_GUIDE_ICONS.get(slug, meta.get("icon", ""))
             await db.execute(
                 "INSERT INTO scam_guide "
                 "(slug, locale, title, description, content, icon, threat_level, category, published_at) "
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
-                    meta.get("slug", ""),
+                    slug,
                     locale,
                     meta.get("title", ""),
                     meta.get("description", ""),
                     content,
-                    meta.get("icon", ""),
+                    icon,
                     meta.get("threat_level", 3),
                     meta.get("category", ""),
                     meta.get("published_at", ""),

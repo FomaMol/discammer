@@ -138,10 +138,33 @@ app.include_router(pages_router)
 # ---------------------------------------------------------------------------
 
 from fastapi import Request  # noqa: E402
-from fastapi.responses import JSONResponse  # noqa: E402
+from fastapi.exceptions import RequestValidationError  # noqa: E402
+from fastapi.responses import JSONResponse, PlainTextResponse  # noqa: E402
 from starlette.exceptions import HTTPException as StarletteHTTPException  # noqa: E402
 
 from i18n import normalize_lang, detect_lang  # noqa: E402
+
+
+# Asset / feed paths that should never get the marketing HTML 404 template.
+# A bot asking for /sitemap.xml-typo doesn't want a styled error page; it wants
+# a plain 404 it can log. The same applies to /static/* misses.
+_PLAINTEXT_404_EXTENSIONS = (
+    ".xml", ".txt", ".webmanifest", ".json", ".svg",
+)
+
+
+def _is_asset_path(path: str) -> bool:
+    """True for paths that look like a file/asset request, not a page route.
+
+    Matches both clean endings ("/foo.xml") and typo variants
+    ("/foo.xml-old", "/foo.xml.bak") by checking whether any of the known
+    extensions appears anywhere in the path. Also matches anything under
+    /static/ regardless of suffix.
+    """
+    if path.startswith("/static/"):
+        return True
+    lower = path.lower()
+    return any(ext in lower for ext in _PLAINTEXT_404_EXTENSIONS)
 
 
 @app.exception_handler(StarletteHTTPException)
@@ -154,6 +177,16 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     path = request.url.path
     if path.startswith("/api/") or path.startswith("/play/"):
         return JSONResponse(status_code=404, content={"detail": exc.detail})
+
+    # SEO / asset typos ("/sitemap.xml-x", "/robots.txt-x", "/static/foo.png", …)
+    # don't want a full HTML 404 page — bots that asked for a feed or static
+    # asset should get a small plain-text body so they don't try to parse our
+    # marketing template. Keep the path in the body for log-grep usefulness.
+    if _is_asset_path(path):
+        return PlainTextResponse(
+            f"404 Not Found: {path}\n",
+            status_code=404,
+        )
 
     # Lang detection: URL prefix → cookie → Accept-Language → default.
     lang = None
@@ -180,3 +213,19 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         context=context,
         status_code=404,
     )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """When a SEO/asset-style path (sitemap.xml-typo, robots.txt-stale, …)
+    fails the ``/{lang}/...`` regex constraint, FastAPI would normally raise
+    a 422 JSON validation error. Coerce those into a clean 404 plaintext so
+    crawlers see a single, predictable response. All other validation errors
+    keep the default JSON behavior.
+    """
+    if _is_asset_path(request.url.path):
+        return PlainTextResponse(
+            f"404 Not Found: {request.url.path}\n",
+            status_code=404,
+        )
+    return JSONResponse(status_code=422, content={"detail": exc.errors()})

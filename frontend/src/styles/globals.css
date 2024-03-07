@@ -489,6 +489,60 @@ body {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+   Article lead paragraph (post.html) — the first <p> inside the rendered
+   article body gets a slightly larger, ink-strong treatment to act as a
+   reader's lede. Scoped to .post-prose so .prose on guide / module / lesson
+   surfaces is untouched.
+   ────────────────────────────────────────────────────────────────────────── */
+.post-prose > p:first-of-type {
+  font-size: 1.1875rem;    /* 19px */
+  line-height: 1.6;
+  color: var(--color-ink);
+  margin-top: 0;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   IncidentFeed — per-row entry animation. The component sets the row's
+   `animation` inline so it can disable under reduced motion at render time,
+   but the keyframe lives here so the build can dedupe and minify it.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes feedRowIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MissionBriefingTerminal — primary CTA lifts 1px on hover. Color-only
+   transitions still happen via the base utility classes; this rule is the
+   transform half, isolated so reduced-motion can suppress it.
+   ────────────────────────────────────────────────────────────────────────── */
+.dcm-briefing-cta-primary:hover { transform: translateY(-1px); }
+.dcm-briefing-cta-primary:active { transform: translateY(0); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   CourseProgress — MissionCard row & status badge. The base class drives
+   the card's hover lift + cyan border halo; the badge pulse is a slow,
+   gentle opacity oscillation reserved for the "in progress" state.
+   ────────────────────────────────────────────────────────────────────────── */
+.dcm-mission-card {
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+a.dcm-mission-card:hover {
+  box-shadow: 0 0 0 1px #3a8b9a, 0 12px 24px -16px rgba(0, 0, 0, 0.6);
+}
+a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
+@keyframes dcm-badge-pulse {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+.dcm-badge-pulse {
+  animation: dcm-badge-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
    Reduced motion — kill decorative animations, keep affordance transitions.
    Color/opacity transitions on hover remain (they aren't vestibular triggers).
    ────────────────────────────────────────────────────────────────────────── */
@@ -518,4 +572,16 @@ body {
     transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
+  /* MissionBriefingTerminal CTA lift — suppress the transform */
+  .dcm-briefing-cta-primary:hover { transform: none; }
+  /* CourseProgress MissionCard — no lift / scale, color shifts still allowed */
+  .dcm-mission-card,
+  a.dcm-mission-card:hover,
+  a.dcm-mission-card:active {
+    transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transform: none !important;
+  }
+  .dcm-badge-pulse { animation: none !important; opacity: 1 !important; }
 }

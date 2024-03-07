@@ -1,0 +1,576 @@
+- generic [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /en/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - button "Close menu" [expanded] [ref=e588]
+  - main [ref=e13]:
+    - region "CYBERSEC // EDUCATION PLATFORM" [ref=e14]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e20]: CYBERSEC // EDUCATION PLATFORM
+          - heading "DISCAMMER" [level=1] [ref=e23]
+          - paragraph [ref=e24]: A field guide to modern scams — phishing kits, deepfakes, pig-butchering, fake stores. Learn the patterns, train your eye, and stop losing money to predictable cons.
+          - paragraph [ref=e27]:
+            - text: "> WHERE THE SCAM IS FOUND: PHON"
+            - generic [ref=e28]: ▮
+          - generic [ref=e29]:
+            - link "PLAY GAME" [ref=e30] [cursor=pointer]:
+              - /url: /en/game
+              - generic [ref=e31]: ▶
+              - generic [ref=e32]: PLAY GAME
+            - link "READ JOURNAL" [ref=e33] [cursor=pointer]:
+              - /url: /en/journal
+              - generic [ref=e34]: ▸
+              - generic [ref=e35]: READ JOURNAL
+            - link "TAKE COURSE" [ref=e36] [cursor=pointer]:
+              - /url: /en/course
+              - generic [ref=e37]: ▸
+              - generic [ref=e38]: TAKE COURSE
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e45]: LIVE INCIDENT FEED
+              - generic [ref=e46]: MONITOR 01
+            - list [ref=e47]:
+              - listitem [ref=e589]:
+                - generic [ref=e590]: 03:40:42
+                - generic [ref=e591]: ▸
+                - generic [ref=e592]: deepfake voice call · 38s
+                - generic [ref=e593]: CN→UK
+              - listitem [ref=e594]:
+                - generic [ref=e595]: 03:40:37
+                - generic [ref=e596]: ▸
+                - generic [ref=e597]: fake bank SMS variant detected
+                - generic [ref=e598]: RU
+              - listitem [ref=e599]:
+                - generic [ref=e600]: 03:40:33
+                - generic [ref=e601]: ▸
+                - generic [ref=e602]: pig-butchering attempt logged
+                - generic [ref=e603]: TG
+              - listitem [ref=e563]:
+                - generic [ref=e564]: 03:40:29
+                - generic [ref=e565]: ▸
+                - generic [ref=e566]: gift-card payment demand
+                - generic [ref=e567]: US
+              - listitem [ref=e568]:
+                - generic [ref=e569]: 03:40:23
+                - generic [ref=e570]: ▸
+                - generic [ref=e571]: two-factor reset spoof attempt
+                - generic [ref=e572]: BR
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: MONITOR 02
+            - generic [ref=e68]: THREAT SCAN
+          - generic [ref=e69]:
+            - generic [ref=e74]: discammer@threat-monitor ~ %
+            - generic [ref=e75]:
+              - generic [ref=e272]: "> init scanner --module=threat_db"
+              - generic [ref=e273]: "> loading signatures ............ [OK]"
+              - generic [ref=e274]: "> connecting feed.discammer.com"
+              - generic [ref=e275]: "> handshake ESTABLISHED"
+              - generic [ref=e276]: "> auth: anon-guest [200]"
+              - generic [ref=e277]: "> scanning vector: phishing/2024"
+              - generic [ref=e278]: "├─ kits matched: 218"
+              - generic [ref=e279]: "└─ avg lifespan: 38h"
+              - generic [ref=e280]: "> scanning vector: deepfake/audio"
+              - generic [ref=e281]: "├─ samples: 1,407"
+              - generic [ref=e282]: "└─ ROC AUC: 0.93"
+              - generic [ref=e283]: "> scanning vector: investment-fraud"
+              - generic [ref=e284]: "├─ pump-and-dump: 64 active"
+              - generic [ref=e545]: "└─ pig-butchering: 142 tracked"
+              - generic [ref=e546]: "> threat_db.size = 247 entries"
+              - generic [ref=e550]: "> last_breach = 02:14:09 UTC"
+              - generic [ref=e551]: "> oracle: \"trust nothing on first contact\""
+              - generic [ref=e552]: "> > > AWAITING USER COMMAND _"
+    - region "SITUATION REPORT" [ref=e77]:
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - generic [ref=e82]: SITUATION REPORT · 2026-05-24 · 23:39 UTC
+          - generic [ref=e83]: "SOURCE: INTERNAL"
+        - generic [ref=e84]:
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - generic [ref=e87]: Threat Types
+              - generic [ref=e88]: LIVE
+            - generic [ref=e89]:
+              - generic [ref=e90]: "10"
+              - generic [ref=e91]: ENTRIES
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: Interviews
+                - generic [ref=e98]: ▸
+              - generic [ref=e99]: "08"
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e102]: Articles
+                - generic [ref=e103]: ▸
+              - generic [ref=e104]: "07"
+            - generic [ref=e105]:
+              - generic [ref=e106]:
+                - generic [ref=e107]: Threat Feed
+                - generic [ref=e108]: ▸
+              - generic [ref=e109]: 24/7
+    - region "> MISSION_BRIEFING" [ref=e110]:
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - generic [ref=e113]: // 01. ABOUT
+          - heading "> > MISSION_BRIEFING" [level=2] [ref=e114]
+          - generic [ref=e115]:
+            - generic [ref=e116]:
+              - generic [ref=e120]: mission.brief
+              - generic [ref=e121]: v 1.0.0
+            - generic [ref=e122]:
+              - generic [ref=e123]: "> cat /docs/mission.txt"
+              - paragraph [ref=e125]: We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies.
+        - generic [ref=e126]:
+          - generic [ref=e127]: // 02. DIRECTIVES
+          - heading "> > CORE_DIRECTIVES" [level=2] [ref=e128]
+          - list [ref=e129]:
+            - listitem [ref=e130]:
+              - generic [ref=e131]:
+                - generic [ref=e132]: "01"
+                - generic [ref=e133]: ▸
+                - generic [ref=e134]:
+                  - heading "Protect" [level=3] [ref=e135]
+                  - paragraph [ref=e136]: Identify and defend against sophisticated financial scams targeting individuals and organizations.
+            - listitem [ref=e137]:
+              - generic [ref=e138]:
+                - generic [ref=e139]: "02"
+                - generic [ref=e140]: ▸
+                - generic [ref=e141]:
+                  - heading "Aware" [level=3] [ref=e142]
+                  - paragraph [ref=e143]: Stay informed about AI-powered deepfakes, social engineering, and evolving phishing techniques.
+            - listitem [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: "03"
+                - generic [ref=e147]: ▸
+                - generic [ref=e148]:
+                  - heading "Train" [level=3] [ref=e149]
+                  - paragraph [ref=e150]: Sharpen scam-detection skills with interactive simulations and real-world scenarios.
+    - region "> INTERVIEW_LOG" [ref=e151]:
+      - generic [ref=e152]: // 03. ARCHIVE
+      - region "> INTERVIEW_LOG" [ref=e154]:
+        - generic [ref=e155]:
+          - heading "> INTERVIEW_LOG" [level=2] [ref=e156]: "> > INTERVIEW_LOG"
+          - generic [ref=e157]:
+            - 'button "Scroll left: > INTERVIEW_LOG" [ref=e158]':
+              - generic [ref=e159]: ←
+            - 'button "Scroll right: > INTERVIEW_LOG" [ref=e160]':
+              - generic [ref=e161]: →
+        - generic "> INTERVIEW_LOG" [ref=e162]:
+          - 'link "INTERVIEW: Interview with guest Kelvin MOU" [ref=e285] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-kelvin-mou
+            - generic [ref=e286]:
+              - img "with guest Kelvin MOU" [ref=e287]
+              - generic [ref=e288]: INTERVIEW
+              - generic [ref=e289]: PORTRAIT_VERIFIED
+            - generic [ref=e290]:
+              - paragraph [ref=e291]: “The impact of cutting edge technologies on traditional management strategies”
+              - paragraph [ref=e292]: — with guest Kelvin MOU
+          - 'link "INTERVIEW: Interview with guest Michael Wakelin" [ref=e293] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-michael-wakelin
+            - generic [ref=e294]:
+              - img "with guest Michael Wakelin" [ref=e295]
+              - generic [ref=e296]: INTERVIEW
+              - generic [ref=e297]: PORTRAIT_VERIFIED
+            - generic [ref=e298]:
+              - paragraph [ref=e299]: “Cybersecurity, Ethical Hacking and Quantum computing”
+              - paragraph [ref=e300]: — with guest Michael Wakelin
+          - 'link "INTERVIEW: Interview with guest Mike Gibson" [ref=e301] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-mike-gibson
+            - generic [ref=e302]:
+              - img "with guest Mike Gibson" [ref=e303]
+              - generic [ref=e304]: INTERVIEW
+              - generic [ref=e305]: PORTRAIT_VERIFIED
+            - generic [ref=e306]:
+              - paragraph [ref=e307]: “The impact of technology on the role of creativity in business and communication.”
+              - paragraph [ref=e308]: — with guest Mike Gibson
+          - 'link "INTERVIEW: Interview with guest Guy Eames" [ref=e309] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-guy-eames
+            - generic [ref=e310]:
+              - img "with guest Guy Eames" [ref=e311]
+              - generic [ref=e312]: INTERVIEW
+              - generic [ref=e313]: PORTRAIT_VERIFIED
+            - generic [ref=e314]:
+              - paragraph [ref=e315]: “The Importance of Digital Twins”
+              - paragraph [ref=e316]: — with guest Guy Eames
+          - 'link "INTERVIEW: Interview with guest Jimmy Zhou" [ref=e317] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-jimmy-zhou
+            - generic [ref=e318]:
+              - img "with guest Jimmy Zhou" [ref=e319]
+              - generic [ref=e320]: INTERVIEW
+              - generic [ref=e321]: PORTRAIT_VERIFIED
+            - generic [ref=e322]:
+              - paragraph [ref=e323]: “Thoughts on the metaverse”
+              - paragraph [ref=e324]: — with guest Jimmy Zhou
+          - 'link "INTERVIEW: Interview with guest Joel" [ref=e325] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-joel
+            - generic [ref=e326]:
+              - img "with guest Joel" [ref=e327]
+              - generic [ref=e328]: INTERVIEW
+              - generic [ref=e329]: PORTRAIT_VERIFIED
+            - generic [ref=e330]:
+              - paragraph [ref=e331]: “The impact of new technologies”
+              - paragraph [ref=e332]: — with guest Joel
+          - 'link "INTERVIEW: Interview with guest Ben Yehooda" [ref=e333] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-ben-yehooda
+            - generic [ref=e334]:
+              - img "with guest Ben Yehooda" [ref=e335]
+              - generic [ref=e336]: INTERVIEW
+              - generic [ref=e337]: PORTRAIT_VERIFIED
+            - generic [ref=e338]:
+              - paragraph [ref=e339]: “Research on technology blockchain”
+              - paragraph [ref=e340]: — with guest Ben Yehooda
+          - 'link "INTERVIEW: Interview with guest Casey Orion" [ref=e341] [cursor=pointer]':
+            - /url: /en/journal/interview-with-guest-casey-orion
+            - generic [ref=e342]:
+              - img "with guest Casey Orion" [ref=e343]
+              - generic [ref=e344]: INTERVIEW
+              - generic [ref=e345]: PORTRAIT_VERIFIED
+            - generic [ref=e346]:
+              - paragraph [ref=e347]: “The Impact of AI a the Future of Education”
+              - paragraph [ref=e348]: — with guest Casey Orion
+    - region "> NEWSLETTER_FEED" [ref=e164]:
+      - generic [ref=e165]: // 04. DISPATCHES
+      - region "> NEWSLETTER_FEED" [ref=e167]:
+        - generic [ref=e168]:
+          - heading "> NEWSLETTER_FEED" [level=2] [ref=e169]: "> > NEWSLETTER_FEED"
+          - generic [ref=e170]:
+            - 'button "Scroll left: > NEWSLETTER_FEED" [ref=e171]':
+              - generic [ref=e172]: ←
+            - 'button "Scroll right: > NEWSLETTER_FEED" [ref=e173]':
+              - generic [ref=e174]: →
+        - generic "> NEWSLETTER_FEED" [ref=e175]:
+          - 'link "DISPATCH: The story of Alex Chen" [ref=e349] [cursor=pointer]':
+            - /url: /en/journal/the-story-of-alex-chen
+            - generic [ref=e350]:
+              - generic [ref=e351]:
+                - generic [ref=e352]: DISPATCH
+                - time [ref=e353]: 2026-05-15
+              - heading "The story of Alex Chen" [level=3] [ref=e354]
+              - paragraph [ref=e355]: Exposing a fraudulent scheme
+          - 'link "DISPATCH: The Urgency Trap" [ref=e356] [cursor=pointer]':
+            - /url: /en/journal/the-urgency-trap
+            - generic [ref=e357]:
+              - generic [ref=e358]:
+                - generic [ref=e359]: DISPATCH
+                - time [ref=e360]: 2026-01-16
+              - heading "The Urgency Trap" [level=3] [ref=e361]
+              - paragraph [ref=e362]: How Scammers Use Pressure to Steal
+          - 'link "DISPATCH: The Verification Swindle" [ref=e363] [cursor=pointer]':
+            - /url: /en/journal/the-verification-swindle
+            - generic [ref=e364]:
+              - generic [ref=e365]:
+                - generic [ref=e366]: DISPATCH
+                - time [ref=e367]: 2026-01-16
+              - heading "The Verification Swindle" [level=3] [ref=e368]
+              - paragraph [ref=e369]: Why That \"Security\" Text Isn't Safe
+          - 'link "DISPATCH: 5G and Beyond" [ref=e370] [cursor=pointer]':
+            - /url: /en/journal/5g-and-beyond
+            - generic [ref=e371]:
+              - generic [ref=e372]:
+                - generic [ref=e373]: DISPATCH
+                - time [ref=e374]: 2025-04-26
+              - heading "5G and Beyond" [level=3] [ref=e375]
+              - paragraph [ref=e376]: The Future of Wireless Technology
+          - 'link "DISPATCH: Ai creativity" [ref=e377] [cursor=pointer]':
+            - /url: /en/journal/ai-creativity
+            - generic [ref=e378]:
+              - generic [ref=e379]:
+                - generic [ref=e380]: DISPATCH
+                - time [ref=e381]: 2025-02-11
+              - heading "Ai creativity" [level=3] [ref=e382]
+          - 'link "DISPATCH: Blockchain" [ref=e383] [cursor=pointer]':
+            - /url: /en/journal/blockchain
+            - generic [ref=e384]:
+              - generic [ref=e385]:
+                - generic [ref=e386]: DISPATCH
+                - time [ref=e387]: 2025-02-07
+              - heading "Blockchain" [level=3] [ref=e388]
+          - 'link "DISPATCH: The future of Work" [ref=e389] [cursor=pointer]':
+            - /url: /en/journal/the-future-of-work
+            - generic [ref=e390]:
+              - generic [ref=e391]:
+                - generic [ref=e392]: DISPATCH
+                - time [ref=e393]: 2025-02-07
+              - heading "The future of Work" [level=3] [ref=e394]
+          - 'link "DISPATCH: Wearable lots" [ref=e395] [cursor=pointer]':
+            - /url: /en/journal/wearable-lots
+            - generic [ref=e396]:
+              - generic [ref=e397]:
+                - generic [ref=e398]: DISPATCH
+                - time [ref=e399]: 2024-11-28
+              - heading "Wearable lots" [level=3] [ref=e400]
+    - region "> ARTICLE_DATABASE" [ref=e177]:
+      - generic [ref=e178]: // 05. RESEARCH
+      - region "> ARTICLE_DATABASE" [ref=e180]:
+        - generic [ref=e181]:
+          - heading "> ARTICLE_DATABASE" [level=2] [ref=e182]: "> > ARTICLE_DATABASE"
+          - generic [ref=e183]:
+            - 'button "Scroll left: > ARTICLE_DATABASE" [ref=e184]':
+              - generic [ref=e185]: ←
+            - 'button "Scroll right: > ARTICLE_DATABASE" [ref=e186]':
+              - generic [ref=e187]: →
+        - generic "> ARTICLE_DATABASE" [ref=e188]:
+          - 'link "FIELD NOTE: Breakin the Code" [ref=e401] [cursor=pointer]':
+            - /url: /en/journal/breakin-the-code
+            - generic [ref=e402]:
+              - img "Breakin the Code" [ref=e404]
+              - generic [ref=e405]:
+                - generic [ref=e406]: FIELD NOTE
+                - heading "Breakin the Code" [level=3] [ref=e407]
+                - time [ref=e408]: 2025-02-14
+          - 'link "FIELD NOTE: The ICO Dilemma" [ref=e409] [cursor=pointer]':
+            - /url: /en/journal/the-ico-dilemma
+            - generic [ref=e410]:
+              - img "The ICO Dilemma" [ref=e412]
+              - generic [ref=e413]:
+                - generic [ref=e414]: FIELD NOTE
+                - heading "The ICO Dilemma" [level=3] [ref=e415]
+                - time [ref=e416]: 2025-02-14
+          - 'link "FIELD NOTE: The impact of technology" [ref=e417] [cursor=pointer]':
+            - /url: /en/journal/the-impact-of-technology
+            - generic [ref=e418]:
+              - img "The impact of technology" [ref=e420]
+              - generic [ref=e421]:
+                - generic [ref=e422]: FIELD NOTE
+                - heading "The impact of technology" [level=3] [ref=e423]
+                - time [ref=e424]: 2025-02-14
+          - 'link "FIELD NOTE: AR and VR" [ref=e425] [cursor=pointer]':
+            - /url: /en/journal/ar-and-vr
+            - generic [ref=e426]:
+              - img "AR and VR" [ref=e428]
+              - generic [ref=e429]:
+                - generic [ref=e430]: FIELD NOTE
+                - heading "AR and VR" [level=3] [ref=e431]
+                - time [ref=e432]: 2025-02-07
+          - 'link "FIELD NOTE: Blockchain Technology" [ref=e433] [cursor=pointer]':
+            - /url: /en/journal/blockchain-technology
+            - generic [ref=e434]:
+              - img "Blockchain Technology" [ref=e436]
+              - generic [ref=e437]:
+                - generic [ref=e438]: FIELD NOTE
+                - heading "Blockchain Technology" [level=3] [ref=e439]
+                - time [ref=e440]: 2024-12-09
+          - 'link "FIELD NOTE: Digital twins" [ref=e441] [cursor=pointer]':
+            - /url: /en/journal/digital-twins
+            - generic [ref=e442]:
+              - img "Digital twins" [ref=e444]
+              - generic [ref=e445]:
+                - generic [ref=e446]: FIELD NOTE
+                - heading "Digital twins" [level=3] [ref=e447]
+                - time [ref=e448]: 2024-12-09
+          - 'link "FIELD NOTE: Ai on the future educat" [ref=e449] [cursor=pointer]':
+            - /url: /en/journal/ai-on-the-future-educat
+            - generic [ref=e450]:
+              - img "Ai on the future educat" [ref=e452]
+              - generic [ref=e453]:
+                - generic [ref=e454]: FIELD NOTE
+                - heading "Ai on the future educat" [level=3] [ref=e455]
+                - time [ref=e456]: 2024-11-28
+    - region "THREAT_DATABASE" [ref=e190]:
+      - generic [ref=e191]: // 06. INDEX
+      - generic [ref=e193]:
+        - heading "> THREAT_DATABASE" [level=2] [ref=e194]
+        - generic [ref=e457]: MOST COMMON
+        - generic [ref=e458]:
+          - link "Investment pyramids — THREAT L5" [ref=e459] [cursor=pointer]:
+            - /url: /en/guide/investment-pyramids
+            - generic [ref=e460]:
+              - generic [ref=e462]: I
+              - generic [ref=e463]: L5
+            - heading "Investment pyramids" [level=3] [ref=e464]
+            - paragraph [ref=e465]: Investment pyramids, or Ponzi schemes, are among the most widespread types of financial fraud.
+            - generic [ref=e466]:
+              - meter "Threat level 5 of 5" [ref=e467]
+              - generic [ref=e473]: READ →
+          - 'link "Phishing: How to Avoid Getting Hooked by Scammers — THREAT L5" [ref=e474] [cursor=pointer]':
+            - /url: /en/guide/phishing
+            - generic [ref=e475]:
+              - generic [ref=e477]: P
+              - generic [ref=e478]: L5
+            - 'heading "Phishing: How to Avoid Getting Hooked by Scammers" [level=3] [ref=e479]'
+            - paragraph [ref=e480]: Phishing is one of the most common forms of internet fraud, aimed at obtaining users' personal and financial data.
+            - generic [ref=e481]:
+              - meter "Threat level 5 of 5" [ref=e482]
+              - generic [ref=e488]: READ →
+          - link "SMS and phone scams — THREAT L5" [ref=e489] [cursor=pointer]:
+            - /url: /en/guide/sms-and-phone-scams
+            - generic [ref=e490]:
+              - generic [ref=e492]: S
+              - generic [ref=e493]: L5
+            - heading "SMS and phone scams" [level=3] [ref=e494]
+            - paragraph [ref=e495]: As mobile devices have become an integral part of our lives, scammers have turned to SMS and phone calls as effective tools for tricking people out of their money and personal information.
+            - generic [ref=e496]:
+              - meter "Threat level 5 of 5" [ref=e497]
+              - generic [ref=e503]: READ →
+        - generic [ref=e504]: FULL INDEX
+        - list [ref=e505]:
+          - listitem [ref=e506]:
+            - link "Abuse on dating sites — THREAT L4" [ref=e507] [cursor=pointer]:
+              - /url: /en/guide/abuse-on-dating-sites
+              - generic [ref=e508]: A
+              - generic [ref=e509]: Abuse on dating sites
+              - generic [ref=e510]: →
+          - listitem [ref=e511]:
+            - link "Fake online stores — THREAT L4" [ref=e512] [cursor=pointer]:
+              - /url: /en/guide/fake-online-stores
+              - generic [ref=e513]: F
+              - generic [ref=e514]: Fake online stores
+              - generic [ref=e515]: →
+          - listitem [ref=e516]:
+            - link "Fraud with lotteries or contests — THREAT L4" [ref=e517] [cursor=pointer]:
+              - /url: /en/guide/fraud-with-lotteries
+              - generic [ref=e518]: F
+              - generic [ref=e519]: Fraud with lotteries or contests
+              - generic [ref=e520]: →
+          - listitem [ref=e521]:
+            - link "Get-rich-quick schemes — THREAT L4" [ref=e522] [cursor=pointer]:
+              - /url: /en/guide/get-rich-quick-schemes
+              - generic [ref=e523]: G
+              - generic [ref=e524]: Get-rich-quick schemes
+              - generic [ref=e525]: →
+          - listitem [ref=e526]:
+            - link "Scam sites for working at home — THREAT L4" [ref=e527] [cursor=pointer]:
+              - /url: /en/guide/scam-sites-working-at-home
+              - generic [ref=e528]: S
+              - generic [ref=e529]: Scam sites for working at home
+              - generic [ref=e530]: →
+          - listitem [ref=e531]:
+            - link "False charities — THREAT L3" [ref=e532] [cursor=pointer]:
+              - /url: /en/guide/false-charities
+              - generic [ref=e533]: F
+              - generic [ref=e534]: False charities
+              - generic [ref=e535]: →
+          - listitem [ref=e536]:
+            - link "Nigerian letters — THREAT L3" [ref=e537] [cursor=pointer]:
+              - /url: /en/guide/nigerian-letters
+              - generic [ref=e538]: "N"
+              - generic [ref=e539]: Nigerian letters
+              - generic [ref=e540]: →
+    - region "Ready to test your skills?" [ref=e196]:
+      - generic [ref=e198]:
+        - generic [ref=e199]:
+          - generic [ref=e200]: // END_OF_BRIEFING
+          - heading "Ready to test your skills?" [level=2] [ref=e201]
+          - paragraph [ref=e202]: Run the simulation. Spot the scam. Walk away sharper than the people trying to fool you.
+        - generic [ref=e205]:
+          - generic [ref=e206]:
+            - generic [ref=e211]: simulator@discammer ~ %
+            - generic [ref=e212]:
+              - generic [ref=e541]: "> ./discammer simulate"
+              - generic [ref=e542]: "[OK] booting incident simulator..."
+              - generic [ref=e543]: "[INFO] loading scenario pool ............ 14 ready"
+              - generic [ref=e544]: "[INFO] sandbox isolated · network: stub"
+              - generic [ref=e547]: "[OK] sandbox ready"
+              - generic [ref=e548]:
+                - text: $
+                - generic [ref=e549]: ▮
+          - link "START SIMULATION" [ref=e213] [cursor=pointer]:
+            - /url: /play/
+            - generic [ref=e214]: ▶
+            - generic [ref=e215]: START SIMULATION
+  - contentinfo [ref=e216]:
+    - generic [ref=e217]:
+      - generic [ref=e218]:
+        - generic [ref=e219]:
+          - link "DISCAMMER" [ref=e220] [cursor=pointer]:
+            - /url: /en/
+            - img [ref=e221]
+            - generic [ref=e222]: DISCAMMER
+          - paragraph [ref=e223]: Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          - link "Switch to Russian" [ref=e225] [cursor=pointer]:
+            - /url: /lang/ru?next=/ru/
+            - generic [ref=e226]: EN
+            - generic [ref=e227]: →
+            - generic [ref=e228]: RU
+        - generic [ref=e229]:
+          - heading "▸ THREAT DATABASE" [level=4] [ref=e230]:
+            - generic [ref=e231]: ▸
+            - text: THREAT DATABASE
+          - list [ref=e232]:
+            - listitem [ref=e233]:
+              - link "Phishing" [ref=e234] [cursor=pointer]:
+                - /url: /en/guide/phishing
+            - listitem [ref=e235]:
+              - link "Nigerian Letters" [ref=e236] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+            - listitem [ref=e237]:
+              - link "Get-Rich-Quick Schemes" [ref=e238] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+            - listitem [ref=e239]:
+              - link "Investment Pyramids" [ref=e240] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+            - listitem [ref=e241]:
+              - link "False Charities" [ref=e242] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+            - listitem [ref=e243]:
+              - link "Fake Online Stores" [ref=e244] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+            - listitem [ref=e245]:
+              - link "Abuse on Dating Sites" [ref=e246] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+            - listitem [ref=e247]:
+              - link "SMS and Phone Scams" [ref=e248] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+            - listitem [ref=e249]:
+              - link "Fraud with Lotteries" [ref=e250] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+            - listitem [ref=e251]:
+              - link "Work-at-Home Scams" [ref=e252] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+        - generic [ref=e253]:
+          - heading "▸ NAVIGATION" [level=4] [ref=e254]:
+            - generic [ref=e255]: ▸
+            - text: NAVIGATION
+          - list [ref=e256]:
+            - listitem [ref=e257]:
+              - link "Home" [ref=e258] [cursor=pointer]:
+                - /url: /en/
+            - listitem [ref=e259]:
+              - link "Journal" [ref=e260] [cursor=pointer]:
+                - /url: /en/journal
+            - listitem [ref=e261]:
+              - link "Course" [ref=e262] [cursor=pointer]:
+                - /url: /en/course
+            - listitem [ref=e263]:
+              - link "Game" [ref=e264] [cursor=pointer]:
+                - /url: /en/game
+            - listitem [ref=e265]:
+              - link "About" [ref=e266] [cursor=pointer]:
+                - /url: /en/about
+      - generic [ref=e267]:
+        - paragraph [ref=e268]: © 2026 DISCAMMER · All rights reserved.
+        - generic [ref=e271]: SYS · OK
+  - dialog "Site navigation" [ref=e604]:
+    - navigation [ref=e605]:
+      - generic [ref=e606]: // Navigation
+      - link "01 > COURSE [ENTER]" [active] [ref=e607] [cursor=pointer]:
+        - /url: /en/course
+        - generic [ref=e608]: "01"
+        - generic [ref=e609]: "> COURSE"
+        - generic [ref=e610]: "[ENTER]"
+      - link "02 > JOURNAL [ENTER]" [ref=e611] [cursor=pointer]:
+        - /url: /en/journal
+        - generic [ref=e612]: "02"
+        - generic [ref=e613]: "> JOURNAL"
+        - generic [ref=e614]: "[ENTER]"
+      - link "03 > PLAY GAME [ENTER]" [ref=e615] [cursor=pointer]:
+        - /url: /en/game
+        - generic [ref=e616]: "03"
+        - generic [ref=e617]: "> PLAY GAME"
+        - generic [ref=e618]: "[ENTER]"
+      - link "Switch to Russian" [ref=e619] [cursor=pointer]:
+        - /url: /lang/ru?next=/ru/
+        - generic [ref=e620]: "04"
+        - generic [ref=e621]:
+          - generic [ref=e622]: EN
+          - generic [ref=e623]: →
+          - generic [ref=e624]: RU
+        - generic [ref=e625]: "[ENTER]"
+      - paragraph [ref=e627]: "> DiSCAMMER v1.0 // ANTI-SCAM TERMINAL"

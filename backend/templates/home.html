@@ -49,12 +49,21 @@
   <!-- Faint grid as fallback texture (under shader) -->
   <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Decorative HUD coords (desktop only) -->
-  <div class="hidden lg:block absolute top-6 left-6 z-10 font-mono text-[10px] tracking-[2.5px] text-[#475064] uppercase tabular-nums">
-    {{ t(_lang, 'home.hud_left') }}
-  </div>
-  <div class="hidden lg:block absolute top-6 right-6 z-10 font-mono text-[10px] tracking-[2.5px] text-[#475064] uppercase tabular-nums">
-    LAT 55.755826 N · LONG 37.617300 E
+  <!-- HUD metadata strip (desktop only).
+       Per DESIGN.md hero spec: status indicator (live dot + MONITORING),
+       today's ISO date, last-content-updated timestamp. Geo coordinates
+       removed — they were arbitrary chrome with no provenance. -->
+  <div class="hidden lg:flex absolute top-6 left-6 right-6 z-10 items-center justify-between gap-4 font-mono text-[10px] tracking-[2.5px] text-[#6b7588] uppercase tabular-nums">
+    <span class="inline-flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot status-dot--cyan" aria-hidden="true"></span>
+      <span>{{ t(_lang, 'home.hud_monitoring') }}</span>
+    </span>
+    <span class="text-[#aab2c4]">
+      {{ "%04d"|format(_now.year) }}-{{ "%02d"|format(_now.month) }}-{{ "%02d"|format(_now.day) }} {{ "%02d"|format(_now.hour) }}:{{ "%02d"|format(_now.minute) }} UTC
+    </span>
+    <span>
+      {{ t(_lang, 'home.hud_last_filed_prefix') }} {{ latest_published_at or '----' }}
+    </span>
   </div>
 
   <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 lg:pt-28 pb-12 sm:pb-16 lg:pb-20 flex-1 flex items-center">
@@ -94,14 +103,6 @@
           {{ t(_lang, 'home.subtitle') }}
         </p>
 
-        <!-- Typewriter (smaller, secondary) -->
-        <div class="mt-5 sm:mt-6">
-          <div data-component="HeroTypewriter" data-props='{"phrases": {{ _typewriter_phrases | tojson }}, "prefix": {{ t(_lang, "components.hero_typewriter_prefix") | tojson }}}'></div>
-          <noscript>
-            <p class="font-mono text-[#aab2c4] text-sm uppercase tracking-wider">{{ _typewriter_phrases | join(' / ') }}</p>
-          </noscript>
-        </div>
-
         <!-- CTAs — left-aligned, mono uppercase -->
         <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <a href="/{{ _lang }}/game"
@@ -118,9 +119,14 @@
           </a>
         </div>
 
-        <!-- Live incident feed -->
-        <div class="mt-10 sm:mt-12 max-w-lg">
-          <div data-component="IncidentFeed" data-props='{"lang":"{{ _lang }}"}'></div>
+        <!-- Typewriter — secondary line below the CTAs, like a console subscription feed
+             (per DESIGN.md hero spec). IncidentFeed terminal removed: fake live telemetry
+             violates PRODUCT.md "show the work, not the costume". -->
+        <div class="mt-5 sm:mt-6">
+          <div data-component="HeroTypewriter" data-props='{"phrases": {{ _typewriter_phrases | tojson }}, "prefix": {{ t(_lang, "components.hero_typewriter_prefix") | tojson }}}'></div>
+          <noscript>
+            <p class="font-mono text-[#aab2c4] text-sm uppercase tracking-wider">{{ _typewriter_phrases | join(' / ') }}</p>
+          </noscript>
         </div>
       </div>
 
@@ -186,7 +192,7 @@
         </div>
         <div class="mt-3 flex items-baseline gap-3">
           <span
-            class="font-mono text-[#65def0] glow-cyan tabular-nums leading-none"
+            class="font-mono text-[#65def0] tabular-nums leading-none"
             style="font-size: clamp(4rem, 10vw, 6.5rem); font-weight: 800; letter-spacing: -0.05em;"
           >{{ "%02d"|format(stats.threats) }}</span>
           <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
@@ -293,53 +299,44 @@
       </div>
     </div>
 
-    <!-- NARROW: Directives as checklist -->
+    <!-- NARROW: Directives as numbered list with hairline dividers -->
     <div class="lg:col-span-5 flex flex-col">
       <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-3">{{ t(_lang, 'home.section_directives') }}</div>
       <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-4" style="letter-spacing: -0.02em;">
         <span class="text-[#475064]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_directives_title') }}
       </h2>
 
-      <ul class="bg-[#0b0f1a] border border-[#202a44] divide-y divide-[#202a44] flex-1">
-        <li class="px-4 sm:px-5 py-4 hover:bg-[#121828] transition-colors group">
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 font-mono text-[10px] tabular-nums text-[#475064] tracking-[2px]">01</span>
-            <span class="mt-0.5 text-[#65def0]" aria-hidden="true">&#9656;</span>
-            <div class="flex-1 min-w-0">
-              <h3 class="font-mono text-[13px] text-[#f3f5fa] uppercase tracking-[1.5px]" style="font-weight: 700; letter-spacing: -0.005em;">{{ t(_lang, 'home.directive_protect') }}</h3>
-              <p class="mt-1.5 text-[12px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
-                {{ t(_lang, 'home.directive_protect_text') }}
-              </p>
-            </div>
+      <ol class="border-y border-[#202a44] divide-y divide-[#202a44] flex-1" role="list">
+        <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6 hover:bg-[#121828]/40 transition-colors">
+          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#475064]">01</div>
+          <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#65def0]" style="letter-spacing: -0.005em;">
+            {{ t(_lang, 'home.directive_protect') }}
           </div>
+          <p class="col-span-12 sm:col-span-8 text-[13px] sm:text-[14px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
+            {{ t(_lang, 'home.directive_protect_text') }}
+          </p>
         </li>
 
-        <li class="px-4 sm:px-5 py-4 hover:bg-[#121828] transition-colors group">
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 font-mono text-[10px] tabular-nums text-[#475064] tracking-[2px]">02</span>
-            <span class="mt-0.5 text-[#7ce896]" aria-hidden="true">&#9656;</span>
-            <div class="flex-1 min-w-0">
-              <h3 class="font-mono text-[13px] text-[#f3f5fa] uppercase tracking-[1.5px]" style="font-weight: 700; letter-spacing: -0.005em;">{{ t(_lang, 'home.directive_aware') }}</h3>
-              <p class="mt-1.5 text-[12px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
-                {{ t(_lang, 'home.directive_aware_text') }}
-              </p>
-            </div>
+        <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6 hover:bg-[#121828]/40 transition-colors">
+          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#475064]">02</div>
+          <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#7ce896]" style="letter-spacing: -0.005em;">
+            {{ t(_lang, 'home.directive_aware') }}
           </div>
+          <p class="col-span-12 sm:col-span-8 text-[13px] sm:text-[14px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
+            {{ t(_lang, 'home.directive_aware_text') }}
+          </p>
         </li>
 
-        <li class="px-4 sm:px-5 py-4 hover:bg-[#121828] transition-colors group">
-          <div class="flex items-start gap-3">
-            <span class="mt-0.5 font-mono text-[10px] tabular-nums text-[#475064] tracking-[2px]">03</span>
-            <span class="mt-0.5 text-[#f4b965]" aria-hidden="true">&#9656;</span>
-            <div class="flex-1 min-w-0">
-              <h3 class="font-mono text-[13px] text-[#f3f5fa] uppercase tracking-[1.5px]" style="font-weight: 700; letter-spacing: -0.005em;">{{ t(_lang, 'home.directive_train') }}</h3>
-              <p class="mt-1.5 text-[12px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
-                {{ t(_lang, 'home.directive_train_text') }}
-              </p>
-            </div>
+        <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6 hover:bg-[#121828]/40 transition-colors">
+          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#475064]">03</div>
+          <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#f4b965]" style="letter-spacing: -0.005em;">
+            {{ t(_lang, 'home.directive_train') }}
           </div>
+          <p class="col-span-12 sm:col-span-8 text-[13px] sm:text-[14px] text-[#aab2c4] leading-relaxed" style="font-family: Geist, system-ui, sans-serif;">
+            {{ t(_lang, 'home.directive_train_text') }}
+          </p>
         </li>
-      </ul>
+      </ol>
     </div>
   </div>
 </section>
@@ -348,41 +345,32 @@
 <!-- JOURNAL TRIO — interviews / newsletters / articles            -->
 <!-- Tight grouping (one logical block: the field journal)         -->
 <!-- ============================================================ -->
-<div data-component="ScrollReveal">
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4" aria-label="{{ t(_lang, 'home.interview_log_title') }}">
-    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
-    <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
-  </section>
-</div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4" aria-label="{{ t(_lang, 'home.interview_log_title') }}">
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
+</section>
 
-<div data-component="ScrollReveal">
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-4" aria-label="{{ t(_lang, 'home.newsletter_feed_title') }}">
-    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
-    <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
-  </section>
-</div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-4" aria-label="{{ t(_lang, 'home.newsletter_feed_title') }}">
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
+</section>
 
-<div data-component="ScrollReveal">
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16" aria-label="{{ t(_lang, 'home.article_database_title') }}">
-    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
-    <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
-  </section>
-</div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16" aria-label="{{ t(_lang, 'home.article_database_title') }}">
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
+  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
+</section>
 
 <!-- ============================================================ -->
 <!-- THREAT DATABASE — distinct section, generous separation       -->
 <!-- ============================================================ -->
-<div data-component="ScrollReveal">
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 border-t border-[#202a44]" aria-label="{{ t(_lang, 'home.threat_database_title') }}">
-    <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
-    <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
-  </section>
-</div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 border-t border-[#202a44]" aria-label="{{ t(_lang, 'home.threat_database_title') }}">
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
+  <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
+</section>
 
 <!-- ============================================================ -->
 <!-- FINAL CTA — typed CLI command                                 -->
 <!-- ============================================================ -->
-<div data-component="ScrollReveal">
 <section class="relative overflow-hidden border-t border-[#202a44] mt-8" aria-label="{{ t(_lang, 'home.final_cta_title') }}">
   <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none" aria-hidden="true"></div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24">
@@ -423,6 +411,5 @@ $ _</pre>
     </div>
   </div>
 </section>
-</div>
 
 {% endblock %}

@@ -1,7 +1,40 @@
+import re
 from urllib.parse import urlparse
 
 import bleach
 import markdown
+
+
+# Cyrillic → Latin transliteration table. Keeps heading anchor IDs ASCII so
+# URL fragments and JavaScript selectors work cleanly across browsers and SEO
+# tools — Cyrillic-in-id roundtrips poorly through encoding layers.
+_RU_TO_LATIN = {
+    "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ё": "yo",
+    "ж": "zh", "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m",
+    "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+    "ф": "f", "х": "h", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "sch", "ъ": "",
+    "ы": "y", "ь": "", "э": "e", "ю": "yu", "я": "ya",
+}
+
+
+def _transliterate_ru(text: str) -> str:
+    """Map every Cyrillic letter to its ASCII counterpart, leaving other chars."""
+    return "".join(_RU_TO_LATIN.get(c.lower(), c) for c in text)
+
+
+def _slugify_translit(value: str, separator: str) -> str:
+    """Slugify a heading by transliterating Cyrillic first.
+
+    Falls back to python-markdown's default ASCII slugify behaviour after the
+    transliteration step, so Latin headings produce the same IDs as before
+    while ``## Как работает фишинг?`` becomes ``kak-rabotaet-fishing``.
+    """
+    translit = _transliterate_ru(value).lower()
+    # Strip everything that isn't alphanumeric, whitespace, or the separator.
+    translit = re.sub(r"[^\w\s-]", "", translit, flags=re.UNICODE)
+    # Collapse whitespace runs into the separator.
+    translit = re.sub(r"[\s_]+", separator, translit).strip(separator)
+    return translit
 
 
 _MD = markdown.Markdown(
@@ -14,6 +47,7 @@ _MD = markdown.Markdown(
         "toc": {
             "permalink": "#",
             "permalink_class": "toc-anchor",
+            "slugify": _slugify_translit,
         },
     },
 )
@@ -92,15 +126,52 @@ def _attribute_filter(tag: str, name: str, value: str) -> bool:
     return False
 
 
-def render_markdown(text: str) -> str:
+def _strip_duplicate_h1(text: str, post_title: str) -> str:
+    """Remove a leading ``# Title`` line that just repeats ``post_title``.
+
+    Migrated content often starts the markdown body with the same headline that
+    already lives in the post's frontmatter (and therefore renders as the page
+    h1 in the template). Drop that first h1 so the article body doesn't carry a
+    second, duplicate page heading. Match is case-insensitive and tolerant of
+    surrounding whitespace; non-matching first lines are left alone.
+    """
+    if not post_title:
+        return text
+    normalized_title = post_title.strip().lower()
+    if not normalized_title:
+        return text
+    lines = text.split("\n", 1)
+    if not lines:
+        return text
+    first = lines[0]
+    # Only consider a real h1 (single leading "#"), not "##" / "###" / etc.
+    stripped = first.lstrip()
+    if not stripped.startswith("# "):
+        return text
+    heading_text = stripped[2:].strip().lower()
+    if heading_text != normalized_title:
+        return text
+    # Drop the first line and any single blank separator that follows it.
+    remainder = lines[1] if len(lines) > 1 else ""
+    return remainder.lstrip("\n")
+
+
+def render_markdown(text: str, post_title: str | None = None) -> str:
     """Convert a Markdown string to sanitized HTML for the cyberpunk terminal UI.
 
     Sanitization strips scripts, event handlers, and dangerous URL schemes, but
     preserves iframe embeds from a small allowlist of video/document hosts so
     migrated video newsletters and interviews continue to render.
+
+    When ``post_title`` is supplied, a leading ``# Title`` line that duplicates
+    the post's frontmatter title is removed so the rendered body does not carry
+    a second h1 alongside the template's page heading.
     """
     if not text:
         return ""
+
+    if post_title:
+        text = _strip_duplicate_h1(text, post_title)
 
     _MD.reset()
     html = _MD.convert(text)

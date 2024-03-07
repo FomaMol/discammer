@@ -1,0 +1,390 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /en/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "COURSE" [ref=e9] [cursor=pointer]:
+          - /url: /en/course
+        - link "JOURNAL" [ref=e10] [cursor=pointer]:
+          - /url: /en/journal
+        - link "PLAY GAME" [ref=e11] [cursor=pointer]:
+          - /url: /en/game
+        - link "Switch to Russian" [ref=e13] [cursor=pointer]:
+          - /url: /lang/ru?next=/ru/guide/false-charities
+          - generic [ref=e14]: EN
+          - generic [ref=e15]: →
+          - generic [ref=e16]: RU
+  - main [ref=e17]:
+    - generic [ref=e19]:
+      - generic [ref=e20]: CONFIDENTIAL · CASE FILE · INVESTIGATIVE BRIEF
+      - generic [ref=e21]: "CASE #DCM-2025-SOCIAL-348"
+      - generic [ref=e22]:
+        - generic [ref=e23]: INDEXED 2025-02-14
+        - generic [ref=e24]: ACTIVE
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - navigation "Breadcrumb" [ref=e28]:
+            - link "~" [ref=e29] [cursor=pointer]:
+              - /url: /en/
+            - generic [ref=e30]: /
+            - link "threat-database" [ref=e31] [cursor=pointer]:
+              - /url: /en/journal
+            - generic [ref=e32]: /
+            - generic [ref=e33]: false-charities
+          - generic [ref=e34]: // DOSSIER / THREAT_PROFILE / SOCIAL
+          - heading "False charities" [level=1] [ref=e35]
+          - paragraph [ref=e36]: "CLASSIFICATION: social · RISK_TIER: 3/5 · OPS_PRIORITY: HIGH"
+          - paragraph [ref=e37]: Fake charities are one of the most cynical types of scams, exploiting people's kindness and compassion for those in need.
+          - 'meter "RISK ASSESSMENT: 3/5 — elevated" [ref=e38]':
+            - generic [ref=e39]: RISK ASSESSMENT — ELEVATED
+            - generic [ref=e40]:
+              - generic [ref=e43]: LOW
+              - generic [ref=e46]: LOW
+              - generic [ref=e49]: MED
+              - generic [ref=e52]: HIGH
+              - generic [ref=e55]: CRIT
+        - complementary [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]: // DOSSIER · FALSE-CHARITIES
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - term [ref=e61]: CATEGORY
+                - definition [ref=e62]: social
+              - generic [ref=e63]:
+                - term [ref=e64]: RISK_TIER
+                - definition [ref=e65]: 3/5
+              - generic [ref=e66]:
+                - term [ref=e67]: INDEXED
+                - definition [ref=e68]: 2025-02-14
+              - generic [ref=e69]:
+                - term [ref=e70]: INVESTIGATOR
+                - definition [ref=e71]: DCM-OPS
+              - generic [ref=e72]:
+                - term [ref=e73]: LAST_ACTIVITY
+                - definition [ref=e74]: 1d AGO
+              - generic [ref=e75]:
+                - term [ref=e76]: CASES_LOGGED
+                - definition [ref=e77]: "605"
+              - generic [ref=e78]:
+                - term [ref=e79]: STATUS
+                - definition [ref=e80]: ACTIVE
+      - generic [ref=e82]:
+        - complementary [ref=e83]
+        - main [ref=e84]:
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - generic [ref=e87]: "001"
+              - generic [ref=e88]: "002"
+              - generic [ref=e89]: "003"
+              - generic [ref=e90]: "004"
+              - generic [ref=e91]: "005"
+              - generic [ref=e92]: "006"
+              - generic [ref=e93]: "007"
+              - generic [ref=e94]: "008"
+              - generic [ref=e95]: "009"
+              - generic [ref=e96]: "010"
+              - generic [ref=e97]: "011"
+              - generic [ref=e98]: "012"
+              - generic [ref=e99]: "013"
+              - generic [ref=e100]: "014"
+              - generic [ref=e101]: "015"
+              - generic [ref=e102]: "016"
+              - generic [ref=e103]: "017"
+              - generic [ref=e104]: "018"
+              - generic [ref=e105]: "019"
+              - generic [ref=e106]: "020"
+              - generic [ref=e107]: "021"
+              - generic [ref=e108]: "022"
+              - generic [ref=e109]: "023"
+              - generic [ref=e110]: "024"
+              - generic [ref=e111]: "025"
+              - generic [ref=e112]: "026"
+              - generic [ref=e113]: "027"
+              - generic [ref=e114]: "028"
+              - generic [ref=e115]: "029"
+              - generic [ref=e116]: "030"
+              - generic [ref=e117]: "031"
+              - generic [ref=e118]: "032"
+              - generic [ref=e119]: "033"
+              - generic [ref=e120]: "034"
+              - generic [ref=e121]: "035"
+              - generic [ref=e122]: "036"
+              - generic [ref=e123]: "037"
+              - generic [ref=e124]: "038"
+              - generic [ref=e125]: "039"
+              - generic [ref=e126]: "040"
+              - generic [ref=e127]: "041"
+              - generic [ref=e128]: "042"
+              - generic [ref=e129]: "043"
+              - generic [ref=e130]: "044"
+              - generic [ref=e131]: "045"
+              - generic [ref=e132]: "046"
+              - generic [ref=e133]: "047"
+              - generic [ref=e134]: "048"
+              - generic [ref=e135]: "049"
+              - generic [ref=e136]: "050"
+              - generic [ref=e137]: "051"
+              - generic [ref=e138]: "052"
+              - generic [ref=e139]: "053"
+              - generic [ref=e140]: "054"
+              - generic [ref=e141]: "055"
+              - generic [ref=e142]: "056"
+              - generic [ref=e143]: "057"
+              - generic [ref=e144]: "058"
+              - generic [ref=e145]: "059"
+              - generic [ref=e146]: "060"
+              - generic [ref=e147]: "061"
+              - generic [ref=e148]: "062"
+              - generic [ref=e149]: "063"
+            - article [ref=e150]:
+              - generic [ref=e151]:
+                - paragraph [ref=e152]:
+                  - strong [ref=e153]: "Fake Charities: How to Avoid Falling Victim to Scammers"
+                - paragraph [ref=e154]: Fake charities are one of the most cynical types of scams, exploiting people's kindness and compassion for those in need. Fraudsters, under the guise of noble causes, solicit money supposedly to help those in distress, but in reality, they use these funds for personal gain. It’s essential to recognize such schemes and verify where your donations are going to support trustworthy organizations.
+                - paragraph [ref=e155]:
+                  - strong [ref=e156]: How Do Fake Charities Operate?
+                - list [ref=e157]:
+                  - listitem [ref=e158]:
+                    - strong [ref=e159]: Building Trust
+                    - text: ": Scammers create websites, social media pages, or campaigns that mimic legitimate charities. They use emotional stories and photos that evoke sympathy and the desire to help. Often, they choose names similar to those of real organizations or claim to collaborate with well-known charities."
+                  - listitem [ref=e160]:
+                    - strong [ref=e161]: Creating Urgency and Emotional Pressure
+                    - text: ": To push people to donate quickly, scammers often describe an “urgent” situation, such as a medical emergency, disaster relief, or help for children, animals, and other vulnerable groups. This tactic encourages people to act impulsively without verifying the information."
+                  - listitem [ref=e162]:
+                    - strong [ref=e163]: Collecting Money Through Convenient Platforms
+                    - text: ": Fraudsters use online platforms, bank transfers, digital wallets, and even cryptocurrency, making them difficult to trace. Sometimes, they ask for donations via SMS or QR codes to enable fast and “convenient” payments."
+                  - listitem [ref=e164]:
+                    - strong [ref=e165]: Lack of Transparency and Accountability
+                    - text: ": Legitimate charities typically provide expense reports and evidence of their activities. In contrast, fake charities avoid answering questions about how funds are distributed or give vague responses."
+                - paragraph [ref=e166]:
+                  - strong [ref=e167]: "Real-Life Example: Scam Charity During Australian Bushfires"
+                - paragraph [ref=e168]:
+                  - text: During the devastating bushfires in Australia in 2019–2020, which captured worldwide attention, people from around the globe began donating to help the affected communities and wildlife. Unfortunately, scammers also took advantage of this moment. One high-profile case involved a fake charity claiming to raise funds to "save animals."
+                  - text: The organizers circulated photos of animals injured in the fires, stating that each donation would go toward their medical care. However, the collected funds went straight into scammers' accounts instead. Later, it was discovered that this “organization” was registered to one person, who had no ties to actual charity work. This case became one of the most notorious scams during the Australian bushfires, drawing outrage from people who genuinely wanted to help.
+                - paragraph [ref=e169]:
+                  - strong [ref=e170]: How to Protect Yourself from Fake Charities
+                - list [ref=e171]:
+                  - listitem [ref=e172]:
+                    - strong [ref=e173]: Verify the Organization
+                    - text: ": Use sites like Charity Navigator, GuideStar, or your country’s official tax agency website to check if the organization is legitimately registered. Local databases of charities can also be helpful."
+                  - listitem [ref=e174]:
+                    - strong [ref=e175]: Review the Website and Contact Information
+                    - text: ": Real charities provide detailed reports and contact information. If a website looks incomplete, contains errors, or provides unclear details, take caution."
+                  - listitem [ref=e176]:
+                    - strong [ref=e177]: Be Wary of Emotional Pressure
+                    - text: ": Scammers often use emotional appeals to demand an immediate response to their pleas. Legitimate organizations rarely create a sense of urgency, as transparency and donor confidence are more important to them."
+                  - listitem [ref=e178]:
+                    - strong [ref=e179]: Check Donation Methods
+                    - text: ": If the organization lacks official payment methods, such as direct bank transfer or donation through a verified platform, and instead offers only digital wallets or phone-based transfers, be cautious."
+                  - listitem [ref=e180]:
+                    - strong [ref=e181]: Look for Evidence of Real Activity
+                    - text: ": Authentic organizations publish reports on their work, campaign results, and photos from events. Check their social media or news presence—legitimate organizations usually receive media coverage and endorsements."
+                - paragraph [ref=e182]: Supporting those in need is an important and noble cause, and verifying information before donating protects not only your finances but also the integrity of charitable giving.
+          - generic [ref=e183]:
+            - generic [ref=e184]: // INVESTIGATOR_NOTES
+            - generic [ref=e185]:
+              - generic [ref=e190]: dcm-ops@case-dcm-2025-social-348 ~ % cat investigator_notes.txt
+              - generic [ref=e191]: "> active investigation — pattern indicators logged from open-source intelligence feeds. > victim reporting rate stays low; most cases surface only through bank-side chargeback data. > attack surface evolves faster than the typical user's threat model — refresh quarterly. > recommend: study the red flags in the body of this dossier and practice in the simulator. >"
+      - generic [ref=e193]:
+        - generic [ref=e194]: // OTHER_THREATS
+        - generic [ref=e195]:
+          - link "🔺 financial Investment pyramids Investment pyramids, or Ponzi schemes, are among the most widespread types of financial fraud. 5" [ref=e196] [cursor=pointer]:
+            - /url: /en/guide/investment-pyramids
+            - generic [ref=e197]:
+              - generic [ref=e198]: 🔺
+              - generic [ref=e199]: financial
+            - heading "Investment pyramids" [level=3] [ref=e200]
+            - paragraph [ref=e201]: Investment pyramids, or Ponzi schemes, are among the most widespread types of financial fraud.
+            - 'meter "RISK ASSESSMENT: 5/5" [ref=e202]'
+          - 'link "🎣 phishing Phishing: How to Avoid Getting Hooked by Scammers 5" [ref=e209] [cursor=pointer]':
+            - /url: /en/guide/phishing
+            - generic [ref=e210]:
+              - generic [ref=e211]: 🎣
+              - generic [ref=e212]: phishing
+            - 'heading "Phishing: How to Avoid Getting Hooked by Scammers" [level=3] [ref=e213]'
+            - 'meter "RISK ASSESSMENT: 5/5" [ref=e214]'
+        - generic [ref=e221]:
+          - generic [ref=e222]: // MORE_PATTERNS
+          - list [ref=e223]:
+            - listitem [ref=e224]:
+              - link "📱 SMS and phone scams telecom 5/5" [ref=e225] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+                - generic [ref=e226]:
+                  - generic [ref=e227]: 📱
+                  - generic [ref=e228]: SMS and phone scams
+                - generic [ref=e229]:
+                  - generic [ref=e230]: telecom
+                  - generic [ref=e231]: 5/5
+                  - generic [ref=e232]: →
+            - listitem [ref=e233]:
+              - link "💔 Abuse on dating sites romance 4/5" [ref=e234] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+                - generic [ref=e235]:
+                  - generic [ref=e236]: 💔
+                  - generic [ref=e237]: Abuse on dating sites
+                - generic [ref=e238]:
+                  - generic [ref=e239]: romance
+                  - generic [ref=e240]: 4/5
+                  - generic [ref=e241]: →
+            - listitem [ref=e242]:
+              - link "🛒 Fake online stores commerce 4/5" [ref=e243] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+                - generic [ref=e244]:
+                  - generic [ref=e245]: 🛒
+                  - generic [ref=e246]: Fake online stores
+                - generic [ref=e247]:
+                  - generic [ref=e248]: commerce
+                  - generic [ref=e249]: 4/5
+                  - generic [ref=e250]: →
+            - listitem [ref=e251]:
+              - link "🎟️ Fraud with lotteries or contests lottery 4/5" [ref=e252] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+                - generic [ref=e253]:
+                  - generic [ref=e254]: 🎟️
+                  - generic [ref=e255]: Fraud with lotteries or contests
+                - generic [ref=e256]:
+                  - generic [ref=e257]: lottery
+                  - generic [ref=e258]: 4/5
+                  - generic [ref=e259]: →
+            - listitem [ref=e260]:
+              - link "💰 Get-rich-quick schemes financial 4/5" [ref=e261] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+                - generic [ref=e262]:
+                  - generic [ref=e263]: 💰
+                  - generic [ref=e264]: Get-rich-quick schemes
+                - generic [ref=e265]:
+                  - generic [ref=e266]: financial
+                  - generic [ref=e267]: 4/5
+                  - generic [ref=e268]: →
+            - listitem [ref=e269]:
+              - link "💼 Scam sites for working at home employment 4/5" [ref=e270] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+                - generic [ref=e271]:
+                  - generic [ref=e272]: 💼
+                  - generic [ref=e273]: Scam sites for working at home
+                - generic [ref=e274]:
+                  - generic [ref=e275]: employment
+                  - generic [ref=e276]: 4/5
+                  - generic [ref=e277]: →
+            - listitem [ref=e278]:
+              - link "✉️ Nigerian letters email-fraud 3/5" [ref=e279] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+                - generic [ref=e280]:
+                  - generic [ref=e281]: ✉️
+                  - generic [ref=e282]: Nigerian letters
+                - generic [ref=e283]:
+                  - generic [ref=e284]: email-fraud
+                  - generic [ref=e285]: 3/5
+                  - generic [ref=e286]: →
+      - generic [ref=e287]:
+        - generic [ref=e288]: // NEXT_STEPS
+        - generic [ref=e289]:
+          - link "OPS-001 Test yourself in the simulator" [ref=e290] [cursor=pointer]:
+            - /url: /en/game
+            - generic [ref=e291]:
+              - generic [ref=e292]: OPS-001
+              - generic [ref=e293]: ▸
+              - generic [ref=e294]: Test yourself in the simulator
+            - generic [ref=e295]: →
+          - link "OPS-002 Get the field guide briefings" [ref=e296] [cursor=pointer]:
+            - /url: /en/journal
+            - generic [ref=e297]:
+              - generic [ref=e298]: OPS-002
+              - generic [ref=e299]: ▸
+              - generic [ref=e300]: Get the field guide briefings
+            - generic [ref=e301]: →
+          - link "OPS-003 Take the structured course" [ref=e302] [cursor=pointer]:
+            - /url: /en/course
+            - generic [ref=e303]:
+              - generic [ref=e304]: OPS-003
+              - generic [ref=e305]: ▸
+              - generic [ref=e306]: Take the structured course
+            - generic [ref=e307]: →
+      - paragraph [ref=e309]:
+        - generic [ref=e310]: "CHAIN_OF_CUSTODY: DCM-OPS"
+        - generic [ref=e311]: ·
+        - generic [ref=e312]: "LAST_REVIEWED: 2026-05-25"
+        - generic [ref=e313]: ·
+        - generic [ref=e314]: "NEXT_REVIEW: 90 DAYS"
+        - generic [ref=e315]: ·
+        - generic [ref=e316]: "CLASSIFICATION: UNCLASSIFIED ONCE PUBLIC"
+      - link "← Back to Threat Database" [ref=e318] [cursor=pointer]:
+        - /url: /en/journal
+  - contentinfo [ref=e319]:
+    - generic [ref=e320]:
+      - generic [ref=e321]:
+        - generic [ref=e322]:
+          - link "DISCAMMER" [ref=e323] [cursor=pointer]:
+            - /url: /en/
+            - img [ref=e324]
+            - generic [ref=e325]: DISCAMMER
+          - paragraph [ref=e326]: Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          - link "Switch to Russian" [ref=e328] [cursor=pointer]:
+            - /url: /lang/ru?next=/ru/guide/false-charities
+            - generic [ref=e329]: EN
+            - generic [ref=e330]: →
+            - generic [ref=e331]: RU
+        - generic [ref=e332]:
+          - heading "▸ THREAT DATABASE" [level=4] [ref=e333]:
+            - generic [ref=e334]: ▸
+            - text: THREAT DATABASE
+          - list [ref=e335]:
+            - listitem [ref=e336]:
+              - link "Phishing" [ref=e337] [cursor=pointer]:
+                - /url: /en/guide/phishing
+            - listitem [ref=e338]:
+              - link "Nigerian Letters" [ref=e339] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+            - listitem [ref=e340]:
+              - link "Get-Rich-Quick Schemes" [ref=e341] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+            - listitem [ref=e342]:
+              - link "Investment Pyramids" [ref=e343] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+            - listitem [ref=e344]:
+              - link "False Charities" [ref=e345] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+            - listitem [ref=e346]:
+              - link "Fake Online Stores" [ref=e347] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+            - listitem [ref=e348]:
+              - link "Abuse on Dating Sites" [ref=e349] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+            - listitem [ref=e350]:
+              - link "SMS and Phone Scams" [ref=e351] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+            - listitem [ref=e352]:
+              - link "Fraud with Lotteries" [ref=e353] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+            - listitem [ref=e354]:
+              - link "Work-at-Home Scams" [ref=e355] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+        - generic [ref=e356]:
+          - heading "▸ NAVIGATION" [level=4] [ref=e357]:
+            - generic [ref=e358]: ▸
+            - text: NAVIGATION
+          - list [ref=e359]:
+            - listitem [ref=e360]:
+              - link "Home" [ref=e361] [cursor=pointer]:
+                - /url: /en/
+            - listitem [ref=e362]:
+              - link "Journal" [ref=e363] [cursor=pointer]:
+                - /url: /en/journal
+            - listitem [ref=e364]:
+              - link "Course" [ref=e365] [cursor=pointer]:
+                - /url: /en/course
+            - listitem [ref=e366]:
+              - link "Game" [ref=e367] [cursor=pointer]:
+                - /url: /en/game
+            - listitem [ref=e368]:
+              - link "About" [ref=e369] [cursor=pointer]:
+                - /url: /en/about
+      - generic [ref=e370]:
+        - paragraph [ref=e371]: © 2026 DISCAMMER · All rights reserved.
+        - generic [ref=e374]: SYS · OK

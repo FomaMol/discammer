@@ -113,10 +113,15 @@
    ───────────────────────────────────────────────────────────────────── #}
 <div class="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-  {# Breadcrumbs — kept as mono path style ~/journal/<type>/<slug> #}
+  {# Breadcrumbs — kept as mono path style ~/journal/<type>/<slug>.
+     Type segment is localized so /ru/journal/<slug> renders "журнал/статья/..."
+     while the slug stays in its original ASCII form (slugs are stable identifiers). #}
+  {% set _type_breadcrumb_key = 'breadcrumb.type_' ~ post.type %}
+  {% set _type_breadcrumb = t(_lang, _type_breadcrumb_key) %}
+  {% if _type_breadcrumb == _type_breadcrumb_key %}{% set _type_breadcrumb = post.type %}{% endif %}
   <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="Breadcrumb">
     <span class="text-[#6b7588]">
-      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]" aria-hidden="true">/</span>{{ post.type }}<span class="text-[#475064]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
+      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#475064]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
     </span>
   </nav>
 
@@ -270,18 +275,7 @@
   </div>
 </div>
 
-{# Lead-paragraph style for the article body. Scoped to .post-prose so the
-   existing .prose styles on guide.html / module.html / lesson.html are
-   untouched. Drop-cap removed — inconsistent application across cards/posts
-   read as a bug, not editorial; per /impeccable distill. #}
-<style>
-  /* Lead paragraph (first <p> in the rendered article) — Geist 19px, ink, no top margin */
-  .post-prose > p:first-of-type {
-    font-size: 1.1875rem;     /* 19px */
-    line-height: 1.6;
-    color: var(--color-ink);
-    margin-top: 0;
-  }
-</style>
+{# Lead-paragraph styling for .post-prose lives in globals.css. Scoped there
+   so it doesn't leak into guide/module/lesson .prose surfaces. #}
 
 {% endblock %}

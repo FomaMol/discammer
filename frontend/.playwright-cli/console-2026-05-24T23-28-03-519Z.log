@@ -1,0 +1,2 @@
+[      79ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ http://127.0.0.1:8000/en/journal/interview-with-guest-kelvin-mou:317
+[    5945ms] [WARNING] player: r: Timeout of 2000ms exceeded. @ https://player.kinescope.io/v2.184.2/player.js:0

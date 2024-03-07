@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 const BUNDLES = {
   en: {
@@ -48,13 +49,6 @@ interface Props {
  */
 
 const SESSION_KEY = 'discammer:course:briefing-typed:v1';
-
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
-  );
-}
 
 type Tone = 'cyan' | 'amber' | 'ink' | 'green' | 'mute';
 
@@ -267,13 +261,8 @@ export default function MissionBriefingTerminal({
         </div>
       </div>
 
-      <style>{`
-        .dcm-briefing-cta-primary:hover { transform: translateY(-1px); }
-        .dcm-briefing-cta-primary:active { transform: translateY(0); }
-        @media (prefers-reduced-motion: reduce) {
-          .dcm-briefing-cta-primary:hover { transform: none; }
-        }
-      `}</style>
+      {/* `.dcm-briefing-cta-primary` hover/active transforms +
+          reduced-motion suppression live in globals.css. */}
     </section>
   );
 }

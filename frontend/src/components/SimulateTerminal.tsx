@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { currentLang, pick, type Locale } from '../utils/i18n';
+import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 interface SimulateTerminalProps {
   lang?: Locale;
@@ -28,13 +29,6 @@ const BUNDLES: Record<Locale, Bundle> = {
   en: { label: 'START SIMULATION', terminal_label: 'simulator@discammer ~ %' },
   ru: { label: 'НАЧАТЬ СИМУЛЯЦИЮ', terminal_label: 'simulator@discammer ~ %' },
 };
-
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
-  );
-}
 
 export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
   const locale = currentLang(lang);

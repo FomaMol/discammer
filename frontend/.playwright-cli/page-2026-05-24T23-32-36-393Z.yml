@@ -1,0 +1,199 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /en/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "COURSE" [ref=e9] [cursor=pointer]:
+          - /url: /en/course
+        - link "JOURNAL" [ref=e10] [cursor=pointer]:
+          - /url: /en/journal
+        - link "PLAY GAME" [ref=e11] [cursor=pointer]:
+          - /url: /en/game
+        - link "Switch to Russian" [ref=e13] [cursor=pointer]:
+          - /url: /lang/ru?next=/ru/course/threat-fundamentals/scam-economy
+          - generic [ref=e14]: EN
+          - generic [ref=e15]: →
+          - generic [ref=e16]: RU
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - navigation "Breadcrumb" [ref=e19]:
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - link "course" [ref=e22] [cursor=pointer]:
+              - /url: /en/course
+          - listitem [ref=e23]: /
+          - listitem [ref=e24]:
+            - link "threat-fundamentals" [ref=e25] [cursor=pointer]:
+              - /url: /en/course/threat-fundamentals
+          - listitem [ref=e26]: /
+          - listitem [ref=e27]: scam-economy
+      - generic [ref=e28]: // OPERATOR LOG · ENTRY 101 · MISSION 01 · BRIEFING 01 OF 06 · EST 7 MIN
+      - progressbar "BRIEFING 1 OF 6" [ref=e29]
+      - heading "Anatomy of a modern scam economy" [level=1] [ref=e36]
+      - article [ref=e37]:
+        - generic [ref=e38]:
+          - 'heading "Scams are a supply chain, not a lone hacker #" [level=2] [ref=e39]':
+            - text: Scams are a supply chain, not a lone hacker
+            - link "#" [ref=e40] [cursor=pointer]:
+              - /url: "#scams-are-a-supply-chain-not-a-lone-hacker"
+          - paragraph [ref=e41]: The stereotype of a hooded loner in a basement is decades out of date. Today's fraud ecosystem looks much more like a tech startup with departments, vendors, customers, and a price list.
+          - paragraph [ref=e42]: "A typical operation pulls from at least four specialized layers:"
+          - list [ref=e43]:
+            - listitem [ref=e44]:
+              - text: ▸
+              - strong [ref=e45]: Tooling.
+              - text: Off-the-shelf
+              - emphasis [ref=e46]: phishing kits
+              - text: clone a brand's login page for $30–$200.
+              - strong [ref=e47]: Phishing-as-a-Service
+              - text: (PhaaS) platforms sell subscriptions with dashboards, A/B-tested email templates, and live victim feeds.
+            - listitem [ref=e48]:
+              - text: ▸
+              - strong [ref=e49]: Infrastructure.
+              - text: Bulletproof hosting, lookalike domains, anonymized SMS gateways, and disposable phone numbers are all rented by the hour.
+            - listitem [ref=e50]:
+              - text: ▸
+              - strong [ref=e51]: Leads.
+              - text: Stolen email lists, breach databases, and
+              - emphasis [ref=e52]: lead targeting
+              - text: by demographic (“65+, US, owns crypto wallet”) trade on closed forums.
+            - listitem [ref=e53]:
+              - text: ▸
+              - strong [ref=e54]: Cash-out.
+              - text: Mule networks, crypto mixers, and gift-card laundries move stolen funds out of the banking system and into the operator's pocket.
+          - 'heading "Why the economics matter to you #" [level=2] [ref=e55]':
+            - text: Why the economics matter to you
+            - link "#" [ref=e56] [cursor=pointer]:
+              - /url: "#why-the-economics-matter-to-you"
+          - paragraph [ref=e57]:
+            - text: Because every layer is specialized and rented, the
+            - emphasis [ref=e58]: cost per attempted scam
+            - text: is now pennies. Attackers can afford to send a million highly personalized messages to find a handful of victims.
+          - paragraph [ref=e59]: "The defensive lesson follows directly: you cannot rely on attackers being lazy, stupid, or rare. They are industrial. Your defense has to be habits, not luck."
+          - 'heading "What you should remember #" [level=2] [ref=e60]':
+            - text: What you should remember
+            - link "#" [ref=e61] [cursor=pointer]:
+              - /url: "#what-you-should-remember"
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - text: ▸ Scams are a
+              - emphasis [ref=e64]: business
+              - text: ", with vendors, prices, and quality tiers."
+            - listitem [ref=e65]: ▸ Personalization is now cheap; “generic phishing” is no longer a reassuring marker of safety.
+            - listitem [ref=e66]: ▸ Defense is about repeatable habits — verification, pauses, second opinions — not about being smart in the moment.
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - generic [ref=e71]: // ASSESSMENT
+          - generic [ref=e72]: 4 options
+        - heading "Which of the following is the single biggest reason highly personalized scam messages now reach millions of inboxes per day?" [level=3] [ref=e73]
+        - group [ref=e74]:
+          - generic [ref=e75] [cursor=pointer]:
+            - radio "Modern email providers have weakened their spam filters." [ref=e76]
+            - generic [ref=e77]: Modern email providers have weakened their spam filters.
+          - generic [ref=e78] [cursor=pointer]:
+            - radio "Phishing-as-a-Service and stolen breach data have made personalization extremely cheap." [ref=e79]
+            - generic [ref=e80]: Phishing-as-a-Service and stolen breach data have made personalization extremely cheap.
+          - generic [ref=e81] [cursor=pointer]:
+            - radio "Most users now click on any link they receive." [ref=e82]
+            - generic [ref=e83]: Most users now click on any link they receive.
+          - generic [ref=e84] [cursor=pointer]:
+            - radio "Government regulation has made fraud legal in many countries." [ref=e85]
+            - generic [ref=e86]: Government regulation has made fraud legal in many countries.
+        - button "SUBMIT ANSWERS" [disabled] [ref=e88]:
+          - generic [ref=e89]: ▸
+          - text: SUBMIT ANSWERS
+      - region "Operator debrief" [ref=e91]:
+        - generic [ref=e96]: // OPS DEBRIEF
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e99]: ▸ KEY TAKEAWAY
+            - paragraph [ref=e100]: the pattern you just studied (anatomy of a modern scam economy) almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.
+          - generic [ref=e101]:
+            - generic [ref=e102]: ▸ NEXT ACTION
+            - paragraph [ref=e103]: mark this debrief complete, then open the next briefing or run the assessment when this module ends.
+      - generic [ref=e106]:
+        - generic [ref=e107]:
+          - button "▸ MARK DEBRIEF COMPLETE" [ref=e108]
+          - link "↑ Mission checklist" [ref=e109] [cursor=pointer]:
+            - /url: /en/course/threat-fundamentals
+        - 'link "NEXT BRIEFING ▷ Attack vectors: email, SMS, voice, and the web" [ref=e112] [cursor=pointer]':
+          - /url: /en/course/threat-fundamentals/attack-vectors
+          - generic [ref=e113]: NEXT BRIEFING ▷
+          - generic [ref=e114]: "Attack vectors: email, SMS, voice, and the web"
+  - contentinfo [ref=e115]:
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - generic [ref=e118]:
+          - link "DISCAMMER" [ref=e119] [cursor=pointer]:
+            - /url: /en/
+            - img [ref=e120]
+            - generic [ref=e121]: DISCAMMER
+          - paragraph [ref=e122]: Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          - link "Switch to Russian" [ref=e124] [cursor=pointer]:
+            - /url: /lang/ru?next=/ru/course/threat-fundamentals/scam-economy
+            - generic [ref=e125]: EN
+            - generic [ref=e126]: →
+            - generic [ref=e127]: RU
+        - generic [ref=e128]:
+          - heading "▸ THREAT DATABASE" [level=4] [ref=e129]:
+            - generic [ref=e130]: ▸
+            - text: THREAT DATABASE
+          - list [ref=e131]:
+            - listitem [ref=e132]:
+              - link "Phishing" [ref=e133] [cursor=pointer]:
+                - /url: /en/guide/phishing
+            - listitem [ref=e134]:
+              - link "Nigerian Letters" [ref=e135] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+            - listitem [ref=e136]:
+              - link "Get-Rich-Quick Schemes" [ref=e137] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+            - listitem [ref=e138]:
+              - link "Investment Pyramids" [ref=e139] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+            - listitem [ref=e140]:
+              - link "False Charities" [ref=e141] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+            - listitem [ref=e142]:
+              - link "Fake Online Stores" [ref=e143] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+            - listitem [ref=e144]:
+              - link "Abuse on Dating Sites" [ref=e145] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+            - listitem [ref=e146]:
+              - link "SMS and Phone Scams" [ref=e147] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+            - listitem [ref=e148]:
+              - link "Fraud with Lotteries" [ref=e149] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+            - listitem [ref=e150]:
+              - link "Work-at-Home Scams" [ref=e151] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+        - generic [ref=e152]:
+          - heading "▸ NAVIGATION" [level=4] [ref=e153]:
+            - generic [ref=e154]: ▸
+            - text: NAVIGATION
+          - list [ref=e155]:
+            - listitem [ref=e156]:
+              - link "Home" [ref=e157] [cursor=pointer]:
+                - /url: /en/
+            - listitem [ref=e158]:
+              - link "Journal" [ref=e159] [cursor=pointer]:
+                - /url: /en/journal
+            - listitem [ref=e160]:
+              - link "Course" [ref=e161] [cursor=pointer]:
+                - /url: /en/course
+            - listitem [ref=e162]:
+              - link "Game" [ref=e163] [cursor=pointer]:
+                - /url: /en/game
+            - listitem [ref=e164]:
+              - link "About" [ref=e165] [cursor=pointer]:
+                - /url: /en/about
+      - generic [ref=e166]:
+        - paragraph [ref=e167]: © 2026 DISCAMMER · All rights reserved.
+        - generic [ref=e170]: SYS · OK

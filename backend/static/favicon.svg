@@ -1,10 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Canvas background so the mark holds up against light browser-tab chrome -->
-  <rect width="32" height="32" rx="4" fill="#0b0f1a"/>
-  <g fill="#65def0">
-    <!-- Cursor block: scaled and centered to 24x24 viewBox math (x4 -> x4, y6 -> y6 etc.) -->
-    <rect x="4" y="6" width="14.5" height="17" rx="0.5"/>
-    <!-- Prompt underscore -->
-    <rect x="4" y="25" width="24" height="2.5" rx="0.5"/>
-  </g>
+  <!--
+    DiScammer favicon — same strike-through D, inscribed on a canvas plaque so
+    the mark holds up against light browser-tab chrome and OS dock backgrounds.
+    Slight strike thickening (3.2u vs 2.5u at 24u grid) for crispness at 16px.
+  -->
+  <!-- Canvas plaque — same brand background as the site. -->
+  <rect width="32" height="32" rx="5" fill="#0b0f1a"/>
+  <!-- Block D — cyan, evenodd hole for the counter. -->
+  <path
+    fill="#65def0"
+    fill-rule="evenodd"
+    d="M6 4 H21 a6 6 0 0 1 6 6 V22 a6 6 0 0 1 -6 6 H6 Z
+       M10.5 9 H20 a1.75 1.75 0 0 1 1.75 1.75 V21.25 a1.75 1.75 0 0 1 -1.75 1.75 H10.5 Z"/>
+  <!-- Strike-through — amber annotation, overshoots the D. -->
+  <rect x="3" y="14.4" width="26" height="3.2" fill="#f4b965"/>
 </svg>

@@ -1,0 +1,407 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /en/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "COURSE" [ref=e9] [cursor=pointer]:
+          - /url: /en/course
+        - link "JOURNAL" [ref=e10] [cursor=pointer]:
+          - /url: /en/journal
+        - link "PLAY GAME" [ref=e11] [cursor=pointer]:
+          - /url: /en/game
+        - link "Switch to Russian" [ref=e13] [cursor=pointer]:
+          - /url: /lang/ru?next=/ru/journal
+          - generic [ref=e14]: EN
+          - generic [ref=e15]: →
+          - generic [ref=e16]: RU
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - generic "Masthead" [ref=e19]:
+        - generic [ref=e21]:
+          - heading "DISCAMMER TIMES" [level=1] [ref=e22]
+          - generic [ref=e23]: PUBLISHED SINCE 2022
+        - group "Dateline" [ref=e24]:
+          - generic [ref=e25]: VOL. IV · NO. 21
+          - generic [ref=e26]: SUNDAY · 24 MAY 2026
+          - generic [ref=e27]: "EDITION: 33 ARCHIVED"
+      - generic [ref=e30]:
+        - tablist "Journal sections" [ref=e33]:
+          - generic [ref=e34]:
+            - tab "01. ALL" [selected] [ref=e36]:
+              - generic [ref=e37]: "01."
+              - generic [ref=e38]: ALL
+              - generic [ref=e39]: ↓
+            - generic [ref=e40]:
+              - generic [ref=e41]: ·
+              - tab "02. INTERVIEW" [ref=e42]:
+                - generic [ref=e43]: "02."
+                - generic [ref=e44]: INTERVIEW
+            - generic [ref=e45]:
+              - generic [ref=e46]: ·
+              - tab "03. NEWSLETTER" [ref=e47]:
+                - generic [ref=e48]: "03."
+                - generic [ref=e49]: NEWSLETTER
+            - generic [ref=e50]:
+              - generic [ref=e51]: ·
+              - tab "04. ARTICLE" [ref=e52]:
+                - generic [ref=e53]: "04."
+                - generic [ref=e54]: ARTICLE
+            - generic [ref=e55]:
+              - generic [ref=e56]: ·
+              - tab "05. THREAT_DB" [ref=e57]:
+                - generic [ref=e58]: "05."
+                - generic [ref=e59]: THREAT_DB
+        - 'link "NEWSLETTER: The story of Alex Chen" [ref=e60] [cursor=pointer]':
+          - /url: /en/journal/the-story-of-alex-chen
+          - generic [ref=e61]:
+            - img [ref=e63]
+            - generic [ref=e64]:
+              - generic [ref=e65]:
+                - generic [ref=e66]: NEWSLETTER
+                - heading "The story of Alex Chen" [level=2] [ref=e67]
+                - paragraph [ref=e68]: Exposing a fraudulent scheme
+              - generic [ref=e69]:
+                - generic [ref=e70]: BY DCM EDITORIAL
+                - generic [ref=e71]: ·
+                - generic [ref=e72]: 15 MAY 2026
+                - generic [ref=e73]: ·
+                - generic [ref=e74]: 4 MIN READ
+        - generic [ref=e75]:
+          - 'link "NEWSLETTER: The Urgency Trap" [ref=e76] [cursor=pointer]':
+            - /url: /en/journal/the-urgency-trap
+            - generic [ref=e77]:
+              - img [ref=e79]
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - generic [ref=e83]: NEWSLETTER
+                  - time [ref=e84]: 16 JAN 2026
+                - heading "The Urgency Trap" [level=3] [ref=e85]
+                - paragraph [ref=e86]: How Scammers Use Pressure to Steal
+          - 'link "NEWSLETTER: The Verification Swindle" [ref=e87] [cursor=pointer]':
+            - /url: /en/journal/the-verification-swindle
+            - generic [ref=e88]:
+              - img [ref=e90]
+              - generic [ref=e92]:
+                - generic [ref=e93]:
+                  - generic [ref=e94]: NEWSLETTER
+                  - time [ref=e95]: 16 JAN 2026
+                - heading "The Verification Swindle" [level=3] [ref=e96]
+                - paragraph [ref=e97]: Why That \"Security\" Text Isn't Safe
+          - 'link "NEWSLETTER: 5G and Beyond" [ref=e98] [cursor=pointer]':
+            - /url: /en/journal/5g-and-beyond
+            - generic [ref=e99]:
+              - img [ref=e101]
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - generic [ref=e105]: NEWSLETTER
+                  - time [ref=e106]: 26 APR 2025
+                - heading "5G and Beyond" [level=3] [ref=e107]
+                - paragraph [ref=e108]: The Future of Wireless Technology
+          - 'link "ARTICLE: Breakin the Code" [ref=e109] [cursor=pointer]':
+            - /url: /en/journal/breakin-the-code
+            - generic [ref=e110]:
+              - img [ref=e112]
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - generic [ref=e116]: ARTICLE
+                  - time [ref=e117]: 14 FEB 2025
+                - heading "Breakin the Code" [level=3] [ref=e118]
+          - 'link "ARTICLE: The ICO Dilemma" [ref=e119] [cursor=pointer]':
+            - /url: /en/journal/the-ico-dilemma
+            - generic [ref=e120]:
+              - img [ref=e122]
+              - generic [ref=e124]:
+                - generic [ref=e125]:
+                  - generic [ref=e126]: ARTICLE
+                  - time [ref=e127]: 14 FEB 2025
+                - heading "The ICO Dilemma" [level=3] [ref=e128]
+          - 'link "ARTICLE: The impact of technology" [ref=e129] [cursor=pointer]':
+            - /url: /en/journal/the-impact-of-technology
+            - generic [ref=e130]:
+              - img [ref=e132]
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - generic [ref=e136]: ARTICLE
+                  - time [ref=e137]: 14 FEB 2025
+                - heading "The impact of technology" [level=3] [ref=e138]
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - generic [ref=e141]: // SKIM
+            - generic [ref=e142]: Older entries, compact view
+          - list [ref=e143]:
+            - listitem [ref=e144]:
+              - link "INTERVIEW Interview with guest Kelvin MOU 11 FEB 2025" [ref=e145] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-kelvin-mou
+                - generic [ref=e148]: INTERVIEW
+                - generic [ref=e149]: Interview with guest Kelvin MOU
+                - time [ref=e150]: 11 FEB 2025
+                - generic [ref=e151]: →
+            - listitem [ref=e152]:
+              - link "INTERVIEW Interview with guest Michael Wakelin 11 FEB 2025" [ref=e153] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-michael-wakelin
+                - generic [ref=e156]: INTERVIEW
+                - generic [ref=e157]: Interview with guest Michael Wakelin
+                - time [ref=e158]: 11 FEB 2025
+                - generic [ref=e159]: →
+            - listitem [ref=e160]:
+              - link "INTERVIEW Interview with guest Mike Gibson 11 FEB 2025" [ref=e161] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-mike-gibson
+                - generic [ref=e164]: INTERVIEW
+                - generic [ref=e165]: Interview with guest Mike Gibson
+                - time [ref=e166]: 11 FEB 2025
+                - generic [ref=e167]: →
+            - listitem [ref=e168]:
+              - link "NEWSLETTER Ai creativity 11 FEB 2025" [ref=e169] [cursor=pointer]:
+                - /url: /en/journal/ai-creativity
+                - generic [ref=e172]: NEWSLETTER
+                - generic [ref=e173]: Ai creativity
+                - time [ref=e174]: 11 FEB 2025
+                - generic [ref=e175]: →
+            - listitem [ref=e176]:
+              - link "NEWSLETTER Blockchain 07 FEB 2025" [ref=e177] [cursor=pointer]:
+                - /url: /en/journal/blockchain
+                - generic [ref=e180]: NEWSLETTER
+                - generic [ref=e181]: Blockchain
+                - time [ref=e182]: 07 FEB 2025
+                - generic [ref=e183]: →
+            - listitem [ref=e184]:
+              - link "NEWSLETTER The future of Work 07 FEB 2025" [ref=e185] [cursor=pointer]:
+                - /url: /en/journal/the-future-of-work
+                - generic [ref=e188]: NEWSLETTER
+                - generic [ref=e189]: The future of Work
+                - time [ref=e190]: 07 FEB 2025
+                - generic [ref=e191]: →
+            - listitem [ref=e192]:
+              - link "ARTICLE AR and VR 07 FEB 2025" [ref=e193] [cursor=pointer]:
+                - /url: /en/journal/ar-and-vr
+                - generic [ref=e196]: ARTICLE
+                - generic [ref=e197]: AR and VR
+                - time [ref=e198]: 07 FEB 2025
+                - generic [ref=e199]: →
+            - listitem [ref=e200]:
+              - link "INTERVIEW Interview with guest Guy Eames 21 JAN 2025" [ref=e201] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-guy-eames
+                - generic [ref=e204]: INTERVIEW
+                - generic [ref=e205]: Interview with guest Guy Eames
+                - time [ref=e206]: 21 JAN 2025
+                - generic [ref=e207]: →
+            - listitem [ref=e208]:
+              - link "INTERVIEW Interview with guest Jimmy Zhou 09 DEC 2024" [ref=e209] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-jimmy-zhou
+                - generic [ref=e212]: INTERVIEW
+                - generic [ref=e213]: Interview with guest Jimmy Zhou
+                - time [ref=e214]: 09 DEC 2024
+                - generic [ref=e215]: →
+            - listitem [ref=e216]:
+              - link "INTERVIEW Interview with guest Joel 09 DEC 2024" [ref=e217] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-joel
+                - generic [ref=e220]: INTERVIEW
+                - generic [ref=e221]: Interview with guest Joel
+                - time [ref=e222]: 09 DEC 2024
+                - generic [ref=e223]: →
+            - listitem [ref=e224]:
+              - link "ARTICLE Blockchain Technology 09 DEC 2024" [ref=e225] [cursor=pointer]:
+                - /url: /en/journal/blockchain-technology
+                - generic [ref=e228]: ARTICLE
+                - generic [ref=e229]: Blockchain Technology
+                - time [ref=e230]: 09 DEC 2024
+                - generic [ref=e231]: →
+            - listitem [ref=e232]:
+              - link "ARTICLE Digital twins 09 DEC 2024" [ref=e233] [cursor=pointer]:
+                - /url: /en/journal/digital-twins
+                - generic [ref=e236]: ARTICLE
+                - generic [ref=e237]: Digital twins
+                - time [ref=e238]: 09 DEC 2024
+                - generic [ref=e239]: →
+            - listitem [ref=e240]:
+              - link "INTERVIEW Interview with guest Ben Yehooda 08 DEC 2024" [ref=e241] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-ben-yehooda
+                - generic [ref=e244]: INTERVIEW
+                - generic [ref=e245]: Interview with guest Ben Yehooda
+                - time [ref=e246]: 08 DEC 2024
+                - generic [ref=e247]: →
+            - listitem [ref=e248]:
+              - link "INTERVIEW Interview with guest Casey Orion 28 NOV 2024" [ref=e249] [cursor=pointer]:
+                - /url: /en/journal/interview-with-guest-casey-orion
+                - generic [ref=e252]: INTERVIEW
+                - generic [ref=e253]: Interview with guest Casey Orion
+                - time [ref=e254]: 28 NOV 2024
+                - generic [ref=e255]: →
+            - listitem [ref=e256]:
+              - link "NEWSLETTER Wearable lots 28 NOV 2024" [ref=e257] [cursor=pointer]:
+                - /url: /en/journal/wearable-lots
+                - generic [ref=e260]: NEWSLETTER
+                - generic [ref=e261]: Wearable lots
+                - time [ref=e262]: 28 NOV 2024
+                - generic [ref=e263]: →
+            - listitem [ref=e264]:
+              - link "ARTICLE Ai on the future educat 28 NOV 2024" [ref=e265] [cursor=pointer]:
+                - /url: /en/journal/ai-on-the-future-educat
+                - generic [ref=e268]: ARTICLE
+                - generic [ref=e269]: Ai on the future educat
+                - time [ref=e270]: 28 NOV 2024
+                - generic [ref=e271]: →
+            - listitem [ref=e272]:
+              - link "GUIDE Investment pyramids" [ref=e273] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+                - generic [ref=e276]: GUIDE
+                - generic [ref=e277]: Investment pyramids
+                - generic [ref=e278]: →
+            - listitem [ref=e279]:
+              - 'link "GUIDE Phishing: How to Avoid Getting Hooked by Scammers" [ref=e280] [cursor=pointer]':
+                - /url: /en/guide/phishing
+                - generic [ref=e283]: GUIDE
+                - generic [ref=e284]: "Phishing: How to Avoid Getting Hooked by Scammers"
+                - generic [ref=e285]: →
+            - listitem [ref=e286]:
+              - link "GUIDE SMS and phone scams" [ref=e287] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+                - generic [ref=e290]: GUIDE
+                - generic [ref=e291]: SMS and phone scams
+                - generic [ref=e292]: →
+            - listitem [ref=e293]:
+              - link "GUIDE Abuse on dating sites" [ref=e294] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+                - generic [ref=e297]: GUIDE
+                - generic [ref=e298]: Abuse on dating sites
+                - generic [ref=e299]: →
+            - listitem [ref=e300]:
+              - link "GUIDE Fake online stores" [ref=e301] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+                - generic [ref=e304]: GUIDE
+                - generic [ref=e305]: Fake online stores
+                - generic [ref=e306]: →
+            - listitem [ref=e307]:
+              - link "GUIDE Fraud with lotteries or contests" [ref=e308] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+                - generic [ref=e311]: GUIDE
+                - generic [ref=e312]: Fraud with lotteries or contests
+                - generic [ref=e313]: →
+            - listitem [ref=e314]:
+              - link "GUIDE Get-rich-quick schemes" [ref=e315] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+                - generic [ref=e318]: GUIDE
+                - generic [ref=e319]: Get-rich-quick schemes
+                - generic [ref=e320]: →
+            - listitem [ref=e321]:
+              - link "GUIDE Scam sites for working at home" [ref=e322] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+                - generic [ref=e325]: GUIDE
+                - generic [ref=e326]: Scam sites for working at home
+                - generic [ref=e327]: →
+            - listitem [ref=e328]:
+              - link "GUIDE False charities" [ref=e329] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+                - generic [ref=e332]: GUIDE
+                - generic [ref=e333]: False charities
+                - generic [ref=e334]: →
+            - listitem [ref=e335]:
+              - link "GUIDE Nigerian letters" [ref=e336] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+                - generic [ref=e339]: GUIDE
+                - generic [ref=e340]: Nigerian letters
+                - generic [ref=e341]: →
+      - region "Archive" [ref=e342]:
+        - generic [ref=e343]: // ARCHIVE
+        - paragraph [ref=e344]: Previous editions of DISCAMMER TIMES. The archive grows weekly, with a new issue every Monday.
+        - generic [ref=e345]:
+          - link "VOL. IV NO. 20" [ref=e346] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e347]: ·
+          - link "VOL. IV NO. 19" [ref=e348] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e349]: ·
+          - link "VOL. IV NO. 18" [ref=e350] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e351]: ·
+          - link "VOL. IV NO. 17" [ref=e352] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e353]: ·
+          - link "VOL. IV NO. 16" [ref=e354] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e355]: ·
+          - link "VOL. IV NO. 15" [ref=e356] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e357]: ·
+          - link "VOL. IV NO. 14" [ref=e358] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e359]: ·
+          - link "VOL. IV NO. 13" [ref=e360] [cursor=pointer]:
+            - /url: "#"
+  - contentinfo [ref=e361]:
+    - generic [ref=e362]:
+      - generic [ref=e363]:
+        - generic [ref=e364]:
+          - link "DISCAMMER" [ref=e365] [cursor=pointer]:
+            - /url: /en/
+            - img [ref=e366]
+            - generic [ref=e367]: DISCAMMER
+          - paragraph [ref=e368]: Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          - link "Switch to Russian" [ref=e370] [cursor=pointer]:
+            - /url: /lang/ru?next=/ru/journal
+            - generic [ref=e371]: EN
+            - generic [ref=e372]: →
+            - generic [ref=e373]: RU
+        - generic [ref=e374]:
+          - heading "▸ THREAT DATABASE" [level=4] [ref=e375]:
+            - generic [ref=e376]: ▸
+            - text: THREAT DATABASE
+          - list [ref=e377]:
+            - listitem [ref=e378]:
+              - link "Phishing" [ref=e379] [cursor=pointer]:
+                - /url: /en/guide/phishing
+            - listitem [ref=e380]:
+              - link "Nigerian Letters" [ref=e381] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+            - listitem [ref=e382]:
+              - link "Get-Rich-Quick Schemes" [ref=e383] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+            - listitem [ref=e384]:
+              - link "Investment Pyramids" [ref=e385] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+            - listitem [ref=e386]:
+              - link "False Charities" [ref=e387] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+            - listitem [ref=e388]:
+              - link "Fake Online Stores" [ref=e389] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+            - listitem [ref=e390]:
+              - link "Abuse on Dating Sites" [ref=e391] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+            - listitem [ref=e392]:
+              - link "SMS and Phone Scams" [ref=e393] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+            - listitem [ref=e394]:
+              - link "Fraud with Lotteries" [ref=e395] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+            - listitem [ref=e396]:
+              - link "Work-at-Home Scams" [ref=e397] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+        - generic [ref=e398]:
+          - heading "▸ NAVIGATION" [level=4] [ref=e399]:
+            - generic [ref=e400]: ▸
+            - text: NAVIGATION
+          - list [ref=e401]:
+            - listitem [ref=e402]:
+              - link "Home" [ref=e403] [cursor=pointer]:
+                - /url: /en/
+            - listitem [ref=e404]:
+              - link "Journal" [ref=e405] [cursor=pointer]:
+                - /url: /en/journal
+            - listitem [ref=e406]:
+              - link "Course" [ref=e407] [cursor=pointer]:
+                - /url: /en/course
+            - listitem [ref=e408]:
+              - link "Game" [ref=e409] [cursor=pointer]:
+                - /url: /en/game
+            - listitem [ref=e410]:
+              - link "About" [ref=e411] [cursor=pointer]:
+                - /url: /en/about
+      - generic [ref=e412]:
+        - paragraph [ref=e413]: © 2026 DISCAMMER · All rights reserved.
+        - generic [ref=e416]: SYS · OK

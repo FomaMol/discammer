@@ -28,8 +28,27 @@ export default function GameLauncher({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  // Keep a ref to the iframe keydown handler + the window we attached it to,
+  // so we can detach the exact listener on cleanup. Without this we leaked a
+  // handler each time the user opened the dialog.
+  const iframeKeyHandlerRef = useRef<((e: KeyboardEvent) => void) | null>(null);
+  const iframeWindowRef = useRef<Window | null>(null);
 
   const close = useCallback(() => setOpen(false), []);
+
+  const detachIframeListener = useCallback(() => {
+    const win = iframeWindowRef.current;
+    const handler = iframeKeyHandlerRef.current;
+    if (win && handler) {
+      try {
+        win.removeEventListener('keydown', handler);
+      } catch {
+        // contentWindow may already be gone (iframe unmounted) — safe to ignore.
+      }
+    }
+    iframeWindowRef.current = null;
+    iframeKeyHandlerRef.current = null;
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -46,25 +65,31 @@ export default function GameLauncher({
     return () => {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('keydown', onKey);
+      detachIframeListener();
       triggerRef.current?.focus();
     };
-  }, [open, close]);
+  }, [open, close, detachIframeListener]);
 
   // Once the iframe has loaded, attach an Escape listener inside the iframe's
   // window so Escape works even after the user clicks the game canvas (which
   // moves focus into the iframe and prevents the parent listener from firing).
-  // Same-origin (/play/), so this is allowed.
+  // Same-origin (/play/), so this is allowed. Detach any previous listener
+  // first in case the iframe reloaded inside the same open dialog.
   const onIframeLoad = useCallback(() => {
+    detachIframeListener();
     const win = iframeRef.current?.contentWindow;
     if (!win) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
     try {
-      win.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'Escape') close();
-      });
+      win.addEventListener('keydown', handler);
+      iframeWindowRef.current = win;
+      iframeKeyHandlerRef.current = handler;
     } catch {
       // Cross-origin in some hardened setups; parent Escape + Close button still work.
     }
-  }, [close]);
+  }, [close, detachIframeListener]);
 
   return (
     <>

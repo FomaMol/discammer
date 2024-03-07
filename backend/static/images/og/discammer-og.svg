@@ -40,6 +40,20 @@
     MONITORING
   </text>
 
+  <!-- Logomark (strike-through D) — top-left, 64×64 rendered.
+       Geometry scaled from the 24-unit logomark grid: scale ≈ 2.667 (64/24).
+       D bounds: x=4..21, y=3..21 -> x≈110..156, y≈108..156 ; strike y≈137..143. -->
+  <g transform="translate(100 100) scale(2.6667)">
+    <!-- Block D in cyan -->
+    <path
+      fill="#65def0"
+      fill-rule="evenodd"
+      d="M4 3 H16 a5 5 0 0 1 5 5 V16 a5 5 0 0 1 -5 5 H4 Z
+         M8 7 H15 a1.5 1.5 0 0 1 1.5 1.5 V15.5 a1.5 1.5 0 0 1 -1.5 1.5 H8 Z"/>
+    <!-- Strike-through annotation in amber, overshoots D -->
+    <rect x="2" y="10.75" width="21" height="2.5" fill="#f4b965"/>
+  </g>
+
   <!-- Main wordmark — JetBrains Mono 800, uppercase, cyan, tracked tight. -->
   <text x="600" y="335" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="148" font-weight="800" letter-spacing="-5.5" fill="#65def0" text-anchor="middle">
     DISCAMMER

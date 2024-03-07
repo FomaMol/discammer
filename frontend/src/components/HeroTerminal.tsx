@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { currentLang, makeTranslator, pick, type Locale } from '../utils/i18n';
+import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 interface HeroTerminalProps {
   lines?: string[];
@@ -63,13 +64,6 @@ const STATUS_TOKENS = {
   en: { ok: '[OK]', established: 'ESTABLISHED', awaiting: 'AWAITING' },
   ru: { ok: '[OK]', established: 'УСТАНОВЛЕНО', awaiting: 'ОЖИДАНИЕ' },
 } as const;
-
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
-  );
-}
 
 export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
   const locale = currentLang(lang);

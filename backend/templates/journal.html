@@ -39,27 +39,14 @@
 {% block content %}
 
 {% set _lang = lang %}
-{% set _post_count = posts | length %}
-{% set _guide_count = guides | length %}
-{% set _total = _post_count + _guide_count %}
 
 {# ─────────────────────────────────────────────────────────────────────
    DATELINE COMPUTATION
-   VOL = ceil(year - 2022). 2026 → IV. Pre-2022 falls back to I.
-   NO  = ISO week number (1-53).
-   Roman-numeral lookup table since Jinja doesn't include one.
+   Only the weekday + ISO date — VOL/NO/EDITION counters were fabricated and
+   violated DESIGN.md (hero-metric template). Drop them; keep the dateline.
    ───────────────────────────────────────────────────────────────────── #}
 {% set _today = now() %}
 {% set _year = _today.year %}
-{% set _vol_num = (_year - 2022) if (_year - 2022) > 0 else 1 %}
-{% set _roman_map = {
-  1: 'I', 2: 'II', 3: 'III', 4: 'IV', 5: 'V',
-  6: 'VI', 7: 'VII', 8: 'VIII', 9: 'IX', 10: 'X',
-  11: 'XI', 12: 'XII', 13: 'XIII', 14: 'XIV', 15: 'XV',
-  16: 'XVI', 17: 'XVII', 18: 'XVIII', 19: 'XIX', 20: 'XX'
-} %}
-{% set _vol_roman = _roman_map.get(_vol_num, _vol_num | string) %}
-{% set _iso_week = _today.isocalendar()[1] %}
 
 {# Weekday + month lookup (uppercase). Keys live in locales/{lang}.json. #}
 {% set _weekday_keys = ['weekday_monday','weekday_tuesday','weekday_wednesday','weekday_thursday','weekday_friday','weekday_saturday','weekday_sunday'] %}
@@ -70,57 +57,38 @@
 {% set _month_label   = t(_lang, 'journal.' ~ _month_keys[_mo_idx]) %}
 {% set _dateline_center = _weekday_label ~ ' · ' ~ "%02d"|format(_today.day) ~ ' ' ~ _month_label ~ ' ' ~ _year %}
 
-{# Composed dateline labels — values from locale, format glued together here.
-   Note: journal.vol_label_no carries its own trailing space style — EN keeps a space
-   ("NO. 21"), RU does not ("№21") — so we don't add a space before _iso_week. #}
-{% set _vol_no_label = t(_lang, 'journal.vol_label_left') ~ ' ' ~ _vol_roman ~ ' · ' ~ t(_lang, 'journal.vol_label_no') ~ _iso_week | string %}
-{% set _edition_label = t(_lang, 'journal.edition_label_prefix') ~ ' ' ~ _total ~ ' ' ~ t(_lang, 'journal.edition_label_suffix') %}
-{% set _masthead_kicker = t(_lang, 'journal.masthead_kicker') %}
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
   {# ─────────────────────────────────────────────────────────────────────
      1. BROADSHEET MASTHEAD
-     A single editorial-typographic moment for the journal. Top hairline rule,
-     oversized JetBrains Mono 800 wordmark, 3-part dateline strip, dashed rule.
+     Wordmark + a single dateline strip. No fabricated VOL/NO/EDITION counters,
+     no "PUBLISHED SINCE 2022" kicker — those numbers had no real provenance.
      ───────────────────────────────────────────────────────────────────── #}
   <header class="mb-8 sm:mb-10" aria-label="Masthead">
     <!-- 1px top rule, dark cyan tint -->
     <div class="h-px w-full" style="background-color: #2b3759;" aria-hidden="true"></div>
 
-    <!-- Wordmark + kicker -->
-    <div class="pt-5 sm:pt-7 pb-3 sm:pb-5 flex items-baseline justify-between gap-4">
+    <!-- Wordmark -->
+    <div class="pt-5 sm:pt-7 pb-3 sm:pb-5">
       <h1
         class="font-mono text-[#f3f5fa] break-words"
         style="font-weight: 800; font-size: clamp(2.5rem, 1.8rem + 3.6vw, 4rem); letter-spacing: -0.04em; line-height: 0.94; text-transform: uppercase;"
       >
         DISCAMMER<span class="text-[#65def0]"> TIMES</span>
       </h1>
-      <div
-        class="hidden sm:block font-mono text-[10px] uppercase text-[#6b7588] text-right shrink-0"
-        style="letter-spacing: 0.18em; font-weight: 600;"
-      >
-        {{ _masthead_kicker }}
-      </div>
     </div>
 
-    <!-- Dateline strip: 3-part, mono-meta, tabular figures -->
+    <!-- Dateline strip: single line, mono-meta, tabular figures -->
     <div
-      class="grid grid-cols-3 gap-3 sm:gap-4 items-center pt-3 pb-2 border-t border-[#202a44] font-mono uppercase text-[10px] sm:text-[11px] text-[#aab2c4] tabular-nums"
+      class="flex items-center pt-3 pb-2 border-t border-[#202a44] font-mono uppercase text-[10px] sm:text-[11px] text-[#e7ecf5] tabular-nums"
       style="letter-spacing: 0.14em; font-weight: 600;"
       role="group"
       aria-label="Dateline"
     >
-      <!-- Left: VOL. IV · NO. 21 -->
-      <span class="justify-self-start text-left text-[#65def0]">{{ _vol_no_label }}</span>
-      <!-- Center: FRIDAY · 24 MAY 2026 -->
-      <span class="justify-self-center text-center text-[#e7ecf5] hidden sm:inline">{{ _dateline_center }}</span>
-      <!-- Mobile: shorter center label -->
-      <span class="justify-self-center text-center text-[#e7ecf5] sm:hidden">
+      <span class="hidden sm:inline">{{ _dateline_center }}</span>
+      <span class="sm:hidden">
         {{ "%02d"|format(_today.day) }} {{ _month_label }} {{ _year }}
       </span>
-      <!-- Right: EDITION: N ARCHIVED -->
-      <span class="justify-self-end text-right text-[#6b7588]">{{ _edition_label }}</span>
     </div>
 
     <!-- Dashed 1px rule under dateline -->
@@ -183,58 +151,9 @@
     {% endif %}
   </noscript>
 
-  {# ─────────────────────────────────────────────────────────────────────
-     7. ISSUE ARCHIVE BLOCK
-     Bottom-of-page broadsheet motif. Links are intentionally dead (#) for
-     now — these are the prior editions that will be wired up when the
-     archive feature ships. Only renders when there is at least one prior
-     issue to reference, otherwise the block looks empty.
-     ───────────────────────────────────────────────────────────────────── #}
-  {% if _iso_week > 1 or _vol_num > 1 %}
-  <section class="mt-20 sm:mt-28 pt-8 border-t border-[#202a44]" aria-label="Archive">
-    <div
-      class="font-mono text-[10px] sm:text-[11px] uppercase text-[#65def0] mb-4"
-      style="letter-spacing: 0.14em; font-weight: 600;"
-    >
-      {{ t(_lang, 'journal.archive_label') }}
-    </div>
-    <p
-      class="text-[#6b7588] text-sm mb-4"
-      style="max-width: 50ch;"
-    >
-      {{ t(_lang, 'journal.archive_intro') }}
-    </p>
-
-    <!-- Mono uppercase link strip — last 8 editions (dead links for now) -->
-    <div
-      class="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[10px] sm:text-[11px] uppercase tabular-nums"
-      style="letter-spacing: 0.14em; font-weight: 600;"
-    >
-      {% set _max_archive = 8 %}
-      {% set _archive_count = (_iso_week - 1) if _iso_week > 1 else 0 %}
-      {% if _archive_count < _max_archive %}{% set _archive_count = _max_archive %}{% endif %}
-      {% for offset in range(1, _max_archive + 1) %}
-        {% set _prev_no = _iso_week - offset %}
-        {% set _prev_vol = _vol_roman %}
-        {% if _prev_no < 1 %}
-          {% set _prev_no = _prev_no + 52 %}
-          {% set _prev_vol_num = (_vol_num - 1) if (_vol_num - 1) > 0 else 1 %}
-          {% set _prev_vol = _roman_map.get(_prev_vol_num, _prev_vol_num | string) %}
-        {% endif %}
-        {% if not loop.first %}
-        <span aria-hidden="true" class="text-[#475064]">·</span>
-        {% endif %}
-        <a
-          href="#"
-          class="text-[#aab2c4] hover:text-[#65def0] transition-colors"
-          aria-label="VOL. {{ _prev_vol }} NO. {{ _prev_no }}"
-        >
-          {{ t(_lang, 'journal.vol_label_left') }} {{ _prev_vol }} {{ t(_lang, 'journal.vol_label_no') }}{{ _prev_no }}
-        </a>
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
+  {# Archive block removed — the previous "VOL. IV NO. 20" links were all
+     dead anchors (href="#") and the VOL/NO numbers were fabricated from the
+     current ISO week, not from real issue counts. Both violate DESIGN.md. #}
 </div>
 
 {% endblock %}

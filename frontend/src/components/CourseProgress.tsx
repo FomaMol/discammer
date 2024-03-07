@@ -125,21 +125,17 @@ function applyProgressiveUnlock(
   completedByModule: Map<string, number>,
 ): Module[] {
   let prevDone = true;
-  let prevModuleOrder = 0;
   const out: Module[] = [];
   for (const m of modules) {
     const completed = completedByModule.get(m.slug) ?? 0;
     const requires = m.lessons ?? 0;
     const lockedBySeed = m.is_locked;
-    const lockedByProgress = !prevDone;
-    const open = !lockedBySeed || !lockedByProgress;
+    // Match the stated rule directly: unlocked when the seed says so OR
+    // when every prior module's lessons are completed.
+    const open = !lockedBySeed || prevDone;
     out.push({ ...m, is_locked: !open });
-    // Track prerequisite chain (which module gates THIS one).
-    prevModuleOrder = m.order;
     prevDone = requires === 0 ? prevDone : completed >= requires;
   }
-  // No-op marker so prevModuleOrder is consumed; keeps the var pattern clean.
-  if (prevModuleOrder < 0) console.log(prevModuleOrder);
   return out;
 }
 
@@ -484,31 +480,8 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         )}
       </div>
 
-      <style>{`
-        .dcm-mission-card {
-          transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
-                      border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-                      background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-                      box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        a.dcm-mission-card:hover {
-          box-shadow: 0 0 0 1px #3a8b9a, 0 12px 24px -16px rgba(0,0,0,0.6);
-        }
-        a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
-        @keyframes dcm-badge-pulse { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
-        .dcm-badge-pulse { animation: dcm-badge-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
-        @media (prefers-reduced-motion: reduce) {
-          .dcm-mission-card,
-          a.dcm-mission-card:hover,
-          a.dcm-mission-card:active {
-            transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-                        background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-            transform: none !important;
-          }
-          .dcm-badge-pulse { animation: none !important; opacity: 1 !important; }
-        }
-      `}</style>
+      {/* `.dcm-mission-card` + `.dcm-badge-pulse` styles + reduced-motion
+          overrides live in globals.css. */}
     </li>
   );
 }

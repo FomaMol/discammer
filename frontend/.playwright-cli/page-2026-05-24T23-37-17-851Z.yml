@@ -1,0 +1,396 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /ru/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "КУРС" [ref=e9] [cursor=pointer]:
+          - /url: /ru/course
+        - link "ЖУРНАЛ" [ref=e10] [cursor=pointer]:
+          - /url: /ru/journal
+        - link "ИГРАТЬ" [ref=e11] [cursor=pointer]:
+          - /url: /ru/game
+        - link "Переключить на английский" [ref=e13] [cursor=pointer]:
+          - /url: /lang/en?next=/en/guide/phishing
+          - generic [ref=e14]: RU
+          - generic [ref=e15]: →
+          - generic [ref=e16]: EN
+  - main [ref=e17]:
+    - generic [ref=e19]:
+      - generic [ref=e20]: КОНФИДЕНЦИАЛЬНО · ДЕЛО · СЛЕДСТВЕННАЯ СВОДКА
+      - generic [ref=e21]: ДЕЛО №DCM-2025-ФИШИНГ-865
+      - generic [ref=e22]:
+        - generic [ref=e23]: ВНЕСЕНО 2025-02-14
+        - generic [ref=e24]: АКТИВНО
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - navigation "Breadcrumb" [ref=e28]:
+            - link "~" [ref=e29] [cursor=pointer]:
+              - /url: /ru/
+            - generic [ref=e30]: /
+            - link "база-угроз" [ref=e31] [cursor=pointer]:
+              - /url: /ru/journal
+            - generic [ref=e32]: /
+            - generic [ref=e33]: phishing
+          - generic [ref=e34]: // ДОСЬЕ / ПРОФИЛЬ_УГРОЗЫ / ФИШИНГ
+          - 'heading "Фишинг: как не попасться мошенникам на крючок" [level=1] [ref=e35]'
+          - paragraph [ref=e36]: "КЛАССИФИКАЦИЯ: фишинг · УРОВ_РИСКА: 5/5 · ПРИОРИТЕТ: CRITICAL"
+          - paragraph [ref=e37]: Фишинг — одна из самых массовых форм интернет-мошенничества, нацеленная на получение личных и финансовых данных пользователей.
+          - 'meter "ОЦЕНКА РИСКА: 5/5 — критический" [ref=e38]':
+            - generic [ref=e39]: ОЦЕНКА РИСКА — КРИТИЧЕСКИЙ
+            - generic [ref=e40]:
+              - generic [ref=e43]: LOW
+              - generic [ref=e46]: LOW
+              - generic [ref=e49]: MED
+              - generic [ref=e52]: HIGH
+              - generic [ref=e55]: CRIT
+        - complementary [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]: // ДОСЬЕ · PHISHING
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - term [ref=e61]: КАТЕГОРИЯ
+                - definition [ref=e62]: фишинг
+              - generic [ref=e63]:
+                - term [ref=e64]: УРОВ_РИСКА
+                - definition [ref=e65]: 5/5
+              - generic [ref=e66]:
+                - term [ref=e67]: ИНДЕКСИР.
+                - definition [ref=e68]: 2025-02-14
+              - generic [ref=e69]:
+                - term [ref=e70]: СЛЕДОВАТЕЛЬ
+                - definition [ref=e71]: DCM-OPS
+              - generic [ref=e72]:
+                - term [ref=e73]: ПОСЛ_АКТИВН
+                - definition [ref=e74]: 3h AGO
+              - generic [ref=e75]:
+                - term [ref=e76]: ДЕЛ_ЗАРЕГ
+                - definition [ref=e77]: 1,408
+              - generic [ref=e78]:
+                - term [ref=e79]: СТАТУС
+                - definition [ref=e80]: АКТИВНА
+      - generic [ref=e82]:
+        - complementary [ref=e83]:
+          - generic [ref=e84]:
+            - generic [ref=e85]: // СОДЕРЖАНИЕ
+            - navigation "article sections" [ref=e86]:
+              - link "§ 01.01 Как работает фишинг?#" [ref=e87] [cursor=pointer]:
+                - /url: "#_1"
+              - link "§ 01.02 Как защититься от фишинга#" [ref=e88] [cursor=pointer]:
+                - /url: "#_2"
+        - main [ref=e89]:
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - generic [ref=e92]: "001"
+              - generic [ref=e93]: "002"
+              - generic [ref=e94]: "003"
+              - generic [ref=e95]: "004"
+              - generic [ref=e96]: "005"
+              - generic [ref=e97]: "006"
+              - generic [ref=e98]: "007"
+              - generic [ref=e99]: "008"
+              - generic [ref=e100]: "009"
+              - generic [ref=e101]: "010"
+              - generic [ref=e102]: "011"
+              - generic [ref=e103]: "012"
+              - generic [ref=e104]: "013"
+              - generic [ref=e105]: "014"
+              - generic [ref=e106]: "015"
+              - generic [ref=e107]: "016"
+              - generic [ref=e108]: "017"
+              - generic [ref=e109]: "018"
+              - generic [ref=e110]: "019"
+              - generic [ref=e111]: "020"
+              - generic [ref=e112]: "021"
+              - generic [ref=e113]: "022"
+              - generic [ref=e114]: "023"
+              - generic [ref=e115]: "024"
+              - generic [ref=e116]: "025"
+              - generic [ref=e117]: "026"
+              - generic [ref=e118]: "027"
+              - generic [ref=e119]: "028"
+              - generic [ref=e120]: "029"
+              - generic [ref=e121]: "030"
+              - generic [ref=e122]: "031"
+              - generic [ref=e123]: "032"
+              - generic [ref=e124]: "033"
+              - generic [ref=e125]: "034"
+              - generic [ref=e126]: "035"
+              - generic [ref=e127]: "036"
+              - generic [ref=e128]: "037"
+              - generic [ref=e129]: "038"
+              - generic [ref=e130]: "039"
+              - generic [ref=e131]: "040"
+              - generic [ref=e132]: "041"
+              - generic [ref=e133]: "042"
+              - generic [ref=e134]: "043"
+              - generic [ref=e135]: "044"
+              - generic [ref=e136]: "045"
+              - generic [ref=e137]: "046"
+              - generic [ref=e138]: "047"
+              - generic [ref=e139]: "048"
+              - generic [ref=e140]: "049"
+              - generic [ref=e141]: "050"
+              - generic [ref=e142]: "051"
+              - generic [ref=e143]: "052"
+              - generic [ref=e144]: "053"
+              - generic [ref=e145]: "054"
+              - generic [ref=e146]: "055"
+              - generic [ref=e147]: "056"
+              - generic [ref=e148]: "057"
+              - generic [ref=e149]: "058"
+              - generic [ref=e150]: "059"
+              - generic [ref=e151]: "060"
+              - generic [ref=e152]: "061"
+              - generic [ref=e153]: "062"
+              - generic [ref=e154]: "063"
+            - article [ref=e155]:
+              - generic [ref=e156]:
+                - paragraph [ref=e157]: Фишинг — одна из самых массовых форм интернет-мошенничества, нацеленная на получение личных и финансовых данных пользователей. Фишинговые атаки часто маскируются под легитимные сообщения от банков, соцсетей, интернет-магазинов или других сервисов. Мошенники создают поддельные сайты и письма, которые почти не отличить от настоящих, и обманом заставляют пользователей раскрыть конфиденциальные данные.
+                - 'heading "Как работает фишинг? #" [level=2] [ref=e158]':
+                  - text: Как работает фишинг?
+                  - link "#" [ref=e159] [cursor=pointer]:
+                    - /url: "#_1"
+                - paragraph [ref=e160]: "Атака обычно начинается с письма или сообщения «от доверенного источника». Мошенники применяют несколько тактик:"
+                - list [ref=e161]:
+                  - listitem [ref=e162]:
+                    - strong [ref=e163]: Электронные письма
+                    - text: — самый распространённый способ. Мошенники отправляют письма от лица известных компаний со ссылками на поддельные сайты.
+                  - listitem [ref=e164]:
+                    - strong [ref=e165]: Поддельные сайты
+                    - text: — ссылки из фишинговых писем ведут на сайты, выглядящие точь-в-точь как настоящие. Жертва считает, что находится на оригинальном ресурсе, и сама вводит данные.
+                  - listitem [ref=e166]:
+                    - strong [ref=e167]: Телефонные звонки и СМС
+                    - text: — иногда мошенники используют звонки и сообщения, предлагая «срочную помощь» или требуя немедленно подтвердить реквизиты.
+                - paragraph [ref=e168]:
+                  - strong [ref=e169]: Реальная история
+                  - text: ":"
+                - paragraph [ref=e170]: Недавний случай ярко показал опасность таких атак. Мария, бухгалтер крупной компании, получила письмо, якобы от её банка, с темой «Срочное обновление безопасности». В письме говорилось, что её счёт заблокирован и чтобы разблокировать его, нужно немедленно перейти по ссылке и войти в личный кабинет. Письмо выглядело правдоподобно — с логотипом банка и знакомым оформлением. ⠀ Мария ничего не заподозрила, перешла по ссылке и ввела свои данные. Через несколько часов она обнаружила, что со счёта пропала крупная сумма. В банке выяснили, что она стала жертвой фишинга — мошенники получили доступ к её счёту по введённым данным и вывели деньги. Эта история — напоминание, что жертвой может стать даже самый внимательный человек, если потерять бдительность.
+                - 'heading "Как защититься от фишинга #" [level=2] [ref=e171]':
+                  - text: Как защититься от фишинга
+                  - link "#" [ref=e172] [cursor=pointer]:
+                    - /url: "#_2"
+                - list [ref=e173]:
+                  - listitem [ref=e174]:
+                    - strong [ref=e175]: Всегда проверяйте отправителя
+                    - text: . Адрес может выглядеть похоже на настоящий, но при внимательном взгляде часто видны нестыковки.
+                  - listitem [ref=e176]:
+                    - strong [ref=e177]: Не переходите по ссылкам из незнакомых писем
+                    - text: . Безопаснее ввести адрес компании в браузер вручную.
+                  - listitem [ref=e178]:
+                    - strong [ref=e179]: Проверяйте подлинность сайта
+                    - text: . Прежде чем вводить данные, убедитесь, что адрес начинается с «https://» и принадлежит правильному домену.
+                  - listitem [ref=e180]:
+                    - strong [ref=e181]: Установите защитное ПО
+                    - text: . Антивирус и другие средства защиты помогают распознавать и блокировать фишинговые сайты.
+                  - listitem [ref=e182]:
+                    - strong [ref=e183]: "Помните: банки не запрашивают личные данные по почте"
+                    - text: . Если пришло такое сообщение — лучше позвоните в банк сами.
+                - paragraph [ref=e184]: Фишинговые схемы постоянно развиваются, но знание этих приёмов помогает сохранить и деньги, и данные.
+          - generic [ref=e185]:
+            - generic [ref=e186]: // ЗАМЕТКИ_СЛЕДОВАТЕЛЯ
+            - generic [ref=e187]:
+              - generic [ref=e192]: dcm-ops@case-dcm-2025-фишинг-865 ~ % cat investigator_notes.txt
+              - generic [ref=e193]: "> паттерн подтверждён в 47 различных группах, действующих под спуфингом банковских доменов. > пик активности: 19:00-23:00 локального времени в будни; всплески после дат зарплаты. > ~6% жертв обращаются в правоохранительные органы; большинство сообщает только в банк, под который маскируется атака. > домены ссылок меняются каждые 48-96 часов; ID отправителей SMS повторяют один и тот же пул из 12 символов. > совет: целевые брифинги — в /journal — см. рассылку про SMS-мошенников. >"
+      - generic [ref=e195]:
+        - generic [ref=e196]: // ДРУГИЕ_УГРОЗЫ
+        - generic [ref=e197]:
+          - link "🔺 финансы Финансовые пирамиды Финансовые пирамиды (схемы Понци) — один из самых массовых видов финансового мошенничества. 5" [ref=e198] [cursor=pointer]:
+            - /url: /ru/guide/investment-pyramids
+            - generic [ref=e199]:
+              - generic [ref=e200]: 🔺
+              - generic [ref=e201]: финансы
+            - heading "Финансовые пирамиды" [level=3] [ref=e202]
+            - paragraph [ref=e203]: Финансовые пирамиды (схемы Понци) — один из самых массовых видов финансового мошенничества.
+            - 'meter "ОЦЕНКА РИСКА: 5/5" [ref=e204]'
+          - link "📱 телеком СМС- и телефонные мошенники 5" [ref=e211] [cursor=pointer]:
+            - /url: /ru/guide/sms-and-phone-scams
+            - generic [ref=e212]:
+              - generic [ref=e213]: 📱
+              - generic [ref=e214]: телеком
+            - heading "СМС- и телефонные мошенники" [level=3] [ref=e215]
+            - 'meter "ОЦЕНКА РИСКА: 5/5" [ref=e216]'
+        - generic [ref=e223]:
+          - generic [ref=e224]: // ДРУГИЕ_СХЕМЫ
+          - list [ref=e225]:
+            - listitem [ref=e226]:
+              - link "💔 Мошенничество на сайтах знакомств романтика 4/5" [ref=e227] [cursor=pointer]:
+                - /url: /ru/guide/abuse-on-dating-sites
+                - generic [ref=e228]:
+                  - generic [ref=e229]: 💔
+                  - generic [ref=e230]: Мошенничество на сайтах знакомств
+                - generic [ref=e231]:
+                  - generic [ref=e232]: романтика
+                  - generic [ref=e233]: 4/5
+                  - generic [ref=e234]: →
+            - listitem [ref=e235]:
+              - link "🛒 Фейковые интернет-магазины торговля 4/5" [ref=e236] [cursor=pointer]:
+                - /url: /ru/guide/fake-online-stores
+                - generic [ref=e237]:
+                  - generic [ref=e238]: 🛒
+                  - generic [ref=e239]: Фейковые интернет-магазины
+                - generic [ref=e240]:
+                  - generic [ref=e241]: торговля
+                  - generic [ref=e242]: 4/5
+                  - generic [ref=e243]: →
+            - listitem [ref=e244]:
+              - link "🎟️ Лотерейные и конкурсные мошенники лотерея 4/5" [ref=e245] [cursor=pointer]:
+                - /url: /ru/guide/fraud-with-lotteries
+                - generic [ref=e246]:
+                  - generic [ref=e247]: 🎟️
+                  - generic [ref=e248]: Лотерейные и конкурсные мошенники
+                - generic [ref=e249]:
+                  - generic [ref=e250]: лотерея
+                  - generic [ref=e251]: 4/5
+                  - generic [ref=e252]: →
+            - listitem [ref=e253]:
+              - link "💰 Схемы быстрого обогащения финансы 4/5" [ref=e254] [cursor=pointer]:
+                - /url: /ru/guide/get-rich-quick-schemes
+                - generic [ref=e255]:
+                  - generic [ref=e256]: 💰
+                  - generic [ref=e257]: Схемы быстрого обогащения
+                - generic [ref=e258]:
+                  - generic [ref=e259]: финансы
+                  - generic [ref=e260]: 4/5
+                  - generic [ref=e261]: →
+            - listitem [ref=e262]:
+              - link "💼 Псевдо-«работа на дому» трудоустройство 4/5" [ref=e263] [cursor=pointer]:
+                - /url: /ru/guide/scam-sites-working-at-home
+                - generic [ref=e264]:
+                  - generic [ref=e265]: 💼
+                  - generic [ref=e266]: Псевдо-«работа на дому»
+                - generic [ref=e267]:
+                  - generic [ref=e268]: трудоустройство
+                  - generic [ref=e269]: 4/5
+                  - generic [ref=e270]: →
+            - listitem [ref=e271]:
+              - link "❤️ Ложные благотворители социальное 3/5" [ref=e272] [cursor=pointer]:
+                - /url: /ru/guide/false-charities
+                - generic [ref=e273]:
+                  - generic [ref=e274]: ❤️
+                  - generic [ref=e275]: Ложные благотворители
+                - generic [ref=e276]:
+                  - generic [ref=e277]: социальное
+                  - generic [ref=e278]: 3/5
+                  - generic [ref=e279]: →
+            - listitem [ref=e280]:
+              - link "✉️ Нигерийские письма почтовое-мошенничество 3/5" [ref=e281] [cursor=pointer]:
+                - /url: /ru/guide/nigerian-letters
+                - generic [ref=e282]:
+                  - generic [ref=e283]: ✉️
+                  - generic [ref=e284]: Нигерийские письма
+                - generic [ref=e285]:
+                  - generic [ref=e286]: почтовое-мошенничество
+                  - generic [ref=e287]: 3/5
+                  - generic [ref=e288]: →
+      - generic [ref=e289]:
+        - generic [ref=e290]: // ДАЛЬШЕ
+        - generic [ref=e291]:
+          - link "OPS-001 Проверь себя в симуляторе" [ref=e292] [cursor=pointer]:
+            - /url: /ru/game
+            - generic [ref=e293]:
+              - generic [ref=e294]: OPS-001
+              - generic [ref=e295]: ▸
+              - generic [ref=e296]: Проверь себя в симуляторе
+            - generic [ref=e297]: →
+          - link "OPS-002 Получи свежие сводки" [ref=e298] [cursor=pointer]:
+            - /url: /ru/journal
+            - generic [ref=e299]:
+              - generic [ref=e300]: OPS-002
+              - generic [ref=e301]: ▸
+              - generic [ref=e302]: Получи свежие сводки
+            - generic [ref=e303]: →
+          - link "OPS-003 Пройди структурированный курс" [ref=e304] [cursor=pointer]:
+            - /url: /ru/course
+            - generic [ref=e305]:
+              - generic [ref=e306]: OPS-003
+              - generic [ref=e307]: ▸
+              - generic [ref=e308]: Пройди структурированный курс
+            - generic [ref=e309]: →
+      - paragraph [ref=e311]:
+        - generic [ref=e312]: "ЦЕПЬ_ОТВЕТСТВЕННОСТИ: DCM-OPS"
+        - generic [ref=e313]: ·
+        - generic [ref=e314]: "ПОСЛЕДНЯЯ_ПРОВЕРКА: 2026-05-24"
+        - generic [ref=e315]: ·
+        - generic [ref=e316]: "СЛЕД_ПРОВЕРКА: 90 ДНЕЙ"
+        - generic [ref=e317]: ·
+        - generic [ref=e318]: "КЛАССИФИКАЦИЯ: НЕСЕКРЕТНО ПОСЛЕ ПУБЛИКАЦИИ"
+      - link "← Назад в базу угроз" [ref=e320] [cursor=pointer]:
+        - /url: /ru/journal
+  - contentinfo [ref=e321]:
+    - generic [ref=e322]:
+      - generic [ref=e323]:
+        - generic [ref=e324]:
+          - link "DISCAMMER" [ref=e325] [cursor=pointer]:
+            - /url: /ru/
+            - img [ref=e326]
+            - generic [ref=e327]: DISCAMMER
+          - paragraph [ref=e328]: Развиваем цифровую грамотность, чтобы противостоять мошенничеству, обману и новым киберугрозам через образование и интерактивный опыт.
+          - link "Переключить на английский" [ref=e330] [cursor=pointer]:
+            - /url: /lang/en?next=/en/guide/phishing
+            - generic [ref=e331]: RU
+            - generic [ref=e332]: →
+            - generic [ref=e333]: EN
+        - generic [ref=e334]:
+          - heading "▸ БАЗА УГРОЗ" [level=4] [ref=e335]:
+            - generic [ref=e336]: ▸
+            - text: БАЗА УГРОЗ
+          - list [ref=e337]:
+            - listitem [ref=e338]:
+              - link "Фишинг" [ref=e339] [cursor=pointer]:
+                - /url: /ru/guide/phishing
+            - listitem [ref=e340]:
+              - link "Нигерийские письма" [ref=e341] [cursor=pointer]:
+                - /url: /ru/guide/nigerian-letters
+            - listitem [ref=e342]:
+              - link "Схемы быстрого обогащения" [ref=e343] [cursor=pointer]:
+                - /url: /ru/guide/get-rich-quick-schemes
+            - listitem [ref=e344]:
+              - link "Финансовые пирамиды" [ref=e345] [cursor=pointer]:
+                - /url: /ru/guide/investment-pyramids
+            - listitem [ref=e346]:
+              - link "Ложные благотворители" [ref=e347] [cursor=pointer]:
+                - /url: /ru/guide/false-charities
+            - listitem [ref=e348]:
+              - link "Фейковые интернет-магазины" [ref=e349] [cursor=pointer]:
+                - /url: /ru/guide/fake-online-stores
+            - listitem [ref=e350]:
+              - link "Мошенничество на сайтах знакомств" [ref=e351] [cursor=pointer]:
+                - /url: /ru/guide/abuse-on-dating-sites
+            - listitem [ref=e352]:
+              - link "СМС- и телефонные мошенники" [ref=e353] [cursor=pointer]:
+                - /url: /ru/guide/sms-and-phone-scams
+            - listitem [ref=e354]:
+              - link "Лотерейные мошенники" [ref=e355] [cursor=pointer]:
+                - /url: /ru/guide/fraud-with-lotteries
+            - listitem [ref=e356]:
+              - link "Псевдо-«работа на дому»" [ref=e357] [cursor=pointer]:
+                - /url: /ru/guide/scam-sites-working-at-home
+        - generic [ref=e358]:
+          - heading "▸ НАВИГАЦИЯ" [level=4] [ref=e359]:
+            - generic [ref=e360]: ▸
+            - text: НАВИГАЦИЯ
+          - list [ref=e361]:
+            - listitem [ref=e362]:
+              - link "Главная" [ref=e363] [cursor=pointer]:
+                - /url: /ru/
+            - listitem [ref=e364]:
+              - link "Журнал" [ref=e365] [cursor=pointer]:
+                - /url: /ru/journal
+            - listitem [ref=e366]:
+              - link "Курс" [ref=e367] [cursor=pointer]:
+                - /url: /ru/course
+            - listitem [ref=e368]:
+              - link "Игра" [ref=e369] [cursor=pointer]:
+                - /url: /ru/game
+            - listitem [ref=e370]:
+              - link "О проекте" [ref=e371] [cursor=pointer]:
+                - /url: /ru/about
+      - generic [ref=e372]:
+        - paragraph [ref=e373]: © 2026 DISCAMMER · Все права защищены.
+        - generic [ref=e376]: SYS · OK

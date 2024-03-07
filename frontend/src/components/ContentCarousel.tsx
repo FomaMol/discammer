@@ -38,7 +38,6 @@ const BUNDLES = {
     scroll_right: 'Scroll right',
     loading: 'Loading data...',
     empty: '> No entries available.',
-    portrait_verified: 'PORTRAIT_VERIFIED',
     dispatch: 'DISPATCH',
     field_note: 'FIELD NOTE',
   },
@@ -47,7 +46,6 @@ const BUNDLES = {
     scroll_right: 'Прокрутить вправо',
     loading: 'Загрузка...',
     empty: '> Записей пока нет.',
-    portrait_verified: 'ФОТО_ПОДТВЕРЖДЕНО',
     dispatch: 'СВОДКА',
     field_note: 'ПОЛЕВАЯ ЗАМЕТКА',
   },
@@ -204,12 +202,14 @@ export default function ContentCarousel({
                   >
                     {badge}
                   </span>
-                  <span
-                    className="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-[2px] border border-[#7ce896]/40 bg-[#7ce896]/10 text-[#7ce896]"
-                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
-                  >
-                    {tr('portrait_verified')}
-                  </span>
+                  {item.published_at && (
+                    <time
+                      className="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-[2px] tabular-nums text-[#aab2c4] bg-[#0a0d16]/80"
+                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                    >
+                      {item.published_at}
+                    </time>
+                  )}
                 </div>
 
                 {/* Quote treatment */}

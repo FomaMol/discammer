@@ -1,0 +1,415 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /ru/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "КУРС" [ref=e9] [cursor=pointer]:
+          - /url: /ru/course
+        - link "ЖУРНАЛ" [ref=e10] [cursor=pointer]:
+          - /url: /ru/journal
+        - link "ИГРАТЬ" [ref=e11] [cursor=pointer]:
+          - /url: /ru/game
+        - link "Переключить на английский" [ref=e13] [cursor=pointer]:
+          - /url: /lang/en?next=/en/journal
+          - generic [ref=e14]: RU
+          - generic [ref=e15]: →
+          - generic [ref=e16]: EN
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - generic "Masthead" [ref=e19]:
+        - generic [ref=e21]:
+          - heading "DISCAMMER TIMES" [level=1] [ref=e22]
+          - generic [ref=e23]: ИЗДАЁТСЯ С 2022
+        - group "Dateline" [ref=e24]:
+          - generic [ref=e25]: ТОМ IV · №21
+          - generic [ref=e26]: ВОСКРЕСЕНЬЕ · 24 МАЙ 2026
+          - generic [ref=e27]: "ВЫПУСК: 33 В АРХИВЕ"
+      - generic [ref=e30]:
+        - tablist "Journal sections" [ref=e33]:
+          - generic [ref=e34]:
+            - tab "01. ВСЁ" [selected] [ref=e36]:
+              - generic [ref=e37]: "01."
+              - generic [ref=e38]: ВСЁ
+              - generic [ref=e39]: ↓
+            - generic [ref=e40]:
+              - generic [ref=e41]: ·
+              - tab "02. ИНТЕРВЬЮ" [ref=e42]:
+                - generic [ref=e43]: "02."
+                - generic [ref=e44]: ИНТЕРВЬЮ
+            - generic [ref=e45]:
+              - generic [ref=e46]: ·
+              - tab "03. РАССЫЛКА" [ref=e47]:
+                - generic [ref=e48]: "03."
+                - generic [ref=e49]: РАССЫЛКА
+            - generic [ref=e50]:
+              - generic [ref=e51]: ·
+              - tab "04. СТАТЬЯ" [ref=e52]:
+                - generic [ref=e53]: "04."
+                - generic [ref=e54]: СТАТЬЯ
+            - generic [ref=e55]:
+              - generic [ref=e56]: ·
+              - tab "05. БАЗА_УГРОЗ" [ref=e57]:
+                - generic [ref=e58]: "05."
+                - generic [ref=e59]: БАЗА_УГРОЗ
+        - 'link "РАССЫЛКА: История Алекса Чена" [ref=e60] [cursor=pointer]':
+          - /url: /ru/journal/the-story-of-alex-chen
+          - generic [ref=e61]:
+            - img [ref=e63]
+            - generic [ref=e64]:
+              - generic [ref=e65]:
+                - generic [ref=e66]: РАССЫЛКА
+                - heading "История Алекса Чена" [level=2] [ref=e67]
+                - paragraph [ref=e68]: Разоблачение мошеннической схемы
+              - generic [ref=e69]:
+                - generic [ref=e70]: РЕДАКЦИЯ DCM
+                - generic [ref=e71]: ·
+                - generic [ref=e72]: 15 МАЙ 2026
+                - generic [ref=e73]: ·
+                - generic [ref=e74]: 4 МИН ЧТЕНИЯ
+        - generic [ref=e75]:
+          - 'link "РАССЫЛКА: Ловушка срочности" [ref=e76] [cursor=pointer]':
+            - /url: /ru/journal/the-urgency-trap
+            - generic [ref=e77]:
+              - img [ref=e79]
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - generic [ref=e83]: РАССЫЛКА
+                  - time [ref=e84]: 16 ЯНВ 2026
+                - heading "Ловушка срочности" [level=3] [ref=e85]
+                - paragraph [ref=e86]: Как мошенники используют давление для кражи
+          - 'link "РАССЫЛКА: Развод на «верификацию»" [ref=e87] [cursor=pointer]':
+            - /url: /ru/journal/the-verification-swindle
+            - generic [ref=e88]:
+              - img [ref=e90]
+              - generic [ref=e92]:
+                - generic [ref=e93]:
+                  - generic [ref=e94]: РАССЫЛКА
+                  - time [ref=e95]: 16 ЯНВ 2026
+                - heading "Развод на «верификацию»" [level=3] [ref=e96]
+                - paragraph [ref=e97]: Почему «защитное» СМС на самом деле небезопасно
+          - 'link "РАССЫЛКА: 5G и за его пределами" [ref=e98] [cursor=pointer]':
+            - /url: /ru/journal/5g-and-beyond
+            - generic [ref=e99]:
+              - img [ref=e101]
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - generic [ref=e105]: РАССЫЛКА
+                  - time [ref=e106]: 26 АПР 2025
+                - heading "5G и за его пределами" [level=3] [ref=e107]
+                - paragraph [ref=e108]: Будущее беспроводных технологий
+          - 'link "СТАТЬЯ: Взлом кода" [ref=e109] [cursor=pointer]':
+            - /url: /ru/journal/breakin-the-code
+            - generic [ref=e110]:
+              - img [ref=e112]
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - generic [ref=e116]: СТАТЬЯ
+                  - time [ref=e117]: 14 ФЕВ 2025
+                - heading "Взлом кода" [level=3] [ref=e118]
+          - 'link "СТАТЬЯ: Дилемма ICO" [ref=e119] [cursor=pointer]':
+            - /url: /ru/journal/the-ico-dilemma
+            - generic [ref=e120]:
+              - img [ref=e122]
+              - generic [ref=e124]:
+                - generic [ref=e125]:
+                  - generic [ref=e126]: СТАТЬЯ
+                  - time [ref=e127]: 14 ФЕВ 2025
+                - heading "Дилемма ICO" [level=3] [ref=e128]
+          - 'link "СТАТЬЯ: Влияние технологий" [ref=e129] [cursor=pointer]':
+            - /url: /ru/journal/the-impact-of-technology
+            - generic [ref=e130]:
+              - img [ref=e132]
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - generic [ref=e136]: СТАТЬЯ
+                  - time [ref=e137]: 14 ФЕВ 2025
+                - heading "Влияние технологий" [level=3] [ref=e138]
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - generic [ref=e141]: // ОБЗОР
+            - generic [ref=e142]: Более ранние записи, плотный режим
+          - list [ref=e143]:
+            - listitem [ref=e144]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Кельвин Моу 11 ФЕВ 2025" [ref=e145] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-kelvin-mou
+                - generic [ref=e148]: ИНТЕРВЬЮ
+                - generic [ref=e149]: Интервью с гостем — Кельвин Моу
+                - time [ref=e150]: 11 ФЕВ 2025
+                - generic [ref=e151]: →
+            - listitem [ref=e152]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Майкл Уэйкелин 11 ФЕВ 2025" [ref=e153] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-michael-wakelin
+                - generic [ref=e156]: ИНТЕРВЬЮ
+                - generic [ref=e157]: Интервью с гостем — Майкл Уэйкелин
+                - time [ref=e158]: 11 ФЕВ 2025
+                - generic [ref=e159]: →
+            - listitem [ref=e160]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Майк Гибсон 11 ФЕВ 2025" [ref=e161] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-mike-gibson
+                - generic [ref=e164]: ИНТЕРВЬЮ
+                - generic [ref=e165]: Интервью с гостем — Майк Гибсон
+                - time [ref=e166]: 11 ФЕВ 2025
+                - generic [ref=e167]: →
+            - listitem [ref=e168]:
+              - link "РАССЫЛКА ИИ и креативность 11 ФЕВ 2025" [ref=e169] [cursor=pointer]:
+                - /url: /ru/journal/ai-creativity
+                - generic [ref=e172]: РАССЫЛКА
+                - generic [ref=e173]: ИИ и креативность
+                - time [ref=e174]: 11 ФЕВ 2025
+                - generic [ref=e175]: →
+            - listitem [ref=e176]:
+              - link "РАССЫЛКА Блокчейн 07 ФЕВ 2025" [ref=e177] [cursor=pointer]:
+                - /url: /ru/journal/blockchain
+                - generic [ref=e180]: РАССЫЛКА
+                - generic [ref=e181]: Блокчейн
+                - time [ref=e182]: 07 ФЕВ 2025
+                - generic [ref=e183]: →
+            - listitem [ref=e184]:
+              - link "РАССЫЛКА Будущее работы 07 ФЕВ 2025" [ref=e185] [cursor=pointer]:
+                - /url: /ru/journal/the-future-of-work
+                - generic [ref=e188]: РАССЫЛКА
+                - generic [ref=e189]: Будущее работы
+                - time [ref=e190]: 07 ФЕВ 2025
+                - generic [ref=e191]: →
+            - listitem [ref=e192]:
+              - link "СТАТЬЯ AR и VR 07 ФЕВ 2025" [ref=e193] [cursor=pointer]:
+                - /url: /ru/journal/ar-and-vr
+                - generic [ref=e196]: СТАТЬЯ
+                - generic [ref=e197]: AR и VR
+                - time [ref=e198]: 07 ФЕВ 2025
+                - generic [ref=e199]: →
+            - listitem [ref=e200]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Гай Имс 21 ЯНВ 2025" [ref=e201] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-guy-eames
+                - generic [ref=e204]: ИНТЕРВЬЮ
+                - generic [ref=e205]: Интервью с гостем — Гай Имс
+                - time [ref=e206]: 21 ЯНВ 2025
+                - generic [ref=e207]: →
+            - listitem [ref=e208]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Джимми Чжоу 09 ДЕК 2024" [ref=e209] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-jimmy-zhou
+                - generic [ref=e212]: ИНТЕРВЬЮ
+                - generic [ref=e213]: Интервью с гостем — Джимми Чжоу
+                - time [ref=e214]: 09 ДЕК 2024
+                - generic [ref=e215]: →
+            - listitem [ref=e216]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Джоэль 09 ДЕК 2024" [ref=e217] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-joel
+                - generic [ref=e220]: ИНТЕРВЬЮ
+                - generic [ref=e221]: Интервью с гостем — Джоэль
+                - time [ref=e222]: 09 ДЕК 2024
+                - generic [ref=e223]: →
+            - listitem [ref=e224]:
+              - link "СТАТЬЯ Технология блокчейн 09 ДЕК 2024" [ref=e225] [cursor=pointer]:
+                - /url: /ru/journal/blockchain-technology
+                - generic [ref=e228]: СТАТЬЯ
+                - generic [ref=e229]: Технология блокчейн
+                - time [ref=e230]: 09 ДЕК 2024
+                - generic [ref=e231]: →
+            - listitem [ref=e232]:
+              - link "СТАТЬЯ Цифровые двойники 09 ДЕК 2024" [ref=e233] [cursor=pointer]:
+                - /url: /ru/journal/digital-twins
+                - generic [ref=e236]: СТАТЬЯ
+                - generic [ref=e237]: Цифровые двойники
+                - time [ref=e238]: 09 ДЕК 2024
+                - generic [ref=e239]: →
+            - listitem [ref=e240]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Бен Йехуда 08 ДЕК 2024" [ref=e241] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-ben-yehooda
+                - generic [ref=e244]: ИНТЕРВЬЮ
+                - generic [ref=e245]: Интервью с гостем — Бен Йехуда
+                - time [ref=e246]: 08 ДЕК 2024
+                - generic [ref=e247]: →
+            - listitem [ref=e248]:
+              - link "ИНТЕРВЬЮ Интервью с гостем — Кейси Орион 28 НОЯ 2024" [ref=e249] [cursor=pointer]:
+                - /url: /ru/journal/interview-with-guest-casey-orion
+                - generic [ref=e252]: ИНТЕРВЬЮ
+                - generic [ref=e253]: Интервью с гостем — Кейси Орион
+                - time [ref=e254]: 28 НОЯ 2024
+                - generic [ref=e255]: →
+            - listitem [ref=e256]:
+              - link "РАССЫЛКА Носимая электроника 28 НОЯ 2024" [ref=e257] [cursor=pointer]:
+                - /url: /ru/journal/wearable-lots
+                - generic [ref=e260]: РАССЫЛКА
+                - generic [ref=e261]: Носимая электроника
+                - time [ref=e262]: 28 НОЯ 2024
+                - generic [ref=e263]: →
+            - listitem [ref=e264]:
+              - link "СТАТЬЯ ИИ и будущее образования 28 НОЯ 2024" [ref=e265] [cursor=pointer]:
+                - /url: /ru/journal/ai-on-the-future-educat
+                - generic [ref=e268]: СТАТЬЯ
+                - generic [ref=e269]: ИИ и будущее образования
+                - time [ref=e270]: 28 НОЯ 2024
+                - generic [ref=e271]: →
+            - listitem [ref=e272]:
+              - link "ГАЙД Финансовые пирамиды" [ref=e273] [cursor=pointer]:
+                - /url: /ru/guide/investment-pyramids
+                - generic [ref=e276]: ГАЙД
+                - generic [ref=e277]: Финансовые пирамиды
+                - generic [ref=e278]: →
+            - listitem [ref=e279]:
+              - 'link "ГАЙД Фишинг: как не попасться мошенникам на крючок" [ref=e280] [cursor=pointer]':
+                - /url: /ru/guide/phishing
+                - generic [ref=e283]: ГАЙД
+                - generic [ref=e284]: "Фишинг: как не попасться мошенникам на крючок"
+                - generic [ref=e285]: →
+            - listitem [ref=e286]:
+              - link "ГАЙД СМС- и телефонные мошенники" [ref=e287] [cursor=pointer]:
+                - /url: /ru/guide/sms-and-phone-scams
+                - generic [ref=e290]: ГАЙД
+                - generic [ref=e291]: СМС- и телефонные мошенники
+                - generic [ref=e292]: →
+            - listitem [ref=e293]:
+              - link "ГАЙД Мошенничество на сайтах знакомств" [ref=e294] [cursor=pointer]:
+                - /url: /ru/guide/abuse-on-dating-sites
+                - generic [ref=e297]: ГАЙД
+                - generic [ref=e298]: Мошенничество на сайтах знакомств
+                - generic [ref=e299]: →
+            - listitem [ref=e300]:
+              - link "ГАЙД Фейковые интернет-магазины" [ref=e301] [cursor=pointer]:
+                - /url: /ru/guide/fake-online-stores
+                - generic [ref=e304]: ГАЙД
+                - generic [ref=e305]: Фейковые интернет-магазины
+                - generic [ref=e306]: →
+            - listitem [ref=e307]:
+              - link "ГАЙД Лотерейные и конкурсные мошенники" [ref=e308] [cursor=pointer]:
+                - /url: /ru/guide/fraud-with-lotteries
+                - generic [ref=e311]: ГАЙД
+                - generic [ref=e312]: Лотерейные и конкурсные мошенники
+                - generic [ref=e313]: →
+            - listitem [ref=e314]:
+              - link "ГАЙД Схемы быстрого обогащения" [ref=e315] [cursor=pointer]:
+                - /url: /ru/guide/get-rich-quick-schemes
+                - generic [ref=e318]: ГАЙД
+                - generic [ref=e319]: Схемы быстрого обогащения
+                - generic [ref=e320]: →
+            - listitem [ref=e321]:
+              - link "ГАЙД Псевдо-«работа на дому»" [ref=e322] [cursor=pointer]:
+                - /url: /ru/guide/scam-sites-working-at-home
+                - generic [ref=e325]: ГАЙД
+                - generic [ref=e326]: Псевдо-«работа на дому»
+                - generic [ref=e327]: →
+            - listitem [ref=e328]:
+              - link "ГАЙД Ложные благотворители" [ref=e329] [cursor=pointer]:
+                - /url: /ru/guide/false-charities
+                - generic [ref=e332]: ГАЙД
+                - generic [ref=e333]: Ложные благотворители
+                - generic [ref=e334]: →
+            - listitem [ref=e335]:
+              - link "ГАЙД Нигерийские письма" [ref=e336] [cursor=pointer]:
+                - /url: /ru/guide/nigerian-letters
+                - generic [ref=e339]: ГАЙД
+                - generic [ref=e340]: Нигерийские письма
+                - generic [ref=e341]: →
+      - region "Archive" [ref=e342]:
+        - generic [ref=e343]: // АРХИВ
+        - paragraph [ref=e344]: Прошлые выпуски DISCAMMER TIMES. Архив пополняется еженедельно, каждый понедельник выходит новый номер.
+        - generic [ref=e345]:
+          - link "VOL. IV NO. 20" [ref=e346] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №20
+          - generic [ref=e347]: ·
+          - link "VOL. IV NO. 19" [ref=e348] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №19
+          - generic [ref=e349]: ·
+          - link "VOL. IV NO. 18" [ref=e350] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №18
+          - generic [ref=e351]: ·
+          - link "VOL. IV NO. 17" [ref=e352] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №17
+          - generic [ref=e353]: ·
+          - link "VOL. IV NO. 16" [ref=e354] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №16
+          - generic [ref=e355]: ·
+          - link "VOL. IV NO. 15" [ref=e356] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №15
+          - generic [ref=e357]: ·
+          - link "VOL. IV NO. 14" [ref=e358] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №14
+          - generic [ref=e359]: ·
+          - link "VOL. IV NO. 13" [ref=e360] [cursor=pointer]:
+            - /url: "#"
+            - text: ТОМ IV №13
+  - contentinfo [ref=e361]:
+    - generic [ref=e362]:
+      - generic [ref=e363]:
+        - generic [ref=e364]:
+          - link "DISCAMMER" [ref=e365] [cursor=pointer]:
+            - /url: /ru/
+            - img [ref=e366]
+            - generic [ref=e367]: DISCAMMER
+          - paragraph [ref=e368]: Развиваем цифровую грамотность, чтобы противостоять мошенничеству, обману и новым киберугрозам через образование и интерактивный опыт.
+          - link "Переключить на английский" [ref=e370] [cursor=pointer]:
+            - /url: /lang/en?next=/en/journal
+            - generic [ref=e371]: RU
+            - generic [ref=e372]: →
+            - generic [ref=e373]: EN
+        - generic [ref=e374]:
+          - heading "▸ БАЗА УГРОЗ" [level=4] [ref=e375]:
+            - generic [ref=e376]: ▸
+            - text: БАЗА УГРОЗ
+          - list [ref=e377]:
+            - listitem [ref=e378]:
+              - link "Фишинг" [ref=e379] [cursor=pointer]:
+                - /url: /ru/guide/phishing
+            - listitem [ref=e380]:
+              - link "Нигерийские письма" [ref=e381] [cursor=pointer]:
+                - /url: /ru/guide/nigerian-letters
+            - listitem [ref=e382]:
+              - link "Схемы быстрого обогащения" [ref=e383] [cursor=pointer]:
+                - /url: /ru/guide/get-rich-quick-schemes
+            - listitem [ref=e384]:
+              - link "Финансовые пирамиды" [ref=e385] [cursor=pointer]:
+                - /url: /ru/guide/investment-pyramids
+            - listitem [ref=e386]:
+              - link "Ложные благотворители" [ref=e387] [cursor=pointer]:
+                - /url: /ru/guide/false-charities
+            - listitem [ref=e388]:
+              - link "Фейковые интернет-магазины" [ref=e389] [cursor=pointer]:
+                - /url: /ru/guide/fake-online-stores
+            - listitem [ref=e390]:
+              - link "Мошенничество на сайтах знакомств" [ref=e391] [cursor=pointer]:
+                - /url: /ru/guide/abuse-on-dating-sites
+            - listitem [ref=e392]:
+              - link "СМС- и телефонные мошенники" [ref=e393] [cursor=pointer]:
+                - /url: /ru/guide/sms-and-phone-scams
+            - listitem [ref=e394]:
+              - link "Лотерейные мошенники" [ref=e395] [cursor=pointer]:
+                - /url: /ru/guide/fraud-with-lotteries
+            - listitem [ref=e396]:
+              - link "Псевдо-«работа на дому»" [ref=e397] [cursor=pointer]:
+                - /url: /ru/guide/scam-sites-working-at-home
+        - generic [ref=e398]:
+          - heading "▸ НАВИГАЦИЯ" [level=4] [ref=e399]:
+            - generic [ref=e400]: ▸
+            - text: НАВИГАЦИЯ
+          - list [ref=e401]:
+            - listitem [ref=e402]:
+              - link "Главная" [ref=e403] [cursor=pointer]:
+                - /url: /ru/
+            - listitem [ref=e404]:
+              - link "Журнал" [ref=e405] [cursor=pointer]:
+                - /url: /ru/journal
+            - listitem [ref=e406]:
+              - link "Курс" [ref=e407] [cursor=pointer]:
+                - /url: /ru/course
+            - listitem [ref=e408]:
+              - link "Игра" [ref=e409] [cursor=pointer]:
+                - /url: /ru/game
+            - listitem [ref=e410]:
+              - link "О проекте" [ref=e411] [cursor=pointer]:
+                - /url: /ru/about
+      - generic [ref=e412]:
+        - paragraph [ref=e413]: © 2026 DISCAMMER · Все права защищены.
+        - generic [ref=e416]: SYS · OK

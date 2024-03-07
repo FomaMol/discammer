@@ -59,6 +59,34 @@
         </div>
       </div>
 
+      {# Mission hints — folded into the terminal as three rules lines so the
+         hints carry the analyst-console voice instead of sitting in a separate
+         3-up card row below the briefing. Same i18n keys as before. #}
+      <div class="mt-6 space-y-1 text-[#cdd4e3]">
+        <div>
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#aab2c4]">{{ t(_lang, 'game.hints_heading') | lower }}:</span>
+        </div>
+        <div class="pl-3">
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#65def0] tabular-nums">01</span>
+          <span class="text-[#475064]">·</span>
+          <span class="text-[#e7ecf5]">{{ t(_lang, 'game.hint_1') | lower }}</span>
+        </div>
+        <div class="pl-3">
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#65def0] tabular-nums">02</span>
+          <span class="text-[#475064]">·</span>
+          <span class="text-[#e7ecf5]">{{ t(_lang, 'game.hint_2') | lower }}</span>
+        </div>
+        <div class="pl-3">
+          <span class="text-[#6b7588]">&gt;</span>
+          <span class="text-[#65def0] tabular-nums">03</span>
+          <span class="text-[#475064]">·</span>
+          <span class="text-[#e7ecf5]">{{ t(_lang, 'game.hint_3') | lower }}</span>
+        </div>
+      </div>
+
       <div class="mt-5 text-[#6b7588]" aria-hidden="true">&gt;</div>
       <div class="mt-1 text-[#65def0]">
         &gt; [ <span class="font-bold tracking-[0.14em]">{{ t(_lang, 'game.press_start_label') }}</span><span class="cursor-blink inline-block w-[8px] h-[12px] sm:h-[14px] align-middle bg-[#65def0] ml-1" aria-hidden="true"></span> ]
@@ -84,43 +112,11 @@
   </div>
 
   {# ─────────────────────────────────────────────────────────────────────
-     2. MISSION HINTS
-     Three short tracked-uppercase tips — the kind of pre-mission reminder
-     a senior analyst slides across the desk. Not a list of rules.
-     ───────────────────────────────────────────────────────────────────── #}
-  <section class="mt-12 sm:mt-16" aria-labelledby="hints-heading">
-    <h2 id="hints-heading"
-        class="font-mono text-[11px] uppercase tracking-[0.18em] font-semibold text-[#65def0] mb-4 sm:mb-5">
-      // {{ t(_lang, 'game.hints_heading') }}
-    </h2>
-    <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4" role="list">
-      <li class="border border-[#202a44] bg-[#121828] px-4 py-3.5 rounded-[3px] flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] font-mono text-[14px] leading-none mt-0.5">&#9656;</span>
-        <span class="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-[#aab2c4] leading-[1.45]">
-          {{ t(_lang, 'game.hint_1') }}
-        </span>
-      </li>
-      <li class="border border-[#202a44] bg-[#121828] px-4 py-3.5 rounded-[3px] flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] font-mono text-[14px] leading-none mt-0.5">&#9656;</span>
-        <span class="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-[#aab2c4] leading-[1.45]">
-          {{ t(_lang, 'game.hint_2') }}
-        </span>
-      </li>
-      <li class="border border-[#202a44] bg-[#121828] px-4 py-3.5 rounded-[3px] flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] font-mono text-[14px] leading-none mt-0.5">&#9656;</span>
-        <span class="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-[#aab2c4] leading-[1.45]">
-          {{ t(_lang, 'game.hint_3') }}
-        </span>
-      </li>
-    </ul>
-  </section>
-
-  {# ─────────────────────────────────────────────────────────────────────
-     3. THREAT VECTORS
-     Grounded 2x3 bento. Each row gets a Phosphor-style mono glyph, a
-     threat name, and a one-line description. Color stays per-threat but
-     only as a thin 1px left bar (list-item indicator, not a side stripe
-     used as decorative border).
+     2. THREAT VECTORS
+     Grounded 2x3 bento. Each row gets a JetBrains Mono uppercase glyph
+     keyed to the threat name (P/F/S/I/D/T), a threat label, and a
+     one-line description. Color stays per-threat as a thin 1px left bar
+     (list-item indicator, not a decorative border).
      ───────────────────────────────────────────────────────────────────── #}
   <section class="mt-12 sm:mt-16" aria-labelledby="vectors-heading">
     <h2 id="vectors-heading"
@@ -129,11 +125,13 @@
     </h2>
     <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4" role="list">
 
-      {# 1. Phishing — red (high-severity confirmed-fraud color) #}
+      {# 1. Phishing — red (high-severity confirmed-fraud color) · P #}
       <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
         <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#e76670]"></span>
         <div class="flex items-start gap-3">
-          <span aria-hidden="true" class="font-mono text-[16px] text-[#e76670] leading-none mt-0.5">&#9742;</span>
+          <span aria-hidden="true"
+                class="font-mono font-bold text-[24px] leading-none text-[#e76670] mt-0.5 w-6 text-center shrink-0"
+                style="letter-spacing: -0.04em;">P</span>
           <div class="min-w-0 flex-1">
             <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
               {{ t(_lang, 'game.threat_phishing') }}
@@ -145,11 +143,13 @@
         </div>
       </li>
 
-      {# 2. Fake online stores — amber #}
+      {# 2. Fake online stores — amber · F #}
       <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
         <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#f4b965]"></span>
         <div class="flex items-start gap-3">
-          <span aria-hidden="true" class="font-mono text-[16px] text-[#f4b965] leading-none mt-0.5">&#8709;</span>
+          <span aria-hidden="true"
+                class="font-mono font-bold text-[24px] leading-none text-[#f4b965] mt-0.5 w-6 text-center shrink-0"
+                style="letter-spacing: -0.04em;">F</span>
           <div class="min-w-0 flex-1">
             <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
               {{ t(_lang, 'game.threat_fake_stores') }}
@@ -161,11 +161,13 @@
         </div>
       </li>
 
-      {# 3. Social engineering — cyan #}
+      {# 3. Social engineering — cyan · S #}
       <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
         <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#65def0]"></span>
         <div class="flex items-start gap-3">
-          <span aria-hidden="true" class="font-mono text-[16px] text-[#65def0] leading-none mt-0.5">&#9670;</span>
+          <span aria-hidden="true"
+                class="font-mono font-bold text-[24px] leading-none text-[#65def0] mt-0.5 w-6 text-center shrink-0"
+                style="letter-spacing: -0.04em;">S</span>
           <div class="min-w-0 flex-1">
             <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
               {{ t(_lang, 'game.threat_social') }}
@@ -177,11 +179,13 @@
         </div>
       </li>
 
-      {# 4. Investment fraud — green (financial-instrument coding) #}
+      {# 4. Investment fraud — green (financial-instrument coding) · I #}
       <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
         <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#7ce896]"></span>
         <div class="flex items-start gap-3">
-          <span aria-hidden="true" class="font-mono text-[16px] text-[#7ce896] leading-none mt-0.5">&uarr;</span>
+          <span aria-hidden="true"
+                class="font-mono font-bold text-[24px] leading-none text-[#7ce896] mt-0.5 w-6 text-center shrink-0"
+                style="letter-spacing: -0.04em;">I</span>
           <div class="min-w-0 flex-1">
             <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
               {{ t(_lang, 'game.threat_investment') }}
@@ -193,11 +197,13 @@
         </div>
       </li>
 
-      {# 5. Deepfakes — amber #}
+      {# 5. Deepfakes — amber · D #}
       <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
         <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#f4b965]"></span>
         <div class="flex items-start gap-3">
-          <span aria-hidden="true" class="font-mono text-[16px] text-[#f4b965] leading-none mt-0.5">&#9785;</span>
+          <span aria-hidden="true"
+                class="font-mono font-bold text-[24px] leading-none text-[#f4b965] mt-0.5 w-6 text-center shrink-0"
+                style="letter-spacing: -0.04em;">D</span>
           <div class="min-w-0 flex-1">
             <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
               {{ t(_lang, 'game.threat_deepfake') }}
@@ -209,11 +215,13 @@
         </div>
       </li>
 
-      {# 6. Phone scams — red #}
+      {# 6. Tech support / phone scams — red · T #}
       <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
         <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#e76670]"></span>
         <div class="flex items-start gap-3">
-          <span aria-hidden="true" class="font-mono text-[16px] text-[#e76670] leading-none mt-0.5">&#9990;</span>
+          <span aria-hidden="true"
+                class="font-mono font-bold text-[24px] leading-none text-[#e76670] mt-0.5 w-6 text-center shrink-0"
+                style="letter-spacing: -0.04em;">T</span>
           <div class="min-w-0 flex-1">
             <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
               {{ t(_lang, 'game.threat_phone') }}
@@ -228,7 +236,7 @@
   </section>
 
   {# ─────────────────────────────────────────────────────────────────────
-     4. CAUTION STRIP
+     3. CAUTION STRIP
      Mono uppercase footer note — small, amber, single line. Sets honest
      expectations that the simulator approximates real fraud, not is it.
      ───────────────────────────────────────────────────────────────────── #}

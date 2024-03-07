@@ -29,24 +29,39 @@ LangPath = Path(..., pattern=f"^({LANG_REGEX})$", description="Language code")
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _course_totals(modules: list[dict]) -> dict:
-    """Sum module counts / lessons / runtime for the course hero header."""
+def _course_totals(modules: list[dict], lang: str = "en") -> dict:
+    """Sum module counts / lessons / runtime for the course hero header.
+
+    ``runtime`` is localized — RU shows "8ч 50м", EN shows "8h 50m" — so the
+    course briefing terminal does not leak EN time units onto the Russian page.
+    ``iso_duration`` stays ASCII (``PT8H50M``) so JSON-LD schema.org metadata
+    remains valid no matter which UI language the page is rendered in.
+    """
     total_minutes = 0
     for m in modules:
         match = re.search(r"\d+", m.get("duration") or "")
         if match:
             total_minutes += int(match.group())
     hours, minutes = divmod(total_minutes, 60)
+    h_unit = t(lang, "course.hours_short")
+    m_unit = t(lang, "course.minutes_short_compact")
     if hours and minutes:
-        runtime = f"{hours}h {minutes:02d}m"
+        runtime = f"{hours}{h_unit} {minutes:02d}{m_unit}"
     elif hours:
-        runtime = f"{hours}h"
+        runtime = f"{hours}{h_unit}"
     else:
-        runtime = f"{minutes}m"
+        runtime = f"{minutes}{m_unit}"
+    if hours and minutes:
+        iso_duration = f"PT{hours}H{minutes}M"
+    elif hours:
+        iso_duration = f"PT{hours}H"
+    else:
+        iso_duration = f"PT{minutes}M"
     return {
         "modules": len(modules),
         "lessons": sum(m.get("lessons") or 0 for m in modules),
         "runtime": runtime,
+        "iso_duration": iso_duration,
     }
 
 
@@ -133,11 +148,36 @@ async def about_compat(request: Request):
     return _legacy_redirect(request, "/about")
 
 
+def _safe_next(next_param: str | None, target: str) -> str:
+    """Validate the ``next`` redirect target so the lang switch can't be turned
+    into an open redirect. Accept only same-origin paths: a single leading "/",
+    no protocol-relative "//", no backslash trick "/\\", no embedded scheme
+    such as ``javascript:`` or a control char. Anything else falls back to the
+    localized home for ``target``.
+    """
+    fallback = f"/{target}/"
+    if not next_param:
+        return fallback
+    # Must start with exactly one forward slash.
+    if not next_param.startswith("/"):
+        return fallback
+    # Reject protocol-relative ("//evil.example") and the backslash variant
+    # ("/\\evil.example") that some browsers normalize to "//".
+    if next_param.startswith(("//", "/\\")):
+        return fallback
+    # Strip any chars that could trick a downstream URL parser. Also bail on
+    # whitespace / control bytes which can be smuggled past a naive prefix
+    # check.
+    if any(ch in next_param for ch in ("\r", "\n", "\t", " ")):
+        return fallback
+    return next_param
+
+
 @router.get("/lang/{target}", include_in_schema=False)
 async def switch_lang(target: str, request: Request):
     """Set the lang cookie and redirect to ``?next=...`` (defaults to /<lang>/)."""
     target = normalize_lang(target)
-    next_url = request.query_params.get("next") or f"/{target}/"
+    next_url = _safe_next(request.query_params.get("next"), target)
     response = RedirectResponse(url=next_url, status_code=302)
     response.set_cookie(
         key="lang",
@@ -168,6 +208,16 @@ async def home(request: Request, lang: str = LangPath):
         "newsletters": len(newsletters),
     }
 
+    # Most recent published_at across all post types — drives the hero HUD's
+    # "LAST FILED" timestamp. Posts are returned ordered by published_at DESC,
+    # so the head of each list is its own latest. Compare across lists.
+    _candidates = [
+        lst[0].get("published_at")
+        for lst in (newsletters, articles, interviews)
+        if lst and lst[0].get("published_at")
+    ]
+    latest_published_at = max(_candidates) if _candidates else ""
+
     return _templates(request).TemplateResponse(
         request,
         "home.html",
@@ -178,6 +228,7 @@ async def home(request: Request, lang: str = LangPath):
             "articles": articles[:4],
             "guides": guides,
             "stats": stats,
+            "latest_published_at": latest_published_at,
             "page_title": t(lang, "page_titles.home"),
         },
     )
@@ -215,7 +266,10 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
         )
 
     related = await get_related_posts(post["type"], slug, locale=lang)
-    post["content_html"] = render_markdown(post.get("content") or "")
+    post["content_html"] = render_markdown(
+        post.get("content") or "",
+        post_title=post.get("title"),
+    )
 
     return _templates(request).TemplateResponse(
         request,
@@ -224,7 +278,7 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
             **_base_context(request, lang),
             "post": post,
             "related_posts": related,
-            "page_title": f"{post['title']} — DiScammer",
+            "page_title": f"{post['title']} · DiScammer",
         },
     )
 
@@ -244,7 +298,10 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
         )
 
     related = await get_related_guides(slug, locale=lang)
-    guide["content_html"] = render_markdown(guide.get("content") or "")
+    guide["content_html"] = render_markdown(
+        guide.get("content") or "",
+        post_title=guide.get("title"),
+    )
 
     return _templates(request).TemplateResponse(
         request,
@@ -253,7 +310,7 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
             **_base_context(request, lang),
             "guide": guide,
             "related_guides": related,
-            "page_title": f"{guide['title']} — DiScammer",
+            "page_title": f"{guide['title']} · DiScammer",
         },
     )
 
@@ -268,7 +325,7 @@ async def course(request: Request, lang: str = LangPath):
         {
             **_base_context(request, lang),
             "modules": modules,
-            "course_totals": _course_totals(modules),
+            "course_totals": _course_totals(modules, lang),
             "page_title": t(lang, "page_titles.course"),
         },
     )

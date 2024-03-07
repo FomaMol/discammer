@@ -42,10 +42,12 @@
 
 <section class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
-  {# Breadcrumb path #}
+  {# Breadcrumb path — <course>/<module-slug>/<lesson-slug>.
+     "course" segment is localized; module + lesson slugs stay ASCII so URL
+     identifiers remain language-neutral. #}
   <nav aria-label="Breadcrumb" class="mb-5">
     <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#6b7588]">
-      <li><a href="/{{ _lang }}/course" class="hover:text-[#65def0] transition">course</a></li>
+      <li><a href="/{{ _lang }}/course" class="hover:text-[#65def0] transition">{{ t(_lang, 'breadcrumb.course') }}</a></li>
       <li aria-hidden="true">/</li>
       <li><a href="/{{ _lang }}/course/{{ module.slug }}" class="hover:text-[#65def0] transition">{{ module.slug }}</a></li>
       <li aria-hidden="true">/</li>

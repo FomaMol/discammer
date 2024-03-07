@@ -1,0 +1,275 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /en/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "COURSE" [ref=e9] [cursor=pointer]:
+          - /url: /en/course
+        - link "JOURNAL" [ref=e10] [cursor=pointer]:
+          - /url: /en/journal
+        - link "PLAY GAME" [ref=e11] [cursor=pointer]:
+          - /url: /en/game
+        - link "Switch to Russian" [ref=e13] [cursor=pointer]:
+          - /url: /lang/ru?next=/ru/
+          - generic [ref=e14]: EN
+          - generic [ref=e15]: →
+          - generic [ref=e16]: RU
+  - main [ref=e17]:
+    - region "CYBERSEC // EDUCATION PLATFORM" [ref=e18]:
+      - generic [ref=e19]: "SYS://discammer.com :: NODE 0x1A · UPLINK STABLE"
+      - generic [ref=e20]: LAT 55.755826 N · LONG 37.617300 E
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e26]: CYBERSEC // EDUCATION PLATFORM
+          - heading "DISCAMMER" [level=1] [ref=e29]
+          - paragraph [ref=e30]: A field guide to modern scams — phishing kits, deepfakes, pig-butchering, fake stores. Learn the patterns, train your eye, and stop losing money to predictable cons.
+          - paragraph [ref=e33]:
+            - text: "> WHERE THE SCAM IS FOUND:"
+            - generic [ref=e34]: ▮
+          - generic [ref=e35]:
+            - link "PLAY GAME" [ref=e36] [cursor=pointer]:
+              - /url: /en/game
+              - generic [ref=e37]: ▶
+              - generic [ref=e38]: PLAY GAME
+            - link "READ JOURNAL" [ref=e39] [cursor=pointer]:
+              - /url: /en/journal
+              - generic [ref=e40]: ▸
+              - generic [ref=e41]: READ JOURNAL
+            - link "TAKE COURSE" [ref=e42] [cursor=pointer]:
+              - /url: /en/course
+              - generic [ref=e43]: ▸
+              - generic [ref=e44]: TAKE COURSE
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - generic [ref=e51]: LIVE INCIDENT FEED
+              - generic [ref=e52]: MONITOR 01
+            - list [ref=e53]:
+              - listitem [ref=e54]:
+                - generic [ref=e55]: 03:52:56
+                - generic [ref=e56]: ▸
+                - generic [ref=e57]: pig-butchering attempt logged
+                - generic [ref=e58]: TG
+              - listitem [ref=e59]:
+                - generic [ref=e60]: 03:53:43
+                - generic [ref=e61]: ▸
+                - generic [ref=e62]: tech-support callback fraud
+                - generic [ref=e63]: US
+              - listitem [ref=e64]:
+                - generic [ref=e65]: 03:54:30
+                - generic [ref=e66]: ▸
+                - generic [ref=e67]: fake invoice w/ wire instructions
+                - generic [ref=e68]: DE
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]: MONITOR 02
+            - generic [ref=e74]: THREAT SCAN
+          - generic [ref=e75]:
+            - generic [ref=e80]: discammer@threat-monitor ~ %
+            - generic [ref=e81]:
+              - generic [ref=e82]: "> init scanner --module=threat_db"
+              - generic [ref=e83]: "> loading signatures ............ [OK]"
+              - generic [ref=e84]: "> connecting feed.discammer.com"
+              - generic [ref=e85]: "> handshake ESTABLISHED"
+              - generic [ref=e86]: "> auth: anon-guest [200]"
+              - generic [ref=e87]: "> scanning vector: phishing/2024"
+              - generic [ref=e88]: "├─ kits matched: 218"
+              - generic [ref=e89]: "└─ avg lifespan: 38h"
+              - generic [ref=e90]: "> scanning vector: deepfake/audio"
+              - generic [ref=e91]: "├─ samples: 1,407"
+              - generic [ref=e92]: "└─ ROC AUC: 0.93"
+              - generic [ref=e93]: "> scanning vector: investment-fraud"
+              - generic [ref=e94]: "├─ pump-and-dump: 64 active"
+              - generic [ref=e95]: "└─ pig-butchering: 142 tracked"
+              - generic [ref=e96]: "> threat_db.size = 247 entries"
+              - generic [ref=e97]: "> last_breach = 02:14:09 UTC"
+              - generic [ref=e98]: "> oracle: \"trust nothing on first contact\""
+              - generic [ref=e99]: "> > > AWAITING USER COMMAND _"
+    - region "SITUATION REPORT" [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e105]: SITUATION REPORT · 2026-05-24 · 23:55 UTC
+          - generic [ref=e106]: "SOURCE: INTERNAL"
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e110]: Threat Types
+              - generic [ref=e111]: LIVE
+            - generic [ref=e112]:
+              - generic [ref=e113]: "10"
+              - generic [ref=e114]: ENTRIES
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e119]:
+                - generic [ref=e120]: Interviews
+                - generic [ref=e121]: ▸
+              - generic [ref=e122]: "08"
+            - generic [ref=e123]:
+              - generic [ref=e124]:
+                - generic [ref=e125]: Articles
+                - generic [ref=e126]: ▸
+              - generic [ref=e127]: "07"
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - generic [ref=e130]: Threat Feed
+                - generic [ref=e131]: ▸
+              - generic [ref=e132]: 24/7
+    - region "> MISSION_BRIEFING" [ref=e133]:
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e136]: // 01. ABOUT
+          - heading "> > MISSION_BRIEFING" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e143]: mission.brief
+              - generic [ref=e144]: v 1.0.0
+            - generic [ref=e145]:
+              - generic [ref=e146]: "> cat /docs/mission.txt"
+              - paragraph [ref=e148]: We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies.
+        - generic [ref=e149]:
+          - generic [ref=e150]: // 02. DIRECTIVES
+          - heading "> > CORE_DIRECTIVES" [level=2] [ref=e151]
+          - list [ref=e152]:
+            - listitem [ref=e153]:
+              - generic [ref=e154]:
+                - generic [ref=e155]: "01"
+                - generic [ref=e156]: ▸
+                - generic [ref=e157]:
+                  - heading "Protect" [level=3] [ref=e158]
+                  - paragraph [ref=e159]: Identify and defend against sophisticated financial scams targeting individuals and organizations.
+            - listitem [ref=e160]:
+              - generic [ref=e161]:
+                - generic [ref=e162]: "02"
+                - generic [ref=e163]: ▸
+                - generic [ref=e164]:
+                  - heading "Aware" [level=3] [ref=e165]
+                  - paragraph [ref=e166]: Stay informed about AI-powered deepfakes, social engineering, and evolving phishing techniques.
+            - listitem [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: "03"
+                - generic [ref=e170]: ▸
+                - generic [ref=e171]:
+                  - heading "Train" [level=3] [ref=e172]
+                  - paragraph [ref=e173]: Sharpen scam-detection skills with interactive simulations and real-world scenarios.
+    - region "> INTERVIEW_LOG" [ref=e174]:
+      - generic [ref=e175]: // 03. ARCHIVE
+      - region "> INTERVIEW_LOG" [ref=e177]:
+        - generic [ref=e178]:
+          - heading "> INTERVIEW_LOG" [level=2] [ref=e179]: "> > INTERVIEW_LOG"
+          - generic [ref=e180]:
+            - 'button "Scroll left: > INTERVIEW_LOG" [ref=e181]':
+              - generic [ref=e182]: ←
+            - 'button "Scroll right: > INTERVIEW_LOG" [ref=e183]':
+              - generic [ref=e184]: →
+        - generic "> INTERVIEW_LOG" [ref=e185]:
+          - generic [ref=e186]: Loading data...
+    - region "> NEWSLETTER_FEED" [ref=e187]:
+      - generic [ref=e188]: // 04. DISPATCHES
+      - region "> NEWSLETTER_FEED" [ref=e190]:
+        - generic [ref=e191]:
+          - heading "> NEWSLETTER_FEED" [level=2] [ref=e192]: "> > NEWSLETTER_FEED"
+          - generic [ref=e193]:
+            - 'button "Scroll left: > NEWSLETTER_FEED" [ref=e194]':
+              - generic [ref=e195]: ←
+            - 'button "Scroll right: > NEWSLETTER_FEED" [ref=e196]':
+              - generic [ref=e197]: →
+        - generic "> NEWSLETTER_FEED" [ref=e198]:
+          - generic [ref=e199]: Loading data...
+    - region "> ARTICLE_DATABASE" [ref=e200]:
+      - generic [ref=e201]: // 05. RESEARCH
+      - region "> ARTICLE_DATABASE" [ref=e203]:
+        - generic [ref=e204]:
+          - heading "> ARTICLE_DATABASE" [level=2] [ref=e205]: "> > ARTICLE_DATABASE"
+          - generic [ref=e206]:
+            - 'button "Scroll left: > ARTICLE_DATABASE" [ref=e207]':
+              - generic [ref=e208]: ←
+            - 'button "Scroll right: > ARTICLE_DATABASE" [ref=e209]':
+              - generic [ref=e210]: →
+        - generic "> ARTICLE_DATABASE" [ref=e211]:
+          - generic [ref=e212]: Loading data...
+    - region "THREAT_DATABASE" [ref=e213]:
+      - generic [ref=e214]: // 06. INDEX
+      - generic [ref=e216]:
+        - heading "> THREAT_DATABASE" [level=2] [ref=e217]
+        - generic [ref=e218]: Loading guides...
+    - region "Ready to test your skills?" [ref=e219]:
+      - generic [ref=e222]:
+        - generic [ref=e223]: // END_OF_BRIEFING
+        - heading "Ready to test your skills?" [level=2] [ref=e224]
+        - paragraph [ref=e225]: Run the simulation. Spot the scam. Walk away sharper than the people trying to fool you.
+  - contentinfo [ref=e226]:
+    - generic [ref=e227]:
+      - generic [ref=e228]:
+        - generic [ref=e229]:
+          - link "DISCAMMER" [ref=e230] [cursor=pointer]:
+            - /url: /en/
+            - img [ref=e231]
+            - generic [ref=e232]: DISCAMMER
+          - paragraph [ref=e233]: Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          - link "Switch to Russian" [ref=e235] [cursor=pointer]:
+            - /url: /lang/ru?next=/ru/
+            - generic [ref=e236]: EN
+            - generic [ref=e237]: →
+            - generic [ref=e238]: RU
+        - generic [ref=e239]:
+          - heading "▸ THREAT DATABASE" [level=4] [ref=e240]:
+            - generic [ref=e241]: ▸
+            - text: THREAT DATABASE
+          - list [ref=e242]:
+            - listitem [ref=e243]:
+              - link "Phishing" [ref=e244] [cursor=pointer]:
+                - /url: /en/guide/phishing
+            - listitem [ref=e245]:
+              - link "Nigerian Letters" [ref=e246] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+            - listitem [ref=e247]:
+              - link "Get-Rich-Quick Schemes" [ref=e248] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+            - listitem [ref=e249]:
+              - link "Investment Pyramids" [ref=e250] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+            - listitem [ref=e251]:
+              - link "False Charities" [ref=e252] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+            - listitem [ref=e253]:
+              - link "Fake Online Stores" [ref=e254] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+            - listitem [ref=e255]:
+              - link "Abuse on Dating Sites" [ref=e256] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+            - listitem [ref=e257]:
+              - link "SMS and Phone Scams" [ref=e258] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+            - listitem [ref=e259]:
+              - link "Fraud with Lotteries" [ref=e260] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+            - listitem [ref=e261]:
+              - link "Work-at-Home Scams" [ref=e262] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+        - generic [ref=e263]:
+          - heading "▸ NAVIGATION" [level=4] [ref=e264]:
+            - generic [ref=e265]: ▸
+            - text: NAVIGATION
+          - list [ref=e266]:
+            - listitem [ref=e267]:
+              - link "Home" [ref=e268] [cursor=pointer]:
+                - /url: /en/
+            - listitem [ref=e269]:
+              - link "Journal" [ref=e270] [cursor=pointer]:
+                - /url: /en/journal
+            - listitem [ref=e271]:
+              - link "Course" [ref=e272] [cursor=pointer]:
+                - /url: /en/course
+            - listitem [ref=e273]:
+              - link "Game" [ref=e274] [cursor=pointer]:
+                - /url: /en/game
+            - listitem [ref=e275]:
+              - link "About" [ref=e276] [cursor=pointer]:
+                - /url: /en/about
+      - generic [ref=e277]:
+        - paragraph [ref=e278]: © 2026 DISCAMMER · All rights reserved.
+        - generic [ref=e281]: SYS · OK

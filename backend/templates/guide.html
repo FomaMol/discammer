@@ -67,10 +67,14 @@
 } %}
 {% set last_activity = _activity_map.get(guide.slug, '5h AGO') %}
 
-{# OPS priority derived from risk tier — index-safe even when threat_level is None. #}
+{# OPS priority derived from risk tier — index-safe even when threat_level is None.
+   Both the priority value and the slat labels resolve through the translation
+   layer so the Russian render shows ВЫСОКИЙ / КРИТИЧЕСКИЙ, not the EN word. #}
 {% set _tl = guide.threat_level or 1 %}
-{% set _ops_priority = ['LOW','LOW','MED','HIGH','CRITICAL','CRITICAL'][_tl if _tl <= 5 else 5] %}
-{% set _slat_labels = ['LOW','LOW','MED','HIGH','CRIT'] %}
+{% set _ops_priority_keys = ['risk_word_low','risk_word_low','risk_word_med','risk_word_high','risk_word_critical','risk_word_critical'] %}
+{% set _ops_priority_key = _ops_priority_keys[_tl if _tl <= 5 else 5] %}
+{% set _ops_priority = t(_lang, 'guide.' ~ _ops_priority_key) %}
+{% set _slat_label_keys = ['risk_word_low','risk_word_low','risk_word_med_short','risk_word_high','risk_word_crit_short'] %}
 {% set _level_key_map = {1:'risk_word_contained', 2:'risk_word_contained', 3:'risk_word_elevated', 4:'risk_word_severe', 5:'risk_word_critical'} %}
 {% set _level_word = t(_lang, 'guide.' ~ _level_key_map.get(_tl, 'risk_word_unknown')) %}
 
@@ -191,7 +195,7 @@
         <span class="text-[#aab2c4]">{{ t(_lang, 'guide.risk_tier_label') }}</span> <span class="text-[#e7ecf5]">{{ _tl }}/5</span>
         <span class="text-[#475064] mx-2">·</span>
         <span class="text-[#aab2c4]">{{ t(_lang, 'guide.ops_priority_label') }}</span>
-        <span class="{% if _ops_priority == 'CRITICAL' %}text-[#e76670]{% elif _ops_priority == 'HIGH' %}text-[#f29b6c]{% elif _ops_priority == 'MED' %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _ops_priority }}</span>
+        <span class="{% if _ops_priority_key == 'risk_word_critical' %}text-[#e76670]{% elif _ops_priority_key == 'risk_word_high' %}text-[#f29b6c]{% elif _ops_priority_key == 'risk_word_med' %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _ops_priority }}</span>
       </p>
 
       <!-- Lead description -->
@@ -232,7 +236,7 @@
               {% endif %}
               <span class="font-mono text-[9px] tracking-[0.12em] uppercase
                            {% if i <= _tl %}text-[#aab2c4]{% else %}text-[#475064]{% endif %}">
-                {{ _slat_labels[i - 1] }}
+                {{ t(_lang, 'guide.' ~ _slat_label_keys[i - 1]) }}
               </span>
             </div>
           {% endfor %}
@@ -359,7 +363,19 @@
   </div>
 
   {# ─────────────────────────────────────────────────────────────────
-     OTHER THREATS (unchanged structurally — 2-up bento + list)
+     OTHER THREATS — 2-up bento + list.
+
+     Featured-pair variety: the DB query returns guides ordered by
+     threat_level DESC, so a naive `[:2]` always shows two L5 cards and
+     the threat spectrum disappears. We rebuild the featured pair so the
+     first slot stays high-severity and the second slot is a mid-tier
+     (level ≤ 3) guide when one exists in the related set. The list
+     below it preserves the full remainder in its original order.
+
+     Icon: replaced the rendered emoji from guide.icon with a single
+     bold mono uppercase letter (first letter of the title) on the
+     accent color matching the threat level. Per DESIGN.md anti-bans
+     for OS emoji.
      ──────────────────────────────────────────────────────────────── #}
   {% if related_guides %}
   <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
@@ -367,20 +383,36 @@
       {{ t(_lang, 'guide.other_threats_label') }}
     </div>
 
-    {% set featured = related_guides[:2] %}
-    {% set remaining = related_guides[2:] %}
+    {# Build the featured pair: first = top-severity (slot 0), second =
+       first mid-tier (level ≤ 3) we can find; fall back to slot 1 if no
+       mid-tier exists. Remaining = everything else, original order. #}
+    {% set _primary = related_guides[0] %}
+    {% set _mid = namespace(item=None) %}
+    {% for g in related_guides[1:] %}
+      {% if _mid.item is none and (g.threat_level or 0) <= 3 %}
+        {% set _mid.item = g %}
+      {% endif %}
+    {% endfor %}
+    {% set _secondary = _mid.item if _mid.item is not none else related_guides[1] if related_guides|length > 1 else None %}
+    {% set featured = [_primary] + ([_secondary] if _secondary else []) %}
+    {% set _featured_slugs = featured | map(attribute='slug') | list %}
+    {% set remaining = related_guides | rejectattr('slug', 'in', _featured_slugs) | list %}
+
+    {% set _threat_colors = {5: '#e76670', 4: '#f29b6c', 3: '#f4b965', 2: '#7ce896', 1: '#7ce896'} %}
 
     {% if featured %}
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-10">
       {% for related in featured %}
       {% set is_wide = loop.first %}
+      {% set _color = _threat_colors.get(related.threat_level or 2, '#7ce896') %}
+      {% set _letter = (related.title or '?')[0] | upper %}
       <a href="/{{ _lang }}/guide/{{ related.slug }}"
          class="group bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-all duration-260 p-5 sm:p-6 block min-w-0
                 {% if is_wide %}lg:col-span-3{% else %}lg:col-span-2{% endif %}">
-        <div class="flex items-center gap-2 mb-3 flex-wrap">
-          {% if related.icon %}
-          <span class="text-lg">{{ related.icon }}</span>
-          {% endif %}
+        <div class="flex items-center gap-3 mb-3 flex-wrap">
+          <span aria-hidden="true"
+                class="inline-flex items-center justify-center w-8 h-8 border font-mono font-bold text-[18px] leading-none shrink-0"
+                style="color: {{ _color }}; border-color: {{ _color }}40; background: {{ _color }}0d; letter-spacing: -0.04em;">{{ _letter }}</span>
           {% if related.category %}
           <span class="font-mono text-[10px] font-semibold tracking-[0.14em] uppercase text-[#6b7588]">{{ related.category }}</span>
           {% endif %}
@@ -401,15 +433,7 @@
           <div class="flex items-end gap-1" aria-hidden="true">
             {% for i in range(1, 6) %}
               {% if i <= related.threat_level %}
-                {% if related.threat_level == 5 %}
-                  <div class="w-4 h-2 bg-[#e76670]"></div>
-                {% elif related.threat_level == 4 %}
-                  <div class="w-4 h-2 bg-[#f29b6c]"></div>
-                {% elif related.threat_level == 3 %}
-                  <div class="w-4 h-2 bg-[#f4b965]"></div>
-                {% else %}
-                  <div class="w-4 h-2 bg-[#7ce896]"></div>
-                {% endif %}
+                <div class="w-4 h-2" style="background: {{ _color }};"></div>
               {% else %}
                 <div class="w-4 h-2 bg-[#202a44]"></div>
               {% endif %}
@@ -429,13 +453,15 @@
       </div>
       <ul class="divide-y divide-[#202a44] border-y border-[#202a44]">
         {% for related in remaining %}
+        {% set _color = _threat_colors.get(related.threat_level or 2, '#7ce896') %}
+        {% set _letter = (related.title or '?')[0] | upper %}
         <li>
           <a href="/{{ _lang }}/guide/{{ related.slug }}"
              class="group flex items-center justify-between gap-4 py-3 px-2 hover:bg-[#121828] transition-colors duration-180">
             <div class="flex items-center gap-3 min-w-0">
-              {% if related.icon %}
-              <span class="text-base shrink-0">{{ related.icon }}</span>
-              {% endif %}
+              <span aria-hidden="true"
+                    class="inline-flex items-center justify-center w-6 h-6 border font-mono font-bold text-[12px] leading-none shrink-0 tabular-nums"
+                    style="color: {{ _color }}; border-color: {{ _color }}40; background: {{ _color }}0d; letter-spacing: -0.03em;">{{ _letter }}</span>
               <span class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] truncate">{{ related.title }}</span>
             </div>
             <div class="flex items-center gap-3 shrink-0">
@@ -443,7 +469,7 @@
               <span class="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.12em] text-[#6b7588]">{{ related.category }}</span>
               {% endif %}
               {% if related.threat_level %}
-              <span class="font-mono text-[11px] tabular-nums {% if related.threat_level >= 5 %}text-[#e76670]{% elif related.threat_level == 4 %}text-[#f29b6c]{% elif related.threat_level == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ related.threat_level }}/5</span>
+              <span class="font-mono text-[11px] tabular-nums" style="color: {{ _color }};">{{ related.threat_level }}/5</span>
               {% endif %}
               <span class="font-mono text-[#3a8b9a] group-hover:text-[#65def0]" aria-hidden="true">→</span>
             </div>
@@ -533,7 +559,12 @@
       const a = document.createElement('a');
       a.href = '#' + h.id;
       const num = String(i + 1).padStart(2, '0');
-      a.textContent = '§ 01.' + num + '  ' + h.textContent.trim();
+      // Clone the heading and strip the appended toc-anchor "#" before reading text.
+      const clone = h.cloneNode(true);
+      const anchor = clone.querySelector('.toc-anchor');
+      if (anchor) anchor.remove();
+      const title = clone.textContent.trim();
+      a.textContent = '§ 01.' + num + '  ' + title;
       a.className = 'block text-[#aab2c4] hover:text-[#65def0] transition-colors leading-snug tabular-nums';
       frag.appendChild(a);
     });

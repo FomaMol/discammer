@@ -1,0 +1,163 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /ru/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - generic [ref=e8]:
+        - link "КУРС" [ref=e9] [cursor=pointer]:
+          - /url: /ru/course
+        - link "ЖУРНАЛ" [ref=e10] [cursor=pointer]:
+          - /url: /ru/journal
+        - link "ИГРАТЬ" [ref=e11] [cursor=pointer]:
+          - /url: /ru/game
+        - link "Переключить на английский" [ref=e13] [cursor=pointer]:
+          - /url: /lang/en?next=/en/journal/the-story-of-alex-chen
+          - generic [ref=e14]: RU
+          - generic [ref=e15]: →
+          - generic [ref=e16]: EN
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - navigation "Breadcrumb" [ref=e19]:
+        - generic [ref=e20]:
+          - link "~" [ref=e21] [cursor=pointer]:
+            - /url: /ru/
+          - text: /
+          - link "журнал" [ref=e22] [cursor=pointer]:
+            - /url: /ru/journal
+          - text: /newsletter/the-story-of-alex-chen
+      - generic [ref=e23]: // РАССЫЛКА · ВЫПУСК 0515
+      - generic [ref=e24]:
+        - heading "История Алекса Чена" [level=1] [ref=e25]
+        - generic [ref=e26]:
+          - generic [ref=e27]: РЕДАКЦИЯ DCM
+          - generic [ref=e28]: ·
+          - time [ref=e29]: 15 МАЙ 2026
+          - generic [ref=e30]: ·
+          - generic [ref=e31]: 1 МИН
+      - paragraph [ref=e33]: Разоблачение мошеннической схемы
+      - figure [ref=e34]:
+        - generic [ref=e35]: // ОБЛОЖКА
+        - 'img "РАССЫЛКА: История Алекса Чена" [ref=e37]'
+      - article [ref=e38]:
+        - generic [ref=e39]:
+          - 'heading "История Алекса Чена #" [level=1] [ref=e40]':
+            - text: История Алекса Чена
+            - link "#" [ref=e41] [cursor=pointer]:
+              - /url: "#_1"
+          - 'heading "Видео-запись #" [level=2] [ref=e42]':
+            - text: Видео-запись
+            - link "#" [ref=e43] [cursor=pointer]:
+              - /url: "#-"
+          - iframe [ref=e45]:
+            
+      - region "End of article" [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - generic [ref=e49]: // РУБРИКА
+            - generic [ref=e50]: РАССЫЛКА
+          - link "СЛЕДУЮЩЕЕ В РУБРИКЕ → Ловушка срочности" [ref=e51] [cursor=pointer]:
+            - /url: /ru/journal/the-urgency-trap
+            - generic [ref=e52]: СЛЕДУЮЩЕЕ В РУБРИКЕ →
+            - generic [ref=e53]: Ловушка срочности
+      - complementary [ref=e54]:
+        - generic [ref=e55]: "> ПОХОЖЕЕ"
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - link "РАССЫЛКА 2026-01-16 Ловушка срочности" [ref=e58] [cursor=pointer]:
+              - /url: /ru/journal/the-urgency-trap
+              - generic [ref=e59]:
+                - generic [ref=e60]: РАССЫЛКА
+                - generic [ref=e61]: 2026-01-16
+              - paragraph [ref=e62]: Ловушка срочности
+          - listitem [ref=e63]:
+            - link "РАССЫЛКА 2026-01-16 Развод на «верификацию»" [ref=e64] [cursor=pointer]:
+              - /url: /ru/journal/the-verification-swindle
+              - generic [ref=e65]:
+                - generic [ref=e66]: РАССЫЛКА
+                - generic [ref=e67]: 2026-01-16
+              - paragraph [ref=e68]: Развод на «верификацию»
+          - listitem [ref=e69]:
+            - link "РАССЫЛКА 2025-04-26 5G и за его пределами" [ref=e70] [cursor=pointer]:
+              - /url: /ru/journal/5g-and-beyond
+              - generic [ref=e71]:
+                - generic [ref=e72]: РАССЫЛКА
+                - generic [ref=e73]: 2025-04-26
+              - paragraph [ref=e74]: 5G и за его пределами
+      - link "← Назад в журнал" [ref=e76] [cursor=pointer]:
+        - /url: /ru/journal
+  - contentinfo [ref=e77]:
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - link "DISCAMMER" [ref=e81] [cursor=pointer]:
+            - /url: /ru/
+            - img [ref=e82]
+            - generic [ref=e83]: DISCAMMER
+          - paragraph [ref=e84]: Развиваем цифровую грамотность, чтобы противостоять мошенничеству, обману и новым киберугрозам через образование и интерактивный опыт.
+          - link "Переключить на английский" [ref=e86] [cursor=pointer]:
+            - /url: /lang/en?next=/en/journal/the-story-of-alex-chen
+            - generic [ref=e87]: RU
+            - generic [ref=e88]: →
+            - generic [ref=e89]: EN
+        - generic [ref=e90]:
+          - heading "▸ БАЗА УГРОЗ" [level=4] [ref=e91]:
+            - generic [ref=e92]: ▸
+            - text: БАЗА УГРОЗ
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Фишинг" [ref=e95] [cursor=pointer]:
+                - /url: /ru/guide/phishing
+            - listitem [ref=e96]:
+              - link "Нигерийские письма" [ref=e97] [cursor=pointer]:
+                - /url: /ru/guide/nigerian-letters
+            - listitem [ref=e98]:
+              - link "Схемы быстрого обогащения" [ref=e99] [cursor=pointer]:
+                - /url: /ru/guide/get-rich-quick-schemes
+            - listitem [ref=e100]:
+              - link "Финансовые пирамиды" [ref=e101] [cursor=pointer]:
+                - /url: /ru/guide/investment-pyramids
+            - listitem [ref=e102]:
+              - link "Ложные благотворители" [ref=e103] [cursor=pointer]:
+                - /url: /ru/guide/false-charities
+            - listitem [ref=e104]:
+              - link "Фейковые интернет-магазины" [ref=e105] [cursor=pointer]:
+                - /url: /ru/guide/fake-online-stores
+            - listitem [ref=e106]:
+              - link "Мошенничество на сайтах знакомств" [ref=e107] [cursor=pointer]:
+                - /url: /ru/guide/abuse-on-dating-sites
+            - listitem [ref=e108]:
+              - link "СМС- и телефонные мошенники" [ref=e109] [cursor=pointer]:
+                - /url: /ru/guide/sms-and-phone-scams
+            - listitem [ref=e110]:
+              - link "Лотерейные мошенники" [ref=e111] [cursor=pointer]:
+                - /url: /ru/guide/fraud-with-lotteries
+            - listitem [ref=e112]:
+              - link "Псевдо-«работа на дому»" [ref=e113] [cursor=pointer]:
+                - /url: /ru/guide/scam-sites-working-at-home
+        - generic [ref=e114]:
+          - heading "▸ НАВИГАЦИЯ" [level=4] [ref=e115]:
+            - generic [ref=e116]: ▸
+            - text: НАВИГАЦИЯ
+          - list [ref=e117]:
+            - listitem [ref=e118]:
+              - link "Главная" [ref=e119] [cursor=pointer]:
+                - /url: /ru/
+            - listitem [ref=e120]:
+              - link "Журнал" [ref=e121] [cursor=pointer]:
+                - /url: /ru/journal
+            - listitem [ref=e122]:
+              - link "Курс" [ref=e123] [cursor=pointer]:
+                - /url: /ru/course
+            - listitem [ref=e124]:
+              - link "Игра" [ref=e125] [cursor=pointer]:
+                - /url: /ru/game
+            - listitem [ref=e126]:
+              - link "О проекте" [ref=e127] [cursor=pointer]:
+                - /url: /ru/about
+      - generic [ref=e128]:
+        - paragraph [ref=e129]: © 2026 DISCAMMER · Все права защищены.
+        - generic [ref=e132]: SYS · OK

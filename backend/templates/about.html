@@ -97,63 +97,28 @@
     </ul>
   </section>
 
-  {# 5. ARTIFACTS bento — 2x2 grid of links to the four destinations.
-        Mono uppercase labels + sentence-case descriptions. Hairline cards. #}
+  {# 5. ARTIFACTS — single editorial paragraph. Each of the four destinations
+        is one sentence: the destination name as a cyan inline link, then its
+        existing description as the body of the sentence. No new locale keys;
+        just the existing label + desc pairs joined with periods so the eye
+        reads it as continuous prose. Replaces the previous 2x2 icon-title-text
+        card grid (DESIGN.md bans the icon-title-text repeat). #}
   <section class="mt-12 sm:mt-16" aria-labelledby="artifacts-heading">
     <h2 id="artifacts-heading"
         class="font-mono text-[11px] uppercase tracking-[0.22em] text-[#6b7588] mb-4 sm:mb-5">
       // {{ t(_lang, 'about.artifacts_heading') }}
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-
-      {# Threat Database #}
-      <a href="/{{ _lang }}/journal#threat-database"
-         class="group block border border-[#202a44] bg-[#121828] hover:bg-[#1a2236] hover:border-[#3a8b9a] transition-colors rounded-[4px] p-4 sm:p-5 focus:outline-none focus:border-[#65def0]">
-        <div class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-[#65def0] mb-1.5 flex items-center gap-2">
-          <span aria-hidden="true" class="text-[#3a8b9a] group-hover:text-[#65def0]">&#9656;</span>
-          {{ t(_lang, 'about.artifact_threats_label') }}
-        </div>
-        <p class="font-sans text-[14px] leading-[1.55] text-[#aab2c4]">
-          {{ t(_lang, 'about.artifact_threats_desc') }}
-        </p>
-      </a>
-
-      {# Journal #}
-      <a href="/{{ _lang }}/journal"
-         class="group block border border-[#202a44] bg-[#121828] hover:bg-[#1a2236] hover:border-[#3a8b9a] transition-colors rounded-[4px] p-4 sm:p-5 focus:outline-none focus:border-[#65def0]">
-        <div class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-[#65def0] mb-1.5 flex items-center gap-2">
-          <span aria-hidden="true" class="text-[#3a8b9a] group-hover:text-[#65def0]">&#9656;</span>
-          {{ t(_lang, 'about.artifact_journal_label') }}
-        </div>
-        <p class="font-sans text-[14px] leading-[1.55] text-[#aab2c4]">
-          {{ t(_lang, 'about.artifact_journal_desc') }}
-        </p>
-      </a>
-
-      {# Course #}
-      <a href="/{{ _lang }}/course"
-         class="group block border border-[#202a44] bg-[#121828] hover:bg-[#1a2236] hover:border-[#3a8b9a] transition-colors rounded-[4px] p-4 sm:p-5 focus:outline-none focus:border-[#65def0]">
-        <div class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-[#65def0] mb-1.5 flex items-center gap-2">
-          <span aria-hidden="true" class="text-[#3a8b9a] group-hover:text-[#65def0]">&#9656;</span>
-          {{ t(_lang, 'about.artifact_course_label') }}
-        </div>
-        <p class="font-sans text-[14px] leading-[1.55] text-[#aab2c4]">
-          {{ t(_lang, 'about.artifact_course_desc') }}
-        </p>
-      </a>
-
-      {# Simulator #}
-      <a href="/{{ _lang }}/game"
-         class="group block border border-[#202a44] bg-[#121828] hover:bg-[#1a2236] hover:border-[#3a8b9a] transition-colors rounded-[4px] p-4 sm:p-5 focus:outline-none focus:border-[#65def0]">
-        <div class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-[#65def0] mb-1.5 flex items-center gap-2">
-          <span aria-hidden="true" class="text-[#3a8b9a] group-hover:text-[#65def0]">&#9656;</span>
-          {{ t(_lang, 'about.artifact_simulator_label') }}
-        </div>
-        <p class="font-sans text-[14px] leading-[1.55] text-[#aab2c4]">
-          {{ t(_lang, 'about.artifact_simulator_desc') }}
-        </p>
-      </a>
-    </div>
+    {% set _link_classes = 'font-mono uppercase tracking-[0.08em] text-[#65def0] hover:text-[#9eecf6] underline underline-offset-2 decoration-[#3a8b9a] decoration-1 hover:decoration-[#65def0] transition-colors' %}
+    <p class="font-sans text-[16px] leading-[1.7] text-[#cdd4e3] max-w-[62ch]">
+      <a href="/{{ _lang }}/journal#threat-database" class="{{ _link_classes }}">{{ t(_lang, 'about.artifact_threats_label') }}</a>:
+      {{ t(_lang, 'about.artifact_threats_desc') }}
+      <a href="/{{ _lang }}/journal" class="{{ _link_classes }}">{{ t(_lang, 'about.artifact_journal_label') }}</a>:
+      {{ t(_lang, 'about.artifact_journal_desc') }}
+      <a href="/{{ _lang }}/course" class="{{ _link_classes }}">{{ t(_lang, 'about.artifact_course_label') }}</a>:
+      {{ t(_lang, 'about.artifact_course_desc') }}
+      <a href="/{{ _lang }}/game" class="{{ _link_classes }}">{{ t(_lang, 'about.artifact_simulator_label') }}</a>:
+      {{ t(_lang, 'about.artifact_simulator_desc') }}
+    </p>
   </section>
 
   {# 6. Contact + built-by — small, mono, sits at the bottom like a sign-off. #}

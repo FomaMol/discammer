@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 /**
  * Full-bleed hero shader — a slow flowing dataflow visualization.
@@ -20,13 +21,6 @@ import { useEffect, useRef } from 'react';
  * Opacity capped at 0.35 via CSS so the shader sits *behind* the content
  * rather than competing with it. (Brand chrome rule: hero animations ≤ 0.4.)
  */
-
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
-  );
-}
 
 const VERT = `#version 300 es
 in vec2 a_position;

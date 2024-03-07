@@ -1,0 +1,171 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "DISCAMMER" [ref=e5] [cursor=pointer]:
+        - /url: /en/
+        - img [ref=e6]
+        - generic [ref=e7]: DISCAMMER
+      - button "Open menu" [ref=e9]
+  - main [ref=e13]:
+    - generic [ref=e14]:
+      - navigation "Breadcrumb" [ref=e15]:
+        - list [ref=e16]:
+          - listitem [ref=e17]:
+            - link "~" [ref=e18] [cursor=pointer]:
+              - /url: /en
+          - listitem [ref=e19]: /
+          - listitem [ref=e20]:
+            - link "course" [ref=e21] [cursor=pointer]:
+              - /url: /en/course
+          - listitem [ref=e22]: /
+          - listitem [ref=e23]: threat-fundamentals
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: 🌐
+          - generic [ref=e27]: "01"
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]: MISSION 01
+            - generic [ref=e31]: Beginner
+            - generic [ref=e32]: 45 min
+          - heading "Threat Landscape Fundamentals" [level=1] [ref=e33]
+          - paragraph [ref=e34]: Map the modern threat landscape and learn how cybercriminals actually operate — from opportunistic phishing kits to organized fraud networks.
+      - region "Module objectives" [ref=e37]:
+        - generic [ref=e43]: // OBJECTIVES
+        - list [ref=e44]:
+          - listitem [ref=e45]:
+            - generic [ref=e46]: ▸
+            - generic [ref=e47]: Identify the four major scam delivery channels
+          - listitem [ref=e48]:
+            - generic [ref=e49]: ▸
+            - generic [ref=e50]: Explain why certain demographics are targeted
+          - listitem [ref=e51]:
+            - generic [ref=e52]: ▸
+            - generic [ref=e53]: Recognize the eight most common attack patterns
+      - generic [ref=e54]:
+        - generic [ref=e55]: Topics covered
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - generic [ref=e59]: Anatomy of a modern scam economy
+          - listitem [ref=e60]:
+            - generic [ref=e62]: "Attack vectors: email, SMS, voice, web"
+          - listitem [ref=e63]:
+            - generic [ref=e65]: Threat actors and their motivations
+          - listitem [ref=e66]:
+            - generic [ref=e68]: "Glossary: malware, phishing, ransomware, RAT"
+          - listitem [ref=e69]:
+            - generic [ref=e71]: Reading recent breach reports
+          - listitem [ref=e72]:
+            - generic [ref=e74]: "Case study: the 2024 deepfake CFO heist"
+      - generic [ref=e75]:
+        - heading "> MISSION BRIEFINGS" [level=2] [ref=e76]
+        - generic [ref=e78]:
+          - text: "> Loading mission briefings..."
+          - generic [ref=e79]: ▮
+      - generic [ref=e80]:
+        - link "◁ ABORT TO COURSE" [ref=e81] [cursor=pointer]:
+          - /url: /en/course
+        - link "▸ BEGIN MISSION" [ref=e82] [cursor=pointer]:
+          - /url: /en/course/threat-fundamentals/scam-economy
+  - contentinfo [ref=e83]:
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - generic [ref=e86]:
+          - link "DISCAMMER" [ref=e87] [cursor=pointer]:
+            - /url: /en/
+            - img [ref=e88]
+            - generic [ref=e89]: DISCAMMER
+          - paragraph [ref=e90]: Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.
+          - link "Switch to Russian" [ref=e92] [cursor=pointer]:
+            - /url: /lang/ru?next=/ru/course/threat-fundamentals
+            - generic [ref=e93]: EN
+            - generic [ref=e94]: →
+            - generic [ref=e95]: RU
+        - generic [ref=e96]:
+          - heading "▸ THREAT DATABASE" [level=4] [ref=e97]:
+            - generic [ref=e98]: ▸
+            - text: THREAT DATABASE
+          - list [ref=e99]:
+            - listitem [ref=e100]:
+              - link "Phishing" [ref=e101] [cursor=pointer]:
+                - /url: /en/guide/phishing
+            - listitem [ref=e102]:
+              - link "Nigerian Letters" [ref=e103] [cursor=pointer]:
+                - /url: /en/guide/nigerian-letters
+            - listitem [ref=e104]:
+              - link "Get-Rich-Quick Schemes" [ref=e105] [cursor=pointer]:
+                - /url: /en/guide/get-rich-quick-schemes
+            - listitem [ref=e106]:
+              - link "Investment Pyramids" [ref=e107] [cursor=pointer]:
+                - /url: /en/guide/investment-pyramids
+            - listitem [ref=e108]:
+              - link "False Charities" [ref=e109] [cursor=pointer]:
+                - /url: /en/guide/false-charities
+            - listitem [ref=e110]:
+              - link "Fake Online Stores" [ref=e111] [cursor=pointer]:
+                - /url: /en/guide/fake-online-stores
+            - listitem [ref=e112]:
+              - link "Abuse on Dating Sites" [ref=e113] [cursor=pointer]:
+                - /url: /en/guide/abuse-on-dating-sites
+            - listitem [ref=e114]:
+              - link "SMS and Phone Scams" [ref=e115] [cursor=pointer]:
+                - /url: /en/guide/sms-and-phone-scams
+            - listitem [ref=e116]:
+              - link "Fraud with Lotteries" [ref=e117] [cursor=pointer]:
+                - /url: /en/guide/fraud-with-lotteries
+            - listitem [ref=e118]:
+              - link "Work-at-Home Scams" [ref=e119] [cursor=pointer]:
+                - /url: /en/guide/scam-sites-working-at-home
+        - generic [ref=e120]:
+          - heading "▸ NAVIGATION" [level=4] [ref=e121]:
+            - generic [ref=e122]: ▸
+            - text: NAVIGATION
+          - list [ref=e123]:
+            - listitem [ref=e124]:
+              - link "Home" [ref=e125] [cursor=pointer]:
+                - /url: /en/
+            - listitem [ref=e126]:
+              - link "Journal" [ref=e127] [cursor=pointer]:
+                - /url: /en/journal
+            - listitem [ref=e128]:
+              - link "Course" [ref=e129] [cursor=pointer]:
+                - /url: /en/course
+            - listitem [ref=e130]:
+              - link "Game" [ref=e131] [cursor=pointer]:
+                - /url: /en/game
+            - listitem [ref=e132]:
+              - link "About" [ref=e133] [cursor=pointer]:
+                - /url: /en/about
+      - generic [ref=e134]:
+        - paragraph [ref=e135]: © 2026 DISCAMMER · All rights reserved.
+        - generic [ref=e138]: SYS · OK
+  - dialog:
+    - navigation:
+      - generic: // Navigation
+      - link:
+        - /url: /en/course
+        - generic: "01"
+        - generic: "> COURSE"
+        - generic: "[ENTER]"
+      - link:
+        - /url: /en/journal
+        - generic: "02"
+        - generic: "> JOURNAL"
+        - generic: "[ENTER]"
+      - link:
+        - /url: /en/game
+        - generic: "03"
+        - generic: "> PLAY GAME"
+        - generic: "[ENTER]"
+      - link:
+        - /url: /lang/ru?next=/ru/course/threat-fundamentals
+        - generic: "04"
+        - generic:
+          - generic: EN
+          - generic: →
+          - generic: RU
+        - generic: "[ENTER]"
+      - generic:
+        - paragraph: "> DiSCAMMER v1.0 // ANTI-SCAM TERMINAL"
