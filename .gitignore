@@ -37,3 +37,7 @@ htmlcov/
 
 # Deploy artifacts
 *.zip
+
+# Agent + tooling session caches
+.playwright-cli/
+/tmp/dcm-review/

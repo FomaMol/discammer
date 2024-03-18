@@ -35,6 +35,6 @@ The organizers circulated photos of animals injured in the fires, stating that e
   2. **Review the Website and Contact Information** : Real charities provide detailed reports and contact information. If a website looks incomplete, contains errors, or provides unclear details, take caution.
   3. **Be Wary of Emotional Pressure** : Scammers often use emotional appeals to demand an immediate response to their pleas. Legitimate organizations rarely create a sense of urgency, as transparency and donor confidence are more important to them.
   4. **Check Donation Methods** : If the organization lacks official payment methods, such as direct bank transfer or donation through a verified platform, and instead offers only digital wallets or phone-based transfers, be cautious.
-  5. **Look for Evidence of Real Activity** : Authentic organizations publish reports on their work, campaign results, and photos from events. Check their social media or news presence—legitimate organizations usually receive media coverage and endorsements.
+  5. **Look for Evidence of Real Activity** : Authentic organizations publish reports on their work, campaign results, and photos from events. Check their social media or news presence. Legitimate organizations usually receive media coverage and endorsements.
 
 Supporting those in need is an important and noble cause, and verifying information before donating protects not only your finances but also the integrity of charitable giving.

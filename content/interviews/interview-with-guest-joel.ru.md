@@ -1,5 +1,5 @@
 ---
-title: "Интервью с гостем — Джоэль"
+title: "Интервью с гостем: Джоэль"
 slug: "interview-with-guest-joel"
 subtitle: "Влияние новых технологий"
 type: "interview"
@@ -7,7 +7,7 @@ cover_image: "https://static.tildacdn.com/tild6265-3336-4265-b361-643566356561/2
 published_at: "2024-12-09"
 ---
 
-# Интервью с гостем — Джоэль
+# Интервью с гостем: Джоэль
 
 Влияние новых технологий
 

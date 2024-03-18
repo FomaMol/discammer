@@ -1,5 +1,5 @@
 ---
-title: "Интервью с гостем — Гай Имс"
+title: "Интервью с гостем: Гай Имс"
 slug: "interview-with-guest-guy-eames"
 subtitle: "Важность цифровых двойников"
 type: "interview"
@@ -7,7 +7,7 @@ cover_image: "https://static.tildacdn.com/tild3739-6136-4532-a163-313836336261/_
 published_at: "2025-01-21"
 ---
 
-# Интервью с гостем — Гай Имс
+# Интервью с гостем: Гай Имс
 
 Важность цифровых двойников
 

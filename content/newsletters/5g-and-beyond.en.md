@@ -93,7 +93,7 @@ L
 
 Ultrafast Low Latency: 
  5G technology's ultra-low latency can lower the response time 
-of the network to as little as 1 millisecond—one of the most 
+of the network to as little as 1 millisecond, one of the most 
 critical advancements for time-sensitive applications like 
 remote surgery, real-time multiplayer gaming, or autonomous 
 vehicles.  
