@@ -87,11 +87,14 @@ jobs:
 
       - name: Health check
         run: |
-          paths=("/" "/journal" "/course" "/game" "/api/posts" "/api/guides")
-          # Wait for the home page to come up after deploy.
+          # Localized canonical paths — `/` and legacy paths now 302-redirect
+          # to `/{lang}/` via the i18n router, so use -L on curl and probe the
+          # actual rendered surfaces.
+          paths=("/en/" "/ru/" "/en/journal" "/ru/journal" "/en/course" "/en/game" "/api/posts" "/api/guides")
+          # Wait for the site to come up after deploy.
           for i in 1 2 3 4 5 6 7 8 9 10; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "https://discammer.com/" || echo 000)
-            echo "Attempt $i: GET / -> HTTP $code"
+            code=$(curl -sL -o /dev/null -w "%{http_code}" "https://discammer.com/" || echo 000)
+            echo "Attempt $i: GET / -L -> HTTP $code"
             if [ "$code" = "200" ]; then break; fi
             if [ "$i" = "10" ]; then
               echo "Site did not come up after deploy"
@@ -102,8 +105,8 @@ jobs:
           # Probe each public surface once. Any non-200 fails the deploy job.
           fail=0
           for path in "${paths[@]}"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "https://discammer.com${path}" || echo 000)
-            echo "GET ${path} -> HTTP $code"
+            code=$(curl -sL -o /dev/null -w "%{http_code}" "https://discammer.com${path}" || echo 000)
+            echo "GET ${path} -L -> HTTP $code"
             if [ "$code" != "200" ]; then fail=1; fi
           done
           exit $fail
