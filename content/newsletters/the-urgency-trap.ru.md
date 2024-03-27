@@ -11,4 +11,4 @@ published_at: "2026-01-16"
 
 ## Видео-запись
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://kinescope.io/embed/j4mUbRY7Tqf3oTHQCVWsSe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/newsletters/the-urgency-trap.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/newsletters/the-urgency-trap.jpg&quot;, &quot;title&quot;: &quot;Ловушка срочности&quot;}'></div>

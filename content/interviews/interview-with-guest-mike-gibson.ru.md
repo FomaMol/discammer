@@ -13,4 +13,4 @@ published_at: "2025-02-11"
 
 ## Видео-запись
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://kinescope.io/embed/h5x4YG1UnCLfhEYMyHiJva" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/mike-gibson.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/interviews/mike-gibson.jpg&quot;, &quot;title&quot;: &quot;Интервью с гостем: Майк Гибсон&quot;}'></div>

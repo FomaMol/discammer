@@ -21,6 +21,7 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   ObjectivesPanel: React.lazy(() => import('./components/ObjectivesPanel')),
   OpsDebriefPanel: React.lazy(() => import('./components/OpsDebriefPanel')),
   WordmarkReveal: React.lazy(() => import('./components/WordmarkReveal')),
+  VideoPlayer: React.lazy(() => import('./components/VideoPlayer')),
 };
 
 function hydrateIslands() {

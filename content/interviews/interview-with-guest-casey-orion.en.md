@@ -13,4 +13,4 @@ The Impact of AI a the Future of Education
 
 ## Watch the Video
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://fast.wistia.net/embed/iframe/4yfbhevst5" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/casey-orion.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/interviews/casey-orion.jpg&quot;, &quot;title&quot;: &quot;Interview with guest Casey Orion&quot;}'></div>

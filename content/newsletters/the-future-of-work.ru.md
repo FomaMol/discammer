@@ -10,4 +10,4 @@ published_at: "2025-02-07"
 
 ## Видео-запись
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://kinescope.io/embed/w17qHgu9YFVsfuJkTAGUQk" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/newsletters/the-future-of-work.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/newsletters/the-future-of-work.jpg&quot;, &quot;title&quot;: &quot;Будущее работы&quot;}'></div>

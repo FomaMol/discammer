@@ -49,3 +49,17 @@ def test_basic_markdown_renders():
     out = render_markdown("# Heading\n\nParagraph.")
     assert "<h1" in out
     assert "Paragraph." in out
+
+
+def test_data_attributes_preserved_for_react_islands():
+    # The frontend islands hydrator scans for data-component / data-props on
+    # arbitrary tags (see frontend/src/main.tsx). Stripping these would silently
+    # break every self-hosted video player div in journal posts.
+    md = (
+        '<div class="video-embed" data-component="VideoPlayer" '
+        '''data-props='{"src":"/media/videos/x.mp4"}'></div>'''
+    )
+    out = render_markdown(md)
+    assert 'data-component="VideoPlayer"' in out
+    assert "data-props=" in out
+    assert "/media/videos/x.mp4" in out

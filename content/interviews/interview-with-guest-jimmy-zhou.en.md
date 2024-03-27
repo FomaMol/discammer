@@ -13,4 +13,4 @@ Thoughts on the metaverse
 
 ## Watch the Video
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://fast.wistia.net/embed/iframe/bk5xrusfev" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/jimmy-zhou.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/interviews/jimmy-zhou.jpg&quot;, &quot;title&quot;: &quot;Interview with guest Jimmy Zhou&quot;}'></div>

@@ -13,4 +13,4 @@ Cybersecurity, Ethical Hacking and Quantum computing
 
 ## Watch the Video
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://kinescope.io/embed/mM1gKVGgomSpV3sJKxHJej" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/michael-wakelin.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/interviews/michael-wakelin.jpg&quot;, &quot;title&quot;: &quot;Interview with guest Michael Wakelin&quot;}'></div>

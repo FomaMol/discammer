@@ -98,6 +98,11 @@ def _safe_style(value: str) -> bool:
 def _attribute_filter(tag: str, name: str, value: str) -> bool:
     if name.startswith("on"):
         return False
+    # data-* attributes are used by the islands hydrator in frontend/src/main.tsx
+    # (data-component / data-props). They are inert by themselves — they can't
+    # execute or load resources — so passing them through is safe.
+    if name.startswith("data-"):
+        return True
     if name in {"class", "id", "title"}:
         return True
     if name == "style":

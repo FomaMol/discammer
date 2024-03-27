@@ -1,0 +1,55 @@
+/* DiScammer brand wrapper for Plyr.
+ * Plyr exposes its theming through CSS custom properties — we recolour the
+ * primary accent (control highlights, progress bar, focus rings) to match
+ * the cyberpunk palette declared in styles/globals.css.
+ */
+.discammer-player {
+  --plyr-color-main: #00f0ff;
+  --plyr-video-control-color: #ffffff;
+  --plyr-video-control-color-hover: #0b0e17;
+  --plyr-video-control-background-hover: #00f0ff;
+  --plyr-range-fill-background: #00f0ff;
+  --plyr-audio-control-color: #00f0ff;
+  --plyr-focus-visible-color: #00f0ff;
+  --plyr-tab-focus-color: #00f0ff;
+  --plyr-menu-background: rgba(11, 14, 23, 0.95);
+  --plyr-menu-color: #ffffff;
+  --plyr-menu-radius: 10px;
+  --plyr-tooltip-background: rgba(11, 14, 23, 0.95);
+  --plyr-tooltip-color: #ffffff;
+  --plyr-tooltip-radius: 6px;
+  --plyr-video-background: #000000;
+  --plyr-control-radius: 6px;
+
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.18),
+    0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Round the poster image too so it doesn't peek past the container chrome. */
+.discammer-player .plyr {
+  border-radius: inherit;
+}
+
+.discammer-player .plyr__poster {
+  background-size: cover;
+}
+
+/* Bigger, more confident play button — matches the site's other CTAs. */
+.discammer-player .plyr__control--overlaid {
+  background: rgba(0, 240, 255, 0.95);
+  color: #0b0e17;
+  padding: 22px;
+  box-shadow: 0 0 36px rgba(0, 240, 255, 0.55);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.discammer-player .plyr__control--overlaid:hover,
+.discammer-player .plyr__control--overlaid:focus-visible {
+  background: #00f0ff;
+  transform: scale(1.08);
+  box-shadow: 0 0 48px rgba(0, 240, 255, 0.85);
+}

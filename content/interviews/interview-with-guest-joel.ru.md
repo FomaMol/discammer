@@ -13,4 +13,4 @@ published_at: "2024-12-09"
 
 ## Видео-запись
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://fast.wistia.net/embed/iframe/cyo12z5sly" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/joel.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/interviews/joel.jpg&quot;, &quot;title&quot;: &quot;Интервью с гостем: Джоэль&quot;}'></div>

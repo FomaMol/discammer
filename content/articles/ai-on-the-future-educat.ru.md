@@ -10,7 +10,7 @@ published_at: "2024-11-28"
 
 ## Видео-запись
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://fast.wistia.net/embed/iframe/7iyk7v7im4" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/articles/ai-on-the-future-educat.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/articles/ai-on-the-future-educat.jpg&quot;, &quot;title&quot;: &quot;ИИ и будущее образования&quot;}'></div>
 
 ## Полный отчёт
 

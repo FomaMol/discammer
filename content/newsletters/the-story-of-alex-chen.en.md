@@ -11,4 +11,4 @@ published_at: "2026-05-15"
 
 ## Watch the Video
 
-<div class="video-embed" style="position:relative;padding-top:56.25%;margin:1.5rem 0;"><iframe src="https://kinescope.io/embed/vKuii8eeToDHR2GkK8DEvb" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture;encrypted-media" allowfullscreen></iframe></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/newsletters/the-story-of-alex-chen.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/newsletters/the-story-of-alex-chen.jpg&quot;, &quot;title&quot;: &quot;The story of Alex Chen&quot;}'></div>
