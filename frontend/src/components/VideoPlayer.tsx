@@ -59,8 +59,13 @@ export default function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
           tooltips: { controls: true, seek: true },
           captions: { active: false, language: 'auto', update: false },
           fullscreen: { enabled: true, fallback: true, iosNative: true },
-          // Don't auto-load full video; rely on the poster + browser preload.
-          loadSprite: false,
+          // Self-host the icon sprite so we don't ping cdn.plyr.io. The
+          // sprite is copied into backend/static/plyr.svg at build time —
+          // FastAPI serves it from /static/plyr.svg. Without this (or
+          // loadSprite: true falling back to the CDN), every control icon
+          // including the big centre play triangle renders blank.
+          iconUrl: '/static/plyr.svg',
+          loadSprite: true,
           hideControls: true,
         }}
       />
