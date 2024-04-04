@@ -38,18 +38,26 @@
   background-size: cover;
 }
 
-/* Bigger, more confident play button — matches the site's other CTAs. */
+/* Bigger, more confident play button — matches the site's other CTAs.
+ * NOTE: Plyr centres .plyr__control--overlaid with
+ * `transform: translate(-50%, -50%)`, so any hover transform MUST repeat
+ * that translate. Otherwise scale() overwrites it, the button jumps to the
+ * top-left of its containing box, the cursor falls off the button, :hover
+ * goes false, the button snaps back — and the cursor is over it again →
+ * infinite jitter loop. */
 .discammer-player .plyr__control--overlaid {
   background: rgba(0, 240, 255, 0.95);
   color: #0b0e17;
   padding: 22px;
   box-shadow: 0 0 36px rgba(0, 240, 255, 0.55);
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 200ms ease, box-shadow 200ms ease,
+    background-color 200ms ease;
 }
 
 .discammer-player .plyr__control--overlaid:hover,
 .discammer-player .plyr__control--overlaid:focus-visible {
   background: #00f0ff;
-  transform: scale(1.08);
+  transform: translate(-50%, -50%) scale(1.08);
   box-shadow: 0 0 48px rgba(0, 240, 255, 0.85);
 }
