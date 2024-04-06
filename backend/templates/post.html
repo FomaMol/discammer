@@ -171,8 +171,12 @@
   </p>
   {% endif %}
 
-  {# Cover image — minimal label, hairline frame. #}
-  {% if post.cover_image %}
+  {# Cover image — minimal label, hairline frame.
+     Skipped for video posts: the self-hosted Plyr player below already has
+     a matching poster, so showing the cover here would duplicate the
+     hero image. Detection is a substring match on the rendered body —
+     every video post emits a `<div data-component="VideoPlayer" …>`. #}
+  {% if post.cover_image and 'data-component="VideoPlayer"' not in post.content_html %}
   <figure class="mt-7 sm:mt-9">
     <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
     <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-sm">
