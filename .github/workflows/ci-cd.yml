@@ -49,6 +49,9 @@ jobs:
         working-directory: frontend
         run: npm run build
 
+      - name: Verify committed static is in sync
+        run: git diff --exit-code -- backend/static || { echo "::error::backend/static is stale — run 'npm run build' in frontend/ and commit the result"; exit 1; }
+
   docker-build:
     name: Docker image build
     runs-on: ubuntu-latest
@@ -71,18 +74,23 @@ jobs:
     needs: [backend-tests, frontend-build, docker-build]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
+    timeout-minutes: 20
     concurrency:
       group: deploy-production
       cancel-in-progress: false
     steps:
       - name: SSH deploy
-        uses: appleboy/ssh-action@v1.2.0
+        # Pinned by commit SHA: this third-party action receives the prod SSH
+        # key, and a moved tag must not be able to swap the code under it.
+        uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17 # v1.2.0
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           port: 22
-          command_timeout: 10m
+          # deploy.sh now builds with --pull and runs a health probe with
+          # rollback; 10m could kill it between `up -d` and the probe.
+          command_timeout: 18m
           script: bash /opt/discammer/scripts/deploy.sh
 
       - name: Health check
@@ -93,7 +101,7 @@ jobs:
           paths=("/en/" "/ru/" "/en/journal" "/ru/journal" "/en/course" "/en/game" "/api/posts" "/api/guides")
           # Wait for the site to come up after deploy.
           for i in 1 2 3 4 5 6 7 8 9 10; do
-            code=$(curl -sL -o /dev/null -w "%{http_code}" "https://discammer.com/" || echo 000)
+            code=$(curl -sL --max-time 15 -o /dev/null -w "%{http_code}" "https://discammer.com/" || echo 000)
             echo "Attempt $i: GET / -L -> HTTP $code"
             if [ "$code" = "200" ]; then break; fi
             if [ "$i" = "10" ]; then
@@ -105,7 +113,7 @@ jobs:
           # Probe each public surface once. Any non-200 fails the deploy job.
           fail=0
           for path in "${paths[@]}"; do
-            code=$(curl -sL -o /dev/null -w "%{http_code}" "https://discammer.com${path}" || echo 000)
+            code=$(curl -sL --max-time 15 -o /dev/null -w "%{http_code}" "https://discammer.com${path}" || echo 000)
             echo "GET ${path} -L -> HTTP $code"
             if [ "$code" != "200" ]; then fail=1; fi
           done
