@@ -98,11 +98,17 @@ def _safe_style(value: str) -> bool:
 def _attribute_filter(tag: str, name: str, value: str) -> bool:
     if name.startswith("on"):
         return False
-    # data-* attributes are used by the islands hydrator in frontend/src/main.tsx
-    # (data-component / data-props). They are inert by themselves — they can't
-    # execute or load resources — so passing them through is safe.
+    # data-component / data-props are read by the islands hydrator in
+    # frontend/src/main.tsx, which mounts a registered React component with
+    # the parsed JSON props — i.e. these attributes DO gain behavior
+    # client-side. They stay allowlisted because all markdown is
+    # repo-controlled authored content; restrict to exactly the two names the
+    # hydrator reads, on the div wrapper it scans, so nothing else leaks
+    # through if markdown ever becomes user-sourced.
+    if name in {"data-component", "data-props"}:
+        return tag == "div"
     if name.startswith("data-"):
-        return True
+        return False
     if name in {"class", "id", "title"}:
         return True
     if name == "style":
@@ -146,8 +152,6 @@ def _strip_duplicate_h1(text: str, post_title: str) -> str:
     if not normalized_title:
         return text
     lines = text.split("\n", 1)
-    if not lines:
-        return text
     first = lines[0]
     # Only consider a real h1 (single leading "#"), not "##" / "###" / etc.
     stripped = first.lstrip()

@@ -63,3 +63,12 @@ def test_data_attributes_preserved_for_react_islands():
     assert 'data-component="VideoPlayer"' in out
     assert "data-props=" in out
     assert "/media/videos/x.mp4" in out
+
+    # Only the two hydrator attributes pass, and only on a div — any other
+    # data-* attribute is stripped even when it rides alongside a valid one.
+    out = render_markdown('<div data-component="VideoPlayer" data-evil="x"></div>')
+    assert 'data-component="VideoPlayer"' in out
+    assert "data-evil" not in out
+
+    out = render_markdown('<span data-component="VideoPlayer">x</span>')
+    assert "data-component" not in out

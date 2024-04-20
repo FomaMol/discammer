@@ -57,7 +57,9 @@ def t(lang: str, key: str, /, **kwargs: Any) -> str:
     if isinstance(value, str) and kwargs:
         try:
             return value.format(**kwargs)
-        except (KeyError, IndexError):
+        except (KeyError, IndexError, ValueError):
+            # ValueError covers unbalanced braces in a translation string —
+            # a locale-file edit must degrade to the raw string, never 500.
             return value
     return value if isinstance(value, str) else str(value)
 

@@ -279,6 +279,8 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
             "post": post,
             "related_posts": related,
             "page_title": f"{post['title']} · DiScammer",
+            "page_description": post.get("subtitle") or None,
+            "page_image": post.get("cover_image") or None,
         },
     )
 
@@ -311,6 +313,7 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
             "guide": guide,
             "related_guides": related,
             "page_title": f"{guide['title']} · DiScammer",
+            "page_description": guide.get("description") or None,
         },
     )
 

@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from config import STATIC_DIR, TEMPLATES_DIR
+from config import SITE_ORIGIN, STATIC_DIR, TEMPLATES_DIR
 from database import init_db
 from seed_data import seed_database
 
@@ -67,12 +67,27 @@ _env = Environment(
 )
 
 
+import time  # noqa: E402
+
+# Short-TTL memo: saves the blocking stat() per asset per request (base.html
+# calls asset_url 5x per page) while still picking up `npm run build` in the
+# dev loop within a minute (uvicorn --reload only restarts on .py changes, so
+# a process-lifetime cache would freeze the ?v= cache-buster). Failures are
+# never cached: a missing-then-built asset must regain its version stamp.
+_asset_memo: dict[str, tuple[float, str]] = {}
+_ASSET_TTL = 60.0
+
+
 def _asset_url(path: str) -> str:
     """Append ?v=<file mtime> to a /static URL so browsers re-fetch after deploy.
 
     Vite emits stable filenames (no hash in name) so without a query string
     the browser keeps the old CSS/JS until manually cleared.
     """
+    hit = _asset_memo.get(path)
+    now = time.monotonic()
+    if hit and now - hit[0] < _ASSET_TTL:
+        return hit[1]
     clean, _, _ = path.partition("?")
     target = STATIC_DIR / clean.removeprefix("/static/")
     try:
@@ -80,12 +95,15 @@ def _asset_url(path: str) -> str:
     except OSError:
         return path
     sep = "&" if "?" in path else "?"
-    return f"{path}{sep}v={mtime}"
+    url = f"{path}{sep}v={mtime}"
+    _asset_memo[path] = (now, url)
+    return url
 
 
 # Expose `now()` to templates for things like dynamic copyright years.
 _env.globals["now"] = lambda: datetime.now(timezone.utc)
 _env.globals["asset_url"] = _asset_url
+_env.globals["site_origin"] = SITE_ORIGIN
 _env.globals["supported_langs"] = list(SUPPORTED_LANGS)
 _env.globals["default_lang"] = DEFAULT_LANG
 _env.globals["other_lang"] = other_lang
@@ -150,6 +168,10 @@ from i18n import normalize_lang, detect_lang  # noqa: E402
 # a plain 404 it can log. The same applies to /static/* misses.
 _PLAINTEXT_404_EXTENSIONS = (
     ".xml", ".txt", ".webmanifest", ".json", ".svg",
+    # Root-level asset probes browsers/bots fire automatically — a 19 KB HTML
+    # 404 for /favicon.ico or /apple-touch-icon.png is pure waste.
+    ".ico", ".png", ".jpg", ".jpeg", ".webp", ".gif",
+    ".js", ".css", ".map", ".woff", ".woff2",
 )
 
 
@@ -160,35 +182,23 @@ def _is_asset_path(path: str) -> bool:
     ("/foo.xml-old", "/foo.xml.bak") by checking whether any of the known
     extensions appears anywhere in the path. Also matches anything under
     /static/ regardless of suffix.
+
+    Localized page namespaces are exempt: "/en/journal/foo.json" is a missing
+    *page* (a human following a bad link), so it deserves the HTML 404, not
+    the plaintext bot response.
     """
     if path.startswith("/static/"):
         return True
+    if any(path.startswith(f"/{code}/") for code in SUPPORTED_LANGS):
+        return False
     lower = path.lower()
     return any(ext in lower for ext in _PLAINTEXT_404_EXTENSIONS)
 
 
-@app.exception_handler(StarletteHTTPException)
-async def http_exception_handler(request: Request, exc: StarletteHTTPException):
-    """Render 404.html for HTML 404s; pass non-404s through as JSON."""
-    if exc.status_code != 404:
-        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
-
-    # API and game routes keep the JSON detail — only HTML clients get the template.
+def _render_404(request: Request):
+    """Render the branded 404 template with lang detected from URL prefix,
+    cookie, or Accept-Language."""
     path = request.url.path
-    if path.startswith("/api/") or path.startswith("/play/"):
-        return JSONResponse(status_code=404, content={"detail": exc.detail})
-
-    # SEO / asset typos ("/sitemap.xml-x", "/robots.txt-x", "/static/foo.png", …)
-    # don't want a full HTML 404 page — bots that asked for a feed or static
-    # asset should get a small plain-text body so they don't try to parse our
-    # marketing template. Keep the path in the body for log-grep usefulness.
-    if _is_asset_path(path):
-        return PlainTextResponse(
-            f"404 Not Found: {path}\n",
-            status_code=404,
-        )
-
-    # Lang detection: URL prefix → cookie → Accept-Language → default.
     lang = None
     parts = path.lstrip("/").split("/", 1)
     if parts and parts[0] in SUPPORTED_LANGS:
@@ -215,17 +225,44 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     )
 
 
-@app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    """When a SEO/asset-style path (sitemap.xml-typo, robots.txt-stale, …)
-    fails the ``/{lang}/...`` regex constraint, FastAPI would normally raise
-    a 422 JSON validation error. Coerce those into a clean 404 plaintext so
-    crawlers see a single, predictable response. All other validation errors
-    keep the default JSON behavior.
-    """
-    if _is_asset_path(request.url.path):
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """Render 404.html for HTML 404s; pass non-404s through as JSON."""
+    if exc.status_code != 404:
+        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
+    # API and game routes keep the JSON detail — only HTML clients get the template.
+    path = request.url.path
+    if path.startswith("/api/") or path.startswith("/play/"):
+        return JSONResponse(status_code=404, content={"detail": exc.detail})
+
+    # SEO / asset typos ("/sitemap.xml-x", "/robots.txt-x", "/static/foo.png", …)
+    # don't want a full HTML 404 page — bots that asked for a feed or static
+    # asset should get a small plain-text body so they don't try to parse our
+    # marketing template. Keep the path in the body for log-grep usefulness.
+    if _is_asset_path(path):
         return PlainTextResponse(
-            f"404 Not Found: {request.url.path}\n",
+            f"404 Not Found: {path}\n",
             status_code=404,
         )
+
+    return _render_404(request)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Paths that fail the ``/{lang}/...`` regex constraint (an unsupported
+    language like /de/about, a stale feed typo, a stray top-level URL) must
+    not surface as raw 422 JSON: a human gets the branded 404 page, a bot
+    asking for an asset-looking path gets plaintext. Real validation errors
+    on API routes keep the default 422 JSON behavior.
+    """
+    path = request.url.path
+    if _is_asset_path(path):
+        return PlainTextResponse(
+            f"404 Not Found: {path}\n",
+            status_code=404,
+        )
+    if not path.startswith("/api/") and not path.startswith("/play/"):
+        return _render_404(request)
     return JSONResponse(status_code=422, content={"detail": exc.errors()})

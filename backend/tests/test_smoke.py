@@ -35,6 +35,47 @@ def test_unknown_guide_returns_404(client):
     assert r.status_code == 404
 
 
+def test_unsupported_lang_prefix_returns_html_404(client):
+    # /de/... fails the LangPath pattern → RequestValidationError, which must
+    # surface as the branded HTML 404 page, never raw 422 JSON.
+    for path in ("/de/about", "/fr/course"):
+        r = client.get(path)
+        assert r.status_code == 404, path
+        assert r.headers["content-type"].startswith("text/html"), path
+        assert "dcm-ops@nav" in r.text, path
+
+
+def test_localized_missing_page_with_asset_extension_gets_html_404(client):
+    # The /{lang}/ namespace is exempt from asset classification — a human
+    # following a bad link gets the HTML 404, not the plaintext bot body.
+    r = client.get("/en/journal/foo.json")
+    assert r.status_code == 404
+    assert r.headers["content-type"].startswith("text/html")
+    assert "dcm-ops@nav" in r.text
+
+
+def test_asset_typo_path_gets_plaintext_404(client):
+    r = client.get("/sitemap.xml-old")
+    assert r.status_code == 404
+    assert r.headers["content-type"].startswith("text/plain")
+    assert r.text.startswith("404 Not Found:")
+
+
+def test_api_posts_invalid_limit_keeps_422_json(client):
+    # The custom validation handler must not swallow real API validation errors.
+    r = client.get("/api/posts", params={"limit": 0})
+    assert r.status_code == 422
+    assert r.headers["content-type"].startswith("application/json")
+    assert "detail" in r.json()
+
+
+def test_play_index_html_not_cached(client):
+    # A cached index.html would keep referencing pruned version-stamped assets.
+    r = client.get("/play/index.html")
+    assert r.status_code == 200
+    assert r.headers.get("cache-control") == "no-cache"
+
+
 def test_api_posts_returns_list(client):
     r = client.get("/api/posts")
     assert r.status_code == 200

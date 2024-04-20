@@ -15,6 +15,7 @@ from typing import Optional
 from fastapi import APIRouter, Request
 from fastapi.responses import PlainTextResponse, Response
 
+from config import SITE_ORIGIN
 from database import get_course_modules, get_guides, get_posts
 from i18n import SUPPORTED_LANGS
 
@@ -22,13 +23,15 @@ router = APIRouter()
 
 
 def _base_url(request: Request) -> str:
-    """Return the request's base URL without trailing slash.
+    """Return the canonical public origin for absolute sitemap/feed URLs.
 
-    Behind the production reverse proxy ``request.base_url`` already reflects
-    the public scheme + host. In local dev it returns http://127.0.0.1:8000/
-    which is fine for emitting valid absolute URLs into the sitemap.
+    NOT request.base_url: behind the prod nginx proxy uvicorn only trusts
+    X-Forwarded-* from loopback while the proxy connects from the Docker
+    bridge, so base_url reports the http:// scheme. config.SITE_ORIGIN
+    (env-overridable) is the single source of truth, shared with base.html.
     """
-    return str(request.base_url).rstrip("/")
+    del request  # kept in the signature so call sites stay uniform
+    return SITE_ORIGIN
 
 
 # ---------------------------------------------------------------------------
