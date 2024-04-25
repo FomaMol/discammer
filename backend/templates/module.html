@@ -26,7 +26,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ _lang ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang ~ '/') | tojson }} },
         { "@type": "ListItem", "position": 2, "name": {{ t(_lang, 'page_titles.course') | tojson }}, "item": {{ ('/' ~ _lang ~ '/course') | tojson }} },
         { "@type": "ListItem", "position": 3, "name": {{ module.title | tojson }}, "item": {{ _module_url | tojson }} }
       ]
@@ -43,7 +43,7 @@
   {# Breadcrumb path — ~/<course>/<module-slug>.
      "course" segment is localized; the module slug stays ASCII so URL-pasted
      references stay stable across languages. #}
-  <nav aria-label="Breadcrumb" class="mb-6">
+  <nav aria-label="{{ t(_lang, 'a11y.breadcrumb') }}" class="mb-6">
     <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#6b7588]">
       <li>
         <a href="/{{ _lang }}" class="hover:text-[#65def0] transition">~</a>

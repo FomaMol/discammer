@@ -25,7 +25,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ (lang | default('en')) ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t((lang | default('en')), 'footer.home') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/') | tojson }} },
         { "@type": "ListItem", "position": 2, "name": {{ t(lang, 'footer.threat_database') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/journal') | tojson }} },
         { "@type": "ListItem", "position": 3, "name": {{ guide.title | tojson }}, "item": {{ _guide_url | tojson }} }
       ]
@@ -169,7 +169,7 @@
     <div class="lg:col-span-8 min-w-0">
 
       <!-- Breadcrumbs -->
-      <nav class="font-mono text-xs text-[#6b7588] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="Breadcrumb">
+      <nav class="font-mono text-xs text-[#6b7588] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
         <a href="/{{ _lang }}/" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
         <span class="text-[#475064]" aria-hidden="true">/</span>
         <a href="/{{ _lang }}/journal" class="text-[#6b7588] hover:text-[#65def0] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
@@ -306,7 +306,7 @@
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
           {{ t(_lang, 'guide.contents_label') }}
         </div>
-        <nav id="guide-toc" aria-label="article sections" class="font-mono text-[12px] space-y-2 border-l border-[#202a44] pl-4">
+        <nav id="guide-toc" aria-label="{{ t(_lang, 'a11y.article_sections') }}" class="font-mono text-[12px] space-y-2 border-l border-[#202a44] pl-4">
           <!-- populated by inline script below -->
         </nav>
       </div>

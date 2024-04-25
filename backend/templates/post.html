@@ -119,7 +119,7 @@
   {% set _type_breadcrumb_key = 'breadcrumb.type_' ~ post.type %}
   {% set _type_breadcrumb = t(_lang, _type_breadcrumb_key) %}
   {% if _type_breadcrumb == _type_breadcrumb_key %}{% set _type_breadcrumb = post.type %}{% endif %}
-  <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="Breadcrumb">
+  <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
     <span class="text-[#6b7588]">
       <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#475064]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
     </span>
@@ -151,7 +151,7 @@
       <span class="text-[#aab2c4]">{{ _byline_label }}</span>
       {% if _byline_date %}
       <span aria-hidden="true" class="text-[#475064]">·</span>
-      <time class="tabular-nums">{{ _byline_date }}</time>
+      <time class="tabular-nums"{% if post.published_at %} datetime="{{ post.published_at }}"{% endif %}>{{ _byline_date }}</time>
       {% endif %}
       <span aria-hidden="true" class="text-[#475064]">·</span>
       <span class="tabular-nums">{{ _est_minutes }} {{ _min_label }}</span>
@@ -201,7 +201,7 @@
   {# FILED UNDER + NEXT IN SECTION — broadsheet "end of article" panel #}
   <section
     class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#202a44]"
-    aria-label="End of article"
+    aria-label="{{ t(_lang, 'a11y.end_of_article') }}"
   >
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
       <div>

@@ -77,7 +77,7 @@
     "site_full": "DiScammer - Cybersecurity Education Platform"
   },
   "home": {
-    "article_database_title": "> ARTICLE_DATABASE",
+    "article_database_title": "ARTICLE_DATABASE",
     "cta_course": "TAKE COURSE",
     "cta_play": "PLAY GAME",
     "cta_read": "READ JOURNAL",
@@ -92,19 +92,19 @@
     "final_cta_title": "Ready to test your skills?",
     "hud_monitoring": "MONITORING",
     "hud_last_filed_prefix": "LAST FILED ·",
-    "interview_log_title": "> INTERVIEW_LOG",
+    "interview_log_title": "INTERVIEW_LOG",
     "live_label": "LIVE",
     "mission_cat_command": "> cat /docs/mission.txt",
     "mission_text": "We are a platform dedicated to empowering people via digital literacy in order to mitigate fraudulent behavior and scams via AI and various other emerging technologies.",
-    "newsletter_feed_title": "> NEWSLETTER_FEED",
+    "newsletter_feed_title": "NEWSLETTER_FEED",
     "section_about": "// 01. ABOUT",
     "section_archive": "// 03. ARCHIVE",
     "section_directives": "// 02. DIRECTIVES",
-    "section_directives_title": "> CORE_DIRECTIVES",
+    "section_directives_title": "CORE_DIRECTIVES",
     "section_dispatches": "// 04. DISPATCHES",
     "section_end": "// END_OF_BRIEFING",
     "section_index": "// 06. INDEX",
-    "section_mission_title": "> MISSION_BRIEFING",
+    "section_mission_title": "MISSION_BRIEFING",
     "section_research": "// 05. RESEARCH",
     "situation_report": "SITUATION REPORT",
     "source_internal": "SOURCE: INTERNAL",
@@ -161,7 +161,8 @@
     "weekday_sunday": "SUNDAY",
     "weekday_thursday": "THURSDAY",
     "weekday_tuesday": "TUESDAY",
-    "weekday_wednesday": "WEDNESDAY"
+    "weekday_wednesday": "WEDNESDAY",
+    "threat_db_eyebrow": "// THREAT_DATABASE"
   },
   "post": {
     "back": "← Back to Journal",
@@ -360,7 +361,10 @@
     "unlocks_after": "Unlocks after Module {n}",
     "widget_unsupported": "The \"{type}\" widget is launching in a future release",
     "by_the_end": "By the end you can",
-    "objectives_label": "By the end you can"
+    "objectives_label": "By the end you can",
+    "noscript_access": "OPERATOR DCM-117 ▸ ACCESS GRANTED",
+    "noscript_transmission": "INCOMING TRANSMISSION ...",
+    "noscript_certificate": "CERTIFICATE: ISSUED ON COMPLETION"
   },
   "game": {
     "caution_strip": "CAUTION: this is a simulation. Real fraud may differ. Verify directly with your bank or service before acting on any message.",
@@ -460,5 +464,13 @@
     "of": "OF",
     "operator_log_label": "// OPERATOR LOG",
     "prev_briefing": "◁ PREV BRIEFING"
+  },
+  "a11y": {
+    "skip_to_content": "Skip to content",
+    "breadcrumb": "Breadcrumb",
+    "masthead": "Masthead",
+    "dateline": "Dateline",
+    "end_of_article": "End of article",
+    "article_sections": "Article sections"
   }
 }

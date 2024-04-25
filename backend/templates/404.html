@@ -14,6 +14,9 @@
    ───────────────────────────────────────────────────────────────────── #}
 <div class="max-w-2xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
 
+  {# Page needs a heading for AT users; the terminal chrome stays div-based. #}
+  <h1 class="sr-only">{{ t(_lang, 'not_found.title') }}</h1>
+
   {# Terminal block — matches DESIGN.md `terminal-block` shape, with the
      three header dots in muted hairline gray (not macOS red/yellow/green). #}
   <div class="border border-[#202a44] bg-[#0a0d16] rounded-[4px] overflow-hidden">
@@ -57,7 +60,7 @@
       <ul class="space-y-1.5" role="list">
         <li>
           <a href="/{{ _lang }}/"
-             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus:outline-none transition-colors">
+             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
             <span class="text-[#6b7588] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/</span>
@@ -67,7 +70,7 @@
         </li>
         <li>
           <a href="/{{ _lang }}/journal"
-             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus:outline-none transition-colors">
+             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
             <span class="text-[#6b7588] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/journal</span>
@@ -77,7 +80,7 @@
         </li>
         <li>
           <a href="/{{ _lang }}/course"
-             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus:outline-none transition-colors">
+             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
             <span class="text-[#6b7588] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/course</span>
@@ -87,7 +90,7 @@
         </li>
         <li>
           <a href="/{{ _lang }}/game"
-             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus:outline-none transition-colors">
+             class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
             <span class="text-[#6b7588] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/game</span>
