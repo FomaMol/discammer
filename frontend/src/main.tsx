@@ -2,27 +2,73 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/globals.css';
 
-// Component registry
-const components: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
-  HeroTypewriter: React.lazy(() => import('./components/HeroTypewriter')),
-  ContentCarousel: React.lazy(() => import('./components/ContentCarousel')),
-  ScamTypesGrid: React.lazy(() => import('./components/ScamTypesGrid')),
-  HeroTerminal: React.lazy(() => import('./components/HeroTerminal')),
-  JournalBroadsheet: React.lazy(() => import('./components/JournalBroadsheet')),
-  CourseProgress: React.lazy(() => import('./components/CourseProgress')),
-  GameLauncher: React.lazy(() => import('./components/GameLauncher')),
-  MobileMenu: React.lazy(() => import('./components/MobileMenu')),
-  ModuleLessons: React.lazy(() => import('./components/ModuleLessons')),
-  LessonWidget: React.lazy(() => import('./components/LessonWidget')),
-  LessonFooter: React.lazy(() => import('./components/LessonFooter')),
-  HeroShader: React.lazy(() => import('./components/HeroShader')),
-  SimulateTerminal: React.lazy(() => import('./components/SimulateTerminal')),
-  MissionBriefingTerminal: React.lazy(() => import('./components/MissionBriefingTerminal')),
-  ObjectivesPanel: React.lazy(() => import('./components/ObjectivesPanel')),
-  OpsDebriefPanel: React.lazy(() => import('./components/OpsDebriefPanel')),
-  WordmarkReveal: React.lazy(() => import('./components/WordmarkReveal')),
-  VideoPlayer: React.lazy(() => import('./components/VideoPlayer')),
+import HeroTypewriter from './components/HeroTypewriter';
+import ContentCarousel from './components/ContentCarousel';
+import ScamTypesGrid from './components/ScamTypesGrid';
+import HeroTerminal from './components/HeroTerminal';
+import JournalBroadsheet from './components/JournalBroadsheet';
+import CourseProgress from './components/CourseProgress';
+import GameLauncher from './components/GameLauncher';
+import ModuleLessons from './components/ModuleLessons';
+import LessonWidget from './components/LessonWidget';
+import LessonFooter from './components/LessonFooter';
+import HeroShader from './components/HeroShader';
+import SimulateTerminal from './components/SimulateTerminal';
+import MissionBriefingTerminal from './components/MissionBriefingTerminal';
+import ObjectivesPanel from './components/ObjectivesPanel';
+import OpsDebriefPanel from './components/OpsDebriefPanel';
+import WordmarkReveal from './components/WordmarkReveal';
+import VideoPlayer from './components/VideoPlayer';
+import MobileMenu from './components/MobileMenu';
+
+// Component registry. Static imports on purpose: the build inlines all
+// dynamic imports (vite.config.ts inlineDynamicImports), so React.lazy
+// gave no code-splitting and the Suspense fallback blanked the preserved
+// SSR markup for a frame.
+const components: Record<string, React.ComponentType<any>> = {
+  HeroTypewriter,
+  ContentCarousel,
+  ScamTypesGrid,
+  HeroTerminal,
+  JournalBroadsheet,
+  CourseProgress,
+  GameLauncher,
+  MobileMenu,
+  ModuleLessons,
+  LessonWidget,
+  LessonFooter,
+  HeroShader,
+  SimulateTerminal,
+  MissionBriefingTerminal,
+  ObjectivesPanel,
+  OpsDebriefPanel,
+  WordmarkReveal,
+  VideoPlayer,
 };
+
+// If an island throws, restore its server-rendered markup (captured before
+// the mount cleared it) instead of leaving a permanently blank box.
+class IslandErrorBoundary extends React.Component<
+  { name: string; fallbackHtml: string; children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(err: Error) {
+    console.warn('[islands]', this.props.name, 'crashed — restoring SSR fallback', err);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div dangerouslySetInnerHTML={{ __html: this.props.fallbackHtml }} />;
+    }
+    return this.props.children;
+  }
+}
 
 function hydrateIslands() {
   const islands = document.querySelectorAll<HTMLElement>('[data-component]');
@@ -46,9 +92,9 @@ function hydrateIslands() {
     el.innerHTML = '';
     const root = createRoot(el);
     root.render(
-      <React.Suspense fallback={null}>
+      <IslandErrorBoundary name={name} fallbackHtml={children}>
         <Component {...props} dangerouslySetInnerHTML={children ? { __html: children } : undefined} />
-      </React.Suspense>
+      </IslandErrorBoundary>
     );
   });
 }

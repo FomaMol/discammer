@@ -216,7 +216,7 @@ export default function MissionBriefingTerminal({
           {!allShown && (
             <span
               className="inline-block ml-1 text-[#65def0] font-mono"
-              style={{ animation: 'blink 1s step-end infinite' }}
+              style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
               aria-hidden="true"
             >
               &#x25AE;
@@ -227,7 +227,7 @@ export default function MissionBriefingTerminal({
               <span className="text-[#65def0]" aria-hidden="true">{'>'}</span>
               <span
                 className="inline-block text-[#65def0] font-mono"
-                style={{ animation: 'blink 1s step-end infinite' }}
+                style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
                 aria-hidden="true"
               >
                 &#x25AE;

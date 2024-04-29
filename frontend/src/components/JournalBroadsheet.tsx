@@ -120,9 +120,16 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
 
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<FilterKey>('ALL');
+  // Honor the about-page deep link /journal#threat-database: land directly
+  // on the guides filter instead of the unfiltered feed.
+  const [activeTab, setActiveTab] = useState<FilterKey>(() =>
+    typeof window !== 'undefined' && window.location.hash === '#threat-database'
+      ? 'GUIDE'
+      : 'ALL',
+  );
 
   useEffect(() => {
+    let cancelled = false;
     Promise.all([
       fetchPosts(undefined, undefined, locale).then((data) => {
         const arr: Item[] = Array.isArray(data) ? data : [];
@@ -133,9 +140,18 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
         return arr.map((i) => ({ ...i, type: 'guide' }));
       }),
     ])
-      .then(([posts, guides]) => setItems([...posts, ...guides]))
-      .catch(() => setItems([]))
-      .finally(() => setIsLoading(false));
+      .then(([posts, guides]) => {
+        if (!cancelled) setItems([...posts, ...guides]);
+      })
+      .catch(() => {
+        if (!cancelled) setItems([]);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [locale]);
 
   const filtered = useMemo(() => {
@@ -199,7 +215,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
 
         {/* The index strip — hairline top + bottom, no scroll bars */}
         <div
-          role="tablist"
+          role="group"
           aria-label="Journal sections"
           className="border-y border-[#202a44] py-3 overflow-x-auto scrollbar-hide"
           style={{ scrollbarWidth: 'none' }}
@@ -216,8 +232,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
                     </span>
                   )}
                   <button
-                    role="tab"
-                    aria-selected={isActive}
+                    aria-pressed={isActive}
                     onClick={() => setActiveTab(key)}
                     className={`group inline-flex items-baseline gap-1.5 whitespace-nowrap transition-colors duration-200 font-mono text-[11px] sm:text-xs uppercase ${
                       isActive

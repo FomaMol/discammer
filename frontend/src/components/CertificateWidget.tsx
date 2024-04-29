@@ -9,6 +9,7 @@ const BUNDLES = {
       'Complete every briefing in every mission and pass the final examination (at least 80%) to unlock your DiScammer Defender clearance.',
     name_label: 'Operator name (printed on clearance)',
     name_placeholder: 'Full name',
+    name_confirm: 'Confirm name',
     prereq_heading: '// CLEARANCE PREREQUISITES',
     prereq_exam: 'Final examination (≥ 80%)',
     heading: '// CLEARANCE GRANTED',
@@ -33,6 +34,7 @@ const BUNDLES = {
       'Заверши все брифинги во всех миссиях и сдай финальное испытание (не ниже 80%), чтобы получить допуск DiScammer Defender.',
     name_label: 'Имя оператора (напечатается на допуске)',
     name_placeholder: 'Полное имя',
+    name_confirm: 'Подтвердить имя',
     prereq_heading: '// УСЛОВИЯ ДОПУСКА',
     prereq_exam: 'Финальное испытание (≥ 80%)',
     heading: '// ДОПУСК ВЫДАН',
@@ -157,6 +159,8 @@ export default function CertificateWidget({ config, locale }: Props) {
   const [exam, setExam] = useState<ExamRecord | null>(null);
   const [completed, setCompleted] = useState<Record<string, Set<string>>>({});
   const [name, setName] = useState<string>('');
+  const [draft, setDraft] = useState<string>('');
+  const [editing, setEditing] = useState(false);
 
   // Hydrate from localStorage on mount and subscribe to progress + exam changes.
   useEffect(() => {
@@ -170,7 +174,9 @@ export default function CertificateWidget({ config, locale }: Props) {
     };
     sync();
     try {
-      setName(window.localStorage.getItem(NAME_KEY) || '');
+      const stored = window.localStorage.getItem(NAME_KEY) || '';
+      setName(stored);
+      setDraft(stored);
     } catch {
       /* noop */
     }
@@ -183,9 +189,14 @@ export default function CertificateWidget({ config, locale }: Props) {
     };
   }, [config.requirements, examKey]);
 
-  // Persist name so the certificate survives reload.
-  function updateName(value: string) {
+  // Commit the draft as the confirmed name and persist it so the certificate
+  // survives reload. The certificate is only earned after this explicit
+  // confirmation — keystrokes in the draft input must not unmount the form.
+  function confirmName() {
+    const value = draft.trim();
+    if (!value) return;
     setName(value);
+    setEditing(false);
     try {
       window.localStorage.setItem(NAME_KEY, value);
     } catch {
@@ -209,7 +220,7 @@ export default function CertificateWidget({ config, locale }: Props) {
 
   const allModulesDone = moduleStatus.every((m) => m.done);
   const examPassed = !!exam?.passed;
-  const earned = allModulesDone && examPassed && name.trim().length > 0;
+  const earned = allModulesDone && examPassed && !editing && name.trim().length > 0;
 
   const verificationCode = useMemo(() => {
     if (!earned || !exam) return '';
@@ -242,18 +253,31 @@ export default function CertificateWidget({ config, locale }: Props) {
             {tr('locked_body')}
           </p>
 
-          {allModulesDone && examPassed && !name.trim() && (
+          {allModulesDone && examPassed && (
             <div className="mt-4">
               <label className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] mb-2">
                 {tr('name_label')}
               </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => updateName(e.target.value)}
-                placeholder={tr('name_placeholder')}
-                className="w-full max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
-              />
+              <div className="flex flex-wrap items-center gap-3">
+                <input
+                  type="text"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') confirmName();
+                  }}
+                  placeholder={tr('name_placeholder')}
+                  className="flex-1 min-w-[220px] max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
+                />
+                <button
+                  type="button"
+                  onClick={confirmName}
+                  disabled={!draft.trim()}
+                  className="px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition rounded-[4px] disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {tr('name_confirm')}
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -266,7 +290,10 @@ export default function CertificateWidget({ config, locale }: Props) {
           score={exam!.score}
           total={exam!.total}
           lang={lang}
-          onRename={() => updateName('')}
+          onRename={() => {
+            setDraft(name);
+            setEditing(true);
+          }}
         />
       )}
     </div>

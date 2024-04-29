@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
+import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 interface CardData {
   id: number;
@@ -84,14 +85,24 @@ export default function ContentCarousel({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let cancelled = false;
     fetch(apiUrl)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
-      .then((data) => setItems(Array.isArray(data) ? data : []))
-      .catch(() => setItems([]))
-      .finally(() => setIsLoading(false));
+      .then((data) => {
+        if (!cancelled) setItems(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setItems([]);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [apiUrl]);
 
   function scroll(direction: 'left' | 'right') {
@@ -102,20 +113,24 @@ export default function ContentCarousel({
     const step = first ? first.offsetWidth + gap : container.clientWidth;
     container.scrollBy({
       left: direction === 'left' ? -step : step,
-      behavior: 'smooth',
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
     });
   }
 
   const colorClass = BADGE_COLORS[badge] || BADGE_COLORS.INTERVIEW;
 
-  const carouselId = `carousel-${title.replace(/\W+/g, '-').toLowerCase()}`;
+  // Unicode-aware slug: \W collapses Cyrillic titles to identical ids,
+  // breaking aria-labelledby/aria-controls on RU pages (HTML5 ids may
+  // contain non-ASCII letters).
+  const carouselId = `carousel-${title.replace(/[^\p{L}\p{N}]+/gu, '-').toLowerCase()}`;
+  const trackId = `${carouselId}-track`;
 
   return (
     <section
       className="py-6 sm:py-8"
       role="region"
       aria-roledescription="carousel"
-      aria-label={title}
+      aria-labelledby={carouselId}
     >
       {/* Section title strip */}
       <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3">
@@ -138,7 +153,7 @@ export default function ContentCarousel({
             onClick={() => scroll('left')}
             className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#0b0f1a] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
             aria-label={`${tr('scroll_left')}: ${title}`}
-            aria-controls={carouselId}
+            aria-controls={trackId}
           >
             <span aria-hidden="true">&#8592;</span>
           </button>
@@ -147,7 +162,7 @@ export default function ContentCarousel({
             onClick={() => scroll('right')}
             className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#0b0f1a] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
             aria-label={`${tr('scroll_right')}: ${title}`}
-            aria-controls={carouselId}
+            aria-controls={trackId}
           >
             <span aria-hidden="true">&#8594;</span>
           </button>
@@ -157,6 +172,7 @@ export default function ContentCarousel({
       {/* Carousel — keyboard users can also Tab through cards directly. */}
       <div
         ref={scrollRef}
+        id={trackId}
         className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0"
         style={{ scrollbarWidth: 'none' }}
         tabIndex={0}

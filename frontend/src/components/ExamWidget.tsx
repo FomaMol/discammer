@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 
 const BUNDLES = {
@@ -9,11 +9,10 @@ const BUNDLES = {
     next: 'NEXT QUESTION ▷',
     finish: 'FINALIZE EXAM ▷',
     restart: 'Re-run examination',
-    passed: 'CLEARANCE GRANTED',
-    failed: 'CLEARANCE DENIED',
     correct: '[OK] CORRECT',
     incorrect: '[FAIL] INCORRECT',
     review: 'Inspect transmission log',
+    empty: '[STANDBY] No exam questions loaded.',
     result_suffix: 'TRANSMISSION REPORT',
     clearance_granted_prefix: 'CLEARANCE GRANTED · LEVEL',
     clearance_granted_suffix: '/100',
@@ -33,11 +32,10 @@ const BUNDLES = {
     next: 'СЛЕДУЮЩИЙ ▷',
     finish: 'ЗАВЕРШИТЬ ЭКЗАМЕН ▷',
     restart: 'Пройти заново',
-    passed: 'ДОПУСК ВЫДАН',
-    failed: 'В ДОПУСКЕ ОТКАЗАНО',
     correct: '[OK] ВЕРНО',
     incorrect: '[FAIL] НЕВЕРНО',
     review: 'Открыть лог передачи',
+    empty: '[STANDBY] Вопросы экзамена не загружены.',
     result_suffix: 'ОТЧЁТ О ПЕРЕДАЧЕ',
     clearance_granted_prefix: 'ДОПУСК ВЫДАН · УРОВЕНЬ',
     clearance_granted_suffix: '/100',
@@ -87,11 +85,26 @@ function persistResult(payload: PersistedExam) {
   }
 }
 
+function readStoredResult(): PersistedExam | null {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as PersistedExam;
+    return typeof parsed?.passed === 'boolean' ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function ExamWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
   const tr = makeTranslator(lang, BUNDLES);
+  const radioGroup = useId();
 
-  // Stable display order, optionally shuffled once on mount.
+  // Bumped on restart so a retake gets a fresh shuffle, not the mount-time order.
+  const [shuffleSeed, setShuffleSeed] = useState(0);
+
+  // Stable display order per attempt, optionally shuffled.
   const questions = useMemo(() => {
     if (!config.shuffle) return config.questions;
     const arr = [...config.questions];
@@ -100,7 +113,7 @@ export default function ExamWidget({ config, locale }: Props) {
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
-  }, [config.questions, config.shuffle]);
+  }, [config.questions, config.shuffle, shuffleSeed]);
 
   const threshold = config.passThreshold ?? 0.8;
 
@@ -118,8 +131,6 @@ export default function ExamWidget({ config, locale }: Props) {
   const nextLabel = tr('next');
   const finishLabel = tr('finish');
   const restartLabel = tr('restart');
-  const passedLabel = tr('passed');
-  const failedLabel = tr('failed');
   const correctLabel = tr('correct');
   const incorrectLabel = tr('incorrect');
   const reviewLabel = tr('review');
@@ -137,12 +148,20 @@ export default function ExamWidget({ config, locale }: Props) {
   function finish() {
     const score = answers.filter((a, i) => questions[i].choices[a]?.correct).length;
     const passed = total > 0 && score / total >= threshold;
-    persistResult({
-      passed,
-      score,
-      total,
-      passedAt: new Date().toISOString(),
-    });
+    // Best-of persistence: a failed or weaker retake must not revoke a stored
+    // pass — certificate eligibility hangs off this record.
+    const stored = readStoredResult();
+    const storedRatio = stored && stored.total > 0 ? stored.score / stored.total : 0;
+    const keepStored =
+      stored?.passed === true && (!passed || score / total < storedRatio);
+    if (!keepStored) {
+      persistResult({
+        passed,
+        score,
+        total,
+        passedAt: new Date().toISOString(),
+      });
+    }
     setFinished(true);
   }
 
@@ -151,6 +170,20 @@ export default function ExamWidget({ config, locale }: Props) {
     setPicked(null);
     setAnswers([]);
     setFinished(false);
+    setShuffleSeed((s) => s + 1);
+  }
+
+  if (total === 0) {
+    return (
+      <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
+          {heading}
+        </div>
+        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#6b7588]">
+          {tr('empty')}
+        </p>
+      </section>
+    );
   }
 
   if (finished) {
@@ -257,9 +290,6 @@ export default function ExamWidget({ config, locale }: Props) {
             ↺ {restartLabel}
           </button>
         </div>
-
-        {/* Suppress unused-warning while keeping translation in code for future use. */}
-        <span className="hidden" aria-hidden="true">{passedLabel} · {failedLabel}</span>
       </section>
     );
   }
@@ -327,7 +357,7 @@ export default function ExamWidget({ config, locale }: Props) {
                 >
                   <input
                     type="radio"
-                    name={`q-${index}`}
+                    name={`${radioGroup}q-${index}`}
                     value={i}
                     checked={isPicked}
                     onChange={() => setPicked(i)}

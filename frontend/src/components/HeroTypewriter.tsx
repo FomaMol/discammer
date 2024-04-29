@@ -60,12 +60,12 @@ export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriter
       className="text-sm sm:text-lg md:text-xl text-text-secondary break-words"
       style={{ fontFamily: '"JetBrains Mono", monospace' }}
     >
-      <span className="text-text-muted">{resolvedPrefix}</span>
-      <span
-        className="text-accent-amber glow-amber"
-        aria-live="polite"
-        aria-atomic="false"
-      >
+      {/* Static copy for AT — the animated spans below mutate every 80ms */}
+      <span className="sr-only">{resolvedPrefix + phrases.join(' / ')}</span>
+      <span className="text-text-muted" aria-hidden="true">
+        {resolvedPrefix}
+      </span>
+      <span className="text-accent-amber glow-amber" aria-hidden="true">
         {displayed}
       </span>
       <span

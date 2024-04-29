@@ -11,7 +11,6 @@
  */
 
 export type Locale = 'en' | 'ru';
-export type Lang = Locale;
 
 declare global {
   interface Window {
@@ -23,7 +22,6 @@ declare global {
   }
 }
 
-export const SUPPORTED_LOCALES: Locale[] = ['en', 'ru'];
 const DEFAULT_LANG: Locale = 'en';
 
 export function normalizeLocale(value: string | undefined | null): Locale {
@@ -75,39 +73,20 @@ export function makeTranslator<K extends string>(
     let value: string = table[key] ?? fallback[key] ?? key;
     if (vars) {
       for (const [k, v] of Object.entries(vars)) {
-        value = value.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v));
+        // Function replacement so `$&`/`$'` in values aren't treated as patterns.
+        value = value.replace(new RegExp(`\\{${k}\\}`, 'g'), () => String(v));
       }
     }
     return value;
   };
 }
 
-/** Build a localised app URL like ``/en/journal`` or ``/ru/journal``. */
-export function localizedPath(locale: Locale, path: string): string {
-  const clean = path.startsWith('/') ? path.slice(1) : path;
-  return `/${locale}/${clean}`;
-}
-
 /**
- * Inline-record translation bundles used by multiple components.
+ * Inline-record translation bundles shared across components.
  * Keep these compact — anything more elaborate belongs in the per-component
  * translator factory.
  */
 export const STRINGS = {
-  // Used across the lesson player UI.
-  markComplete: { en: 'Mark complete', ru: 'Отметить как пройденный' },
   completed: { en: 'Completed', ru: 'Пройден' },
-  prev: { en: 'Prev', ru: 'Назад' },
-  next: { en: 'Next', ru: 'Дальше' },
-  module: { en: 'Module', ru: 'Модуль' },
-  lessons: { en: 'lessons', ru: 'уроков' },
-  startLesson: { en: 'Start lesson', ru: 'Начать урок' },
-  continueLesson: { en: 'Continue', ru: 'Продолжить' },
-  resetProgress: { en: 'Reset progress', ru: 'Сбросить прогресс' },
-  quizCheck: { en: 'Check answer', ru: 'Проверить ответ' },
-  quizTryAgain: { en: 'Try again', ru: 'Попробовать снова' },
-  quizCorrect: { en: 'Correct', ru: 'Верно' },
-  quizWrong: { en: 'Not quite', ru: 'Не совсем' },
   estMinutes: { en: 'min', ru: 'мин' },
-  finishModule: { en: 'Finish module', ru: 'Завершить модуль' },
 };

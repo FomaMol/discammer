@@ -134,7 +134,7 @@ function applyProgressiveUnlock(
     // when every prior module's lessons are completed.
     const open = !lockedBySeed || prevDone;
     out.push({ ...m, is_locked: !open });
-    prevDone = requires === 0 ? prevDone : completed >= requires;
+    prevDone = prevDone && (requires === 0 || completed >= requires);
   }
   return out;
 }
@@ -148,14 +148,22 @@ export default function CourseProgress({ locale }: Props) {
   const [completed, setCompleted] = useState<Map<string, number>>(new Map());
 
   useEffect(() => {
+    let cancelled = false;
     fetchCourseModules(lang)
       .then((data) => {
         const list: ApiModule[] = Array.isArray(data) ? data : data?.modules ?? [];
         const normalized = list.map(normalize);
-        setModules(normalized);
+        if (!cancelled) setModules(normalized);
       })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [lang]);
 
   // Re-derive completion counts from localStorage on mount + on every change.

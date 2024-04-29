@@ -36,7 +36,7 @@ const LINES_EN: string[] = [
   '> threat_db.size = 247 entries',
   '> last_breach   = 02:14:09 UTC',
   '> oracle: "trust nothing on first contact"',
-  '> > > AWAITING USER COMMAND _',
+  '> AWAITING USER COMMAND _',
 ];
 
 const LINES_RU: string[] = [
@@ -57,7 +57,7 @@ const LINES_RU: string[] = [
   '> threat_db.size = 247 записей',
   '> last_breach   = 02:14:09 UTC',
   '> оракул: «не доверяй с первого контакта»',
-  '> > > ОЖИДАНИЕ КОМАНДЫ ПОЛЬЗОВАТЕЛЯ _',
+  '> ОЖИДАНИЕ КОМАНДЫ ПОЛЬЗОВАТЕЛЯ _',
 ];
 
 const STATUS_TOKENS = {

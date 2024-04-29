@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 
 const BUNDLES = {
@@ -32,11 +32,6 @@ export interface QuizConfig {
   question: string;
   choices: QuizChoice[];
   hint?: string;
-  /**
-   * Optional onSolve callback hint — when the quiz is answered correctly the
-   * widget fires `discammer:quizSolved` on window so the LessonFooter can
-   * auto-suggest the next step. We do not require it to succeed.
-   */
 }
 
 interface Props {
@@ -49,6 +44,8 @@ export default function QuizWidget({ config, locale }: Props) {
   const tr = makeTranslator(lang, BUNDLES);
   const [selected, setSelected] = useState<number | null>(null);
   const [checked, setChecked] = useState(false);
+  // Unique per instance — pages can render several quizzes at once.
+  const radioGroup = useId();
 
   const correctIndex = config.choices.findIndex((c) => c.correct);
   const isCorrect = checked && selected !== null && config.choices[selected]?.correct === true;
@@ -56,13 +53,6 @@ export default function QuizWidget({ config, locale }: Props) {
   function check() {
     if (selected === null) return;
     setChecked(true);
-    if (config.choices[selected]?.correct) {
-      try {
-        window.dispatchEvent(new CustomEvent('discammer:quizSolved'));
-      } catch {
-        /* noop */
-      }
-    }
   }
 
   function reset() {
@@ -121,7 +111,7 @@ export default function QuizWidget({ config, locale }: Props) {
             >
               <input
                 type="radio"
-                name="quiz-choice"
+                name={radioGroup}
                 value={i}
                 checked={active}
                 onChange={() => {

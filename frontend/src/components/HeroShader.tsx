@@ -43,7 +43,6 @@ out vec4 fragColor;
 
 uniform float u_time;
 uniform vec2  u_resolution;
-uniform float u_dpr;
 
 // Hash + value noise (small, cheap)
 float hash(vec2 p) {
@@ -193,11 +192,22 @@ export default function HeroShader() {
     const posLoc = gl.getAttribLocation(program, 'a_position');
     const timeLoc = gl.getUniformLocation(program, 'u_time');
     const resLoc = gl.getUniformLocation(program, 'u_resolution');
-    const dprLoc = gl.getUniformLocation(program, 'u_dpr');
 
     gl.useProgram(program);
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const start = performance.now();
+    let frame = 0;
+    let stopped = false;
+    let lastTime = 0;
+
+    function renderFrame(timeSeconds: number) {
+      if (!gl) return;
+      lastTime = timeSeconds;
+      gl.uniform1f(timeLoc, timeSeconds);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
 
     function resize() {
       if (!canvas || !gl) return;
@@ -208,21 +218,17 @@ export default function HeroShader() {
       canvas.height = Math.floor(h * dpr);
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(resLoc, canvas.width, canvas.height);
-      gl.uniform1f(dprLoc, dpr);
+      // Setting canvas.width clears the drawing buffer; when the rAF loop
+      // isn't running (reduced motion / stopped) nothing would repaint it.
+      if (stopped || reduce) renderFrame(lastTime);
     }
 
     resize();
     window.addEventListener('resize', resize);
 
-    const start = performance.now();
-    let frame = 0;
-    let stopped = false;
-
     function draw() {
       if (stopped || !gl) return;
-      const t = (performance.now() - start) / 1000;
-      gl.uniform1f(timeLoc, t);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      renderFrame((performance.now() - start) / 1000);
       if (reduce) {
         // Render one frame and stop — respects prefers-reduced-motion
         stopped = true;

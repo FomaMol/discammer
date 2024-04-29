@@ -47,20 +47,22 @@ function write(state: ProgressShape) {
 
 export function isLessonComplete(moduleSlug: string, lessonSlug: string): boolean {
   const state = read();
-  return !!state.modules[moduleSlug]?.lessons[lessonSlug];
+  return !!state.modules[moduleSlug]?.lessons?.[lessonSlug];
 }
 
 export function markLessonComplete(moduleSlug: string, lessonSlug: string): void {
   const state = read();
-  if (!state.modules[moduleSlug]) state.modules[moduleSlug] = { lessons: {} };
+  // Re-create the entry if missing or corrupted (e.g. stored without `lessons`).
+  if (!state.modules[moduleSlug]?.lessons) state.modules[moduleSlug] = { lessons: {} };
   state.modules[moduleSlug].lessons[lessonSlug] = true;
   write(state);
 }
 
 export function markLessonIncomplete(moduleSlug: string, lessonSlug: string): void {
   const state = read();
-  if (state.modules[moduleSlug]) {
-    delete state.modules[moduleSlug].lessons[lessonSlug];
+  const lessons = state.modules[moduleSlug]?.lessons;
+  if (lessons) {
+    delete lessons[lessonSlug];
     write(state);
   }
 }
@@ -68,24 +70,6 @@ export function markLessonIncomplete(moduleSlug: string, lessonSlug: string): vo
 export function getCompletedLessons(moduleSlug: string): string[] {
   const state = read();
   return Object.keys(state.modules[moduleSlug]?.lessons ?? {});
-}
-
-export function getModuleCompletion(
-  moduleSlug: string,
-  totalLessons: number
-): { completed: number; total: number; ratio: number; done: boolean } {
-  const completed = getCompletedLessons(moduleSlug).length;
-  const ratio = totalLessons === 0 ? 0 : completed / totalLessons;
-  return {
-    completed,
-    total: totalLessons,
-    ratio,
-    done: totalLessons > 0 && completed >= totalLessons,
-  };
-}
-
-export function resetProgress(): void {
-  write({ ...EMPTY });
 }
 
 export function subscribe(listener: () => void): () => void {
