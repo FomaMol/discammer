@@ -101,8 +101,13 @@ def _asset_url(path: str) -> str:
 
 
 # Expose `now()` to templates for things like dynamic copyright years.
+from assets import vite_entry  # noqa: E402
+
 _env.globals["now"] = lambda: datetime.now(timezone.utc)
 _env.globals["asset_url"] = _asset_url
+# Manifest-driven hashed asset URLs for the JS/CSS bundle (no ?v= cache-bust on
+# JS chunks — content hashes in filenames are the only cache-buster; see A1).
+_env.globals["vite_entry"] = vite_entry
 _env.globals["site_origin"] = SITE_ORIGIN
 _env.globals["supported_langs"] = list(SUPPORTED_LANGS)
 _env.globals["default_lang"] = DEFAULT_LANG

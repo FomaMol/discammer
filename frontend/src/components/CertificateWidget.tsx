@@ -220,7 +220,11 @@ export default function CertificateWidget({ config, locale }: Props) {
 
   const allModulesDone = moduleStatus.every((m) => m.done);
   const examPassed = !!exam?.passed;
-  const earned = allModulesDone && examPassed && !editing && name.trim().length > 0;
+  // A legacy per-keystroke-save bug could persist a 1-character (or empty)
+  // operative name. Treat such names as unconfirmed (require ≥ 2 chars) so the
+  // confirm step renders instead of auto-issuing a certificate with junk.
+  const nameConfirmed = name.trim().length >= 2;
+  const earned = allModulesDone && examPassed && !editing && nameConfirmed;
 
   const verificationCode = useMemo(() => {
     if (!earned || !exam) return '';

@@ -58,13 +58,13 @@ def _cache_control_for(relpath: Path) -> str:
     return _SHORT_CACHE
 
 
-@router.get("")
+@router.api_route("", methods=["GET", "HEAD"])
 async def play_root_no_slash():
     """Redirect /play -> /play/ so relative asset paths in index.html resolve."""
     return RedirectResponse(url="/play/", status_code=307)
 
 
-@router.get("/")
+@router.api_route("/", methods=["GET", "HEAD"])
 async def play_index():
     index = GAME_BUILD_DIR / "index.html"
     if not index.exists():
@@ -76,7 +76,7 @@ async def play_index():
     )
 
 
-@router.get("/{path:path}")
+@router.api_route("/{path:path}", methods=["GET", "HEAD"])
 async def play_asset(path: str):
     target = (GAME_BUILD_DIR / path).resolve()
     try:

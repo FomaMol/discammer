@@ -127,6 +127,20 @@ def test_seeded_post_detail_renders(client):
 
 
 def test_static_app_js_served(client):
-    r = client.get("/static/js/app.js")
+    # A1: the entry bundle now has a content-hashed filename (js/app-<hash>.js)
+    # resolved from the Vite manifest — there is no stable /static/js/app.js.
+    # Resolve the real entry path from the manifest and assert it serves.
+    import json
+    from pathlib import Path
+
+    import config
+
+    manifest = json.loads(
+        (config.STATIC_DIR / ".vite" / "manifest.json").read_text(encoding="utf-8")
+    )
+    entry = next(rec for rec in manifest.values() if rec.get("isEntry"))
+    r = client.get(f"/static/{entry['file']}")
     assert r.status_code == 200
     assert r.headers["content-type"].startswith(("application/javascript", "text/javascript"))
+    # The old stable name must be gone.
+    assert client.get("/static/js/app.js").status_code == 404

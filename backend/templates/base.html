@@ -60,8 +60,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="{{ asset_url('/static/css/main.css') }}">
+  <!-- Global CSS + modulepreload, resolved from the Vite manifest.
+       Filenames are content-hashed (no ?v= cache-busting — that is reserved
+       for images via asset_url()). vite_entry() is registered as a Jinja
+       global in main.py; guard the call so the page still renders if it is
+       absent (e.g. before wiring or if the frontend wasn't built). -->
+  {% set _vite = vite_entry() if vite_entry is defined else {'js': '', 'css': [], 'preload': []} %}
+  {% for _css in _vite.css %}
+  <link rel="stylesheet" href="/static/{{ _css }}">
+  {% endfor %}
+  {% for _pre in _vite.preload %}
+  <link rel="modulepreload" href="/static/{{ _pre }}">
+  {% endfor %}
 
   {# Base JSON-LD: Organization + WebSite. Per-page templates can append more via the jsonld block. #}
   <script type="application/ld+json">
@@ -276,8 +286,8 @@
     };
   </script>
 
-  <!-- App Script -->
-  <script type="module" src="{{ asset_url('/static/js/app.js') }}"></script>
+  <!-- App Script — hashed entry module from the Vite manifest (no ?v=). -->
+  {% if _vite.js %}<script type="module" src="/static/{{ _vite.js }}"></script>{% endif %}
   {% block scripts %}{% endblock %}
 </body>
 </html>

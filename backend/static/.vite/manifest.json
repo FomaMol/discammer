@@ -1,0 +1,247 @@
+{
+  "_api-CNyVJ46j.js": {
+    "file": "js/chunks/api-CNyVJ46j.js",
+    "name": "api",
+    "imports": [
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "_i18n-DrSKN7yW.js": {
+    "file": "js/chunks/i18n-DrSKN7yW.js",
+    "name": "i18n"
+  },
+  "_progress-CPNaV5xf.js": {
+    "file": "js/chunks/progress-CPNaV5xf.js",
+    "name": "progress"
+  },
+  "_useReducedMotion-DL-KUrKA.js": {
+    "file": "js/chunks/useReducedMotion-DL-KUrKA.js",
+    "name": "useReducedMotion",
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/components/ContentCarousel.tsx": {
+    "file": "js/chunks/ContentCarousel-v8r-iRom.js",
+    "name": "ContentCarousel",
+    "src": "src/components/ContentCarousel.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_useReducedMotion-DL-KUrKA.js"
+    ]
+  },
+  "src/components/CourseProgress.tsx": {
+    "file": "js/chunks/CourseProgress-D9kdNeXd.js",
+    "name": "CourseProgress",
+    "src": "src/components/CourseProgress.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_api-CNyVJ46j.js",
+      "_i18n-DrSKN7yW.js",
+      "_progress-CPNaV5xf.js"
+    ]
+  },
+  "src/components/GameLauncher.tsx": {
+    "file": "js/chunks/GameLauncher-D-fZUYf1.js",
+    "name": "GameLauncher",
+    "src": "src/components/GameLauncher.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/HeroShader.tsx": {
+    "file": "js/chunks/HeroShader-B7dvTTWy.js",
+    "name": "HeroShader",
+    "src": "src/components/HeroShader.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_useReducedMotion-DL-KUrKA.js"
+    ]
+  },
+  "src/components/HeroTerminal.tsx": {
+    "file": "js/chunks/HeroTerminal-BI-pFjUz.js",
+    "name": "HeroTerminal",
+    "src": "src/components/HeroTerminal.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_useReducedMotion-DL-KUrKA.js"
+    ]
+  },
+  "src/components/HeroTypewriter.tsx": {
+    "file": "js/chunks/HeroTypewriter-BD4_V5Io.js",
+    "name": "HeroTypewriter",
+    "src": "src/components/HeroTypewriter.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_useReducedMotion-DL-KUrKA.js"
+    ]
+  },
+  "src/components/JournalBroadsheet.tsx": {
+    "file": "js/chunks/JournalBroadsheet-D8CdCrR6.js",
+    "name": "JournalBroadsheet",
+    "src": "src/components/JournalBroadsheet.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_api-CNyVJ46j.js",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/LessonFooter.tsx": {
+    "file": "js/chunks/LessonFooter-DISGa9Ff.js",
+    "name": "LessonFooter",
+    "src": "src/components/LessonFooter.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_progress-CPNaV5xf.js",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/LessonWidget.tsx": {
+    "file": "js/chunks/LessonWidget-BNfDtxVE.js",
+    "name": "LessonWidget",
+    "src": "src/components/LessonWidget.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_progress-CPNaV5xf.js"
+    ]
+  },
+  "src/components/MissionBriefingTerminal.tsx": {
+    "file": "js/chunks/MissionBriefingTerminal-Di5nWAPH.js",
+    "name": "MissionBriefingTerminal",
+    "src": "src/components/MissionBriefingTerminal.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_useReducedMotion-DL-KUrKA.js"
+    ]
+  },
+  "src/components/MobileMenu.tsx": {
+    "file": "js/chunks/MobileMenu-BUHWNEto.js",
+    "name": "MobileMenu",
+    "src": "src/components/MobileMenu.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/ModuleLessons.tsx": {
+    "file": "js/chunks/ModuleLessons-CLWBWymV.js",
+    "name": "ModuleLessons",
+    "src": "src/components/ModuleLessons.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_progress-CPNaV5xf.js"
+    ]
+  },
+  "src/components/ObjectivesPanel.tsx": {
+    "file": "js/chunks/ObjectivesPanel-058D5dqi.js",
+    "name": "ObjectivesPanel",
+    "src": "src/components/ObjectivesPanel.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/OpsDebriefPanel.tsx": {
+    "file": "js/chunks/OpsDebriefPanel-ihQFPEo8.js",
+    "name": "OpsDebriefPanel",
+    "src": "src/components/OpsDebriefPanel.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/ScamTypesGrid.tsx": {
+    "file": "js/chunks/ScamTypesGrid-RhIyvnVg.js",
+    "name": "ScamTypesGrid",
+    "src": "src/components/ScamTypesGrid.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_api-CNyVJ46j.js",
+      "_i18n-DrSKN7yW.js"
+    ]
+  },
+  "src/components/SimulateTerminal.tsx": {
+    "file": "js/chunks/SimulateTerminal-DaGFupVX.js",
+    "name": "SimulateTerminal",
+    "src": "src/components/SimulateTerminal.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js",
+      "_useReducedMotion-DL-KUrKA.js"
+    ]
+  },
+  "src/components/VideoPlayer.tsx": {
+    "file": "js/chunks/VideoPlayer-DY_gomXm.js",
+    "name": "VideoPlayer",
+    "src": "src/components/VideoPlayer.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx",
+      "_i18n-DrSKN7yW.js"
+    ],
+    "css": [
+      "css/VideoPlayer-ASo-uAO_.css"
+    ]
+  },
+  "src/components/WordmarkReveal.tsx": {
+    "file": "js/chunks/WordmarkReveal-Db61CFsP.js",
+    "name": "WordmarkReveal",
+    "src": "src/components/WordmarkReveal.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.tsx"
+    ]
+  },
+  "src/main.tsx": {
+    "file": "js/main-DAXD7_Nf.js",
+    "name": "main",
+    "src": "src/main.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/components/HeroTypewriter.tsx",
+      "src/components/ContentCarousel.tsx",
+      "src/components/ScamTypesGrid.tsx",
+      "src/components/HeroTerminal.tsx",
+      "src/components/JournalBroadsheet.tsx",
+      "src/components/CourseProgress.tsx",
+      "src/components/GameLauncher.tsx",
+      "src/components/MobileMenu.tsx",
+      "src/components/ModuleLessons.tsx",
+      "src/components/LessonWidget.tsx",
+      "src/components/LessonFooter.tsx",
+      "src/components/HeroShader.tsx",
+      "src/components/SimulateTerminal.tsx",
+      "src/components/MissionBriefingTerminal.tsx",
+      "src/components/ObjectivesPanel.tsx",
+      "src/components/OpsDebriefPanel.tsx",
+      "src/components/WordmarkReveal.tsx",
+      "src/components/VideoPlayer.tsx"
+    ],
+    "css": [
+      "css/main-cZFsH2_N.css"
+    ]
+  }
+}

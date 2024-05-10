@@ -2,52 +2,41 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/globals.css';
 
-import HeroTypewriter from './components/HeroTypewriter';
-import ContentCarousel from './components/ContentCarousel';
-import ScamTypesGrid from './components/ScamTypesGrid';
-import HeroTerminal from './components/HeroTerminal';
-import JournalBroadsheet from './components/JournalBroadsheet';
-import CourseProgress from './components/CourseProgress';
-import GameLauncher from './components/GameLauncher';
-import ModuleLessons from './components/ModuleLessons';
-import LessonWidget from './components/LessonWidget';
-import LessonFooter from './components/LessonFooter';
-import HeroShader from './components/HeroShader';
-import SimulateTerminal from './components/SimulateTerminal';
-import MissionBriefingTerminal from './components/MissionBriefingTerminal';
-import ObjectivesPanel from './components/ObjectivesPanel';
-import OpsDebriefPanel from './components/OpsDebriefPanel';
-import WordmarkReveal from './components/WordmarkReveal';
-import VideoPlayer from './components/VideoPlayer';
-import MobileMenu from './components/MobileMenu';
-
-// Component registry. Static imports on purpose: the build inlines all
-// dynamic imports (vite.config.ts inlineDynamicImports), so React.lazy
-// gave no code-splitting and the Suspense fallback blanked the preserved
-// SSR markup for a frame.
-const components: Record<string, React.ComponentType<any>> = {
-  HeroTypewriter,
-  ContentCarousel,
-  ScamTypesGrid,
-  HeroTerminal,
-  JournalBroadsheet,
-  CourseProgress,
-  GameLauncher,
-  MobileMenu,
-  ModuleLessons,
-  LessonWidget,
-  LessonFooter,
-  HeroShader,
-  SimulateTerminal,
-  MissionBriefingTerminal,
-  ObjectivesPanel,
-  OpsDebriefPanel,
-  WordmarkReveal,
-  VideoPlayer,
+// Component registry — lazy on purpose. Each React.lazy(() => import(...))
+// becomes its own hashed dynamic chunk, so an island's deps (e.g. Plyr inside
+// VideoPlayer) only download on pages that actually mount it. The home page no
+// longer ships Plyr or the course widgets.
+//
+// Safety: vite.config.ts keeps `resolve.dedupe: ['react','react-dom',
+// 'react/jsx-runtime']`, so every dynamic chunk shares the single React
+// instance from the entry — no second React, no error #321. Filenames are
+// content-hashed (no `?v=` query cache-busting), which is the other half of
+// keeping the lazy-import URLs stable and single-instanced.
+const components: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
+  HeroTypewriter: React.lazy(() => import('./components/HeroTypewriter')),
+  ContentCarousel: React.lazy(() => import('./components/ContentCarousel')),
+  ScamTypesGrid: React.lazy(() => import('./components/ScamTypesGrid')),
+  HeroTerminal: React.lazy(() => import('./components/HeroTerminal')),
+  JournalBroadsheet: React.lazy(() => import('./components/JournalBroadsheet')),
+  CourseProgress: React.lazy(() => import('./components/CourseProgress')),
+  GameLauncher: React.lazy(() => import('./components/GameLauncher')),
+  MobileMenu: React.lazy(() => import('./components/MobileMenu')),
+  ModuleLessons: React.lazy(() => import('./components/ModuleLessons')),
+  LessonWidget: React.lazy(() => import('./components/LessonWidget')),
+  LessonFooter: React.lazy(() => import('./components/LessonFooter')),
+  HeroShader: React.lazy(() => import('./components/HeroShader')),
+  SimulateTerminal: React.lazy(() => import('./components/SimulateTerminal')),
+  MissionBriefingTerminal: React.lazy(() => import('./components/MissionBriefingTerminal')),
+  ObjectivesPanel: React.lazy(() => import('./components/ObjectivesPanel')),
+  OpsDebriefPanel: React.lazy(() => import('./components/OpsDebriefPanel')),
+  WordmarkReveal: React.lazy(() => import('./components/WordmarkReveal')),
+  VideoPlayer: React.lazy(() => import('./components/VideoPlayer')),
 };
 
 // If an island throws, restore its server-rendered markup (captured before
-// the mount cleared it) instead of leaving a permanently blank box.
+// the mount cleared it) instead of leaving a permanently blank box. Suspense
+// is nested INSIDE this boundary, so a failed *chunk load* (network error)
+// also falls back to the SSR markup rather than a blank frame.
 class IslandErrorBoundary extends React.Component<
   { name: string; fallbackHtml: string; children: React.ReactNode },
   { hasError: boolean }
@@ -91,9 +80,14 @@ function hydrateIslands() {
     const children = el.innerHTML;
     el.innerHTML = '';
     const root = createRoot(el);
+    // Suspense fallback re-renders the captured SSR markup so there is NO blank
+    // frame while the island's chunk downloads (the previous code-splitting
+    // regression). Same markup the ErrorBoundary restores on crash.
     root.render(
       <IslandErrorBoundary name={name} fallbackHtml={children}>
-        <Component {...props} dangerouslySetInnerHTML={children ? { __html: children } : undefined} />
+        <React.Suspense fallback={<div dangerouslySetInnerHTML={{ __html: children }} />}>
+          <Component {...props} dangerouslySetInnerHTML={children ? { __html: children } : undefined} />
+        </React.Suspense>
       </IslandErrorBoundary>
     );
   });

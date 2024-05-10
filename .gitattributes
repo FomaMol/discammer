@@ -1,0 +1,6 @@
+# Unity WebGL brotli binaries are large (~25 MB total) and binary; track them
+# with Git LFS so the repo history stays lean. These live in the Docker build
+# context, so CI checkout and the prod deploy both need `lfs: true` /
+# `git lfs pull` to materialize the real files (not pointer stubs).
+# See docs/deploy/git-lfs.md.
+backend/game_build/Build/*.br filter=lfs diff=lfs merge=lfs -text

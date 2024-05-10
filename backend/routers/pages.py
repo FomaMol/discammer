@@ -1,9 +1,10 @@
 import re
 
-from fastapi import APIRouter, Path, Request
+from fastapi import APIRouter, Depends, Path, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from database import (
+    get_conn,
     get_course_modules,
     get_guides,
     get_guide_by_slug,
@@ -195,11 +196,11 @@ async def switch_lang(target: str, request: Request):
 
 @router.get("/{lang}/", response_class=HTMLResponse)
 @router.get("/{lang}", response_class=HTMLResponse)
-async def home(request: Request, lang: str = LangPath):
-    interviews = await get_posts(type_filter="interview", locale=lang)
-    newsletters = await get_posts(type_filter="newsletter", locale=lang)
-    articles = await get_posts(type_filter="article", locale=lang)
-    guides = await get_guides(locale=lang)
+async def home(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    interviews = await get_posts(conn, type_filter="interview", locale=lang)
+    newsletters = await get_posts(conn, type_filter="newsletter", locale=lang)
+    articles = await get_posts(conn, type_filter="article", locale=lang)
+    guides = await get_guides(conn, locale=lang)
 
     stats = {
         "threats": len(guides),
@@ -235,9 +236,9 @@ async def home(request: Request, lang: str = LangPath):
 
 
 @router.get("/{lang}/journal", response_class=HTMLResponse)
-async def journal(request: Request, lang: str = LangPath):
-    posts = await get_posts(locale=lang)
-    guides = await get_guides(locale=lang)
+async def journal(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    posts = await get_posts(conn, locale=lang)
+    guides = await get_guides(conn, locale=lang)
 
     return _templates(request).TemplateResponse(
         request,
@@ -252,8 +253,8 @@ async def journal(request: Request, lang: str = LangPath):
 
 
 @router.get("/{lang}/journal/{slug}", response_class=HTMLResponse)
-async def post_detail(slug: str, request: Request, lang: str = LangPath):
-    post = await get_post_by_slug(slug, locale=lang)
+async def post_detail(slug: str, request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    post = await get_post_by_slug(conn, slug=slug, locale=lang)
     if not post:
         return _templates(request).TemplateResponse(
             request,
@@ -265,7 +266,7 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
             status_code=404,
         )
 
-    related = await get_related_posts(post["type"], slug, locale=lang)
+    related = await get_related_posts(conn, post_type=post["type"], exclude_slug=slug, locale=lang)
     post["content_html"] = render_markdown(
         post.get("content") or "",
         post_title=post.get("title"),
@@ -286,8 +287,8 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
 
 
 @router.get("/{lang}/guide/{slug}", response_class=HTMLResponse)
-async def guide_detail(slug: str, request: Request, lang: str = LangPath):
-    guide = await get_guide_by_slug(slug, locale=lang)
+async def guide_detail(slug: str, request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    guide = await get_guide_by_slug(conn, slug=slug, locale=lang)
     if not guide:
         return _templates(request).TemplateResponse(
             request,
@@ -299,7 +300,7 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
             status_code=404,
         )
 
-    related = await get_related_guides(slug, locale=lang)
+    related = await get_related_guides(conn, exclude_slug=slug, locale=lang)
     guide["content_html"] = render_markdown(
         guide.get("content") or "",
         post_title=guide.get("title"),
@@ -319,8 +320,8 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
 
 
 @router.get("/{lang}/course", response_class=HTMLResponse)
-async def course(request: Request, lang: str = LangPath):
-    modules = await get_course_modules(locale=lang)
+async def course(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    modules = await get_course_modules(conn, locale=lang)
 
     return _templates(request).TemplateResponse(
         request,
@@ -336,9 +337,9 @@ async def course(request: Request, lang: str = LangPath):
 
 @router.get("/{lang}/course/{module_slug}", response_class=HTMLResponse)
 async def course_module(
-    request: Request, module_slug: str, lang: str = LangPath
+    request: Request, module_slug: str, lang: str = LangPath, conn=Depends(get_conn)
 ):
-    module = await get_module_by_slug(module_slug, locale=lang)
+    module = await get_module_by_slug(conn, slug=module_slug, locale=lang)
     if not module:
         return _templates(request).TemplateResponse(
             request,
@@ -350,7 +351,7 @@ async def course_module(
             status_code=404,
         )
 
-    lessons = await get_lessons_for_module(module_slug, locale=lang)
+    lessons = await get_lessons_for_module(conn, module_slug=module_slug, locale=lang)
     module["content_html"] = render_markdown(module.get("content") or "")
 
     return _templates(request).TemplateResponse(
@@ -371,9 +372,10 @@ async def course_lesson(
     module_slug: str,
     lesson_slug: str,
     lang: str = LangPath,
+    conn=Depends(get_conn),
 ):
-    module = await get_module_by_slug(module_slug, locale=lang)
-    lesson = await get_lesson(module_slug, lesson_slug, locale=lang)
+    module = await get_module_by_slug(conn, slug=module_slug, locale=lang)
+    lesson = await get_lesson(conn, module_slug=module_slug, lesson_slug=lesson_slug, locale=lang)
     if not module or not lesson:
         return _templates(request).TemplateResponse(
             request,
@@ -385,7 +387,7 @@ async def course_lesson(
             status_code=404,
         )
 
-    lessons = await get_lessons_for_module(module_slug, locale=lang)
+    lessons = await get_lessons_for_module(conn, module_slug=module_slug, locale=lang)
     idx = next((i for i, ls in enumerate(lessons) if ls["slug"] == lesson_slug), None)
     prev_lesson = lessons[idx - 1] if idx and idx > 0 else None
     next_lesson = (

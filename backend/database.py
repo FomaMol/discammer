@@ -148,62 +148,99 @@ async def get_db():
         await db.close()
 
 
+async def get_conn():
+    """FastAPI dependency: one aiosqlite connection per request.
+
+    Opens a single connection, configures ``row_factory`` and ``busy_timeout``
+    once, yields it for the lifetime of the request, and closes it on teardown.
+    Routes that depend on this and pass the connection into the CRUD helpers
+    below therefore open exactly one connection per request instead of one per
+    helper call.
+    """
+    conn = await aiosqlite.connect(config.DATABASE_PATH)
+    conn.row_factory = aiosqlite.Row
+    await conn.execute("PRAGMA busy_timeout = 5000")
+    try:
+        yield conn
+    finally:
+        await conn.close()
+
+
 # ---------------------------------------------------------------------------
 # CRUD helpers
+#
+# Each helper takes a live ``conn`` (an aiosqlite connection) as its first
+# argument and uses it directly. Request handlers obtain that connection from
+# the ``get_conn`` dependency so a whole request shares one connection.
+#
+# ``conn`` is optional so non-request callers (e.g. the SEO router, which is
+# owned by another worker this wave) keep working: when ``conn`` is None the
+# helper opens a short-lived connection of its own via ``get_db()``.
 # ---------------------------------------------------------------------------
 
 async def get_posts(
+    conn=None,
     type_filter: Optional[str] = None,
     limit: Optional[int] = None,
     locale: str = "en",
 ) -> List[Dict]:
     """Return posts for ``locale``, optionally filtered by type and limited."""
-    async with get_db() as db:
-        query = "SELECT * FROM post WHERE locale = ?"
-        params: list = [locale]
-        if type_filter:
-            query += " AND type = ?"
-            params.append(type_filter)
-        query += " ORDER BY published_at DESC"
-        if limit:
-            query += " LIMIT ?"
-            params.append(limit)
-        cursor = await db.execute(query, params)
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+    if conn is None:
+        async with get_db() as db:
+            return await get_posts(
+                db, type_filter=type_filter, limit=limit, locale=locale
+            )
+    query = "SELECT * FROM post WHERE locale = ?"
+    params: list = [locale]
+    if type_filter:
+        query += " AND type = ?"
+        params.append(type_filter)
+    query += " ORDER BY published_at DESC"
+    if limit:
+        query += " LIMIT ?"
+        params.append(limit)
+    cursor = await conn.execute(query, params)
+    rows = await cursor.fetchall()
+    return [dict(row) for row in rows]
 
 
-async def get_post_by_slug(slug: str, locale: str = "en") -> Optional[Dict]:
+async def get_post_by_slug(conn=None, slug: str = "", locale: str = "en") -> Optional[Dict]:
     """Return a single post by its slug + locale, or None."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM post WHERE slug = ? AND locale = ?",
-            (slug, locale),
-        )
-        row = await cursor.fetchone()
-        return dict(row) if row else None
+    if conn is None:
+        async with get_db() as db:
+            return await get_post_by_slug(db, slug=slug, locale=locale)
+    cursor = await conn.execute(
+        "SELECT * FROM post WHERE slug = ? AND locale = ?",
+        (slug, locale),
+    )
+    row = await cursor.fetchone()
+    return dict(row) if row else None
 
 
-async def get_guides(locale: str = "en") -> List[Dict]:
+async def get_guides(conn=None, locale: str = "en") -> List[Dict]:
     """Return all scam guides for ``locale`` ordered by threat level desc."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM scam_guide WHERE locale = ? ORDER BY threat_level DESC",
-            (locale,),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+    if conn is None:
+        async with get_db() as db:
+            return await get_guides(db, locale=locale)
+    cursor = await conn.execute(
+        "SELECT * FROM scam_guide WHERE locale = ? ORDER BY threat_level DESC",
+        (locale,),
+    )
+    rows = await cursor.fetchall()
+    return [dict(row) for row in rows]
 
 
-async def get_guide_by_slug(slug: str, locale: str = "en") -> Optional[Dict]:
+async def get_guide_by_slug(conn=None, slug: str = "", locale: str = "en") -> Optional[Dict]:
     """Return a single guide by slug + locale, or None."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM scam_guide WHERE slug = ? AND locale = ?",
-            (slug, locale),
-        )
-        row = await cursor.fetchone()
-        return dict(row) if row else None
+    if conn is None:
+        async with get_db() as db:
+            return await get_guide_by_slug(db, slug=slug, locale=locale)
+    cursor = await conn.execute(
+        "SELECT * FROM scam_guide WHERE slug = ? AND locale = ?",
+        (slug, locale),
+    )
+    row = await cursor.fetchone()
+    return dict(row) if row else None
 
 
 def _hydrate_module(row) -> Dict:
@@ -229,73 +266,101 @@ def _hydrate_lesson(row) -> Dict:
     return lesson
 
 
-async def get_course_modules(locale: str = "en") -> List[Dict]:
+async def get_course_modules(conn=None, locale: str = "en") -> List[Dict]:
     """Return all course modules for the given locale, in order."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            'SELECT * FROM course_module WHERE locale = ? ORDER BY "order" ASC',
-            (locale,),
-        )
-        rows = await cursor.fetchall()
-        return [_hydrate_module(row) for row in rows]
+    if conn is None:
+        async with get_db() as db:
+            return await get_course_modules(db, locale=locale)
+    cursor = await conn.execute(
+        'SELECT * FROM course_module WHERE locale = ? ORDER BY "order" ASC',
+        (locale,),
+    )
+    rows = await cursor.fetchall()
+    return [_hydrate_module(row) for row in rows]
 
 
-async def get_module_by_slug(slug: str, locale: str = "en") -> Optional[Dict]:
+async def get_module_by_slug(conn=None, slug: str = "", locale: str = "en") -> Optional[Dict]:
     """Return a single module by slug + locale, or None."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM course_module WHERE slug = ? AND locale = ?",
-            (slug, locale),
-        )
-        row = await cursor.fetchone()
-        return _hydrate_module(row) if row else None
+    if conn is None:
+        async with get_db() as db:
+            return await get_module_by_slug(db, slug=slug, locale=locale)
+    cursor = await conn.execute(
+        "SELECT * FROM course_module WHERE slug = ? AND locale = ?",
+        (slug, locale),
+    )
+    row = await cursor.fetchone()
+    return _hydrate_module(row) if row else None
 
 
-async def get_lessons_for_module(module_slug: str, locale: str = "en") -> List[Dict]:
+async def get_lessons_for_module(conn=None, module_slug: str = "", locale: str = "en") -> List[Dict]:
     """Return all lessons for a module + locale, in order."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            'SELECT * FROM lesson WHERE module_slug = ? AND locale = ? ORDER BY "order" ASC',
-            (module_slug, locale),
-        )
-        rows = await cursor.fetchall()
-        return [_hydrate_lesson(row) for row in rows]
+    if conn is None:
+        async with get_db() as db:
+            return await get_lessons_for_module(db, module_slug=module_slug, locale=locale)
+    cursor = await conn.execute(
+        'SELECT * FROM lesson WHERE module_slug = ? AND locale = ? ORDER BY "order" ASC',
+        (module_slug, locale),
+    )
+    rows = await cursor.fetchall()
+    return [_hydrate_lesson(row) for row in rows]
 
 
-async def get_lesson(module_slug: str, lesson_slug: str, locale: str = "en") -> Optional[Dict]:
+async def get_lesson(
+    conn=None, module_slug: str = "", lesson_slug: str = "", locale: str = "en"
+) -> Optional[Dict]:
     """Return a single lesson by module + lesson slug + locale, or None."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM lesson WHERE module_slug = ? AND slug = ? AND locale = ?",
-            (module_slug, lesson_slug, locale),
-        )
-        row = await cursor.fetchone()
-        return _hydrate_lesson(row) if row else None
+    if conn is None:
+        async with get_db() as db:
+            return await get_lesson(
+                db, module_slug=module_slug, lesson_slug=lesson_slug, locale=locale
+            )
+    cursor = await conn.execute(
+        "SELECT * FROM lesson WHERE module_slug = ? AND slug = ? AND locale = ?",
+        (module_slug, lesson_slug, locale),
+    )
+    row = await cursor.fetchone()
+    return _hydrate_lesson(row) if row else None
 
 
 async def get_related_posts(
-    post_type: str, exclude_slug: str, limit: int = 3, locale: str = "en"
+    conn=None,
+    post_type: str = "",
+    exclude_slug: str = "",
+    limit: int = 3,
+    locale: str = "en",
 ) -> List[Dict]:
     """Return related posts of the same type + locale, excluding the current one."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM post WHERE type = ? AND slug != ? AND locale = ? "
-            "ORDER BY published_at DESC LIMIT ?",
-            (post_type, exclude_slug, locale, limit),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+    if conn is None:
+        async with get_db() as db:
+            return await get_related_posts(
+                db,
+                post_type=post_type,
+                exclude_slug=exclude_slug,
+                limit=limit,
+                locale=locale,
+            )
+    cursor = await conn.execute(
+        "SELECT * FROM post WHERE type = ? AND slug != ? AND locale = ? "
+        "ORDER BY published_at DESC LIMIT ?",
+        (post_type, exclude_slug, locale, limit),
+    )
+    rows = await cursor.fetchall()
+    return [dict(row) for row in rows]
 
 
 async def get_related_guides(
-    exclude_slug: str, limit: int = 9, locale: str = "en"
+    conn=None, exclude_slug: str = "", limit: int = 9, locale: str = "en"
 ) -> List[Dict]:
     """Return other guides for ``locale`` excluding the current one."""
-    async with get_db() as db:
-        cursor = await db.execute(
-            "SELECT * FROM scam_guide WHERE slug != ? AND locale = ? "
-            "ORDER BY threat_level DESC LIMIT ?",
-            (exclude_slug, locale, limit),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
+    if conn is None:
+        async with get_db() as db:
+            return await get_related_guides(
+                db, exclude_slug=exclude_slug, limit=limit, locale=locale
+            )
+    cursor = await conn.execute(
+        "SELECT * FROM scam_guide WHERE slug != ? AND locale = ? "
+        "ORDER BY threat_level DESC LIMIT ?",
+        (exclude_slug, locale, limit),
+    )
+    rows = await cursor.fetchall()
+    return [dict(row) for row in rows]

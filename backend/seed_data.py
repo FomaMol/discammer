@@ -1,5 +1,6 @@
 """Seed the database with content from markdown files in content/ directory."""
 
+import fcntl
 import json
 import logging
 import re
@@ -796,9 +797,34 @@ async def seed_database() -> None:
     lives here. Future user-state tables (e.g. course progress) MUST live in
     separate tables so this wipe never touches them.
 
-    Reads ``config.DATABASE_PATH`` at call time (not import time) so test
-    fixtures can swap it in by mutating the ``config`` module attribute.
+    Reads ``config.DATABASE_PATH`` / ``config.SEED_ON_STARTUP`` at call time
+    (not import time) so test fixtures can swap them in by mutating the
+    ``config`` module attributes.
+
+    Skips entirely when ``SEED_ON_STARTUP`` is false. Otherwise the wipe+insert
+    critical section is serialized across worker processes with an exclusive
+    ``fcntl.flock`` on ``DATA_DIR/.seed.lock`` so concurrent workers do not race
+    on the same DELETE/INSERT sequence (POSIX-only — prod is Linux, dev macOS).
     """
+    if not config.SEED_ON_STARTUP:
+        log.info("SEED_ON_STARTUP is off — skipping content reseed")
+        return
+
+    # The lock file lives next to the DB so the serialization scope follows the
+    # configured data directory (tests swap DATA_DIR to a temp dir).
+    config.DATA_DIR.mkdir(parents=True, exist_ok=True)
+    lock_path = config.DATA_DIR / ".seed.lock"
+    lock_fd = open(lock_path, "w")
+    try:
+        fcntl.flock(lock_fd.fileno(), fcntl.LOCK_EX)
+        await _reseed_content()
+    finally:
+        fcntl.flock(lock_fd.fileno(), fcntl.LOCK_UN)
+        lock_fd.close()
+
+
+async def _reseed_content() -> None:
+    """Wipe + reinsert all content tables. Caller holds the seed lock."""
     async with aiosqlite.connect(config.DATABASE_PATH) as db:
         await db.execute("BEGIN")
 

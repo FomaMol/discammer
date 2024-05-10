@@ -7,8 +7,14 @@ main() {
 
   cd "$repo_dir"
 
+  git lfs install --local
+
   git fetch --prune origin main
   git reset --hard origin/main
+
+  # `git reset --hard` only checks out LFS pointer files; pull the real Unity
+  # WebGL brotli binaries before the Docker build copies them into the image.
+  git lfs pull
 
   # Tag the currently running image as :prev so we can roll back if the new
   # build starts but the app inside is broken. Tagged images are immune to
