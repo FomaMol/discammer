@@ -100,7 +100,7 @@ jobs:
           # Localized canonical paths — `/` and legacy paths now 302-redirect
           # to `/{lang}/` via the i18n router, so use -L on curl and probe the
           # actual rendered surfaces.
-          paths=("/en/" "/ru/" "/en/journal" "/ru/journal" "/en/course" "/en/game" "/api/posts" "/api/guides")
+          paths=("/api/health" "/en/" "/ru/" "/en/journal" "/ru/journal" "/en/course" "/en/game" "/api/posts" "/api/guides")
           # Wait for the site to come up after deploy.
           for i in 1 2 3 4 5 6 7 8 9 10; do
             code=$(curl -sL --max-time 15 -o /dev/null -w "%{http_code}" "https://discammer.com/" || echo 000)

@@ -2,3 +2,16 @@ services:
   web:
     ports: !override
       - "127.0.0.1:8000:8000"
+    # === OWNER ACTION (A7 — non-root container) ===
+    # The container now runs as a non-root user and writes the SQLite DB to the
+    # bind-mounted /opt/discammer/data volume. For the seed to succeed, that
+    # directory must be owned by the uid:gid the container runs as.
+    #
+    # One-time on the prod host:
+    #   sudo chown -R 10001:10001 /opt/discammer/data
+    # then export the matching ids before `compose build && up` (e.g. in
+    # deploy.sh or the host environment):
+    #   export APP_UID=10001 APP_GID=10001
+    # The base docker-compose.yml's `user:` directive reads APP_UID/APP_GID
+    # (defaulting to 1000:1000). Pick the uid that owns /opt/discammer/data and
+    # keep these consistent, or the non-root process will fail to open the DB.

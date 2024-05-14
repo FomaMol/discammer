@@ -1,29 +1,4 @@
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-
-const BUNDLES = {
-  en: {
-    heading: '// OPS DEBRIEF',
-    takeaway_label: 'KEY TAKEAWAY',
-    next_action_label: 'NEXT ACTION',
-    fallback_takeaway_with_title:
-      'the pattern you just studied ({title}) almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.',
-    fallback_takeaway_generic:
-      'the pattern you just studied almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.',
-    fallback_next_action:
-      'mark this debrief complete, then open the next briefing or run the assessment when this module ends.',
-  },
-  ru: {
-    heading: '// ДЕБРИФ ОПЕРАЦИИ',
-    takeaway_label: 'ГЛАВНЫЙ ВЫВОД',
-    next_action_label: 'СЛЕДУЮЩИЙ ШАГ',
-    fallback_takeaway_with_title:
-      'паттерн, который ты только что разобрал ({title}), почти никогда не приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.',
-    fallback_takeaway_generic:
-      'паттерн, который ты только что разобрал, почти никогда не приходит в одиночку — жди связки с давлением по времени и непроверяемым каналом.',
-    fallback_next_action:
-      'отметь этот дебриф как пройденный, затем открой следующий брифинг или пройди аттестацию в конце модуля.',
-  },
-} as const;
+import { Locale, makeTranslator } from '../utils/i18n';
 
 interface Props {
   locale?: Locale;
@@ -44,9 +19,8 @@ interface Props {
  * authored lessons can override them by supplying `summary` / `next_action`
  * fields when those are added to the data model.
  */
-export default function OpsDebriefPanel({ locale, takeaway, nextAction, lessonTitle }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+export default function OpsDebriefPanel({ takeaway, nextAction, lessonTitle }: Props) {
+  const tr = makeTranslator('opsDebrief');
 
   const heading = tr('heading');
   const takeawayLabel = tr('takeaway_label');

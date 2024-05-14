@@ -33,25 +33,6 @@ const BADGE_COLORS: Record<string, string> = {
   'СТАТЬЯ': 'bg-[#f4b965]/15 text-[#f4b965] border-[#f4b965]/40',
 };
 
-const BUNDLES = {
-  en: {
-    scroll_left: 'Scroll left',
-    scroll_right: 'Scroll right',
-    loading: 'Loading data...',
-    empty: '> No entries available.',
-    dispatch: 'DISPATCH',
-    field_note: 'FIELD NOTE',
-  },
-  ru: {
-    scroll_left: 'Прокрутить влево',
-    scroll_right: 'Прокрутить вправо',
-    loading: 'Загрузка...',
-    empty: '> Записей пока нет.',
-    dispatch: 'СВОДКА',
-    field_note: 'ПОЛЕВАЯ ЗАМЕТКА',
-  },
-} as const;
-
 function initials(s: string | undefined): string {
   if (!s) return '?';
   return s
@@ -79,7 +60,7 @@ export default function ContentCarousel({
   variant = 'default',
 }: ContentCarouselProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
+  const tr = makeTranslator('carousel');
   const [items, setItems] = useState<CardData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);

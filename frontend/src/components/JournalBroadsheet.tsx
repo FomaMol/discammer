@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchPosts, fetchGuides } from '../utils/api';
-import { currentLang, makeTranslator, pick, type Locale } from '../utils/i18n';
+import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 
 /**
  * JournalBroadsheet — single React island that owns the entire post grid for
@@ -30,42 +30,18 @@ type FilterKey = 'ALL' | 'INTERVIEW' | 'NEWSLETTER' | 'ARTICLE' | 'GUIDE';
 
 const FILTER_KEYS: FilterKey[] = ['ALL', 'INTERVIEW', 'NEWSLETTER', 'ARTICLE', 'GUIDE'];
 
-const BUNDLES = {
-  en: {
-    ALL: 'ALL',
-    INTERVIEW: 'INTERVIEW',
-    NEWSLETTER: 'NEWSLETTER',
-    ARTICLE: 'ARTICLE',
-    GUIDE: 'THREAT_DB',
-    guide_badge: 'GUIDE',
-    section_eyebrow: '// SECTION {num} · {label}',
-    loading: '> Loading edition…',
-    empty: '> No entries filed under this section.',
-    featured_byline: 'BY DCM EDITORIAL',
-    min_read: 'MIN READ',
-    archive_label: '// ARCHIVE',
-    archive_prev: 'Previous editions',
-    skim_label: '// SKIM',
-    skim_caption: 'Older entries, compact view',
-  },
-  ru: {
-    ALL: 'ВСЁ',
-    INTERVIEW: 'ИНТЕРВЬЮ',
-    NEWSLETTER: 'РАССЫЛКА',
-    ARTICLE: 'СТАТЬЯ',
-    GUIDE: 'БАЗА_УГРОЗ',
-    guide_badge: 'ГАЙД',
-    section_eyebrow: '// РАЗДЕЛ {num} · {label}',
-    loading: '> Загружаем выпуск…',
-    empty: '> В этом разделе записей пока нет.',
-    featured_byline: 'РЕДАКЦИЯ DCM',
-    min_read: 'МИН ЧТЕНИЯ',
-    archive_label: '// АРХИВ',
-    archive_prev: 'Прошлые выпуски',
-    skim_label: '// ОБЗОР',
-    skim_caption: 'Более ранние записи, плотный режим',
-  },
-} as const;
+/** Translator key type for the `client.journal` namespace — kept as a literal
+ *  union so the sub-components' `tr` prop stays narrowly typed. */
+type JournalKey =
+  | FilterKey
+  | 'guide_badge'
+  | 'section_eyebrow'
+  | 'loading'
+  | 'empty'
+  | 'featured_byline'
+  | 'min_read'
+  | 'skim_label'
+  | 'skim_caption';
 
 /** Per-type colors. Pulled inline (not class-name interpolation) so Tailwind v4
  *  doesn't see a dynamic class and tree-shake it. */
@@ -105,7 +81,7 @@ function formatBylineDate(iso: string | undefined, locale: Locale): string {
   const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!m) return iso;
   const [, y, mo, d] = m;
-  const months = pick(locale, { en: MONTHS_EN, ru: MONTHS_RU });
+  const months = locale === 'ru' ? MONTHS_RU : MONTHS_EN;
   const monthIdx = parseInt(mo, 10) - 1;
   return `${parseInt(d, 10).toString().padStart(2, '0')} ${months[monthIdx] || mo} ${y}`;
 }
@@ -116,7 +92,10 @@ interface JournalBroadsheetProps {
 
 export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
+  const tr = makeTranslator('journal') as (
+    k: JournalKey,
+    vars?: Record<string, string | number>,
+  ) => string;
 
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -347,7 +326,7 @@ function FeaturedCard({
 }: {
   item: Item;
   locale: Locale;
-  tr: (k: keyof typeof BUNDLES.en) => string;
+  tr: (k: JournalKey) => string;
   hrefFor: (i: Item) => string;
   localizedBadge: (t: string) => string;
 }) {

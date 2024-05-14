@@ -3,55 +3,6 @@ import { fetchCourseModules } from '../utils/api';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
 
-const BUNDLES = {
-  en: {
-    loading: '> Loading mission list',
-    error: '> ERROR: training modules unavailable.',
-    status_ready: '● READY',
-    status_in_progress: '▷ IN PROGRESS',
-    status_completed: '✓ COMPLETED',
-    status_locked: '✗ LOCKED',
-    prereq: 'PREREQ: MODULE',
-    flow_tag: '// MISSION FLOW',
-    lessons_short: 'lessons',
-    completed_at: 'COMPLETED',
-    stats_modules: 'MISSIONS',
-    stats_lessons: 'BRIEFINGS',
-    stats_runtime: 'EST RUNTIME',
-    stats_progress: 'CLEARANCE',
-    certification_tag: '// CLEARANCE',
-    cert_headline: 'Earn the DiScammer Defender clearance.',
-    cert_body:
-      'Finish all nine missions and pass the final examination to be issued a shareable clearance verifying that you can recognize, respond to, and recover from modern digital fraud.',
-    warm_up: 'Warm up in the simulator',
-    mission_prefix: 'MISSION',
-    open_briefing: '▸ OPEN BRIEFING',
-  },
-  ru: {
-    loading: '> Загрузка списка миссий',
-    error: '> ОШИБКА: модули недоступны.',
-    status_ready: '● ГОТОВ',
-    status_in_progress: '▷ В РАБОТЕ',
-    status_completed: '✓ ЗАВЕРШЁН',
-    status_locked: '✗ ЗАБЛОКИРОВАН',
-    prereq: 'УСЛОВИЕ: МОДУЛЬ',
-    flow_tag: '// ХОД ОПЕРАЦИИ',
-    lessons_short: 'уроков',
-    completed_at: 'ЗАВЕРШЕНО',
-    stats_modules: 'МИССИЙ',
-    stats_lessons: 'БРИФИНГОВ',
-    stats_runtime: 'ОЦЕНКА ВРЕМЕНИ',
-    stats_progress: 'ДОПУСК',
-    certification_tag: '// ДОПУСК',
-    cert_headline: 'Получи сертификат DiScammer Defender.',
-    cert_body:
-      'Заверши все девять миссий и сдай финальный экзамен — и получи проверяемый сертификат: подтверждение того, что ты умеешь распознавать, реагировать и восстанавливаться после современного цифрового мошенничества.',
-    warm_up: 'Разогрейся в симуляторе',
-    mission_prefix: 'МИССИЯ',
-    open_briefing: '▸ ОТКРЫТЬ БРИФИНГ',
-  },
-} as const;
-
 type Accent = 'cyan' | 'green' | 'amber' | 'red';
 
 interface Module {
@@ -141,7 +92,7 @@ function applyProgressiveUnlock(
 
 export default function CourseProgress({ locale }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   const [modules, setModules] = useState<Module[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -223,7 +174,7 @@ export default function CourseProgress({ locale }: Props) {
 
   return (
     <section className="space-y-10 sm:space-y-12" id="modules">
-      <StatsBanner stats={stats} progressPercent={progressPercent} lang={lang} />
+      <StatsBanner stats={stats} progressPercent={progressPercent} />
       <MissionFlow modules={liveModules} completed={completed} lang={lang} />
       <CertificationCallout lang={lang} />
     </section>
@@ -233,13 +184,11 @@ export default function CourseProgress({ locale }: Props) {
 function StatsBanner({
   stats,
   progressPercent,
-  lang,
 }: {
   stats: { moduleCount: number; totalLessons: number; completedLessons: number; duration: string };
   progressPercent: number;
-  lang: Locale;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 border border-[#202a44] bg-[#121828]/60 divide-y md:divide-y-0 md:divide-x divide-[#202a44]">
       <StatCell
@@ -293,7 +242,7 @@ function MissionFlow({
   completed: Map<string, number>;
   lang: Locale;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   return (
     <div className="relative">
       <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-4">
@@ -330,7 +279,7 @@ interface MissionCardProps {
 }
 
 function MissionCard({ module, previousModule, completedLessons, lang }: MissionCardProps) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   const locked = module.is_locked;
   const total = module.lessons ?? 0;
   const moduleDone = total > 0 && completedLessons >= total;
@@ -495,7 +444,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
 }
 
 function CertificationCallout({ lang }: { lang: Locale }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   return (
     <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 grid-pattern rounded-[4px]">
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-center">

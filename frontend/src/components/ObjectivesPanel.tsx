@@ -1,24 +1,5 @@
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 
-const BUNDLES = {
-  en: {
-    heading: '// OBJECTIVES',
-    subtitle: 'three things you should be able to do after this briefing',
-    fallback_recognize_with_title: 'recognize the {title} pattern in real-world examples',
-    fallback_recognize_generic: 'recognize the pattern in real-world examples',
-    fallback_identify: 'identify the three red flags before any money or credentials move',
-    fallback_pass: 'pass the module assessment with at least eighty percent',
-  },
-  ru: {
-    heading: '// ЗАДАЧИ ОПЕРАТОРА',
-    subtitle: 'что ты должен уметь после этого брифинга',
-    fallback_recognize_with_title: 'распознать паттерн в реальных примерах',
-    fallback_recognize_generic: 'распознать паттерн в реальных примерах',
-    fallback_identify: 'выявить три красных флага до того, как уйдут деньги или учётные данные',
-    fallback_pass: 'сдать аттестацию модуля с результатом не ниже восьмидесяти процентов',
-  },
-} as const;
-
 interface Props {
   locale?: Locale;
   /** Optional explicit objective lines. If empty, falls back to a generic set. */
@@ -35,7 +16,7 @@ interface Props {
  */
 export default function ObjectivesPanel({ locale, objectives, moduleTitle }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('objectives');
 
   const heading = tr('heading');
   const subtitle = tr('subtitle');

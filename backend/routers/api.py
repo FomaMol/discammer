@@ -1,10 +1,13 @@
 from typing import List, Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import JSONResponse
 
+from config import GIT_SHA
 from database import (
     get_conn,
     get_course_modules,
+    get_db,
     get_guides,
     get_lesson,
     get_lessons_for_module,
@@ -23,6 +26,36 @@ router = APIRouter(prefix="/api", tags=["api"])
 
 
 Locale = Literal["en", "ru"]
+
+
+@router.get("/health", include_in_schema=False)
+async def health():
+    """Liveness/readiness probe with content row counts.
+
+    Returns 200 ``{"status":"ok",...}`` when the DB is reachable and 503
+    ``{"status":"error","db":"down",...}`` on any DB failure. Deliberately does
+    NOT use ``Depends(get_conn)``: a failing dependency raises and yields a 500,
+    but a health endpoint must signal DB outage as 503. So the connection is
+    opened inside a try/except via the ``get_db()`` context manager.
+    """
+    try:
+        async with get_db() as db:
+            posts = (await (await db.execute("SELECT COUNT(*) FROM post")).fetchone())[0]
+            guides = (await (await db.execute("SELECT COUNT(*) FROM scam_guide")).fetchone())[0]
+            modules = (await (await db.execute("SELECT COUNT(*) FROM course_module")).fetchone())[0]
+    except Exception:
+        return JSONResponse(
+            status_code=503,
+            content={"status": "error", "version": GIT_SHA, "db": "down"},
+        )
+    return {
+        "status": "ok",
+        "version": GIT_SHA,
+        "db": "ok",
+        "posts": posts,
+        "guides": guides,
+        "modules": modules,
+    }
 
 
 @router.get("/posts", response_model=List[PostResponse])

@@ -277,12 +277,19 @@
     </div>
   </footer>
 
-  <!-- Expose lang + translations to the React bundle -->
+  <!-- Expose lang + the client string bundle to the React bundle.
+       `strings` is the `client` slice of the active-locale locale file
+       (backend/locales/{lang}.json → "client"), already resolved to `_lang`.
+       Islands read it via makeTranslator('<namespace>') in
+       frontend/src/utils/i18n.ts — no per-component translation tables.
+       `get_client_bundle` is a Jinja global registered in main.py; the
+       `is defined` guard keeps pages rendering even if it were ever absent. -->
   <script>
     window.__DISCAMMER_I18N__ = {
       lang: {{ _lang | tojson }},
       otherLang: {{ _other | tojson }},
-      switchUrl: {{ _switch_url | tojson }}
+      switchUrl: {{ _switch_url | tojson }},
+      strings: {{ (get_client_bundle(_lang) if get_client_bundle is defined else {}) | tojson }}
     };
   </script>
 

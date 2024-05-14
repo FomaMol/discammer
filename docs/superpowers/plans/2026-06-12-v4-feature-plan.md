@@ -10,6 +10,16 @@
 
 **Tech Stack:** FastAPI / Jinja2 / aiosqlite (+ SQLite FTS5), React 18 + TS + Vite 6 + Tailwind v4, pytest, **new:** Vitest (unit, frontend) + Playwright `@playwright/test` (E2E in CI), GitHub Actions + docker compose deploy.
 
+---
+
+## Orchestration progress log (maintained by orchestrator)
+
+- **W0 baseline** ✅ (2026-06-12): pytest 28/28, tsc clean, build clean (no drift), 40 full-page screenshots → `/tmp/dcm-v4-before/`. Metrics "Before" column filled. v4 review base SHA = `56a2bef`. Work branch: `v4-features`.
+- **W1** ✅ commit `e13324a` — A1 (bundle re-split, hashed chunks + manifest, `base:'/static/'`, Plyr off home, #321-free verified), A3+A4 (1 conn/request + seed flock + `SEED_ON_STARTUP`), A8 (HEAD /play, cert legacy-name guard), A5 (git-LFS config — migrate DEFERRED to owner; prod git-lfs install is a pre-push prerequisite), A6 (nginx vhost + RECONCILE markers). pytest 38, drift guard clean. **Not pushed.**
+- **W2** — in progress.
+
+---
+
 **Verification baseline (record in W0 before any change):** `pytest` 28/28, `npx tsc --noEmit` clean, `npm run build` clean, full-page screenshots of every page (RU/EN × desktop/mobile) into `/tmp/dcm-v4-before/`, and the Metrics table at the bottom filled in ("Before" column): home-page JS bytes transferred, `app.js` size, locale dead-key count.
 
 ---

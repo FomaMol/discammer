@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
+import { Locale, makeTranslator } from '../utils/i18n';
 
 type Outcome = 'good' | 'risky' | 'disaster';
 
@@ -25,27 +25,6 @@ interface Props {
   config: ScenarioConfig;
   locale: Locale;
 }
-
-const BUNDLES = {
-  en: {
-    heading: '// FIELD SIMULATION',
-    prompt_default: 'What do you do?',
-    reset: 'Re-run simulation',
-    moral: '// FIELD NOTE',
-    outcome_optimal: 'OPTIMAL',
-    outcome_compromised: 'COMPROMISED',
-    outcome_mission_failed: 'MISSION FAILED',
-  },
-  ru: {
-    heading: '// ПОЛЕВАЯ СИМУЛЯЦИЯ',
-    prompt_default: 'Что ты делаешь?',
-    reset: 'Перезапустить симуляцию',
-    moral: '// ЗАМЕТКА С ПОЛЯ',
-    outcome_optimal: 'ОПТИМАЛЬНО',
-    outcome_compromised: 'СКОМПРОМЕТИРОВАНО',
-    outcome_mission_failed: 'МИССИЯ ПРОВАЛЕНА',
-  },
-} as const;
 
 type OutcomeKey = 'outcome_optimal' | 'outcome_compromised' | 'outcome_mission_failed';
 
@@ -76,9 +55,8 @@ const OUTCOME_STYLES: Record<
   },
 };
 
-export default function ScenarioWidget({ config, locale }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+export default function ScenarioWidget({ config }: Props) {
+  const tr = makeTranslator('scenario');
   const [picked, setPicked] = useState<number | null>(null);
 
   const headingLabel = tr('heading');

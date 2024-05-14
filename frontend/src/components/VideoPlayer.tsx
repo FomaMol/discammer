@@ -2,12 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Plyr } from 'plyr-react';
 import 'plyr-react/plyr.css';
 import './VideoPlayer.css';
-import { currentLang, makeTranslator } from '../utils/i18n';
-
-const BUNDLES = {
-  en: { offline: '// recording offline' },
-  ru: { offline: '// запись недоступна' },
-} as const;
+import { makeTranslator } from '../utils/i18n';
 
 interface VideoPlayerProps {
   /** Self-hosted MP4 URL, e.g. /media/videos/interviews/ben-yehooda.mp4 */
@@ -57,7 +52,7 @@ export default function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
     [src, poster, title],
   );
 
-  const tr = makeTranslator(currentLang(), BUNDLES);
+  const tr = makeTranslator('video');
 
   // On failure the player is hidden, NOT unmounted: Plyr restructures the DOM
   // it owns, and letting React reconcile that subtree away throws

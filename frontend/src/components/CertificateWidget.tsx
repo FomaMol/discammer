@@ -2,59 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
 
-const BUNDLES = {
-  en: {
-    locked_heading: '// CLEARANCE PENDING',
-    locked_body:
-      'Complete every briefing in every mission and pass the final examination (at least 80%) to unlock your DiScammer Defender clearance.',
-    name_label: 'Operator name (printed on clearance)',
-    name_placeholder: 'Full name',
-    name_confirm: 'Confirm name',
-    prereq_heading: '// CLEARANCE PREREQUISITES',
-    prereq_exam: 'Final examination (≥ 80%)',
-    heading: '// CLEARANCE GRANTED',
-    title: 'CERTIFICATE OF CLEARANCE',
-    programme: 'DiScammer Defender Programme',
-    presented_to: 'is hereby issued to',
-    description:
-      'for completion of all nine training missions and the passing of the final examination of the DiScammer anti-fraud curriculum.',
-    date_label: 'Issued on',
-    score_label: 'Final score',
-    verification_label: 'Verification code',
-    operator_code_label: 'Operator code',
-    issuing_officer_label: 'Issuing officer',
-    issuing_officer_signature: 'DCM Chief Operations',
-    print_label: 'Print or save as PDF',
-    rename_label: 'Change operator name',
-    authority_block: 'DCM ACADEMY · ANTI-FRAUD DIVISION',
-  },
-  ru: {
-    locked_heading: '// ДОПУСК ОЖИДАЕТСЯ',
-    locked_body:
-      'Заверши все брифинги во всех миссиях и сдай финальное испытание (не ниже 80%), чтобы получить допуск DiScammer Defender.',
-    name_label: 'Имя оператора (напечатается на допуске)',
-    name_placeholder: 'Полное имя',
-    name_confirm: 'Подтвердить имя',
-    prereq_heading: '// УСЛОВИЯ ДОПУСКА',
-    prereq_exam: 'Финальное испытание (≥ 80%)',
-    heading: '// ДОПУСК ВЫДАН',
-    title: 'СЕРТИФИКАТ ДОПУСКА',
-    programme: 'Программа DiScammer Defender',
-    presented_to: 'настоящим выдан',
-    description:
-      'за прохождение всех девяти тренировочных миссий и сдачу финального испытания антифрод-программы DiScammer.',
-    date_label: 'Дата выдачи',
-    score_label: 'Финальный результат',
-    verification_label: 'Код проверки',
-    operator_code_label: 'Код оператора',
-    issuing_officer_label: 'Выдавший офицер',
-    issuing_officer_signature: 'Шеф операций DCM',
-    print_label: 'Печать / сохранить PDF',
-    rename_label: 'Изменить имя',
-    authority_block: 'АКАДЕМИЯ DCM · ОТДЕЛ АНТИФРОДА',
-  },
-} as const;
-
 export interface CertificateConfig {
   /** Modules required for the certificate, with the lesson slugs that count. */
   requirements: { module: string; lessons: string[] }[];
@@ -153,7 +100,7 @@ function operatorSuffix(name: string, exam: ExamRecord): string {
 
 export default function CertificateWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('cert');
   const examKey = config.examKey || 'discammer:exam:v1';
 
   const [exam, setExam] = useState<ExamRecord | null>(null);
@@ -245,7 +192,6 @@ export default function CertificateWidget({ config, locale }: Props) {
         moduleStatus={moduleStatus}
         examPassed={examPassed}
         exam={exam}
-        lang={lang}
       />
 
       {!earned ? (
@@ -293,7 +239,6 @@ export default function CertificateWidget({ config, locale }: Props) {
           operatorCode={operatorCode}
           score={exam!.score}
           total={exam!.total}
-          lang={lang}
           onRename={() => {
             setDraft(name);
             setEditing(true);
@@ -308,14 +253,12 @@ function PrerequisitesPanel({
   moduleStatus,
   examPassed,
   exam,
-  lang,
 }: {
   moduleStatus: { module: string; total: number; complete: number; done: boolean }[];
   examPassed: boolean;
   exam: ExamRecord | null;
-  lang: Locale;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('cert');
   return (
     <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
       <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
@@ -375,7 +318,6 @@ function Certificate({
   operatorCode,
   score,
   total,
-  lang,
   onRename,
 }: {
   name: string;
@@ -384,10 +326,9 @@ function Certificate({
   operatorCode: string;
   score: number;
   total: number;
-  lang: Locale;
   onRename: () => void;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('cert');
   const heading = tr('heading');
   const title = tr('title');
   const programme = tr('programme');

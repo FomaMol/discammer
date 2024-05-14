@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { currentLang, pick, type Locale } from '../utils/i18n';
+import { makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
 
 interface HeroTypewriterProps {
@@ -8,8 +8,8 @@ interface HeroTypewriterProps {
   lang?: Locale;
 }
 
-export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriterProps) {
-  const locale = currentLang(lang);
+export default function HeroTypewriter({ phrases, prefix }: HeroTypewriterProps) {
+  const tr = makeTranslator('heroTypewriter');
   const reduce = useReducedMotion();
   // Under reduced motion: render the first phrase fully and stop cycling.
   // Per DESIGN.md motion notes, typewriter cycling is suppressed entirely.
@@ -52,8 +52,7 @@ export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriter
     };
   }, [displayed, isDeleting, phraseIndex, phrases, reduce]);
 
-  const resolvedPrefix =
-    prefix ?? pick(locale, { en: '> WHERE THE SCAM IS FOUND: ', ru: '> ГДЕ ВОДЯТСЯ МОШЕННИКИ: ' });
+  const resolvedPrefix = prefix ?? tr('prefix');
 
   return (
     <p

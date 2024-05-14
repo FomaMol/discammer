@@ -1,36 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-
-const BUNDLES = {
-  en: {
-    heading: '// THREAT INDICATORS',
-    submit: 'ANALYZE TRANSMISSION',
-    reset: 'Re-scan transmission',
-    prompt_default:
-      'Flag every line below that is a genuine threat indicator in this transmission.',
-    correct: '▸ INDICATOR DETECTED',
-    missed: '✗ MISSED',
-    wrong: '✗ NOT AN INDICATOR',
-    score_heading: '// THREAT REPORT',
-    score_caught: 'indicators flagged',
-    score_false_positive: 'false flags',
-    score_missed: 'indicators missed',
-  },
-  ru: {
-    heading: '// ИНДИКАТОРЫ УГРОЗЫ',
-    submit: 'ПРОАНАЛИЗИРОВАТЬ',
-    reset: 'Перепроанализировать',
-    prompt_default:
-      'Отметь каждую строку ниже, которая является настоящим индикатором угрозы.',
-    correct: '▸ ИНДИКАТОР ОБНАРУЖЕН',
-    missed: '✗ ПРОПУЩЕН',
-    wrong: '✗ НЕ ИНДИКАТОР',
-    score_heading: '// ОТЧЁТ ОБ УГРОЗАХ',
-    score_caught: 'индикаторов отмечено',
-    score_false_positive: 'ложных тревог',
-    score_missed: 'индикаторов пропущено',
-  },
-} as const;
+import { Locale, makeTranslator } from '../utils/i18n';
 
 export interface RedFlagItem {
   id: string;
@@ -67,9 +36,8 @@ interface Props {
   locale: Locale;
 }
 
-export default function RedFlagsWidget({ config, locale }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+export default function RedFlagsWidget({ config }: Props) {
+  const tr = makeTranslator('redflags');
   const [picked, setPicked] = useState<Set<string>>(new Set());
   const [submitted, setSubmitted] = useState(false);
 

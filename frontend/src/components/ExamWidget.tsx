@@ -1,54 +1,5 @@
 import { useId, useMemo, useState } from 'react';
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-
-const BUNDLES = {
-  en: {
-    heading: '// FINAL EXAMINATION',
-    progress_label: 'Q',
-    transmit: 'TRANSMIT',
-    next: 'NEXT QUESTION ▷',
-    finish: 'FINALIZE EXAM ▷',
-    restart: 'Re-run examination',
-    correct: '[OK] CORRECT',
-    incorrect: '[FAIL] INCORRECT',
-    review: 'Inspect transmission log',
-    empty: '[STANDBY] No exam questions loaded.',
-    result_suffix: 'TRANSMISSION REPORT',
-    clearance_granted_prefix: 'CLEARANCE GRANTED · LEVEL',
-    clearance_granted_suffix: '/100',
-    clearance_denied: 'CLEARANCE DENIED · RETRY REQUIRED',
-    review_correct_label: 'Expected:',
-    score_passed_prefix: 'Score:',
-    score_passed_body:
-      ', at or above the {threshold}% pass mark. Result is recorded and visible on the clearance page.',
-    score_failed_prefix: 'Score:',
-    score_failed_body:
-      ', below the {threshold}% pass mark. Review the missed areas in the log below and re-transmit when ready.',
-  },
-  ru: {
-    heading: '// ФИНАЛЬНОЕ ИСПЫТАНИЕ',
-    progress_label: 'В',
-    transmit: 'ОТПРАВИТЬ',
-    next: 'СЛЕДУЮЩИЙ ▷',
-    finish: 'ЗАВЕРШИТЬ ЭКЗАМЕН ▷',
-    restart: 'Пройти заново',
-    correct: '[OK] ВЕРНО',
-    incorrect: '[FAIL] НЕВЕРНО',
-    review: 'Открыть лог передачи',
-    empty: '[STANDBY] Вопросы экзамена не загружены.',
-    result_suffix: 'ОТЧЁТ О ПЕРЕДАЧЕ',
-    clearance_granted_prefix: 'ДОПУСК ВЫДАН · УРОВЕНЬ',
-    clearance_granted_suffix: '/100',
-    clearance_denied: 'В ДОПУСКЕ ОТКАЗАНО · НУЖНА ПОВТОРНАЯ ПОПЫТКА',
-    review_correct_label: 'Ожидалось:',
-    score_passed_prefix: 'Результат',
-    score_passed_body:
-      '% — это проходной порог {threshold}% или выше. Результат сохранён и виден на странице допуска.',
-    score_failed_prefix: 'Результат',
-    score_failed_body:
-      '% — ниже порога {threshold}%. Разбери пропуски в логе ниже и пройди снова, когда будешь готов.',
-  },
-} as const;
+import { Locale, makeTranslator } from '../utils/i18n';
 
 export interface ExamQuestion {
   module?: string;
@@ -96,9 +47,8 @@ function readStoredResult(): PersistedExam | null {
   }
 }
 
-export default function ExamWidget({ config, locale }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+export default function ExamWidget({ config }: Props) {
+  const tr = makeTranslator('exam');
   const radioGroup = useId();
 
   // Bumped on restart so a retake gets a fresh shuffle, not the mount-time order.

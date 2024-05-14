@@ -16,23 +16,6 @@ interface MobileMenuProps {
   lang?: Locale;
 }
 
-const BUNDLES = {
-  en: {
-    open_menu: 'Open menu',
-    close_menu: 'Close menu',
-    nav_header: '// Navigation',
-    footer_note: '> DiSCAMMER v1.0 // ANTI-SCAM TERMINAL',
-    nav_aria: 'Site navigation',
-  },
-  ru: {
-    open_menu: 'Открыть меню',
-    close_menu: 'Закрыть меню',
-    nav_header: '// Навигация',
-    footer_note: '> DiSCAMMER v1.0 // АНТИ-МОШЕННИЧЕСКИЙ ТЕРМИНАЛ',
-    nav_aria: 'Навигация сайта',
-  },
-} as const;
-
 export default function MobileMenu({
   links,
   switchHref,
@@ -43,7 +26,7 @@ export default function MobileMenu({
   lang,
 }: MobileMenuProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
+  const tr = makeTranslator('nav');
   const openLabel = tr('open_menu');
   const closeLabel = tr('close_menu');
   const navHeader = tr('nav_header');

@@ -64,6 +64,31 @@ def t(lang: str, key: str, /, **kwargs: Any) -> str:
     return value if isinstance(value, str) else str(value)
 
 
+def get_client_bundle(lang: str) -> dict[str, dict[str, str]]:
+    """Return the ``client`` slice for ``lang`` as ``{namespace: {key: value}}``.
+
+    This is the single source of truth shipped to the React islands — the
+    server resolves the active locale once and injects only that slice into
+    ``window.__DISCAMMER_I18N__.strings`` (see base.html). Any key present in
+    EN but missing from the requested locale is filled in from EN, so the
+    shipped bundle is always complete per locale even if a translation lags.
+    """
+    base: dict[str, Any] = _translations.get(DEFAULT_LANG, {}).get("client", {})
+    target: dict[str, Any] = _translations.get(lang, {}).get("client", {})
+    out: dict[str, dict[str, str]] = {}
+    for namespace, en_strings in base.items():
+        if not isinstance(en_strings, dict):
+            continue
+        target_strings = target.get(namespace, {})
+        if not isinstance(target_strings, dict):
+            target_strings = {}
+        out[namespace] = {
+            key: str(target_strings.get(key, value))
+            for key, value in en_strings.items()
+        }
+    return out
+
+
 def t_list(lang: str, key: str) -> list[str]:
     """Resolve a key that points to a list (e.g. typewriter phrases)."""
     value = _resolve(lang, key)

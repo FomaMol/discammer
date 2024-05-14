@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from config import SITE_ORIGIN, STATIC_DIR, TEMPLATES_DIR
+from config import SITE_ORIGIN, STATIC_DIR, TEMPLATES_DIR, configure_logging
 from database import init_db
 from seed_data import seed_database
 
@@ -19,6 +19,7 @@ if _backend_dir not in sys.path:
 from i18n import (  # noqa: E402
     DEFAULT_LANG,
     SUPPORTED_LANGS,
+    get_client_bundle,
     other_lang,
     t,
     t_list,
@@ -50,6 +51,75 @@ app = FastAPI(
 
 # Static files
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+# ---------------------------------------------------------------------------
+# Structured request logging + request IDs (O1)
+#
+# One log line per request through the "discammer" logger, carrying a request
+# id (echoed in the X-Request-ID response header) and the request duration.
+# Asset/probe 404s (favicon, /sitemap.xml typos, /static misses) log at DEBUG
+# so they don't spam INFO; everything else logs at INFO. Unhandled exceptions
+# are logged once *with* the rid and re-raised so FastAPI's handlers still run.
+# ---------------------------------------------------------------------------
+
+import logging  # noqa: E402
+import time as _time_mod  # noqa: E402
+from uuid import uuid4  # noqa: E402
+
+_request_logger = configure_logging()
+
+
+@app.middleware("http")
+async def request_logging_middleware(request: "Request", call_next):
+    rid = request.headers.get("X-Request-ID") or uuid4().hex
+    request.state.request_id = rid
+    start = _time_mod.perf_counter()
+
+    try:
+        response = await call_next(request)
+    except Exception:
+        # Log the failure once with the rid, then re-raise so FastAPI's
+        # exception handlers run and produce the actual response. The
+        # ServerErrorMiddleware above us turns this into a 500.
+        duration_ms = round((_time_mod.perf_counter() - start) * 1000, 2)
+        _request_logger.exception(
+            "request failed",
+            extra={
+                "rid": rid,
+                "method": request.method,
+                "path": request.url.path,
+                "status": 500,
+                "duration_ms": duration_ms,
+            },
+        )
+        raise
+
+    duration_ms = round((_time_mod.perf_counter() - start) * 1000, 2)
+    response.headers["X-Request-ID"] = rid
+
+    # Asset/probe 404s are noise at INFO — drop them to DEBUG. Reuse the same
+    # classifier the 404 handlers use so the two stay in lockstep.
+    level = logging.INFO
+    if response.status_code == 404 and _is_asset_path(request.url.path):
+        level = logging.DEBUG
+
+    _request_logger.log(
+        level,
+        "%s %s -> %s (%sms)",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration_ms,
+        extra={
+            "rid": rid,
+            "method": request.method,
+            "path": request.url.path,
+            "status": response.status_code,
+            "duration_ms": duration_ms,
+        },
+    )
+    return response
 
 # Jinja2 templates — stored on app.state so routers can access them.
 # Workaround: when running locally on Python 3.14 the default Jinja2 LRUCache
@@ -124,6 +194,9 @@ def _t_list(lang: str, key: str):
 
 _env.globals["t"] = _t
 _env.globals["t_list"] = _t_list
+# A2: the client (island) translation bundle injected into window.__DISCAMMER_I18N__
+# so the React islands read one source of truth instead of per-component BUNDLES.
+_env.globals["get_client_bundle"] = get_client_bundle
 
 
 def _localized_url(lang: str, path: str = "") -> str:

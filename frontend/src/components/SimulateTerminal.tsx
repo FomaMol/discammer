@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { currentLang, pick, type Locale } from '../utils/i18n';
+import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 interface SimulateTerminalProps {
@@ -24,16 +24,10 @@ const SCRIPT_RU = [
   { text: '$', color: '#65def0', delay: 0 },
 ];
 
-type Bundle = { label: string; terminal_label: string };
-const BUNDLES: Record<Locale, Bundle> = {
-  en: { label: 'START SIMULATION', terminal_label: 'simulator@discammer ~ %' },
-  ru: { label: 'НАЧАТЬ СИМУЛЯЦИЮ', terminal_label: 'simulator@discammer ~ %' },
-};
-
 export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
   const locale = currentLang(lang);
-  const script = pick(locale, { en: SCRIPT_EN, ru: SCRIPT_RU });
-  const bundle = pick(locale, BUNDLES);
+  const tr = makeTranslator('simulate');
+  const script = locale === 'ru' ? SCRIPT_RU : SCRIPT_EN;
   const reduce = prefersReducedMotion();
   const [step, setStep] = useState(reduce ? script.length : 0);
 
@@ -57,7 +51,7 @@ export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
             className="ml-2 text-[10px] uppercase tracking-[2px] text-[#6b7588]"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
-            {bundle.terminal_label}
+            {tr('terminal_label')}
           </span>
         </div>
 
@@ -93,7 +87,7 @@ export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
         style={{ fontFamily: '"JetBrains Mono", monospace' }}
       >
         <span aria-hidden="true">&#9654;</span>
-        <span>{bundle.label}</span>
+        <span>{tr('label')}</span>
       </a>
     </div>
   );

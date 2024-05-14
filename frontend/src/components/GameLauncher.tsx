@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { currentLang, pick, type Locale } from '../utils/i18n';
+import { makeTranslator, type Locale } from '../utils/i18n';
 
 interface GameLauncherProps {
   src?: string;
@@ -14,15 +14,14 @@ export default function GameLauncher({
   label,
   closeLabel,
   closeAria,
-  lang,
 }: GameLauncherProps) {
-  const locale = currentLang(lang);
+  const tr = makeTranslator('game');
   // Solid-triangle prefix (no emoji) — primary cyan CTA in the mission-select
   // terminal frame. Label text comes from the caller; we prepend ▶ only when
   // the caller hasn't already provided one.
-  const resolvedLabel = label ?? pick(locale, { en: '▶ START GAME', ru: '▶ ЗАПУСТИТЬ ИГРУ' });
-  const resolvedCloseLabel = closeLabel ?? pick(locale, { en: '[ESC] CLOSE', ru: '[ESC] ЗАКРЫТЬ' });
-  const resolvedCloseAria = closeAria ?? pick(locale, { en: 'Close game', ru: 'Закрыть игру' });
+  const resolvedLabel = label ?? tr('start');
+  const resolvedCloseLabel = closeLabel ?? tr('close');
+  const resolvedCloseAria = closeAria ?? tr('close_aria');
 
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);

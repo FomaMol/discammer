@@ -17,29 +17,6 @@ interface ScamTypesGridProps {
   lang?: Locale;
 }
 
-const BUNDLES = {
-  en: {
-    loading: 'Loading guides...',
-    empty: '> No threats indexed.',
-    read: 'READ',
-    threat: 'THREAT',
-    most_common: 'MOST COMMON',
-    full_index: 'FULL INDEX',
-    threat_l: 'L',
-    threat_meter: 'Threat level {level} of 5',
-  },
-  ru: {
-    loading: 'Загрузка гайдов...',
-    empty: '> Угрозы пока не проиндексированы.',
-    read: 'ЧИТАТЬ',
-    threat: 'УГРОЗА',
-    most_common: 'РАСПРОСТРАНЁННЫЕ',
-    full_index: 'ПОЛНЫЙ ИНДЕКС',
-    threat_l: 'У',
-    threat_meter: 'Уровень угрозы: {level} из 5',
-  },
-} as const;
-
 // Color mapping by threat level (matches DESIGN.md semantic accents)
 function threatColor(level: number | undefined): string {
   if (!level || level <= 2) return '#7ce896'; // green: safe
@@ -76,7 +53,7 @@ function ThreatBar({ level, color, label }: { level: number; color: string; labe
 
 export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
+  const tr = makeTranslator('scamGrid');
   const [guides, setGuides] = useState<Guide[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

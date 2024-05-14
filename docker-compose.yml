@@ -1,6 +1,16 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        # deploy.sh exports GIT_SHA=$(git rev-parse --short HEAD) before
+        # `compose build` so the running image reports its build via /api/health.
+        GIT_SHA: "${GIT_SHA:-dev}"
+    # Run the container as a non-root user (A7). The bind-mounted ./data must be
+    # writable by this uid:gid for the SQLite seed to succeed, so align it with
+    # the host owner of ./data. Defaults to 1000:1000 (the typical first host
+    # user); override APP_UID/APP_GID to match `id -u`/`id -g` on the host.
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
     ports:
       - "8000:8000"
     volumes:

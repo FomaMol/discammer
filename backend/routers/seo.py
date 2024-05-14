@@ -132,7 +132,9 @@ def _to_rfc822(value: Optional[str]) -> str:
 @router.get("/feed.xml", include_in_schema=False)
 async def rss_feed(request: Request) -> Response:
     base = _base_url(request)
-    posts = await get_posts(limit=20, locale="en")
+    # All post types (interview/newsletter/article) in published_at order; no
+    # type_filter ⇒ get_posts returns every type. 30 most-recent items (F3).
+    posts = await get_posts(limit=30, locale="en")
 
     items: list[str] = []
     for post in posts:

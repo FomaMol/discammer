@@ -1,33 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Locale, STRINGS, makeTranslator, normalizeLocale, t } from '../utils/i18n';
+import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
-
-const BUNDLES = {
-  en: {
-    loading: '> Loading mission briefings...',
-    error: 'Failed to load lessons.',
-    empty: 'Briefings for this mission are launching soon. Check back in a few days.',
-    checklist_header: '// MISSION CHECKLIST',
-    open_label: 'OPEN BRIEFING',
-    widget_quiz: '▸ ASSESSMENT',
-    widget_scenario: '▸ FIELD SIMULATION',
-    widget_redflags: '▸ THREAT INDICATORS',
-    widget_exam: '▸ FINAL EXAMINATION',
-    widget_certificate: '▸ CLEARANCE',
-  },
-  ru: {
-    loading: '> Загрузка брифингов...',
-    error: 'Не удалось загрузить уроки.',
-    empty: 'Брифинги этой миссии скоро появятся. Загляни через пару дней.',
-    checklist_header: '// ЧЕК-ЛИСТ МИССИИ',
-    open_label: 'ОТКРЫТЬ',
-    widget_quiz: '▸ ОЦЕНКА',
-    widget_scenario: '▸ ПОЛЕВАЯ СИМУЛЯЦИЯ',
-    widget_redflags: '▸ ИНДИКАТОРЫ УГРОЗЫ',
-    widget_exam: '▸ ФИНАЛЬНЫЙ ЭКЗАМЕН',
-    widget_certificate: '▸ ДОПУСК',
-  },
-} as const;
 
 interface Lesson {
   slug: string;
@@ -52,7 +25,8 @@ interface Props {
  */
 export default function ModuleLessons({ moduleSlug, locale }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('moduleLessons');
+  const commonTr = makeTranslator('common');
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -179,7 +153,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
                 {/* Right side: time + completion */}
                 <div className="shrink-0 flex flex-col items-end gap-1">
                   <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
-                    {lesson.est_minutes} {t(STRINGS.estMinutes, lang)}
+                    {lesson.est_minutes} {commonTr('min')}
                   </div>
                   <div
                     className={`font-mono text-[10px] uppercase tracking-[0.14em] tabular-nums ${
@@ -188,7 +162,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
                         : 'text-[#3a8b9a] opacity-0 group-hover:opacity-100 transition-opacity'
                     }`}
                   >
-                    {isDone ? t(STRINGS.completed, lang) : openLabel}
+                    {isDone ? commonTr('completed') : openLabel}
                   </div>
                 </div>
               </a>

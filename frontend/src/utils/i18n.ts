@@ -1,13 +1,20 @@
 /**
  * Lightweight i18n helper for the islands bundle.
  *
- * The server injects ``window.__DISCAMMER_I18N__ = { lang, otherLang, switchUrl }``
- * in base.html, and also sets ``<body data-lang="en|ru">`` so components can
- * pick up the active locale without props plumbing.
+ * The server injects, near the end of base.html,
  *
- * Translations themselves are bundled with the JS rather than fetched, because
- * the strings live in a handful of components — duplicating them in both
- * locales costs less than the round-trip to the server.
+ *   window.__DISCAMMER_I18N__ = {
+ *     lang, otherLang, switchUrl,
+ *     strings: { <namespace>: { <key>: <value> } },   // already in the active locale
+ *   }
+ *
+ * and sets ``<body data-lang="en|ru">`` so components can pick up the active
+ * locale without props plumbing.
+ *
+ * Client-facing strings live in the ``client`` namespace of the backend locale
+ * files (``backend/locales/{en,ru}.json``). The server resolves the active
+ * locale and ships only that slice in ``strings`` — so the bundle is already
+ * single-locale and components never carry their own translation tables.
  */
 
 export type Locale = 'en' | 'ru';
@@ -18,6 +25,8 @@ declare global {
       lang?: Locale;
       otherLang?: Locale;
       switchUrl?: string;
+      /** namespace → key → value, already resolved to the active locale. */
+      strings?: Record<string, Record<string, string>>;
     };
   }
 }
@@ -42,35 +51,32 @@ export function currentLang(explicit?: string | null): Locale {
 }
 
 /**
- * Compact translation helper: pass a record keyed by locale and get the entry
- * for the active locale, falling back to English if a translation is missing.
- */
-export function t<T>(strings: Partial<Record<Locale, T>>, locale: Locale): T {
-  return (strings[locale] ?? strings.en) as T;
-}
-
-/** ``pick(lang, { en: 'Hi', ru: 'Привет' })`` — sugar for one-off label pairs. */
-export function pick<T>(locale: Locale, bundle: Record<Locale, T>): T {
-  return bundle[locale] ?? bundle.en;
-}
-
-/**
- * Build a translator from a static bundle keyed by locale-first.
+ * Build a translator bound to one ``client`` namespace.
  *
- *   const tr = makeTranslator(locale, {
- *     en: { loading: 'Loading…', empty: 'Nothing yet.' },
- *     ru: { loading: 'Загрузка…', empty: 'Пока пусто.' },
- *   });
- *   tr('loading');
+ *   const tr = makeTranslator('exam');
+ *   tr('heading');
+ *   tr('counts', { modules: 9, lessons: 42 });
+ *
+ * Lookups read ``window.__DISCAMMER_I18N__.strings[namespace][key]`` — the
+ * server already resolved the active locale, so no locale argument is needed.
+ * ``{var}`` placeholders are interpolated with a function replacement so ``$&``
+ * / ``$'`` sequences in values aren't treated as regex backreferences. On a
+ * miss the call warns once and returns the key so the UI degrades visibly
+ * rather than rendering an empty string.
  */
-export function makeTranslator<K extends string>(
-  locale: Locale,
-  bundles: Record<Locale, Record<K, string>>,
-): (key: K, vars?: Record<string, string | number>) => string {
-  const table = bundles[locale] ?? bundles.en;
-  const fallback = bundles.en;
+export function makeTranslator(
+  namespace: string,
+): (key: string, vars?: Record<string, string | number>) => string {
   return (key, vars) => {
-    let value: string = table[key] ?? fallback[key] ?? key;
+    const table =
+      typeof window !== 'undefined'
+        ? window.__DISCAMMER_I18N__?.strings?.[namespace]
+        : undefined;
+    let value = table?.[key];
+    if (value === undefined) {
+      console.warn('[i18n] missing', namespace + '.' + key);
+      value = key;
+    }
     if (vars) {
       for (const [k, v] of Object.entries(vars)) {
         // Function replacement so `$&`/`$'` in values aren't treated as patterns.
@@ -80,13 +86,3 @@ export function makeTranslator<K extends string>(
     return value;
   };
 }
-
-/**
- * Inline-record translation bundles shared across components.
- * Keep these compact — anything more elaborate belongs in the per-component
- * translator factory.
- */
-export const STRINGS = {
-  completed: { en: 'Completed', ru: 'Пройден' },
-  estMinutes: { en: 'min', ru: 'мин' },
-};

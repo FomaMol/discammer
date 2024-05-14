@@ -28,16 +28,21 @@ main() {
     fi
   fi
 
+  # Stamp the image with the deployed commit so /api/health reports it. The
+  # docker-compose.yml build.args reads GIT_SHA from the environment.
+  export GIT_SHA="$(git rev-parse --short HEAD)"
+
   # --pull refreshes the base-image layers (node:20-slim / python:3.12-slim)
   # so OS security patches actually reach prod.
   $compose build --pull
   $compose up -d
 
   # In-script health probe: `up -d` exits 0 even if the app crash-loops.
-  # Probe the localized home page; on failure restore :prev and fail loudly.
+  # Probe the JSON health endpoint (checks DB connectivity + seed); on failure
+  # restore :prev and fail loudly.
   local ok=""
   for _ in 1 2 3 4 5 6 7 8 9 10 11 12; do
-    if curl -fsSL --max-time 10 -o /dev/null http://127.0.0.1:8000/en/; then
+    if curl -fsSL --max-time 10 -o /dev/null http://127.0.0.1:8000/api/health; then
       ok=1
       break
     fi

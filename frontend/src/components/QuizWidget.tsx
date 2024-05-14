@@ -1,26 +1,5 @@
 import { useId, useState } from 'react';
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-
-const BUNDLES = {
-  en: {
-    heading: '// ASSESSMENT',
-    correct: '[OK] CORRECT',
-    incorrect: '[FAIL] INCORRECT',
-    submit: 'SUBMIT ANSWERS',
-    try_again: 'Re-run assessment',
-    passed_pill: '✓ ASSESSMENT PASSED',
-    options_caption: 'options',
-  },
-  ru: {
-    heading: '// ОЦЕНКА',
-    correct: '[OK] ВЕРНО',
-    incorrect: '[FAIL] НЕВЕРНО',
-    submit: 'ОТПРАВИТЬ ОТВЕТ',
-    try_again: 'Пройти заново',
-    passed_pill: '✓ ОЦЕНКА СДАНА',
-    options_caption: 'вариантов',
-  },
-} as const;
+import { Locale, makeTranslator } from '../utils/i18n';
 
 export interface QuizChoice {
   text: string;
@@ -39,9 +18,8 @@ interface Props {
   locale: Locale;
 }
 
-export default function QuizWidget({ config, locale }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+export default function QuizWidget({ config }: Props) {
+  const tr = makeTranslator('quiz');
   const [selected, setSelected] = useState<number | null>(null);
   const [checked, setChecked] = useState(false);
   // Unique per instance — pages can render several quizzes at once.
