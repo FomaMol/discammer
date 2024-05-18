@@ -20,13 +20,34 @@ if str(_BACKEND) not in sys.path:
 from i18n import get_client_bundle
 
 
-def _flat_keys(bundle: dict[str, dict[str, str]]) -> set[str]:
-    """Flatten ``{namespace: {key: value}}`` into ``{"namespace.key"}``."""
+def _flat_keys(bundle: dict) -> set[str]:
+    """Flatten a (possibly nested) bundle into dotted leaf paths.
+
+    Handles grouped namespaces like ``analyzer.flags.*`` by recursing to leaves.
+    """
     keys: set[str] = set()
-    for namespace, strings in bundle.items():
-        for key in strings:
-            keys.add(f"{namespace}.{key}")
+
+    def walk(prefix: str, node) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                walk(f"{prefix}.{key}" if prefix else key, value)
+        else:
+            keys.add(prefix)
+
+    walk("", bundle)
     return keys
+
+
+def _assert_all_leaves_nonempty_str(bundle: dict) -> None:
+    """Every leaf in the bundle must be a non-empty string."""
+    def walk(prefix: str, node) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                walk(f"{prefix}.{key}" if prefix else key, value)
+        else:
+            assert isinstance(node, str) and node != "", prefix
+
+    walk("", bundle)
 
 
 def test_client_bundle_parity():
@@ -43,11 +64,9 @@ def test_client_bundle_parity():
         f"en-only={sorted(en_keys - ru_keys)} ru-only={sorted(ru_keys - en_keys)}"
     )
 
-    # Every shipped value is a non-empty string (EN fills in any RU gap).
-    for lang_bundle in (en, ru):
-        for namespace, strings in lang_bundle.items():
-            for key, value in strings.items():
-                assert isinstance(value, str) and value != "", f"{namespace}.{key}"
+    # Every shipped leaf value is a non-empty string (EN fills in any RU gap).
+    _assert_all_leaves_nonempty_str(en)
+    _assert_all_leaves_nonempty_str(ru)
 
 
 def test_client_bundle_fills_ru_gaps_from_en(monkeypatch):

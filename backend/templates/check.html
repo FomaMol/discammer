@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}{{ t(lang, 'page_titles.check') }}{% endblock %}
+
+{% block content %}
+
+{% set _lang = lang %}
+
+{# ─────────────────────────────────────────────────────────────────────
+   CHECK — the flagship "Проверка сообщения" red-flag analyzer (F2).
+   SSR explainer + the MessageAnalyzer island. The analyzer is 100%
+   client-side: nothing the reader pastes leaves the browser. The page
+   itself works without JS (the <noscript> 60-second checklist below).
+   ───────────────────────────────────────────────────────────────────── #}
+
+<article class="max-w-[48rem] mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  {# Eyebrow — small mono operator-note line. #}
+  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#6b7588] mb-4">
+    {{ t(_lang, 'check.eyebrow') }}
+  </div>
+
+  {# HEADING. Arrows rule: `check.heading` is PLAIN TEXT; the styled `>` is
+     rendered here by the template (the consumer), never baked into the value. #}
+  <h1 class="font-mono font-bold text-[#e7ecf5] tracking-[-0.02em] leading-[1.15] flex items-baseline gap-2"
+      style="font-size: clamp(1.6rem, 1.25rem + 1.6vw, 2.35rem);">
+    <span class="text-[#65def0]" aria-hidden="true">&gt;</span>
+    {{ t(_lang, 'check.heading') }}
+  </h1>
+
+  <p class="mt-5 sm:mt-6 font-sans text-[16px] sm:text-[18px] leading-[1.6] text-[#e7ecf5] max-w-[62ch]">
+    {{ t(_lang, 'check.lead') }}
+  </p>
+
+  {# ───────────────────────── ANALYZER ISLAND ─────────────────────────
+     MessageAnalyzer mounts here. The island captures its own inner HTML
+     (none — it renders entirely client-side), so there is no SSR fallback
+     markup to preserve; the no-JS surface is the separate <noscript>
+     checklist below, which is always useful on its own.
+     ──────────────────────────────────────────────────────────────────── #}
+  {% set _analyzer_props = {"lang": _lang} %}
+  <section class="mt-9 sm:mt-11 border border-[#202a44] bg-[#0a0d16]/50 rounded-[6px] p-4 sm:p-6"
+           aria-labelledby="check-tool-heading">
+    <h2 id="check-tool-heading" class="sr-only">{{ t(_lang, 'check.heading') }}</h2>
+    <div data-component="MessageAnalyzer" data-props='{{ _analyzer_props | tojson | forceescape }}'></div>
+  </section>
+
+  {# ───────────────────────── NO-JS CHECKLIST ─────────────────────────
+     A static, genuinely useful 60-second checklist. Works with JavaScript
+     off — the real fallback for the live analyzer.
+     ──────────────────────────────────────────────────────────────────── #}
+  <noscript>
+    <section class="mt-9 sm:mt-11 border border-[#f4b965]/40 bg-[#f4b965]/[0.06] rounded-[6px] p-4 sm:p-6"
+             aria-labelledby="check-noscript-heading">
+      <h2 id="check-noscript-heading"
+          class="font-mono text-[12px] uppercase tracking-[0.18em] text-[#f4b965] mb-3">
+        {{ t(_lang, 'check.noscript_heading') }}
+      </h2>
+      <p class="font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[64ch] mb-4">
+        {{ t(_lang, 'check.noscript_intro') }}
+      </p>
+      <ol class="space-y-2.5 list-none">
+        {% for i in range(1, 7) %}
+        <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px] pt-0.5">{{ i }}.</span>
+          <span>{{ t(_lang, 'check.noscript_' ~ i) }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </noscript>
+
+  {# ───────────────────────── HOW TO USE ─────────────────────────────── #}
+  <section class="mt-12 sm:mt-14" aria-labelledby="check-how-heading">
+    <h2 id="check-how-heading"
+        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-4">
+      {{ t(_lang, 'check.how_heading') }}
+    </h2>
+    <ol class="space-y-3 list-none">
+      {% for i in range(1, 4) %}
+      <li class="flex gap-3 font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch]">
+        <span class="shrink-0 font-mono text-[#65def0] tabular-nums text-[14px] pt-0.5">{{ i }}.</span>
+        <span>{{ t(_lang, 'check.how_' ~ i) }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  {# ───────────────────────── PRIVACY ────────────────────────────────── #}
+  <section class="mt-10 sm:mt-12" aria-labelledby="check-privacy-heading">
+    <h2 id="check-privacy-heading"
+        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-3">
+      {{ t(_lang, 'check.privacy_heading') }}
+    </h2>
+    <p class="font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch]">
+      {{ t(_lang, 'check.privacy_body') }}
+    </p>
+  </section>
+
+  {# ───────────────────────── WORKED EXAMPLE ─────────────────────────
+     Authority by specificity: one real-shaped scam message per language
+     and exactly which flags it trips. The message body keeps its own
+     terminal-style framing; the analysis is a plain list.
+     ──────────────────────────────────────────────────────────────────── #}
+  <section class="mt-10 sm:mt-12" aria-labelledby="check-example-heading">
+    <h2 id="check-example-heading"
+        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-3">
+      {{ t(_lang, 'check.example_heading') }}
+    </h2>
+    <p class="font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch] mb-4">
+      {{ t(_lang, 'check.example_intro') }}
+    </p>
+
+    <figure class="border border-[#e76670]/40 bg-[#121828] rounded-[4px] px-4 py-4">
+      <figcaption class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#e76670] mb-2">
+        {{ t(_lang, 'guide.case_file_strip_confidential') }}
+      </figcaption>
+      <blockquote class="font-sans text-[14px] leading-[1.6] text-[#e7ecf5]">
+        {{ t(_lang, 'check.example_message') }}
+      </blockquote>
+    </figure>
+
+    <p class="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-3">
+      {{ t(_lang, 'check.example_flags_intro') }}
+    </p>
+    <ul class="space-y-2 list-none">
+      {% for i in range(1, 6) %}
+      <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
+        <span class="shrink-0 text-[#e76670]" aria-hidden="true">&#9656;</span>
+        <span>{{ t(_lang, 'check.example_flag_' ~ i) }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+</article>
+
+{% endblock %}

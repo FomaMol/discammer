@@ -1,7 +1,8 @@
 import re
 
-from fastapi import APIRouter, Depends, Path, Request
+from fastapi import APIRouter, Depends, Path, Query, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
+from markupsafe import Markup
 
 from config import STATIC_DIR
 from database import (
@@ -16,9 +17,11 @@ from database import (
     get_posts,
     get_related_guides,
     get_related_posts,
+    search_content,
 )
 from i18n import SUPPORTED_LANGS, detect_lang, normalize_lang, t
 from markdown_renderer import render_markdown
+from routers.api import snippet_to_html
 
 router = APIRouter()
 
@@ -176,9 +179,22 @@ async def game_compat(request: Request):
     return _legacy_redirect(request, "/game")
 
 
+@router.get("/search", include_in_schema=False)
+async def search_compat(request: Request):
+    # Preserve any ?q= so an un-prefixed /search?q=... still lands on results.
+    qs = request.url.query
+    suffix = f"?{qs}" if qs else ""
+    return _legacy_redirect(request, f"/search{suffix}")
+
+
 @router.get("/about", include_in_schema=False)
 async def about_compat(request: Request):
     return _legacy_redirect(request, "/about")
+
+
+@router.get("/check", include_in_schema=False)
+async def check_compat(request: Request):
+    return _legacy_redirect(request, "/check")
 
 
 def _safe_next(next_param: str | None, target: str) -> str:
@@ -470,6 +486,65 @@ async def about(request: Request, lang: str = LangPath):
         {
             **_base_context(request, lang),
             "page_title": t(lang, "about.page_title"),
+        },
+    )
+
+
+@router.get("/{lang}/check", response_class=HTMLResponse)
+async def check_page(request: Request, lang: str = LangPath):
+    """SSR explainer for the message red-flag analyzer (F2).
+
+    The page mounts the MessageAnalyzer island, which runs entirely in the
+    browser — no text the reader pastes ever reaches the server. This handler
+    only renders the static explainer, worked example, and no-JS checklist.
+    """
+    return _templates(request).TemplateResponse(
+        request,
+        "check.html",
+        {
+            **_base_context(request, lang),
+            "page_title": t(lang, "page_titles.check"),
+        },
+    )
+
+
+@router.get("/{lang}/search", response_class=HTMLResponse)
+async def search_page(
+    request: Request,
+    lang: str = LangPath,
+    q: str = Query(default=""),
+    conn=Depends(get_conn),
+):
+    """SSR site search. With ``?q=`` it renders results server-side (progressive
+    enhancement base for the SearchConsole island); without, the empty-state
+    explainer. Snippet HTML is built in Python via the SAME escape-then-mark as
+    the API and marked safe so Jinja autoescape leaves it intact — the markers
+    were swapped for <mark> only AFTER content was HTML-escaped.
+    """
+    query = q.strip()
+    results: list[dict] = []
+    if query:
+        rows = await search_content(conn, q=query, kind=None, limit=20, lang=lang)
+        for row in rows:
+            results.append(
+                {
+                    "kind": row["kind"],
+                    "slug": row["slug"],
+                    "title": row["title"],
+                    # Markup(...) marks the already-escaped-then-marked HTML safe.
+                    "snippet_html": Markup(snippet_to_html(row.get("snippet_raw"))),
+                }
+            )
+
+    return _templates(request).TemplateResponse(
+        request,
+        "search.html",
+        {
+            **_base_context(request, lang),
+            "q": query,
+            "results": results,
+            "result_count": len(results),
+            "page_title": t(lang, "page_titles.search"),
         },
     )
 

@@ -16,7 +16,8 @@
 
 - **W0 baseline** ✅ (2026-06-12): pytest 28/28, tsc clean, build clean (no drift), 40 full-page screenshots → `/tmp/dcm-v4-before/`. Metrics "Before" column filled. v4 review base SHA = `56a2bef`. Work branch: `v4-features`.
 - **W1** ✅ commit `e13324a` — A1 (bundle re-split, hashed chunks + manifest, `base:'/static/'`, Plyr off home, #321-free verified), A3+A4 (1 conn/request + seed flock + `SEED_ON_STARTUP`), A8 (HEAD /play, cert legacy-name guard), A5 (git-LFS config — migrate DEFERRED to owner; prod git-lfs install is a pre-push prerequisite), A6 (nginx vhost + RECONCILE markers). pytest 38, drift guard clean. **Not pushed.**
-- **W2** — in progress.
+- **W2** ✅ commit `3289b8b` — backend-obs (O1 request-ID logging + LOG_FORMAT, O2 `/api/health` w/ GIT_SHA+counts+503, F3 **enhanced the existing seo.py feed** 20→30 instead of a duplicate `routers/feeds.py` [avoided a route collision], A7 non-root Dockerfile+compose [container build deferred to owner]); A2 i18n unify (22 client.* namespaces, 168 strings/locale moved verbatim, 114 dead backend keys removed → 485 leaves en==ru, audit+parity tests); F4 (66 per-content OG cards, page_image wired). pytest 46→52. **Gate fixes:** `forceescape`→`tojson` in the `<script>` bundle inject (forceescape corrupts JSON inside `<script>`); RU/EN sweep showed only typewriter animation-phase diffs (text byte-identical), 0 missing keys across all islands incl. quiz/exam/scenario/redflags/cert. **Not pushed.**
+- **W3** — in progress (F1 search → F2 analyzer → F5 progress export → I1 integration).
 
 ---
 

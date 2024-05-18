@@ -19,14 +19,17 @@
 
 export type Locale = 'en' | 'ru';
 
+/** A locale value is a leaf string or a nested group (e.g. `analyzer.flags.*`). */
+type I18nNode = string | { [key: string]: I18nNode };
+
 declare global {
   interface Window {
     __DISCAMMER_I18N__?: {
       lang?: Locale;
       otherLang?: Locale;
       switchUrl?: string;
-      /** namespace → key → value, already resolved to the active locale. */
-      strings?: Record<string, Record<string, string>>;
+      /** namespace → (possibly nested) keys, already resolved to the active locale. */
+      strings?: Record<string, Record<string, I18nNode>>;
     };
   }
 }
@@ -72,8 +75,17 @@ export function makeTranslator(
       typeof window !== 'undefined'
         ? window.__DISCAMMER_I18N__?.strings?.[namespace]
         : undefined;
-    let value = table?.[key];
-    if (value === undefined) {
+    // Walk dotted keys (e.g. 'flags.urgency_label') through nested groups, so a
+    // grouped namespace like analyzer.flags.* resolves the same way a flat key
+    // does. A single-segment key is just a one-step walk.
+    let node: I18nNode | undefined = table;
+    for (const seg of key.split('.')) {
+      node = node !== undefined && node !== null && typeof node === 'object' ? node[seg] : undefined;
+    }
+    let value: string;
+    if (typeof node === 'string') {
+      value = node;
+    } else {
       console.warn('[i18n] missing', namespace + '.' + key);
       value = key;
     }

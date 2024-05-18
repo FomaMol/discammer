@@ -785,6 +785,104 @@ def load_lessons() -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Full-text search index (Task F1)
+# ---------------------------------------------------------------------------
+# A FTS5 virtual table ``content_fts`` indexes posts + guides for both locales.
+# It is dropped + recreated on every reseed (like the content tables) so the
+# index never drifts from the source rows. ``database.search_content`` queries
+# it; ``config.SEARCH_ENABLED`` is downgraded to False if this SQLite build
+# lacks FTS5 (probed below), in which case search degrades to a LIKE scan.
+
+_MD_STRIP_PATTERNS = [
+    (re.compile(r"```.*?```", re.DOTALL), " "),      # fenced code blocks
+    (re.compile(r"`([^`]*)`"), r"\1"),                # inline code
+    (re.compile(r"!\[[^\]]*\]\([^)]*\)"), " "),       # images
+    (re.compile(r"\[([^\]]*)\]\([^)]*\)"), r"\1"),    # links -> link text
+    (re.compile(r"<[^>]+>"), " "),                     # raw HTML tags
+    (re.compile(r"^#{1,6}\s*", re.MULTILINE), ""),    # heading markers
+    (re.compile(r"^\s*>\s?", re.MULTILINE), ""),      # blockquote markers
+    (re.compile(r"[*_~]{1,3}"), ""),                   # emphasis markers
+    (re.compile(r"^\s*[-*+]\s+", re.MULTILINE), ""),  # bullet markers
+    (re.compile(r"\s+"), " "),                          # collapse whitespace
+]
+
+
+def strip_markdown(text: str) -> str:
+    """Reduce a markdown string to searchable plain text.
+
+    Drops code fences, link/image syntax, raw HTML tags, heading/list/quote
+    markers and emphasis punctuation, then collapses whitespace. The FTS body is
+    indexed from this so the index holds words, not markup.
+    """
+    if not text:
+        return ""
+    out = text
+    for pattern, repl in _MD_STRIP_PATTERNS:
+        out = pattern.sub(repl, out)
+    return out.strip()
+
+
+async def build_search_index(db) -> None:
+    """(Re)build the ``content_fts`` FTS5 index from posts + guides.
+
+    Caller passes the open aiosqlite connection used by ``_reseed_content`` and
+    holds the seed lock; this runs inside that same transaction so the index is
+    rebuilt atomically with the content it mirrors. If FTS5 is unavailable the
+    function sets ``config.SEARCH_ENABLED = False`` and leaves no virtual table.
+    """
+    # Probe FTS5 support in a scratch table; drop it immediately.
+    try:
+        await db.execute("DROP TABLE IF EXISTS _fts5_probe")
+        await db.execute("CREATE VIRTUAL TABLE _fts5_probe USING fts5(x)")
+        await db.execute("DROP TABLE _fts5_probe")
+    except Exception as exc:  # noqa: BLE001 - any failure means no FTS5
+        config.SEARCH_ENABLED = False
+        log.warning(
+            "FTS5 not available (%s) — site search degraded to LIKE scan", exc
+        )
+        await db.execute("DROP TABLE IF EXISTS content_fts")
+        return
+
+    config.SEARCH_ENABLED = True
+    await db.execute("DROP TABLE IF EXISTS content_fts")
+    await db.execute(
+        "CREATE VIRTUAL TABLE content_fts USING fts5("
+        "kind, slug, title, body, lang UNINDEXED, "
+        "tokenize='unicode61 remove_diacritics 2')"
+    )
+
+    # Posts: body = title + subtitle + stripped markdown content.
+    cursor = await db.execute(
+        "SELECT slug, locale, title, subtitle, content FROM post"
+    )
+    for row in await cursor.fetchall():
+        slug, locale, title, subtitle, content = row
+        body = " ".join(
+            part for part in (title, subtitle, strip_markdown(content or "")) if part
+        )
+        await db.execute(
+            "INSERT INTO content_fts (kind, slug, title, body, lang) "
+            "VALUES ('post', ?, ?, ?, ?)",
+            (slug, title or "", body, locale),
+        )
+
+    # Guides: body = title + description + stripped markdown content.
+    cursor = await db.execute(
+        "SELECT slug, locale, title, description, content FROM scam_guide"
+    )
+    for row in await cursor.fetchall():
+        slug, locale, title, description, content = row
+        body = " ".join(
+            part for part in (title, description, strip_markdown(content or "")) if part
+        )
+        await db.execute(
+            "INSERT INTO content_fts (kind, slug, title, body, lang) "
+            "VALUES ('guide', ?, ?, ?, ?)",
+            (slug, title or "", body, locale),
+        )
+
+
+# ---------------------------------------------------------------------------
 # Seed entry point
 # ---------------------------------------------------------------------------
 
@@ -929,5 +1027,9 @@ async def _reseed_content() -> None:
                     int(lesson.get("est_minutes", 5)),
                 ),
             )
+
+        # Build the full-text search index from the rows just inserted. Runs
+        # inside this transaction so the index is atomic with its source content.
+        await build_search_index(db)
 
         await db.commit()

@@ -72,6 +72,75 @@ client.scenario.outcome_mission_failed
 client.journal.ALL
 client.journal.GUIDE
 
+# MessageAnalyzer.tsx (F2) — flag label/body selected by the fired flag's
+# flagKey, and the signal-strength word selected by severity:
+#   tr(`flags.${flag.flagKey}_label`) / tr(`flags.${flag.flagKey}_body`)
+#   tr(`sev_${flag.severity}`)
+# All are template-literal lookups (never string literals), so the audit can't
+# see them. Each corresponds to a rule id in frontend/src/data/redflags.ts.
+client.analyzer.flags.urgency_label
+client.analyzer.flags.urgency_body
+client.analyzer.flags.otp_ask_label
+client.analyzer.flags.otp_ask_body
+client.analyzer.flags.credential_ask_label
+client.analyzer.flags.credential_ask_body
+client.analyzer.flags.safe_account_label
+client.analyzer.flags.safe_account_body
+client.analyzer.flags.impersonation_label
+client.analyzer.flags.impersonation_body
+client.analyzer.flags.crypto_rail_label
+client.analyzer.flags.crypto_rail_body
+client.analyzer.flags.gift_card_rail_label
+client.analyzer.flags.gift_card_rail_body
+client.analyzer.flags.p2p_transfer_label
+client.analyzer.flags.p2p_transfer_body
+client.analyzer.flags.url_shortener_label
+client.analyzer.flags.url_shortener_body
+client.analyzer.flags.punycode_label
+client.analyzer.flags.punycode_body
+client.analyzer.flags.homograph_label
+client.analyzer.flags.homograph_body
+client.analyzer.flags.prize_win_label
+client.analyzer.flags.prize_win_body
+client.analyzer.flags.guaranteed_roi_label
+client.analyzer.flags.guaranteed_roi_body
+client.analyzer.flags.qr_code_label
+client.analyzer.flags.qr_code_body
+client.analyzer.flags.deadline_clock_label
+client.analyzer.flags.deadline_clock_body
+client.analyzer.flags.secrecy_label
+client.analyzer.flags.secrecy_body
+client.analyzer.flags.account_threat_label
+client.analyzer.flags.account_threat_body
+client.analyzer.flags.login_link_bait_label
+client.analyzer.flags.login_link_bait_body
+client.analyzer.flags.advance_fee_label
+client.analyzer.flags.advance_fee_body
+client.analyzer.flags.attachment_bait_label
+client.analyzer.flags.attachment_bait_body
+client.analyzer.flags.romance_money_label
+client.analyzer.flags.romance_money_body
+client.analyzer.sev_1
+client.analyzer.sev_2
+client.analyzer.sev_3
+
+# check.html (F2) — numbered checklist / how-to / example-flag lines built by
+# index in a Jinja range() loop: t(_lang, 'check.noscript_' ~ i) etc.
+check.how_1
+check.how_2
+check.how_3
+check.noscript_1
+check.noscript_2
+check.noscript_3
+check.noscript_4
+check.noscript_5
+check.noscript_6
+check.example_flag_1
+check.example_flag_2
+check.example_flag_3
+check.example_flag_4
+check.example_flag_5
+
 # ── test fixtures ───────────────────────────────────────────────────────────
 
 # backend/tests/test_i18n.py uses this key as a representative interpolation

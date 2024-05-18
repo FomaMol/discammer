@@ -1,3 +1,4 @@
+from html import escape as html_escape
 from typing import List, Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -5,6 +6,8 @@ from fastapi.responses import JSONResponse
 
 from config import GIT_SHA
 from database import (
+    SNIPPET_CLOSE,
+    SNIPPET_OPEN,
     get_conn,
     get_course_modules,
     get_db,
@@ -13,6 +16,7 @@ from database import (
     get_lessons_for_module,
     get_module_by_slug,
     get_posts,
+    search_content,
 )
 from models import (
     CourseModuleResponse,
@@ -26,6 +30,26 @@ router = APIRouter(prefix="/api", tags=["api"])
 
 
 Locale = Literal["en", "ru"]
+
+
+# ---------------------------------------------------------------------------
+# Search snippet rendering — the ONLY sanctioned dangerouslySetInnerHTML field.
+# ---------------------------------------------------------------------------
+def snippet_to_html(snippet_raw: str | None) -> str:
+    """Convert a raw FTS snippet (with \\x01/\\x02 markers) to safe highlight HTML.
+
+    Order is load-bearing and is the entire security contract:
+      1. HTML-escape the raw text FIRST — any ``<``/``>``/``&`` from indexed
+         CONTENT becomes ``&lt;``/``&gt;``/``&amp;`` and can never be a tag.
+      2. THEN swap the control-char markers for ``<mark>``/``</mark>``.
+    The result is the only string ever fed to ``dangerouslySetInnerHTML`` in the
+    SearchConsole island / rendered |safe in search.html.
+    """
+    if not snippet_raw:
+        return ""
+    escaped = html_escape(snippet_raw)
+    escaped = escaped.replace(SNIPPET_OPEN, "<mark>").replace(SNIPPET_CLOSE, "</mark>")
+    return escaped
 
 
 @router.get("/health", include_in_schema=False)
@@ -107,3 +131,32 @@ async def get_course_lesson(
     if not row:
         raise HTTPException(status_code=404, detail="Lesson not found")
     return row
+
+
+@router.get("/search")
+async def search(
+    q: str = Query(default="", description="Search query"),
+    kind: Optional[Literal["post", "guide"]] = Query(default=None),
+    limit: int = Query(default=10, ge=1, le=20),
+    lang: Locale = Query(default="en"),
+    conn=Depends(get_conn),
+):
+    """Full-text search over posts + guides.
+
+    Returns a JSON list ``[{kind, slug, title, snippet_html}]`` where
+    ``snippet_html`` is the escape-then-marked highlight string (see
+    ``snippet_to_html``) — the only field a consumer may pass to
+    ``dangerouslySetInnerHTML``. A blank/whitespace ``q`` yields ``[]`` (200).
+    """
+    if not q or not q.strip():
+        return []
+    rows = await search_content(conn, q=q, kind=kind, limit=limit, lang=lang)
+    return [
+        {
+            "kind": row["kind"],
+            "slug": row["slug"],
+            "title": row["title"],
+            "snippet_html": snippet_to_html(row.get("snippet_raw")),
+        }
+        for row in rows
+    ]

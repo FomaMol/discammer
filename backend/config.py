@@ -27,6 +27,14 @@ SEED_ON_STARTUP = os.environ.get("SEED_ON_STARTUP", "1") not in ("0", "false", "
 # short git SHA as a build-arg → ENV; locally it stays "dev".
 GIT_SHA = os.environ.get("GIT_SHA", "dev")
 
+# Site search capability flag (Task F1). The seeder builds an FTS5 virtual
+# table (``content_fts``) on startup; if the live SQLite build was compiled
+# without FTS5 this is flipped to False and ``search_content`` falls back to a
+# LIKE scan. Default on — most SQLite builds (incl. the macOS/py3.14 one here)
+# ship FTS5. ``seed_data.build_search_index`` probes for it at startup and
+# downgrades this flag if the CREATE VIRTUAL TABLE raises.
+SEARCH_ENABLED = True
+
 # Structured request logging format for the "discammer" logger. "text" emits a
 # readable single line; "json" emits a one-line JSON object (easier to ship to
 # a log aggregator). Dependency-free — see ``configure_logging`` below.

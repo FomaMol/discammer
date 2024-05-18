@@ -33,7 +33,7 @@
   <meta name="generator" content="DiScammer">
   {% if _canonical_url %}<link rel="canonical" href="{{ _canonical_url }}">{% endif %}
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="alternate" type="application/rss+xml" title="DiScammer journal RSS" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="DiScammer journal RSS" href="{{ _origin }}/feed.xml">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <meta property="og:site_name" content="DiScammer">
   <meta property="og:title" content="{{ _meta_title }}">
@@ -124,7 +124,7 @@
       <!-- Desktop nav — active section gets aria-current + cyan underline (DESIGN.md nav-link). -->
       {% set _nav_path = request.url.path if request else '' %}
       <div class="hidden md:flex items-center gap-1">
-        {% for _section, _label_key in [('course', 'nav.course'), ('journal', 'nav.journal'), ('game', 'nav.play_game')] %}
+        {% for _section, _label_key in [('course', 'nav.course'), ('journal', 'nav.journal'), ('check', 'nav.check'), ('search', 'nav.search'), ('game', 'nav.play_game')] %}
         {% set _section_href = '/' ~ _lang ~ '/' ~ _section %}
         {% set _is_current = _nav_path.rstrip('/') == _section_href %}
         {% set _is_active = _is_current or _nav_path.startswith(_section_href ~ '/') %}
@@ -171,14 +171,18 @@
         "links": [
           {"label": t(_lang, "nav.course"), "href": "/" ~ _lang ~ "/course"},
           {"label": t(_lang, "nav.journal"), "href": "/" ~ _lang ~ "/journal"},
+          {"label": t(_lang, "nav.check"), "href": "/" ~ _lang ~ "/check"},
+          {"label": t(_lang, "nav.search"), "href": "/" ~ _lang ~ "/search"},
           {"label": t(_lang, "nav.play_game"), "href": "/" ~ _lang ~ "/game"}
         ]
       } %}
       <div data-component="MobileMenu" data-props='{{ _mobile_menu_props | tojson | forceescape }}'>
         <noscript>
-          <div class="md:hidden flex gap-3 font-mono uppercase text-[10px] tracking-[0.16em]">
+          <div class="md:hidden flex flex-wrap gap-x-3 gap-y-1 font-mono uppercase text-[10px] tracking-[0.16em]">
             <a href="/{{ _lang }}/course" class="text-cyan">{{ t(_lang, 'nav.course') }}</a>
             <a href="/{{ _lang }}/journal" class="text-cyan">{{ t(_lang, 'nav.journal') }}</a>
+            <a href="/{{ _lang }}/check" class="text-cyan">{{ t(_lang, 'nav.check') }}</a>
+            <a href="/{{ _lang }}/search" class="text-cyan">{{ t(_lang, 'nav.search') }}</a>
             <a href="/{{ _lang }}/game" class="text-cyan">{{ t(_lang, 'nav.game_short') }}</a>
             <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-green">{{ t(_lang, 'lang.other_short') }}</a>
           </div>
