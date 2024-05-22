@@ -74,10 +74,79 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-build]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build and start the app (docker compose)
+        run: docker compose up -d --build
+
+      - name: Wait for /api/health
+        run: |
+          # Poll the health endpoint until it returns 200 (~60s budget).
+          for i in $(seq 1 30); do
+            code=$(curl -s --max-time 5 -o /dev/null -w "%{http_code}" "http://127.0.0.1:8000/api/health" || echo 000)
+            echo "Attempt $i: GET /api/health -> HTTP $code"
+            if [ "$code" = "200" ]; then exit 0; fi
+            sleep 2
+          done
+          echo "App did not become healthy in time"
+          docker compose logs
+          exit 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - name: Install E2E dependencies
+        working-directory: e2e
+        run: npm ci || npm install
+
+      - name: Install Playwright chromium
+        working-directory: e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        working-directory: e2e
+        env:
+          # Point at the compose-served app; this skips the config's local
+          # uvicorn webServer entirely.
+          E2E_BASE_URL: http://127.0.0.1:8000
+        run: npx playwright test
+
+      - name: Dump app logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report
+          retention-days: 7
+
+      - name: Upload Playwright test-results (traces/screenshots)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: e2e/test-results
+          retention-days: 7
+
   deploy:
     name: Deploy to production
     runs-on: ubuntu-latest
-    needs: [backend-tests, frontend-build, docker-build]
+    needs: [backend-tests, frontend-build, docker-build, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
     timeout-minutes: 20

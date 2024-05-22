@@ -7,14 +7,22 @@ main() {
 
   cd "$repo_dir"
 
-  git lfs install --local
+  # Materialize LFS objects only when git-lfs is installed. The Unity binaries
+  # are currently committed as plain blobs (no `git lfs migrate` has run yet),
+  # so this is a no-op today. The guard means a host WITHOUT git-lfs still
+  # deploys with the real blobs instead of aborting under `set -e` for no gain.
+  if command -v git-lfs >/dev/null 2>&1; then
+    git lfs install --local
+  fi
 
   git fetch --prune origin main
   git reset --hard origin/main
 
-  # `git reset --hard` only checks out LFS pointer files; pull the real Unity
-  # WebGL brotli binaries before the Docker build copies them into the image.
-  git lfs pull
+  if command -v git-lfs >/dev/null 2>&1; then
+    # `git reset --hard` leaves LFS pointer files (once migration happens); pull
+    # the real Unity WebGL brotli binaries before the Docker build copies them.
+    git lfs pull
+  fi
 
   # Tag the currently running image as :prev so we can roll back if the new
   # build starts but the app inside is broken. Tagged images are immune to
@@ -31,6 +39,12 @@ main() {
   # Stamp the image with the deployed commit so /api/health reports it. The
   # docker-compose.yml build.args reads GIT_SHA from the environment.
   export GIT_SHA="$(git rev-parse --short HEAD)"
+
+  # Run the container as the image's baked non-root app user (uid 10001) so it
+  # matches the one-time `chown -R 10001:10001 /opt/discammer/data` (see
+  # docker-compose.prod.yml). Exporting it here is the single source of truth —
+  # the owner only has to chown the data volume, not also remember to set this.
+  export APP_UID="${APP_UID:-10001}" APP_GID="${APP_GID:-10001}"
 
   # --pull refreshes the base-image layers (node:20-slim / python:3.12-slim)
   # so OS security patches actually reach prod.

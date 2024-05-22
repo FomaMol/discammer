@@ -593,6 +593,7 @@
       "input_label": "Search the site",
       "results_label": "Search results",
       "result_count": "{count} results",
+      "result_count_one": "{count} result",
       "no_results": "Nothing matched. Try fewer or different words.",
       "badge_post": "BRIEFING",
       "badge_guide": "GUIDE"

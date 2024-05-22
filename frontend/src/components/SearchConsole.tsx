@@ -193,15 +193,22 @@ export default function SearchConsole({
         </button>
       </form>
 
-      {/* Polite result-count announcement. */}
+      {/* Polite result-count announcement. Singular key avoids "1 results".
+          Literal tr() calls per branch so the i18n audit sees both keys used. */}
       <p aria-live="polite" className="sr-only">
-        {searched ? tr('result_count', { count: results.length }) : ''}
+        {!searched
+          ? ''
+          : results.length === 1
+            ? tr('result_count_one', { count: results.length })
+            : tr('result_count', { count: results.length })}
       </p>
 
       {results.length > 0 && (
         <>
           <p className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums" aria-hidden="true">
-            {tr('result_count', { count: results.length })}
+            {results.length === 1
+              ? tr('result_count_one', { count: results.length })
+              : tr('result_count', { count: results.length })}
           </p>
           <ul
             ref={listRef}

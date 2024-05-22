@@ -14,26 +14,26 @@
     "file": "js/chunks/progress-CU5lLP2l.js",
     "name": "progress"
   },
-  "_useReducedMotion-CIijbkj3.js": {
-    "file": "js/chunks/useReducedMotion-CIijbkj3.js",
+  "_useReducedMotion-CgsONO0f.js": {
+    "file": "js/chunks/useReducedMotion-CgsONO0f.js",
     "name": "useReducedMotion",
     "imports": [
       "src/main.tsx"
     ]
   },
   "src/components/ContentCarousel.tsx": {
-    "file": "js/chunks/ContentCarousel-B6NVV3SM.js",
+    "file": "js/chunks/ContentCarousel-4x9sFRdw.js",
     "name": "ContentCarousel",
     "src": "src/components/ContentCarousel.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/CourseProgress.tsx": {
-    "file": "js/chunks/CourseProgress-CG9TYMF7.js",
+    "file": "js/chunks/CourseProgress-7yBXjCA0.js",
     "name": "CourseProgress",
     "src": "src/components/CourseProgress.tsx",
     "isDynamicEntry": true,
@@ -45,7 +45,7 @@
     ]
   },
   "src/components/GameLauncher.tsx": {
-    "file": "js/chunks/GameLauncher-B3RvKjdZ.js",
+    "file": "js/chunks/GameLauncher-BTZ9Axr-.js",
     "name": "GameLauncher",
     "src": "src/components/GameLauncher.tsx",
     "isDynamicEntry": true,
@@ -55,39 +55,39 @@
     ]
   },
   "src/components/HeroShader.tsx": {
-    "file": "js/chunks/HeroShader-BkY6KX7X.js",
+    "file": "js/chunks/HeroShader-CPlNa-Ws.js",
     "name": "HeroShader",
     "src": "src/components/HeroShader.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/HeroTerminal.tsx": {
-    "file": "js/chunks/HeroTerminal-Dlr09BiX.js",
+    "file": "js/chunks/HeroTerminal-tcRAuSb1.js",
     "name": "HeroTerminal",
     "src": "src/components/HeroTerminal.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/HeroTypewriter.tsx": {
-    "file": "js/chunks/HeroTypewriter-WnIVIQdZ.js",
+    "file": "js/chunks/HeroTypewriter-B5bSZmZw.js",
     "name": "HeroTypewriter",
     "src": "src/components/HeroTypewriter.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/JournalBroadsheet.tsx": {
-    "file": "js/chunks/JournalBroadsheet-DBVbEQTH.js",
+    "file": "js/chunks/JournalBroadsheet-D3CD-mfj.js",
     "name": "JournalBroadsheet",
     "src": "src/components/JournalBroadsheet.tsx",
     "isDynamicEntry": true,
@@ -98,7 +98,7 @@
     ]
   },
   "src/components/LessonFooter.tsx": {
-    "file": "js/chunks/LessonFooter-DvFvDjNu.js",
+    "file": "js/chunks/LessonFooter-B8WJO00U.js",
     "name": "LessonFooter",
     "src": "src/components/LessonFooter.tsx",
     "isDynamicEntry": true,
@@ -109,7 +109,7 @@
     ]
   },
   "src/components/LessonWidget.tsx": {
-    "file": "js/chunks/LessonWidget-DxHfFi5P.js",
+    "file": "js/chunks/LessonWidget-DgsAV4rO.js",
     "name": "LessonWidget",
     "src": "src/components/LessonWidget.tsx",
     "isDynamicEntry": true,
@@ -120,29 +120,29 @@
     ]
   },
   "src/components/MessageAnalyzer.tsx": {
-    "file": "js/chunks/MessageAnalyzer-Bl7UWVv0.js",
+    "file": "js/chunks/MessageAnalyzer-Dt08LtG-.js",
     "name": "MessageAnalyzer",
     "src": "src/components/MessageAnalyzer.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/MissionBriefingTerminal.tsx": {
-    "file": "js/chunks/MissionBriefingTerminal-a6QqLjAE.js",
+    "file": "js/chunks/MissionBriefingTerminal-Cio4THIb.js",
     "name": "MissionBriefingTerminal",
     "src": "src/components/MissionBriefingTerminal.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/MobileMenu.tsx": {
-    "file": "js/chunks/MobileMenu-DZwgapf5.js",
+    "file": "js/chunks/MobileMenu-DzI9EAQR.js",
     "name": "MobileMenu",
     "src": "src/components/MobileMenu.tsx",
     "isDynamicEntry": true,
@@ -152,7 +152,7 @@
     ]
   },
   "src/components/ModuleLessons.tsx": {
-    "file": "js/chunks/ModuleLessons-BsIB7PaM.js",
+    "file": "js/chunks/ModuleLessons-TaEmAVPR.js",
     "name": "ModuleLessons",
     "src": "src/components/ModuleLessons.tsx",
     "isDynamicEntry": true,
@@ -163,7 +163,7 @@
     ]
   },
   "src/components/ObjectivesPanel.tsx": {
-    "file": "js/chunks/ObjectivesPanel-BFgfhhHp.js",
+    "file": "js/chunks/ObjectivesPanel-CcP_Getg.js",
     "name": "ObjectivesPanel",
     "src": "src/components/ObjectivesPanel.tsx",
     "isDynamicEntry": true,
@@ -173,7 +173,7 @@
     ]
   },
   "src/components/OpsDebriefPanel.tsx": {
-    "file": "js/chunks/OpsDebriefPanel-CQvOzbW2.js",
+    "file": "js/chunks/OpsDebriefPanel-B7ITPM5V.js",
     "name": "OpsDebriefPanel",
     "src": "src/components/OpsDebriefPanel.tsx",
     "isDynamicEntry": true,
@@ -183,7 +183,7 @@
     ]
   },
   "src/components/ScamTypesGrid.tsx": {
-    "file": "js/chunks/ScamTypesGrid-ZXxeZAg3.js",
+    "file": "js/chunks/ScamTypesGrid-CDXJMEWr.js",
     "name": "ScamTypesGrid",
     "src": "src/components/ScamTypesGrid.tsx",
     "isDynamicEntry": true,
@@ -194,7 +194,7 @@
     ]
   },
   "src/components/SearchConsole.tsx": {
-    "file": "js/chunks/SearchConsole-DAbCdpfX.js",
+    "file": "js/chunks/SearchConsole-e5ogKo7x.js",
     "name": "SearchConsole",
     "src": "src/components/SearchConsole.tsx",
     "isDynamicEntry": true,
@@ -204,18 +204,18 @@
     ]
   },
   "src/components/SimulateTerminal.tsx": {
-    "file": "js/chunks/SimulateTerminal-BFRck1mZ.js",
+    "file": "js/chunks/SimulateTerminal-PeL9kC7C.js",
     "name": "SimulateTerminal",
     "src": "src/components/SimulateTerminal.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-CIijbkj3.js"
+      "_useReducedMotion-CgsONO0f.js"
     ]
   },
   "src/components/VideoPlayer.tsx": {
-    "file": "js/chunks/VideoPlayer-D2uyuqqK.js",
+    "file": "js/chunks/VideoPlayer-BE3vbNEp.js",
     "name": "VideoPlayer",
     "src": "src/components/VideoPlayer.tsx",
     "isDynamicEntry": true,
@@ -228,7 +228,7 @@
     ]
   },
   "src/components/WordmarkReveal.tsx": {
-    "file": "js/chunks/WordmarkReveal-BWNt6LmV.js",
+    "file": "js/chunks/WordmarkReveal-03yfPK6Y.js",
     "name": "WordmarkReveal",
     "src": "src/components/WordmarkReveal.tsx",
     "isDynamicEntry": true,
@@ -237,7 +237,7 @@
     ]
   },
   "src/main.tsx": {
-    "file": "js/main-DwXwedtv.js",
+    "file": "js/main-DYSdCvOL.js",
     "name": "main",
     "src": "src/main.tsx",
     "isEntry": true,

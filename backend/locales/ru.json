@@ -593,6 +593,7 @@
       "input_label": "Поиск по сайту",
       "results_label": "Результаты поиска",
       "result_count": "Найдено: {count}",
+      "result_count_one": "Найдено: {count}",
       "no_results": "Ничего не нашлось. Попробуй другие слова или их меньше.",
       "badge_post": "СТАТЬЯ",
       "badge_guide": "РАЗБОР"

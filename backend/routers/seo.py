@@ -66,6 +66,16 @@ def _xml_escape(value: str) -> str:
     )
 
 
+def _cdata(value: str) -> str:
+    """Wrap ``value`` in a CDATA section, neutralising any literal ``]]>``.
+
+    A title/subtitle containing ``]]>`` would otherwise close the CDATA early
+    and let raw markup leak into the feed. The standard split keeps the content
+    verbatim while breaking the terminator across two CDATA sections.
+    """
+    return f"<![CDATA[{value.replace(']]>', ']]]]><![CDATA[>')}]]>"
+
+
 @router.get("/sitemap.xml", include_in_schema=False)
 async def sitemap_xml(request: Request) -> Response:
     base = _base_url(request)
@@ -147,11 +157,11 @@ async def rss_feed(request: Request) -> Response:
         pub_date = _to_rfc822(post.get("published_at"))
         items.append(
             "  <item>\n"
-            f"    <title><![CDATA[{title}]]></title>\n"
+            f"    <title>{_cdata(title)}</title>\n"
             f"    <link>{_xml_escape(url)}</link>\n"
             f"    <guid isPermaLink=\"true\">{_xml_escape(url)}</guid>\n"
             f"    <pubDate>{pub_date}</pubDate>\n"
-            f"    <description><![CDATA[{subtitle}]]></description>\n"
+            f"    <description>{_cdata(subtitle)}</description>\n"
             "  </item>\n"
         )
 

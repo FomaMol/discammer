@@ -7,11 +7,11 @@ services:
     # bind-mounted /opt/discammer/data volume. For the seed to succeed, that
     # directory must be owned by the uid:gid the container runs as.
     #
-    # One-time on the prod host:
+    # One-time on the prod host, ONLY this:
     #   sudo chown -R 10001:10001 /opt/discammer/data
-    # then export the matching ids before `compose build && up` (e.g. in
-    # deploy.sh or the host environment):
-    #   export APP_UID=10001 APP_GID=10001
-    # The base docker-compose.yml's `user:` directive reads APP_UID/APP_GID
-    # (defaulting to 1000:1000). Pick the uid that owns /opt/discammer/data and
-    # keep these consistent, or the non-root process will fail to open the DB.
+    # deploy.sh already exports APP_UID/APP_GID=10001 (the image's baked app
+    # user) before `compose build && up`, so the container runs as 10001 to
+    # match. You do NOT need to set APP_UID yourself on prod. (Local dev without
+    # this prod override defaults to 1000:1000 via docker-compose.yml.)
+    # If the chown is skipped, the seed can't open the DB, /api/health returns
+    # 503, and deploy.sh's probe rolls back to :prev — a loud, safe failure.

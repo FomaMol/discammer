@@ -52,6 +52,15 @@ T_CALL_KEY_RE = re.compile(
     r"\bt(?:_list)?\(\s*_?lang\s*,\s*['\"]([A-Za-z_][\w-]*)['\"]"
 )
 
+# The FULL key literal (dotted or single) passed to t()/t_list(). Unlike the
+# broad DOTTED_KEY_RE, a hit here is a *definite* locale-key reference, so it is
+# safe to flag as missing when absent from the locale files (no domain/path
+# noise). Calls with a variable key (``t(_lang, _label_key)``) don't match and
+# are covered by the literal references elsewhere / the allowlist.
+T_CALL_FULLKEY_RE = re.compile(
+    r"\bt(?:_list)?\(\s*_?lang\s*,\s*['\"]([A-Za-z_][\w.-]*)['\"]"
+)
+
 # Bind a translator variable to its client namespace and find every call.
 MAKE_TR_RE = re.compile(r"(\w+)\s*=\s*makeTranslator\(\s*['\"]([^'\"]+)['\"]\s*\)")
 TR_CALL_RE = re.compile(r"(\w+)\(\s*['\"]([^'\"]+)['\"]")
@@ -86,10 +95,39 @@ def _leaf_keys(node: object, prefix: str) -> set[str]:
     return out
 
 
-def present_keys() -> set[str]:
-    """Leaf keys present in en.json (the authoritative key set)."""
-    data = json.loads((LOCALES_DIR / "en.json").read_text(encoding="utf-8"))
+def present_keys(lang: str = "en") -> set[str]:
+    """Leaf keys present in ``{lang}.json`` (en is the authoritative key set)."""
+    data = json.loads((LOCALES_DIR / f"{lang}.json").read_text(encoding="utf-8"))
     return _leaf_keys(data, "")
+
+
+def backend_key_refs() -> set[str]:
+    """Full key literals referenced via ``t()``/``t_list()`` on the backend.
+
+    A definite locale-key reference (no dotted-string noise), so absence from
+    the locale files is a genuine broken reference, not a false positive.
+    """
+    refs: set[str] = set()
+    sources: list[Path] = []
+    if TEMPLATES_DIR.exists():
+        sources += sorted(TEMPLATES_DIR.rglob("*.html"))
+    if BACKEND_DIR.exists():
+        sources += [
+            p
+            for p in sorted(BACKEND_DIR.rglob("*.py"))
+            if ".venv" not in p.parts and "tests" not in p.parts
+        ]
+    for path in sources:
+        text = path.read_text(encoding="utf-8")
+        for key in T_CALL_FULLKEY_RE.findall(text):
+            # Skip concat prefixes like ``t(_lang, 'guide.' ~ risk_word)`` /
+            # ``t(_lang, 'check.how_' ~ loop.index)`` — a literal ending in a
+            # separator is an incomplete runtime-built key, not a real one
+            # (those complete keys live in the allowlist).
+            if key.startswith("client.") or key.endswith((".", "_", "-")):
+                continue
+            refs.add(key)
+    return refs
 
 
 def backend_used_keys() -> set[str]:
@@ -161,6 +199,18 @@ def report() -> int:
     dead_client = sorted(k for k in dead if k.startswith("client."))
 
     missing_client = sorted(client_used - present_client)
+    # Backend t()/t_list() literals that point at a nonexistent key (a typo'd
+    # template key would render the raw key string to users yet still pass CI
+    # without this guard). Allowlisted keys are exempt.
+    missing_backend = sorted(
+        k for k in backend_key_refs() if k not in present_backend and k not in allow
+    )
+    # EN/RU parity over the WHOLE locale file (not just the client slice): an
+    # RU-only-missing backend key would otherwise fall through to the EN string
+    # silently. en is authoritative; report keys present in one but not the other.
+    present_ru = present_keys("ru")
+    en_only = sorted(present - present_ru)
+    ru_only = sorted(present_ru - present)
     allow_unused = sorted(k for k in allow if k in used_all and k not in (backend_hits | client_hits))
 
     print("== i18n audit ==")
@@ -196,10 +246,29 @@ def report() -> int:
         for k in missing_client:
             print(f"  ! {k}")
         print()
+    if missing_backend:
+        print("MISSING backend keys (t()/t_list() literal absent from locale):")
+        for k in missing_backend:
+            print(f"  ! {k}")
+        print()
+    if en_only or ru_only:
+        print("EN/RU PARITY mismatch (locale files differ):")
+        for k in en_only:
+            print(f"  en-only: {k}")
+        for k in ru_only:
+            print(f"  ru-only: {k}")
+        print()
 
     total_dead = len(dead_backend) + len(dead_client)
-    if total_dead == 0 and not missing_client:
-        print("OK: no dead keys, no missing references.")
+    ok = (
+        total_dead == 0
+        and not missing_client
+        and not missing_backend
+        and not en_only
+        and not ru_only
+    )
+    if ok:
+        print("OK: no dead keys, no missing references, en/ru in parity.")
         return 0
     return 1
 
