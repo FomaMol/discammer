@@ -18,7 +18,14 @@
 - **W1** ✅ commit `e13324a` — A1 (bundle re-split, hashed chunks + manifest, `base:'/static/'`, Plyr off home, #321-free verified), A3+A4 (1 conn/request + seed flock + `SEED_ON_STARTUP`), A8 (HEAD /play, cert legacy-name guard), A5 (git-LFS config — migrate DEFERRED to owner; prod git-lfs install is a pre-push prerequisite), A6 (nginx vhost + RECONCILE markers). pytest 38, drift guard clean. **Not pushed.**
 - **W2** ✅ commit `3289b8b` — backend-obs (O1 request-ID logging + LOG_FORMAT, O2 `/api/health` w/ GIT_SHA+counts+503, F3 **enhanced the existing seo.py feed** 20→30 instead of a duplicate `routers/feeds.py` [avoided a route collision], A7 non-root Dockerfile+compose [container build deferred to owner]); A2 i18n unify (22 client.* namespaces, 168 strings/locale moved verbatim, 114 dead backend keys removed → 485 leaves en==ru, audit+parity tests); F4 (66 per-content OG cards, page_image wired). pytest 46→52. **Gate fixes:** `forceescape`→`tojson` in the `<script>` bundle inject (forceescape corrupts JSON inside `<script>`); RU/EN sweep showed only typewriter animation-phase diffs (text byte-identical), 0 missing keys across all islands incl. quiz/exam/scenario/redflags/cert. **Not pushed.**
 - **W3** ✅ commit `eff727e` — F1 site search (FTS5, escape-then-mark snippet, injection-inert, RU works), F2 flagship analyzer (21-rule client-side pack, threat meter, guide links, vitest 28), F5 progress export/import (versioned dossier, best-of merge, vitest), I1 nav integration (CHECK+SEARCH uncrowded at 768-900px, absolute RSS). **Gate fixes (caught live):** nested-i18n bug (`analyzer.flags.*` stringified by `get_client_bundle` + not traversed by `makeTranslator` → flagship rendered raw keys) fixed both layers + parity test; `.gitignore` `data/`→`/data/` (was ignoring `frontend/src/data/`). pytest 52→69, vitest 36, sweep clean (0 missing keys / 0 errors, only intended diffs). **Not pushed.**
-- **W4** — in progress (Q1 E2E suite + R1 four-reviewer round → R2 fixes → G4).
+- **W4** ✅ commit `8145095` — Q1 Playwright E2E harness (10 specs, 44 tests green; CI `e2e` job + `deploy` needs it); R1 four reviewers (backend/frontend/templates-i18n-a11y/infra) over `56a2bef..HEAD` found **no blockers, no security/correctness defects**; R2 applied their verified findings: deploy.sh git-lfs guard + `APP_UID=10001` export, i18n_audit missing-backend + en/ru parity checks, SearchConsole "1 result" singular, RSS `]]>` CDATA hardening. pytest 69, vitest 36, e2e 44, audit clean. **Not pushed.**
+- **G4** ✅ — final verification green (no WIRE markers; pytest 69 / vitest 36 / e2e 44; tsc+build clean, static drift-clean; 4 commits, one per wave). Metrics table filled. HANDOFF updated to v4.
+
+### Owner actions before the next push (deploy = push to `main`)
+1. **git-lfs on prod** — `apt-get install -y git-lfs && git lfs install` on the prod host. (deploy.sh now *skips* the lfs lines if git-lfs is absent, so a push won't brick the deploy, but installing it readies the eventual `git lfs migrate` for the ~25 MB Unity binaries.)
+2. **Non-root data volume** — one-time `sudo chown -R 10001:10001 /opt/discammer/data`. deploy.sh exports `APP_UID/APP_GID=10001` to match; skip the chown → seed 503s → deploy.sh probe auto-rolls-back to `:prev` (safe, loud).
+3. **nginx vhost** — diff `deploy/nginx/discammer.conf` against the live config, reconcile every `# RECONCILE:` line, `nginx -t`, reload (manual; not auto-synced).
+4. **git-lfs migrate (optional)** — when ready, run the documented `git lfs migrate import` (see `docs/deploy/git-lfs.md`) to actually move the binaries to LFS.
 
 ---
 
@@ -261,13 +268,13 @@ LocalStorage-only progress deserves a backup path; no accounts.
 
 | Metric | Before (W0) | After (G4) | Target |
 |---|---|---|---|
-| Home JS transferred | 376493 B (113.4 KB gzip), single `app.js` w/ Plyr+all widgets inlined | _TBD_ | no Plyr/course chunks on home |
-| `app.js` size | 376493 B (`main.css` 99464 B) | _TBD_ | — |
-| pytest count | 28 | _TBD_ | ≥ 45 |
-| Vitest / e2e specs | 0 / 0 | _TBD_ | ≥ 12 / ≥ 10, all green |
-| Dead locale keys | ~119 (431 keys/locale total; exact dead count measured in A2) | _TBD_ | 0 |
-| Connections per home request | 4 | _TBD_ | 1 |
-| axe serious/critical | n/a (not measured at W0) | _TBD_ | 0 |
+| Home JS transferred | 376493 B (113.4 KB gzip), single `app.js` w/ Plyr+all widgets inlined | **182535 B (178.3 KB) across 12 hashed chunks, NO Plyr/VideoPlayer chunk** (~51% smaller) | ✅ no Plyr/course chunks on home |
+| Entry/CSS size | `app.js` 376493 B / `main.css` 99464 B (stable names) | entry `main-*.js` ≈148 KB + lazy per-island chunks; `main-*.css` ≈65 KB (content-hashed, no `?v=`) | — |
+| pytest count | 28 | **69** | ✅ ≥ 45 |
+| Vitest / e2e specs | 0 / 0 | **36 vitest tests (2 files) / 44 e2e tests (10 spec files)**, all green | ✅ ≥ 12 / ≥ 10 |
+| Dead locale keys | ~119 (431 keys/locale) | **0** (audit guards dead + missing-backend + en/ru parity; 608 leaves/locale) | ✅ 0 |
+| Connections per home request | 4 | **1** (`get_conn` dependency; asserted in test) | ✅ 1 |
+| axe serious/critical | n/a | **0 structural** on `/`, `/course`, `/check`, `/search` | ✅ 0 (color-contrast excluded — muted-grey palette fails WCAG AA; logged as design-token debt for a future pass) |
 
 **W0 baseline recorded 2026-06-12:** `pytest` 28/28 green · `npx tsc --noEmit` clean · `npm run build` clean, no `backend/static` drift · `app.js` 376493 B / `main.css` 99464 B · 431 locale keys per locale (en==ru). Baseline full-page screenshots in `/tmp/dcm-v4-before/`.
 

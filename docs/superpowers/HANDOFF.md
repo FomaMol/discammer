@@ -1,3 +1,48 @@
+# Handoff — v4 features (сессия 2026-06-12, поверх v3)
+
+> Это состояние **после v4**. План v4 с отметками: `docs/superpowers/plans/2026-06-12-v4-feature-plan.md`
+> (там же — лог по волнам W0→G4, таблица метрик и **owner actions перед пушем**).
+> v3-история — ниже по этому файлу.
+
+## Состояние после v4
+
+- Ветка **`v4-features`** (создана от `main`@`56a2bef`), рабочее дерево чистое, **4 коммита v4** (`e13324a` W1, `3289b8b` W2, `eff727e` W3, `8145095` W4) поверх 6 v3-коммитов. **Ничего не запушено.**
+- **`git push` = деплой на прод.** Перед пушем выполни owner actions из плана (git-lfs на проде, `chown 10001` на `/opt/discammer/data`, сверка nginx-vhost). deploy.sh теперь fail-safe (git-lfs lines под guard'ом; APP_UID=10001 экспортится сам), но пункты всё равно нужны.
+- Верификация G4: **pytest 69**, **vitest 36**, **e2e 44** (chromium), `tsc`+`build` чисто, `backend/static` без дрейфа, i18n-audit чист (en==ru parity, 0 dead/0 missing). Скриншот-свипы RU/EN×desktop/mobile без визуальных регрессий (диффы — только фаза анимации typewriter + новые nav-ссылки + новые страницы).
+
+## Что добавилось в v4 (выжимка; детали — в плане)
+
+1. **Бандл-сплит** (`e13324a`): хэшированные чанки + `.vite/manifest.json` (`backend/assets.py` → Jinja-global `vite_entry`), `React.lazy` вернулся. **Plyr грузится только на пост-страницах с видео, не на главной.** `base:'/static/'` в vite.config — иначе preload-хелпер 404-ит чанки.
+2. **БД на запрос**: `get_conn` (Depends), CRUD-хелперы берут опциональный `conn` (fallback открывает свой — чтобы `seo.py` работал). Главная = 1 коннект (было 4). Seed под `fcntl.flock` + `SEED_ON_STARTUP`.
+3. **Наблюдаемость**: middleware с `X-Request-ID` + структурный лог (`LOG_FORMAT=json|text`), `GET /api/health` (503 при отказе БД, `version=GIT_SHA`, счётчики). Dockerfile HEALTHCHECK / deploy.sh probe / CI — на `/api/health`.
+4. **RSS**: фид уже жил в `seo.py` (`/feed.xml`) — его **расширили** (30 постов, `_cdata()` экранирует `]]>`), НЕ создавали `routers/feeds.py` (была бы коллизия маршрута).
+5. **i18n унификация**: все островные `BUNDLES` → `client.*` в локалях (22 неймспейса), `get_client_bundle(lang)` инжектится в `window.__DISCAMMER_I18N__.strings`, `makeTranslator('ns')` читает его и **ходит по точечным ключам** (`flags.x_label`). Удалено ~114 мёртвых ключей. `scripts/i18n_audit.py` + аллоулист = CI-гард (dead + missing-backend + en/ru parity).
+6. **OG-карточки** (F4): `scripts/og_generate.py`+`og_template.html` → 66 PNG (пост/гайд × en/ru) в `static/images/og/`; `pages.py` ставит `page_image` через import-time set.
+7. **Поиск** (F1): FTS5 `content_fts` в сиде (LIKE-fallback), `/api/search` (per-term `"term"*`, snippet escape-then-mark = единственный санкционированный `dangerouslySetInnerHTML`), SSR `/{lang}/search` + остров `SearchConsole`.
+8. **Анализатор сообщений** (F2, флагман): `frontend/src/data/redflags.ts` (21 правило RU+EN, чистый `analyze()`), остров `MessageAnalyzer` (текст **не покидает браузер**), SSR `/{lang}/check`. **Гочи** см. ниже.
+9. **Экспорт/импорт прогресса** (F5): `progress.ts` `exportProgress`/`importProgress` (версионируемое досье, merge best-of), футер в `CourseProgress`.
+10. **Nav**: добавлены CHECK + SEARCH (не теснятся на 768–900px), `aria-current` расширен, RSS-`<link>` стал абсолютным.
+11. **E2E** (Q1): `e2e/` (10 спеков, `@playwright/test`+`@axe-core/playwright`), `scripts/e2e.sh`, CI-джоб `e2e` (compose + `/api/health`), `deploy` зависит от него. `npm test` (vitest) добавлен в CI.
+
+## Новые гочи v4 (не «чинить» обратно!)
+
+- **`forceescape` НЕЛЬЗЯ внутри `<script>`** — он HTML-экранирует JSON и ломает литерал. Инжект бандла в base.html — `... | tojson` (без forceescape). В `data-props`-атрибутах `tojson | forceescape` остаётся (это атрибут).
+- **Вложенные i18n-группы** (`client.analyzer.flags.*`): `get_client_bundle` мерджит рекурсивно (НЕ `str()`-ит вложенные dict'ы), `makeTranslator` ходит по точкам. Тест парности/аудит ждут вложенность.
+- **Тернарные ключи невидимы аудиту**: `tr(cond?'a':'b')` прячет оба ключа от литерального сканера — пиши литеральные `tr('a')`/`tr('b')` по веткам (см. SearchConsole счётчик результатов).
+- **`base:'/static/'`** в vite.config обязателен (serve-путь бандла) — без него двойной фетч чанков (404 + реальный).
+- **git-lfs ещё не мигрирован**: `.br`-бинари закоммичены обычными блобами; `.gitattributes`/CI/deploy.sh готовы, но `git lfs migrate` — owner action (`docs/deploy/git-lfs.md`). deploy.sh пропускает lfs-строки, если git-lfs нет.
+- **`.gitignore`: `/data/`** (с якорем) — без него bare `data/` глотал `frontend/src/data/`.
+- **WCAG AA контраст**: приглушённая серая палитра (`#475064`/`#6b7588` на тёмном холсте) не проходит AA — это design-token-долг, a11y-e2e гейтит только structural-нарушения. См. v5.
+- Плюс все v3-гочи ниже (медиа на проде, коммит `backend/static`, правило стрелок, OG-PNG, Jinja `cache_size=0`, Plyr не размонтировать).
+
+## Отложено в v5
+
+- Реальная `git lfs migrate` бинарей + установка git-lfs на проде (owner).
+- Подъём контраста приглушённого текста до WCAG AA (смена токенов).
+- Аккаунты/синк прогресса, аналитика, client error beacon, markdown в threadpool — см. «Deferred to v5» в плане.
+
+---
+
 # Handoff — редизайн v3 + ревью-фиксы (сессия 2026-06-12)
 
 Документ для продолжения работы в новой сессии. Прочитай его целиком, затем
