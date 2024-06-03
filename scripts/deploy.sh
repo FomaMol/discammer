@@ -40,12 +40,6 @@ main() {
   # docker-compose.yml build.args reads GIT_SHA from the environment.
   export GIT_SHA="$(git rev-parse --short HEAD)"
 
-  # Run the container as the image's baked non-root app user (uid 10001) so it
-  # matches the one-time `chown -R 10001:10001 /opt/discammer/data` (see
-  # docker-compose.prod.yml). Exporting it here is the single source of truth —
-  # the owner only has to chown the data volume, not also remember to set this.
-  export APP_UID="${APP_UID:-10001}" APP_GID="${APP_GID:-10001}"
-
   # --pull refreshes the base-image layers (node:20-slim / python:3.12-slim)
   # so OS security patches actually reach prod.
   $compose build --pull

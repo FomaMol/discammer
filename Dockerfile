@@ -26,17 +26,13 @@ COPY content/ ./content/
 COPY --from=frontend-build /app/backend/static/ ./backend/static/
 RUN mkdir -p /app/data
 
-# Run as a non-root user (A7). Create the account, then chown the app tree
-# (including /app/data, which the SQLite seed must write to) BEFORE switching
-# users so the running process can create/write discammer.db. APP_UID/APP_GID
-# are overridable so the uid can be aligned with the host owner of a
-# bind-mounted ./data volume (see docker-compose.yml).
-ARG APP_UID=10001
-ARG APP_GID=10001
-RUN groupadd --gid "$APP_GID" app \
-  && useradd --uid "$APP_UID" --gid "$APP_GID" --no-create-home --shell /usr/sbin/nologin app \
-  && chown -R app:app /app
-USER app
+# NOTE (A7 deferred to v5): the container runs as root, matching the proven
+# prod behavior. A non-root user was prepared in v4 but pulled before release —
+# the bind-mounted ./data volume is root-owned on the host, so a non-root
+# process can't create discammer.db without a manual `chown`, and that couldn't
+# be validated locally (no Docker here). Re-introduce it via a root entrypoint
+# that chowns /app/data then drops privileges (gosu/su-exec), tested in CI's
+# dockerized e2e job before relying on it.
 
 EXPOSE 8000
 WORKDIR /app/backend

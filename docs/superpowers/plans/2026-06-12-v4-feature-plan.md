@@ -21,11 +21,12 @@
 - **W4** ✅ commit `8145095` — Q1 Playwright E2E harness (10 specs, 44 tests green; CI `e2e` job + `deploy` needs it); R1 four reviewers (backend/frontend/templates-i18n-a11y/infra) over `56a2bef..HEAD` found **no blockers, no security/correctness defects**; R2 applied their verified findings: deploy.sh git-lfs guard + `APP_UID=10001` export, i18n_audit missing-backend + en/ru parity checks, SearchConsole "1 result" singular, RSS `]]>` CDATA hardening. pytest 69, vitest 36, e2e 44, audit clean. **Not pushed.**
 - **G4** ✅ — final verification green (no WIRE markers; pytest 69 / vitest 36 / e2e 44; tsc+build clean, static drift-clean; 4 commits, one per wave). Metrics table filled. HANDOFF updated to v4.
 
-### Owner actions before the next push (deploy = push to `main`)
-1. **git-lfs on prod** — `apt-get install -y git-lfs && git lfs install` on the prod host. (deploy.sh now *skips* the lfs lines if git-lfs is absent, so a push won't brick the deploy, but installing it readies the eventual `git lfs migrate` for the ~25 MB Unity binaries.)
-2. **Non-root data volume** — one-time `sudo chown -R 10001:10001 /opt/discammer/data`. deploy.sh exports `APP_UID/APP_GID=10001` to match; skip the chown → seed 503s → deploy.sh probe auto-rolls-back to `:prev` (safe, loud).
-3. **nginx vhost** — diff `deploy/nginx/discammer.conf` against the live config, reconcile every `# RECONCILE:` line, `nginx -t`, reload (manual; not auto-synced).
-4. **git-lfs migrate (optional)** — when ready, run the documented `git lfs migrate import` (see `docs/deploy/git-lfs.md`) to actually move the binaries to LFS.
+### Pre-release fix before push (G4+)
+- **A7 non-root container REVERTED to v5.** Docker isn't available in the dev env, so the non-root change couldn't be validated, and it would have broken BOTH the CI dockerized `e2e` job and the prod deploy (root-owned bind-mounted `data/` → non-root process can't create `discammer.db` → seed 503 → rollback). Pulled `USER app` / compose `user:` / deploy.sh `APP_UID` export; the container runs as root, exactly as current prod. Re-introduce later via a root entrypoint that chowns `/app/data` then drops privileges (gosu/su-exec), validated in CI's e2e job. So the deploy needs **no manual data-volume chown**.
+
+### Owner actions (none block the deploy)
+1. **git-lfs on prod (optional, non-blocking)** — `apt-get install -y git-lfs && git lfs install`. deploy.sh *skips* the lfs lines if git-lfs is absent, so the deploy works either way; installing it readies the eventual `git lfs migrate` for the ~25 MB Unity binaries (binaries are still plain blobs, deploy fine as-is).
+2. **nginx vhost (manual, not auto-synced)** — diff `deploy/nginx/discammer.conf` against the live config, reconcile every `# RECONCILE:` line, `nginx -t`, reload. Only needed if you want the repo vhost to become the source of truth; the live vhost keeps working untouched.
 
 ---
 

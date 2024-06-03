@@ -2,16 +2,7 @@ services:
   web:
     ports: !override
       - "127.0.0.1:8000:8000"
-    # === OWNER ACTION (A7 — non-root container) ===
-    # The container now runs as a non-root user and writes the SQLite DB to the
-    # bind-mounted /opt/discammer/data volume. For the seed to succeed, that
-    # directory must be owned by the uid:gid the container runs as.
-    #
-    # One-time on the prod host, ONLY this:
-    #   sudo chown -R 10001:10001 /opt/discammer/data
-    # deploy.sh already exports APP_UID/APP_GID=10001 (the image's baked app
-    # user) before `compose build && up`, so the container runs as 10001 to
-    # match. You do NOT need to set APP_UID yourself on prod. (Local dev without
-    # this prod override defaults to 1000:1000 via docker-compose.yml.)
-    # If the chown is skipped, the seed can't open the DB, /api/health returns
-    # 503, and deploy.sh's probe rolls back to :prev — a loud, safe failure.
+    # A7 (non-root container) was deferred to v5 — the container runs as root,
+    # so no chown of /opt/discammer/data is required. See the Dockerfile note
+    # for how to re-introduce non-root safely (root entrypoint that chowns the
+    # data volume then drops privileges, validated in CI's dockerized e2e job).
