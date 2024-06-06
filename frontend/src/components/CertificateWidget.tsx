@@ -2,57 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
 
-const BUNDLES = {
-  en: {
-    locked_heading: '// CLEARANCE PENDING',
-    locked_body:
-      'Complete every briefing in every mission and pass the final examination (at least 80%) to unlock your DiScammer Defender clearance.',
-    name_label: 'Operator name (printed on clearance)',
-    name_placeholder: 'Full name',
-    prereq_heading: '// CLEARANCE PREREQUISITES',
-    prereq_exam: 'Final examination (≥ 80%)',
-    heading: '// CLEARANCE GRANTED',
-    title: 'CERTIFICATE OF CLEARANCE',
-    programme: 'DiScammer Defender Programme',
-    presented_to: 'is hereby issued to',
-    description:
-      'for completion of all nine training missions and the passing of the final examination of the DiScammer anti-fraud curriculum.',
-    date_label: 'Issued on',
-    score_label: 'Final score',
-    verification_label: 'Verification code',
-    operator_code_label: 'Operator code',
-    issuing_officer_label: 'Issuing officer',
-    issuing_officer_signature: 'DCM Chief Operations',
-    print_label: 'Print or save as PDF',
-    rename_label: 'Change operator name',
-    authority_block: 'DCM ACADEMY · ANTI-FRAUD DIVISION',
-  },
-  ru: {
-    locked_heading: '// ДОПУСК ОЖИДАЕТСЯ',
-    locked_body:
-      'Заверши все брифинги во всех миссиях и сдай финальное испытание (не ниже 80%), чтобы получить допуск DiScammer Defender.',
-    name_label: 'Имя оператора (напечатается на допуске)',
-    name_placeholder: 'Полное имя',
-    prereq_heading: '// УСЛОВИЯ ДОПУСКА',
-    prereq_exam: 'Финальное испытание (≥ 80%)',
-    heading: '// ДОПУСК ВЫДАН',
-    title: 'СЕРТИФИКАТ ДОПУСКА',
-    programme: 'Программа DiScammer Defender',
-    presented_to: 'настоящим выдан',
-    description:
-      'за прохождение всех девяти тренировочных миссий и сдачу финального испытания антифрод-программы DiScammer.',
-    date_label: 'Дата выдачи',
-    score_label: 'Финальный результат',
-    verification_label: 'Код проверки',
-    operator_code_label: 'Код оператора',
-    issuing_officer_label: 'Выдавший офицер',
-    issuing_officer_signature: 'Шеф операций DCM',
-    print_label: 'Печать / сохранить PDF',
-    rename_label: 'Изменить имя',
-    authority_block: 'АКАДЕМИЯ DCM · ОТДЕЛ АНТИФРОДА',
-  },
-} as const;
-
 export interface CertificateConfig {
   /** Modules required for the certificate, with the lesson slugs that count. */
   requirements: { module: string; lessons: string[] }[];
@@ -151,12 +100,14 @@ function operatorSuffix(name: string, exam: ExamRecord): string {
 
 export default function CertificateWidget({ config, locale }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('cert');
   const examKey = config.examKey || 'discammer:exam:v1';
 
   const [exam, setExam] = useState<ExamRecord | null>(null);
   const [completed, setCompleted] = useState<Record<string, Set<string>>>({});
   const [name, setName] = useState<string>('');
+  const [draft, setDraft] = useState<string>('');
+  const [editing, setEditing] = useState(false);
 
   // Hydrate from localStorage on mount and subscribe to progress + exam changes.
   useEffect(() => {
@@ -170,7 +121,9 @@ export default function CertificateWidget({ config, locale }: Props) {
     };
     sync();
     try {
-      setName(window.localStorage.getItem(NAME_KEY) || '');
+      const stored = window.localStorage.getItem(NAME_KEY) || '';
+      setName(stored);
+      setDraft(stored);
     } catch {
       /* noop */
     }
@@ -183,9 +136,14 @@ export default function CertificateWidget({ config, locale }: Props) {
     };
   }, [config.requirements, examKey]);
 
-  // Persist name so the certificate survives reload.
-  function updateName(value: string) {
+  // Commit the draft as the confirmed name and persist it so the certificate
+  // survives reload. The certificate is only earned after this explicit
+  // confirmation — keystrokes in the draft input must not unmount the form.
+  function confirmName() {
+    const value = draft.trim();
+    if (!value) return;
     setName(value);
+    setEditing(false);
     try {
       window.localStorage.setItem(NAME_KEY, value);
     } catch {
@@ -209,7 +167,11 @@ export default function CertificateWidget({ config, locale }: Props) {
 
   const allModulesDone = moduleStatus.every((m) => m.done);
   const examPassed = !!exam?.passed;
-  const earned = allModulesDone && examPassed && name.trim().length > 0;
+  // A legacy per-keystroke-save bug could persist a 1-character (or empty)
+  // operative name. Treat such names as unconfirmed (require ≥ 2 chars) so the
+  // confirm step renders instead of auto-issuing a certificate with junk.
+  const nameConfirmed = name.trim().length >= 2;
+  const earned = allModulesDone && examPassed && !editing && nameConfirmed;
 
   const verificationCode = useMemo(() => {
     if (!earned || !exam) return '';
@@ -230,7 +192,6 @@ export default function CertificateWidget({ config, locale }: Props) {
         moduleStatus={moduleStatus}
         examPassed={examPassed}
         exam={exam}
-        lang={lang}
       />
 
       {!earned ? (
@@ -242,18 +203,31 @@ export default function CertificateWidget({ config, locale }: Props) {
             {tr('locked_body')}
           </p>
 
-          {allModulesDone && examPassed && !name.trim() && (
+          {allModulesDone && examPassed && (
             <div className="mt-4">
               <label className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] mb-2">
                 {tr('name_label')}
               </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => updateName(e.target.value)}
-                placeholder={tr('name_placeholder')}
-                className="w-full max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
-              />
+              <div className="flex flex-wrap items-center gap-3">
+                <input
+                  type="text"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') confirmName();
+                  }}
+                  placeholder={tr('name_placeholder')}
+                  className="flex-1 min-w-[220px] max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
+                />
+                <button
+                  type="button"
+                  onClick={confirmName}
+                  disabled={!draft.trim()}
+                  className="px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition rounded-[4px] disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {tr('name_confirm')}
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -265,8 +239,10 @@ export default function CertificateWidget({ config, locale }: Props) {
           operatorCode={operatorCode}
           score={exam!.score}
           total={exam!.total}
-          lang={lang}
-          onRename={() => updateName('')}
+          onRename={() => {
+            setDraft(name);
+            setEditing(true);
+          }}
         />
       )}
     </div>
@@ -277,14 +253,12 @@ function PrerequisitesPanel({
   moduleStatus,
   examPassed,
   exam,
-  lang,
 }: {
   moduleStatus: { module: string; total: number; complete: number; done: boolean }[];
   examPassed: boolean;
   exam: ExamRecord | null;
-  lang: Locale;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('cert');
   return (
     <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
       <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
@@ -344,7 +318,6 @@ function Certificate({
   operatorCode,
   score,
   total,
-  lang,
   onRename,
 }: {
   name: string;
@@ -353,10 +326,9 @@ function Certificate({
   operatorCode: string;
   score: number;
   total: number;
-  lang: Locale;
   onRename: () => void;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('cert');
   const heading = tr('heading');
   const title = tr('title');
   const programme = tr('programme');

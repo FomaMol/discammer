@@ -15,6 +15,7 @@ from typing import Optional
 from fastapi import APIRouter, Request
 from fastapi.responses import PlainTextResponse, Response
 
+from config import SITE_ORIGIN
 from database import get_course_modules, get_guides, get_posts
 from i18n import SUPPORTED_LANGS
 
@@ -22,13 +23,15 @@ router = APIRouter()
 
 
 def _base_url(request: Request) -> str:
-    """Return the request's base URL without trailing slash.
+    """Return the canonical public origin for absolute sitemap/feed URLs.
 
-    Behind the production reverse proxy ``request.base_url`` already reflects
-    the public scheme + host. In local dev it returns http://127.0.0.1:8000/
-    which is fine for emitting valid absolute URLs into the sitemap.
+    NOT request.base_url: behind the prod nginx proxy uvicorn only trusts
+    X-Forwarded-* from loopback while the proxy connects from the Docker
+    bridge, so base_url reports the http:// scheme. config.SITE_ORIGIN
+    (env-overridable) is the single source of truth, shared with base.html.
     """
-    return str(request.base_url).rstrip("/")
+    del request  # kept in the signature so call sites stay uniform
+    return SITE_ORIGIN
 
 
 # ---------------------------------------------------------------------------
@@ -61,6 +64,16 @@ def _xml_escape(value: str) -> str:
         .replace(">", "&gt;")
         .replace('"', "&quot;")
     )
+
+
+def _cdata(value: str) -> str:
+    """Wrap ``value`` in a CDATA section, neutralising any literal ``]]>``.
+
+    A title/subtitle containing ``]]>`` would otherwise close the CDATA early
+    and let raw markup leak into the feed. The standard split keeps the content
+    verbatim while breaking the terminator across two CDATA sections.
+    """
+    return f"<![CDATA[{value.replace(']]>', ']]]]><![CDATA[>')}]]>"
 
 
 @router.get("/sitemap.xml", include_in_schema=False)
@@ -129,7 +142,9 @@ def _to_rfc822(value: Optional[str]) -> str:
 @router.get("/feed.xml", include_in_schema=False)
 async def rss_feed(request: Request) -> Response:
     base = _base_url(request)
-    posts = await get_posts(limit=20, locale="en")
+    # All post types (interview/newsletter/article) in published_at order; no
+    # type_filter ⇒ get_posts returns every type. 30 most-recent items (F3).
+    posts = await get_posts(limit=30, locale="en")
 
     items: list[str] = []
     for post in posts:
@@ -142,11 +157,11 @@ async def rss_feed(request: Request) -> Response:
         pub_date = _to_rfc822(post.get("published_at"))
         items.append(
             "  <item>\n"
-            f"    <title><![CDATA[{title}]]></title>\n"
+            f"    <title>{_cdata(title)}</title>\n"
             f"    <link>{_xml_escape(url)}</link>\n"
             f"    <guid isPermaLink=\"true\">{_xml_escape(url)}</guid>\n"
             f"    <pubDate>{pub_date}</pubDate>\n"
-            f"    <description><![CDATA[{subtitle}]]></description>\n"
+            f"    <description>{_cdata(subtitle)}</description>\n"
             "  </item>\n"
         )
 

@@ -1,0 +1,22 @@
+# VCS + CI
+.git
+.github
+
+# Python local artifacts
+**/__pycache__
+**/.venv
+.pytest_cache
+
+# Node local artifacts (npm ci reinstalls inside the build stage)
+frontend/node_modules
+
+# Live data — must never be baked into an image (compose bind-mounts ./data)
+data
+
+# Agent tooling, docs, scratch
+.claude
+.playwright-cli
+docs
+*.md
+PROJECT.pdf
+.env.example

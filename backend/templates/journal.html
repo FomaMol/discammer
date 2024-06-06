@@ -27,7 +27,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ _lang_j ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_j, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang_j ~ '/') | tojson }} },
         { "@type": "ListItem", "position": 2, "name": {{ t(_lang_j, 'page_titles.journal') | tojson }}, "item": {{ _journal_url | tojson }} }
       ]
     }
@@ -64,7 +64,7 @@
      Wordmark + a single dateline strip. No fabricated VOL/NO/EDITION counters,
      no "PUBLISHED SINCE 2022" kicker — those numbers had no real provenance.
      ───────────────────────────────────────────────────────────────────── #}
-  <header class="mb-8 sm:mb-10" aria-label="Masthead">
+  <header class="mb-8 sm:mb-10" aria-label="{{ t(_lang, 'a11y.masthead') }}">
     <!-- 1px top rule, dark cyan tint -->
     <div class="h-px w-full" style="background-color: #2b3759;" aria-hidden="true"></div>
 
@@ -83,7 +83,7 @@
       class="flex items-center pt-3 pb-2 border-t border-[#202a44] font-mono uppercase text-[10px] sm:text-[11px] text-[#e7ecf5] tabular-nums"
       style="letter-spacing: 0.14em; font-weight: 600;"
       role="group"
-      aria-label="Dateline"
+      aria-label="{{ t(_lang, 'a11y.dateline') }}"
     >
       <span class="hidden sm:inline">{{ _dateline_center }}</span>
       <span class="sm:hidden">
@@ -104,7 +104,8 @@
      Contains: section index (numbered tab strip) → featured story
      → zigzag grid → compact list. See JournalBroadsheet.tsx.
      ───────────────────────────────────────────────────────────────────── #}
-  <div data-component="JournalBroadsheet" data-props='{"lang": "{{ _lang }}"}'></div>
+  {# id="threat-database": anchor target for the about-page deep link. #}
+  <div id="threat-database" data-component="JournalBroadsheet" data-props='{"lang": "{{ _lang }}"}'></div>
 
   {# ─────────────────────────────────────────────────────────────────────
      SEO FALLBACK (noscript)
@@ -128,7 +129,7 @@
           {% endif %}
           <span class="text-[11px] font-mono text-[#6b7588] tabular-nums">{{ post.published_at }}</span>
         </div>
-        <h3 class="font-mono font-bold text-[#e7ecf5] mt-2" style="letter-spacing: -0.01em;">{{ post.title }}</h3>
+        <h2 class="font-mono font-bold text-[#e7ecf5] mt-2" style="letter-spacing: -0.01em;">{{ post.title }}</h2>
         <p class="text-[#aab2c4] text-sm mt-1 line-clamp-2">{{ post.subtitle }}</p>
       </a>
       {% endfor %}
@@ -136,7 +137,7 @@
 
     {% if guides %}
     <div class="mt-12 mb-6">
-      <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;">// THREAT_DATABASE</div>
+      <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;">{{ t(_lang, 'journal.threat_db_eyebrow') }}</div>
       <h2 class="font-mono font-bold text-[#65def0] text-xl sm:text-2xl" style="letter-spacing: -0.02em;">{{ t(_lang, 'journal.threat_db_heading') }}</h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">

@@ -12,30 +12,44 @@
   {% set _switch_url = switch_url | default('/' ~ _other ~ '/') %}
 
   <!-- SEO Meta -->
-  {% set _meta_title = page_title | default(t(_lang, 'page_titles.site_full')) %}
-  {% set _meta_description = page_description | default(t(_lang, 'page_titles.site_description')) %}
-  {% set _meta_image = page_image | default('/static/images/og/discammer-og.svg') %}
-  {% set _meta_url = page_url | default(request.url._url if request else '') %}
-  {% set _canonical_url = canonical_url | default(_meta_url) %}
+  {# `default(..., true)` so explicit None/'' from route context still falls back. #}
+  {# site_origin (config.SITE_ORIGIN) — not request.base_url, which reports
+     http:// behind the prod proxy (uvicorn only trusts X-Forwarded-* from
+     loopback, and nginx connects from the Docker bridge). #}
+  {% set _origin = site_origin | default('https://discammer.com') %}
+  {% set _meta_title = page_title | default(t(_lang, 'page_titles.site_full'), true) %}
+  {% set _meta_description = page_description | default(t(_lang, 'page_titles.site_description'), true) %}
+  {% set _meta_image = page_image | default('/static/images/og/discammer-og.png', true) %}
+  {# Crawlers require absolute og/canonical URLs; canonical drops the query string
+     so ?utm_* variants don't split ranking signal. #}
+  {% if not _meta_image.startswith('http') %}{% set _meta_image = _origin ~ _meta_image %}{% endif %}
+  {% set _meta_url = page_url | default(_origin ~ request.url.path if request else '', true) %}
+  {% set _canonical_url = canonical_url | default(_meta_url, true) %}
+  {# Segment-boundary check: a bare startswith('/' ~ _lang) would chop the
+     first 3 chars of any 404 path like /enterprise into /ruterprise. #}
+  {% set _alt_path = request.url.path[3:] if request and (request.url.path == '/' ~ _lang or request.url.path.startswith('/' ~ _lang ~ '/')) else '/' %}
   <meta name="description" content="{{ _meta_description }}">
   <meta name="theme-color" content="#0b0f1a">
   <meta name="generator" content="DiScammer">
   {% if _canonical_url %}<link rel="canonical" href="{{ _canonical_url }}">{% endif %}
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="alternate" type="application/rss+xml" title="DiScammer journal RSS" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="DiScammer journal RSS" href="{{ _origin }}/feed.xml">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <meta property="og:site_name" content="DiScammer">
   <meta property="og:title" content="{{ _meta_title }}">
   <meta property="og:description" content="{{ _meta_description }}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:image" content="{{ _meta_image }}">
-  <meta property="og:image:type" content="{{ 'image/svg+xml' if _meta_image.endswith('.svg') else 'image/png' }}">
+  <meta property="og:image:type" content="{{ 'image/svg+xml' if _meta_image.endswith('.svg') else ('image/jpeg' if _meta_image.endswith(('.jpg', '.jpeg')) else 'image/png') }}">
+  {% if not page_image %}
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  {% endif %}
   <meta property="og:locale" content="{{ 'ru_RU' if _lang == 'ru' else 'en_US' }}">
   {% if _meta_url %}<meta property="og:url" content="{{ _meta_url }}">{% endif %}
-  <link rel="alternate" hreflang="en" href="{{ '/en' + (request.url.path[3:] if request and request.url.path.startswith('/' ~ _lang) else '/') }}">
-  <link rel="alternate" hreflang="ru" href="{{ '/ru' + (request.url.path[3:] if request and request.url.path.startswith('/' ~ _lang) else '/') }}">
+  <link rel="alternate" hreflang="en" href="{{ _origin }}/en{{ _alt_path }}">
+  <link rel="alternate" hreflang="ru" href="{{ _origin }}/ru{{ _alt_path }}">
+  <link rel="alternate" hreflang="x-default" href="{{ _origin }}/en{{ _alt_path }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ _meta_title }}">
   <meta name="twitter:description" content="{{ _meta_description }}">
@@ -46,8 +60,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="{{ asset_url('/static/css/main.css') }}">
+  <!-- Global CSS + modulepreload, resolved from the Vite manifest.
+       Filenames are content-hashed (no ?v= cache-busting — that is reserved
+       for images via asset_url()). vite_entry() is registered as a Jinja
+       global in main.py; guard the call so the page still renders if it is
+       absent (e.g. before wiring or if the frontend wasn't built). -->
+  {% set _vite = vite_entry() if vite_entry is defined else {'js': '', 'css': [], 'preload': []} %}
+  {% for _css in _vite.css %}
+  <link rel="stylesheet" href="/static/{{ _css }}">
+  {% endfor %}
+  {% for _pre in _vite.preload %}
+  <link rel="modulepreload" href="/static/{{ _pre }}">
+  {% endfor %}
 
   {# Base JSON-LD: Organization + WebSite. Per-page templates can append more via the jsonld block. #}
   <script type="application/ld+json">
@@ -81,7 +105,7 @@
 
   <!-- Skip to content (a11y) -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-canvas-raised focus:text-cyan focus:border focus:border-cyan focus:rounded-sm font-mono text-xs uppercase tracking-[2px]">
-    Skip to content
+    {{ t(_lang, 'a11y.skip_to_content') }}
   </a>
 
   <!-- ─────────────────────────────────────────────────────────────────────
@@ -97,20 +121,19 @@
         <span class="font-display-wordmark text-base sm:text-lg">DISCAMMER</span>
       </a>
 
-      <!-- Desktop nav -->
+      <!-- Desktop nav — active section gets aria-current + cyan underline (DESIGN.md nav-link). -->
+      {% set _nav_path = request.url.path if request else '' %}
       <div class="hidden md:flex items-center gap-1">
-        <a href="/{{ _lang }}/course"
-           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-soft hover:text-ink hover:bg-canvas-soft transition-colors px-3 py-2 rounded-sm">
-          {{ t(_lang, 'nav.course') }}
+        {% for _section, _label_key in [('course', 'nav.course'), ('journal', 'nav.journal'), ('check', 'nav.check'), ('search', 'nav.search'), ('game', 'nav.play_game')] %}
+        {% set _section_href = '/' ~ _lang ~ '/' ~ _section %}
+        {% set _is_current = _nav_path.rstrip('/') == _section_href %}
+        {% set _is_active = _is_current or _nav_path.startswith(_section_href ~ '/') %}
+        <a href="{{ _section_href }}"
+           {% if _is_active %}aria-current="{{ 'page' if _is_current else 'true' }}"{% endif %}
+           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold transition-colors px-3 py-2 rounded-sm {{ 'text-ink-strong border-b-2 border-cyan' if _is_active else 'text-ink-soft hover:text-ink hover:bg-canvas-soft' }}">
+          {{ t(_lang, _label_key) }}
         </a>
-        <a href="/{{ _lang }}/journal"
-           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-soft hover:text-ink hover:bg-canvas-soft transition-colors px-3 py-2 rounded-sm">
-          {{ t(_lang, 'nav.journal') }}
-        </a>
-        <a href="/{{ _lang }}/game"
-           class="font-mono uppercase text-[11px] tracking-[0.14em] font-semibold text-ink-soft hover:text-ink hover:bg-canvas-soft transition-colors px-3 py-2 rounded-sm">
-          {{ t(_lang, 'nav.play_game') }}
-        </a>
+        {% endfor %}
 
         <span class="w-px h-5 bg-hairline mx-2"></span>
 
@@ -135,24 +158,31 @@
         </a>
       </div>
 
-      <!-- Mobile menu island -->
-      <div data-component="MobileMenu" data-props='{
-        "lang": "{{ _lang }}",
-        "switchHref": "/lang/{{ _other }}?next={{ _switch_url | urlencode }}",
-        "switchLabel": "{{ t(_lang, "lang.short") }} / {{ t(_lang, "lang.other_short") }}",
-        "currentLangShort": "{{ t(_lang, "lang.short") }}",
-        "otherLangShort": "{{ t(_lang, "lang.other_short") }}",
-        "switchAriaLabel": "{{ t(_lang, "lang.switch_to") }}",
+      <!-- Mobile menu island. Props built as a Jinja object and serialized via
+           tojson|forceescape (like the other islands) so quotes in any
+           translation can't produce invalid JSON. -->
+      {% set _mobile_menu_props = {
+        "lang": _lang,
+        "switchHref": "/lang/" ~ _other ~ "?next=" ~ (_switch_url | urlencode),
+        "switchLabel": t(_lang, "lang.short") ~ " / " ~ t(_lang, "lang.other_short"),
+        "currentLangShort": t(_lang, "lang.short"),
+        "otherLangShort": t(_lang, "lang.other_short"),
+        "switchAriaLabel": t(_lang, "lang.switch_to"),
         "links": [
-          {"label": "{{ t(_lang, "nav.course") }}", "href": "/{{ _lang }}/course"},
-          {"label": "{{ t(_lang, "nav.journal") }}", "href": "/{{ _lang }}/journal"},
-          {"label": "{{ t(_lang, "nav.play_game") }}", "href": "/{{ _lang }}/game"}
+          {"label": t(_lang, "nav.course"), "href": "/" ~ _lang ~ "/course"},
+          {"label": t(_lang, "nav.journal"), "href": "/" ~ _lang ~ "/journal"},
+          {"label": t(_lang, "nav.check"), "href": "/" ~ _lang ~ "/check"},
+          {"label": t(_lang, "nav.search"), "href": "/" ~ _lang ~ "/search"},
+          {"label": t(_lang, "nav.play_game"), "href": "/" ~ _lang ~ "/game"}
         ]
-      }'>
+      } %}
+      <div data-component="MobileMenu" data-props='{{ _mobile_menu_props | tojson | forceescape }}'>
         <noscript>
-          <div class="md:hidden flex gap-3 font-mono uppercase text-[10px] tracking-[0.16em]">
+          <div class="md:hidden flex flex-wrap gap-x-3 gap-y-1 font-mono uppercase text-[10px] tracking-[0.16em]">
             <a href="/{{ _lang }}/course" class="text-cyan">{{ t(_lang, 'nav.course') }}</a>
             <a href="/{{ _lang }}/journal" class="text-cyan">{{ t(_lang, 'nav.journal') }}</a>
+            <a href="/{{ _lang }}/check" class="text-cyan">{{ t(_lang, 'nav.check') }}</a>
+            <a href="/{{ _lang }}/search" class="text-cyan">{{ t(_lang, 'nav.search') }}</a>
             <a href="/{{ _lang }}/game" class="text-cyan">{{ t(_lang, 'nav.game_short') }}</a>
             <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-green">{{ t(_lang, 'lang.other_short') }}</a>
           </div>
@@ -204,10 +234,10 @@
 
         <!-- Col 2: Threat Database — 10 entries in a 2-up sub-grid (5/12) -->
         <div class="md:col-span-5">
-          <h4 class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-ink mb-4 flex items-center gap-2">
+          <h2 class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-ink mb-4 flex items-center gap-2">
             <span class="text-cyan">▸</span>
             {{ t(_lang, 'footer.threat_database') }}
-          </h4>
+          </h2>
           <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
             <li><a href="/{{ _lang }}/guide/phishing" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.phishing') }}</a></li>
             <li><a href="/{{ _lang }}/guide/nigerian-letters" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'guide_labels.nigerian-letters') }}</a></li>
@@ -224,10 +254,10 @@
 
         <!-- Col 3: Site navigation (3/12) -->
         <div class="md:col-span-3">
-          <h4 class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-ink mb-4 flex items-center gap-2">
+          <h2 class="font-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-ink mb-4 flex items-center gap-2">
             <span class="text-cyan">▸</span>
             {{ t(_lang, 'footer.navigation') }}
-          </h4>
+          </h2>
           <ul class="space-y-2">
             <li><a href="/{{ _lang }}/" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.home') }}</a></li>
             <li><a href="/{{ _lang }}/journal" class="text-ink-soft text-sm hover:text-cyan transition-colors">{{ t(_lang, 'footer.journal') }}</a></li>
@@ -251,17 +281,24 @@
     </div>
   </footer>
 
-  <!-- Expose lang + translations to the React bundle -->
+  <!-- Expose lang + the client string bundle to the React bundle.
+       `strings` is the `client` slice of the active-locale locale file
+       (backend/locales/{lang}.json → "client"), already resolved to `_lang`.
+       Islands read it via makeTranslator('<namespace>') in
+       frontend/src/utils/i18n.ts — no per-component translation tables.
+       `get_client_bundle` is a Jinja global registered in main.py; the
+       `is defined` guard keeps pages rendering even if it were ever absent. -->
   <script>
     window.__DISCAMMER_I18N__ = {
       lang: {{ _lang | tojson }},
       otherLang: {{ _other | tojson }},
-      switchUrl: {{ _switch_url | tojson }}
+      switchUrl: {{ _switch_url | tojson }},
+      strings: {{ (get_client_bundle(_lang) if get_client_bundle is defined else {}) | tojson }}
     };
   </script>
 
-  <!-- App Script -->
-  <script type="module" src="{{ asset_url('/static/js/app.js') }}"></script>
+  <!-- App Script — hashed entry module from the Vite manifest (no ?v=). -->
+  {% if _vite.js %}<script type="module" src="/static/{{ _vite.js }}"></script>{% endif %}
   {% block scripts %}{% endblock %}
 </body>
 </html>

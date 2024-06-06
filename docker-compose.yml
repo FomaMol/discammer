@@ -1,6 +1,14 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        # deploy.sh exports GIT_SHA=$(git rev-parse --short HEAD) before
+        # `compose build` so the running image reports its build via /api/health.
+        GIT_SHA: "${GIT_SHA:-dev}"
+    # The container runs as root (A7 non-root deferred to v5 — see Dockerfile),
+    # so the bind-mounted ./data is writable by the SQLite seed without any
+    # host-side chown.
     ports:
       - "8000:8000"
     volumes:

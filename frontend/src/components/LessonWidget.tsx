@@ -5,19 +5,6 @@ import RedFlagsWidget, { RedFlagsConfig } from './RedFlagsWidget';
 import ExamWidget, { ExamConfig } from './ExamWidget';
 import CertificateWidget, { CertificateConfig } from './CertificateWidget';
 
-const BUNDLES = {
-  en: {
-    unavailable_header: '// WIDGET PAYLOAD UNAVAILABLE',
-    unavailable_body:
-      'Payload type "{type}" is still in transit. The brief will load on the next sync.',
-  },
-  ru: {
-    unavailable_header: '// ПАКЕТ ВИДЖЕТА НЕДОСТУПЕН',
-    unavailable_body:
-      'Тип пакета «{type}» ещё в пути. Брифинг подгрузится при следующей синхронизации.',
-  },
-} as const;
-
 interface Props {
   type: string;
   config: Record<string, unknown>;
@@ -32,7 +19,7 @@ interface Props {
  */
 export default function LessonWidget({ type, config, locale }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('lessonWidget');
 
   switch (type) {
     case 'quiz':

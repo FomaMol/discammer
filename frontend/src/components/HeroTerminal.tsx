@@ -1,22 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
-import { currentLang, makeTranslator, pick, type Locale } from '../utils/i18n';
+import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { prefersReducedMotion } from '../utils/useReducedMotion';
 
 interface HeroTerminalProps {
   lines?: string[];
   lang?: Locale;
 }
-
-const BUNDLES = {
-  en: {
-    monitor_label: 'MONITOR 02',
-    monitor_subtitle: 'THREAT SCAN',
-  },
-  ru: {
-    monitor_label: 'MONITOR 02',
-    monitor_subtitle: 'СКАНЕР УГРОЗ',
-  },
-} as const;
 
 const LINES_EN: string[] = [
   '> init scanner --module=threat_db',
@@ -36,7 +25,7 @@ const LINES_EN: string[] = [
   '> threat_db.size = 247 entries',
   '> last_breach   = 02:14:09 UTC',
   '> oracle: "trust nothing on first contact"',
-  '> > > AWAITING USER COMMAND _',
+  '> AWAITING USER COMMAND _',
 ];
 
 const LINES_RU: string[] = [
@@ -57,7 +46,7 @@ const LINES_RU: string[] = [
   '> threat_db.size = 247 записей',
   '> last_breach   = 02:14:09 UTC',
   '> оракул: «не доверяй с первого контакта»',
-  '> > > ОЖИДАНИЕ КОМАНДЫ ПОЛЬЗОВАТЕЛЯ _',
+  '> ОЖИДАНИЕ КОМАНДЫ ПОЛЬЗОВАТЕЛЯ _',
 ];
 
 const STATUS_TOKENS = {
@@ -67,8 +56,8 @@ const STATUS_TOKENS = {
 
 export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
-  const defaultLines = pick(locale, { en: LINES_EN, ru: LINES_RU });
+  const tr = makeTranslator('heroTerminal');
+  const defaultLines = locale === 'ru' ? LINES_RU : LINES_EN;
   const source = lines && lines.length > 0 ? lines : defaultLines;
   const tokens = STATUS_TOKENS[locale];
   const reduce = prefersReducedMotion();

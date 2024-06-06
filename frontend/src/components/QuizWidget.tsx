@@ -1,26 +1,5 @@
-import { useState } from 'react';
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-
-const BUNDLES = {
-  en: {
-    heading: '// ASSESSMENT',
-    correct: '[OK] CORRECT',
-    incorrect: '[FAIL] INCORRECT',
-    submit: 'SUBMIT ANSWERS',
-    try_again: 'Re-run assessment',
-    passed_pill: '✓ ASSESSMENT PASSED',
-    options_caption: 'options',
-  },
-  ru: {
-    heading: '// ОЦЕНКА',
-    correct: '[OK] ВЕРНО',
-    incorrect: '[FAIL] НЕВЕРНО',
-    submit: 'ОТПРАВИТЬ ОТВЕТ',
-    try_again: 'Пройти заново',
-    passed_pill: '✓ ОЦЕНКА СДАНА',
-    options_caption: 'вариантов',
-  },
-} as const;
+import { useId, useState } from 'react';
+import { Locale, makeTranslator } from '../utils/i18n';
 
 export interface QuizChoice {
   text: string;
@@ -32,11 +11,6 @@ export interface QuizConfig {
   question: string;
   choices: QuizChoice[];
   hint?: string;
-  /**
-   * Optional onSolve callback hint — when the quiz is answered correctly the
-   * widget fires `discammer:quizSolved` on window so the LessonFooter can
-   * auto-suggest the next step. We do not require it to succeed.
-   */
 }
 
 interface Props {
@@ -44,11 +18,12 @@ interface Props {
   locale: Locale;
 }
 
-export default function QuizWidget({ config, locale }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+export default function QuizWidget({ config }: Props) {
+  const tr = makeTranslator('quiz');
   const [selected, setSelected] = useState<number | null>(null);
   const [checked, setChecked] = useState(false);
+  // Unique per instance — pages can render several quizzes at once.
+  const radioGroup = useId();
 
   const correctIndex = config.choices.findIndex((c) => c.correct);
   const isCorrect = checked && selected !== null && config.choices[selected]?.correct === true;
@@ -56,13 +31,6 @@ export default function QuizWidget({ config, locale }: Props) {
   function check() {
     if (selected === null) return;
     setChecked(true);
-    if (config.choices[selected]?.correct) {
-      try {
-        window.dispatchEvent(new CustomEvent('discammer:quizSolved'));
-      } catch {
-        /* noop */
-      }
-    }
   }
 
   function reset() {
@@ -121,7 +89,7 @@ export default function QuizWidget({ config, locale }: Props) {
             >
               <input
                 type="radio"
-                name="quiz-choice"
+                name={radioGroup}
                 value={i}
                 checked={active}
                 onChange={() => {

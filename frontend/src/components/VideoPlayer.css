@@ -4,14 +4,14 @@
  * the cyberpunk palette declared in styles/globals.css.
  */
 .discammer-player {
-  --plyr-color-main: #00f0ff;
+  --plyr-color-main: #65def0;
   --plyr-video-control-color: #ffffff;
   --plyr-video-control-color-hover: #0b0e17;
-  --plyr-video-control-background-hover: #00f0ff;
-  --plyr-range-fill-background: #00f0ff;
-  --plyr-audio-control-color: #00f0ff;
-  --plyr-focus-visible-color: #00f0ff;
-  --plyr-tab-focus-color: #00f0ff;
+  --plyr-video-control-background-hover: #65def0;
+  --plyr-range-fill-background: #65def0;
+  --plyr-audio-control-color: #65def0;
+  --plyr-focus-visible-color: #65def0;
+  --plyr-tab-focus-color: #65def0;
   --plyr-menu-background: rgba(11, 14, 23, 0.95);
   --plyr-menu-color: #ffffff;
   --plyr-menu-radius: 10px;
@@ -57,7 +57,7 @@
 
 .discammer-player .plyr__control--overlaid:hover,
 .discammer-player .plyr__control--overlaid:focus-visible {
-  background: #00f0ff;
+  background: #65def0;
   transform: translate(-50%, -50%) scale(1.08);
   box-shadow: 0 0 48px rgba(0, 240, 255, 0.85);
 }

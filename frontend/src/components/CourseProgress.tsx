@@ -1,56 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { fetchCourseModules } from '../utils/api';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-import { getCompletedLessons, subscribe } from '../utils/progress';
-
-const BUNDLES = {
-  en: {
-    loading: '> Loading mission list',
-    error: '> ERROR: training modules unavailable.',
-    status_ready: '● READY',
-    status_in_progress: '▷ IN PROGRESS',
-    status_completed: '✓ COMPLETED',
-    status_locked: '✗ LOCKED',
-    prereq: 'PREREQ: MODULE',
-    flow_tag: '// MISSION FLOW',
-    lessons_short: 'lessons',
-    completed_at: 'COMPLETED',
-    stats_modules: 'MISSIONS',
-    stats_lessons: 'BRIEFINGS',
-    stats_runtime: 'EST RUNTIME',
-    stats_progress: 'CLEARANCE',
-    certification_tag: '// CLEARANCE',
-    cert_headline: 'Earn the DiScammer Defender clearance.',
-    cert_body:
-      'Finish all nine missions and pass the final examination to be issued a shareable clearance verifying that you can recognize, respond to, and recover from modern digital fraud.',
-    warm_up: 'Warm up in the simulator',
-    mission_prefix: 'MISSION',
-    open_briefing: '▸ OPEN BRIEFING',
-  },
-  ru: {
-    loading: '> Загрузка списка миссий',
-    error: '> ОШИБКА: модули недоступны.',
-    status_ready: '● ГОТОВ',
-    status_in_progress: '▷ В РАБОТЕ',
-    status_completed: '✓ ЗАВЕРШЁН',
-    status_locked: '✗ ЗАБЛОКИРОВАН',
-    prereq: 'УСЛОВИЕ: МОДУЛЬ',
-    flow_tag: '// ХОД ОПЕРАЦИИ',
-    lessons_short: 'уроков',
-    completed_at: 'ЗАВЕРШЕНО',
-    stats_modules: 'МИССИЙ',
-    stats_lessons: 'БРИФИНГОВ',
-    stats_runtime: 'ОЦЕНКА ВРЕМЕНИ',
-    stats_progress: 'ДОПУСК',
-    certification_tag: '// ДОПУСК',
-    cert_headline: 'Получи сертификат DiScammer Defender.',
-    cert_body:
-      'Заверши все девять миссий и сдай финальный экзамен — и получи проверяемый сертификат: подтверждение того, что ты умеешь распознавать, реагировать и восстанавливаться после современного цифрового мошенничества.',
-    warm_up: 'Разогрейся в симуляторе',
-    mission_prefix: 'МИССИЯ',
-    open_briefing: '▸ ОТКРЫТЬ БРИФИНГ',
-  },
-} as const;
+import {
+  exportProgress,
+  getCompletedLessons,
+  importProgress,
+  subscribe,
+} from '../utils/progress';
 
 type Accent = 'cyan' | 'green' | 'amber' | 'red';
 
@@ -134,28 +90,36 @@ function applyProgressiveUnlock(
     // when every prior module's lessons are completed.
     const open = !lockedBySeed || prevDone;
     out.push({ ...m, is_locked: !open });
-    prevDone = requires === 0 ? prevDone : completed >= requires;
+    prevDone = prevDone && (requires === 0 || completed >= requires);
   }
   return out;
 }
 
 export default function CourseProgress({ locale }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   const [modules, setModules] = useState<Module[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState<Map<string, number>>(new Map());
 
   useEffect(() => {
+    let cancelled = false;
     fetchCourseModules(lang)
       .then((data) => {
         const list: ApiModule[] = Array.isArray(data) ? data : data?.modules ?? [];
         const normalized = list.map(normalize);
-        setModules(normalized);
+        if (!cancelled) setModules(normalized);
       })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [lang]);
 
   // Re-derive completion counts from localStorage on mount + on every change.
@@ -215,23 +179,157 @@ export default function CourseProgress({ locale }: Props) {
 
   return (
     <section className="space-y-10 sm:space-y-12" id="modules">
-      <StatsBanner stats={stats} progressPercent={progressPercent} lang={lang} />
+      <StatsBanner stats={stats} progressPercent={progressPercent} />
       <MissionFlow modules={liveModules} completed={completed} lang={lang} />
       <CertificationCallout lang={lang} />
+      <DossierFooter />
     </section>
+  );
+}
+
+/** YYYYMMDD for the download filename, computed from the local date. */
+function dossierDateStamp(d: Date): string {
+  const y = d.getFullYear().toString();
+  const m = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  return `${y}${m}${day}`;
+}
+
+type ToastState = { kind: 'ok' | 'err'; text: string } | null;
+
+/**
+ * Export / import footer — the "operative dossier" handoff. EXPORT downloads a
+ * versioned JSON snapshot of progress + exam + cert name; IMPORT merges a file
+ * back in (best-of, non-destructive) and reports what changed. No destructive
+ * confirm dialog because the merge only ever adds.
+ */
+function DossierFooter() {
+  // Distinct variable name (not `tr`) so the i18n audit binds this island's
+  // `progress` namespace correctly — the file's other translators use `tr`.
+  const trp = makeTranslator('progress');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
+
+  // Auto-dismiss the toast after a few seconds (cleared on unmount / re-toast).
+  useEffect(() => {
+    if (!toast) return;
+    const id = window.setTimeout(() => setToast(null), 6000);
+    return () => window.clearTimeout(id);
+  }, [toast]);
+
+  function handleExport() {
+    try {
+      const dossier = exportProgress();
+      const blob = new Blob([JSON.stringify(dossier, null, 2)], {
+        type: 'application/json',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `discammer-progress-${dossierDateStamp(new Date())}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setToast({ kind: 'err', text: trp('toast_export_error') });
+    }
+  }
+
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    // Reset the input so re-selecting the same file fires `change` again.
+    e.target.value = '';
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = importProgress(String(reader.result ?? ''));
+      if (result.ok) {
+        const extra =
+          result.improvedExams > 0 ? ` ${trp('toast_import_exam', { n: result.improvedExams })}` : '';
+        setToast({
+          kind: 'ok',
+          text: `${trp('toast_import_ok', { n: result.addedLessons })}${extra}`,
+        });
+      } else {
+        setToast({ kind: 'err', text: trp('toast_import_error') });
+      }
+    };
+    reader.onerror = () => setToast({ kind: 'err', text: trp('toast_import_error') });
+    reader.readAsText(file);
+  }
+
+  return (
+    <div className="border-t border-[#202a44] pt-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588]">
+            {trp('dossier_tag')}
+          </div>
+          <p className="mt-1.5 font-sans text-[13px] text-[#6b7588] leading-relaxed max-w-[52ch]">
+            {trp('dossier_hint')}
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={handleExport}
+            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition rounded-[4px] focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+          >
+            <span aria-hidden="true">▸</span> {trp('export_action')}
+          </button>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] border border-[#202a44] hover:border-[#3a8b9a] hover:text-[#65def0] transition rounded-[4px] focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+          >
+            <span aria-hidden="true">▴</span> {trp('import_action')}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json,.json"
+            onChange={handleFile}
+            className="sr-only"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+        </div>
+      </div>
+
+      <div aria-live="polite" className="min-h-0">
+        {toast && (
+          <div
+            className={`mt-4 flex items-start justify-between gap-3 px-3.5 py-2.5 border rounded-[3px] font-mono text-[12px] leading-relaxed ${
+              toast.kind === 'ok'
+                ? 'border-[#7ce896]/40 bg-[#7ce896]/8 text-[#7ce896]'
+                : 'border-[#e76670]/40 bg-[#e76670]/8 text-[#e76670]'
+            }`}
+          >
+            <span>{toast.text}</span>
+            <button
+              type="button"
+              onClick={() => setToast(null)}
+              aria-label={trp('toast_dismiss')}
+              className="shrink-0 text-current/70 hover:text-current transition"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
 function StatsBanner({
   stats,
   progressPercent,
-  lang,
 }: {
   stats: { moduleCount: number; totalLessons: number; completedLessons: number; duration: string };
   progressPercent: number;
-  lang: Locale;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 border border-[#202a44] bg-[#121828]/60 divide-y md:divide-y-0 md:divide-x divide-[#202a44]">
       <StatCell
@@ -285,7 +383,7 @@ function MissionFlow({
   completed: Map<string, number>;
   lang: Locale;
 }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   return (
     <div className="relative">
       <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-4">
@@ -322,7 +420,7 @@ interface MissionCardProps {
 }
 
 function MissionCard({ module, previousModule, completedLessons, lang }: MissionCardProps) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   const locked = module.is_locked;
   const total = module.lessons ?? 0;
   const moduleDone = total > 0 && completedLessons >= total;
@@ -487,7 +585,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
 }
 
 function CertificationCallout({ lang }: { lang: Locale }) {
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('courseProgress');
   return (
     <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 grid-pattern rounded-[4px]">
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-center">

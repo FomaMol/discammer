@@ -17,27 +17,6 @@ interface ScamTypesGridProps {
   lang?: Locale;
 }
 
-const BUNDLES = {
-  en: {
-    loading: 'Loading guides...',
-    empty: '> No threats indexed.',
-    read: 'READ',
-    threat: 'THREAT',
-    most_common: 'MOST COMMON',
-    full_index: 'FULL INDEX',
-    threat_l: 'L',
-  },
-  ru: {
-    loading: 'Загрузка гайдов...',
-    empty: '> Угрозы пока не проиндексированы.',
-    read: 'ЧИТАТЬ',
-    threat: 'УГРОЗА',
-    most_common: 'РАСПРОСТРАНЁННЫЕ',
-    full_index: 'ПОЛНЫЙ ИНДЕКС',
-    threat_l: 'У',
-  },
-} as const;
-
 // Color mapping by threat level (matches DESIGN.md semantic accents)
 function threatColor(level: number | undefined): string {
   if (!level || level <= 2) return '#7ce896'; // green: safe
@@ -47,7 +26,7 @@ function threatColor(level: number | undefined): string {
 }
 
 // Threat-bar widget — 5 slats, filled per level
-function ThreatBar({ level, color }: { level: number; color: string }) {
+function ThreatBar({ level, color, label }: { level: number; color: string; label: string }) {
   return (
     <div
       className="flex gap-1 items-end"
@@ -55,7 +34,7 @@ function ThreatBar({ level, color }: { level: number; color: string }) {
       aria-valuenow={level}
       aria-valuemin={1}
       aria-valuemax={5}
-      aria-label={`Threat level ${level} of 5`}
+      aria-label={label}
     >
       {[1, 2, 3, 4, 5].map((slot) => (
         <span
@@ -74,18 +53,26 @@ function ThreatBar({ level, color }: { level: number; color: string }) {
 
 export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
+  const tr = makeTranslator('scamGrid');
   const [guides, setGuides] = useState<Guide[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     fetchGuides(locale)
       .then((data) => {
         const arr: Guide[] = Array.isArray(data) ? data : [];
-        setGuides(arr.filter((g) => !!g.slug).slice(0, 10));
+        if (!cancelled) setGuides(arr.filter((g) => !!g.slug).slice(0, 10));
       })
-      .catch(() => setGuides([]))
-      .finally(() => setIsLoading(false));
+      .catch(() => {
+        if (!cancelled) setGuides([]);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [locale]);
 
   const featured = guides.slice(0, 3);
@@ -190,7 +177,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
 
                   {/* Bottom: threat slats + read */}
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-dashed border-[#202a44]">
-                    <ThreatBar level={level} color={color} />
+                    <ThreatBar level={level} color={color} label={tr('threat_meter', { level })} />
                     <span
                       className="text-[10px] uppercase tracking-[2px] text-[#aab2c4] group-hover:text-[#65def0] transition-colors"
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}

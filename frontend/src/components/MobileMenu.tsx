@@ -16,23 +16,6 @@ interface MobileMenuProps {
   lang?: Locale;
 }
 
-const BUNDLES = {
-  en: {
-    open_menu: 'Open menu',
-    close_menu: 'Close menu',
-    nav_header: '// Navigation',
-    footer_note: '> DiSCAMMER v1.0 // ANTI-SCAM TERMINAL',
-    nav_aria: 'Site navigation',
-  },
-  ru: {
-    open_menu: 'Открыть меню',
-    close_menu: 'Закрыть меню',
-    nav_header: '// Навигация',
-    footer_note: '> DiSCAMMER v1.0 // АНТИ-МОШЕННИЧЕСКИЙ ТЕРМИНАЛ',
-    nav_aria: 'Навигация сайта',
-  },
-} as const;
-
 export default function MobileMenu({
   links,
   switchHref,
@@ -43,7 +26,7 @@ export default function MobileMenu({
   lang,
 }: MobileMenuProps) {
   const locale = currentLang(lang);
-  const tr = makeTranslator(locale, BUNDLES);
+  const tr = makeTranslator('nav');
   const openLabel = tr('open_menu');
   const closeLabel = tr('close_menu');
   const navHeader = tr('nav_header');
@@ -56,6 +39,8 @@ export default function MobileMenu({
   const chipCurrent = currentLangShort || legacyParts[0] || locale.toUpperCase();
   const chipOther =
     otherLangShort || legacyParts[1] || (locale === 'ru' ? 'EN' : 'RU');
+
+  const path = typeof window !== 'undefined' ? window.location.pathname : '';
 
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -121,17 +106,17 @@ export default function MobileMenu({
         aria-controls={panelId}
       >
         <span
-          className={`block w-6 h-0.5 bg-accent-cyan transition-all duration-300 ${
+          className={`block w-6 h-0.5 bg-accent-cyan transition-all duration-300 motion-reduce:transition-none ${
             isOpen ? 'rotate-45 translate-y-2' : ''
           }`}
         />
         <span
-          className={`block w-6 h-0.5 bg-accent-cyan transition-all duration-300 ${
+          className={`block w-6 h-0.5 bg-accent-cyan transition-all duration-300 motion-reduce:transition-none ${
             isOpen ? 'opacity-0' : ''
           }`}
         />
         <span
-          className={`block w-6 h-0.5 bg-accent-cyan transition-all duration-300 ${
+          className={`block w-6 h-0.5 bg-accent-cyan transition-all duration-300 motion-reduce:transition-none ${
             isOpen ? '-rotate-45 -translate-y-2' : ''
           }`}
         />
@@ -148,7 +133,7 @@ export default function MobileMenu({
             aria-modal="true"
             aria-label={navAria}
             aria-hidden={!isOpen}
-            className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out md:hidden ${
+            className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out motion-reduce:transition-none md:hidden ${
               isOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
             }`}
           >
@@ -164,36 +149,43 @@ export default function MobileMenu({
                 {navHeader}
               </div>
 
-              {links.map((link, i) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  tabIndex={isOpen ? 0 : -1}
-                  onClick={() => setIsOpen(false)}
-                  className="group flex items-center gap-4 py-3 w-full"
-                  style={{
-                    animation: isOpen
-                      ? `glitch 0.1s linear ${i * 0.05}s 1`
-                      : undefined,
-                  }}
-                >
-                  <span
-                    className="text-text-muted text-xs"
-                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
+              {links.map((link, i) => {
+                const isActive =
+                  path === link.href || path.startsWith(link.href + '/');
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    tabIndex={isOpen ? 0 : -1}
+                    aria-current={isActive ? 'page' : undefined}
+                    onClick={() => setIsOpen(false)}
+                    className="group flex items-center gap-4 py-3 w-full"
+                    style={{
+                      animation: isOpen
+                        ? `glitch 0.1s linear ${i * 0.05}s 1`
+                        : undefined,
+                    }}
                   >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span
-                    className="text-text-primary text-xl group-hover:text-accent-cyan group-hover:glow-cyan transition-colors duration-200"
-                    style={{ fontFamily: '"JetBrains Mono", monospace' }}
-                  >
-                    &gt; {link.label}
-                  </span>
-                  <span className="text-accent-cyan text-xs opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
-                    [ENTER]
-                  </span>
-                </a>
-              ))}
+                    <span
+                      className="text-text-muted text-xs"
+                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span
+                      className={`${
+                        isActive ? 'text-accent-cyan' : 'text-text-primary'
+                      } text-xl group-hover:text-accent-cyan group-hover:glow-cyan transition-colors duration-200`}
+                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
+                    >
+                      &gt; {link.label}
+                    </span>
+                    <span className="text-accent-cyan text-xs opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+                      [ENTER]
+                    </span>
+                  </a>
+                );
+              })}
 
               {/* Language switch — chip-arrow-target treatment to match desktop nav.
                   Current locale is the bordered cyan chip; arrow → muted target. */}

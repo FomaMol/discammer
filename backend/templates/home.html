@@ -25,7 +25,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ('/' ~ _lang_h ~ '/') | tojson }} }
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_h, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang_h ~ '/') | tojson }} }
       ]
     }
   ]

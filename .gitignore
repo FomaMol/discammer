@@ -14,7 +14,9 @@ node_modules/
 frontend/dist/
 
 # Database
-data/
+# Anchored to the repo root so it only ignores the SQLite data dir
+# (data/discammer.db) and not source trees like frontend/src/data/.
+/data/
 *.db
 
 # IDE

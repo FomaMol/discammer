@@ -5,28 +5,7 @@ import {
   markLessonIncomplete,
   subscribe,
 } from '../utils/progress';
-import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-
-const BUNDLES = {
-  en: {
-    mark_debrief_complete: '▸ MARK DEBRIEF COMPLETE',
-    completed: '✓ DEBRIEF LOGGED',
-    back_to_module: '↑ Mission checklist',
-    prev_briefing: '◁ PREV BRIEFING',
-    next_briefing: 'NEXT BRIEFING ▷',
-    finish_mission: 'COMPLETE MISSION ▷',
-    return_to_mission: 'Return to mission',
-  },
-  ru: {
-    mark_debrief_complete: '▸ ОТМЕТИТЬ ДЕБРИФ',
-    completed: '✓ ДЕБРИФ ЗАПИСАН',
-    back_to_module: '↑ Чек-лист миссии',
-    prev_briefing: '◁ ПРЕД. БРИФИНГ',
-    next_briefing: 'СЛЕД. БРИФИНГ ▷',
-    finish_mission: 'ЗАВЕРШИТЬ МИССИЮ ▷',
-    return_to_mission: 'Вернуться к миссии',
-  },
-} as const;
+import { Locale, makeTranslator } from '../utils/i18n';
 
 interface Props {
   moduleSlug: string;
@@ -42,15 +21,13 @@ interface Props {
 export default function LessonFooter({
   moduleSlug,
   lessonSlug,
-  locale,
   prevHref,
   prevTitle,
   nextHref,
   nextTitle,
   moduleHref,
 }: Props) {
-  const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('lessonFooter');
   const [done, setDone] = useState(false);
 
   // Hydrate from localStorage on mount and subscribe to cross-tab updates.

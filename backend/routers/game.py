@@ -47,21 +47,24 @@ def _brotli_content_type(name: str) -> str | None:
 def _cache_control_for(relpath: Path) -> str:
     """Build/ contains version-stamped (web_gl_build_10.*) immutable assets.
     Loadscreen/ assets change with the build but reference is by name; keep
-    short cache. index.html and other top-level files: short cache.
+    short cache. index.html must never be cached (same policy as /play/),
+    or a stale copy keeps referencing pruned version-stamped assets for a day.
     """
     parts = relpath.parts
     if parts and parts[0] == "Build":
         return _IMMUTABLE_CACHE
+    if relpath == Path("index.html"):
+        return "no-cache"
     return _SHORT_CACHE
 
 
-@router.get("")
+@router.api_route("", methods=["GET", "HEAD"])
 async def play_root_no_slash():
     """Redirect /play -> /play/ so relative asset paths in index.html resolve."""
     return RedirectResponse(url="/play/", status_code=307)
 
 
-@router.get("/")
+@router.api_route("/", methods=["GET", "HEAD"])
 async def play_index():
     index = GAME_BUILD_DIR / "index.html"
     if not index.exists():
@@ -73,7 +76,7 @@ async def play_index():
     )
 
 
-@router.get("/{path:path}")
+@router.api_route("/{path:path}", methods=["GET", "HEAD"])
 async def play_asset(path: str):
     target = (GAME_BUILD_DIR / path).resolve()
     try:

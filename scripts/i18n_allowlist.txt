@@ -1,0 +1,150 @@
+# i18n audit allowlist — keys referenced only via runtime-constructed names.
+#
+# These keys are real and rendered, but their full dotted name is never written
+# as a string literal (the suffix is built from a slug / threat level / weekday
+# index at request time), so the literal-scanning audit cannot see them. Listing
+# them here keeps the audit conservative: it will NOT flag them as dead.
+#
+# One key per line; blank lines and lines starting with `#` are ignored.
+
+# guide.html — risk-tier words selected by threat level (1..5) and the
+# `_level_key_map` / `_ops_priority_keys` / `_slat_label_keys` lookups:
+#   t(_lang, 'guide.' ~ _level_key_map.get(_tl, 'risk_word_unknown'))
+guide.risk_word_low
+guide.risk_word_med
+guide.risk_word_med_short
+guide.risk_word_high
+guide.risk_word_crit_short
+guide.risk_word_critical
+guide.risk_word_contained
+guide.risk_word_elevated
+guide.risk_word_severe
+guide.risk_word_unknown
+
+# guide.html — investigator-notes body selected by guide slug:
+#   t(_lang, 'guide.' ~ _slug_to_notes_key.get(guide.slug, 'investigator_notes_generic'))
+guide.investigator_notes_generic
+guide.investigator_notes_phishing
+guide.investigator_notes_nigerian_letters
+guide.investigator_notes_investment_pyramids
+guide.investigator_notes_fake_online_stores
+
+# journal.html / post.html — month + weekday names indexed by date component:
+#   t(_lang, 'journal.' ~ _month_keys[_mm - 1])
+#   t(_lang, 'journal.' ~ _weekday_keys[_wkday_idx])
+journal.month_jan
+journal.month_feb
+journal.month_mar
+journal.month_apr
+journal.month_may
+journal.month_jun
+journal.month_jul
+journal.month_aug
+journal.month_sep
+journal.month_oct
+journal.month_nov
+journal.month_dec
+journal.weekday_monday
+journal.weekday_tuesday
+journal.weekday_wednesday
+journal.weekday_thursday
+journal.weekday_friday
+journal.weekday_saturday
+journal.weekday_sunday
+
+# post.html — breadcrumb label selected by post type:
+#   t(_lang, 'breadcrumb.type_' ~ post.type)
+breadcrumb.type_article
+breadcrumb.type_interview
+breadcrumb.type_newsletter
+
+# ── client surface ──────────────────────────────────────────────────────────
+
+# ScenarioWidget.tsx — outcome label chosen from OUTCOME_STYLES[*].labelKey:
+#   tr(style.labelKey)   // labelKey is a variable, not a string literal
+client.scenario.outcome_optimal
+client.scenario.outcome_compromised
+client.scenario.outcome_mission_failed
+
+# JournalBroadsheet.tsx — filter-tab label rendered via tr(activeTab)/tr(key).
+# INTERVIEW/NEWSLETTER/ARTICLE are also called with literals (localizedBadge);
+# ALL and GUIDE are reached only through the variable call, so list them here.
+client.journal.ALL
+client.journal.GUIDE
+
+# MessageAnalyzer.tsx (F2) — flag label/body selected by the fired flag's
+# flagKey, and the signal-strength word selected by severity:
+#   tr(`flags.${flag.flagKey}_label`) / tr(`flags.${flag.flagKey}_body`)
+#   tr(`sev_${flag.severity}`)
+# All are template-literal lookups (never string literals), so the audit can't
+# see them. Each corresponds to a rule id in frontend/src/data/redflags.ts.
+client.analyzer.flags.urgency_label
+client.analyzer.flags.urgency_body
+client.analyzer.flags.otp_ask_label
+client.analyzer.flags.otp_ask_body
+client.analyzer.flags.credential_ask_label
+client.analyzer.flags.credential_ask_body
+client.analyzer.flags.safe_account_label
+client.analyzer.flags.safe_account_body
+client.analyzer.flags.impersonation_label
+client.analyzer.flags.impersonation_body
+client.analyzer.flags.crypto_rail_label
+client.analyzer.flags.crypto_rail_body
+client.analyzer.flags.gift_card_rail_label
+client.analyzer.flags.gift_card_rail_body
+client.analyzer.flags.p2p_transfer_label
+client.analyzer.flags.p2p_transfer_body
+client.analyzer.flags.url_shortener_label
+client.analyzer.flags.url_shortener_body
+client.analyzer.flags.punycode_label
+client.analyzer.flags.punycode_body
+client.analyzer.flags.homograph_label
+client.analyzer.flags.homograph_body
+client.analyzer.flags.prize_win_label
+client.analyzer.flags.prize_win_body
+client.analyzer.flags.guaranteed_roi_label
+client.analyzer.flags.guaranteed_roi_body
+client.analyzer.flags.qr_code_label
+client.analyzer.flags.qr_code_body
+client.analyzer.flags.deadline_clock_label
+client.analyzer.flags.deadline_clock_body
+client.analyzer.flags.secrecy_label
+client.analyzer.flags.secrecy_body
+client.analyzer.flags.account_threat_label
+client.analyzer.flags.account_threat_body
+client.analyzer.flags.login_link_bait_label
+client.analyzer.flags.login_link_bait_body
+client.analyzer.flags.advance_fee_label
+client.analyzer.flags.advance_fee_body
+client.analyzer.flags.attachment_bait_label
+client.analyzer.flags.attachment_bait_body
+client.analyzer.flags.romance_money_label
+client.analyzer.flags.romance_money_body
+client.analyzer.sev_1
+client.analyzer.sev_2
+client.analyzer.sev_3
+
+# check.html (F2) — numbered checklist / how-to / example-flag lines built by
+# index in a Jinja range() loop: t(_lang, 'check.noscript_' ~ i) etc.
+check.how_1
+check.how_2
+check.how_3
+check.noscript_1
+check.noscript_2
+check.noscript_3
+check.noscript_4
+check.noscript_5
+check.noscript_6
+check.example_flag_1
+check.example_flag_2
+check.example_flag_3
+check.example_flag_4
+check.example_flag_5
+
+# ── test fixtures ───────────────────────────────────────────────────────────
+
+# backend/tests/test_i18n.py uses this key as a representative interpolation
+# fixture (t("en", "course.terminal_lessons", lessons=5)). Not referenced by
+# product code, but deleting it would break that pre-existing test (not owned
+# by this wave), so it is intentionally retained.
+course.terminal_lessons

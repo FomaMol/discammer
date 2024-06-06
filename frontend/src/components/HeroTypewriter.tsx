@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { currentLang, pick, type Locale } from '../utils/i18n';
+import { makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
 
 interface HeroTypewriterProps {
@@ -8,8 +8,8 @@ interface HeroTypewriterProps {
   lang?: Locale;
 }
 
-export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriterProps) {
-  const locale = currentLang(lang);
+export default function HeroTypewriter({ phrases, prefix }: HeroTypewriterProps) {
+  const tr = makeTranslator('heroTypewriter');
   const reduce = useReducedMotion();
   // Under reduced motion: render the first phrase fully and stop cycling.
   // Per DESIGN.md motion notes, typewriter cycling is suppressed entirely.
@@ -52,20 +52,19 @@ export default function HeroTypewriter({ phrases, prefix, lang }: HeroTypewriter
     };
   }, [displayed, isDeleting, phraseIndex, phrases, reduce]);
 
-  const resolvedPrefix =
-    prefix ?? pick(locale, { en: '> WHERE THE SCAM IS FOUND: ', ru: '> ГДЕ ВОДЯТСЯ МОШЕННИКИ: ' });
+  const resolvedPrefix = prefix ?? tr('prefix');
 
   return (
     <p
       className="text-sm sm:text-lg md:text-xl text-text-secondary break-words"
       style={{ fontFamily: '"JetBrains Mono", monospace' }}
     >
-      <span className="text-text-muted">{resolvedPrefix}</span>
-      <span
-        className="text-accent-amber glow-amber"
-        aria-live="polite"
-        aria-atomic="false"
-      >
+      {/* Static copy for AT — the animated spans below mutate every 80ms */}
+      <span className="sr-only">{resolvedPrefix + phrases.join(' / ')}</span>
+      <span className="text-text-muted" aria-hidden="true">
+        {resolvedPrefix}
+      </span>
+      <span className="text-accent-amber glow-amber" aria-hidden="true">
         {displayed}
       </span>
       <span

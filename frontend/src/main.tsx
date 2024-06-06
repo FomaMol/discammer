@@ -2,7 +2,16 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/globals.css';
 
-// Component registry
+// Component registry — lazy on purpose. Each React.lazy(() => import(...))
+// becomes its own hashed dynamic chunk, so an island's deps (e.g. Plyr inside
+// VideoPlayer) only download on pages that actually mount it. The home page no
+// longer ships Plyr or the course widgets.
+//
+// Safety: vite.config.ts keeps `resolve.dedupe: ['react','react-dom',
+// 'react/jsx-runtime']`, so every dynamic chunk shares the single React
+// instance from the entry — no second React, no error #321. Filenames are
+// content-hashed (no `?v=` query cache-busting), which is the other half of
+// keeping the lazy-import URLs stable and single-instanced.
 const components: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
   HeroTypewriter: React.lazy(() => import('./components/HeroTypewriter')),
   ContentCarousel: React.lazy(() => import('./components/ContentCarousel')),
@@ -22,7 +31,35 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   OpsDebriefPanel: React.lazy(() => import('./components/OpsDebriefPanel')),
   WordmarkReveal: React.lazy(() => import('./components/WordmarkReveal')),
   VideoPlayer: React.lazy(() => import('./components/VideoPlayer')),
+  SearchConsole: React.lazy(() => import('./components/SearchConsole')),
+  MessageAnalyzer: React.lazy(() => import('./components/MessageAnalyzer')),
 };
+
+// If an island throws, restore its server-rendered markup (captured before
+// the mount cleared it) instead of leaving a permanently blank box. Suspense
+// is nested INSIDE this boundary, so a failed *chunk load* (network error)
+// also falls back to the SSR markup rather than a blank frame.
+class IslandErrorBoundary extends React.Component<
+  { name: string; fallbackHtml: string; children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(err: Error) {
+    console.warn('[islands]', this.props.name, 'crashed — restoring SSR fallback', err);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div dangerouslySetInnerHTML={{ __html: this.props.fallbackHtml }} />;
+    }
+    return this.props.children;
+  }
+}
 
 function hydrateIslands() {
   const islands = document.querySelectorAll<HTMLElement>('[data-component]');
@@ -45,10 +82,15 @@ function hydrateIslands() {
     const children = el.innerHTML;
     el.innerHTML = '';
     const root = createRoot(el);
+    // Suspense fallback re-renders the captured SSR markup so there is NO blank
+    // frame while the island's chunk downloads (the previous code-splitting
+    // regression). Same markup the ErrorBoundary restores on crash.
     root.render(
-      <React.Suspense fallback={null}>
-        <Component {...props} dangerouslySetInnerHTML={children ? { __html: children } : undefined} />
-      </React.Suspense>
+      <IslandErrorBoundary name={name} fallbackHtml={children}>
+        <React.Suspense fallback={<div dangerouslySetInnerHTML={{ __html: children }} />}>
+          <Component {...props} dangerouslySetInnerHTML={children ? { __html: children } : undefined} />
+        </React.Suspense>
+      </IslandErrorBoundary>
     );
   });
 }

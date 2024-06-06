@@ -2,31 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { prefersReducedMotion } from '../utils/useReducedMotion';
 
-const BUNDLES = {
-  en: {
-    shell_label: 'dcm-ops@academy ~ % ./brief.sh',
-    access: 'OPERATOR DCM-117  ACCESS GRANTED',
-    transmission: 'INCOMING TRANSMISSION ...',
-    counts: '{modules} MODULES · {lessons} LESSONS · ESTIMATED {runtime}',
-    cert: 'CERTIFICATE: ISSUED ON COMPLETION',
-    status_ready: 'STATUS: READY',
-    cta_start: 'START MISSION',
-    cta_modules: 'VIEW MODULES',
-    cta_brief: 'DOWNLOAD BRIEF',
-  },
-  ru: {
-    shell_label: 'dcm-ops@academy ~ % ./brief.sh',
-    access: 'ОПЕРАТОР DCM-117  ДОСТУП ОТКРЫТ',
-    transmission: 'ВХОДЯЩАЯ ПЕРЕДАЧА ...',
-    counts: '{modules} МОДУЛЕЙ · {lessons} УРОКОВ · ОЦЕНКА {runtime}',
-    cert: 'СЕРТИФИКАТ: ВЫДАЁТСЯ ПО ОКОНЧАНИИ',
-    status_ready: 'СТАТУС: ГОТОВ',
-    cta_start: 'НАЧАТЬ МИССИЮ',
-    cta_modules: 'СПИСОК МОДУЛЕЙ',
-    cta_brief: 'СКАЧАТЬ БРИФИНГ',
-  },
-} as const;
-
 interface Props {
   locale?: Locale;
   /** Long-form course title (already localised). */
@@ -91,7 +66,7 @@ export default function MissionBriefingTerminal({
   firstModuleSlug,
 }: Props) {
   const lang = normalizeLocale(locale);
-  const tr = makeTranslator(lang, BUNDLES);
+  const tr = makeTranslator('briefing');
   const shellLabel = tr('shell_label');
 
   const accessLine = tr('access');
@@ -216,7 +191,7 @@ export default function MissionBriefingTerminal({
           {!allShown && (
             <span
               className="inline-block ml-1 text-[#65def0] font-mono"
-              style={{ animation: 'blink 1s step-end infinite' }}
+              style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
               aria-hidden="true"
             >
               &#x25AE;
@@ -227,7 +202,7 @@ export default function MissionBriefingTerminal({
               <span className="text-[#65def0]" aria-hidden="true">{'>'}</span>
               <span
                 className="inline-block text-[#65def0] font-mono"
-                style={{ animation: 'blink 1s step-end infinite' }}
+                style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
                 aria-hidden="true"
               >
                 &#x25AE;

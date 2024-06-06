@@ -1,0 +1,14 @@
+{
+  "name": "discammer-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright end-to-end debug harness for DiScammer (Task Q1).",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.49.1"
+  }
+}

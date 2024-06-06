@@ -1,9 +1,12 @@
 import re
 
-from fastapi import APIRouter, Path, Request
+from fastapi import APIRouter, Depends, Path, Query, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
+from markupsafe import Markup
 
+from config import STATIC_DIR
 from database import (
+    get_conn,
     get_course_modules,
     get_guides,
     get_guide_by_slug,
@@ -14,15 +17,48 @@ from database import (
     get_posts,
     get_related_guides,
     get_related_posts,
+    search_content,
 )
 from i18n import SUPPORTED_LANGS, detect_lang, normalize_lang, t
 from markdown_renderer import render_markdown
+from routers.api import snippet_to_html
 
 router = APIRouter()
 
 # Path constraint that forces ``lang`` to a supported code.
 LANG_REGEX = "|".join(SUPPORTED_LANGS)
 LangPath = Path(..., pattern=f"^({LANG_REGEX})$", description="Language code")
+
+
+# ---------------------------------------------------------------------------
+# Per-content OG cards
+#
+# scripts/og_generate.py writes one 1200×630 PNG per post/guide per locale to
+# backend/static/images/og/{posts,guides}/{slug}.{lang}.png (committed assets).
+# To set ``page_image`` to a card without a per-request stat, scan the two dirs
+# once at import into a set of relative URLs and look up membership per request.
+# A missing card (e.g. a new slug not yet regenerated) cleanly falls back to the
+# previous behavior (cover_image / base.html default) — never a broken og:image.
+# ---------------------------------------------------------------------------
+
+def _scan_og_cards() -> set[str]:
+    available: set[str] = set()
+    for kind_dir in ("posts", "guides"):
+        d = STATIC_DIR / "images" / "og" / kind_dir
+        if not d.is_dir():
+            continue
+        for png in d.glob("*.png"):
+            available.add(f"/static/images/og/{kind_dir}/{png.name}")
+    return available
+
+
+_OG_CARDS: set[str] = _scan_og_cards()
+
+
+def _og_card_for(kind_dir: str, slug: str, lang: str) -> str | None:
+    """Return the per-content OG card URL if it was generated, else None."""
+    rel = f"/static/images/og/{kind_dir}/{slug}.{lang}.png"
+    return rel if rel in _OG_CARDS else None
 
 
 # ---------------------------------------------------------------------------
@@ -143,9 +179,22 @@ async def game_compat(request: Request):
     return _legacy_redirect(request, "/game")
 
 
+@router.get("/search", include_in_schema=False)
+async def search_compat(request: Request):
+    # Preserve any ?q= so an un-prefixed /search?q=... still lands on results.
+    qs = request.url.query
+    suffix = f"?{qs}" if qs else ""
+    return _legacy_redirect(request, f"/search{suffix}")
+
+
 @router.get("/about", include_in_schema=False)
 async def about_compat(request: Request):
     return _legacy_redirect(request, "/about")
+
+
+@router.get("/check", include_in_schema=False)
+async def check_compat(request: Request):
+    return _legacy_redirect(request, "/check")
 
 
 def _safe_next(next_param: str | None, target: str) -> str:
@@ -195,11 +244,11 @@ async def switch_lang(target: str, request: Request):
 
 @router.get("/{lang}/", response_class=HTMLResponse)
 @router.get("/{lang}", response_class=HTMLResponse)
-async def home(request: Request, lang: str = LangPath):
-    interviews = await get_posts(type_filter="interview", locale=lang)
-    newsletters = await get_posts(type_filter="newsletter", locale=lang)
-    articles = await get_posts(type_filter="article", locale=lang)
-    guides = await get_guides(locale=lang)
+async def home(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    interviews = await get_posts(conn, type_filter="interview", locale=lang)
+    newsletters = await get_posts(conn, type_filter="newsletter", locale=lang)
+    articles = await get_posts(conn, type_filter="article", locale=lang)
+    guides = await get_guides(conn, locale=lang)
 
     stats = {
         "threats": len(guides),
@@ -235,9 +284,9 @@ async def home(request: Request, lang: str = LangPath):
 
 
 @router.get("/{lang}/journal", response_class=HTMLResponse)
-async def journal(request: Request, lang: str = LangPath):
-    posts = await get_posts(locale=lang)
-    guides = await get_guides(locale=lang)
+async def journal(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    posts = await get_posts(conn, locale=lang)
+    guides = await get_guides(conn, locale=lang)
 
     return _templates(request).TemplateResponse(
         request,
@@ -252,8 +301,8 @@ async def journal(request: Request, lang: str = LangPath):
 
 
 @router.get("/{lang}/journal/{slug}", response_class=HTMLResponse)
-async def post_detail(slug: str, request: Request, lang: str = LangPath):
-    post = await get_post_by_slug(slug, locale=lang)
+async def post_detail(slug: str, request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    post = await get_post_by_slug(conn, slug=slug, locale=lang)
     if not post:
         return _templates(request).TemplateResponse(
             request,
@@ -265,7 +314,7 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
             status_code=404,
         )
 
-    related = await get_related_posts(post["type"], slug, locale=lang)
+    related = await get_related_posts(conn, post_type=post["type"], exclude_slug=slug, locale=lang)
     post["content_html"] = render_markdown(
         post.get("content") or "",
         post_title=post.get("title"),
@@ -279,13 +328,20 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath):
             "post": post,
             "related_posts": related,
             "page_title": f"{post['title']} · DiScammer",
+            "page_description": post.get("subtitle") or None,
+            # Prefer the per-content OG card (generated by scripts/og_generate.py)
+            # when it exists; otherwise fall back to the post's cover image, then
+            # to the base.html default for a falsy value.
+            "page_image": _og_card_for("posts", slug, lang)
+            or post.get("cover_image")
+            or None,
         },
     )
 
 
 @router.get("/{lang}/guide/{slug}", response_class=HTMLResponse)
-async def guide_detail(slug: str, request: Request, lang: str = LangPath):
-    guide = await get_guide_by_slug(slug, locale=lang)
+async def guide_detail(slug: str, request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    guide = await get_guide_by_slug(conn, slug=slug, locale=lang)
     if not guide:
         return _templates(request).TemplateResponse(
             request,
@@ -297,7 +353,7 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
             status_code=404,
         )
 
-    related = await get_related_guides(slug, locale=lang)
+    related = await get_related_guides(conn, exclude_slug=slug, locale=lang)
     guide["content_html"] = render_markdown(
         guide.get("content") or "",
         post_title=guide.get("title"),
@@ -311,13 +367,16 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath):
             "guide": guide,
             "related_guides": related,
             "page_title": f"{guide['title']} · DiScammer",
+            "page_description": guide.get("description") or None,
+            # Per-content OG card if generated; else None → base.html default.
+            "page_image": _og_card_for("guides", slug, lang),
         },
     )
 
 
 @router.get("/{lang}/course", response_class=HTMLResponse)
-async def course(request: Request, lang: str = LangPath):
-    modules = await get_course_modules(locale=lang)
+async def course(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
+    modules = await get_course_modules(conn, locale=lang)
 
     return _templates(request).TemplateResponse(
         request,
@@ -333,9 +392,9 @@ async def course(request: Request, lang: str = LangPath):
 
 @router.get("/{lang}/course/{module_slug}", response_class=HTMLResponse)
 async def course_module(
-    request: Request, module_slug: str, lang: str = LangPath
+    request: Request, module_slug: str, lang: str = LangPath, conn=Depends(get_conn)
 ):
-    module = await get_module_by_slug(module_slug, locale=lang)
+    module = await get_module_by_slug(conn, slug=module_slug, locale=lang)
     if not module:
         return _templates(request).TemplateResponse(
             request,
@@ -347,7 +406,7 @@ async def course_module(
             status_code=404,
         )
 
-    lessons = await get_lessons_for_module(module_slug, locale=lang)
+    lessons = await get_lessons_for_module(conn, module_slug=module_slug, locale=lang)
     module["content_html"] = render_markdown(module.get("content") or "")
 
     return _templates(request).TemplateResponse(
@@ -368,9 +427,10 @@ async def course_lesson(
     module_slug: str,
     lesson_slug: str,
     lang: str = LangPath,
+    conn=Depends(get_conn),
 ):
-    module = await get_module_by_slug(module_slug, locale=lang)
-    lesson = await get_lesson(module_slug, lesson_slug, locale=lang)
+    module = await get_module_by_slug(conn, slug=module_slug, locale=lang)
+    lesson = await get_lesson(conn, module_slug=module_slug, lesson_slug=lesson_slug, locale=lang)
     if not module or not lesson:
         return _templates(request).TemplateResponse(
             request,
@@ -382,7 +442,7 @@ async def course_lesson(
             status_code=404,
         )
 
-    lessons = await get_lessons_for_module(module_slug, locale=lang)
+    lessons = await get_lessons_for_module(conn, module_slug=module_slug, locale=lang)
     idx = next((i for i, ls in enumerate(lessons) if ls["slug"] == lesson_slug), None)
     prev_lesson = lessons[idx - 1] if idx and idx > 0 else None
     next_lesson = (
@@ -426,6 +486,65 @@ async def about(request: Request, lang: str = LangPath):
         {
             **_base_context(request, lang),
             "page_title": t(lang, "about.page_title"),
+        },
+    )
+
+
+@router.get("/{lang}/check", response_class=HTMLResponse)
+async def check_page(request: Request, lang: str = LangPath):
+    """SSR explainer for the message red-flag analyzer (F2).
+
+    The page mounts the MessageAnalyzer island, which runs entirely in the
+    browser — no text the reader pastes ever reaches the server. This handler
+    only renders the static explainer, worked example, and no-JS checklist.
+    """
+    return _templates(request).TemplateResponse(
+        request,
+        "check.html",
+        {
+            **_base_context(request, lang),
+            "page_title": t(lang, "page_titles.check"),
+        },
+    )
+
+
+@router.get("/{lang}/search", response_class=HTMLResponse)
+async def search_page(
+    request: Request,
+    lang: str = LangPath,
+    q: str = Query(default=""),
+    conn=Depends(get_conn),
+):
+    """SSR site search. With ``?q=`` it renders results server-side (progressive
+    enhancement base for the SearchConsole island); without, the empty-state
+    explainer. Snippet HTML is built in Python via the SAME escape-then-mark as
+    the API and marked safe so Jinja autoescape leaves it intact — the markers
+    were swapped for <mark> only AFTER content was HTML-escaped.
+    """
+    query = q.strip()
+    results: list[dict] = []
+    if query:
+        rows = await search_content(conn, q=query, kind=None, limit=20, lang=lang)
+        for row in rows:
+            results.append(
+                {
+                    "kind": row["kind"],
+                    "slug": row["slug"],
+                    "title": row["title"],
+                    # Markup(...) marks the already-escaped-then-marked HTML safe.
+                    "snippet_html": Markup(snippet_to_html(row.get("snippet_raw"))),
+                }
+            )
+
+    return _templates(request).TemplateResponse(
+        request,
+        "search.html",
+        {
+            **_base_context(request, lang),
+            "q": query,
+            "results": results,
+            "result_count": len(results),
+            "page_title": t(lang, "page_titles.search"),
         },
     )
 
