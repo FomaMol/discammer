@@ -47,7 +47,7 @@ export default function ObjectivesPanel({ locale, objectives, moduleTitle }: Pro
             {heading}
           </span>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] hidden sm:inline">
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#868fa3] hidden sm:inline">
           {subtitle}
         </span>
       </header>
