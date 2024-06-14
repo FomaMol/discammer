@@ -2,7 +2,7 @@ services:
   web:
     ports: !override
       - "127.0.0.1:8000:8000"
-    # A7 (non-root container) was deferred to v5 — the container runs as root,
-    # so no chown of /opt/discammer/data is required. See the Dockerfile note
-    # for how to re-introduce non-root safely (root entrypoint that chowns the
-    # data volume then drops privileges, validated in CI's dockerized e2e job).
+    # A7 (non-root container): the app process runs as the unprivileged `app`
+    # user (uid 10001). docker-entrypoint.sh self-heals /app/data ownership at
+    # startup (runs as root, chowns the bind-mounted data dir, then drops via
+    # gosu), so NO host-side `chown` of /opt/discammer/data is required.

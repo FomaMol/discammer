@@ -26,16 +26,25 @@ COPY content/ ./content/
 COPY --from=frontend-build /app/backend/static/ ./backend/static/
 RUN mkdir -p /app/data
 
-# NOTE (A7 deferred to v5): the container runs as root, matching the proven
-# prod behavior. A non-root user was prepared in v4 but pulled before release —
-# the bind-mounted ./data volume is root-owned on the host, so a non-root
-# process can't create discammer.db without a manual `chown`, and that couldn't
-# be validated locally (no Docker here). Re-introduce it via a root entrypoint
-# that chowns /app/data then drops privileges (gosu/su-exec), tested in CI's
-# dockerized e2e job before relying on it.
+# Non-root at runtime (A7). Install gosu, create an unprivileged `app` user, and
+# use an entrypoint that — running as root — makes the bind-mounted /app/data
+# writable by `app`, then drops to `app` via gosu before exec'ing uvicorn. This
+# is self-healing: no host-side chown of the data volume is required, so it
+# works in CI, local compose, and prod identically. We intentionally do NOT set
+# `USER app` (the entrypoint must start as root to fix the volume ownership).
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends gosu \
+  && rm -rf /var/lib/apt/lists/* \
+  && groupadd --gid 10001 app \
+  && useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin app
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 8000
 WORKDIR /app/backend
+# HEALTHCHECK runs as the container's default user (root) — fine; the main app
+# process is dropped to `app` by the entrypoint.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4)"
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]
