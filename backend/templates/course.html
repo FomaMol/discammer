@@ -50,7 +50,7 @@
 
     {# Eyebrow line — current op-stamp #}
     <div class="flex items-center flex-wrap gap-x-4 gap-y-1 mb-5">
-      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6b7588]">
+      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#868fa3]">
         {{ t(_lang, 'course.hero_eyebrow_op_stamp') }}
       </span>
       <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3a8b9a] tabular-nums">
@@ -75,7 +75,7 @@
           </div>
           <div class="px-4 sm:px-6 py-6 font-mono text-[12px] sm:text-[13px] leading-[1.7]">
             <div class="text-[#65def0]">&gt; {{ t(_lang, 'course.noscript_access') }}</div>
-            <div class="text-[#6b7588]">&gt; {{ t(_lang, 'course.noscript_transmission') }}</div>
+            <div class="text-[#868fa3]">&gt; {{ t(_lang, 'course.noscript_transmission') }}</div>
             <div class="text-[#65def0] mt-3 font-bold">&gt; {{ t(_lang, 'course.title_long') | upper }}</div>
             <div class="text-[#cdd4e3] mt-3">▸ {{ course_totals.modules }} {{ t(_lang, 'course.briefing_modules') }} · {{ course_totals.lessons }} {{ t(_lang, 'course.briefing_lessons') }} · {{ t(_lang, 'course.briefing_estimated') }} {{ course_totals.runtime | upper }}</div>
             <div class="text-[#cdd4e3]">▸ {{ t(_lang, 'course.noscript_certificate') }}</div>
@@ -95,7 +95,7 @@
 
 {# ---------- Mission list ---------- #}
 <section id="modules" class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-1">
+  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#868fa3] mb-1">
     {{ t(_lang, 'course.section_missions_eyebrow') }}
   </div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-2">
@@ -111,13 +111,13 @@
       <ol class="space-y-3 sm:space-y-4">
         {% for module in modules %}
         <li class="relative flex items-stretch gap-3 sm:gap-4">
-          <div class="shrink-0 w-12 h-12 sm:w-[55px] sm:h-[55px] flex items-center justify-center border {% if module.is_locked %}border-[#202a44] text-[#6b7588]{% else %}border-[#3a8b9a] text-[#65def0]{% endif %} bg-[#0b0f1a] font-mono text-[16px] sm:text-[20px] font-extrabold tabular-nums rounded-[3px] mt-1">
+          <div class="shrink-0 w-12 h-12 sm:w-[55px] sm:h-[55px] flex items-center justify-center border {% if module.is_locked %}border-[#202a44] text-[#868fa3]{% else %}border-[#3a8b9a] text-[#65def0]{% endif %} bg-[#0b0f1a] font-mono text-[16px] sm:text-[20px] font-extrabold tabular-nums rounded-[3px] mt-1">
             {{ "%02d"|format(module.order) }}
           </div>
           <a href="/{{ _lang }}/course/{{ module.slug }}" class="flex-1 min-w-0 {% if module.is_locked %}pointer-events-none opacity-70{% endif %}">
             <div class="border border-[#202a44] bg-[#121828] rounded-[4px] flex flex-col sm:flex-row">
               <div class="flex-1 p-4 sm:p-5 sm:basis-[60%]">
-                <div class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588] mb-2">{{ t(_lang, 'module.mission_label_prefix') }} {{ "%02d"|format(module.order) }}</div>
+                <div class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#868fa3] mb-2">{{ t(_lang, 'module.mission_label_prefix') }} {{ "%02d"|format(module.order) }}</div>
                 <h3 class="font-mono font-bold uppercase text-[#e7ecf5] text-[15px] sm:text-[17px] tracking-[-0.01em]">{{ module.title }}</h3>
                 {% if module.description %}
                 <p class="mt-2 font-sans text-[14px] text-[#aab2c4] leading-relaxed line-clamp-2">{{ module.description }}</p>
@@ -141,7 +141,7 @@
 
 {# ---------- How it works ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14" aria-label="{{ t(_lang, 'course.section_how_title') }}">
-  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-1">{{ t(_lang, 'course.section_how') }}</div>
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#868fa3] mb-1">{{ t(_lang, 'course.section_how') }}</div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_how_title') }}
   </h2>
@@ -150,7 +150,7 @@
      Replaces the previous 3-equal-card grid per DESIGN.md bans. #}
   <ol class="border-y border-[#202a44] divide-y divide-[#202a44]" role="list">
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
-      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#6b7588]">01</div>
+      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#868fa3]">01</div>
       <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#65def0]" style="letter-spacing: -0.005em;">
         {{ t(_lang, 'course.step_learn') }}
       </div>
@@ -160,7 +160,7 @@
     </li>
 
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
-      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#6b7588]">02</div>
+      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#868fa3]">02</div>
       <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#7ce896]" style="letter-spacing: -0.005em;">
         {{ t(_lang, 'course.step_practice') }}
       </div>
@@ -170,7 +170,7 @@
     </li>
 
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
-      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#6b7588]">03</div>
+      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#868fa3]">03</div>
       <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#f4b965]" style="letter-spacing: -0.005em;">
         {{ t(_lang, 'course.step_certify') }}
       </div>
@@ -183,7 +183,7 @@
 
 {# ---------- FAQ ---------- #}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14" aria-label="{{ t(_lang, 'course.section_faq_title') }}">
-  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#868fa3] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_faq_title') }}
   </h2>

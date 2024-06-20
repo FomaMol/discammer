@@ -422,7 +422,7 @@ function Certificate({
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#868fa3]">
                 {scoreLabel}
               </div>
               <div className="font-mono text-[#7ce896] text-[18px] mt-1 tabular-nums">
@@ -430,7 +430,7 @@ function Certificate({
               </div>
             </div>
             <div className="sm:text-right">
-              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#868fa3]">
                 {verificationLabel}
               </div>
               <div className="font-mono text-[#65def0] text-[18px] mt-1 tabular-nums">DSC-{verificationCode}</div>
@@ -445,11 +445,11 @@ function Certificate({
                   /s/ {issuingOfficer}
                 </span>
               </div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#868fa3]">
                 {issuingOfficerLabel}
               </div>
             </div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588] text-right">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#868fa3] text-right">
               {tr('authority_block')}
             </div>
           </div>

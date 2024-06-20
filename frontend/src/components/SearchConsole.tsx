@@ -183,7 +183,7 @@ export default function SearchConsole({
           placeholder={resolvedPlaceholder}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKeyDown}
-          className="flex-1 min-w-0 bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-2.5 font-mono text-[14px] text-[#e7ecf5] placeholder:text-[#475064]"
+          className="flex-1 min-w-0 bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-2.5 font-mono text-[14px] text-[#e7ecf5] placeholder:text-[#7e879b]"
         />
         <button
           type="submit"
@@ -205,7 +205,7 @@ export default function SearchConsole({
 
       {results.length > 0 && (
         <>
-          <p className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums" aria-hidden="true">
+          <p className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#868fa3] tabular-nums" aria-hidden="true">
             {results.length === 1
               ? tr('result_count_one', { count: results.length })
               : tr('result_count', { count: results.length })}
@@ -259,7 +259,7 @@ export default function SearchConsole({
       )}
 
       {showEmpty && (
-        <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[#6b7588]">
+        <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[#868fa3]">
           {resolvedNoResults}
         </p>
       )}

@@ -53,7 +53,7 @@
        Per DESIGN.md hero spec: status indicator (live dot + MONITORING),
        today's ISO date, last-content-updated timestamp. Geo coordinates
        removed — they were arbitrary chrome with no provenance. -->
-  <div class="hidden lg:flex absolute top-6 left-6 right-6 z-10 items-center justify-between gap-4 font-mono text-[10px] tracking-[2.5px] text-[#6b7588] uppercase tabular-nums">
+  <div class="hidden lg:flex absolute top-6 left-6 right-6 z-10 items-center justify-between gap-4 font-mono text-[10px] tracking-[2.5px] text-[#868fa3] uppercase tabular-nums">
     <span class="inline-flex items-center gap-2">
       <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot status-dot--cyan" aria-hidden="true"></span>
       <span>{{ t(_lang, 'home.hud_monitoring') }}</span>
@@ -166,13 +166,13 @@
         <span class="w-1.5 h-1.5 rounded-full bg-[#7ce896] status-dot" aria-hidden="true"></span>
         <span class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[3px] text-[#aab2c4] tabular-nums">
           {{ t(_lang, 'home.situation_report') }}
-          <span class="text-[#475064] mx-1.5">&middot;</span>
+          <span class="text-[#7e879b] mx-1.5">&middot;</span>
           {{ "%04d"|format(_now.year) }}-{{ "%02d"|format(_now.month) }}-{{ "%02d"|format(_now.day) }}
-          <span class="text-[#475064] mx-1.5">&middot;</span>
+          <span class="text-[#7e879b] mx-1.5">&middot;</span>
           {{ "%02d"|format(_now.hour) }}:{{ "%02d"|format(_now.minute) }} UTC
         </span>
       </div>
-      <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
+      <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#7e879b]">
         {{ t(_lang, 'home.source_internal') }}
       </span>
     </div>
@@ -195,7 +195,7 @@
             class="font-mono text-[#65def0] tabular-nums leading-none"
             style="font-size: clamp(4rem, 10vw, 6.5rem); font-weight: 800; letter-spacing: -0.05em;"
           >{{ "%02d"|format(stats.threats) }}</span>
-          <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#475064]">
+          <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#7e879b]">
             {{ t(_lang, 'home.entries_label') }}
           </span>
         </div>
@@ -267,9 +267,9 @@
 
     <!-- WIDE: Mission terminal — more elaborate -->
     <div class="lg:col-span-7">
-      <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-3">{{ t(_lang, 'home.section_about') }}</div>
+      <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-3">{{ t(_lang, 'home.section_about') }}</div>
       <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-4" style="letter-spacing: -0.02em;">
-        <span class="text-[#475064]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_mission_title') }}
+        <span class="text-[#7e879b]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_mission_title') }}
       </h2>
 
       <!-- Elaborate terminal block: header strip + mission body + cursor -->
@@ -279,10 +279,10 @@
           <span class="w-2 h-2 rounded-full bg-[#2b3759]"></span>
           <span class="w-2 h-2 rounded-full bg-[#475064]"></span>
           <span class="w-2 h-2 rounded-full bg-[#475064]"></span>
-          <span class="ml-2 text-[10px] uppercase tracking-[2px] text-[#6b7588] font-mono">
+          <span class="ml-2 text-[10px] uppercase tracking-[2px] text-[#868fa3] font-mono">
             mission.brief
           </span>
-          <span class="ml-auto text-[10px] tabular-nums uppercase tracking-[2px] text-[#6b7588] font-mono">
+          <span class="ml-auto text-[10px] tabular-nums uppercase tracking-[2px] text-[#868fa3] font-mono">
             v 1.0.0
           </span>
         </div>
@@ -301,14 +301,14 @@
 
     <!-- NARROW: Directives as numbered list with hairline dividers -->
     <div class="lg:col-span-5 flex flex-col">
-      <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-3">{{ t(_lang, 'home.section_directives') }}</div>
+      <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-3">{{ t(_lang, 'home.section_directives') }}</div>
       <h2 class="font-mono text-[#65def0] text-xl sm:text-2xl font-bold mb-4" style="letter-spacing: -0.02em;">
-        <span class="text-[#475064]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_directives_title') }}
+        <span class="text-[#7e879b]">&gt;&nbsp;</span>{{ t(_lang, 'home.section_directives_title') }}
       </h2>
 
       <ol class="border-y border-[#202a44] divide-y divide-[#202a44] flex-1" role="list">
         <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6 hover:bg-[#121828]/40 transition-colors">
-          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#475064]">01</div>
+          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#7e879b]">01</div>
           <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#65def0]" style="letter-spacing: -0.005em;">
             {{ t(_lang, 'home.directive_protect') }}
           </div>
@@ -318,7 +318,7 @@
         </li>
 
         <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6 hover:bg-[#121828]/40 transition-colors">
-          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#475064]">02</div>
+          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#7e879b]">02</div>
           <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#7ce896]" style="letter-spacing: -0.005em;">
             {{ t(_lang, 'home.directive_aware') }}
           </div>
@@ -328,7 +328,7 @@
         </li>
 
         <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6 hover:bg-[#121828]/40 transition-colors">
-          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#475064]">03</div>
+          <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[2px] text-[#7e879b]">03</div>
           <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#f4b965]" style="letter-spacing: -0.005em;">
             {{ t(_lang, 'home.directive_train') }}
           </div>
@@ -346,17 +346,17 @@
 <!-- Tight grouping (one logical block: the field journal)         -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4" aria-label="{{ t(_lang, 'home.interview_log_title') }}">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
 </section>
 
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-4" aria-label="{{ t(_lang, 'home.newsletter_feed_title') }}">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
 </section>
 
 <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16" aria-label="{{ t(_lang, 'home.article_database_title') }}">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_research') }}</div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-1">{{ t(_lang, 'home.section_research') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
 </section>
 
@@ -364,7 +364,7 @@
 <!-- THREAT DATABASE — distinct section, generous separation       -->
 <!-- ============================================================ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 border-t border-[#202a44]" aria-label="{{ t(_lang, 'home.threat_database_title') }}">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">{{ t(_lang, 'home.section_index') }}</div>
+  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-1">{{ t(_lang, 'home.section_index') }}</div>
   <div data-component="ScamTypesGrid" data-props='{"title": {{ t(_lang, "home.threat_database_title") | tojson }}, "lang": "{{ _lang }}"}'></div>
 </section>
 
@@ -377,7 +377,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
       <!-- Left: heading -->
       <div class="lg:col-span-5">
-        <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#475064] mb-4">{{ t(_lang, 'home.section_end') }}</div>
+        <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-4">{{ t(_lang, 'home.section_end') }}</div>
         <h2
           class="font-mono text-[#e7ecf5]"
           style="

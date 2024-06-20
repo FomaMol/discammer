@@ -90,10 +90,10 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
         className="flex items-center justify-between mb-2 px-1"
         style={{ fontFamily: '"JetBrains Mono", monospace' }}
       >
-        <span className="text-[10px] uppercase tracking-[2.5px] text-[#6b7588]">
+        <span className="text-[10px] uppercase tracking-[2.5px] text-[#868fa3]">
           {tr('monitor_label')}
         </span>
-        <span className="text-[10px] uppercase tracking-[2px] text-[#6b7588] tabular-nums">
+        <span className="text-[10px] uppercase tracking-[2px] text-[#868fa3] tabular-nums">
           {tr('monitor_subtitle')}
         </span>
       </div>

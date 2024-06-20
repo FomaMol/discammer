@@ -101,6 +101,18 @@ jobs:
           docker compose logs
           exit 1
 
+      - name: Verify the app process is non-root (A7)
+        run: |
+          # PID 1 is entrypoint -> gosu -> uvicorn; its real uid must be the
+          # unprivileged `app` user (10001), proving the privilege drop worked.
+          line=$(docker compose exec -T web grep '^Uid:' /proc/1/status)
+          echo "PID 1 $line"
+          echo "$line" | grep -qE 'Uid:[[:space:]]+10001([[:space:]]|$)' || {
+            echo "::error::app process is not running as the non-root app user (uid 10001)"
+            docker compose logs
+            exit 1
+          }
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"

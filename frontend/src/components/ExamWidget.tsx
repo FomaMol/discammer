@@ -129,7 +129,7 @@ export default function ExamWidget({ config }: Props) {
         <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
           {heading}
         </div>
-        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#6b7588]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#868fa3]">
           {tr('empty')}
         </p>
       </section>
@@ -210,7 +210,7 @@ export default function ExamWidget({ config }: Props) {
                   }`}
                 >
                   <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em]">
-                    <span className="text-[#6b7588] tabular-nums">Q{(i + 1).toString().padStart(2, '0')}</span>
+                    <span className="text-[#868fa3] tabular-nums">Q{(i + 1).toString().padStart(2, '0')}</span>
                     {q.module && <span className="text-[#aab2c4]">· {q.module}</span>}
                     <span className={correct ? 'text-[#7ce896]' : 'text-[#e76670]'}>
                       · {correct ? correctLabel : incorrectLabel}
@@ -272,7 +272,7 @@ export default function ExamWidget({ config }: Props) {
       {current && (
         <>
           {current.module && (
-            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2">
+            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#868fa3] mb-2">
               {current.module}
             </div>
           )}

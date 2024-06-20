@@ -89,7 +89,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
           letterSpacing: '-0.02em',
         }}
       >
-        <span className="text-[#475064]">&gt;&nbsp;</span>
+        <span className="text-[#7e879b]">&gt;&nbsp;</span>
         {title}
       </h2>
 
@@ -103,7 +103,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
       {featured.length > 0 && (
         <>
           <div
-            className="text-[10px] uppercase tracking-[3px] text-[#475064] mb-3"
+            className="text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-3"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {tr('most_common')}
@@ -196,7 +196,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
       {rest.length > 0 && (
         <>
           <div
-            className="text-[10px] uppercase tracking-[3px] text-[#475064] mb-2"
+            className="text-[10px] uppercase tracking-[3px] text-[#7e879b] mb-2"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {tr('full_index')}
@@ -240,7 +240,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                       {tr('threat_l')}{level}
                     </span>
                     <span
-                      className="text-[#475064] group-hover:text-[#65def0] transition-colors"
+                      className="text-[#7e879b] group-hover:text-[#65def0] transition-colors"
                       aria-hidden="true"
                     >
                       &#8594;

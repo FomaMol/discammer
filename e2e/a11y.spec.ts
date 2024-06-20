@@ -2,25 +2,17 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 /**
- * Accessibility — axe-core scan. Each page must have ZERO STRUCTURAL violations
- * of impact `serious` or `critical` (missing names/labels/roles, bad ARIA, etc).
- * On failure we surface the violation array so the harness is a usable debug
- * tool, not just a red light.
- *
- * `color-contrast` is intentionally EXCLUDED from the gate. The DiScammer
- * cyberpunk palette deliberately uses low-contrast muted greys (#475064 /
- * #6b7588 on the #0B0E17 canvas) for secondary/caption text; axe flags many of
- * these as serious color-contrast failures on every page. That is a known,
- * pre-existing design-token characteristic — not a regression this harness
- * should block on — and it is reported as design debt rather than fixed here
- * (fixing the palette is outside this harness's ownership). Excluding the single
- * rule keeps the gate catching real structural a11y regressions.
+ * Accessibility — axe-core scan. Each page must have ZERO violations of impact
+ * `serious` or `critical` — including `color-contrast`. (The muted-grey palette
+ * was lifted to WCAG AA in v5, so contrast is now part of the gate and future
+ * regressions are caught.) On failure we surface the violation array so the
+ * harness is a usable debug tool, not just a red light.
  */
 
-const A11Y_PAGES = ['/en/', '/en/course', '/en/check', '/en/search'];
+const A11Y_PAGES = ['/en/', '/en/course', '/en/check', '/en/search', '/ru/'];
 
-// Rules excluded from the blocking gate (reported as debt, see header note).
-const EXCLUDED_RULES = new Set(['color-contrast']);
+// No rules excluded — contrast is enforced as of v5.
+const EXCLUDED_RULES = new Set<string>([]);
 
 for (const path of A11Y_PAGES) {
   test(`a11y: ${path} has no serious/critical structural axe violations`, async ({ page }) => {
