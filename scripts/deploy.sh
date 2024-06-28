@@ -40,10 +40,11 @@ main() {
   # docker-compose.yml build.args reads GIT_SHA from the environment.
   export GIT_SHA="$(git rev-parse --short HEAD)"
 
-  # Run the container as the image's baked non-root app user (uid 10001) so it
-  # matches the one-time `chown -R 10001:10001 /opt/discammer/data` (see
-  # docker-compose.prod.yml). Exporting it here is the single source of truth —
-  # the owner only has to chown the data volume, not also remember to set this.
+  # Bake the non-root app uid:gid (10001) into the image as build args. The root
+  # entrypoint self-heals ownership of the bind-mounted ./data (chown to this id
+  # then gosu-drops to it) on every start, so there is NO manual host `chown` —
+  # see docker-compose.prod.yml. Exporting matching defaults here keeps the
+  # baked uid and the runtime uid consistent.
   export APP_UID="${APP_UID:-10001}" APP_GID="${APP_GID:-10001}"
 
   # --pull refreshes the base-image layers (node:20-slim / python:3.12-slim)

@@ -101,6 +101,43 @@ jobs:
           docker compose logs
           exit 1
 
+      - name: Assert non-root container + seeded health (A1 proof)
+        run: |
+          # Hard proof that the self-healing entrypoint dropped privileges: the
+          # running app process must be the app uid 10001, NOT root (0). If a
+          # bare USER directive or a forced compose `user:` regressed this, the
+          # uid would differ and this fails.
+          #
+          # NB: we inspect PID 1 (the gosu-dropped uvicorn), NOT a fresh
+          # `docker compose exec ... id -u`. With no USER directive in the image,
+          # `exec` starts a NEW process as the image default user (root, uid 0)
+          # and would mis-report 0 even though the app correctly runs as 10001.
+          # The entrypoint `exec gosu`s uvicorn, so uvicorn IS PID 1 at uid 10001
+          # — /proc/1/status (field 2 of the Uid: line = real uid) is the truth.
+          uid=$(docker compose exec -T web cat /proc/1/status | awk '/^Uid:/{print $2; exit}' | tr -d '\r')
+          echo "Container PID 1 (uvicorn) uid: $uid"
+          if [ "$uid" != "10001" ]; then
+            echo "::error::container process uid is '$uid', expected 10001 (non-root). The entrypoint did not drop privileges correctly."
+            docker compose logs
+            exit 1
+          fi
+          # And prove the non-root process actually seeded the bind-mounted DB:
+          # /api/health must be 200 with db:ok and non-zero content counts.
+          body=$(curl -s --max-time 5 "http://127.0.0.1:8000/api/health")
+          echo "Health body: $body"
+          echo "$body" | grep -q '"status":"ok"' || { echo "::error::health status not ok"; docker compose logs; exit 1; }
+          echo "$body" | grep -q '"db":"ok"'     || { echo "::error::db not ok — seed under app uid failed"; docker compose logs; exit 1; }
+          # Seeded counts must be present and > 0 (db wrote discammer.db as 10001).
+          posts=$(echo "$body" | sed -n 's/.*"posts":\([0-9]*\).*/\1/p')
+          guides=$(echo "$body" | sed -n 's/.*"guides":\([0-9]*\).*/\1/p')
+          modules=$(echo "$body" | sed -n 's/.*"modules":\([0-9]*\).*/\1/p')
+          echo "Seeded counts: posts=$posts guides=$guides modules=$modules"
+          if [ -z "$posts" ] || [ "$posts" -le 0 ] || [ -z "$guides" ] || [ "$guides" -le 0 ] || [ -z "$modules" ] || [ "$modules" -le 0 ]; then
+            echo "::error::seeded content counts missing or zero — the non-root process did not seed the DB"
+            docker compose logs
+            exit 1
+          fi
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"

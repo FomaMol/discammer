@@ -3,6 +3,7 @@ import re
 from fastapi import APIRouter, Depends, Path, Query, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from markupsafe import Markup
+from starlette.concurrency import run_in_threadpool
 
 from config import STATIC_DIR
 from database import (
@@ -315,9 +316,13 @@ async def post_detail(slug: str, request: Request, lang: str = LangPath, conn=De
         )
 
     related = await get_related_posts(conn, post_type=post["type"], exclude_slug=slug, locale=lang)
-    post["content_html"] = render_markdown(
+    # Markdown→HTML is CPU-bound; run it on the threadpool so a content-heavy
+    # post can't block the event loop. render_markdown is thread-safe (it uses a
+    # thread-local markdown.Markdown instance — see markdown_renderer.py).
+    post["content_html"] = await run_in_threadpool(
+        render_markdown,
         post.get("content") or "",
-        post_title=post.get("title"),
+        post.get("title"),
     )
 
     return _templates(request).TemplateResponse(
@@ -354,9 +359,11 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath, conn=D
         )
 
     related = await get_related_guides(conn, exclude_slug=slug, locale=lang)
-    guide["content_html"] = render_markdown(
+    # Off the event loop — see post_detail for rationale.
+    guide["content_html"] = await run_in_threadpool(
+        render_markdown,
         guide.get("content") or "",
-        post_title=guide.get("title"),
+        guide.get("title"),
     )
 
     return _templates(request).TemplateResponse(
@@ -407,7 +414,10 @@ async def course_module(
         )
 
     lessons = await get_lessons_for_module(conn, module_slug=module_slug, locale=lang)
-    module["content_html"] = render_markdown(module.get("content") or "")
+    # Off the event loop — see post_detail for rationale.
+    module["content_html"] = await run_in_threadpool(
+        render_markdown, module.get("content") or ""
+    )
 
     return _templates(request).TemplateResponse(
         request,
@@ -449,7 +459,10 @@ async def course_lesson(
         lessons[idx + 1] if idx is not None and idx + 1 < len(lessons) else None
     )
 
-    lesson["body_html"] = render_markdown(lesson.get("body_md") or "")
+    # Off the event loop — see post_detail for rationale.
+    lesson["body_html"] = await run_in_threadpool(
+        render_markdown, lesson.get("body_md") or ""
+    )
 
     return _templates(request).TemplateResponse(
         request,
