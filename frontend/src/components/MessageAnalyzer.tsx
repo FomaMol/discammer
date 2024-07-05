@@ -90,7 +90,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
       <form ref={formRef} onSubmit={onSubmit}>
         <label
           htmlFor={textareaId}
-          className="block text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-2"
+          className="block text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2"
         >
           {tr('input_label')}
         </label>
@@ -102,7 +102,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
           spellCheck={false}
           autoComplete="off"
           placeholder={tr('placeholder')}
-          className="w-full resize-y bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-3 text-[14px] leading-[1.5] text-[#e7ecf5] placeholder:text-[#475064]"
+          className="w-full resize-y bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-3 text-[14px] leading-[1.5] text-[#e7ecf5] placeholder:text-[#8b94a8]"
         />
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
@@ -112,7 +112,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
             {tr('analyze')}
           </button>
           {/* Privacy line — load-bearing: the text never leaves the browser. */}
-          <p className="text-[11px] leading-[1.45] text-[#6b7588] max-w-[46ch]">
+          <p className="text-[11px] leading-[1.45] text-[#8b94a8] max-w-[46ch]">
             {tr('privacy')}
           </p>
         </div>
@@ -121,7 +121,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
       {/* Results region — polite so the meter + flags are announced on submit. */}
       <div aria-live="polite" className="mt-8">
         {result === null && (
-          <p className="text-[12px] uppercase tracking-[0.14em] text-[#475064]">
+          <p className="text-[12px] uppercase tracking-[0.14em] text-[#8b94a8]">
             {tr('empty_prompt')}
           </p>
         )}
@@ -133,7 +133,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
               <ThreatMeter level={level} color={meterColor} label={tr('meter_label', { level })} />
               <div className="leading-tight">
                 <div
-                  className="text-[10px] uppercase tracking-[3px] text-[#475064]"
+                  className="text-[10px] uppercase tracking-[3px] text-[#8b94a8]"
                   aria-hidden="true"
                 >
                   {tr('meter_caption')}
@@ -143,7 +143,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
                   style={{ color: meterColor }}
                   aria-hidden="true"
                 >
-                  {level}<span className="text-[#475064] text-base">/5</span>
+                  {level}<span className="text-[#8b94a8] text-base">/5</span>
                 </div>
               </div>
             </div>
@@ -160,10 +160,10 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
               </div>
             ) : (
               <>
-                <div className="text-[10px] uppercase tracking-[3px] text-[#475064] mb-1">
+                <div className="text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-1">
                   {tr('result_heading')}
                 </div>
-                <p className="text-[12px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums mb-4">
+                <p className="text-[12px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums mb-4">
                   {result.fired.length === 1
                     ? tr('flag_one', { count: result.fired.length })
                     : tr('flags_count', { count: result.fired.length })}
@@ -232,7 +232,7 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
             )}
 
             {/* Heuristic-not-verdict line — always shown once analyzed. */}
-            <p className="mt-6 text-[11px] leading-[1.5] text-[#6b7588] max-w-[64ch] font-sans">
+            <p className="mt-6 text-[11px] leading-[1.5] text-[#8b94a8] max-w-[64ch] font-sans">
               {tr('disclaimer')}
             </p>
           </>

@@ -19,8 +19,8 @@
 ## Orchestration progress log (maintained by orchestrator)
 
 - **W0 baseline** ✅ — record: `pytest` 69, `vitest` 36, `e2e` 44, `tsc`+`build` clean, `backend/static` drift-free, i18n-audit clean. Full-page screenshots of every page (RU/EN × desktop/mobile, **incl. `/search` and `/check`**) → `/tmp/dcm-v5-before/`. Measure and record the **current contrast ratios** of the muted tokens (`#475064`, `#6b7588`) against the real canvas value from DESIGN.md (these become the A2 "before" numbers). Note that the v4 axe config **excludes `color-contrast`** — A2 removes that exclusion. Fill the Metrics "Before" column. Record `v5` base SHA (`8145095`) and work branch `v5-features`.
-- **W1** ⬜ — A1 (non-root container) + A3 (markdown off-loop). Gate G1.
-- **W2** ⬜ — A2 (WCAG-AA tokens) + A4 (supply-chain audit) + O1/O2 (error beacon + RED metrics). Gate G2 (+ RU/EN sweep; A2 intentionally shifts every muted-text colour).
+- **W1** ✅ (`adb9ccd`) — A1 (non-root container, CI-proof wired; CI-only validation per HR14) + A3 (markdown off-loop via thread-local + run_in_threadpool). Gate G1: pytest 69→73. Orchestrator gate-fix: A1 CI uid check now reads `/proc/1/status` (a fresh `exec id -u` would read the image-default root and falsely fail).
+- **W2** ✅ — A2 (muted text → `#8b94a8`, ≥4.86:1 all surfaces; `--ink-dim #6b7588` for non-text; axe `color-contrast` enforced, +/ru/+/journal) + A4 (pip-audit+npm audit CI job; **bumped bleach 6.3.0→6.4.0**, a real `clean()` a/href XSS-bypass fix) + O1 (privacy-safe beacon) + O2 (gated RED metrics). Gate G2: pytest 73→84, vitest 36, tsc+build clean, **axe 6/6 with contrast enforced**. base.html O1 WIRE applied.
 - **W3** ⬜ — F1 → F2 → F3 (sequential feature chain) + I1 nav integration. Gate G3.
 - **W4** ⬜ — Q1/Q2 (visual regression + Lighthouse) + R1 four reviewers → R2 fixes. Gate G4.
 - **G4** ⬜ — final verification, Metrics "After" filled, `HANDOFF.md` → v5.

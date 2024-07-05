@@ -46,7 +46,7 @@
      "course" segment is localized; module + lesson slugs stay ASCII so URL
      identifiers remain language-neutral. #}
   <nav aria-label="{{ t(_lang, 'a11y.breadcrumb') }}" class="mb-5">
-    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#6b7588]">
+    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#8b94a8]">
       <li><a href="/{{ _lang }}/course" class="hover:text-[#65def0] transition">{{ t(_lang, 'breadcrumb.course') }}</a></li>
       <li aria-hidden="true">/</li>
       <li><a href="/{{ _lang }}/course/{{ module.slug }}" class="hover:text-[#65def0] transition">{{ module.slug }}</a></li>
@@ -57,7 +57,7 @@
 
   {# OPERATOR LOG header strip — mono single-line, tabular-nums #}
   {% set _entry_no = ((module.order|int) * 100) + (lesson.order|int) %}
-  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-3 tabular-nums break-words">
+  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] mb-3 tabular-nums break-words">
     {{ t(_lang, 'lesson.operator_log_label') }}
     <span class="text-[#aab2c4]">·</span>
     {{ t(_lang, 'lesson.entry_label') }} {{ "%03d"|format(_entry_no) }}

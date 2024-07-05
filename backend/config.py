@@ -45,6 +45,47 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 
 
 # ---------------------------------------------------------------------------
+# Observability (O1 client-error beacon + O2 metrics)
+# ---------------------------------------------------------------------------
+
+# Fraction of caught client-side island crashes the browser actually reports to
+# /api/client-errors (the rest are dropped client-side via Math.random). Kept
+# low so a crash loop can't flood the endpoint. Surfaced to the browser through
+# the ``client_runtime_config`` Jinja global (window.__DISCAMMER_CONFIG__).
+def _env_float(name: str, default: float) -> float:
+    raw = os.environ.get(name)
+    if raw is None or raw == "":
+        return default
+    try:
+        return float(raw)
+    except (TypeError, ValueError):
+        return default
+
+
+def _env_int(name: str, default: int) -> int:
+    raw = os.environ.get(name)
+    if raw is None or raw == "":
+        return default
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return default
+
+
+CLIENT_ERROR_SAMPLE_RATE = _env_float("CLIENT_ERROR_SAMPLE_RATE", 0.2)
+
+# Per-IP token-bucket ceiling (requests/minute) for /api/client-errors. Over the
+# limit returns 429 with NO log line, so a misbehaving client can't spam logs.
+CLIENT_ERROR_RATE_LIMIT = _env_int("CLIENT_ERROR_RATE_LIMIT", 30)
+
+# Bearer token gating GET /api/metrics. Empty (the default) means the endpoint
+# is closed to the public — non-local callers get a 404 so the surface isn't
+# even advertised. Set METRICS_TOKEN=<secret> to expose it to an authenticated
+# scraper.
+METRICS_TOKEN = os.environ.get("METRICS_TOKEN", "")
+
+
+# ---------------------------------------------------------------------------
 # Logging configuration
 #
 # The request middleware in ``main.py`` logs one record per request through the
@@ -56,8 +97,20 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 # ---------------------------------------------------------------------------
 
 # Attributes the middleware attaches via ``logging`` ``extra=`` and that the
-# JSON formatter should surface when present on the record.
-_REQUEST_LOG_FIELDS = ("rid", "method", "path", "status", "duration_ms")
+# JSON formatter should surface when present on the record. Also includes the
+# scrubbed client-error beacon fields (O1) so a JSON log shipper surfaces
+# {name, message_class, ua_family} — all coarse, non-identifying buckets, never
+# raw user content.
+_REQUEST_LOG_FIELDS = (
+    "rid",
+    "method",
+    "path",
+    "status",
+    "duration_ms",
+    "error_name",
+    "message_class",
+    "ua_family",
+)
 
 
 class _JsonLogFormatter(logging.Formatter):

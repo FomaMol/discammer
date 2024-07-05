@@ -295,6 +295,9 @@
       switchUrl: {{ _switch_url | tojson }},
       strings: {{ (get_client_bundle(_lang) if get_client_bundle is defined else {}) | tojson }}
     };
+    {# O1: surface the client-error beacon sample rate (window.__DISCAMMER_CONFIG__).
+       tojson only — never forceescape inside <script> (it would HTML-escape the JSON). #}
+    window.__DISCAMMER_CONFIG__ = {{ (client_runtime_config() if client_runtime_config is defined else {}) | tojson }};
   </script>
 
   <!-- App Script — hashed entry module from the Vite manifest (no ?v=). -->

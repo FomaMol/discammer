@@ -162,7 +162,7 @@ export default function CourseProgress({ locale }: Props) {
 
   if (loading) {
     return (
-      <div className="py-12 text-center font-mono text-sm text-[#6b7588]">
+      <div className="py-12 text-center font-mono text-sm text-[#8b94a8]">
         {tr('loading')}
         <span className="cursor-blink" />
       </div>
@@ -263,10 +263,10 @@ function DossierFooter() {
     <div className="border-t border-[#202a44] pt-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8]">
             {trp('dossier_tag')}
           </div>
-          <p className="mt-1.5 font-sans text-[13px] text-[#6b7588] leading-relaxed max-w-[52ch]">
+          <p className="mt-1.5 font-sans text-[13px] text-[#8b94a8] leading-relaxed max-w-[52ch]">
             {trp('dossier_hint')}
           </p>
         </div>
@@ -362,7 +362,7 @@ function StatCell({ label, value, accent }: { label: string; value: string; acce
       <div className={`font-mono text-xl sm:text-2xl font-bold tabular-nums ${accent}`}>
         {value}
       </div>
-      <div className="mt-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#6b7588]">
+      <div className="mt-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#8b94a8]">
         {label}
       </div>
     </div>
@@ -386,7 +386,7 @@ function MissionFlow({
   const tr = makeTranslator('courseProgress');
   return (
     <div className="relative">
-      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6b7588] mb-4">
+      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] mb-4">
         {tr('flow_tag')}
         <span className="ml-2 text-[#3a8b9a]" aria-hidden="true">
           ━━━━━━━━━━
@@ -443,7 +443,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
     badgePulse = 'dcm-badge-pulse';
   } else if (locked) {
     badgeBorder = 'border-[#202a44]';
-    badgeText = 'text-[#6b7588]';
+    badgeText = 'text-[#8b94a8]';
     badgeBg = 'bg-[#0b0f1a]';
   } else {
     badgeBorder = 'border-[#3a8b9a]';
@@ -456,7 +456,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
   let statusColor: string;
   if (moduleDone) {
     statusText = tr('status_completed');
-    statusColor = 'text-[#6b7588] line-through decoration-[#6b7588]/40';
+    statusColor = 'text-[#8b94a8] line-through decoration-[#6b7588]/40';
   } else if (inProgress) {
     statusText = tr('status_in_progress');
     statusColor = 'text-[#65def0]';
@@ -473,7 +473,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
   const cardBase =
     'dcm-mission-card relative w-full border bg-[#121828] rounded-[4px] transition group';
   const cardState = locked
-    ? 'border-[#202a44] opacity-70'
+    ? 'border-[#202a44]'
     : 'border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] hover:-translate-y-px';
 
   const RowContent = (
@@ -481,7 +481,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
       {/* LEFT — title + description */}
       <div className="flex-1 p-4 sm:p-5 sm:pr-4 min-w-0 sm:basis-[60%]">
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6b7588]">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#8b94a8]">
             {tr('mission_prefix')} {order}
           </span>
           {module.difficulty && (
@@ -502,7 +502,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         {module.description && (
           <p
             className={`mt-2 font-sans text-[14px] leading-relaxed line-clamp-2 ${
-              locked ? 'text-[#6b7588]' : 'text-[#aab2c4]'
+              locked ? 'text-[#8b94a8]' : 'text-[#aab2c4]'
             }`}
           >
             {module.description}
@@ -524,23 +524,23 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
                 aria-hidden="true"
               />
             </div>
-            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
               {completedLessons}/{total} {lessonsShort}
             </div>
           </div>
         )}
         {moduleDone && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
             {completedLessons}/{total} {lessonsShort} · {tr('completed_at')}
           </div>
         )}
         {locked && previousModule && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#e76670]/80 tabular-nums">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#e76670] tabular-nums">
             {tr('prereq')} {previousModule.order.toString().padStart(2, '0')}
           </div>
         )}
         {!locked && !moduleDone && !inProgress && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
             {total} {lessonsShort}
             {module.duration ? ` · ${module.duration}` : ''}
           </div>
@@ -590,7 +590,7 @@ function CertificationCallout({ lang }: { lang: Locale }) {
     <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 grid-pattern rounded-[4px]">
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
         <div className="md:col-span-2">
-          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6b7588] mb-2">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2">
             {tr('certification_tag')}
           </div>
           <h3 className="font-mono font-bold text-[#e7ecf5] text-[clamp(1.25rem,1rem+1vw,1.75rem)] leading-snug tracking-[-0.01em]">

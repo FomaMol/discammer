@@ -11,6 +11,60 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  audit:
+    name: Dependency audit (supply chain)
+    runs-on: ubuntu-latest
+    # No `needs:` — runs in parallel with the test/build jobs so a known-vuln
+    # dependency fails the pipeline fast, before prod. Policy + thresholds live
+    # in docs/deploy/security-audit.md.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pip-audit (pinned)
+        # Pin the audit tool itself: an unpinned auditor is its own
+        # supply-chain hole, and a silent tool bump could flip CI red/green
+        # without a code change. Bump deliberately, same policy as our deps.
+        run: pip install pip-audit==2.10.1
+
+      - name: Python dependency audit (blocking — fails on any known vuln)
+        # Audits BOTH the prod pins and the dev-only test deps. pip-audit exits
+        # non-zero on any vulnerability it finds; we do NOT `|| true` here, so a
+        # known-vuln pin fails the job. To ship past an advisory that has no fix
+        # yet, add a justified, time-boxed `--ignore-vuln <ID>` here (see the
+        # docs). There are currently no ignores: the tree audits clean.
+        run: pip-audit -r requirements.txt -r requirements-dev.txt
+
+      - name: Python audit report (informational — moderates, never blocks)
+        # Same scan, full report, never fails the job. Moderates and below are
+        # surfaced in the logs for triage without blocking the pipeline.
+        if: always()
+        run: pip-audit -r requirements.txt -r requirements-dev.txt --desc || true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: npm audit (blocking — fails on high/critical)
+        # Prod deps only (--omit=dev): dev tooling vulns don't reach the
+        # shipped bundle. Threshold is high — moderate is reported below.
+        working-directory: frontend
+        run: npm run audit
+
+      - name: npm audit report (informational — moderates, never blocks)
+        if: always()
+        working-directory: frontend
+        run: npm audit --omit=dev --audit-level=moderate || true
+
   backend-tests:
     name: Backend tests
     runs-on: ubuntu-latest

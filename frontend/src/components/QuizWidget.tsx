@@ -51,7 +51,7 @@ export default function QuizWidget({ config }: Props) {
         <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
           {headingLabel}
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
           {config.choices.length} {tr('options_caption')}
         </div>
       </div>

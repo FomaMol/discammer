@@ -83,7 +83,7 @@ export default function LessonFooter({
             href={prevHref}
             className="group flex flex-col gap-1 p-4 border border-[#202a44] bg-[#121828]/60 hover:border-[#65def0] hover:bg-[#1a2236] transition rounded-[4px]"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8]">
               {prevLabel}
             </span>
             <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">

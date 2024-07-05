@@ -225,7 +225,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
                       paddingBottom: '4px',
                     }}
                   >
-                    <span className="text-[#6b7588] tabular-nums">{num}.</span>
+                    <span className="text-[#8b94a8] tabular-nums">{num}.</span>
                     <span>{tr(key)}</span>
                     {isActive && (
                       <span aria-hidden="true" className="ml-0.5 text-[#65def0]">
@@ -243,7 +243,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
       {/* ───────────── EMPTY / LOADING ───────────── */}
       {filtered.length === 0 ? (
         <div
-          className="py-16 text-center text-[#6b7588] text-sm"
+          className="py-16 text-center text-[#8b94a8] text-sm"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
           {isLoading ? tr('loading') : tr('empty')}
@@ -288,7 +288,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
                   {tr('skim_label')}
                 </div>
                 <div
-                  className="font-mono text-[10px] uppercase text-[#6b7588] text-right"
+                  className="font-mono text-[10px] uppercase text-[#8b94a8] text-right"
                   style={{ letterSpacing: '0.06em' }}
                 >
                   {tr('skim_caption')}
@@ -413,19 +413,19 @@ function FeaturedCard({
 
           {/* Byline strip */}
           <div
-            className="mt-7 sm:mt-9 pt-4 border-t border-[#202a44] font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] flex flex-wrap items-center gap-2"
+            className="mt-7 sm:mt-9 pt-4 border-t border-[#202a44] font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] flex flex-wrap items-center gap-2"
             style={{ letterSpacing: '0.14em', fontWeight: 600 }}
           >
             <span className="text-[#aab2c4]">{tr('featured_byline')}</span>
             {item.published_at && (
               <>
-                <span aria-hidden="true" className="text-[#475064]">
+                <span aria-hidden="true" className="text-[#8b94a8]">
                   ·
                 </span>
                 <span className="tabular-nums">{formatBylineDate(item.published_at, locale)}</span>
               </>
             )}
-            <span aria-hidden="true" className="text-[#475064]">
+            <span aria-hidden="true" className="text-[#8b94a8]">
               ·
             </span>
             <span className="tabular-nums">
@@ -530,7 +530,7 @@ function ZigzagCard({
               </span>
               {item.published_at && (
                 <time
-                  className="text-[11px] text-[#6b7588] tabular-nums"
+                  className="text-[11px] text-[#8b94a8] tabular-nums"
                   style={{
                     fontFamily: '"JetBrains Mono", monospace',
                     letterSpacing: '0.02em',
@@ -630,7 +630,7 @@ function CompactRow({
         {/* Date */}
         {item.published_at && (
           <time
-            className="hidden sm:inline text-[11px] text-[#6b7588] tabular-nums shrink-0"
+            className="hidden sm:inline text-[11px] text-[#8b94a8] tabular-nums shrink-0"
             style={{
               fontFamily: '"JetBrains Mono", monospace',
               letterSpacing: '0.02em',
@@ -643,7 +643,7 @@ function CompactRow({
         {/* Arrow */}
         <span
           aria-hidden="true"
-          className="font-mono text-[#475064] group-hover:text-[#65def0] group-hover:translate-x-0.5 transition-all shrink-0"
+          className="font-mono text-[#8b94a8] group-hover:text-[#65def0] group-hover:translate-x-0.5 transition-all shrink-0"
         >
           →
         </span>

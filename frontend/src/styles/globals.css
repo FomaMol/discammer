@@ -24,8 +24,9 @@
   --color-ink-medium:  #cdd4e3;
   --color-ink-soft:    #aab2c4;
   --color-ink-soft2:   #b6bdce;
-  --color-ink-mute:    #6b7588;
-  --color-ink-faint:   #475064;
+  --color-ink-mute:    #8b94a8;   /* lifted from #6b7588 for WCAG AA on canvas-input */
+  --color-ink-faint:   #8b94a8;   /* lifted from #475064 (failed even 3:1) for WCAG AA text */
+  --color-ink-dim:     #6b7588;   /* NON-TEXT / decorative only (large glyphs, hairlines) — meets 3:1 */
 
   /* — Brand cyan (tuned down from neon #00F0FF) — */
   --color-cyan:        #65def0;
@@ -54,7 +55,7 @@
   --color-accent-amber:   #f4b965;
   --color-text-primary:   #e7ecf5;
   --color-text-secondary: #aab2c4;
-  --color-text-muted:     #6b7588;
+  --color-text-muted:     #8b94a8;
   --color-border-default: #202a44;
 
   /* — Type families (Geist for reading, JetBrains Mono for voice) — */

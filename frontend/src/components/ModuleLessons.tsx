@@ -66,7 +66,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
 
   if (loading) {
     return (
-      <div className="text-center py-6 font-mono text-[13px] text-[#6b7588]">
+      <div className="text-center py-6 font-mono text-[13px] text-[#8b94a8]">
         {loadingLabel}
         <span className="cursor-blink" />
       </div>
@@ -93,7 +93,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
         <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
           {checklistHeader}
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] tabular-nums">
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
           {completed.size}/{lessons.length}
         </span>
       </div>
@@ -111,7 +111,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
                 {/* Checkbox-style mono char */}
                 <span
                   className={`shrink-0 font-mono text-[14px] font-bold tabular-nums ${
-                    isDone ? 'text-[#7ce896]' : 'text-[#6b7588] group-hover:text-[#65def0]'
+                    isDone ? 'text-[#7ce896]' : 'text-[#8b94a8] group-hover:text-[#65def0]'
                   } transition-colors`}
                   aria-hidden="true"
                 >
@@ -121,7 +121,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
                 {/* Order number — small mono ID-like */}
                 <span
                   className={`shrink-0 font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums w-7 ${
-                    isDone ? 'text-[#6b7588]' : 'text-[#6b7588] group-hover:text-[#65def0]'
+                    isDone ? 'text-[#8b94a8]' : 'text-[#8b94a8] group-hover:text-[#65def0]'
                   }`}
                   aria-hidden="true"
                 >
@@ -140,7 +140,7 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
                     {lesson.title}
                   </div>
                   {lesson.widget_type && (
-                    <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588]">
+                    <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8]">
                       {lesson.widget_type === 'quiz' && tr('widget_quiz')}
                       {lesson.widget_type === 'scenario' && tr('widget_scenario')}
                       {lesson.widget_type === 'redflags' && tr('widget_redflags')}

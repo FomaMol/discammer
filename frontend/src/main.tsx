@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/globals.css';
+import { reportClientError } from './utils/beacon';
 
 // Component registry — lazy on purpose. Each React.lazy(() => import(...))
 // becomes its own hashed dynamic chunk, so an island's deps (e.g. Plyr inside
@@ -51,6 +52,9 @@ class IslandErrorBoundary extends React.Component<
 
   componentDidCatch(err: Error) {
     console.warn('[islands]', this.props.name, 'crashed — restoring SSR fallback', err);
+    // Report a scrubbed, sampled, fire-and-forget signal (O1). This never
+    // blocks and never ships the raw message/stack — see utils/beacon.ts.
+    reportClientError(err, this.props.name);
   }
 
   render() {

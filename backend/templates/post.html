@@ -120,8 +120,8 @@
   {% set _type_breadcrumb = t(_lang, _type_breadcrumb_key) %}
   {% if _type_breadcrumb == _type_breadcrumb_key %}{% set _type_breadcrumb = post.type %}{% endif %}
   <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
-    <span class="text-[#6b7588]">
-      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#475064]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#475064]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#475064]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
+    <span class="text-[#8b94a8]">
+      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#8b94a8]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
     </span>
   </nav>
 
@@ -130,7 +130,7 @@
     class="font-mono text-[10px] sm:text-[11px] uppercase mb-4"
     style="letter-spacing: 0.14em; font-weight: 600; color: {{ _type_color }};"
   >
-    // {{ _type_label }} <span class="text-[#475064] mx-1">·</span> <span class="text-[#aab2c4] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
+    // {{ _type_label }} <span class="text-[#8b94a8] mx-1">·</span> <span class="text-[#aab2c4] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
   </div>
 
   {# Article header: display-article — JetBrains Mono 700, sentence-case, NOT uppercase.
@@ -145,15 +145,15 @@
 
     <!-- Byline strip — BY DCM EDITORIAL · 26 APR 2025 · 7 MIN -->
     <div
-      class="mt-5 sm:mt-6 font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] flex flex-wrap items-center gap-2"
+      class="mt-5 sm:mt-6 font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] flex flex-wrap items-center gap-2"
       style="letter-spacing: 0.14em; font-weight: 600;"
     >
       <span class="text-[#aab2c4]">{{ _byline_label }}</span>
       {% if _byline_date %}
-      <span aria-hidden="true" class="text-[#475064]">·</span>
+      <span aria-hidden="true" class="text-[#8b94a8]">·</span>
       <time class="tabular-nums"{% if post.published_at %} datetime="{{ post.published_at }}"{% endif %}>{{ _byline_date }}</time>
       {% endif %}
-      <span aria-hidden="true" class="text-[#475064]">·</span>
+      <span aria-hidden="true" class="text-[#8b94a8]">·</span>
       <span class="tabular-nums">{{ _est_minutes }} {{ _min_label }}</span>
     </div>
 
@@ -178,7 +178,7 @@
      every video post emits a `<div data-component="VideoPlayer" …>`. #}
   {% if post.cover_image and 'data-component="VideoPlayer"' not in post.content_html %}
   <figure class="mt-7 sm:mt-9">
-    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
+    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
     <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-sm">
       <img
         src="{{ post.cover_image }}"
@@ -206,7 +206,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div
-          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] mb-2"
+          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] mb-2"
           style="letter-spacing: 0.14em; font-weight: 600;"
         >
           {{ _filed_under_label }}
@@ -225,7 +225,7 @@
         style="text-decoration: none;"
       >
         <div
-          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#6b7588] group-hover:text-[#65def0] transition-colors mb-2"
+          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] group-hover:text-[#65def0] transition-colors mb-2"
           style="letter-spacing: 0.14em; font-weight: 600;"
         >
           {{ _next_in_section_label }} →
@@ -244,7 +244,7 @@
   {# Related (compact strip below the end-of-article panel) #}
   {% if related_posts and related_posts|length > 1 %}
   <aside class="mt-12 sm:mt-16">
-    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7588] mb-4" style="font-weight: 600;">{{ t(_lang, 'post.related') }}</div>
+    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-4" style="font-weight: 600;">{{ t(_lang, 'post.related') }}</div>
     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       {% for related in related_posts[:4] %}
       <li>
@@ -257,7 +257,7 @@
             {% elif related.type == 'article' %}
             <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#f4b965]/10 text-[#f4b965] border border-[#f4b965]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
             {% endif %}
-            <span class="text-[10px] font-mono text-[#6b7588] tabular-nums">{{ related.published_at }}</span>
+            <span class="text-[10px] font-mono text-[#8b94a8] tabular-nums">{{ related.published_at }}</span>
           </div>
           <p class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] transition-colors leading-snug" style="letter-spacing: -0.01em;">{{ related.title }}</p>
         </a>
