@@ -198,6 +198,11 @@ async def check_compat(request: Request):
     return _legacy_redirect(request, "/check")
 
 
+@router.get("/inspect", include_in_schema=False)
+async def inspect_compat(request: Request):
+    return _legacy_redirect(request, "/inspect")
+
+
 def _safe_next(next_param: str | None, target: str) -> str:
     """Validate the ``next`` redirect target so the lang switch can't be turned
     into an open redirect. Accept only same-origin paths: a single leading "/",
@@ -517,6 +522,25 @@ async def check_page(request: Request, lang: str = LangPath):
         {
             **_base_context(request, lang),
             "page_title": t(lang, "page_titles.check"),
+        },
+    )
+
+
+@router.get("/{lang}/inspect", response_class=HTMLResponse)
+async def inspect_page(request: Request, lang: str = LangPath):
+    """SSR explainer for the link/URL inspector (F2).
+
+    The page mounts the LinkInspector island, which runs entirely in the
+    browser — no link the reader pastes ever reaches the server, and the page
+    behind the link is never opened. This handler only renders the static
+    explainer, worked example, and no-JS "how to read a link" checklist.
+    """
+    return _templates(request).TemplateResponse(
+        request,
+        "inspect.html",
+        {
+            **_base_context(request, lang),
+            "page_title": t(lang, "page_titles.inspect"),
         },
     )
 

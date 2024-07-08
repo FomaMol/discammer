@@ -363,6 +363,52 @@
   </div>
 
   {# ─────────────────────────────────────────────────────────────────
+     4b) KNOWLEDGE CHECK (F1) — short single-best-answer recall test built
+     from this guide's own content. 100% client-side; the result folds into
+     the operator dossier (best-of per slug) and rides along with course
+     export/import. The KnowledgeCheck island mounts here; props carry the
+     guide slug (selects the question pack + locale sub-namespace) and the
+     guide URL the per-question "back to the guide" link points at.
+
+     `data-props` is a tojson|forceescape attribute (it's an HTML attribute).
+     The island captures no SSR markup — the no-JS surface is the <noscript>
+     "check yourself" list below, which is useful on its own.
+     ──────────────────────────────────────────────────────────────── #}
+  {% set _check_props = {
+    "slug": guide.slug,
+    "locale": _lang,
+    "guideUrl": '/' ~ _lang ~ '/guide/' ~ guide.slug
+  } %}
+  <section class="mt-12 sm:mt-14" aria-labelledby="guide-check-heading">
+    <h2 id="guide-check-heading" class="sr-only">{{ t(_lang, 'guide.check_heading') }}</h2>
+    <div data-component="KnowledgeCheck" data-props='{{ _check_props | tojson | forceescape }}'></div>
+  </section>
+
+  <noscript>
+    <section class="mt-12 sm:mt-14 border border-[#f4b965]/40 bg-[#f4b965]/[0.06] rounded-[6px] p-4 sm:p-6"
+             aria-labelledby="guide-check-noscript-heading">
+      {# Arrows rule: `guide.check_heading` is PLAIN TEXT; the styled `>` is
+         rendered here by the template, aria-hidden. #}
+      <h2 id="guide-check-noscript-heading"
+          class="font-mono font-bold uppercase text-[#f4b965] text-[14px] sm:text-[16px] tracking-[-0.01em] mb-3 flex items-baseline gap-2">
+        <span class="text-[#f4b965]" aria-hidden="true">&gt;</span>
+        {{ t(_lang, 'guide.check_heading') }}
+      </h2>
+      <p class="font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[64ch] mb-4">
+        {{ t(_lang, 'guide.check_intro') }}
+      </p>
+      <ol class="space-y-2.5 list-none">
+        {% for i in range(1, 4) %}
+        <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
+          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px] pt-0.5">{{ i }}.</span>
+          <span>{{ t(_lang, 'guide.check_' ~ i) }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </noscript>
+
+  {# ─────────────────────────────────────────────────────────────────
      OTHER THREATS — 2-up bento + list.
 
      Featured-pair variety: the DB query returns guides ordered by

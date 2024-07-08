@@ -34,6 +34,8 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   VideoPlayer: React.lazy(() => import('./components/VideoPlayer')),
   SearchConsole: React.lazy(() => import('./components/SearchConsole')),
   MessageAnalyzer: React.lazy(() => import('./components/MessageAnalyzer')),
+  KnowledgeCheck: React.lazy(() => import('./components/KnowledgeCheck')),
+  LinkInspector: React.lazy(() => import('./components/LinkInspector')),
 };
 
 // If an island throws, restore its server-rendered markup (captured before

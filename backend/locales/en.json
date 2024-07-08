@@ -39,6 +39,7 @@
     "game_short": "GAME",
     "journal": "JOURNAL",
     "check": "Check",
+    "inspect": "Inspect",
     "search": "Search",
     "play_game": "PLAY GAME"
   },
@@ -74,7 +75,8 @@
     "site_description": "Empowering digital literacy to combat scams, fraud, and emerging cyber threats.",
     "site_full": "DiScammer - Cybersecurity Education Platform",
     "search": "Search · DiScammer",
-    "check": "Check a message · DiScammer"
+    "check": "Check a message · DiScammer",
+    "inspect": "Inspect a link · DiScammer"
   },
   "home": {
     "article_database_title": "ARTICLE_DATABASE",
@@ -220,7 +222,12 @@
     "spec_category": "CATEGORY",
     "spec_indexed": "INDEXED",
     "spec_status": "STATUS",
-    "threat_level": "THREAT LEVEL"
+    "threat_level": "THREAT LEVEL",
+    "check_heading": "Check yourself",
+    "check_intro": "A quick recall test sits here when JavaScript is on. Either way, run this guide through your own head before you move on:",
+    "check_1": "Name the move this scam opens with — the message, call, or offer that starts it.",
+    "check_2": "Say out loud the one detail that gives it away, even when everything else looks legitimate.",
+    "check_3": "Decide your next step in advance: who you'd contact through a channel you already trust, and what you would never do (pay a fee, share a code, follow the link)."
   },
   "course": {
     "briefing_estimated": "ESTIMATED",
@@ -504,7 +511,244 @@
       "submit": "SUBMIT ANSWERS",
       "try_again": "Re-run assessment",
       "passed_pill": "✓ ASSESSMENT PASSED",
-      "options_caption": "options"
+      "options_caption": "options",
+      "guides_eyebrow": "RECALL CHECK",
+      "guides_heading": "Did it stick?",
+      "guides_tell_label": "THE TELL",
+      "guides_review_link": "Back to the guide",
+      "guides_score": "{score} of {total} correct",
+      "guides": {
+        "phishing": {
+          "q1": {
+            "prompt": "An email with your bank's exact logo says \"Urgent Security Update — your account is locked\" and gives a link to log in and unlock it. What's the safest move?",
+            "opt_a": "Click the link and sign in, since the logo and branding look right",
+            "opt_b": "Ignore the link, open the bank's app or type its address yourself, and check there",
+            "opt_c": "Reply to the email asking whether the message is genuine",
+            "tell": "A real logo proves nothing — anyone can copy one. Urgency plus a login link is the phishing shape. Reach the bank through a channel you already trust, not the one the message hands you."
+          },
+          "q2": {
+            "prompt": "A message claiming to be from your bank asks you to confirm your card number and password by email. What does that tell you?",
+            "opt_a": "It's fine if the email address looks like the bank's",
+            "opt_b": "It's normal for a security check",
+            "opt_c": "It's a scam — banks don't ask for passwords or card numbers by email",
+            "tell": "Banks never ask for passwords or full card details over email. A request like that is the giveaway, no matter how official the address looks."
+          },
+          "q3": {
+            "prompt": "Before entering your login on a site you reached from a link, what actually tells you it's the real one?",
+            "opt_a": "The address starts with https:// AND the domain is exactly the company's own",
+            "opt_b": "It has a padlock icon in the address bar",
+            "opt_c": "The page looks identical to the real site",
+            "tell": "Fake sites copy the look perfectly and many have a padlock too. The thing that's hard to fake is the real domain name — read it carefully before you type anything."
+          }
+        },
+        "sms-and-phone-scams": {
+          "q1": {
+            "prompt": "A text says: \"URGENT: suspicious transaction on your account. Verify now: [link]\". What do you do?",
+            "opt_a": "Tap the link quickly to stop the transaction",
+            "opt_b": "Don't tap the link — call the number on the back of your card to check",
+            "opt_c": "Reply STOP to cancel the transaction",
+            "tell": "Smishing works by rushing you toward a link. Don't follow it. Reach the bank through its own published number and the panic disappears along with the fake transaction."
+          },
+          "q2": {
+            "prompt": "A call shows your bank's real name and number on the screen. Can you trust it's really them?",
+            "opt_a": "No — caller ID can be spoofed to show any name or number",
+            "opt_b": "Yes, the number on the screen proves who is calling",
+            "opt_c": "Yes, as long as the agent knows your name",
+            "tell": "Caller ID is easy to fake. A familiar number on the screen is not proof. If anything sensitive comes up, hang up and call the official number yourself."
+          },
+          "q3": {
+            "prompt": "Your phone rings once from an unknown international number and stops. What's the risk if you call back?",
+            "opt_a": "Nothing — a missed call is harmless",
+            "opt_b": "You'll be charged a small standard fee",
+            "opt_c": "It may be a premium-rate number that bills you heavily per minute",
+            "tell": "The one-ring trick baits a callback to a premium-rate line that runs up your bill. Don't return calls from numbers you don't recognise."
+          }
+        },
+        "fake-online-stores": {
+          "q1": {
+            "prompt": "A new store advertises a sought-after designer bag at 70% off, accepts only bank transfer, and shows no tracking after you pay. What's most likely?",
+            "opt_a": "It's a fake store built to take the payment and vanish",
+            "opt_b": "It's a real outlet clearing old stock",
+            "opt_c": "It's slow shipping from overseas",
+            "tell": "Too-good-to-be-true price, payment-only-by-irreversible-transfer, and no tracking is the fake-store pattern. The deal is the bait."
+          },
+          "q2": {
+            "prompt": "How do you keep a risky online purchase recoverable if it turns out to be a scam?",
+            "opt_a": "Pay by direct bank transfer so it clears fast",
+            "opt_b": "Pay with a card or a method that offers buyer protection",
+            "opt_c": "Pay in cryptocurrency for privacy",
+            "tell": "Cards and protected payment services let you dispute and claw back a charge. Bank transfers and crypto are designed to be final — scammers prefer exactly that."
+          },
+          "q3": {
+            "prompt": "The site has a padlock and \"https://\" in the address. Does that mean it's a legitimate shop?",
+            "opt_a": "Yes, https means the shop is verified",
+            "opt_b": "Yes, a padlock guarantees your money is safe",
+            "opt_c": "No — https only encrypts the connection; a scam site can have it too",
+            "tell": "https only means the connection is encrypted, not that the seller is honest. Scam stores get padlocks too. Judge the shop on reviews, contact details, and payment options."
+          }
+        },
+        "abuse-on-dating-sites": {
+          "q1": {
+            "prompt": "Someone you met online has chatted warmly for two months, always has a reason not to meet, and now needs money for a work \"emergency\", promising to repay you. What's happening?",
+            "opt_a": "A genuine partner you should help out",
+            "opt_b": "A romance scam — the slow build was setup for the money ask",
+            "opt_c": "Bad luck that will pass once you help once",
+            "tell": "The patient build-up, the never-meeting, and the sudden emergency with a repayment promise are the romance-scam script. The relationship was the cover for the ask."
+          },
+          "q2": {
+            "prompt": "What is the single clearest warning sign in an online relationship?",
+            "opt_a": "A request for money from someone you've never met in person",
+            "opt_b": "They send a lot of compliments",
+            "opt_c": "They work in another country",
+            "tell": "Plenty of relationships involve compliments or distance. The hard line is money: a request for funds from someone you've never met is the red flag, every time."
+          },
+          "q3": {
+            "prompt": "The profile photos look almost too perfect. How can you check if the identity is reused?",
+            "opt_a": "Ask them to send more photos",
+            "opt_b": "Trust it if the photos are high quality",
+            "opt_c": "Run a reverse-image search on the photos to see if they appear under other names",
+            "tell": "Scammers reuse the same stolen photos across many profiles. A reverse-image search often surfaces the same face under different names — a clear sign it's fake."
+          }
+        },
+        "investment-pyramids": {
+          "q1": {
+            "prompt": "An \"investment\" pays early members using money from newer members rather than from any real profit. What is that?",
+            "opt_a": "A pyramid or Ponzi scheme",
+            "opt_b": "A normal high-yield fund",
+            "opt_c": "A government-backed savings plan",
+            "tell": "When returns come from new deposits instead of real earnings, it's a pyramid. It only survives while new money keeps arriving — then it collapses."
+          },
+          "q2": {
+            "prompt": "A scheme promises steady returns far above the market with \"little to no risk\". How should you read that?",
+            "opt_a": "A rare opportunity worth acting on fast",
+            "opt_b": "A fraud signal — guaranteed high returns with no risk don't exist",
+            "opt_c": "Normal for a well-run fund",
+            "tell": "Real returns track risk. \"Guaranteed\" high profit with no risk is the language of fraud, not finance."
+          },
+          "q3": {
+            "prompt": "Your payout depends mainly on recruiting more people to join. What does that structure tell you?",
+            "opt_a": "It's a generous referral bonus",
+            "opt_b": "It's standard for investing",
+            "opt_c": "It's a pyramid — legitimate investments don't need constant new recruits",
+            "tell": "If the money flows from recruitment rather than a real product or profit, it's a pyramid. Genuine investments don't collapse the moment recruiting slows."
+          }
+        },
+        "get-rich-quick-schemes": {
+          "q1": {
+            "prompt": "An offer says you can double your money fast, but only if you join today — the spots are \"limited\". What's the play?",
+            "opt_a": "A real chance you'd regret missing",
+            "opt_b": "A get-rich-quick scam — huge returns plus artificial time pressure",
+            "opt_c": "A normal limited promotion",
+            "tell": "Promised easy doubling plus a ticking clock is built to stop you thinking. The urgency is manufactured precisely so you don't check."
+          },
+          "q2": {
+            "prompt": "Early on, some members do receive payouts, which makes the scheme look real. Where does that money come from?",
+            "opt_a": "From newer investors' deposits, not real profit",
+            "opt_b": "From the scheme's trading gains",
+            "opt_c": "From bank interest",
+            "tell": "Those first payouts are bait, funded by later joiners. They build trust right before the organisers vanish with the pool."
+          },
+          "q3": {
+            "prompt": "A platform can't clearly explain how it actually generates its profits. What should you do?",
+            "opt_a": "Invest a small amount to test it",
+            "opt_b": "Trust the testimonials instead",
+            "opt_c": "Treat the vagueness as a red flag and stay out",
+            "tell": "If they can't explain where the profit comes from, assume there isn't any. An honest investment can describe how it makes money."
+          }
+        },
+        "nigerian-letters": {
+          "q1": {
+            "prompt": "A stranger emails that they need your help moving a large fortune out of a country and offers to share it with you. What is this?",
+            "opt_a": "An advance-fee (\"Nigerian letter\") scam",
+            "opt_b": "A genuine business opportunity",
+            "opt_c": "A bank error in your favour",
+            "tell": "An unsolicited offer of a fortune from a stranger who needs your help is the classic 419 advance-fee setup. The \"reward\" never arrives — only the requests for money do."
+          },
+          "q2": {
+            "prompt": "To \"release\" the promised money, they ask you to first pay fees, taxes, or a bribe. What's the right response?",
+            "opt_a": "Pay the small fee to unlock the larger sum",
+            "opt_b": "Refuse — you never pay to receive money you were promised",
+            "opt_c": "Negotiate a smaller fee",
+            "tell": "Real transfers don't require you to pay first to get paid. The fee is the whole scam; once you pay one, another \"obstacle\" always appears."
+          },
+          "q3": {
+            "prompt": "The sender backs up the story with official-looking documents, seals, and signatures. Does that make it real?",
+            "opt_a": "Yes, official documents prove the deal",
+            "opt_b": "Yes, if there's a signature",
+            "opt_c": "No — seals and documents are trivial to fake and prove nothing",
+            "tell": "Forged letterheads, seals, and signatures are cheap to produce. Documents don't verify a stranger's claim; the unsolicited fortune is still the tell."
+          }
+        },
+        "fraud-with-lotteries": {
+          "q1": {
+            "prompt": "You get a message saying you've won a big prize in a lottery you never entered. How should you read it?",
+            "opt_a": "You probably forgot entering and really won",
+            "opt_b": "A scam — real lotteries don't contact people who never entered",
+            "opt_c": "A harmless promotion",
+            "tell": "You can't win a draw you never entered. An unexpected \"you won\" is the opening line of a prize scam, not good news."
+          },
+          "q2": {
+            "prompt": "To claim the \"winnings\", you're told to pay a processing fee or tax first. What does a real prize require?",
+            "opt_a": "Never an upfront fee or tax to release it",
+            "opt_b": "A small refundable deposit",
+            "opt_c": "A one-time handling charge",
+            "tell": "Legitimate prizes never need you to pay to receive them. Any upfront \"fee\" or \"tax\" to unlock winnings is the scam itself."
+          },
+          "q3": {
+            "prompt": "The message gives a phone number to call to claim your prize. How do you verify it safely?",
+            "opt_a": "Call the number in the message — it's official",
+            "opt_b": "Reply with your details to speed it up",
+            "opt_c": "Look up the organisation's own contact details independently, not the ones provided",
+            "tell": "The contact details in the message lead straight back to the scammers. Verify through the organisation's real, independently-found channel instead."
+          }
+        },
+        "false-charities": {
+          "q1": {
+            "prompt": "After a disaster, a page shares heartbreaking photos, pushes you to give right now, and takes only gift cards or crypto. What's the warning?",
+            "opt_a": "It shows the signs of a fake charity",
+            "opt_b": "It's a fast, modern way real charities collect",
+            "opt_c": "Emotional appeals mean it's genuine",
+            "tell": "Manufactured urgency plus hard-to-trace payment rails is the fake-charity pattern. Real organisations let you take your time and offer traceable ways to give."
+          },
+          "q2": {
+            "prompt": "Before donating to an organisation you don't know, what's the reliable check?",
+            "opt_a": "Trust it if the website looks polished",
+            "opt_b": "Look it up in an official charity registry to confirm it's really registered",
+            "opt_c": "Donate a small amount first to test it",
+            "tell": "A slick site is easy to build. Confirming the charity in an official registry tells you whether it actually exists and is accountable."
+          },
+          "q3": {
+            "prompt": "You ask how the donations are spent and get vague, evasive answers. What does that signal?",
+            "opt_a": "Normal — charities keep finances private",
+            "opt_b": "It's fine if they sound sincere",
+            "opt_c": "A red flag — real charities publish reports and can say where money goes",
+            "tell": "Genuine charities are transparent about spending and publish reports. Dodging the question about where the money goes is a strong sign it isn't real."
+          }
+        },
+        "scam-sites-working-at-home": {
+          "q1": {
+            "prompt": "A remote-job site offers $500/week for easy typing, no experience needed — but first you must pay a $50 \"registration fee\" to see the jobs. What is this?",
+            "opt_a": "A great low-barrier opportunity",
+            "opt_b": "A work-from-home scam — you pay, the real work never appears",
+            "opt_c": "A standard onboarding cost",
+            "tell": "Charging you to access the \"jobs\" is the scam. The fee is the product; the promised easy income never materialises."
+          },
+          "q2": {
+            "prompt": "What does a legitimate employer never do when hiring you?",
+            "opt_a": "Charge you a fee to start working or to access listings",
+            "opt_b": "Ask for your work experience",
+            "opt_c": "Describe the role and pay",
+            "tell": "Real jobs pay you — they don't charge you to begin. Any upfront fee for training or access is the clearest sign it's a scam."
+          },
+          "q3": {
+            "prompt": "The \"company\" has no verifiable address, no phone, just an email that goes unanswered after you pay. What is that?",
+            "opt_a": "Normal for a small remote business",
+            "opt_b": "Fine as long as the website looks professional",
+            "opt_c": "A major warning sign — legitimate employers have verifiable contact details",
+            "tell": "A business you can't reach or verify is a business that can disappear with your money. Missing address and contact info is a serious red flag."
+          }
+        }
+      }
     },
     "exam": {
       "heading": "// FINAL EXAMINATION",
@@ -621,6 +865,28 @@
       "sev_1": "soft",
       "sev_2": "notable",
       "sev_3": "strong",
+      "card": {
+        "button": "SHARE_CARD",
+        "button_busy": "BUILDING…",
+        "no_text_note": "The card shows only the count and the kinds of flags. It never includes the message you pasted.",
+        "title": "Message check",
+        "flags_count": "{count} red flags found",
+        "flag_one": "{count} red flag found",
+        "calm_headline": "No obvious red flags",
+        "legend": "What stood out",
+        "share_title": "DiScammer message check",
+        "shared": "Card shared.",
+        "downloaded": "Card saved as a PNG.",
+        "error": "Could not make the card here. Try again.",
+        "cat_pressure": "Pressure",
+        "cat_credentials": "Asks for codes",
+        "cat_money": "Money rails",
+        "cat_impersonation": "Impersonation",
+        "cat_bait": "Too good to be true",
+        "cat_links": "Suspicious links",
+        "cat_secrecy": "Asks for secrecy",
+        "cat_attachment": "Unexpected file"
+      },
       "flags": {
         "urgency_label": "Urgency pressure",
         "urgency_body": "It pushes you to act right now. Real institutions give you time. Pressure to move fast is meant to stop you from thinking.",
@@ -665,6 +931,51 @@
         "romance_money_label": "Affection plus a money ask",
         "romance_money_body": "Warmth from someone you have not met in person, followed by a request for money or help, is the pig-butchering and romance-scam pattern."
       }
+    },
+    "inspect": {
+      "input_label": "Paste the link you want to inspect",
+      "placeholder": "Paste the suspicious link here. It is not opened.",
+      "inspect": "INSPECT",
+      "privacy": "This runs entirely in your browser. The link you paste stays in your browser — it is never sent anywhere, opened, stored, or logged.",
+      "disclaimer": "This is a heuristic read of the address, not a verdict on the site. A clean read is not a guarantee, and a flagged one is not proof. Use it to decide whether to slow down.",
+      "meter_label": "Link risk read: {level} of 5",
+      "meter_caption": "READ",
+      "judged_host": "Reading the host: {host}",
+      "result_heading": "WHAT STOOD OUT",
+      "findings_count": "{count} tells stood out",
+      "finding_one": "{count} tell stood out",
+      "guide_link": "Read the phishing guide",
+      "clean_heading": "NOTHING OBVIOUS FIRED",
+      "clean_body": "None of the usual link tells showed up in this address. That is not a guarantee. A page can still be fake behind a clean-looking link, so if something feels off, type the address yourself or open an app you already trust.",
+      "empty_prompt": "Paste a link above and press INSPECT to see which tells it trips.",
+      "severity_label": "signal strength",
+      "sev_1": "soft",
+      "sev_2": "notable",
+      "sev_3": "strong",
+      "explain": {
+        "punycode_label": "Disguised address (punycode)",
+        "punycode_body": "A part of the host starts with xn--, the encoding browsers use for non-Latin letters. It can render as a familiar name while pointing somewhere else entirely.",
+        "homograph_label": "Lookalike letters in the host",
+        "homograph_body": "The host mixes alphabets — for example a Cyrillic а standing in for a Latin a. It is built to look like a name you trust at a glance.",
+        "ip_host_label": "Raw IP address instead of a name",
+        "ip_host_body": "The host is a bare number like 192.168.0.1, not a domain name. Real services use named domains; a raw IP hides who actually owns the address.",
+        "userinfo_trick_label": "Hidden host after an @",
+        "userinfo_trick_body": "There is an @ in the address. The browser ignores everything before it and goes to whatever follows the @ — so bank.com@evil.ru actually goes to evil.ru.",
+        "deceptive_subdomain_label": "Trusted name used as a sub-domain",
+        "deceptive_subdomain_body": "A known brand appears on the left, but the real domain is the last two parts on the right. paypal.com.secure-login.ru belongs to secure-login.ru, not PayPal.",
+        "brand_lookalike_label": "Near-miss of a known brand",
+        "brand_lookalike_body": "The domain is one or two characters off a brand you know — a swapped letter or a digit posing as one (paypa1, g00gle). It is built to survive a quick glance.",
+        "suspicious_tld_label": "High-abuse domain ending",
+        "suspicious_tld_body": "The address ends in a domain extension scammers lean on heavily (like .zip or .top). It is not proof on its own, but it is worth a second look.",
+        "shortener_label": "Shortened link hides the real address",
+        "shortener_body": "A shortener (bit.ly and the like) conceals where the link actually goes. Expand it first, or do not open it at all.",
+        "not_https_label": "Not a secure (https) connection",
+        "not_https_body": "The address is http, not https, so the connection is not encrypted. A real login or payment page is always https.",
+        "port_oddity_label": "Unusual port number",
+        "port_oddity_body": "The address forces an unusual port (the number after a colon, like :8080). Ordinary sites do not need one; it can point at a service set up to impersonate.",
+        "obfuscated_path_label": "Overlong or scrambled path",
+        "obfuscated_path_body": "The part after the host is unusually long or packed with encoded characters. That length is often used to bury the real destination or smuggle parameters past a glance."
+      }
     }
   },
   "check": {
@@ -694,6 +1005,32 @@
     "noscript_4": "Does it want crypto, gift cards, or a wire transfer? These are chosen because they are hard to reverse.",
     "noscript_5": "Does the link hide its real destination (a shortener, or odd lookalike characters)? Do not click it.",
     "noscript_6": "Does it tell you to keep it secret? Secrecy protects the scammer. Verify through a channel you already trust."
+  },
+  "inspect": {
+    "eyebrow": "LINK INSPECTOR",
+    "heading": "Inspect a link before you click",
+    "lead": "A bad link is the single most common way a scam reaches you. Paste a web address here and the inspector reads it apart in your browser, naming each tell and pointing you at the phishing guide. It checks the link itself — it does not open it.",
+    "how_heading": "HOW TO USE IT",
+    "how_1": "Copy the link without opening it. On a phone, press and hold; on a computer, right-click and copy the link address.",
+    "how_2": "Paste it into the box and press INSPECT. The inspector reads the address, not the page behind it.",
+    "how_3": "Read the tells. Each one explains what it found and why it matters. When in doubt, type the real address yourself instead of clicking.",
+    "privacy_heading": "WHAT HAPPENS TO THE LINK",
+    "privacy_body": "Nothing is sent anywhere. The inspector runs entirely in your browser — the link you paste is never uploaded, stored, or logged, and the page behind it is never opened. This is a heuristic read of the address, not a verdict on the site.",
+    "example_heading": "A WORKED EXAMPLE",
+    "example_intro": "Here is a single address that looks almost right, and exactly where it goes wrong. Read it left to right.",
+    "example_url": "http://paypal.com.secure-login.ru/account/verify",
+    "example_flags_intro": "WHAT THE INSPECTOR FINDS",
+    "example_flag_1": "The real domain is secure-login.ru, not paypal.com. Everything before the last two parts is just a label the scammer chose — paypal.com is a sub-domain prefix here, not the destination.",
+    "example_flag_2": "It starts with http, not https, so the connection is not even encrypted. A real bank login is always https.",
+    "example_flag_3": "A trusted brand name is bolted onto an unrelated domain to win a glance of trust. Read a host from the right: the last two parts are who you are really talking to.",
+    "noscript_heading": "HOW TO READ A LINK BY HAND",
+    "noscript_intro": "The inspector needs JavaScript. Without it, here is the same checklist you can run on any link in your head.",
+    "noscript_1": "Find the real domain. Read the host from the right: the last two parts (like example.com) are the true owner. Everything to the left is a label they chose.",
+    "noscript_2": "Watch for a brand bolted onto another domain, like paypal.com.secure-login.ru — the real site is secure-login.ru.",
+    "noscript_3": "Be wary of an @ in the address. Anything before it is ignored by the browser; the real host is what follows the @.",
+    "noscript_4": "Distrust raw numbers for a host (like 192.168.0.1) and links that start with http instead of https.",
+    "noscript_5": "Look hard at lookalikes: a digit standing in for a letter (paypa1), or a foreign letter that mimics a Latin one (Cyrillic а for a).",
+    "noscript_6": "When anything looks off, do not click. Type the address you know yourself, or open the app you already trust."
   },
   "search": {
     "heading": "Search",

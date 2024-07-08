@@ -29,6 +29,14 @@ guide.investigator_notes_nigerian_letters
 guide.investigator_notes_investment_pyramids
 guide.investigator_notes_fake_online_stores
 
+# guide.html (F1) — KnowledgeCheck <noscript> "check yourself" list lines built
+# by index in a Jinja range() loop: t(_lang, 'guide.check_' ~ i). The numbered
+# leaves are never written as literals (check_heading / check_intro ARE, so they
+# are auto-detected and not listed here).
+guide.check_1
+guide.check_2
+guide.check_3
+
 # journal.html / post.html — month + weekday names indexed by date component:
 #   t(_lang, 'journal.' ~ _month_keys[_mm - 1])
 #   t(_lang, 'journal.' ~ _weekday_keys[_wkday_idx])
@@ -141,6 +149,174 @@ check.example_flag_3
 check.example_flag_4
 check.example_flag_5
 
+# KnowledgeCheck.tsx (F1) — per-guide knowledge-check question content.
+# The full key is built dynamically from the guide slug + question id:
+#   tr(`guides.${slug}.${q.id}.prompt`) / `.opt_a|.opt_b|.opt_c` / `.tell`
+# (KnowledgeCheck binds makeTranslator('quiz'), so these resolve under
+# client.quiz.guides.*). The slug/qid suffix is never a string literal, so
+# the audit's literal scanner can't see them — one leaf key per line here.
+# One quiz per seeded threat-guide slug; 3 questions each, 5 leaves per question.
+# phishing
+client.quiz.guides.phishing.q1.prompt
+client.quiz.guides.phishing.q1.opt_a
+client.quiz.guides.phishing.q1.opt_b
+client.quiz.guides.phishing.q1.opt_c
+client.quiz.guides.phishing.q1.tell
+client.quiz.guides.phishing.q2.prompt
+client.quiz.guides.phishing.q2.opt_a
+client.quiz.guides.phishing.q2.opt_b
+client.quiz.guides.phishing.q2.opt_c
+client.quiz.guides.phishing.q2.tell
+client.quiz.guides.phishing.q3.prompt
+client.quiz.guides.phishing.q3.opt_a
+client.quiz.guides.phishing.q3.opt_b
+client.quiz.guides.phishing.q3.opt_c
+client.quiz.guides.phishing.q3.tell
+# sms-and-phone-scams
+client.quiz.guides.sms-and-phone-scams.q1.prompt
+client.quiz.guides.sms-and-phone-scams.q1.opt_a
+client.quiz.guides.sms-and-phone-scams.q1.opt_b
+client.quiz.guides.sms-and-phone-scams.q1.opt_c
+client.quiz.guides.sms-and-phone-scams.q1.tell
+client.quiz.guides.sms-and-phone-scams.q2.prompt
+client.quiz.guides.sms-and-phone-scams.q2.opt_a
+client.quiz.guides.sms-and-phone-scams.q2.opt_b
+client.quiz.guides.sms-and-phone-scams.q2.opt_c
+client.quiz.guides.sms-and-phone-scams.q2.tell
+client.quiz.guides.sms-and-phone-scams.q3.prompt
+client.quiz.guides.sms-and-phone-scams.q3.opt_a
+client.quiz.guides.sms-and-phone-scams.q3.opt_b
+client.quiz.guides.sms-and-phone-scams.q3.opt_c
+client.quiz.guides.sms-and-phone-scams.q3.tell
+# fake-online-stores
+client.quiz.guides.fake-online-stores.q1.prompt
+client.quiz.guides.fake-online-stores.q1.opt_a
+client.quiz.guides.fake-online-stores.q1.opt_b
+client.quiz.guides.fake-online-stores.q1.opt_c
+client.quiz.guides.fake-online-stores.q1.tell
+client.quiz.guides.fake-online-stores.q2.prompt
+client.quiz.guides.fake-online-stores.q2.opt_a
+client.quiz.guides.fake-online-stores.q2.opt_b
+client.quiz.guides.fake-online-stores.q2.opt_c
+client.quiz.guides.fake-online-stores.q2.tell
+client.quiz.guides.fake-online-stores.q3.prompt
+client.quiz.guides.fake-online-stores.q3.opt_a
+client.quiz.guides.fake-online-stores.q3.opt_b
+client.quiz.guides.fake-online-stores.q3.opt_c
+client.quiz.guides.fake-online-stores.q3.tell
+# abuse-on-dating-sites
+client.quiz.guides.abuse-on-dating-sites.q1.prompt
+client.quiz.guides.abuse-on-dating-sites.q1.opt_a
+client.quiz.guides.abuse-on-dating-sites.q1.opt_b
+client.quiz.guides.abuse-on-dating-sites.q1.opt_c
+client.quiz.guides.abuse-on-dating-sites.q1.tell
+client.quiz.guides.abuse-on-dating-sites.q2.prompt
+client.quiz.guides.abuse-on-dating-sites.q2.opt_a
+client.quiz.guides.abuse-on-dating-sites.q2.opt_b
+client.quiz.guides.abuse-on-dating-sites.q2.opt_c
+client.quiz.guides.abuse-on-dating-sites.q2.tell
+client.quiz.guides.abuse-on-dating-sites.q3.prompt
+client.quiz.guides.abuse-on-dating-sites.q3.opt_a
+client.quiz.guides.abuse-on-dating-sites.q3.opt_b
+client.quiz.guides.abuse-on-dating-sites.q3.opt_c
+client.quiz.guides.abuse-on-dating-sites.q3.tell
+# investment-pyramids
+client.quiz.guides.investment-pyramids.q1.prompt
+client.quiz.guides.investment-pyramids.q1.opt_a
+client.quiz.guides.investment-pyramids.q1.opt_b
+client.quiz.guides.investment-pyramids.q1.opt_c
+client.quiz.guides.investment-pyramids.q1.tell
+client.quiz.guides.investment-pyramids.q2.prompt
+client.quiz.guides.investment-pyramids.q2.opt_a
+client.quiz.guides.investment-pyramids.q2.opt_b
+client.quiz.guides.investment-pyramids.q2.opt_c
+client.quiz.guides.investment-pyramids.q2.tell
+client.quiz.guides.investment-pyramids.q3.prompt
+client.quiz.guides.investment-pyramids.q3.opt_a
+client.quiz.guides.investment-pyramids.q3.opt_b
+client.quiz.guides.investment-pyramids.q3.opt_c
+client.quiz.guides.investment-pyramids.q3.tell
+# get-rich-quick-schemes
+client.quiz.guides.get-rich-quick-schemes.q1.prompt
+client.quiz.guides.get-rich-quick-schemes.q1.opt_a
+client.quiz.guides.get-rich-quick-schemes.q1.opt_b
+client.quiz.guides.get-rich-quick-schemes.q1.opt_c
+client.quiz.guides.get-rich-quick-schemes.q1.tell
+client.quiz.guides.get-rich-quick-schemes.q2.prompt
+client.quiz.guides.get-rich-quick-schemes.q2.opt_a
+client.quiz.guides.get-rich-quick-schemes.q2.opt_b
+client.quiz.guides.get-rich-quick-schemes.q2.opt_c
+client.quiz.guides.get-rich-quick-schemes.q2.tell
+client.quiz.guides.get-rich-quick-schemes.q3.prompt
+client.quiz.guides.get-rich-quick-schemes.q3.opt_a
+client.quiz.guides.get-rich-quick-schemes.q3.opt_b
+client.quiz.guides.get-rich-quick-schemes.q3.opt_c
+client.quiz.guides.get-rich-quick-schemes.q3.tell
+# nigerian-letters
+client.quiz.guides.nigerian-letters.q1.prompt
+client.quiz.guides.nigerian-letters.q1.opt_a
+client.quiz.guides.nigerian-letters.q1.opt_b
+client.quiz.guides.nigerian-letters.q1.opt_c
+client.quiz.guides.nigerian-letters.q1.tell
+client.quiz.guides.nigerian-letters.q2.prompt
+client.quiz.guides.nigerian-letters.q2.opt_a
+client.quiz.guides.nigerian-letters.q2.opt_b
+client.quiz.guides.nigerian-letters.q2.opt_c
+client.quiz.guides.nigerian-letters.q2.tell
+client.quiz.guides.nigerian-letters.q3.prompt
+client.quiz.guides.nigerian-letters.q3.opt_a
+client.quiz.guides.nigerian-letters.q3.opt_b
+client.quiz.guides.nigerian-letters.q3.opt_c
+client.quiz.guides.nigerian-letters.q3.tell
+# fraud-with-lotteries
+client.quiz.guides.fraud-with-lotteries.q1.prompt
+client.quiz.guides.fraud-with-lotteries.q1.opt_a
+client.quiz.guides.fraud-with-lotteries.q1.opt_b
+client.quiz.guides.fraud-with-lotteries.q1.opt_c
+client.quiz.guides.fraud-with-lotteries.q1.tell
+client.quiz.guides.fraud-with-lotteries.q2.prompt
+client.quiz.guides.fraud-with-lotteries.q2.opt_a
+client.quiz.guides.fraud-with-lotteries.q2.opt_b
+client.quiz.guides.fraud-with-lotteries.q2.opt_c
+client.quiz.guides.fraud-with-lotteries.q2.tell
+client.quiz.guides.fraud-with-lotteries.q3.prompt
+client.quiz.guides.fraud-with-lotteries.q3.opt_a
+client.quiz.guides.fraud-with-lotteries.q3.opt_b
+client.quiz.guides.fraud-with-lotteries.q3.opt_c
+client.quiz.guides.fraud-with-lotteries.q3.tell
+# false-charities
+client.quiz.guides.false-charities.q1.prompt
+client.quiz.guides.false-charities.q1.opt_a
+client.quiz.guides.false-charities.q1.opt_b
+client.quiz.guides.false-charities.q1.opt_c
+client.quiz.guides.false-charities.q1.tell
+client.quiz.guides.false-charities.q2.prompt
+client.quiz.guides.false-charities.q2.opt_a
+client.quiz.guides.false-charities.q2.opt_b
+client.quiz.guides.false-charities.q2.opt_c
+client.quiz.guides.false-charities.q2.tell
+client.quiz.guides.false-charities.q3.prompt
+client.quiz.guides.false-charities.q3.opt_a
+client.quiz.guides.false-charities.q3.opt_b
+client.quiz.guides.false-charities.q3.opt_c
+client.quiz.guides.false-charities.q3.tell
+# scam-sites-working-at-home
+client.quiz.guides.scam-sites-working-at-home.q1.prompt
+client.quiz.guides.scam-sites-working-at-home.q1.opt_a
+client.quiz.guides.scam-sites-working-at-home.q1.opt_b
+client.quiz.guides.scam-sites-working-at-home.q1.opt_c
+client.quiz.guides.scam-sites-working-at-home.q1.tell
+client.quiz.guides.scam-sites-working-at-home.q2.prompt
+client.quiz.guides.scam-sites-working-at-home.q2.opt_a
+client.quiz.guides.scam-sites-working-at-home.q2.opt_b
+client.quiz.guides.scam-sites-working-at-home.q2.opt_c
+client.quiz.guides.scam-sites-working-at-home.q2.tell
+client.quiz.guides.scam-sites-working-at-home.q3.prompt
+client.quiz.guides.scam-sites-working-at-home.q3.opt_a
+client.quiz.guides.scam-sites-working-at-home.q3.opt_b
+client.quiz.guides.scam-sites-working-at-home.q3.opt_c
+client.quiz.guides.scam-sites-working-at-home.q3.tell
+
 # ── test fixtures ───────────────────────────────────────────────────────────
 
 # backend/tests/test_i18n.py uses this key as a representative interpolation
@@ -148,3 +324,63 @@ check.example_flag_5
 # product code, but deleting it would break that pre-existing test (not owned
 # by this wave), so it is intentionally retained.
 course.terminal_lessons
+
+# ── F2: link inspector dynamic explain keys ─────────────────────────────────
+# LinkInspector.tsx looks these up as tr("explain." + finding.id + "_label"/"_body"),
+# built at runtime from url_heuristics ids, so the audit scanner cannot see them.
+client.inspect.explain.punycode_label
+client.inspect.explain.punycode_body
+client.inspect.explain.homograph_label
+client.inspect.explain.homograph_body
+client.inspect.explain.ip_host_label
+client.inspect.explain.ip_host_body
+client.inspect.explain.userinfo_trick_label
+client.inspect.explain.userinfo_trick_body
+client.inspect.explain.deceptive_subdomain_label
+client.inspect.explain.deceptive_subdomain_body
+client.inspect.explain.brand_lookalike_label
+client.inspect.explain.brand_lookalike_body
+client.inspect.explain.suspicious_tld_label
+client.inspect.explain.suspicious_tld_body
+client.inspect.explain.shortener_label
+client.inspect.explain.shortener_body
+client.inspect.explain.not_https_label
+client.inspect.explain.not_https_body
+client.inspect.explain.port_oddity_label
+client.inspect.explain.port_oddity_body
+client.inspect.explain.obfuscated_path_label
+client.inspect.explain.obfuscated_path_body
+client.inspect.sev_1
+client.inspect.sev_2
+client.inspect.sev_3
+
+# ── F3: verdict card dynamic category labels ────────────────────────────────
+# VerdictCard.tsx maps each fired flag's category to a localized label via a
+# template literal: tr(`card.cat_${cat}`) — backtick lookups are invisible to
+# the audit's literal scanner, so the 8 category-label keys are listed here.
+# (The card's other strings — card.title/flags_count/calm_headline/legend/etc.
+# — ARE plain single-quote tr('card.…') literals and so are auto-detected.)
+# Each corresponds to a category in FLAG_CATEGORY in VerdictCard.tsx.
+client.analyzer.card.cat_pressure
+client.analyzer.card.cat_credentials
+client.analyzer.card.cat_money
+client.analyzer.card.cat_impersonation
+client.analyzer.card.cat_bait
+client.analyzer.card.cat_links
+client.analyzer.card.cat_secrecy
+client.analyzer.card.cat_attachment
+
+# inspect.html (F2) — numbered checklist / how-to / example-flag lines built by
+# index in a Jinja range() loop: t(_lang, 'inspect.noscript_' ~ i) etc.
+inspect.how_1
+inspect.how_2
+inspect.how_3
+inspect.noscript_1
+inspect.noscript_2
+inspect.noscript_3
+inspect.noscript_4
+inspect.noscript_5
+inspect.noscript_6
+inspect.example_flag_1
+inspect.example_flag_2
+inspect.example_flag_3

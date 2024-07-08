@@ -16,8 +16,7 @@ import AxeBuilder from '@axe-core/playwright';
  * the gate blocks on contrast regressions alongside structural a11y violations.
  */
 
-// WIRE(v5): add '/en/inspect' to A11Y_PAGES once F2 lands (G3).
-const A11Y_PAGES = ['/en/', '/en/course', '/en/check', '/en/search', '/en/journal', '/ru/'];
+const A11Y_PAGES = ['/en/', '/en/course', '/en/check', '/en/inspect', '/en/search', '/en/journal', '/ru/'];
 
 // Rules excluded from the blocking gate (none — contrast is now enforced, see header note).
 const EXCLUDED_RULES = new Set<string>([]);

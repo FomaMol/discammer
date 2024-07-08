@@ -2,6 +2,7 @@ import { useId, useRef, useState } from 'react';
 import { analyze, type AnalysisResult, type RedFlag } from '../data/redflags';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
+import VerdictCard from './VerdictCard';
 
 /**
  * MessageAnalyzer — the flagship "Проверка сообщения" red-flag analyzer (F2).
@@ -235,6 +236,11 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
             <p className="mt-6 text-[11px] leading-[1.5] text-[#8b94a8] max-w-[64ch] font-sans">
               {tr('disclaimer')}
             </p>
+
+            {/* F3 — shareable verdict card. Consumes the RESULT object only
+                (counts, severity, categories); the message text never reaches
+                it and never enters the generated image. */}
+            <VerdictCard result={result} lang={lang} />
           </>
         )}
       </div>

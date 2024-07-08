@@ -97,9 +97,16 @@ export function subscribe(listener: () => void): () => void {
 
 const EXAM_KEY = 'discammer:exam:v1';
 const CERT_NAME_KEY = 'discammer:certificate:name';
+const GUIDE_CHECKS_KEY = 'discammer:guidechecks:v1';
 
-/** Current dossier format version. Bump only on a breaking schema change. */
-const DOSSIER_VERSION = 1;
+/**
+ * Current dossier format version. Bump only on a breaking schema change.
+ *
+ * v:1 → v:2 added `guideChecks` (per-guide knowledge checks). The importer is
+ * FORWARD-COMPATIBLE: a v:1 dossier (no `guideChecks`) imports cleanly, with
+ * the missing field treated as empty — see `importProgress`.
+ */
+const DOSSIER_VERSION = 2;
 
 /** Shape of discammer:exam:v1 as written by ExamWidget. */
 interface ExamRecord {
@@ -109,18 +116,30 @@ interface ExamRecord {
   passedAt: string;
 }
 
+/** One per-guide knowledge-check result (best-of), as written by KnowledgeCheck. */
+export interface GuideCheckRecord {
+  score: number;
+  bestOf: number;
+  at: string;
+}
+
+/** Map of guide slug → best-of knowledge-check result. */
+export type GuideChecks = Record<string, GuideCheckRecord>;
+
 export interface Dossier {
   v: number;
   exportedAt: string;
   lessons: ProgressShape['modules'];
   exams: ExamRecord | null;
   certName: string | null;
+  guideChecks: GuideChecks;
 }
 
 export interface ImportOk {
   ok: true;
   addedLessons: number;
   improvedExams: number;
+  improvedGuideChecks: number;
 }
 
 export interface ImportErr {
@@ -164,8 +183,82 @@ function isConfirmedName(value: string | null | undefined): boolean {
   return typeof value === 'string' && value.trim().length >= 2;
 }
 
+/** True when `rec` is a well-formed guide-check record (defensive against corruption). */
+function isGuideCheckRecord(rec: unknown): rec is GuideCheckRecord {
+  return (
+    !!rec &&
+    typeof rec === 'object' &&
+    typeof (rec as GuideCheckRecord).score === 'number' &&
+    typeof (rec as GuideCheckRecord).bestOf === 'number'
+  );
+}
+
 /**
- * Build the operator dossier from the three localStorage sources. Safe to call
+ * Read the per-guide knowledge-check map from storage. Corrupted entries are
+ * skipped rather than failing the whole read; never throws.
+ */
+function readGuideChecks(): GuideChecks {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = window.localStorage.getItem(GUIDE_CHECKS_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    const out: GuideChecks = {};
+    for (const [slug, rec] of Object.entries(parsed as Record<string, unknown>)) {
+      if (isGuideCheckRecord(rec)) {
+        out[slug] = {
+          score: rec.score,
+          bestOf: rec.bestOf,
+          at: typeof rec.at === 'string' ? rec.at : '',
+        };
+      }
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+function writeGuideChecks(checks: GuideChecks) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(GUIDE_CHECKS_KEY, JSON.stringify(checks));
+    window.dispatchEvent(new CustomEvent('discammer:guidechecks'));
+  } catch {
+    // Silent fail — Safari private mode and quota errors are non-fatal.
+  }
+}
+
+/** Best-of guide-check ratio, guarding against a bestOf of 0. */
+function guideCheckRatio(rec: GuideCheckRecord | null | undefined): number {
+  if (!rec || rec.bestOf <= 0) return 0;
+  return rec.score / rec.bestOf;
+}
+
+/** The stored best-of knowledge-check for a guide, or null if none / corrupted. */
+export function getGuideCheck(slug: string): GuideCheckRecord | null {
+  return readGuideChecks()[slug] ?? null;
+}
+
+/**
+ * Record a knowledge-check result for `slug`. Best-of merge: the new result only
+ * overwrites the stored one when its score/bestOf ratio is strictly better
+ * (guarding bestOf > 0). Stores an ISO timestamp under `at`.
+ */
+export function recordGuideCheck(slug: string, score: number, bestOf: number): void {
+  if (!slug || bestOf <= 0) return;
+  const checks = readGuideChecks();
+  const next: GuideCheckRecord = { score, bestOf, at: new Date().toISOString() };
+  const current = checks[slug];
+  if (!current || guideCheckRatio(next) > guideCheckRatio(current)) {
+    checks[slug] = next;
+    writeGuideChecks(checks);
+  }
+}
+
+/**
+ * Build the operator dossier from the four localStorage sources. Safe to call
  * during SSR (returns an empty, well-formed dossier).
  */
 export function exportProgress(): Dossier {
@@ -176,6 +269,7 @@ export function exportProgress(): Dossier {
     lessons,
     exams: readExamRecord(),
     certName: readCertName(),
+    guideChecks: readGuideChecks(),
   };
 }
 
@@ -211,8 +305,9 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
   }
   const d = data as Record<string, unknown>;
 
-  // Version guard: require a numeric `v` in (0, DOSSIER_VERSION]. A v:0 / v:2
-  // (downgrade / forward-compat) is rejected with a clear error.
+  // Version guard: require a numeric `v` in [1, DOSSIER_VERSION]. A v:1 dossier
+  // (no `guideChecks`) imports cleanly — forward-compatible. A v:0 (downgrade)
+  // or a future v:3 is rejected with a clear error.
   if (typeof d.v !== 'number' || d.v < 1 || d.v > DOSSIER_VERSION) {
     return { ok: false, error: 'unsupported-version' };
   }
@@ -227,6 +322,15 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
     (typeof d.exams !== 'object' || Array.isArray(d.exams))
   ) {
     return { ok: false, error: 'bad-exams' };
+  }
+  // `guideChecks` is OPTIONAL (absent on v:1). When present it must be an object
+  // map; an array / scalar is a malformed file.
+  if (
+    d.guideChecks !== undefined &&
+    d.guideChecks !== null &&
+    (typeof d.guideChecks !== 'object' || Array.isArray(d.guideChecks))
+  ) {
+    return { ok: false, error: 'bad-guidechecks' };
   }
 
   const importedModules = d.lessons as ProgressShape['modules'];
@@ -282,10 +386,35 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
     if (isConfirmedName(importedName)) writeCertName(importedName as string);
   }
 
+  // ---- Merge guide checks (best-of by slug) ----------------------------------
+  // Absent on a v:1 dossier → treated as empty (no-op). Corrupted entries are
+  // skipped, never throw, and a strictly-better imported ratio wins per slug.
+  let improvedGuideChecks = 0;
+  const importedChecks = (d.guideChecks ?? {}) as Record<string, unknown>;
+  if (importedChecks && typeof importedChecks === 'object' && !Array.isArray(importedChecks)) {
+    const currentChecks = readGuideChecks();
+    let guideChecksDirty = false;
+    for (const [slug, rec] of Object.entries(importedChecks)) {
+      if (!isGuideCheckRecord(rec) || rec.bestOf <= 0) continue;
+      const incoming: GuideCheckRecord = {
+        score: rec.score,
+        bestOf: rec.bestOf,
+        at: typeof rec.at === 'string' ? rec.at : new Date().toISOString(),
+      };
+      const existing = currentChecks[slug];
+      if (!existing || guideCheckRatio(incoming) > guideCheckRatio(existing)) {
+        currentChecks[slug] = incoming;
+        improvedGuideChecks += 1;
+        guideChecksDirty = true;
+      }
+    }
+    if (guideChecksDirty) writeGuideChecks(currentChecks);
+  }
+
   // Persist merged lesson state and notify the UI (exam writes already fired).
   write(current);
 
-  return { ok: true, addedLessons, improvedExams };
+  return { ok: true, addedLessons, improvedExams, improvedGuideChecks };
 }
 
 function writeExamRecord(rec: ExamRecord) {
