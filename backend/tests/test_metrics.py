@@ -66,6 +66,19 @@ def test_metrics_closed_to_public_when_token_unset(client, monkeypatch):
     assert r.status_code == 404
 
 
+def test_loopback_hosts_are_numeric_only(client, monkeypatch):
+    """FIX 4: _LOOPBACK_HOSTS holds only numeric loopback peers. Name literals
+    like 'localhost'/'testserver' could never match request.client.host (a
+    numeric socket address) and have been removed. The TestClient peer
+    ('testclient') is — and always was — outside the set, so a token-unset
+    deployment stays closed (404) to it."""
+    import main
+
+    assert main._LOOPBACK_HOSTS == {"127.0.0.1", "::1"}
+    monkeypatch.setattr(main, "METRICS_TOKEN", "")
+    assert client.get("/api/metrics").status_code == 404
+
+
 def test_metrics_requires_bearer_token_when_set(client, monkeypatch):
     import main
 

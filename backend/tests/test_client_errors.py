@@ -129,6 +129,52 @@ def test_smuggled_user_content_is_scrubbed_server_side(client, caplog):
             assert secret not in str(attr), "smuggled user content leaked into a log field"
 
 
+def test_rate_limit_is_per_ip_via_x_real_ip(client, caplog):
+    """Distinct clients (resolved via the trusted X-Real-IP header nginx sets)
+    get INDEPENDENT token buckets: flooding one IP to 429 must not 429 another.
+    Without per-IP keying the limiter would collapse to one global bucket behind
+    the proxy and starve the second IP too."""
+    import config
+
+    caplog.set_level(logging.INFO, logger="discammer")
+    limit = config.CLIENT_ERROR_RATE_LIMIT
+
+    # Flood IP A well past the per-IP ceiling.
+    a_statuses = []
+    for _ in range(limit + 5):
+        r = client.post(
+            "/api/client-errors",
+            json={"name": "E", "messageClass": "E/short", "location": "X"},
+            headers={"X-Real-IP": "1.2.3.4"},
+        )
+        a_statuses.append(r.status_code)
+    assert 429 in a_statuses, "the flooded IP must eventually be rate-limited"
+
+    # A different IP must still be admitted — its bucket is independent.
+    r_other = client.post(
+        "/api/client-errors",
+        json={"name": "E", "messageClass": "E/short", "location": "X"},
+        headers={"X-Real-IP": "5.6.7.8"},
+    )
+    assert r_other.status_code == 204, "a distinct IP must not inherit another IP's 429"
+
+
+def test_oversized_body_rejected_413_streaming_cap(client):
+    """A body far larger than the cap is rejected with 413. NB: TestClient/httpx
+    always send an honest Content-Length, so this exercises the streaming-read
+    cap path indirectly (and the Content-Length fast-path). A genuine
+    Transfer-Encoding: chunked / spoofed-small-Content-Length bypass can't be
+    reproduced through this client; the streaming cap in the handler is the fix
+    that bounds allocation in that case regardless."""
+    big = "y" * (4 * 1024 * 1024)  # 4 MB — orders of magnitude over the 2 KB cap
+    r = client.post(
+        "/api/client-errors",
+        content=('{"name":"E","messageClass":"E/x","location":"%s"}' % big).encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    assert r.status_code == 413
+
+
 def test_bad_name_is_coerced_not_logged_raw(client, caplog):
     """An attacker-supplied 'name' that is actually a long user string must be
     bounded/sanitised — not echoed verbatim into the log."""

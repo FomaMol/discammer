@@ -81,10 +81,36 @@ function looksLikeIp(host: string): boolean {
 
 /**
  * Read the ORIGINAL scheme the user typed (before we prepend one to parse).
- * Returns '' when the input is scheme-less.
+ * Returns '' when the input is scheme-less. Only recognises a HIERARCHICAL
+ * scheme — one followed by `://` (http, https, ftp…). An OPAQUE scheme like
+ * `mailto:` or `tel:` (no `//`) is intentionally NOT matched here so the parser
+ * still prepends `http://` for the scheme-less host path; the opaque case is
+ * caught separately by `isOpaqueScheme`.
  */
 function originalScheme(input: string): string {
   const m = /^([a-z][a-z0-9+.-]*):\/\//i.exec(input.trim());
+  return m ? m[1].toLowerCase() : '';
+}
+
+/**
+ * An OPAQUE (non-hierarchical) URI: a `scheme:` that is NOT followed by `//`,
+ * e.g. `mailto:user@bank.com`, `tel:+15551234`, `sip:bob@example.com`. These
+ * carry no authority component, so the part after the colon is NOT a host /
+ * userinfo / port — feeding them through `http://…` would make the `URL` ctor
+ * misread `mailto` as a username and `bank.com` as a host, falsely tripping
+ * `userinfo_trick`, `port_oddity`, etc. We detect them so the parser can clear
+ * those authority fields and the host-based heuristics simply can't fire.
+ */
+function isOpaqueScheme(input: string): boolean {
+  const trimmed = input.trim();
+  return (
+    /^[a-z][a-z0-9+.-]*:/i.test(trimmed) && !/^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)
+  );
+}
+
+/** Read the scheme name of an opaque URI (`mailto:` -> `mailto`), lowercased. */
+function originalSchemeOpaque(input: string): string {
+  const m = /^([a-z][a-z0-9+.-]*):/i.exec(input.trim());
   return m ? m[1].toLowerCase() : '';
 }
 
@@ -130,6 +156,16 @@ export function parseUrl(input: string): ParsedUrl {
   };
 
   if (trimmed.length === 0) return empty;
+
+  // Opaque URI (`mailto:`, `tel:`, `sip:`…): no authority component, so there is
+  // no host/userinfo/port to judge. We return a parse with those fields cleared
+  // and keep the typed scheme. CHOICE: an opaque URI yields NO findings at all —
+  // a `mailto:`/`tel:` simply isn't a web link to inspect, and `not_https` is
+  // gated on a non-empty host so a cleared host suppresses it too. This is the
+  // cleanest way to avoid the false positives without ever throwing.
+  if (isOpaqueScheme(trimmed)) {
+    return { ...empty, scheme: originalSchemeOpaque(trimmed) };
+  }
 
   const rawHost = rawHostOf(trimmed, scheme);
 

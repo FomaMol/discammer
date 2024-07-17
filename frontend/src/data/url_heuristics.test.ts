@@ -195,6 +195,48 @@ describe('overlong / obfuscated path detection', () => {
   });
 });
 
+describe('opaque-scheme URIs (mailto:/tel:/sip:) — no false positives', () => {
+  it('mailto: does not fire userinfo_trick (and nothing alarming)', () => {
+    const ids = findingIds('mailto:user@bank.com');
+    expect(ids).not.toContain('userinfo_trick');
+    expect(ids).not.toContain('not_https');
+    // An opaque URI is not a web link to inspect — it fires nothing.
+    expect(ids).toEqual([]);
+    expect(inspect('mailto:user@bank.com').level).toBe(0);
+  });
+
+  it('tel: does not fire port_oddity', () => {
+    const ids = findingIds('tel:+15551234');
+    expect(ids).not.toContain('port_oddity');
+    expect(ids).toEqual([]);
+  });
+
+  it('sip: does not fire userinfo_trick', () => {
+    const ids = findingIds('sip:bob@example.com');
+    expect(ids).not.toContain('userinfo_trick');
+    expect(ids).toEqual([]);
+  });
+
+  it('the opaque scheme name is still parsed onto the result', () => {
+    expect(inspect('mailto:user@bank.com').parsed.scheme).toBe('mailto');
+    expect(inspect('TEL:+15551234').parsed.scheme).toBe('tel');
+  });
+
+  it('does not throw on opaque-looking garbage', () => {
+    for (const g of ['mailto:', 'tel:', 'foo:bar:baz', 'a+b.c-d:whatever']) {
+      expect(() => inspect(g)).not.toThrow();
+    }
+  });
+
+  it('the real @-trick on a hierarchical url still fires (not over-suppressed)', () => {
+    expect(findingIds('http://bank.com@evil.ru/login')).toContain('userinfo_trick');
+  });
+
+  it('a scheme-less deceptive host is still inspected (regression guard)', () => {
+    expect(findingIds('paypal.com.secure-login.ru')).toContain('deceptive_subdomain');
+  });
+});
+
 describe('scoring → level mapping', () => {
   it('a single soft (severity-1) finding reads a low level', () => {
     const res = inspect('https://bit.ly/3xYz');

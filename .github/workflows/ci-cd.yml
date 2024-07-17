@@ -289,7 +289,11 @@ jobs:
   deploy:
     name: Deploy to production
     runs-on: ubuntu-latest
-    needs: [backend-tests, frontend-build, docker-build, e2e]
+    # `audit` is included so a known-vuln dependency actually BLOCKS the deploy
+    # (R1 finding): without it the audit job ran in parallel and a failed audit
+    # left the deploy chain free to ship. Branch protection isn't available on
+    # this private/free-tier repo, so `needs:` is the only working gate.
+    needs: [audit, backend-tests, frontend-build, docker-build, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
     timeout-minutes: 20

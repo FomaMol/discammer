@@ -76,6 +76,9 @@ CLIENT_ERROR_SAMPLE_RATE = _env_float("CLIENT_ERROR_SAMPLE_RATE", 0.2)
 
 # Per-IP token-bucket ceiling (requests/minute) for /api/client-errors. Over the
 # limit returns 429 with NO log line, so a misbehaving client can't spam logs.
+# "Per-IP" holds behind our nginx: main._client_ip resolves the real client from
+# the trusted X-Real-IP header (uvicorn is loopback-bound; only nginx reaches
+# it), so each client gets its own bucket rather than sharing the proxy's.
 CLIENT_ERROR_RATE_LIMIT = _env_int("CLIENT_ERROR_RATE_LIMIT", 30)
 
 # Bearer token gating GET /api/metrics. Empty (the default) means the endpoint

@@ -321,9 +321,16 @@ from fastapi import Request, Response as _Response  # noqa: E402
 _CLIENT_ERROR_MAX_BODY = 2048  # ~2 KB hard cap on the request body.
 
 # Per-IP token bucket: ip -> (tokens, last_refill_monotonic). Refilled at
-# CLIENT_ERROR_RATE_LIMIT tokens/minute. Bounded by IP count; cleared in tests.
+# CLIENT_ERROR_RATE_LIMIT tokens/minute. Now genuinely per-IP (see _client_ip),
+# so the key space is the client-IP space — hard-capped at
+# _CLIENT_ERROR_BUCKET_MAX entries (see _client_error_allow) so a flood of
+# distinct IPs can't grow it unboundedly. Cleared in tests.
 _client_error_buckets: dict[str, tuple[float, float]] = {}
 _CLIENT_ERROR_REFILL_PER_SEC = CLIENT_ERROR_RATE_LIMIT / 60.0
+# Hard ceiling on the number of tracked IP buckets. Refill window (seconds) used
+# to evict stale buckets before falling back to a full reset.
+_CLIENT_ERROR_BUCKET_MAX = 4096
+_CLIENT_ERROR_REFILL_WINDOW_SEC = 60.0
 
 # Allowed error *names* are short identifier-ish tokens (JS error class names).
 # Anything else is bucketed to "Error" so a smuggled user paragraph in `name`
@@ -338,15 +345,49 @@ _LOCATION_RE = _re.compile(r"^[A-Za-z0-9_.\-]{1,60}$")
 
 
 def _client_ip(request: "Request") -> str:
+    """Best-effort real client IP for per-IP rate limiting.
+
+    Trust assumption: in prod uvicorn is bound to loopback (127.0.0.1:8000) and
+    ONLY our nginx reaches it, so the X-Real-IP / X-Forwarded-For headers nginx
+    sets (X-Real-IP = $remote_addr = the real peer; X-Forwarded-For's first hop
+    likewise) are trustworthy. Prefer those so the limiter is genuinely per-IP
+    rather than collapsing to the single proxy/bridge address that
+    request.client.host reports behind the proxy. In direct/dev access these
+    headers are absent and we fall back to the socket peer.
+    """
+    real_ip = request.headers.get("x-real-ip")
+    if real_ip:
+        return real_ip.strip()
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        first = forwarded.split(",", 1)[0].strip()
+        if first:
+            return first
     client = request.client
     return client.host if client else "unknown"
 
 
 def _client_error_allow(ip: str) -> bool:
     """Token-bucket admission test. Returns False when the per-IP rate is
-    exceeded. Side-effect: decrements the bucket on admit."""
+    exceeded. Side-effect: decrements the bucket on admit.
+
+    "Per-IP" holds behind our nginx: ``ip`` comes from ``_client_ip`` which
+    resolves the real client via the trusted X-Real-IP header, so distinct
+    clients get independent buckets even though they share the proxy socket."""
     now = _time_mod.monotonic()
-    tokens, last = _client_error_buckets.get(ip, (float(CLIENT_ERROR_RATE_LIMIT), now))
+    existing = _client_error_buckets.get(ip)
+    if existing is None and len(_client_error_buckets) >= _CLIENT_ERROR_BUCKET_MAX:
+        # At the cap and about to add a NEW key — first drop stale buckets
+        # (untouched for longer than a full refill window; they'd refill to full
+        # anyway). If that doesn't free room, clear the whole dict: a bounded
+        # worst-case reset. The limiter just refills fresh — fail-safe for
+        # telemetry, never a crash or unbounded memory.
+        cutoff = now - _CLIENT_ERROR_REFILL_WINDOW_SEC
+        for stale in [k for k, (_, last) in _client_error_buckets.items() if last < cutoff]:
+            del _client_error_buckets[stale]
+        if len(_client_error_buckets) >= _CLIENT_ERROR_BUCKET_MAX:
+            _client_error_buckets.clear()
+    tokens, last = existing if existing is not None else (float(CLIENT_ERROR_RATE_LIMIT), now)
     tokens = min(
         float(CLIENT_ERROR_RATE_LIMIT),
         tokens + (now - last) * _CLIENT_ERROR_REFILL_PER_SEC,
@@ -395,8 +436,13 @@ def _scrub_location(value) -> str:
 
 @app.post("/api/client-errors", include_in_schema=False)
 async def client_errors(request: Request):
-    # Body-size cap BEFORE parsing. Trust Content-Length when present, but also
-    # cap the actual read so a lying/absent header can't slip a huge body past.
+    # Body-size cap BEFORE parsing. Honest Content-Length gives a cheap early-out
+    # (reject without reading a byte), but it's only a hint: a spoofed-small or
+    # absent header (e.g. Transfer-Encoding: chunked) could otherwise slip a huge
+    # body through. So we ALSO cap during the streaming read below — we never
+    # buffer more than _CLIENT_ERROR_MAX_BODY bytes, aborting as soon as the
+    # running total exceeds the cap instead of letting request.body() buffer the
+    # whole (possibly enormous) payload into memory first.
     content_length = request.headers.get("content-length")
     if content_length is not None:
         try:
@@ -405,9 +451,14 @@ async def client_errors(request: Request):
         except ValueError:
             return _Response(status_code=413)
 
-    body = await request.body()
-    if len(body) > _CLIENT_ERROR_MAX_BODY:
-        return _Response(status_code=413)
+    body = bytearray()
+    async for chunk in request.stream():
+        body.extend(chunk)
+        if len(body) > _CLIENT_ERROR_MAX_BODY:
+            # Stop reading immediately — bounded allocation regardless of the
+            # advertised (or absent) Content-Length.
+            return _Response(status_code=413)
+    body = bytes(body)
 
     # Rate-limit per IP. Over limit → 429 with NO log line (no spam).
     if not _client_error_allow(_client_ip(request)):
@@ -460,7 +511,11 @@ async def client_errors(request: Request):
 # Labels are method/route-template/status-class only — no path/query/user data.
 # ---------------------------------------------------------------------------
 
-_LOOPBACK_HOSTS = {"127.0.0.1", "::1", "localhost", "testserver"}
+# Numeric loopback peers only — request.client.host is a numeric socket address,
+# so name literals like "localhost"/"testserver" could never match it (they were
+# inert). The TestClient peer host is "testclient", never in this set, so the
+# metrics endpoint stays closed (404) to it when METRICS_TOKEN is unset.
+_LOOPBACK_HOSTS = {"127.0.0.1", "::1"}
 
 
 def _is_local_request(request: Request) -> bool:
