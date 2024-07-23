@@ -22,8 +22,8 @@
 - **W1** ✅ (`adb9ccd`) — A1 (non-root container, CI-proof wired; CI-only validation per HR14) + A3 (markdown off-loop via thread-local + run_in_threadpool). Gate G1: pytest 69→73. Orchestrator gate-fix: A1 CI uid check now reads `/proc/1/status` (a fresh `exec id -u` would read the image-default root and falsely fail).
 - **W2** ✅ — A2 (muted text → `#8b94a8`, ≥4.86:1 all surfaces; `--ink-dim #6b7588` for non-text; axe `color-contrast` enforced, +/ru/+/journal) + A4 (pip-audit+npm audit CI job; **bumped bleach 6.3.0→6.4.0**, a real `clean()` a/href XSS-bypass fix) + O1 (privacy-safe beacon) + O2 (gated RED metrics). Gate G2: pytest 73→84, vitest 36, tsc+build clean, **axe 6/6 with contrast enforced**. base.html O1 WIRE applied.
 - **W3** ✅ — F1 (per-guide KnowledgeCheck, 10 guides authored RU+EN, dossier→v:2 back-compat) → F2 (LinkInspector `/{lang}/inspect`, 11 URL heuristics, URL never leaves browser, /inspect added to axe) → F3 (VerdictCard, pure `buildCardData` proven message-text-free, canvas PNG + Web Share). I1: INSPECT added to desktop nav (6th, after CHECK) + MobileMenu + noscript; `nav.inspect` = EN "Inspect" / RU "Разбор"; MobileMenu.tsx needed no edit (renders props.links generically); aria-current handled by the generic nav loop. Gate G3: pytest 84→91, vitest 51→86→94, tsc+build clean, **axe 7/7 incl. /inspect with contrast enforced**, i18n-audit OK (300 allowlist, parity). Nav-crowding verdict at 768–900px verified by screenshot before commit.
-- **W4** ⬜ — Q1/Q2 (visual regression + Lighthouse) + R1 four reviewers → R2 fixes. Gate G4.
-- **G4** ⬜ — final verification, Metrics "After" filled, `HANDOFF.md` → v5.
+- **W4** ✅ — Q1/Q2/O3 (`50db31d`): visual regression (44 darwin baselines, CI step non-blocking until Linux baselines seeded), Lighthouse budgets (floors below measured), prod `@smoke`. R1 four-reviewer adversarial audit (7 findings, 4 verified, 0 refuted) → R2 (`1d667c8`) fixed all: body-cap-while-streaming, audit→deploy.needs, per-IP via X-Real-IP, opaque-scheme guard, bucket cap, loopback trim, guide separator a11y.
+- **G4** ✅ — final verification done; Metrics "After" filled; `HANDOFF.md` → v5. pytest **94**, vitest **101**, e2e **71** (49 functional green locally + 22 visual CI-seeded), tsc+build clean, no static drift, i18n-audit clean, axe 7/7 contrast-enforced. G4 caught + fixed a stale e2e `dossier.v===1` assertion (now v:2). **CI-only items** (need the owner's first push): A1 non-root assert, Q1 Linux baseline seed, Q2 lighthouse run, O3 prod smoke.
 
 ### Owner actions (carried + new; none block the v5 work itself)
 1. **git-lfs on prod + `git lfs migrate`** — still pending from v4 (`docs/deploy/git-lfs.md`). Non-blocking; `deploy.sh` skips the lfs lines if git-lfs is absent. Do it before the repo grows more `.br` versions.
@@ -275,20 +275,20 @@ Every gate since v3 has done a **manual** RU/EN × desktop/mobile screenshot swe
 
 | Metric | Before (W0) | After (G4) | Target |
 |---|---|---|---|
-| pytest count | 69 | — | ≥ 85 |
-| vitest tests | 36 | — | ≥ 50 |
-| e2e tests (chromium) | 44 | — | ≥ 60 |
-| Container process user | **root** (uid 0) | — | **non-root (uid 10001), CI-proven** |
-| axe serious/critical incl. `color-contrast` | n/a (contrast **excluded**) | — | **0, contrast enforced** |
-| `--ink-muted` contrast vs canvas | muted body uses `#6b7588` ≈ **4.12:1** (placeholders `#475064` ≈ **2.37:1**) — **fails AA** on canvas `#0b0f1a` | — | **≥ 4.5:1** |
-| `--ink-dim` (large/non-text) contrast | `#6b7588` ≈ **4.12:1** (canvas) / **3.81** soft / **3.41** raised / **3.19** input; `#475064` ≈ **2.37:1** (fails 3:1) | — | **≥ 3:1** |
-| Markdown render | sync, on event loop | — | off-loop (threadpool or seed-prerender) |
-| Supply-chain audit in CI | none | — | `pip-audit` + `npm audit`, high/critical = fail |
-| Client error visibility | none (guess from logs) | — | sampled beacon + scrubbed structured logs |
-| `/api/metrics` (RED) | none | — | gated exposition endpoint, tested |
-| Visual regression | manual sweep | — | automated baselines, CI-gated |
-| Lighthouse budgets | unmeasured | — | floors ratcheted from W0, CI-gated |
-| Post-deploy prod smoke | none | — | `@smoke` slice vs discammer.com after deploy |
+| pytest count | 69 | **94** ✅ | ≥ 85 |
+| vitest tests | 36 | **101** ✅ | ≥ 50 |
+| e2e tests (chromium) | 44 | **71** ✅ (49 functional + 22 visual) | ≥ 60 |
+| Container process user | **root** (uid 0) | **non-root uid 10001** (entrypoint+gosu; CI asserts `/proc/1` uid — CI-only) | **non-root (uid 10001), CI-proven** |
+| axe serious/critical incl. `color-contrast` | n/a (contrast **excluded**) | **0**, contrast **enforced** (axe 7/7 incl. `/inspect`) ✅ | **0, contrast enforced** |
+| `--ink-muted` contrast vs canvas | muted body uses `#6b7588` ≈ **4.12:1** (placeholders `#475064` ≈ **2.37:1**) — **fails AA** on canvas `#0b0f1a` | **`#8b94a8`** = 6.29/5.81/5.20/**4.86** (all ≥4.5 ✅) | **≥ 4.5:1** |
+| `--ink-dim` (large/non-text) contrast | `#6b7588` ≈ **4.12:1** (canvas) / **3.81** soft / **3.41** raised / **3.19** input; `#475064` ≈ **2.37:1** (fails 3:1) | **`--color-ink-dim #6b7588`** = ≥**3.19:1** all surfaces ✅; `#475064` retired for text | **≥ 3:1** |
+| Markdown render | sync, on event loop | **off-loop** — thread-local `Markdown` + `run_in_threadpool` at all 4 call sites ✅ | off-loop (threadpool or seed-prerender) |
+| Supply-chain audit in CI | none | **pip-audit 2.10.1 + npm audit**, high/critical=fail, in `deploy.needs`; bleach 6.3→6.4 ✅ | `pip-audit` + `npm audit`, high/critical = fail |
+| Client error visibility | none (guess from logs) | **sampled (0.2) scrubbed beacon**; `/api/client-errors` 413/429, logs only `{rid,error_name,message_class,ua_family}` ✅ | sampled beacon + scrubbed structured logs |
+| `/api/metrics` (RED) | none | **gated** (Bearer / loopback; 404 to public) RED exposition, tested ✅ | gated exposition endpoint, tested |
+| Visual regression | manual sweep | **44 baselines + visual.spec**; CI step non-blocking until Linux baselines CI-seeded | automated baselines, CI-gated |
+| Lighthouse budgets | unmeasured | **lighthouserc** floors set below measured, `lhci.sh`, CI step (compose) | floors ratcheted from W0, CI-gated |
+| Post-deploy prod smoke | none | **@smoke slice + smoke-prod.sh**; `smoke-prod` CI job post-deploy (SHA-pinned) | `@smoke` slice vs discammer.com after deploy |
 
 **W0 baseline (recorded 2026-06-19):** `pytest` **69** · `vitest` **36** · `e2e` **44** (per v4 G4; not re-run locally — needs compose) · `tsc`+`build` clean, no `backend/static` drift · i18n-audit clean (250 client.* keys, 0 dead / 0 missing, en==ru) · v5 base SHA **`8145095`** · branch **`v5-features`** · baseline full-page screenshots in `/tmp/dcm-v5-before/`.
 

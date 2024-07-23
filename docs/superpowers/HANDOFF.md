@@ -1,3 +1,51 @@
+# Handoff — v5 (hardening + comprehension features, сессия 2026-06-20)
+
+> Состояние **после v5**. План с отметками по волнам, таблицей метрик и owner-actions:
+> `docs/superpowers/plans/2026-06-19-v5-feature-plan.md`.
+> **Прим.:** ветка `v5-features` срезана от `8145095` (v4 W4), ДО коммита, где обновлялся
+> v4-handoff, поэтому ниже по этому файлу — сразу **v3**-handoff; контекст v4 — в
+> `docs/superpowers/plans/2026-06-12-v4-feature-plan.md` (восстановится при reconcile с `main`).
+
+## Состояние после v5
+
+- Ветка **`v5-features`** — срезана от **`8145095`** (= v4-features HEAD, по явному решению владельца), **7 коммитов v5** (`76755c1` W0 → `adb9ccd` W1 → `33c0193` W2 → `ef8d4de` W3 → `50db31d` W4-QA → `1d667c8` R2). **Ничего не запушено. `git push` в `main` = деплой на прод (discammer.com).**
+- Верификация G4: **pytest 94**, **vitest 101**, **e2e 71** (49 функциональных зелёные локально + 22 visual, прогоняются в CI), `tsc`+`build` чисто, `backend/static` без дрейфа, **i18n-audit чист** (en==ru parity, 0 dead / 0 missing, 300 allowlist), **axe 7/7 с ВКЛЮЧЁННЫМ `color-contrast`** (вкл. `/inspect`).
+
+## Что добавилось в v5 (выжимка; детали — в плане)
+
+1. **A1 non-root** — `scripts/docker-entrypoint.sh`: root → `chown /app/data` → `gosu` drop до uid 10001 → uvicorn. Образ **стартует от root by design**; процесс — non-root. CI e2e ассертит uid через `/proc/1`.
+2. **A3 markdown off-loop** — thread-local `markdown.Markdown` + `run_in_threadpool` (был race на общем `_MD`); вывод байт-в-байт прежний.
+3. **A2 WCAG-AA** — приглушённый текст → `#8b94a8` (≥4.86:1 на всех 4 поверхностях), новый `--color-ink-dim #6b7588` для не-текста; axe `color-contrast` теперь **включён** (+`/ru/`, `/journal`, `/inspect`).
+4. **A4 supply-chain** — CI `audit` job (pip-audit 2.10.1 + npm audit, high/critical=fail), **в `deploy.needs`**; bleach 6.3→6.4 (реальный `clean()` a/href XSS-bypass).
+5. **O1 client error beacon** — `beacon.ts` (браузер покидают только `{name, messageClass, location}`); `POST /api/client-errors` (413 stream-cap, 429 per-IP, хранит НИЧЕГО, лог только scrubbed).
+6. **O2 RED metrics** — `GET /api/metrics` (token/loopback-gated, публике 404), `metrics.py` (route-template метки, без PII).
+7. **F1 knowledge check** — остров `KnowledgeCheck` на гайдах, `quizzes.ts` (10 гайдов RU+EN), досье → **v:2** (back-compat импортёр).
+8. **F2 link inspector** — `/{lang}/inspect`, `url_heuristics.ts` (11 эвристик; URL **не покидает браузер**).
+9. **F3 verdict card** — `VerdictCard` (canvas PNG + Web Share), `buildCardData` доказуемо без текста сообщения.
+10. **I1** — INSPECT в nav (6-й пункт; помещается на 768–900px в EN и RU).
+11. **Q1/Q2/O3** — visual regression, Lighthouse budgets, post-deploy prod smoke.
+
+## Новые гочи v5 (не «чинить» обратно!)
+
+- **Образ контейнера стартует от ROOT by design** — entrypoint chown'ит `/app/data` и сбрасывает привилегии через gosu. НЕ добавлять bare `USER` (это и был баг v4); compose НЕ должен пинить `user:`.
+- **A1 проверяется ТОЛЬКО в CI** (Docker локально нет): CI e2e ассертит uid через `/proc/1` (НЕ `docker compose exec ... id -u` — тот вернул бы root образа, т.к. USER нет).
+- **`/api/metrics` закрыт по умолчанию**: token-gated (`METRICS_TOKEN`) или loopback; публике 404. За nginx `request.client.host` = прокси, так что loopback-исключение публику не пускает.
+- **beacon: sampled + rate-limited + size-capped, хранит НИЧЕГО.** `_client_ip` берёт `X-Real-IP` (его ставит наш nginx) → лимит реально per-IP; `_client_error_buckets` ограничен 4096 с эвикцией.
+- **Досье теперь `v:2`** (добавлено `guideChecks`); импортёр back-compat принимает `v:1`. Не ломать импортёр.
+- **Visual baselines per-OS**: закоммичены `*-darwin`; CI (Linux) baselines надо засеять один раз через `--update-snapshots` (см. `docs/deploy/visual-regression.md`), пока CI visual-шаг `continue-on-error`.
+- **Lighthouse floors — ratchet** (только ужесточать); правка в `lighthouserc.json`.
+- **`#475064` retired для текста** (A2): приглушённый текст = `#8b94a8`/`text-ink-mute`; не-текст = `text-ink-dim`. Не вводить `text-[#6b7588]`/`text-[#475064]` литералы — axe contrast теперь гейтит.
+- Плюс все v3-гочи ниже (и v4-гочи — в плане v4).
+
+## Owner actions (v5)
+
+1. **Reconcile A1/A2 с прод `main`** — `v5-features` срезана от `8145095` и переделала A1/A2 начисто; прод `main` уже несёт ad-hoc A1/A2 (`e97cf6d`, `062d2a1`). Решить порядок слияния (вероятно — `v5-features` как канонические A1/A2, заменяющие ad-hoc).
+2. **CI-only first-run** (нужен первый пуш владельца, локально не проверяемо без Docker): A1 non-root ассерт, Q1 Linux baseline seed (+ снять `continue-on-error`), Q2 lighthouse прогон, O3 prod smoke.
+3. **`METRICS_TOKEN`** на проде, если скрейпить `/api/metrics` снаружи.
+4. Перенесено из v4 (не блокирует): `git lfs migrate` + git-lfs на проде; nginx vhost reconcile.
+
+---
+
 # Handoff — редизайн v3 + ревью-фиксы (сессия 2026-06-12)
 
 Документ для продолжения работы в новой сессии. Прочитай его целиком, затем
