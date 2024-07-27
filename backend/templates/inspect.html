@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}{{ t(lang, 'page_titles.inspect') }}{% endblock %}
+
+{% block content %}
+
+{% set _lang = lang %}
+
+{# ─────────────────────────────────────────────────────────────────────
+   INSPECT — the link/URL inspector (F2), flagship sibling of the message
+   analyzer. SSR explainer + the LinkInspector island. The inspector is
+   100% client-side: the link the reader pastes never leaves the browser
+   and the page behind it is never opened. The page itself works without
+   JS (the <noscript> "how to read a link" checklist below).
+   ───────────────────────────────────────────────────────────────────── #}
+
+<article class="max-w-[48rem] mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+  {# Eyebrow — small mono operator-note line. #}
+  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#8b94a8] mb-4">
+    {{ t(_lang, 'inspect.eyebrow') }}
+  </div>
+
+  {# HEADING. Arrows rule: `inspect.heading` is PLAIN TEXT; the styled `>` is
+     rendered here by the template (the consumer), never baked into the value. #}
+  <h1 class="font-mono font-bold text-[#e7ecf5] tracking-[-0.02em] leading-[1.15] flex items-baseline gap-2"
+      style="font-size: clamp(1.6rem, 1.25rem + 1.6vw, 2.35rem);">
+    <span class="text-[#65def0]" aria-hidden="true">&gt;</span>
+    {{ t(_lang, 'inspect.heading') }}
+  </h1>
+
+  <p class="mt-5 sm:mt-6 font-sans text-[16px] sm:text-[18px] leading-[1.6] text-[#e7ecf5] max-w-[62ch]">
+    {{ t(_lang, 'inspect.lead') }}
+  </p>
+
+  {# ───────────────────────── INSPECTOR ISLAND ────────────────────────
+     LinkInspector mounts here. The island captures its own inner HTML
+     (none — it renders entirely client-side), so there is no SSR fallback
+     markup to preserve; the no-JS surface is the separate <noscript>
+     checklist below, which is always useful on its own.
+     ──────────────────────────────────────────────────────────────────── #}
+  {% set _inspector_props = {"lang": _lang} %}
+  <section class="mt-9 sm:mt-11 border border-[#202a44] bg-[#0a0d16]/50 rounded-[6px] p-4 sm:p-6"
+           aria-labelledby="inspect-tool-heading">
+    <h2 id="inspect-tool-heading" class="sr-only">{{ t(_lang, 'inspect.heading') }}</h2>
+    <div data-component="LinkInspector" data-props='{{ _inspector_props | tojson | forceescape }}'></div>
+  </section>
+
+  {# ───────────────────────── NO-JS CHECKLIST ─────────────────────────
+     A static, genuinely useful "how to read a link" checklist. Works with
+     JavaScript off — the real fallback for the live inspector.
+     ──────────────────────────────────────────────────────────────────── #}
+  <noscript>
+    <section class="mt-9 sm:mt-11 border border-[#f4b965]/40 bg-[#f4b965]/[0.06] rounded-[6px] p-4 sm:p-6"
+             aria-labelledby="inspect-noscript-heading">
+      <h2 id="inspect-noscript-heading"
+          class="font-mono text-[12px] uppercase tracking-[0.18em] text-[#f4b965] mb-3">
+        {{ t(_lang, 'inspect.noscript_heading') }}
+      </h2>
+      <p class="font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[64ch] mb-4">
+        {{ t(_lang, 'inspect.noscript_intro') }}
+      </p>
+      <ol class="space-y-2.5 list-none">
+        {% for i in range(1, 7) %}
+        <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px] pt-0.5">{{ i }}.</span>
+          <span>{{ t(_lang, 'inspect.noscript_' ~ i) }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </noscript>
+
+  {# ───────────────────────── HOW TO USE ─────────────────────────────── #}
+  <section class="mt-12 sm:mt-14" aria-labelledby="inspect-how-heading">
+    <h2 id="inspect-how-heading"
+        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-4">
+      {{ t(_lang, 'inspect.how_heading') }}
+    </h2>
+    <ol class="space-y-3 list-none">
+      {% for i in range(1, 4) %}
+      <li class="flex gap-3 font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch]">
+        <span class="shrink-0 font-mono text-[#65def0] tabular-nums text-[14px] pt-0.5">{{ i }}.</span>
+        <span>{{ t(_lang, 'inspect.how_' ~ i) }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  {# ───────────────────────── PRIVACY ────────────────────────────────── #}
+  <section class="mt-10 sm:mt-12" aria-labelledby="inspect-privacy-heading">
+    <h2 id="inspect-privacy-heading"
+        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-3">
+      {{ t(_lang, 'inspect.privacy_heading') }}
+    </h2>
+    <p class="font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch]">
+      {{ t(_lang, 'inspect.privacy_body') }}
+    </p>
+  </section>
+
+  {# ───────────────────────── WORKED EXAMPLE ─────────────────────────
+     Authority by specificity: dissect one real-shaped lookalike address
+     per language and exactly where it goes wrong. The address keeps its
+     own terminal-style framing; the analysis is a plain list.
+     ──────────────────────────────────────────────────────────────────── #}
+  <section class="mt-10 sm:mt-12" aria-labelledby="inspect-example-heading">
+    <h2 id="inspect-example-heading"
+        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-3">
+      {{ t(_lang, 'inspect.example_heading') }}
+    </h2>
+    <p class="font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch] mb-4">
+      {{ t(_lang, 'inspect.example_intro') }}
+    </p>
+
+    <figure class="border border-[#e76670]/40 bg-[#121828] rounded-[4px] px-4 py-4">
+      <figcaption class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#e76670] mb-2">
+        {{ t(_lang, 'inspect.example_flags_intro') }}
+      </figcaption>
+      <code class="block font-mono text-[14px] leading-[1.6] text-[#e7ecf5] break-all">
+        {{ t(_lang, 'inspect.example_url') }}
+      </code>
+    </figure>
+
+    <ul class="mt-5 space-y-2 list-none">
+      {% for i in range(1, 4) %}
+      <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
+        <span class="shrink-0 text-[#e76670]" aria-hidden="true">&#9656;</span>
+        <span>{{ t(_lang, 'inspect.example_flag_' ~ i) }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+</article>
+
+{% endblock %}

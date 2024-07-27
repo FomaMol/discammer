@@ -87,8 +87,8 @@
 
     <!-- LEFT: confidential strip -->
     <div class="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase text-[#aab2c4] truncate">
-      {{ t(_lang, 'guide.case_file_strip_confidential') }} <span class="text-[#7e879b] mx-1.5">·</span>
-      {{ t(_lang, 'guide.case_file_strip_file_label') }} <span class="text-[#7e879b] mx-1.5">·</span>
+      {{ t(_lang, 'guide.case_file_strip_confidential') }} <span class="text-[#8b94a8] mx-1.5">·</span>
+      {{ t(_lang, 'guide.case_file_strip_file_label') }} <span class="text-[#8b94a8] mx-1.5">·</span>
       <span class="hidden sm:inline">{{ t(_lang, 'guide.case_file_strip_investigative') }}</span>
       <span class="sm:hidden">{{ t(_lang, 'guide.case_file_strip_brief') }}</span>
     </div>
@@ -100,7 +100,7 @@
 
     <!-- RIGHT: ACTIVE stamp + indexed -->
     <div class="flex items-center gap-3">
-      <span class="hidden sm:inline font-mono text-[10px] tracking-[0.14em] uppercase text-[#868fa3] tabular-nums">
+      <span class="hidden sm:inline font-mono text-[10px] tracking-[0.14em] uppercase text-[#8b94a8] tabular-nums">
         {{ t(_lang, 'guide.case_file_indexed_prefix') }} {{ guide.published_at or _year }}
       </span>
       <span class="font-mono text-[10px] font-bold tracking-[0.22em] uppercase text-[#e76670] border border-[#e76670] px-1.5 py-[1px]"
@@ -121,7 +121,7 @@
   #guide-article h2::before {
     counter-increment: dossier-section;
     content: "\00a7\00a0\00a0" "01." counter(dossier-section, decimal-leading-zero) "\00a0\00a0\00a0";
-    color: var(--color-ink-mute, #6b7588);
+    color: var(--color-ink-mute, #8b94a8);
     font-weight: 500;
     letter-spacing: 0.02em;
     font-variant-numeric: tabular-nums;
@@ -169,11 +169,11 @@
     <div class="lg:col-span-8 min-w-0">
 
       <!-- Breadcrumbs -->
-      <nav class="font-mono text-xs text-[#868fa3] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
-        <a href="/{{ _lang }}/" class="text-[#868fa3] hover:text-[#65def0] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
-        <span class="text-[#7e879b]" aria-hidden="true">/</span>
-        <a href="/{{ _lang }}/journal" class="text-[#868fa3] hover:text-[#65def0] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
-        <span class="text-[#7e879b]" aria-hidden="true">/</span>
+      <nav class="font-mono text-xs text-[#8b94a8] mb-5 flex flex-wrap items-center gap-1 break-all" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
+        <a href="/{{ _lang }}/" class="text-[#8b94a8] hover:text-[#65def0] transition">{{ t(_lang, 'post.breadcrumb_home') }}</a>
+        <span class="text-[#8b94a8]" aria-hidden="true">/</span>
+        <a href="/{{ _lang }}/journal" class="text-[#8b94a8] hover:text-[#65def0] transition">{{ t(_lang, 'guide.breadcrumb_threat_db') }}</a>
+        <span class="text-[#8b94a8]" aria-hidden="true">/</span>
         <span class="text-[#65def0]" aria-current="page">{{ guide.slug }}</span>
       </nav>
 
@@ -189,11 +189,11 @@
       </h1>
 
       <!-- Classification line: file-level metadata in mono, ink-mute -->
-      <p class="font-mono text-[12px] sm:text-[13px] font-medium tracking-[0.04em] text-[#868fa3] mt-4 tabular-nums leading-relaxed break-words">
+      <p class="font-mono text-[12px] sm:text-[13px] font-medium tracking-[0.04em] text-[#8b94a8] mt-4 tabular-nums leading-relaxed break-words">
         <span class="text-[#aab2c4]">{{ t(_lang, 'guide.classification_label') }}</span> <span class="text-[#e7ecf5] uppercase">{{ guide.category or '—' }}</span>
-        <span class="text-[#7e879b] mx-2">·</span>
+        <span class="text-[#8b94a8] mx-2">·</span>
         <span class="text-[#aab2c4]">{{ t(_lang, 'guide.risk_tier_label') }}</span> <span class="text-[#e7ecf5]">{{ _tl }}/5</span>
-        <span class="text-[#7e879b] mx-2">·</span>
+        <span class="text-[#8b94a8] mx-2">·</span>
         <span class="text-[#aab2c4]">{{ t(_lang, 'guide.ops_priority_label') }}</span>
         <span class="{% if _ops_priority_key == 'risk_word_critical' %}text-[#e76670]{% elif _ops_priority_key == 'risk_word_high' %}text-[#f29b6c]{% elif _ops_priority_key == 'risk_word_med' %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _ops_priority }}</span>
       </p>
@@ -213,9 +213,9 @@
            aria-valuemin="1"
            aria-valuemax="5"
            aria-label="{{ t(_lang, 'guide.risk_assessment_label') }}: {{ guide.threat_level }}/5 — {{ _level_word | lower }}">
-        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#868fa3] mb-2 tabular-nums">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#8b94a8] mb-2 tabular-nums">
           {{ t(_lang, 'guide.risk_assessment_label') }}
-          <span class="text-[#7e879b] mx-1" aria-hidden="true">—</span>
+          <span class="text-[#8b94a8] mx-1" aria-hidden="true">—</span>
           <span class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %}">{{ _level_word }}</span>
         </div>
         <div class="inline-flex items-end gap-1" aria-hidden="true">
@@ -235,7 +235,7 @@
                 <div class="w-7 h-4 border border-[#2b3759]"></div>
               {% endif %}
               <span class="font-mono text-[9px] tracking-[0.12em] uppercase
-                           {% if i <= _tl %}text-[#aab2c4]{% else %}text-[#7e879b]{% endif %}">
+                           {% if i <= _tl %}text-[#aab2c4]{% else %}text-[#8b94a8]{% endif %}">
                 {{ t(_lang, 'guide.' ~ _slat_label_keys[i - 1]) }}
               </span>
             </div>
@@ -254,36 +254,36 @@
         <dl class="font-mono text-[12px] space-y-3 tabular-nums">
           {% if guide.category %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_category') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_category') }}</dt>
             <dd class="text-[#e7ecf5] uppercase text-right break-all">{{ guide.category }}</dd>
           </div>
           {% endif %}
           {% if guide.threat_level %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_risk_tier_label') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_risk_tier_label') }}</dt>
             <dd class="{% if _tl == 5 %}text-[#e76670]{% elif _tl == 4 %}text-[#f29b6c]{% elif _tl == 3 %}text-[#f4b965]{% else %}text-[#7ce896]{% endif %} text-right">{{ _tl }}/5</dd>
           </div>
           {% endif %}
           {% if guide.published_at %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_indexed') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_indexed') }}</dt>
             <dd class="text-[#e7ecf5] text-right">{{ guide.published_at }}</dd>
           </div>
           {% endif %}
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_investigator_label') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_investigator_label') }}</dt>
             <dd class="text-[#e7ecf5] text-right">{{ t(_lang, 'guide.dossier_investigator_value') }}</dd>
           </div>
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_last_activity_label') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_last_activity_label') }}</dt>
             <dd class="text-[#e7ecf5] text-right">{{ last_activity }}</dd>
           </div>
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_cases_logged_label') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.dossier_cases_logged_label') }}</dt>
             <dd class="text-[#e7ecf5] text-right">{{ '{:,}'.format(cases_logged) }}</dd>
           </div>
           <div class="flex items-baseline justify-between gap-3">
-            <dt class="text-[#868fa3] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_status') }}</dt>
+            <dt class="text-[#8b94a8] uppercase tracking-[0.1em]">{{ t(_lang, 'guide.spec_status') }}</dt>
             <dd class="text-[#7ce896] uppercase text-right inline-flex items-center gap-2">
               <span class="w-1.5 h-1.5 bg-[#7ce896] rounded-full inline-block"></span>
               {{ t(_lang, 'guide.spec_active') }}
@@ -338,7 +338,7 @@
             <span class="w-2 h-2 rounded-full bg-[#2b3759]"></span>
             <span class="w-2 h-2 rounded-full bg-[#6b7588]"></span>
             <span class="w-2 h-2 rounded-full bg-[#6b7588]"></span>
-            <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[#868fa3] truncate">
+            <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[#8b94a8] truncate">
               {{ t(_lang, 'guide.investigator_notes_command_prefix') }}{{ case_id | lower }} {{ t(_lang, 'guide.investigator_notes_command_suffix') }}
             </span>
           </div>
@@ -356,11 +356,57 @@
           {% set _notes_lines = t(_lang, 'guide.' ~ _notes_key).split('\n') %}
           <pre class="font-mono text-[13px] sm:text-[14px] leading-[1.65] text-[#aab2c4] px-4 sm:px-6 py-5 whitespace-pre-wrap break-words m-0">{% for line in _notes_lines %}<span class="text-[#7ce896]">&gt;</span> {{ line }}{% if not loop.last %}
 {% endif %}{% endfor %}
-<span class="text-[#7e879b]">&gt;</span> <span class="dossier-cursor"></span></pre>
+<span class="text-[#8b94a8]">&gt;</span> <span class="dossier-cursor"></span></pre>
         </div>
       </section>
     </main>
   </div>
+
+  {# ─────────────────────────────────────────────────────────────────
+     4b) KNOWLEDGE CHECK (F1) — short single-best-answer recall test built
+     from this guide's own content. 100% client-side; the result folds into
+     the operator dossier (best-of per slug) and rides along with course
+     export/import. The KnowledgeCheck island mounts here; props carry the
+     guide slug (selects the question pack + locale sub-namespace) and the
+     guide URL the per-question "back to the guide" link points at.
+
+     `data-props` is a tojson|forceescape attribute (it's an HTML attribute).
+     The island captures no SSR markup — the no-JS surface is the <noscript>
+     "check yourself" list below, which is useful on its own.
+     ──────────────────────────────────────────────────────────────── #}
+  {% set _check_props = {
+    "slug": guide.slug,
+    "locale": _lang,
+    "guideUrl": '/' ~ _lang ~ '/guide/' ~ guide.slug
+  } %}
+  <section class="mt-12 sm:mt-14" aria-labelledby="guide-check-heading">
+    <h2 id="guide-check-heading" class="sr-only">{{ t(_lang, 'guide.check_heading') }}</h2>
+    <div data-component="KnowledgeCheck" data-props='{{ _check_props | tojson | forceescape }}'></div>
+  </section>
+
+  <noscript>
+    <section class="mt-12 sm:mt-14 border border-[#f4b965]/40 bg-[#f4b965]/[0.06] rounded-[6px] p-4 sm:p-6"
+             aria-labelledby="guide-check-noscript-heading">
+      {# Arrows rule: `guide.check_heading` is PLAIN TEXT; the styled `>` is
+         rendered here by the template, aria-hidden. #}
+      <h2 id="guide-check-noscript-heading"
+          class="font-mono font-bold uppercase text-[#f4b965] text-[14px] sm:text-[16px] tracking-[-0.01em] mb-3 flex items-baseline gap-2">
+        <span class="text-[#f4b965]" aria-hidden="true">&gt;</span>
+        {{ t(_lang, 'guide.check_heading') }}
+      </h2>
+      <p class="font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[64ch] mb-4">
+        {{ t(_lang, 'guide.check_intro') }}
+      </p>
+      <ol class="space-y-2.5 list-none">
+        {% for i in range(1, 4) %}
+        <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
+          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px] pt-0.5">{{ i }}.</span>
+          <span>{{ t(_lang, 'guide.check_' ~ i) }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </noscript>
 
   {# ─────────────────────────────────────────────────────────────────
      OTHER THREATS — 2-up bento + list.
@@ -414,7 +460,7 @@
                 class="inline-flex items-center justify-center w-8 h-8 border font-mono font-bold text-[18px] leading-none shrink-0"
                 style="color: {{ _color }}; border-color: {{ _color }}40; background: {{ _color }}0d; letter-spacing: -0.04em;">{{ _letter }}</span>
           {% if related.category %}
-          <span class="font-mono text-[10px] font-semibold tracking-[0.14em] uppercase text-[#868fa3]">{{ related.category }}</span>
+          <span class="font-mono text-[10px] font-semibold tracking-[0.14em] uppercase text-[#8b94a8]">{{ related.category }}</span>
           {% endif %}
         </div>
         <h3 class="font-mono font-bold {% if is_wide %}text-lg sm:text-xl{% else %}text-base{% endif %} text-[#e7ecf5] group-hover:text-[#f3f5fa] break-words leading-[1.25] tracking-[-0.01em]">
@@ -448,7 +494,7 @@
 
     {% if remaining %}
     <div>
-      <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#868fa3] mb-3">
+      <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#8b94a8] mb-3">
         {{ t(_lang, 'guide.more_patterns_label') }}
       </div>
       <ul class="divide-y divide-[#202a44] border-y border-[#202a44]">
@@ -466,7 +512,7 @@
             </div>
             <div class="flex items-center gap-3 shrink-0">
               {% if related.category %}
-              <span class="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.12em] text-[#868fa3]">{{ related.category }}</span>
+              <span class="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.12em] text-[#8b94a8]">{{ related.category }}</span>
               {% endif %}
               {% if related.threat_level %}
               <span class="font-mono text-[11px] tabular-nums" style="color: {{ _color }};">{{ related.threat_level }}/5</span>
@@ -494,7 +540,7 @@
          class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
         <span class="flex items-baseline gap-3 min-w-0">
           <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">OPS-001</span>
-          <span class="font-mono text-[#7e879b] shrink-0" aria-hidden="true">▸</span>
+          <span class="font-mono text-[#8b94a8] shrink-0" aria-hidden="true">▸</span>
           <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, 'guide.next_step_simulator') }}</span>
         </span>
         <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
@@ -503,7 +549,7 @@
          class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
         <span class="flex items-baseline gap-3 min-w-0">
           <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">OPS-002</span>
-          <span class="font-mono text-[#7e879b] shrink-0" aria-hidden="true">▸</span>
+          <span class="font-mono text-[#8b94a8] shrink-0" aria-hidden="true">▸</span>
           <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, 'guide.next_step_briefings') }}</span>
         </span>
         <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
@@ -512,7 +558,7 @@
          class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
         <span class="flex items-baseline gap-3 min-w-0">
           <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">OPS-003</span>
-          <span class="font-mono text-[#7e879b] shrink-0" aria-hidden="true">▸</span>
+          <span class="font-mono text-[#8b94a8] shrink-0" aria-hidden="true">▸</span>
           <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, 'guide.next_step_course') }}</span>
         </span>
         <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">→</span>
@@ -524,14 +570,14 @@
      6) CHAIN_OF_CUSTODY footer — paper-trail strip.
      ──────────────────────────────────────────────────────────────── #}
   <div class="mt-12 border-t border-[#202a44] border-b border-[#202a44] py-5">
-    <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#7e879b] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
-      <span><span class="text-[#868fa3]">{{ t(_lang, 'guide.custody_chain_label') }}</span> {{ t(_lang, 'guide.custody_investigator_value') }}</span>
-      <span class="text-[#202a44]">·</span>
-      <span><span class="text-[#868fa3]">{{ t(_lang, 'guide.custody_last_reviewed_label') }}</span> {{ now().strftime('%Y-%m-%d') }}</span>
-      <span class="text-[#202a44]">·</span>
-      <span><span class="text-[#868fa3]">{{ t(_lang, 'guide.custody_next_review_label') }}</span> {{ t(_lang, 'guide.custody_next_review_value') }}</span>
-      <span class="text-[#202a44]">·</span>
-      <span><span class="text-[#868fa3]">{{ t(_lang, 'guide.custody_classification_label') }}</span> {{ t(_lang, 'guide.custody_classification_value') }}</span>
+    <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#8b94a8] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
+      <span><span class="text-[#8b94a8]">{{ t(_lang, 'guide.custody_chain_label') }}</span> {{ t(_lang, 'guide.custody_investigator_value') }}</span>
+      <span class="text-ink-dim" aria-hidden="true">·</span>
+      <span><span class="text-[#8b94a8]">{{ t(_lang, 'guide.custody_last_reviewed_label') }}</span> {{ now().strftime('%Y-%m-%d') }}</span>
+      <span class="text-ink-dim" aria-hidden="true">·</span>
+      <span><span class="text-[#8b94a8]">{{ t(_lang, 'guide.custody_next_review_label') }}</span> {{ t(_lang, 'guide.custody_next_review_value') }}</span>
+      <span class="text-ink-dim" aria-hidden="true">·</span>
+      <span><span class="text-[#8b94a8]">{{ t(_lang, 'guide.custody_classification_label') }}</span> {{ t(_lang, 'guide.custody_classification_value') }}</span>
     </p>
   </div>
 

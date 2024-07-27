@@ -52,8 +52,10 @@ test('export downloads a valid dossier, and import restores wiped progress', asy
   const dossierRaw = readFileSync(downloadPath!, 'utf-8');
   const dossier = JSON.parse(dossierRaw);
 
-  // The dossier is a versioned snapshot carrying the seeded lesson.
-  expect(dossier.v).toBe(1);
+  // The dossier is a versioned snapshot carrying the seeded lesson. v5/F1
+  // bumped the dossier to v:2 (adds guideChecks; the importer stays
+  // backward-compatible with v:1 files).
+  expect(dossier.v).toBe(2);
   expect(dossier.lessons?.['threat-fundamentals']?.lessons?.['attack-vectors']).toBe(true);
 
   // --- WIPE localStorage ---------------------------------------------------

@@ -44,7 +44,7 @@
      "course" segment is localized; the module slug stays ASCII so URL-pasted
      references stay stable across languages. #}
   <nav aria-label="{{ t(_lang, 'a11y.breadcrumb') }}" class="mb-6">
-    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#868fa3]">
+    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#8b94a8]">
       <li>
         <a href="/{{ _lang }}" class="hover:text-[#65def0] transition">~</a>
       </li>
@@ -67,7 +67,7 @@
     </div>
     <div class="flex-1 min-w-0">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#868fa3]">
+        <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8]">
           {{ t(_lang, 'module.mission_label_prefix') }} {{ "%02d"|format(module.order) }}
         </span>
         {% if module.difficulty %}
@@ -123,7 +123,7 @@
   {# Topics (only if present and not duplicated by objectives) #}
   {% if module.topics %}
   <div class="mt-8">
-    <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#868fa3] mb-3">
+    <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-3">
       {{ t(_lang, 'course.topics_label') }}
     </div>
     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
@@ -151,14 +151,14 @@
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
               {{ t(_lang, 'course.checklist_header') }}
             </span>
-            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#868fa3] tabular-nums">0/{{ lessons|length }}</span>
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">0/{{ lessons|length }}</span>
           </div>
           <ol class="divide-y divide-[#202a44]">
             {% for ls in lessons %}
             <li>
               <a href="/{{ _lang }}/course/{{ module.slug }}/{{ ls.slug }}" class="flex items-center gap-4 px-4 sm:px-5 py-4 hover:bg-[#65def0]/8 transition group">
-                <span class="font-mono text-[14px] text-[#868fa3] shrink-0" aria-hidden="true">[ ]</span>
-                <span class="font-mono text-[11px] tabular-nums text-[#868fa3] w-7">{{ "%02d"|format(ls.order) }}</span>
+                <span class="font-mono text-[14px] text-[#8b94a8] shrink-0" aria-hidden="true">[ ]</span>
+                <span class="font-mono text-[11px] tabular-nums text-[#8b94a8] w-7">{{ "%02d"|format(ls.order) }}</span>
                 <span class="flex-1 font-mono font-semibold text-[13px] uppercase tracking-[0.04em] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">{{ ls.title }}</span>
                 <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums shrink-0">{{ ls.est_minutes }} {{ t(_lang, 'course.minutes_short') }}</span>
               </a>

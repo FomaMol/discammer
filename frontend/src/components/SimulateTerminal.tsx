@@ -48,7 +48,7 @@ export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
           <span className="w-2 h-2 rounded-full bg-[#475064]"></span>
           <span className="w-2 h-2 rounded-full bg-[#475064]"></span>
           <span
-            className="ml-2 text-[10px] uppercase tracking-[2px] text-[#868fa3]"
+            className="ml-2 text-[10px] uppercase tracking-[2px] text-[#8b94a8]"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {tr('terminal_label')}

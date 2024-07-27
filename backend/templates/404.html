@@ -37,7 +37,7 @@
       {# Line 1: the command that "failed" #}
       <div class="flex flex-wrap gap-x-2">
         <span class="text-[#65def0] shrink-0">dcm-ops@nav</span>
-        <span class="text-[#868fa3]">~ %</span>
+        <span class="text-[#8b94a8]">~ %</span>
         <span class="text-[#e7ecf5]">{{ t(_lang, 'not_found.terminal_cd_label') }}</span>
         <span class="text-[#f4b965] break-all">{{ _path }}</span>
       </div>
@@ -48,53 +48,53 @@
       </div>
 
       {# Lines 3-4: diagnostic + suggested header #}
-      <div class="mt-3 text-[#868fa3]">
+      <div class="mt-3 text-[#8b94a8]">
         &gt; {{ t(_lang, 'not_found.diagnostic') }}
       </div>
-      <div class="mt-1 text-[#868fa3]">
+      <div class="mt-1 text-[#8b94a8]">
         &gt; {{ t(_lang, 'not_found.suggested_intro') }}
       </div>
 
       {# Suggested-routes menu — real anchors, indented like a bash menu list #}
-      <div class="mt-1 text-[#868fa3]" aria-hidden="true">&gt;</div>
+      <div class="mt-1 text-[#8b94a8]" aria-hidden="true">&gt;</div>
       <ul class="space-y-1.5" role="list">
         <li>
           <a href="/{{ _lang }}/"
              class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
-            <span class="text-[#868fa3] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
+            <span class="text-[#8b94a8] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/</span>
-            <span class="text-[#868fa3]">—</span>
+            <span class="text-[#8b94a8]">—</span>
             <span class="text-[#aab2c4] group-hover:text-[#e7ecf5] group-focus:text-[#e7ecf5]">{{ t(_lang, 'not_found.suggestion_home') }}</span>
           </a>
         </li>
         <li>
           <a href="/{{ _lang }}/journal"
              class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
-            <span class="text-[#868fa3] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
+            <span class="text-[#8b94a8] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/journal</span>
-            <span class="text-[#868fa3]">—</span>
+            <span class="text-[#8b94a8]">—</span>
             <span class="text-[#aab2c4] group-hover:text-[#e7ecf5] group-focus:text-[#e7ecf5]">{{ t(_lang, 'not_found.suggestion_journal') }}</span>
           </a>
         </li>
         <li>
           <a href="/{{ _lang }}/course"
              class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
-            <span class="text-[#868fa3] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
+            <span class="text-[#8b94a8] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/course</span>
-            <span class="text-[#868fa3]">—</span>
+            <span class="text-[#8b94a8]">—</span>
             <span class="text-[#aab2c4] group-hover:text-[#e7ecf5] group-focus:text-[#e7ecf5]">{{ t(_lang, 'not_found.suggestion_course') }}</span>
           </a>
         </li>
         <li>
           <a href="/{{ _lang }}/game"
              class="group inline-flex items-baseline gap-3 hover:text-[#65def0] focus:text-[#65def0] focus-visible:outline-2 focus-visible:outline-[#65def0] focus-visible:outline-offset-2 transition-colors">
-            <span class="text-[#868fa3] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
+            <span class="text-[#8b94a8] group-hover:text-[#65def0] group-focus:text-[#65def0]">&gt;</span>
             <span class="text-[#3a8b9a] group-hover:text-[#65def0] group-focus:text-[#65def0]">&#9656;</span>
             <span class="text-[#65def0] tabular-nums">/{{ _lang }}/game</span>
-            <span class="text-[#868fa3]">—</span>
+            <span class="text-[#8b94a8]">—</span>
             <span class="text-[#aab2c4] group-hover:text-[#e7ecf5] group-focus:text-[#e7ecf5]">{{ t(_lang, 'not_found.suggestion_game') }}</span>
           </a>
         </li>
@@ -103,14 +103,14 @@
       {# Trailing prompt with blinking cursor #}
       <div class="mt-4 flex items-center gap-2">
         <span class="text-[#65def0]">dcm-ops@nav</span>
-        <span class="text-[#868fa3]">~ %</span>
+        <span class="text-[#8b94a8]">~ %</span>
         <span class="cursor-blink inline-block w-[8px] h-[14px] bg-[#65def0]" aria-hidden="true"></span>
       </div>
     </div>
   </div>
 
   {# Single-line system caption below the terminal #}
-  <p class="mt-5 sm:mt-6 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#7e879b] tabular-nums text-center sm:text-left">
+  <p class="mt-5 sm:mt-6 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] tabular-nums text-center sm:text-left">
     {{ t(_lang, 'not_found.system_log_caption') }}
   </p>
 </div>

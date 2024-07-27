@@ -1,46 +1,48 @@
-# Handoff — v4 features (сессия 2026-06-12, поверх v3)
+# Handoff — v5 (hardening + comprehension features, сессия 2026-06-20)
 
-> Это состояние **после v4**. План v4 с отметками: `docs/superpowers/plans/2026-06-12-v4-feature-plan.md`
-> (там же — лог по волнам W0→G4, таблица метрик и **owner actions перед пушем**).
-> v3-история — ниже по этому файлу.
+> Состояние **после v5**. План с отметками по волнам, таблицей метрик и owner-actions:
+> `docs/superpowers/plans/2026-06-19-v5-feature-plan.md`.
+> **Прим.:** ветка `v5-features` срезана от `8145095` (v4 W4), ДО коммита, где обновлялся
+> v4-handoff, поэтому ниже по этому файлу — сразу **v3**-handoff; контекст v4 — в
+> `docs/superpowers/plans/2026-06-12-v4-feature-plan.md` (восстановится при reconcile с `main`).
 
-## Состояние после v4
+## Состояние после v5
 
-- Ветка **`v4-features`** (создана от `main`@`56a2bef`), рабочее дерево чистое, **4 коммита v4** (`e13324a` W1, `3289b8b` W2, `eff727e` W3, `8145095` W4) поверх 6 v3-коммитов. **Ничего не запушено.**
-- **`git push` в `main` = деплой на прод.** Деплой **самодостаточен** — ручных шагов не требует: deploy.sh fail-safe по git-lfs (lines под guard'ом, бинари — обычные блобы), контейнер бежит **от root** (A7 non-root отложен в v5, иначе ронял бы и CI-`e2e`, и прод из-за прав на bind-mounted `data/`). Опционально: установить git-lfs на проде (под будущую миграцию) и сверить `deploy/nginx/` — оба не блокируют деплой.
-- Верификация G4: **pytest 69**, **vitest 36**, **e2e 44** (chromium), `tsc`+`build` чисто, `backend/static` без дрейфа, i18n-audit чист (en==ru parity, 0 dead/0 missing). Скриншот-свипы RU/EN×desktop/mobile без визуальных регрессий (диффы — только фаза анимации typewriter + новые nav-ссылки + новые страницы).
+- Ветка **`v5-features`** — срезана от **`8145095`** (= v4-features HEAD, по явному решению владельца), **7 коммитов v5** (`76755c1` W0 → `adb9ccd` W1 → `33c0193` W2 → `ef8d4de` W3 → `50db31d` W4-QA → `1d667c8` R2). **Ничего не запушено. `git push` в `main` = деплой на прод (discammer.com).**
+- Верификация G4: **pytest 94**, **vitest 101**, **e2e 71** (49 функциональных зелёные локально + 22 visual, прогоняются в CI), `tsc`+`build` чисто, `backend/static` без дрейфа, **i18n-audit чист** (en==ru parity, 0 dead / 0 missing, 300 allowlist), **axe 7/7 с ВКЛЮЧЁННЫМ `color-contrast`** (вкл. `/inspect`).
 
-## Что добавилось в v4 (выжимка; детали — в плане)
+## Что добавилось в v5 (выжимка; детали — в плане)
 
-1. **Бандл-сплит** (`e13324a`): хэшированные чанки + `.vite/manifest.json` (`backend/assets.py` → Jinja-global `vite_entry`), `React.lazy` вернулся. **Plyr грузится только на пост-страницах с видео, не на главной.** `base:'/static/'` в vite.config — иначе preload-хелпер 404-ит чанки.
-2. **БД на запрос**: `get_conn` (Depends), CRUD-хелперы берут опциональный `conn` (fallback открывает свой — чтобы `seo.py` работал). Главная = 1 коннект (было 4). Seed под `fcntl.flock` + `SEED_ON_STARTUP`.
-3. **Наблюдаемость**: middleware с `X-Request-ID` + структурный лог (`LOG_FORMAT=json|text`), `GET /api/health` (503 при отказе БД, `version=GIT_SHA`, счётчики). Dockerfile HEALTHCHECK / deploy.sh probe / CI — на `/api/health`.
-4. **RSS**: фид уже жил в `seo.py` (`/feed.xml`) — его **расширили** (30 постов, `_cdata()` экранирует `]]>`), НЕ создавали `routers/feeds.py` (была бы коллизия маршрута).
-5. **i18n унификация**: все островные `BUNDLES` → `client.*` в локалях (22 неймспейса), `get_client_bundle(lang)` инжектится в `window.__DISCAMMER_I18N__.strings`, `makeTranslator('ns')` читает его и **ходит по точечным ключам** (`flags.x_label`). Удалено ~114 мёртвых ключей. `scripts/i18n_audit.py` + аллоулист = CI-гард (dead + missing-backend + en/ru parity).
-6. **OG-карточки** (F4): `scripts/og_generate.py`+`og_template.html` → 66 PNG (пост/гайд × en/ru) в `static/images/og/`; `pages.py` ставит `page_image` через import-time set.
-7. **Поиск** (F1): FTS5 `content_fts` в сиде (LIKE-fallback), `/api/search` (per-term `"term"*`, snippet escape-then-mark = единственный санкционированный `dangerouslySetInnerHTML`), SSR `/{lang}/search` + остров `SearchConsole`.
-8. **Анализатор сообщений** (F2, флагман): `frontend/src/data/redflags.ts` (21 правило RU+EN, чистый `analyze()`), остров `MessageAnalyzer` (текст **не покидает браузер**), SSR `/{lang}/check`. **Гочи** см. ниже.
-9. **Экспорт/импорт прогресса** (F5): `progress.ts` `exportProgress`/`importProgress` (версионируемое досье, merge best-of), футер в `CourseProgress`.
-10. **Nav**: добавлены CHECK + SEARCH (не теснятся на 768–900px), `aria-current` расширен, RSS-`<link>` стал абсолютным.
-11. **E2E** (Q1): `e2e/` (10 спеков, `@playwright/test`+`@axe-core/playwright`), `scripts/e2e.sh`, CI-джоб `e2e` (compose + `/api/health`), `deploy` зависит от него. `npm test` (vitest) добавлен в CI.
+1. **A1 non-root** — `scripts/docker-entrypoint.sh`: root → `chown /app/data` → `gosu` drop до uid 10001 → uvicorn. Образ **стартует от root by design**; процесс — non-root. CI e2e ассертит uid через `/proc/1`.
+2. **A3 markdown off-loop** — thread-local `markdown.Markdown` + `run_in_threadpool` (был race на общем `_MD`); вывод байт-в-байт прежний.
+3. **A2 WCAG-AA** — приглушённый текст → `#8b94a8` (≥4.86:1 на всех 4 поверхностях), новый `--color-ink-dim #6b7588` для не-текста; axe `color-contrast` теперь **включён** (+`/ru/`, `/journal`, `/inspect`).
+4. **A4 supply-chain** — CI `audit` job (pip-audit 2.10.1 + npm audit, high/critical=fail), **в `deploy.needs`**; bleach 6.3→6.4 (реальный `clean()` a/href XSS-bypass).
+5. **O1 client error beacon** — `beacon.ts` (браузер покидают только `{name, messageClass, location}`); `POST /api/client-errors` (413 stream-cap, 429 per-IP, хранит НИЧЕГО, лог только scrubbed).
+6. **O2 RED metrics** — `GET /api/metrics` (token/loopback-gated, публике 404), `metrics.py` (route-template метки, без PII).
+7. **F1 knowledge check** — остров `KnowledgeCheck` на гайдах, `quizzes.ts` (10 гайдов RU+EN), досье → **v:2** (back-compat импортёр).
+8. **F2 link inspector** — `/{lang}/inspect`, `url_heuristics.ts` (11 эвристик; URL **не покидает браузер**).
+9. **F3 verdict card** — `VerdictCard` (canvas PNG + Web Share), `buildCardData` доказуемо без текста сообщения.
+10. **I1** — INSPECT в nav (6-й пункт; помещается на 768–900px в EN и RU).
+11. **Q1/Q2/O3** — visual regression, Lighthouse budgets, post-deploy prod smoke.
 
-## Новые гочи v4 (не «чинить» обратно!)
+## Новые гочи v5 (не «чинить» обратно!)
 
-- **`forceescape` НЕЛЬЗЯ внутри `<script>`** — он HTML-экранирует JSON и ломает литерал. Инжект бандла в base.html — `... | tojson` (без forceescape). В `data-props`-атрибутах `tojson | forceescape` остаётся (это атрибут).
-- **Вложенные i18n-группы** (`client.analyzer.flags.*`): `get_client_bundle` мерджит рекурсивно (НЕ `str()`-ит вложенные dict'ы), `makeTranslator` ходит по точкам. Тест парности/аудит ждут вложенность.
-- **Тернарные ключи невидимы аудиту**: `tr(cond?'a':'b')` прячет оба ключа от литерального сканера — пиши литеральные `tr('a')`/`tr('b')` по веткам (см. SearchConsole счётчик результатов).
-- **`base:'/static/'`** в vite.config обязателен (serve-путь бандла) — без него двойной фетч чанков (404 + реальный).
-- **git-lfs ещё не мигрирован**: `.br`-бинари закоммичены обычными блобами; `.gitattributes`/CI/deploy.sh готовы, но `git lfs migrate` — owner action (`docs/deploy/git-lfs.md`). deploy.sh пропускает lfs-строки, если git-lfs нет.
-- **`.gitignore`: `/data/`** (с якорем) — без него bare `data/` глотал `frontend/src/data/`.
-- **WCAG AA контраст**: приглушённая серая палитра (`#475064`/`#6b7588` на тёмном холсте) не проходит AA — это design-token-долг, a11y-e2e гейтит только structural-нарушения. См. v5.
-- Плюс все v3-гочи ниже (медиа на проде, коммит `backend/static`, правило стрелок, OG-PNG, Jinja `cache_size=0`, Plyr не размонтировать).
+- **Образ контейнера стартует от ROOT by design** — entrypoint chown'ит `/app/data` и сбрасывает привилегии через gosu. НЕ добавлять bare `USER` (это и был баг v4); compose НЕ должен пинить `user:`.
+- **A1 проверяется ТОЛЬКО в CI** (Docker локально нет): CI e2e ассертит uid через `/proc/1` (НЕ `docker compose exec ... id -u` — тот вернул бы root образа, т.к. USER нет).
+- **`/api/metrics` закрыт по умолчанию**: token-gated (`METRICS_TOKEN`) или loopback; публике 404. За nginx `request.client.host` = прокси, так что loopback-исключение публику не пускает.
+- **beacon: sampled + rate-limited + size-capped, хранит НИЧЕГО.** `_client_ip` берёт `X-Real-IP` (его ставит наш nginx) → лимит реально per-IP; `_client_error_buckets` ограничен 4096 с эвикцией.
+- **Досье теперь `v:2`** (добавлено `guideChecks`); импортёр back-compat принимает `v:1`. Не ломать импортёр.
+- **Visual baselines per-OS**: закоммичены `*-darwin`; CI (Linux) baselines надо засеять один раз через `--update-snapshots` (см. `docs/deploy/visual-regression.md`), пока CI visual-шаг `continue-on-error`.
+- **Lighthouse floors — ratchet** (только ужесточать); правка в `lighthouserc.json`.
+- **`#475064` retired для текста** (A2): приглушённый текст = `#8b94a8`/`text-ink-mute`; не-текст = `text-ink-dim`. Не вводить `text-[#6b7588]`/`text-[#475064]` литералы — axe contrast теперь гейтит.
+- Плюс все v3-гочи ниже (и v4-гочи — в плане v4).
 
-## Отложено в v5
+## Owner actions (v5)
 
-- **Non-root контейнер (A7)** — вернуть через root-entrypoint, который чинит права `/app/data` и сбрасывает привилегии (gosu/su-exec), с проверкой в CI-`e2e` (локально Docker'а нет). В v4 откатили, чтобы не ронять CI и прод.
-- Реальная `git lfs migrate` бинарей + установка git-lfs на проде (owner).
-- Подъём контраста приглушённого текста до WCAG AA (смена токенов).
-- Аккаунты/синк прогресса, аналитика, client error beacon, markdown в threadpool — см. «Deferred to v5» в плане.
+1. **Reconcile A1/A2 с прод `main`** — `v5-features` срезана от `8145095` и переделала A1/A2 начисто; прод `main` уже несёт ad-hoc A1/A2 (`e97cf6d`, `062d2a1`). Решить порядок слияния (вероятно — `v5-features` как канонические A1/A2, заменяющие ad-hoc).
+2. **CI-only first-run** (нужен первый пуш владельца, локально не проверяемо без Docker): A1 non-root ассерт, Q1 Linux baseline seed (+ снять `continue-on-error`), Q2 lighthouse прогон, O3 prod smoke.
+3. **`METRICS_TOKEN`** на проде, если скрейпить `/api/metrics` снаружи.
+4. Перенесено из v4 (не блокирует): `git lfs migrate` + git-lfs на проде; nginx vhost reconcile.
 
 ---
 

@@ -6,9 +6,15 @@ services:
         # deploy.sh exports GIT_SHA=$(git rev-parse --short HEAD) before
         # `compose build` so the running image reports its build via /api/health.
         GIT_SHA: "${GIT_SHA:-dev}"
-    # The container runs as root (A7 non-root deferred to v5 — see Dockerfile),
-    # so the bind-mounted ./data is writable by the SQLite seed without any
-    # host-side chown.
+        # Non-root uid:gid baked into the image (A1). Default 10001 matches prod.
+        # The root entrypoint chowns the bind-mounted ./data to this id then
+        # drops to it via gosu, so the SQLite seed can write discammer.db
+        # regardless of the host owner of ./data — no manual host chown needed.
+        APP_UID: "${APP_UID:-10001}"
+        APP_GID: "${APP_GID:-10001}"
+    # Do NOT pin `user:` here. The entrypoint must start as root to chown the
+    # root-owned bind-mount, then drops privileges itself (gosu) to APP_UID.
+    # Forcing `user:` would prevent the chown and reintroduce the v4 503/rollback.
     ports:
       - "8000:8000"
     volumes:

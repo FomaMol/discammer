@@ -1,4 +1,5 @@
 import re
+import threading
 from urllib.parse import urlparse
 
 import bleach
@@ -37,20 +38,38 @@ def _slugify_translit(value: str, separator: str) -> str:
     return translit
 
 
-_MD = markdown.Markdown(
-    extensions=["extra", "codehilite", "toc"],
-    extension_configs={
-        "codehilite": {
-            "css_class": "cyber-code",
-            "linenums": False,
-        },
-        "toc": {
-            "permalink": "#",
-            "permalink_class": "toc-anchor",
-            "slugify": _slugify_translit,
-        },
-    },
-)
+# A ``markdown.Markdown`` instance is stateful and NOT thread-safe: rendering
+# mutates internal buffers and ``reset()`` clears them. render_markdown now runs
+# on Starlette's threadpool (see routers/pages.py — each call site is wrapped in
+# run_in_threadpool), so a single shared module-level instance would race —
+# one thread's reset() could clobber another's in-flight convert(), producing
+# interleaved/corrupted HTML. Give each worker thread its own instance via
+# threading.local(); within a thread it is reused (cheap, reset() between calls)
+# and never touched by another thread. Construction must match the original
+# config exactly so rendered output is byte-for-byte unchanged.
+_md_local = threading.local()
+
+
+def _get_md() -> markdown.Markdown:
+    """Return this thread's reusable ``markdown.Markdown`` (lazily built)."""
+    md = getattr(_md_local, "instance", None)
+    if md is None:
+        md = markdown.Markdown(
+            extensions=["extra", "codehilite", "toc"],
+            extension_configs={
+                "codehilite": {
+                    "css_class": "cyber-code",
+                    "linenums": False,
+                },
+                "toc": {
+                    "permalink": "#",
+                    "permalink_class": "toc-anchor",
+                    "slugify": _slugify_translit,
+                },
+            },
+        )
+        _md_local.instance = md
+    return md
 
 
 # Tags safe to render in user-visible markdown. Excludes <script>, <object>,
@@ -182,8 +201,9 @@ def render_markdown(text: str, post_title: str | None = None) -> str:
     if post_title:
         text = _strip_duplicate_h1(text, post_title)
 
-    _MD.reset()
-    html = _MD.convert(text)
+    md = _get_md()
+    md.reset()
+    html = md.convert(text)
 
     safe = bleach.clean(
         html,

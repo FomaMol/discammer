@@ -99,7 +99,7 @@ export default function RedFlagsWidget({ config }: Props) {
               className="flex items-start gap-3 px-4 py-2 border-b border-[#202a44] last:border-b-0"
             >
               {block.label && (
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#868fa3] shrink-0 w-16 pt-0.5">
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] shrink-0 w-16 pt-0.5">
                   {block.label}
                 </span>
               )}

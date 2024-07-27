@@ -26,8 +26,9 @@ colors:
   ink:           "#e7ecf5"   # oklch(93.5% 0.012 250) — primary body, headlines
   ink-strong:    "#f3f5fa"   # oklch(96.5% 0.008 250) — display headlines only
   ink-soft:      "#aab2c4"   # oklch(74.0% 0.016 250) — secondary body, descriptions
-  ink-mute:      "#868fa3"   # metadata, captions, timestamps — lifted from #6b7588 for WCAG AA (4.5:1 on canvas/canvas-soft)
-  ink-faint:     "#7e879b"   # placeholders, faint meta — lifted from #475064 for WCAG AA (disabled-only uses are exempt but this keeps all text legible)
+  ink-mute:      "#8b94a8"   # metadata, captions, timestamps — lifted from #6b7588 for WCAG AA (≥4.5:1 on all canvas surfaces incl. canvas-input)
+  ink-faint:     "#8b94a8"   # placeholders, disabled text — lifted from #475064 for WCAG AA (#475064 failed even 3:1); text-bearing faint now equals ink-mute
+  ink-dim:       "#6b7588"   # NON-TEXT / decorative only (large/aria-hidden glyphs, hairlines) — meets the 3:1 non-text bar, never use for body text
 
   # Brand accent — cyan as the voice carrier (tuned down from #00F0FF for sophistication)
   cyan:          "#65def0"   # oklch(83.0% 0.094 217) — primary accent (links, brand wordmark glow, focus rings, "INTERVIEW" badges)

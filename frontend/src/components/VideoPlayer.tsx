@@ -63,7 +63,7 @@ export default function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
       {failed && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-1.5 px-6 text-center">
           <div className="font-mono text-[13px] text-[#aab2c4]">{tr('offline')}</div>
-          {title && <div className="font-mono text-[12px] text-[#868fa3]">{title}</div>}
+          {title && <div className="font-mono text-[12px] text-[#8b94a8]">{title}</div>}
         </div>
       )}
       <div ref={wrapRef} className="discammer-player" style={failed ? { display: 'none' } : undefined}>

@@ -124,7 +124,7 @@
       <!-- Desktop nav — active section gets aria-current + cyan underline (DESIGN.md nav-link). -->
       {% set _nav_path = request.url.path if request else '' %}
       <div class="hidden md:flex items-center gap-1">
-        {% for _section, _label_key in [('course', 'nav.course'), ('journal', 'nav.journal'), ('check', 'nav.check'), ('search', 'nav.search'), ('game', 'nav.play_game')] %}
+        {% for _section, _label_key in [('course', 'nav.course'), ('journal', 'nav.journal'), ('check', 'nav.check'), ('inspect', 'nav.inspect'), ('search', 'nav.search'), ('game', 'nav.play_game')] %}
         {% set _section_href = '/' ~ _lang ~ '/' ~ _section %}
         {% set _is_current = _nav_path.rstrip('/') == _section_href %}
         {% set _is_active = _is_current or _nav_path.startswith(_section_href ~ '/') %}
@@ -172,6 +172,7 @@
           {"label": t(_lang, "nav.course"), "href": "/" ~ _lang ~ "/course"},
           {"label": t(_lang, "nav.journal"), "href": "/" ~ _lang ~ "/journal"},
           {"label": t(_lang, "nav.check"), "href": "/" ~ _lang ~ "/check"},
+          {"label": t(_lang, "nav.inspect"), "href": "/" ~ _lang ~ "/inspect"},
           {"label": t(_lang, "nav.search"), "href": "/" ~ _lang ~ "/search"},
           {"label": t(_lang, "nav.play_game"), "href": "/" ~ _lang ~ "/game"}
         ]
@@ -182,6 +183,7 @@
             <a href="/{{ _lang }}/course" class="text-cyan">{{ t(_lang, 'nav.course') }}</a>
             <a href="/{{ _lang }}/journal" class="text-cyan">{{ t(_lang, 'nav.journal') }}</a>
             <a href="/{{ _lang }}/check" class="text-cyan">{{ t(_lang, 'nav.check') }}</a>
+            <a href="/{{ _lang }}/inspect" class="text-cyan">{{ t(_lang, 'nav.inspect') }}</a>
             <a href="/{{ _lang }}/search" class="text-cyan">{{ t(_lang, 'nav.search') }}</a>
             <a href="/{{ _lang }}/game" class="text-cyan">{{ t(_lang, 'nav.game_short') }}</a>
             <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-green">{{ t(_lang, 'lang.other_short') }}</a>
@@ -295,6 +297,9 @@
       switchUrl: {{ _switch_url | tojson }},
       strings: {{ (get_client_bundle(_lang) if get_client_bundle is defined else {}) | tojson }}
     };
+    {# O1: surface the client-error beacon sample rate (window.__DISCAMMER_CONFIG__).
+       tojson only — never forceescape inside <script> (it would HTML-escape the JSON). #}
+    window.__DISCAMMER_CONFIG__ = {{ (client_runtime_config() if client_runtime_config is defined else {}) | tojson }};
   </script>
 
   <!-- App Script — hashed entry module from the Vite manifest (no ?v=). -->

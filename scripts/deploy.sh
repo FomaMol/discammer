@@ -40,6 +40,13 @@ main() {
   # docker-compose.yml build.args reads GIT_SHA from the environment.
   export GIT_SHA="$(git rev-parse --short HEAD)"
 
+  # Bake the non-root app uid:gid (10001) into the image as build args. The root
+  # entrypoint self-heals ownership of the bind-mounted ./data (chown to this id
+  # then gosu-drops to it) on every start, so there is NO manual host `chown` —
+  # see docker-compose.prod.yml. Exporting matching defaults here keeps the
+  # baked uid and the runtime uid consistent.
+  export APP_UID="${APP_UID:-10001}" APP_GID="${APP_GID:-10001}"
+
   # --pull refreshes the base-image layers (node:20-slim / python:3.12-slim)
   # so OS security patches actually reach prod.
   $compose build --pull

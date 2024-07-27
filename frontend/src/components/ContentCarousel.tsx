@@ -125,7 +125,7 @@ export default function ContentCarousel({
             letterSpacing: '-0.02em',
           }}
         >
-          <span className="text-[#7e879b]" aria-hidden="true">&gt;&nbsp;</span>
+          <span className="text-[#8b94a8]" aria-hidden="true">&gt;&nbsp;</span>
           {title}
         </h2>
         <div className="flex gap-2 flex-shrink-0">
@@ -221,7 +221,7 @@ export default function ContentCarousel({
                     className="mt-2 text-[11px] uppercase tracking-[2px] text-[#aab2c4]"
                     style={{ fontFamily: '"JetBrains Mono", monospace' }}
                   >
-                    <span className="text-[#7e879b]">&mdash; </span>{guest}
+                    <span className="text-[#8b94a8]">&mdash; </span>{guest}
                   </p>
                 </div>
               </a>
@@ -394,7 +394,7 @@ export default function ContentCarousel({
         })}
 
         {items.length === 0 && (
-          <div className="w-full py-12 text-center text-sm" style={{ color: '#6b7588' }}>
+          <div className="w-full py-12 text-center text-sm" style={{ color: '#8b94a8' }}>
             {isLoading ? tr('loading') : tr('empty')}
           </div>
         )}

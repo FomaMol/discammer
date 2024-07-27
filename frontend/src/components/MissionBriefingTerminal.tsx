@@ -46,7 +46,7 @@ function toneClass(tone: Tone): string {
     case 'green':
       return 'text-[#7ce896]';
     case 'mute':
-      return 'text-[#868fa3]';
+      return 'text-[#8b94a8]';
     default:
       return 'text-[#cdd4e3]';
   }

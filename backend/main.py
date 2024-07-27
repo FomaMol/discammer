@@ -6,7 +6,15 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from config import SITE_ORIGIN, STATIC_DIR, TEMPLATES_DIR, configure_logging
+from config import (
+    CLIENT_ERROR_RATE_LIMIT,
+    CLIENT_ERROR_SAMPLE_RATE,
+    METRICS_TOKEN,
+    SITE_ORIGIN,
+    STATIC_DIR,
+    TEMPLATES_DIR,
+    configure_logging,
+)
 from database import init_db
 from seed_data import seed_database
 
@@ -67,7 +75,44 @@ import logging  # noqa: E402
 import time as _time_mod  # noqa: E402
 from uuid import uuid4  # noqa: E402
 
+from metrics import collector as _metrics_collector  # noqa: E402
+
 _request_logger = configure_logging()
+
+# O2: the metrics endpoint path — excluded from its own RED metrics so a scrape
+# never feeds the counters it exposes (no self-counting feedback loop).
+_METRICS_PATH = "/api/metrics"
+
+
+def _route_template(request: "Request", fallback_path: str) -> str:
+    """Low-cardinality route label for metrics.
+
+    Prefer the matched route TEMPLATE (e.g. ``/{lang}/journal/{slug}``) so a
+    page with a slug doesn't spawn a new series per slug (cardinality blowup +
+    potential content leak via the label). Falls back to a coarse bucket when
+    no route matched (404s, validation failures): ``<asset>`` for asset/probe
+    paths, else ``<other>``.
+    """
+    route = request.scope.get("route")
+    path_format = getattr(route, "path", None) or getattr(route, "path_format", None)
+    if path_format:
+        return path_format
+    if _is_asset_path(fallback_path):
+        return "<asset>"
+    return "<other>"
+
+
+def _record_metrics(request: "Request", status: int, duration_s: float) -> None:
+    """Feed one observation into the RED collector, skipping the metrics
+    endpoint itself."""
+    if request.url.path == _METRICS_PATH:
+        return
+    _metrics_collector.observe(
+        method=request.method,
+        route=_route_template(request, request.url.path),
+        status=status,
+        duration_s=duration_s,
+    )
 
 
 @app.middleware("http")
@@ -82,7 +127,10 @@ async def request_logging_middleware(request: "Request", call_next):
         # Log the failure once with the rid, then re-raise so FastAPI's
         # exception handlers run and produce the actual response. The
         # ServerErrorMiddleware above us turns this into a 500.
-        duration_ms = round((_time_mod.perf_counter() - start) * 1000, 2)
+        elapsed = _time_mod.perf_counter() - start
+        duration_ms = round(elapsed * 1000, 2)
+        # Record the 5xx in RED metrics too (errors are the whole point).
+        _record_metrics(request, 500, elapsed)
         _request_logger.exception(
             "request failed",
             extra={
@@ -95,8 +143,13 @@ async def request_logging_middleware(request: "Request", call_next):
         )
         raise
 
-    duration_ms = round((_time_mod.perf_counter() - start) * 1000, 2)
+    elapsed = _time_mod.perf_counter() - start
+    duration_ms = round(elapsed * 1000, 2)
     response.headers["X-Request-ID"] = rid
+
+    # O2: record RED metrics once, here, from the existing middleware (no second
+    # middleware). Route TEMPLATE label keeps cardinality bounded.
+    _record_metrics(request, response.status_code, elapsed)
 
     # Asset/probe 404s are noise at INFO — drop them to DEBUG. Reuse the same
     # classifier the 404 handlers use so the two stay in lockstep.
@@ -208,6 +261,25 @@ def _localized_url(lang: str, path: str = "") -> str:
 
 
 _env.globals["localized_url"] = _localized_url
+
+
+def client_runtime_config() -> dict:
+    """Non-secret runtime config surfaced to the browser as
+    ``window.__DISCAMMER_CONFIG__``. Currently only the client-error beacon
+    sample rate so the browser samples crash reports without a rebuild.
+
+    NEVER put secrets or per-user data here — it is rendered verbatim into the
+    public page HTML.
+    """
+    return {"clientErrorSampleRate": CLIENT_ERROR_SAMPLE_RATE}
+
+
+_env.globals["client_runtime_config"] = client_runtime_config
+# Wired into base.html's window.__DISCAMMER_I18N__ <script> as
+#     window.__DISCAMMER_CONFIG__ = {{ client_runtime_config() | tojson }};
+# (tojson only, never forceescape inside <script>). beacon.ts reads
+# window.__DISCAMMER_CONFIG__?.clientErrorSampleRate with a 0.2 fallback.
+
 app.state.templates = Jinja2Templates(env=_env)
 
 # Routers
@@ -225,6 +297,254 @@ app.include_router(api_router)
 app.include_router(game_router)
 app.include_router(seo_router)
 app.include_router(pages_router)
+
+
+# ---------------------------------------------------------------------------
+# O1 — privacy-safe client error beacon (POST /api/client-errors)
+#
+# The browser's IslandErrorBoundary reports a scrubbed signal here when an
+# island crashes. Privacy invariants (Hard rules 12/13):
+#   * stores NOTHING — no DB, no file, no in-memory retention of payloads;
+#   * never logs raw message / stack / any field that could carry user text;
+#   * body-size-capped (>~2 KB → 413) before parsing;
+#   * sampled client-side AND rate-limited per IP here (over limit → 429, no
+#     log line, so a crash loop can't spam the log);
+#   * one INFO line per accepted report carrying ONLY the allowlisted, coarse
+#     fields {rid, name, message_class, ua_family} after a server-side
+#     re-scrub (defense in depth — the client already scrubbed once).
+# ---------------------------------------------------------------------------
+
+import re as _re  # noqa: E402
+
+from fastapi import Request, Response as _Response  # noqa: E402
+
+_CLIENT_ERROR_MAX_BODY = 2048  # ~2 KB hard cap on the request body.
+
+# Per-IP token bucket: ip -> (tokens, last_refill_monotonic). Refilled at
+# CLIENT_ERROR_RATE_LIMIT tokens/minute. Now genuinely per-IP (see _client_ip),
+# so the key space is the client-IP space — hard-capped at
+# _CLIENT_ERROR_BUCKET_MAX entries (see _client_error_allow) so a flood of
+# distinct IPs can't grow it unboundedly. Cleared in tests.
+_client_error_buckets: dict[str, tuple[float, float]] = {}
+_CLIENT_ERROR_REFILL_PER_SEC = CLIENT_ERROR_RATE_LIMIT / 60.0
+# Hard ceiling on the number of tracked IP buckets. Refill window (seconds) used
+# to evict stale buckets before falling back to a full reset.
+_CLIENT_ERROR_BUCKET_MAX = 4096
+_CLIENT_ERROR_REFILL_WINDOW_SEC = 60.0
+
+# Allowed error *names* are short identifier-ish tokens (JS error class names).
+# Anything else is bucketed to "Error" so a smuggled user paragraph in `name`
+# can never be echoed verbatim.
+_ERROR_NAME_RE = _re.compile(r"^[A-Za-z][A-Za-z0-9_]{0,39}$")
+# A messageClass is a coarse non-identifying bucket the client builds, e.g.
+# "TypeError/short". Keep only that shape; drop anything with whitespace or
+# punctuation that could carry free text.
+_MESSAGE_CLASS_RE = _re.compile(r"^[A-Za-z0-9_]+(?:/[A-Za-z0-9_]+)?$")
+# Location is a coarse island/component name, not a URL or user content.
+_LOCATION_RE = _re.compile(r"^[A-Za-z0-9_.\-]{1,60}$")
+
+
+def _client_ip(request: "Request") -> str:
+    """Best-effort real client IP for per-IP rate limiting.
+
+    Trust assumption: in prod uvicorn is bound to loopback (127.0.0.1:8000) and
+    ONLY our nginx reaches it, so the X-Real-IP / X-Forwarded-For headers nginx
+    sets (X-Real-IP = $remote_addr = the real peer; X-Forwarded-For's first hop
+    likewise) are trustworthy. Prefer those so the limiter is genuinely per-IP
+    rather than collapsing to the single proxy/bridge address that
+    request.client.host reports behind the proxy. In direct/dev access these
+    headers are absent and we fall back to the socket peer.
+    """
+    real_ip = request.headers.get("x-real-ip")
+    if real_ip:
+        return real_ip.strip()
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        first = forwarded.split(",", 1)[0].strip()
+        if first:
+            return first
+    client = request.client
+    return client.host if client else "unknown"
+
+
+def _client_error_allow(ip: str) -> bool:
+    """Token-bucket admission test. Returns False when the per-IP rate is
+    exceeded. Side-effect: decrements the bucket on admit.
+
+    "Per-IP" holds behind our nginx: ``ip`` comes from ``_client_ip`` which
+    resolves the real client via the trusted X-Real-IP header, so distinct
+    clients get independent buckets even though they share the proxy socket."""
+    now = _time_mod.monotonic()
+    existing = _client_error_buckets.get(ip)
+    if existing is None and len(_client_error_buckets) >= _CLIENT_ERROR_BUCKET_MAX:
+        # At the cap and about to add a NEW key — first drop stale buckets
+        # (untouched for longer than a full refill window; they'd refill to full
+        # anyway). If that doesn't free room, clear the whole dict: a bounded
+        # worst-case reset. The limiter just refills fresh — fail-safe for
+        # telemetry, never a crash or unbounded memory.
+        cutoff = now - _CLIENT_ERROR_REFILL_WINDOW_SEC
+        for stale in [k for k, (_, last) in _client_error_buckets.items() if last < cutoff]:
+            del _client_error_buckets[stale]
+        if len(_client_error_buckets) >= _CLIENT_ERROR_BUCKET_MAX:
+            _client_error_buckets.clear()
+    tokens, last = existing if existing is not None else (float(CLIENT_ERROR_RATE_LIMIT), now)
+    tokens = min(
+        float(CLIENT_ERROR_RATE_LIMIT),
+        tokens + (now - last) * _CLIENT_ERROR_REFILL_PER_SEC,
+    )
+    if tokens < 1.0:
+        _client_error_buckets[ip] = (tokens, now)
+        return False
+    _client_error_buckets[ip] = (tokens - 1.0, now)
+    return True
+
+
+def _ua_family(user_agent: str | None) -> str:
+    """Coarse, non-identifying browser family. Never the full UA string (which
+    can fingerprint). Returns one of a small fixed vocabulary."""
+    ua = (user_agent or "").lower()
+    if "firefox" in ua:
+        return "firefox"
+    if "edg" in ua:
+        return "edge"
+    if "chrome" in ua or "crios" in ua:
+        return "chrome"
+    if "safari" in ua:
+        return "safari"
+    if not ua:
+        return "unknown"
+    return "other"
+
+
+def _scrub_error_name(value) -> str:
+    if isinstance(value, str) and _ERROR_NAME_RE.match(value):
+        return value
+    return "Error"
+
+
+def _scrub_message_class(value) -> str:
+    if isinstance(value, str) and _MESSAGE_CLASS_RE.match(value):
+        return value[:48]
+    return "unknown"
+
+
+def _scrub_location(value) -> str:
+    if isinstance(value, str) and _LOCATION_RE.match(value):
+        return value
+    return "unknown"
+
+
+@app.post("/api/client-errors", include_in_schema=False)
+async def client_errors(request: Request):
+    # Body-size cap BEFORE parsing. Honest Content-Length gives a cheap early-out
+    # (reject without reading a byte), but it's only a hint: a spoofed-small or
+    # absent header (e.g. Transfer-Encoding: chunked) could otherwise slip a huge
+    # body through. So we ALSO cap during the streaming read below — we never
+    # buffer more than _CLIENT_ERROR_MAX_BODY bytes, aborting as soon as the
+    # running total exceeds the cap instead of letting request.body() buffer the
+    # whole (possibly enormous) payload into memory first.
+    content_length = request.headers.get("content-length")
+    if content_length is not None:
+        try:
+            if int(content_length) > _CLIENT_ERROR_MAX_BODY:
+                return _Response(status_code=413)
+        except ValueError:
+            return _Response(status_code=413)
+
+    body = bytearray()
+    async for chunk in request.stream():
+        body.extend(chunk)
+        if len(body) > _CLIENT_ERROR_MAX_BODY:
+            # Stop reading immediately — bounded allocation regardless of the
+            # advertised (or absent) Content-Length.
+            return _Response(status_code=413)
+    body = bytes(body)
+
+    # Rate-limit per IP. Over limit → 429 with NO log line (no spam).
+    if not _client_error_allow(_client_ip(request)):
+        return _Response(status_code=429)
+
+    # Parse defensively; a malformed body is simply ignored (still 204 — the
+    # beacon is fire-and-forget and we store nothing either way).
+    name = "Error"
+    message_class = "unknown"
+    try:
+        import json as _json
+
+        payload = _json.loads(body or b"{}")
+        if isinstance(payload, dict):
+            # Server-side RE-SCRUB (defense in depth): only the coarse
+            # allowlisted fields survive; any smuggled message/stack/pasted/
+            # query field is never read.
+            name = _scrub_error_name(payload.get("name"))
+            message_class = _scrub_message_class(payload.get("messageClass"))
+            _ = _scrub_location(payload.get("location"))  # validated, not logged raw
+    except (ValueError, TypeError):
+        pass
+
+    rid = getattr(request.state, "request_id", None)
+    # NB: ``name`` is a reserved LogRecord attribute (the logger name), so the
+    # scrubbed error class is attached as ``error_name`` via extra=.
+    _request_logger.info(
+        "client error beacon",
+        extra={
+            "rid": rid,
+            "error_name": name,
+            "message_class": message_class,
+            "ua_family": _ua_family(request.headers.get("user-agent")),
+        },
+    )
+    return _Response(status_code=204)
+
+
+# ---------------------------------------------------------------------------
+# O2 — RED metrics exposition (GET /api/metrics)
+#
+# Prometheus text exposition of the request/error counters + duration histogram
+# fed by the request middleware above. Access-gated (Hard rule 13):
+#   * METRICS_TOKEN set  → require ``Authorization: Bearer <token>`` (else 401);
+#   * METRICS_TOKEN unset → endpoint is closed to the public: a non-local caller
+#     gets a 404 (not even advertised); a loopback caller may scrape it (handy
+#     for an internal sidecar / curl on the box).
+# It is excluded from its own metrics (see ``_record_metrics``) and from the
+# asset/probe/FTS classifiers (it lives under /api/, which those skip anyway).
+# Labels are method/route-template/status-class only — no path/query/user data.
+# ---------------------------------------------------------------------------
+
+# Numeric loopback peers only — request.client.host is a numeric socket address,
+# so name literals like "localhost"/"testserver" could never match it (they were
+# inert). The TestClient peer host is "testclient", never in this set, so the
+# metrics endpoint stays closed (404) to it when METRICS_TOKEN is unset.
+_LOOPBACK_HOSTS = {"127.0.0.1", "::1"}
+
+
+def _is_local_request(request: Request) -> bool:
+    client = request.client
+    host = client.host if client else ""
+    return host in _LOOPBACK_HOSTS
+
+
+@app.get("/api/metrics", include_in_schema=False)
+async def metrics_endpoint(request: Request):
+    token = METRICS_TOKEN
+    if token:
+        auth = request.headers.get("authorization", "")
+        expected = f"Bearer {token}"
+        # Constant-time-ish compare; both are short server-controlled strings.
+        if auth != expected:
+            return _Response(status_code=401)
+    else:
+        # Closed to the public — only a loopback caller may scrape an unset-token
+        # deployment; everyone else gets a 404 so the surface isn't advertised.
+        if not _is_local_request(request):
+            return _Response(status_code=404)
+
+    from metrics import collector as _c
+
+    return _Response(
+        content=_c.render(),
+        media_type="text/plain; version=0.0.4; charset=utf-8",
+    )
 
 
 # ---------------------------------------------------------------------------
