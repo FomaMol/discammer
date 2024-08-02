@@ -1,0 +1,184 @@
+/* ============================================================
+   Cadence — Color Primitives
+   Calm, muted, low-noise palette. Indigo-violet accent.
+   All ramps use OKLCH for perceptually even steps and a
+   shared violet undertone (~285°) so neutrals feel cohesive
+   with the accent without ever reading as "blue".
+   ============================================================ */
+
+:root {
+  /* --- Neutral ramp (violet-tinted gray, very low chroma) --- */
+  --neutral-0:   oklch(0.992 0.003 285);
+  --neutral-50:  oklch(0.972 0.004 285);
+  --neutral-100: oklch(0.945 0.006 285);
+  --neutral-200: oklch(0.890 0.008 285);
+  --neutral-300: oklch(0.800 0.011 285);
+  --neutral-400: oklch(0.680 0.014 285);
+  --neutral-500: oklch(0.575 0.016 285);
+  --neutral-600: oklch(0.470 0.016 285);
+  --neutral-700: oklch(0.370 0.016 285);
+  --neutral-800: oklch(0.288 0.015 285);
+  --neutral-850: oklch(0.248 0.014 285);
+  --neutral-900: oklch(0.210 0.013 285);
+  --neutral-950: oklch(0.175 0.012 285);
+  --neutral-975: oklch(0.150 0.011 285);
+
+  /* --- Accent ramp (muted indigo-violet, never neon) --- */
+  --accent-50:  oklch(0.960 0.018 282);
+  --accent-100: oklch(0.920 0.038 282);
+  --accent-200: oklch(0.855 0.066 282);
+  --accent-300: oklch(0.775 0.095 282);
+  --accent-400: oklch(0.700 0.118 282);
+  --accent-500: oklch(0.628 0.132 282);
+  --accent-600: oklch(0.558 0.132 282);
+  --accent-700: oklch(0.482 0.118 282);
+  --accent-800: oklch(0.400 0.098 282);
+  --accent-900: oklch(0.318 0.072 282);
+
+  /* --- Semantic ramps (soft, calm, non-alarming) --- */
+  /* success — sage green, ~155° */
+  --success-100: oklch(0.930 0.040 155);
+  --success-300: oklch(0.800 0.080 155);
+  --success-500: oklch(0.655 0.105 155);
+  --success-700: oklch(0.500 0.090 155);
+  --success-900: oklch(0.330 0.055 155);
+
+  /* warning — warm amber, ~78° */
+  --warning-100: oklch(0.945 0.045 80);
+  --warning-300: oklch(0.860 0.090 80);
+  --warning-500: oklch(0.785 0.110 78);
+  --warning-700: oklch(0.620 0.105 70);
+  --warning-900: oklch(0.430 0.075 65);
+
+  /* error — soft rose, ~22° (calmer than pure red) */
+  --error-100: oklch(0.930 0.035 22);
+  --error-300: oklch(0.800 0.085 22);
+  --error-500: oklch(0.640 0.140 22);
+  --error-700: oklch(0.520 0.135 22);
+  --error-900: oklch(0.360 0.090 22);
+
+  /* info — soft periwinkle blue, ~245° */
+  --info-100: oklch(0.935 0.035 245);
+  --info-300: oklch(0.810 0.075 245);
+  --info-500: oklch(0.665 0.105 245);
+  --info-700: oklch(0.520 0.100 245);
+  --info-900: oklch(0.360 0.070 245);
+}
+
+/* ============================================================
+   SEMANTIC ALIASES — Dark theme (default)
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces — stepped elevation, never pure black */
+  --bg-base:        var(--neutral-975);   /* app canvas */
+  --bg-subtle:      var(--neutral-950);   /* sunken areas */
+  --surface-1:      var(--neutral-900);   /* cards */
+  --surface-2:      var(--neutral-850);   /* raised / hover */
+  --surface-3:      var(--neutral-800);   /* popovers, modals */
+  --surface-inset:  var(--neutral-975);   /* inputs, wells */
+
+  /* Text — soft whites, never #fff */
+  --text-strong:    var(--neutral-50);    /* headings */
+  --text-body:      var(--neutral-200);   /* body copy */
+  --text-muted:     var(--neutral-400);   /* secondary */
+  --text-subtle:    var(--neutral-500);   /* captions, hints */
+  --text-on-accent: var(--neutral-0);
+
+  /* Borders & dividers */
+  --border-subtle:  oklch(1 0 0 / 0.06);
+  --border-default: oklch(1 0 0 / 0.10);
+  --border-strong:  oklch(1 0 0 / 0.16);
+
+  /* Accent — one main accent per screen */
+  --accent:         var(--accent-400);
+  --accent-hover:   var(--accent-300);
+  --accent-active:  var(--accent-500);
+  --accent-quiet:   oklch(0.700 0.118 282 / 0.14); /* tinted fill */
+  --accent-text:    var(--accent-300);
+
+  /* Focus ring — clearly visible, calm */
+  --focus-ring:     oklch(0.775 0.095 282);
+  --focus-ring-offset: var(--bg-base);
+
+  /* Semantic surfaces (bg) + text + border, dark-tuned */
+  --success-bg:     oklch(0.655 0.105 155 / 0.16);
+  --success-text:   var(--success-300);
+  --success-border: oklch(0.655 0.105 155 / 0.35);
+  --success-solid:  var(--success-500);
+
+  --warning-bg:     oklch(0.785 0.110 78 / 0.16);
+  --warning-text:   var(--warning-300);
+  --warning-border: oklch(0.785 0.110 78 / 0.35);
+  --warning-solid:  var(--warning-500);
+
+  --error-bg:       oklch(0.640 0.140 22 / 0.16);
+  --error-text:     var(--error-300);
+  --error-border:   oklch(0.640 0.140 22 / 0.38);
+  --error-solid:    var(--error-500);
+
+  --info-bg:        oklch(0.665 0.105 245 / 0.16);
+  --info-text:      var(--info-300);
+  --info-border:    oklch(0.665 0.105 245 / 0.35);
+  --info-solid:     var(--info-500);
+
+  /* Scrim behind modals */
+  --scrim: oklch(0.150 0.011 285 / 0.66);
+}
+
+/* ============================================================
+   SEMANTIC ALIASES — Light theme
+   ============================================================ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-base:        var(--neutral-50);
+  --bg-subtle:      var(--neutral-100);
+  --surface-1:      var(--neutral-0);
+  --surface-2:      var(--neutral-50);
+  --surface-3:      var(--neutral-0);
+  --surface-inset:  var(--neutral-100);
+
+  --text-strong:    var(--neutral-900);
+  --text-body:      var(--neutral-800);
+  --text-muted:     var(--neutral-600);
+  --text-subtle:    var(--neutral-500);
+  --text-on-accent: var(--neutral-0);
+
+  --border-subtle:  oklch(0.210 0.013 285 / 0.07);
+  --border-default: oklch(0.210 0.013 285 / 0.12);
+  --border-strong:  oklch(0.210 0.013 285 / 0.20);
+
+  --accent:         var(--accent-600);
+  --accent-hover:   var(--accent-700);
+  --accent-active:  var(--accent-700);
+  --accent-quiet:   oklch(0.628 0.132 282 / 0.10);
+  --accent-text:    var(--accent-700);
+
+  --focus-ring:     var(--accent-500);
+  --focus-ring-offset: var(--bg-base);
+
+  --success-bg:     oklch(0.655 0.105 155 / 0.14);
+  --success-text:   var(--success-700);
+  --success-border: oklch(0.655 0.105 155 / 0.30);
+  --success-solid:  var(--success-700);
+
+  --warning-bg:     oklch(0.785 0.110 78 / 0.18);
+  --warning-text:   var(--warning-900);
+  --warning-border: oklch(0.785 0.110 78 / 0.40);
+  --warning-solid:  var(--warning-700);
+
+  --error-bg:       oklch(0.640 0.140 22 / 0.12);
+  --error-text:     var(--error-700);
+  --error-border:   oklch(0.640 0.140 22 / 0.28);
+  --error-solid:    var(--error-700);
+
+  --info-bg:        oklch(0.665 0.105 245 / 0.12);
+  --info-text:      var(--info-700);
+  --info-border:    oklch(0.665 0.105 245 / 0.28);
+  --info-solid:     var(--info-700);
+
+  --scrim: oklch(0.370 0.016 285 / 0.40);
+}

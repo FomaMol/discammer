@@ -1,0 +1,64 @@
+/* ============================================================
+   Cadence — Elevation & Motion
+   Soft, multi-level shadows for gentle depth. Dark theme keeps
+   shadows quiet and adds a faint top highlight so raised
+   surfaces read without hard edges.
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  /* Layered soft shadows — low opacity, wide blur, no harshness */
+  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.30);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.30),
+               0 2px 6px oklch(0 0 0 / 0.24);
+  --shadow-md: 0 2px 4px oklch(0 0 0 / 0.28),
+               0 6px 16px oklch(0 0 0 / 0.30);
+  --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.30),
+               0 12px 32px oklch(0 0 0 / 0.38);
+  --shadow-xl: 0 8px 16px oklch(0 0 0 / 0.34),
+               0 24px 56px oklch(0 0 0 / 0.46);
+  /* Faint inner top-light to lift raised dark surfaces */
+  --shadow-raise: inset 0 1px 0 oklch(1 0 0 / 0.05);
+  /* Accent glow — used sparingly on the single primary action */
+  --shadow-focus: 0 0 0 3px var(--accent-quiet);
+}
+
+[data-theme="light"] {
+  --shadow-xs: 0 1px 2px oklch(0.37 0.016 285 / 0.06);
+  --shadow-sm: 0 1px 2px oklch(0.37 0.016 285 / 0.06),
+               0 2px 6px oklch(0.37 0.016 285 / 0.08);
+  --shadow-md: 0 2px 4px oklch(0.37 0.016 285 / 0.06),
+               0 6px 16px oklch(0.37 0.016 285 / 0.10);
+  --shadow-lg: 0 4px 8px oklch(0.37 0.016 285 / 0.08),
+               0 12px 32px oklch(0.37 0.016 285 / 0.12);
+  --shadow-xl: 0 8px 16px oklch(0.37 0.016 285 / 0.10),
+               0 24px 56px oklch(0.37 0.016 285 / 0.16);
+  --shadow-raise: inset 0 1px 0 oklch(1 0 0 / 0.7);
+  --shadow-focus: 0 0 0 3px var(--accent-quiet);
+}
+
+:root {
+  /* Motion — restrained, gentle. No bounce, no overshoot. */
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1); /* @kind other */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --duration-fast:   120ms; /* @kind other */
+  --duration-normal: 200ms; /* @kind other */
+  --duration-slow:   320ms; /* @kind other */
+}
+
+/* Respect reduced-motion globally — near-instant, no movement */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast:   1ms; /* @kind other */
+    --duration-normal: 1ms; /* @kind other */
+    --duration-slow:   1ms; /* @kind other */
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
