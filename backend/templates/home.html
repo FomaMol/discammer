@@ -224,14 +224,14 @@
       <!-- 3 NARROW stacked right -->
       <div class="lg:col-span-5 grid grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4">
 
-        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#7ce896]/40 transition-colors">
+        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#65def0]/40 transition-colors">
           <div class="flex items-center justify-between">
             <div class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[2.5px] text-[#aab2c4]">
               {{ t(_lang, 'home.stats_interviews') }}
             </div>
-            <span class="font-mono text-[9px] tabular-nums text-[#7ce896]">&#9656;</span>
+            <span class="font-mono text-[9px] tabular-nums text-[#65def0]">&#9656;</span>
           </div>
-          <div class="font-mono text-2xl sm:text-3xl text-[#7ce896] tabular-nums mt-1" style="font-weight: 700;">{{ "%02d"|format(stats.interviews) }}</div>
+          <div class="font-mono text-2xl sm:text-3xl text-[#65def0] tabular-nums mt-1" style="font-weight: 700;">{{ "%02d"|format(stats.interviews) }}</div>
         </div>
 
         <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#f4b965]/40 transition-colors">
@@ -244,14 +244,14 @@
           <div class="font-mono text-2xl sm:text-3xl text-[#f4b965] tabular-nums mt-1" style="font-weight: 700;">{{ "%02d"|format(stats.articles) }}</div>
         </div>
 
-        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#e76670]/40 transition-colors">
+        <div class="bg-[#0b0f1a] border border-[#202a44] p-3 sm:p-4 hover:border-[#7ce896]/40 transition-colors">
           <div class="flex items-center justify-between">
             <div class="font-mono text-[9px] sm:text-[10px] uppercase tracking-[2.5px] text-[#aab2c4]">
-              {{ t(_lang, 'home.stats_threat_feed') }}
+              {{ t(_lang, 'home.stats_dispatches') }}
             </div>
-            <span class="font-mono text-[9px] tabular-nums text-[#e76670]">&#9656;</span>
+            <span class="font-mono text-[9px] tabular-nums text-[#7ce896]">&#9656;</span>
           </div>
-          <div class="font-mono text-2xl sm:text-3xl text-[#e76670] tabular-nums mt-1" style="font-weight: 700;">24/7</div>
+          <div class="font-mono text-2xl sm:text-3xl text-[#7ce896] tabular-nums mt-1" style="font-weight: 700;">{{ "%02d"|format(stats.newsletters) }}</div>
         </div>
 
       </div>
@@ -342,20 +342,59 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- JOURNAL TRIO — interviews / newsletters / articles            -->
-<!-- Tight grouping (one logical block: the field journal)         -->
+<!-- FIELD JOURNAL — varied rhythm (loud → quiet → loud):          -->
+<!--   interviews carousel · dispatch LIST (text) · articles row.  -->
+<!--   Three streams, three shapes — never three identical rows.   -->
 <!-- ============================================================ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-4" aria-label="{{ t(_lang, 'home.interview_log_title') }}">
+
+<!-- LOUD: interviews — portrait-led carousel -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-2" aria-label="{{ t(_lang, 'home.interview_log_title') }}">
   <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-1">{{ t(_lang, 'home.section_archive') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.interview_log_title") | tojson }}, "apiUrl": "/api/posts?type=interview&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_interview") | tojson }}, "lang": "{{ _lang }}", "variant": "interview"}'></div>
 </section>
 
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-4" aria-label="{{ t(_lang, 'home.newsletter_feed_title') }}">
-  <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-1">{{ t(_lang, 'home.section_dispatches') }}</div>
-  <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.newsletter_feed_title") | tojson }}, "apiUrl": "/api/posts?type=newsletter&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_newsletter") | tojson }}, "lang": "{{ _lang }}", "variant": "newsletter"}'></div>
+<!-- QUIET: newsletters — a dated dispatch list, not a carousel.
+     Full-bleed band, no // eyebrow, text-only rows: a deliberate
+     editorial rest between the two louder carousels (P0-1/P0-2). -->
+<section class="border-y border-[#202a44] bg-[#0a0d16]/60 mt-12 sm:mt-16" aria-label="{{ t(_lang, 'home.newsletter_feed_title') }}">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+    <div class="flex items-end justify-between gap-4 mb-5 sm:mb-6">
+      <h2 class="font-mono text-[#7ce896] text-lg sm:text-xl md:text-2xl truncate" style="font-weight: 700; letter-spacing: -0.02em;">
+        <span class="text-[#8b94a8]" aria-hidden="true">&gt;&nbsp;</span>{{ t(_lang, 'home.newsletter_feed_title') }}
+      </h2>
+      <span class="font-mono text-[10px] uppercase tracking-[2.5px] text-[#8b94a8] tabular-nums shrink-0">
+        {{ "%02d"|format(newsletters|length) }} {{ t(_lang, 'home.entries_label') }}
+      </span>
+    </div>
+
+    {% if newsletters %}
+    <ul class="border-t border-[#202a44]" role="list">
+      {% for n in newsletters %}
+      <li class="border-b border-[#202a44]">
+        <a href="/{{ _lang }}/journal/{{ n.slug }}"
+           class="group flex items-center gap-3 sm:gap-5 py-3 sm:py-4 hover:bg-[#121828] transition-colors"
+           style="text-decoration: none;">
+          <span class="hidden sm:inline-flex items-center gap-2 shrink-0" style="min-width: 132px;">
+            <span class="block w-2 h-2 shrink-0 bg-[#7ce896]" aria-hidden="true"></span>
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]" style="font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
+          </span>
+          <span class="flex-1 min-w-0 font-mono text-sm sm:text-[15px] text-[#e7ecf5] group-hover:text-[#65def0] transition-colors truncate" style="letter-spacing: -0.01em; font-weight: 500;">
+            <span class="sm:hidden inline-block w-1.5 h-1.5 mr-2 align-middle bg-[#7ce896]" aria-hidden="true"></span>{{ n.title }}
+          </span>
+          {% if n.published_at %}
+          <time class="hidden sm:inline font-mono text-[11px] text-[#8b94a8] tabular-nums shrink-0" style="letter-spacing: 0.02em;">{{ n.published_at }}</time>
+          {% endif %}
+          <span aria-hidden="true" class="font-mono text-[#8b94a8] group-hover:text-[#65def0] transition-colors shrink-0">&rarr;</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
 </section>
 
-<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-12 sm:pb-16" aria-label="{{ t(_lang, 'home.article_database_title') }}">
+<!-- LOUD: articles — editorial carousel -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-12 sm:pb-16" aria-label="{{ t(_lang, 'home.article_database_title') }}">
   <div class="font-mono text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-1">{{ t(_lang, 'home.section_research') }}</div>
   <div data-component="ContentCarousel" data-props='{"title": {{ t(_lang, "home.article_database_title") | tojson }}, "apiUrl": "/api/posts?type=article&limit=8&lang={{ _lang }}", "badge": {{ t(_lang, "journal.filter_article") | tojson }}, "lang": "{{ _lang }}", "variant": "article"}'></div>
 </section>
