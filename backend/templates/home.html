@@ -39,6 +39,22 @@
 {% set _typewriter_phrases = t_list(_lang, 'hero_typewriter_phrases') %}
 {% set _now = now() %}
 
+{# Hero terminal lines — driven by REAL stats (no fabricated telemetry).
+   threats = guide count, plus interview/article/dispatch counts and the
+   real last-filed date. Passed to HeroTerminal via data-props. #}
+{% set _term_lines = [
+  '> ' ~ t(_lang, 'home.term_boot'),
+  '> ' ~ t(_lang, 'home.term_loading') ~ ' ......... [OK]',
+  '> ' ~ t(_lang, 'home.term_indexed') ~ ': ' ~ stats.threats ~ ' ' ~ t(_lang, 'home.term_guides_unit') ~ '   [200]',
+  '> ' ~ t(_lang, 'home.term_interviews_label') ~ ': ' ~ stats.interviews,
+  '> ' ~ t(_lang, 'home.term_articles_label') ~ ': ' ~ stats.articles,
+  '> ' ~ t(_lang, 'home.term_dispatches_label') ~ ': ' ~ stats.newsletters,
+  '> ' ~ t(_lang, 'home.term_last_entry') ~ ': ' ~ (latest_published_at or '----'),
+  '> ' ~ t(_lang, 'home.term_tracking') ~ ': phishing / deepfake_voice / pig_butchering / fake_store',
+  '> ' ~ t(_lang, 'components.term_oracle'),
+  '> ' ~ t(_lang, 'components.term_awaiting'),
+] %}
+
 <!-- ============================================================ -->
 <!-- HERO — left-aligned wordmark, 2-column desktop, stacked mobile -->
 <!-- ============================================================ -->
@@ -132,7 +148,7 @@
 
       <!-- RIGHT COLUMN: terminal (framed as MONITOR 02) -->
       <div class="w-full max-w-xl mx-auto lg:max-w-none">
-        <div data-component="HeroTerminal" data-props='{"lang": "{{ _lang }}"}'></div>
+        <div data-component="HeroTerminal" data-props='{"lines": {{ _term_lines | tojson }}, "lang": "{{ _lang }}"}'></div>
         <noscript>
           <div class="bg-[#0b0f1a]/90 border border-[#202a44] overflow-hidden">
             <div class="flex items-center gap-2 px-3 py-2 bg-[#121828] border-b border-[#202a44]">
