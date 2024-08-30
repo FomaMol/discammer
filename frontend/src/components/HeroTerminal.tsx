@@ -7,44 +7,23 @@ interface HeroTerminalProps {
   lang?: Locale;
 }
 
+// Fallback only — the home page passes real, server-derived `lines` (see
+// home.html). These defaults carry NO fabricated metrics: inventing live
+// telemetry (kit counts, ROC AUC, a 247-entry DB when the real count is ~20)
+// violates PRODUCT.md "show the work, not the costume" and the P2-1 stat-truth
+// rule. Boot/flavor lines are fine; numbers must be real, so they come from props.
 const LINES_EN: string[] = [
   '> init scanner --module=threat_db',
-  '> loading signatures ............ [OK]',
-  '> connecting feed.discammer.com',
-  '> handshake ESTABLISHED',
-  '> auth: anon-guest                  [200]',
-  '> scanning vector: phishing/2024',
-  '   ├─ kits matched: 218',
-  '   └─ avg lifespan: 38h',
-  '> scanning vector: deepfake/audio',
-  '   ├─ samples: 1,407',
-  '   └─ ROC AUC: 0.93',
-  '> scanning vector: investment-fraud',
-  '   ├─ pump-and-dump: 64 active',
-  '   └─ pig-butchering: 142 tracked',
-  '> threat_db.size = 247 entries',
-  '> last_breach   = 02:14:09 UTC',
+  '> loading signatures ......... [OK]',
+  '> tracking: phishing / deepfake_voice / pig_butchering / fake_store',
   '> oracle: "trust nothing on first contact"',
   '> AWAITING USER COMMAND _',
 ];
 
 const LINES_RU: string[] = [
   '> init scanner --module=threat_db',
-  '> загрузка сигнатур ............ [OK]',
-  '> подключение к feed.discammer.com',
-  '> рукопожатие УСТАНОВЛЕНО',
-  '> auth: anon-guest                  [200]',
-  '> сканирование вектора: phishing/2024',
-  '   ├─ найдено наборов: 218',
-  '   └─ средний срок жизни: 38ч',
-  '> сканирование вектора: deepfake/audio',
-  '   ├─ образцов: 1 407',
-  '   └─ ROC AUC: 0.93',
-  '> сканирование вектора: investment-fraud',
-  '   ├─ pump-and-dump: 64 активных',
-  '   └─ «забой свиньи»: 142 отслежено',
-  '> threat_db.size = 247 записей',
-  '> last_breach   = 02:14:09 UTC',
+  '> загрузка сигнатур ......... [OK]',
+  '> отслеживание: phishing / deepfake_voice / pig_butchering / fake_store',
   '> оракул: «не доверяй с первого контакта»',
   '> ОЖИДАНИЕ КОМАНДЫ ПОЛЬЗОВАТЕЛЯ _',
 ];

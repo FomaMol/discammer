@@ -116,6 +116,15 @@
     "stats_threats": "Threat Types",
     "subtitle": "A field guide to modern scams: phishing kits, deepfakes, pig-butchering, fake stores. Learn the patterns, train your eye, and stop losing money to predictable cons.",
     "tag": "CYBERSEC // EDUCATION PLATFORM",
+    "term_articles_label": "articles filed",
+    "term_boot": "init scanner --module=threat_db",
+    "term_dispatches_label": "dispatches sent",
+    "term_guides_unit": "threat guides",
+    "term_indexed": "indexed",
+    "term_interviews_label": "interviews logged",
+    "term_last_entry": "last entry",
+    "term_loading": "loading signatures",
+    "term_tracking": "tracking",
     "threat_database_title": "THREAT_DATABASE"
   },
   "journal": {
