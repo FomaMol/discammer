@@ -255,12 +255,16 @@ async def home(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
     newsletters = await get_posts(conn, type_filter="newsletter", locale=lang)
     articles = await get_posts(conn, type_filter="article", locale=lang)
     guides = await get_guides(conn, locale=lang)
+    modules = await get_course_modules(conn, locale=lang)
+    course_totals = _course_totals(modules, lang)
 
     stats = {
         "threats": len(guides),
         "interviews": len(interviews),
         "articles": len(articles),
         "newsletters": len(newsletters),
+        "lessons": course_totals["lessons"],
+        "modules": course_totals["modules"],
     }
 
     # Most recent published_at across all post types — drives the hero HUD's
@@ -279,9 +283,11 @@ async def home(request: Request, lang: str = LangPath, conn=Depends(get_conn)):
         {
             **_base_context(request, lang),
             "interviews": interviews[:4],
-            "newsletters": newsletters[:4],
+            "newsletters": newsletters[:5],
             "articles": articles[:4],
             "guides": guides,
+            "modules": modules,
+            "course_totals": course_totals,
             "stats": stats,
             "latest_published_at": latest_published_at,
             "page_title": t(lang, "page_titles.home"),
