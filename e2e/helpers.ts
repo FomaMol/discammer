@@ -6,8 +6,8 @@ import { type Page, type ConsoleMessage, expect } from '@playwright/test';
 
 /** Every localized page surface, en + ru, used by the smoke sweep. */
 export const PAGES: { path: string; label: string; island: string }[] = [
-  { path: '/en/', label: 'home', island: 'HeroTerminal' },
-  { path: '/ru/', label: 'home', island: 'HeroTerminal' },
+  { path: '/en/', label: 'home', island: 'HeroShader' },
+  { path: '/ru/', label: 'home', island: 'HeroShader' },
   { path: '/en/journal', label: 'journal', island: 'JournalBroadsheet' },
   { path: '/ru/journal', label: 'journal', island: 'JournalBroadsheet' },
   { path: '/en/journal/blockchain', label: 'post', island: 'VideoPlayer' },
