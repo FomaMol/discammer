@@ -39,7 +39,6 @@
 
 {% set _lang = lang %}
 {% set _next_post = related_posts[0] if related_posts and related_posts|length > 0 else None %}
-{% set _next_label = t(_lang, 'post.next_label') %}
 {% set _cover_label = t(_lang, 'post.cover_label') %}
 
 {# ─────────────────────────────────────────────────────────────────────
@@ -52,8 +51,6 @@
 {% if post.published_at %}
   {% set _pub_parts = post.published_at.split('-') %}
   {% if _pub_parts | length >= 3 %}
-    {# Crude but stable: ISO-week-ish identifier from yyyy + mm + dd.
-       Avoids a datetime parse hop and gives every post a unique 4-digit issue. #}
     {% set _issue_no = (_pub_parts[1] | int) * 100 + (_pub_parts[2] | int) %}
   {% endif %}
 {% endif %}
@@ -66,17 +63,19 @@
 {# Localized month labels for the byline. Keys live in locales/{lang}.json. #}
 {% set _month_keys = ['month_jan','month_feb','month_mar','month_apr','month_may','month_jun','month_jul','month_aug','month_sep','month_oct','month_nov','month_dec'] %}
 {% set _byline_date = '' %}
+{% set _iso_date = '' %}
 {% if post.published_at %}
   {% set _pub_parts = post.published_at.split('-') %}
   {% if _pub_parts | length >= 3 %}
     {% set _yyyy = _pub_parts[0] %}
     {% set _mm = _pub_parts[1] | int %}
     {% set _dd = _pub_parts[2] | int %}
+    {% set _iso_date = _yyyy ~ '-' ~ ('%02d'|format(_mm)) ~ '-' ~ ('%02d'|format(_dd)) %}
     {% set _byline_date = '%02d'|format(_dd) ~ ' ' ~ t(_lang, 'journal.' ~ _month_keys[_mm - 1]) ~ ' ' ~ _yyyy %}
   {% endif %}
 {% endif %}
 
-{# Type label uppercase, in language. #}
+{# Type label + color, in language. Used for the kicker chip + filed-under. #}
 {% if post.type == 'interview' %}
   {% set _type_label = t(_lang, 'journal.filter_interview') %}
   {% set _type_color = '#65def0' %}
@@ -99,23 +98,28 @@
   {% set _type_border = 'rgba(170,178,196,0.4)' %}
 {% endif %}
 
+{# Descriptor next to the badge — "field note · analysis" per post type. #}
+{% if post.type == 'interview' %}
+  {% set _descriptor = t(_lang, 'articlepage.descriptor_interview') %}
+{% elif post.type == 'newsletter' %}
+  {% set _descriptor = t(_lang, 'articlepage.descriptor_newsletter') %}
+{% else %}
+  {% set _descriptor = t(_lang, 'articlepage.descriptor_article') %}
+{% endif %}
+
 {# Localized labels — resolved from locales/{lang}.json #}
-{% set _byline_label = t(_lang, 'journal.byline_label') %}
 {% set _min_label = t(_lang, 'journal.min_label') %}
 {% set _filed_under_label = t(_lang, 'journal.filed_under_label') %}
 {% set _next_in_section_label = t(_lang, 'journal.next_in_section_label') %}
 {% set _issue_label = t(_lang, 'journal.issue_label') %}
 
 {# ─────────────────────────────────────────────────────────────────────
-   READING SURFACE — narrower than the journal grid (max-w-2xl ≈ 42rem ≈ 60ch).
-   Per DESIGN.md article spec, the article is the product; reading line length
-   stays under 65ch even at 1080px viewport.
+   READING SURFACE — narrow editorial column (~720px). The article is the
+   product; reading line length stays under ~65ch per DESIGN.md.
    ───────────────────────────────────────────────────────────────────── #}
 <div class="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-  {# Breadcrumbs — kept as mono path style ~/journal/<type>/<slug>.
-     Type segment is localized so /ru/journal/<slug> renders "журнал/статья/..."
-     while the slug stays in its original ASCII form (slugs are stable identifiers). #}
+  {# Breadcrumbs — mono path ~/journal/<type>/<slug>. Type segment localized. #}
   {% set _type_breadcrumb_key = 'breadcrumb.type_' ~ post.type %}
   {% set _type_breadcrumb = t(_lang, _type_breadcrumb_key) %}
   {% if _type_breadcrumb == _type_breadcrumb_key %}{% set _type_breadcrumb = post.type %}{% endif %}
@@ -125,61 +129,65 @@
     </span>
   </nav>
 
-  <!-- Section kicker: // TYPE · ISSUE 0521 -->
-  <div
-    class="font-mono text-[10px] sm:text-[11px] uppercase mb-4"
-    style="letter-spacing: 0.14em; font-weight: 600; color: {{ _type_color }};"
-  >
-    // {{ _type_label }} <span class="text-[#8b94a8] mx-1">·</span> <span class="text-[#aab2c4] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
-  </div>
-
-  {# Article header: display-article — JetBrains Mono 700, sentence-case, NOT uppercase.
-     max-w-24ch keeps the headline within editorial measure. #}
   <header>
+    {# Badge row: TYPE chip · field note · analysis #}
+    <div class="flex flex-wrap items-center gap-3 mb-5">
+      <span
+        class="font-mono uppercase rounded-sm"
+        style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; padding: 4px 8px; color: {{ _type_color }}; background: {{ _type_bg }}; border: 1px solid {{ _type_border }};"
+      >{{ _type_label }}</span>
+      <span class="font-mono text-[11px] text-[#8b94a8]">{{ _descriptor }}</span>
+    </div>
+
+    {# Editorial headline — Geist (sans) 600, sentence-case, not uppercase. #}
     <h1
-      class="font-mono font-bold text-[#f3f5fa] break-words"
-      style="font-size: clamp(2rem, 1.4rem + 2vw, 3rem); letter-spacing: -0.02em; line-height: 1.08; max-width: 24ch;"
+      class="font-sans font-semibold text-[#f3f5fa] break-words"
+      style="font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.9rem); letter-spacing: -0.025em; line-height: 1.12; text-wrap: balance;"
     >
       {{ post.title }}
     </h1>
 
-    <!-- Byline strip — BY DCM EDITORIAL · 26 APR 2025 · 7 MIN -->
-    <div
-      class="mt-5 sm:mt-6 font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] flex flex-wrap items-center gap-2"
-      style="letter-spacing: 0.14em; font-weight: 600;"
+    {# Lead — subtitle as the editorial standfirst. #}
+    {% if post.subtitle %}
+    <p
+      class="text-[#aab2c4] mt-5 break-words"
+      style="font-size: 19px; line-height: 1.6; max-width: 62ch; text-wrap: pretty;"
     >
-      <span class="text-[#aab2c4]">{{ _byline_label }}</span>
-      {% if _byline_date %}
-      <span aria-hidden="true" class="text-[#8b94a8]">·</span>
-      <time class="tabular-nums"{% if post.published_at %} datetime="{{ post.published_at }}"{% endif %}>{{ _byline_date }}</time>
-      {% endif %}
-      <span aria-hidden="true" class="text-[#8b94a8]">·</span>
-      <span class="tabular-nums">{{ _est_minutes }} {{ _min_label }}</span>
-    </div>
+      {{ post.subtitle }}
+    </p>
+    {% endif %}
 
-    <!-- Hairline rule below byline -->
-    <div class="h-px w-full mt-5 sm:mt-7 bg-[#202a44]" aria-hidden="true"></div>
+    {# Byline strip — DS monogram · DiScammer desk · date · read-time #}
+    <div class="flex items-center gap-3.5 py-4 mt-7 border-t border-b border-[#202a44]">
+      <div
+        class="font-mono font-bold text-[#65def0] flex-none flex items-center justify-center"
+        style="width: 40px; height: 40px; border-radius: 3px; background: #0a0d16; border: 1px solid #2b3759; font-size: 14px;"
+        aria-hidden="true"
+      >DS</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-sans text-sm font-medium text-[#e7ecf5]">{{ t(_lang, 'articlepage.byline_desk') }}</div>
+        <div class="font-mono text-[11px] text-[#8b94a8] flex flex-wrap items-center gap-1.5">
+          {% if _byline_date %}
+          <time class="tabular-nums" datetime="{{ _iso_date }}">{{ _byline_date }}</time>
+          <span aria-hidden="true">·</span>
+          {% endif %}
+          <span class="tabular-nums">{{ _est_minutes }} {{ _min_label }}</span>
+          <span aria-hidden="true">·</span>
+          <span class="text-[#8b94a8] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
+        </div>
+      </div>
+    </div>
   </header>
 
-  {# Optional subtitle as a body-lead. Distinct from the prose body. #}
-  {% if post.subtitle %}
-  <p
-    class="text-[#cdd4e3] mt-7 sm:mt-9 break-words"
-    style="font-size: 1.1875rem; line-height: 1.5; max-width: 60ch;"
-  >
-    {{ post.subtitle }}
-  </p>
-  {% endif %}
-
   {# Cover image — minimal label, hairline frame.
-     Skipped for video posts: the self-hosted Plyr player below already has
-     a matching poster, so showing the cover here would duplicate the
-     hero image. Detection is a substring match on the rendered body —
-     every video post emits a `<div data-component="VideoPlayer" …>`. #}
+     Skipped for video posts: the self-hosted player below carries its own
+     poster, so showing the cover here would duplicate the hero. Detection is
+     a substring match on the rendered body — every video post emits a
+     `<div data-component="VideoPlayer" …>`. #}
   {% if post.cover_image and 'data-component="VideoPlayer"' not in post.content_html %}
-  <figure class="mt-7 sm:mt-9">
+  <figure class="mt-8 sm:mt-9">
     <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
-    <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-sm">
+    <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-md">
       <img
         src="{{ post.cover_image }}"
         alt="{{ _type_label }}: {{ post.title }}"
@@ -190,10 +198,9 @@
   </figure>
   {% endif %}
 
-  {# Article body — .prose has its own typography (Geist 17-18px, 65ch max).
-     The h2 side-stripe in .prose is the SINGLE grandfathered exception per DESIGN.md.
-     The .post-prose wrapper adds: (a) drop-cap on the first letter of the first
-     <p>, (b) a slightly larger lead style on the first <p>. #}
+  {# Article body — .prose has its own typography (Geist 17px, ~65ch max).
+     The VideoPlayer island (if any) is mounted inside this rendered HTML and
+     hydrates from data-component="VideoPlayer"; it is preserved as-is. #}
   <article class="prose post-prose max-w-none mt-8 sm:mt-10">
     {{ post.content_html | safe }}
   </article>
@@ -228,7 +235,7 @@
           class="font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] group-hover:text-[#65def0] transition-colors mb-2"
           style="letter-spacing: 0.14em; font-weight: 600;"
         >
-          {{ _next_in_section_label }} →
+          {{ _next_in_section_label }} <span aria-hidden="true">→</span>
         </div>
         <div
           class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] transition-colors line-clamp-2"
@@ -241,32 +248,6 @@
     </div>
   </section>
 
-  {# Related (compact strip below the end-of-article panel) #}
-  {% if related_posts and related_posts|length > 1 %}
-  <aside class="mt-12 sm:mt-16">
-    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-4" style="font-weight: 600;">{{ t(_lang, 'post.related') }}</div>
-    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-      {% for related in related_posts[:4] %}
-      <li>
-        <a href="/{{ _lang }}/journal/{{ related.slug }}" class="block bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors duration-300 p-4 rounded-sm group">
-          <div class="flex items-center gap-2 mb-2 flex-wrap">
-            {% if related.type == 'interview' %}
-            <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
-            {% elif related.type == 'newsletter' %}
-            <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#7ce896]/10 text-[#7ce896] border border-[#7ce896]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
-            {% elif related.type == 'article' %}
-            <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 bg-[#f4b965]/10 text-[#f4b965] border border-[#f4b965]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
-            {% endif %}
-            <span class="text-[10px] font-mono text-[#8b94a8] tabular-nums">{{ related.published_at }}</span>
-          </div>
-          <p class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] transition-colors leading-snug" style="letter-spacing: -0.01em;">{{ related.title }}</p>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </aside>
-  {% endif %}
-
   {# Back link — kept minimal, mono uppercase #}
   <div class="mt-10 sm:mt-14 pt-6 border-t border-[#202a44]">
     <a
@@ -278,6 +259,52 @@
     </a>
   </div>
 </div>
+
+{# KEEP_READING — full-width tinted band of related posts (canvas editorial footer).
+   Sits outside the narrow reading column at the 1120px container width. #}
+{% if related_posts and related_posts|length > 1 %}
+<section class="border-t border-[#202a44] bg-[#121828]" aria-label="{{ t(_lang, 'articlepage.keep_reading') }}">
+  <div class="mx-auto" style="max-width: 1120px; padding: clamp(40px,6vw,64px) clamp(16px,4vw,40px);">
+    <div class="font-mono text-[11px] uppercase mb-6 text-[#8b94a8]" style="letter-spacing: 0.16em; font-weight: 600;">
+      <span aria-hidden="true" style="color: #3a8b9a;">&gt;&nbsp;</span>{{ t(_lang, 'articlepage.keep_reading') }}
+    </div>
+    <ul class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); list-style: none; margin: 0; padding: 0;">
+      {% for related in related_posts[1:5] %}
+        {% if related.type == 'interview' %}
+          {% set _rc = '#65def0' %}{% set _rbg = 'rgba(101,222,240,0.08)' %}{% set _rbd = 'rgba(101,222,240,0.4)' %}{% set _rlabel = t(_lang, 'journal.filter_interview') %}{% set _rhover = '#65def0' %}
+        {% elif related.type == 'newsletter' %}
+          {% set _rc = '#7ce896' %}{% set _rbg = 'rgba(124,232,150,0.08)' %}{% set _rbd = 'rgba(124,232,150,0.4)' %}{% set _rlabel = t(_lang, 'journal.filter_newsletter') %}{% set _rhover = '#7ce896' %}
+        {% elif related.type == 'article' %}
+          {% set _rc = '#f4b965' %}{% set _rbg = 'rgba(244,185,101,0.08)' %}{% set _rbd = 'rgba(244,185,101,0.4)' %}{% set _rlabel = t(_lang, 'journal.filter_article') %}{% set _rhover = '#f4b965' %}
+        {% else %}
+          {% set _rc = '#aab2c4' %}{% set _rbg = 'rgba(170,178,196,0.08)' %}{% set _rbd = 'rgba(170,178,196,0.4)' %}{% set _rlabel = related.type | upper %}{% set _rhover = '#65def0' %}
+        {% endif %}
+      <li>
+        <a
+          href="/{{ _lang }}/journal/{{ related.slug }}"
+          class="group block h-full rounded-md transition-colors duration-300"
+          style="background: #0b0f1a; border: 1px solid #202a44; padding: 20px; text-decoration: none;"
+          onmouseover="this.style.borderColor='{{ _rhover }}'"
+          onmouseout="this.style.borderColor='#202a44'"
+        >
+          <span
+            class="font-mono uppercase rounded-sm"
+            style="font-size: 10px; font-weight: 600; letter-spacing: 0.1em; padding: 3px 7px; color: {{ _rc }}; background: {{ _rbg }}; border: 1px solid {{ _rbd }};"
+          >{{ _rlabel }}</span>
+          <h3
+            class="font-sans font-semibold text-[#e7ecf5] group-hover:text-[#9eecf6] transition-colors"
+            style="font-size: 18px; line-height: 1.3; margin: 14px 0 12px; text-wrap: balance;"
+          >{{ related.title }}</h3>
+          {% if related.published_at %}
+          <div class="font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ related.published_at }}</div>
+          {% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
 
 {# Lead-paragraph styling for .post-prose lives in globals.css. Scoped there
    so it doesn't leak into guide/module/lesson .prose surfaces. #}

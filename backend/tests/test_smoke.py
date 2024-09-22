@@ -42,7 +42,7 @@ def test_unsupported_lang_prefix_returns_html_404(client):
         r = client.get(path)
         assert r.status_code == 404, path
         assert r.headers["content-type"].startswith("text/html"), path
-        assert "dcm-ops@nav" in r.text, path
+        assert "trace_route.log" in r.text, path
 
 
 def test_localized_missing_page_with_asset_extension_gets_html_404(client):
@@ -51,7 +51,7 @@ def test_localized_missing_page_with_asset_extension_gets_html_404(client):
     r = client.get("/en/journal/foo.json")
     assert r.status_code == 404
     assert r.headers["content-type"].startswith("text/html")
-    assert "dcm-ops@nav" in r.text
+    assert "trace_route.log" in r.text
 
 
 def test_asset_typo_path_gets_plaintext_404(client):

@@ -11,38 +11,68 @@
    100% client-side: the link the reader pastes never leaves the browser
    and the page behind it is never opened. The page itself works without
    JS (the <noscript> "how to read a link" checklist below).
+
+   Redesigned to the canvas: 820px reading column, a bordered hero with the
+   LINK_INSPECTOR eyebrow + `>` headline, the island wrapped in a
+   canvas-soft tool panel with a browser-only note, then the how-to steps
+   and the "most bad links arrive by SMS" guide CTA. The canvas's static
+   input/result mockup is NOT reproduced — the LinkInspector island below
+   provides the real input + results.
    ───────────────────────────────────────────────────────────────────── #}
 
-<article class="max-w-[48rem] mx-auto px-4 sm:px-6 py-10 sm:py-14">
+<main>
 
-  {# Eyebrow — small mono operator-note line. #}
-  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#8b94a8] mb-4">
-    {{ t(_lang, 'inspect.eyebrow') }}
-  </div>
+  {# ───────────────────────── HERO ───────────────────────────────────── #}
+  <section style="border-bottom:1px solid #202a44;">
+    <div class="mx-auto"
+         style="max-width:820px;padding:clamp(36px,5vw,64px) clamp(16px,4vw,40px) clamp(28px,3vw,36px);">
 
-  {# HEADING. Arrows rule: `inspect.heading` is PLAIN TEXT; the styled `>` is
-     rendered here by the template (the consumer), never baked into the value. #}
-  <h1 class="font-mono font-bold text-[#e7ecf5] tracking-[-0.02em] leading-[1.15] flex items-baseline gap-2"
-      style="font-size: clamp(1.6rem, 1.25rem + 1.6vw, 2.35rem);">
-    <span class="text-[#65def0]" aria-hidden="true">&gt;</span>
-    {{ t(_lang, 'inspect.heading') }}
-  </h1>
+      {# Eyebrow — small mono operator-note line. #}
+      <div class="font-mono"
+           style="font-size:11px;font-weight:600;letter-spacing:0.16em;color:#65def0;margin-bottom:14px;">
+        {{ t(_lang, 'inspect.eyebrow') }}
+      </div>
 
-  <p class="mt-5 sm:mt-6 font-sans text-[16px] sm:text-[18px] leading-[1.6] text-[#e7ecf5] max-w-[62ch]">
-    {{ t(_lang, 'inspect.lead') }}
-  </p>
+      {# HEADING. Arrows rule: `inspect.heading` is PLAIN TEXT; the styled `>`
+         is rendered here by the template, never baked into the value. #}
+      <h1 class="font-mono"
+          style="font-weight:800;font-size:clamp(1.9rem,1.3rem + 2.6vw,3.1rem);letter-spacing:-0.04em;line-height:1.02;color:#f3f5fa;margin:0 0 18px;text-wrap:balance;">
+        <span aria-hidden="true" style="color:#65def0;">&gt;</span>&nbsp;{{ t(_lang, 'inspect.heading') }}
+      </h1>
+
+      <p class="font-sans"
+         style="font-size:clamp(16px,1.1vw,18px);line-height:1.6;color:#aab2c4;max-width:62ch;margin:0;text-wrap:pretty;">
+        {{ t(_lang, 'inspect.lead') }}
+      </p>
+    </div>
+  </section>
 
   {# ───────────────────────── INSPECTOR ISLAND ────────────────────────
      LinkInspector mounts here. The island captures its own inner HTML
      (none — it renders entirely client-side), so there is no SSR fallback
      markup to preserve; the no-JS surface is the separate <noscript>
-     checklist below, which is always useful on its own.
+     checklist below. The canvas frames the input in a canvas-soft panel
+     with a browser-only note — we keep that framing around the island.
      ──────────────────────────────────────────────────────────────────── #}
-  {% set _inspector_props = {"lang": _lang} %}
-  <section class="mt-9 sm:mt-11 border border-[#202a44] bg-[#0a0d16]/50 rounded-[6px] p-4 sm:p-6"
+  <section class="mx-auto"
+           style="max-width:820px;padding:clamp(28px,4vw,44px) clamp(16px,4vw,40px) clamp(20px,3vw,28px);"
            aria-labelledby="inspect-tool-heading">
     <h2 id="inspect-tool-heading" class="sr-only">{{ t(_lang, 'inspect.heading') }}</h2>
-    <div data-component="LinkInspector" data-props='{{ _inspector_props | tojson | forceescape }}'></div>
+
+    {% set _inspector_props = {"lang": _lang} %}
+    <div style="background:#121828;border:1px solid #202a44;border-radius:6px;padding:clamp(18px,3vw,26px);">
+      <div data-component="LinkInspector" data-props='{{ _inspector_props | tojson | forceescape }}'></div>
+
+      {# Browser-only reassurance — sits under the tool, mirrors the canvas note. #}
+      <div class="flex items-center"
+           style="gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #202a44;">
+        <i class="ph ph-lock-key" style="font-size:18px;color:#3a8b9a;flex:none;" aria-hidden="true"></i>
+        <p class="font-sans"
+           style="font-size:13px;line-height:1.5;color:#8b94a8;margin:0;">
+          {{ t(_lang, 'inspectpage.browser_note') }}
+        </p>
+      </div>
+    </div>
   </section>
 
   {# ───────────────────────── NO-JS CHECKLIST ─────────────────────────
@@ -50,86 +80,118 @@
      JavaScript off — the real fallback for the live inspector.
      ──────────────────────────────────────────────────────────────────── #}
   <noscript>
-    <section class="mt-9 sm:mt-11 border border-[#f4b965]/40 bg-[#f4b965]/[0.06] rounded-[6px] p-4 sm:p-6"
+    <section class="mx-auto"
+             style="max-width:820px;padding:0 clamp(16px,4vw,40px) clamp(12px,2vw,20px);"
              aria-labelledby="inspect-noscript-heading">
-      <h2 id="inspect-noscript-heading"
-          class="font-mono text-[12px] uppercase tracking-[0.18em] text-[#f4b965] mb-3">
-        {{ t(_lang, 'inspect.noscript_heading') }}
-      </h2>
-      <p class="font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[64ch] mb-4">
-        {{ t(_lang, 'inspect.noscript_intro') }}
-      </p>
-      <ol class="space-y-2.5 list-none">
-        {% for i in range(1, 7) %}
-        <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px] pt-0.5">{{ i }}.</span>
-          <span>{{ t(_lang, 'inspect.noscript_' ~ i) }}</span>
-        </li>
-        {% endfor %}
-      </ol>
+      <div style="border:1px solid rgba(244,185,101,0.4);background:#0a0d16;border-radius:6px;padding:clamp(16px,3vw,24px);">
+        <h2 id="inspect-noscript-heading" class="font-mono"
+            style="font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:#f4b965;margin:0 0 12px;">
+          {{ t(_lang, 'inspect.noscript_heading') }}
+        </h2>
+        <p class="font-sans"
+           style="font-size:14px;line-height:1.6;color:#aab2c4;max-width:64ch;margin:0 0 16px;">
+          {{ t(_lang, 'inspect.noscript_intro') }}
+        </p>
+        <ol class="list-none" style="margin:0;padding:0;display:flex;flex-direction:column;gap:10px;">
+          {% for i in range(1, 7) %}
+          <li class="flex font-sans" style="gap:10px;font-size:14px;line-height:1.55;color:#aab2c4;">
+            <span class="shrink-0 font-mono tabular-nums" style="color:#f4b965;font-size:13px;padding-top:2px;">{{ i }}.</span>
+            <span>{{ t(_lang, 'inspect.noscript_' ~ i) }}</span>
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
     </section>
   </noscript>
 
-  {# ───────────────────────── HOW TO USE ─────────────────────────────── #}
-  <section class="mt-12 sm:mt-14" aria-labelledby="inspect-how-heading">
-    <h2 id="inspect-how-heading"
-        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-4">
+  {# ───────────────────────── HOW TO USE + GUIDE CTA ─────────────────── #}
+  <section class="mx-auto"
+           style="max-width:820px;padding:clamp(24px,3vw,40px) clamp(16px,4vw,40px) clamp(56px,8vw,96px);"
+           aria-labelledby="inspect-how-heading">
+    <h2 id="inspect-how-heading" class="font-mono"
+        style="font-weight:700;font-size:clamp(18px,2vw,22px);letter-spacing:-0.02em;text-transform:uppercase;color:#65def0;margin:0 0 22px;">
       {{ t(_lang, 'inspect.how_heading') }}
     </h2>
-    <ol class="space-y-3 list-none">
+
+    <ol class="list-none" style="margin:0 0 32px;padding:0;display:flex;flex-direction:column;gap:2px;">
       {% for i in range(1, 4) %}
-      <li class="flex gap-3 font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch]">
-        <span class="shrink-0 font-mono text-[#65def0] tabular-nums text-[14px] pt-0.5">{{ i }}.</span>
-        <span>{{ t(_lang, 'inspect.how_' ~ i) }}</span>
+      <li class="grid"
+          style="grid-template-columns:auto 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #202a44;">
+        <span class="font-mono tabular-nums" style="font-size:13px;font-weight:700;color:#65def0;">{{ i }}.</span>
+        <p class="font-sans"
+           style="font-size:16px;line-height:1.6;color:#aab2c4;margin:0;text-wrap:pretty;">
+          {{ t(_lang, 'inspect.how_' ~ i) }}
+        </p>
       </li>
       {% endfor %}
     </ol>
+
+    {# PRIVACY — what happens to the link (full plain-language note). #}
+    <div style="margin-bottom:32px;">
+      <h3 class="font-mono"
+          style="font-weight:700;font-size:clamp(16px,2vw,18px);letter-spacing:-0.01em;text-transform:uppercase;color:#65def0;margin:0 0 12px;">
+        {{ t(_lang, 'inspect.privacy_heading') }}
+      </h3>
+      <p class="font-sans"
+         style="font-size:15px;line-height:1.6;color:#aab2c4;max-width:64ch;margin:0;">
+        {{ t(_lang, 'inspect.privacy_body') }}
+      </p>
+    </div>
+
+    {# WORKED EXAMPLE — dissect one real-shaped lookalike address. #}
+    <div style="margin-bottom:36px;">
+      <h3 class="font-mono"
+          style="font-weight:700;font-size:clamp(16px,2vw,18px);letter-spacing:-0.01em;text-transform:uppercase;color:#65def0;margin:0 0 12px;">
+        {{ t(_lang, 'inspect.example_heading') }}
+      </h3>
+      <p class="font-sans"
+         style="font-size:15px;line-height:1.6;color:#aab2c4;max-width:64ch;margin:0 0 16px;">
+        {{ t(_lang, 'inspect.example_intro') }}
+      </p>
+
+      <figure style="margin:0;border:1px solid rgba(231,102,112,0.4);background:#0a0d16;border-radius:4px;padding:16px;">
+        <figcaption class="font-mono"
+                    style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:#e76670;margin-bottom:10px;">
+          {{ t(_lang, 'inspect.example_flags_intro') }}
+        </figcaption>
+        <code class="font-mono break-all"
+              style="display:block;font-size:14px;line-height:1.6;color:#e7ecf5;">
+          {{ t(_lang, 'inspect.example_url') }}
+        </code>
+      </figure>
+
+      <ul class="list-none" style="margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;">
+        {% for i in range(1, 4) %}
+        <li class="flex font-sans" style="gap:10px;font-size:14px;line-height:1.55;color:#aab2c4;max-width:64ch;">
+          <span class="shrink-0" aria-hidden="true" style="color:#e76670;">&#9656;</span>
+          <span>{{ t(_lang, 'inspect.example_flag_' ~ i) }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {# GUIDE CTA — most bad links arrive by SMS → phishing-SMS guide. #}
+    <div class="flex flex-wrap items-center"
+         style="gap:18px;background:#1a2236;border:1px solid #3a8b9a;border-radius:6px;padding:clamp(20px,3vw,28px);">
+      <i class="ph ph-chat-dots" style="font-size:34px;color:#e76670;flex:none;" aria-hidden="true"></i>
+      <div style="flex:1;min-width:200px;">
+        <h3 class="font-sans"
+            style="font-weight:600;font-size:18px;color:#f3f5fa;margin:0 0 6px;text-wrap:balance;">
+          {{ t(_lang, 'inspectpage.sms_cta_heading') }}
+        </h3>
+        <p class="font-sans"
+           style="font-size:15px;line-height:1.6;color:#aab2c4;margin:0;">
+          {{ t(_lang, 'inspectpage.sms_cta_body') }}
+        </p>
+      </div>
+      <a href="/{{ _lang }}/guide/sms-and-phone-scams"
+         class="font-mono"
+         style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0b0f1a;background:#65def0;border:none;border-radius:4px;padding:12px 20px;white-space:nowrap;text-decoration:none;">
+        {{ t(_lang, 'inspectpage.sms_cta_button') }}
+      </a>
+    </div>
   </section>
 
-  {# ───────────────────────── PRIVACY ────────────────────────────────── #}
-  <section class="mt-10 sm:mt-12" aria-labelledby="inspect-privacy-heading">
-    <h2 id="inspect-privacy-heading"
-        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-3">
-      {{ t(_lang, 'inspect.privacy_heading') }}
-    </h2>
-    <p class="font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch]">
-      {{ t(_lang, 'inspect.privacy_body') }}
-    </p>
-  </section>
-
-  {# ───────────────────────── WORKED EXAMPLE ─────────────────────────
-     Authority by specificity: dissect one real-shaped lookalike address
-     per language and exactly where it goes wrong. The address keeps its
-     own terminal-style framing; the analysis is a plain list.
-     ──────────────────────────────────────────────────────────────────── #}
-  <section class="mt-10 sm:mt-12" aria-labelledby="inspect-example-heading">
-    <h2 id="inspect-example-heading"
-        class="font-mono font-bold uppercase text-[#65def0] text-[16px] sm:text-[18px] tracking-[-0.01em] mb-3">
-      {{ t(_lang, 'inspect.example_heading') }}
-    </h2>
-    <p class="font-sans text-[15px] leading-[1.6] text-[#cdd4e3] max-w-[64ch] mb-4">
-      {{ t(_lang, 'inspect.example_intro') }}
-    </p>
-
-    <figure class="border border-[#e76670]/40 bg-[#121828] rounded-[4px] px-4 py-4">
-      <figcaption class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#e76670] mb-2">
-        {{ t(_lang, 'inspect.example_flags_intro') }}
-      </figcaption>
-      <code class="block font-mono text-[14px] leading-[1.6] text-[#e7ecf5] break-all">
-        {{ t(_lang, 'inspect.example_url') }}
-      </code>
-    </figure>
-
-    <ul class="mt-5 space-y-2 list-none">
-      {% for i in range(1, 4) %}
-      <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
-        <span class="shrink-0 text-[#e76670]" aria-hidden="true">&#9656;</span>
-        <span>{{ t(_lang, 'inspect.example_flag_' ~ i) }}</span>
-      </li>
-      {% endfor %}
-    </ul>
-  </section>
-
-</article>
+</main>
 
 {% endblock %}

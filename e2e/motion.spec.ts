@@ -1,30 +1,25 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Reduced-motion behavior. Under `prefers-reduced-motion: reduce`, the course
- * Mission Briefing terminal must NOT type itself out line-by-line — it renders
- * its full final text immediately (MissionBriefingTerminal sets visibleLines to
- * lines.length when reduce is set). We assert the LAST briefing line
- * ("STATUS: READY") is present immediately, without waiting for an animation.
+ * Reduced-motion behavior. The editorial redesign made the course hero static
+ * SSR (the old MissionBriefingTerminal line-by-line typewriter was replaced by a
+ * static `syllabus.json` terminal). So under `prefers-reduced-motion: reduce` the
+ * whole transmission is present at once with no animation gating: we assert the
+ * static terminal + the CourseProgress island are there immediately. globals.css
+ * carries the broader reduced-motion contract for the remaining CSS animations.
  */
 
-test('course briefing renders its full text immediately under reduced motion', async ({ page }) => {
+test('course renders its full content immediately under reduced motion', async ({ page }) => {
   // Emulate the media feature explicitly (more reliable than the context-level
-  // `reducedMotion` option, which devices['Desktop Chrome'] can reset). This
-  // makes window.matchMedia('(prefers-reduced-motion: reduce)') match, which is
-  // what MissionBriefingTerminal reads to skip the line-by-line typewriter.
+  // `reducedMotion` option, which devices['Desktop Chrome'] can reset).
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/en/course', { waitUntil: 'domcontentloaded' });
 
-  const briefing = page.locator('[data-component="MissionBriefingTerminal"]');
-  await expect(briefing).toBeAttached();
+  // The static syllabus terminal filename is rendered server-side — visible at
+  // once, never typed out.
+  await expect(page.getByText('syllabus.json')).toBeVisible({ timeout: 2_000 });
 
-  // The final briefing line is shown right away (no typewriter reveal). We give
-  // hydration a brief moment but assert WELL under the ~1.6s the typewriter
-  // would otherwise take to reach the last line — proving it was not animated.
-  await expect(briefing.getByText('STATUS: READY')).toBeVisible({ timeout: 2_000 });
-
-  // And the access line (first line) is shown too — the whole transmission is
-  // present at once rather than progressively.
-  await expect(briefing.getByText(/ACCESS GRANTED/)).toBeVisible({ timeout: 2_000 });
+  // The interactive module list (CourseProgress) is present — the page is whole,
+  // not waiting on any reveal animation.
+  await expect(page.locator('[data-component="CourseProgress"]')).toBeAttached();
 });

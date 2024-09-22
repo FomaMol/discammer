@@ -20,101 +20,109 @@
 
 {% set _lang = lang %}
 
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+<div class="max-w-[820px] mx-auto px-4 sm:px-6 lg:px-10">
 
   {# ─────────────────────────────────────────────────────────────────────
-     HEADING
-     Arrows rule: the locale string `search.heading` is PLAIN TEXT; the single
-     styled `>` is rendered here by the template (the consumer), never baked
-     into the locale value.
+     HERO — canvas "> SEARCH" eyebrow + "Find it fast" display headline.
+     Arrows rule: the decorative `>` is a separate aria-hidden span; the
+     locale strings (searchpage.eyebrow / searchpage.headline) are PLAIN TEXT.
      ───────────────────────────────────────────────────────────────────── #}
-  <h1 class="font-mono text-[#f3f5fa] text-2xl sm:text-3xl font-bold flex items-baseline gap-2"
-      style="letter-spacing: -0.02em;">
-    <span class="text-[#65def0]" aria-hidden="true">&gt;</span>
-    {{ t(_lang, 'search.heading') }}
-  </h1>
-  <p class="mt-2 font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.14em] text-[#8b94a8]">
-    {{ t(_lang, 'search.subheading') }}
-  </p>
+  <section class="border-b border-[#202a44] pt-9 sm:pt-12 lg:pt-16 pb-6 sm:pb-8">
 
-  {# ─────────────────────────────────────────────────────────────────────
-     SEARCH CONSOLE ISLAND
-     The SearchConsole island enhances everything inside this div. Its inner
-     HTML (the real <form> + the SSR result list) is captured by the islands
-     hydrator (main.tsx) and re-rendered as the no-JS / fallback markup, so the
-     page works fully without JavaScript: a GET form to /{lang}/search and the
-     server-rendered result links.
-     ───────────────────────────────────────────────────────────────────── #}
-  {% set _search_props = {
-    "lang": _lang,
-    "query": q,
-    "apiPath": "/api/search",
-    "resultsLabel": t(_lang, "search.results_label"),
-    "countLabel": t(_lang, "search.result_count"),
-    "noResultsLabel": t(_lang, "search.no_results"),
-    "placeholder": t(_lang, "search.placeholder"),
-    "submitLabel": t(_lang, "search.submit"),
-    "inputLabel": t(_lang, "search.input_label"),
-    "postBadge": t(_lang, "search.badge_post"),
-    "guideBadge": t(_lang, "search.badge_guide")
-  } %}
-  <div class="mt-8" data-component="SearchConsole" data-props='{{ _search_props | tojson | forceescape }}'>
+    <div class="font-mono text-[11px] font-semibold tracking-[0.16em] text-[#65def0] mb-3.5 flex items-center gap-2">
+      <span class="text-[#3a8b9a]" aria-hidden="true">&gt;</span>
+      {{ t(_lang, 'searchpage.eyebrow') }}
+    </div>
 
-    {# SSR form — works without JS (GET → /{lang}/search?q=...). #}
-    <form method="get" action="/{{ _lang }}/search" role="search"
-          class="flex items-stretch gap-2">
-      <label for="dcm-search-input" class="sr-only">{{ t(_lang, 'search.input_label') }}</label>
-      <input id="dcm-search-input" type="search" name="q" value="{{ q }}"
-             autocomplete="off" spellcheck="false"
-             placeholder="{{ t(_lang, 'search.placeholder') }}"
-             class="flex-1 min-w-0 bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-2.5 font-mono text-[14px] text-[#e7ecf5] placeholder:text-[#8b94a8]">
-      <button type="submit"
-              class="shrink-0 px-4 sm:px-5 py-2.5 font-mono uppercase text-[12px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[4px]">
-        {{ t(_lang, 'search.submit') }}
-      </button>
-    </form>
+    <h1 class="font-mono font-extrabold uppercase text-[#f3f5fa] text-[1.9rem] sm:text-4xl lg:text-5xl leading-[1.02] mb-0"
+        style="letter-spacing: -0.04em; text-wrap: balance;">
+      {{ t(_lang, 'searchpage.headline') }}
+    </h1>
 
-    {# SSR results / empty-state. #}
-    {% if q %}
-      {% if results %}
-        <p class="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
-          {{ t(_lang, 'search.result_count', count=result_count) }}
-        </p>
-        <ul class="space-y-3" role="list">
-          {% for r in results %}
-          {% set _href = ('/' ~ _lang ~ '/journal/' ~ r.slug) if r.kind == 'post' else ('/' ~ _lang ~ '/guide/' ~ r.slug) %}
-          <li>
-            <a href="{{ _href }}"
-               class="block border border-[#202a44] bg-[#121828] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors rounded-[4px] px-4 py-3.5">
-              <div class="flex items-center gap-2 mb-1.5">
-                {% if r.kind == 'guide' %}
-                <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#e76670]/10 text-[#e76670] border border-[#e76670]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_guide') }}</span>
-                {% else %}
-                <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_post') }}</span>
-                {% endif %}
-              </div>
-              <h2 class="font-mono font-bold text-[#e7ecf5] text-[15px]" style="letter-spacing: -0.01em;">{{ r.title }}</h2>
-              {# r.snippet_html is Markup() — already HTML-escaped then marked
-                 (control-char markers swapped for <mark> AFTER escaping). It is
-                 the ONLY field rendered |safe on this page. #}
-              <p class="mt-1 font-sans text-[13px] leading-[1.55] text-[#aab2c4] dcm-snippet">{{ r.snippet_html }}</p>
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
+    {# ───────────────────────────────────────────────────────────────────
+       SEARCH CONSOLE ISLAND
+       The island provides the REAL input + results (debounced /api/search,
+       arrow-key nav, aria-live count). Its inner HTML (the SSR <form> + the
+       server-rendered result list) is captured by the islands hydrator
+       (main.tsx) and re-rendered as the no-JS fallback, so the page works
+       fully without JavaScript: a GET form to /{lang}/search and the
+       server-rendered result links. Mount + data-props KEPT verbatim.
+       ─────────────────────────────────────────────────────────────────── #}
+    {% set _search_props = {
+      "lang": _lang,
+      "query": q,
+      "apiPath": "/api/search",
+      "resultsLabel": t(_lang, "search.results_label"),
+      "countLabel": t(_lang, "search.result_count"),
+      "noResultsLabel": t(_lang, "search.no_results"),
+      "placeholder": t(_lang, "search.placeholder"),
+      "submitLabel": t(_lang, "search.submit"),
+      "inputLabel": t(_lang, "search.input_label"),
+      "postBadge": t(_lang, "search.badge_post"),
+      "guideBadge": t(_lang, "search.badge_guide")
+    } %}
+    <div class="mt-6" data-component="SearchConsole" data-props='{{ _search_props | tojson | forceescape }}'>
+
+      {# SSR form — works without JS (GET → /{lang}/search?q=...). #}
+      <form method="get" action="/{{ _lang }}/search" role="search"
+            class="flex items-stretch gap-2">
+        <label for="dcm-search-input" class="sr-only">{{ t(_lang, 'search.input_label') }}</label>
+        <input id="dcm-search-input" type="search" name="q" value="{{ q }}"
+               autocomplete="off" spellcheck="false"
+               placeholder="{{ t(_lang, 'search.placeholder') }}"
+               class="flex-1 min-w-0 bg-[#0a0d16] border border-[#2b3759] focus:border-[#3a8b9a] focus:outline-none rounded-[6px] px-3 py-3 font-mono text-[14px] sm:text-[16px] text-[#e7ecf5] placeholder:text-[#8b94a8]">
+        <button type="submit"
+                class="shrink-0 px-4 sm:px-5 py-3 font-mono uppercase text-[12px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[6px]">
+          {{ t(_lang, 'search.submit') }}
+        </button>
+      </form>
+
+      {# SSR results / empty-state. #}
+      {% if q %}
+        {% if results %}
+          <p class="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+            {{ t(_lang, 'search.result_count', count=result_count) }}
+          </p>
+          <ul class="space-y-3" role="list">
+            {% for r in results %}
+            {% set _href = ('/' ~ _lang ~ '/journal/' ~ r.slug) if r.kind == 'post' else ('/' ~ _lang ~ '/guide/' ~ r.slug) %}
+            <li>
+              <a href="{{ _href }}"
+                 class="block border border-[#202a44] bg-[#121828] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors rounded-[4px] px-4 py-3.5">
+                <div class="flex items-center gap-2 mb-1.5">
+                  {% if r.kind == 'guide' %}
+                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#0a0d16] text-[#e76670] border border-[#e76670]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_guide') }}</span>
+                  {% else %}
+                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#0a0d16] text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_post') }}</span>
+                  {% endif %}
+                </div>
+                <h2 class="font-mono font-bold text-[#e7ecf5] text-[15px]" style="letter-spacing: -0.01em;">{{ r.title }}</h2>
+                {# r.snippet_html is Markup() — already HTML-escaped then marked
+                   (control-char markers swapped for <mark> AFTER escaping). It is
+                   the ONLY field rendered |safe on this page. #}
+                <p class="mt-1 font-sans text-[13px] leading-[1.55] text-[#aab2c4] dcm-snippet">{{ r.snippet_html }}</p>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          {# Empty result — canvas "Nothing matches that yet." state. #}
+          <div class="text-center py-12 px-5">
+            <p class="font-sans text-[16px] text-[#aab2c4] mt-3.5 mb-1">{{ t(_lang, 'searchpage.empty_title') }}</p>
+            <p class="font-mono text-[12px] text-[#8b94a8] m-0">{{ t(_lang, 'searchpage.empty_hint') }}</p>
+          </div>
+        {% endif %}
       {% else %}
-        <p class="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[#8b94a8]">
-          {{ t(_lang, 'search.no_results') }}
+        {# No query yet — explainer + the same "try a scam type" hint. #}
+        <p class="mt-6 font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[52ch]">
+          {{ t(_lang, 'search.empty_explainer') }}
         </p>
+        <p class="mt-2 font-mono text-[12px] text-[#8b94a8]">{{ t(_lang, 'searchpage.empty_hint') }}</p>
       {% endif %}
-    {% else %}
-      {# Empty-state explainer (no query yet). #}
-      <p class="mt-6 font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[52ch]">
-        {{ t(_lang, 'search.empty_explainer') }}
-      </p>
-    {% endif %}
 
-  </div>
+    </div>
+
+  </section>
 </div>
 
 {% endblock %}

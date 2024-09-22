@@ -38,68 +38,87 @@
 
 {% block content %}
 
-{# ---------- Mission Briefing Hero ---------- #}
-<section class="relative border-b border-[#202a44] bg-[#0a0d16]" aria-label="{{ t(_lang, 'course.title_long') }}">
-  <div class="absolute inset-0 grid-pattern opacity-30 pointer-events-none" aria-hidden="true"></div>
+{# ---------- "Install the pause" hero + syllabus terminal ----------
+   Server-rendered hero matching the redesign canvas. Replaces the old
+   MissionBriefingTerminal island: the hero is now static SSR (real
+   course_totals + real module list), and the interactive logic lives in
+   the CourseProgress island lower down. #}
+<section class="relative overflow-hidden border-b border-[#202a44]" aria-label="{{ t(_lang, 'course.title_long') }}">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"
+       style="background:radial-gradient(80% 120% at 80% 0%,rgba(101,222,240,0.07),transparent 55%);"></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16">
+  <div class="relative mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] gap-8 lg:gap-14 items-center"
+       style="max-width:1120px;">
 
-    {# Visible course title lives inside the client-rendered briefing
-       terminal; AT users still need a page h1. #}
-    <h1 class="sr-only">{{ t(_lang, 'course.title_long') }}</h1>
+    {# LEFT — eyebrow, headline, lead, CTA #}
+    <div>
+      <div class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0] mb-4">
+        <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.eyebrow') }}
+      </div>
 
-    {# Eyebrow line — current op-stamp #}
-    <div class="flex items-center flex-wrap gap-x-4 gap-y-1 mb-5">
-      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#8b94a8]">
-        {{ t(_lang, 'course.hero_eyebrow_op_stamp') }}
-      </span>
-      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3a8b9a] tabular-nums">
-        {{ "%02d"|format(course_totals.modules) }}.{{ "%02d"|format(course_totals.lessons) }}.001
-      </span>
+      <h1 class="font-mono font-extrabold uppercase text-[#f3f5fa] tracking-[-0.04em] leading-[0.98] text-[clamp(2.2rem,1.4rem+3.2vw,3.75rem)] m-0 mb-[18px]" style="text-wrap:balance;">
+        {{ t(_lang, 'coursepage.hero_title_line1') }}<br>{{ t(_lang, 'coursepage.hero_title_line2') }}
+      </h1>
+
+      <p class="font-sans text-[18px] leading-[1.6] text-[#aab2c4] max-w-[48ch] m-0 mb-[26px]" style="text-wrap:pretty;">
+        {{ t(_lang, 'coursepage.hero_lead', modules=course_totals.modules, lessons=course_totals.lessons) }}
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        {% if modules %}
+        <a href="/{{ _lang }}/course/{{ modules[0].slug }}"
+           class="inline-flex items-center gap-2 font-mono text-[12px] font-bold uppercase tracking-[0.1em] text-[#0b0f1a] bg-[#65def0] hover:bg-[#9eecf6] rounded-[4px] px-6 py-3.5 transition focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]">
+          <span aria-hidden="true">▸</span> {{ t(_lang, 'coursepage.hero_cta_start') }}
+        </a>
+        {% endif %}
+        <a href="#modules"
+           class="inline-flex items-center gap-2 font-mono text-[12px] font-bold uppercase tracking-[0.1em] text-[#e7ecf5] border border-[#2b3759] hover:border-[#3a8b9a] rounded-[4px] px-6 py-3.5 transition focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]">
+          <span aria-hidden="true">▸</span> {{ t(_lang, 'coursepage.hero_cta_modules') }}
+        </a>
+      </div>
     </div>
 
-    {# Mission briefing terminal — React island, full-width hero #}
-    <div data-component="MissionBriefingTerminal" data-props='{{ {
-      "locale": _lang,
-      "courseTitle": t(_lang, "course.title_long"),
-      "moduleCount": course_totals.modules,
-      "lessonCount": course_totals.lessons,
-      "runtime": course_totals.runtime,
-      "firstModuleSlug": modules[0].slug if modules else None
-    } | tojson | forceescape }}'>
-      {# SEO fallback — server-rendered version of the briefing #}
-      <noscript>
-        <div class="bg-[#121828] border border-[#202a44] rounded-[4px] overflow-hidden">
-          <div class="px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60 font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4]">
-            dcm-ops@academy ~ % ./brief.sh
-          </div>
-          <div class="px-4 sm:px-6 py-6 font-mono text-[12px] sm:text-[13px] leading-[1.7]">
-            <div class="text-[#65def0]">&gt; {{ t(_lang, 'course.noscript_access') }}</div>
-            <div class="text-[#8b94a8]">&gt; {{ t(_lang, 'course.noscript_transmission') }}</div>
-            <div class="text-[#65def0] mt-3 font-bold">&gt; {{ t(_lang, 'course.title_long') | upper }}</div>
-            <div class="text-[#cdd4e3] mt-3">▸ {{ course_totals.modules }} {{ t(_lang, 'course.briefing_modules') }} · {{ course_totals.lessons }} {{ t(_lang, 'course.briefing_lessons') }} · {{ t(_lang, 'course.briefing_estimated') }} {{ course_totals.runtime | upper }}</div>
-            <div class="text-[#cdd4e3]">▸ {{ t(_lang, 'course.noscript_certificate') }}</div>
-            <div class="text-[#7ce896]">▸ {{ t(_lang, 'course.briefing_status') }}: {{ t(_lang, 'course.briefing_status_ready') }}</div>
-          </div>
-          <div class="px-4 sm:px-6 py-5 border-t border-[#202a44] flex flex-wrap gap-3">
-            {% if modules %}
-            <a href="/{{ _lang }}/course/{{ modules[0].slug }}" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] rounded-[4px] font-bold">▸ {{ t(_lang, 'course.hero_cta_start') }}</a>
+    {# RIGHT — syllabus.json terminal listing the real modules #}
+    <div class="bg-[#121828] border border-[#202a44] rounded-[6px] overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60">
+        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4]">
+          dcm-ops@academy ~ % cat syllabus.json
+        </span>
+        <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8b94a8] tabular-nums">
+          {{ "%02d"|format(course_totals.modules) }} · {{ "%02d"|format(course_totals.lessons) }} · {{ course_totals.runtime }}
+        </span>
+      </div>
+      <div class="px-4 sm:px-5 py-5 bg-[#0a0d16] font-mono text-[12px] sm:text-[13px] leading-[1.85]">
+        <div class="text-[#7ce896]">&gt; {{ t(_lang, 'coursepage.terminal_modules', count=course_totals.modules) }}</div>
+        <div class="text-[#65def0] mb-3">&gt; {{ t(_lang, 'coursepage.terminal_lessons', count=course_totals.lessons) }}</div>
+        <ol class="space-y-1.5">
+          {% for module in modules %}
+          <li class="flex items-baseline justify-between gap-3">
+            <span class="text-[#aab2c4] truncate">
+              <span class="text-[#3a8b9a]" aria-hidden="true">{{ "%02d"|format(module.order) }}</span>
+              <span class="ml-2 text-[#e7ecf5]">{{ module.title }}</span>
+            </span>
+            {% if module.is_locked %}
+            <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">{{ t(_lang, 'coursepage.terminal_status_locked') }}</span>
+            {% else %}
+            <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">{{ t(_lang, 'coursepage.terminal_status_ready') }}</span>
             {% endif %}
-            <a href="#modules" class="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[#2b3759] text-[#e7ecf5] rounded-[4px]">▸ {{ t(_lang, 'course.hero_cta_modules') }}</a>
-          </div>
-        </div>
-      </noscript>
+          </li>
+          {% endfor %}
+        </ol>
+        <div class="mt-3 text-[#8b94a8]">&gt; {{ t(_lang, 'coursepage.terminal_certificate') }}</div>
+      </div>
     </div>
   </div>
 </section>
 
-{# ---------- Mission list ---------- #}
-<section id="modules" class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+{# ---------- Mission list (CourseProgress island) ---------- #}
+<section id="modules" class="mx-auto px-4 sm:px-6 py-10 sm:py-14" style="max-width:1120px;">
   <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] mb-1">
     {{ t(_lang, 'course.section_missions_eyebrow') }}
   </div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-2">
-    {{ t(_lang, 'course.section_missions_title') }}
+    <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_missions_title') }}
   </h2>
   <p class="font-sans text-[15px] text-[#aab2c4] leading-relaxed max-w-[62ch] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_missions_lead') }}
@@ -140,14 +159,12 @@
 </section>
 
 {# ---------- How it works ---------- #}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14" aria-label="{{ t(_lang, 'course.section_how_title') }}">
+<section class="mx-auto px-4 sm:px-6 py-10 sm:py-14" style="max-width:1120px;" aria-label="{{ t(_lang, 'course.section_how_title') }}">
   <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-1">{{ t(_lang, 'course.section_how') }}</div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
-    {{ t(_lang, 'course.section_how_title') }}
+    <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_how_title') }}
   </h2>
 
-  {# Numbered list — hairline dividers, mono kicker + sentence-case body.
-     Replaces the previous 3-equal-card grid per DESIGN.md bans. #}
   <ol class="border-y border-[#202a44] divide-y divide-[#202a44]" role="list">
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
       <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#8b94a8]">01</div>
@@ -182,10 +199,10 @@
 </section>
 
 {# ---------- FAQ ---------- #}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14" aria-label="{{ t(_lang, 'course.section_faq_title') }}">
+<section class="mx-auto px-4 sm:px-6 py-10 sm:py-14" style="max-width:1120px;" aria-label="{{ t(_lang, 'course.section_faq_title') }}">
   <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
   <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
-    {{ t(_lang, 'course.section_faq_title') }}
+    <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_faq_title') }}
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">

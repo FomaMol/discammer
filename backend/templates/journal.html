@@ -60,27 +60,43 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
   {# ─────────────────────────────────────────────────────────────────────
-     1. BROADSHEET MASTHEAD
-     Wordmark + a single dateline strip. No fabricated VOL/NO/EDITION counters,
-     no "PUBLISHED SINCE 2022" kicker — those numbers had no real provenance.
+     1. MASTHEAD — "The desk log" (canvas DiScammer-Redesign.dc.html L743-745)
+     Eyebrow + headline + lede. The styled '>' is a separate aria-hidden span,
+     never inside the locale string (arrows rule). The dateline strip below is
+     real now() data — no fabricated VOL/NO/EDITION counters. The island owns
+     the filter strip, so it is NOT duplicated here.
      ───────────────────────────────────────────────────────────────────── #}
   <header class="mb-8 sm:mb-10" aria-label="{{ t(_lang, 'a11y.masthead') }}">
     <!-- 1px top rule, dark cyan tint -->
     <div class="h-px w-full" style="background-color: #2b3759;" aria-hidden="true"></div>
 
-    <!-- Wordmark -->
-    <div class="pt-5 sm:pt-7 pb-3 sm:pb-5">
-      <h1
-        class="font-mono text-[#f3f5fa] break-words"
-        style="font-weight: 800; font-size: clamp(2.5rem, 1.8rem + 3.6vw, 4rem); letter-spacing: -0.04em; line-height: 0.94; text-transform: uppercase;"
-      >
-        DISCAMMER<span class="text-[#65def0]"> TIMES</span>
-      </h1>
+    <!-- Eyebrow: > JOURNAL -->
+    <div
+      class="pt-5 sm:pt-7 mb-3 sm:mb-4 font-mono text-[11px] text-[#65def0] uppercase"
+      style="font-weight: 600; letter-spacing: 0.16em;"
+    >
+      <span class="text-[#3a8b9a]" aria-hidden="true">&gt;</span> {{ t(_lang, 'journalpage.eyebrow') }}
     </div>
 
-    <!-- Dateline strip: single line, mono-meta, tabular figures -->
+    <!-- Masthead headline -->
+    <h1
+      class="font-mono text-[#f3f5fa] break-words"
+      style="font-weight: 800; font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem); letter-spacing: -0.04em; line-height: 1; text-transform: uppercase; text-wrap: balance;"
+    >
+      {{ t(_lang, 'journalpage.masthead') }}
+    </h1>
+
+    <!-- Lede -->
+    <p
+      class="mt-4 text-[17px] text-[#aab2c4] max-w-[54ch]"
+      style="line-height: 1.6; text-wrap: pretty;"
+    >
+      {{ t(_lang, 'journalpage.lede') }}
+    </p>
+
+    <!-- Dateline strip: single line, mono-meta, tabular figures (real now()) -->
     <div
-      class="flex items-center pt-3 pb-2 border-t border-[#202a44] font-mono uppercase text-[10px] sm:text-[11px] text-[#e7ecf5] tabular-nums"
+      class="flex items-center mt-6 pt-3 pb-2 border-t border-[#202a44] font-mono uppercase text-[10px] sm:text-[11px] text-[#8b94a8] tabular-nums"
       style="letter-spacing: 0.14em; font-weight: 600;"
       role="group"
       aria-label="{{ t(_lang, 'a11y.dateline') }}"
