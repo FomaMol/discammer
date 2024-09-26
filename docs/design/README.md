@@ -10,8 +10,19 @@ The zip is deleted; everything worth keeping lives here.
 | `deslop-handoff.md` | **The authoritative audit.** P0–P3 slop tells grounded in the live build, hard constraints, verify steps, suggested order. | Source of truth |
 | `claude-code-handoff/` | Operationalizes the audit into a multi-agent plan (LEAD + A1–A6), a skill map, file-scoped P0–P3 tasks, and the CI gate. | Source of truth |
 | `redesign-canvas/` | The Claude Design canvas artifacts — visual targets to react to. `*.dc.html` open in a browser (they pull `support.js`, the canvas runtime). `thumbnail.png` / `check.png` are previews; `audit-shots/` are the screenshots fed into the design session. | Reference only |
-| `deslop-handoff-v2/` *(if present later)* | — | — |
+| **`v2/`** | **The v2 "Field Office" package** (ingested 2026-06-20, second export). The UX-clarity rebuild on the same locked brand. `00-DESIGN-SYSTEM-v2.md` (authoritative DS + UX audit), `DiScammer-v2.dc.html` (reference canvas + `support.js`), `claude-code/` (multi-agent handoff: A0 orchestrator + A1–A6, P0–P3 tasks, CI gate), `reviews/` (senior-designer + university-portfolio crits), `PACKAGE-NOTES.md` (the design-package CLAUDE.md note). | **Next plan** |
 | `_ignored-cadence-ds/` | A generic "Cadence" planner design system that Claude Design auto-attached. **Explicitly out of scope** — see below. | **IGNORED** |
+
+## v1 vs v2
+
+**v1** (`redesign-canvas/` + `claude-code-handoff/` + `deslop-handoff.md`) is **shipped to prod** — the
+editorial-cadence home, the redesigned nav, and all 8 pages. **v2** (`v2/`) is the **next iteration**:
+"turn the brochure you look at into the tool you use" — lead the home with the live message checker,
+add a "Three ways in" (Learn · Check · Practice) clarity band, enforce a two-register type rule
+(JetBrains Mono = data/signal, Geist = everything read), make threat meters always show bars + `LVL n/5`
++ word, retire the A/B home, add breadcrumbs + visible focus, and a reusable "DO THIS TODAY" action
+module. Same locked brand (cyan `#65def0`, JBM + Geist, cool-dark, one accent). The v2 build plan is
+`v2/claude-code/02-tasks.md`.
 
 ## Binding specs (live at repo root, NOT here)
 
