@@ -384,3 +384,8 @@ inspect.noscript_6
 inspect.example_flag_1
 inspect.example_flag_2
 inspect.example_flag_3
+client.checker.lvl_1
+client.checker.lvl_2
+client.checker.lvl_3
+client.checker.lvl_4
+client.checker.lvl_5

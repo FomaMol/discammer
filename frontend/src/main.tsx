@@ -34,6 +34,7 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   VideoPlayer: React.lazy(() => import('./components/VideoPlayer')),
   SearchConsole: React.lazy(() => import('./components/SearchConsole')),
   MessageAnalyzer: React.lazy(() => import('./components/MessageAnalyzer')),
+  MessageChecker: React.lazy(() => import('./components/MessageChecker')),
   KnowledgeCheck: React.lazy(() => import('./components/KnowledgeCheck')),
   LinkInspector: React.lazy(() => import('./components/LinkInspector')),
 };

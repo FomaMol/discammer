@@ -94,7 +94,6 @@
     "hero_aria": "DiScammer: build the scam detector in your own head",
     "hero_cta_course": "Start the course",
     "hero_cta_game": "Play the game",
-    "hero_feed_footer": "last threat guide filed",
     "hero_feed_phish": "SMS \"package held\" link to a fake delivery payment page",
     "hero_feed_safe": "Real banks never ask for a one-time code over the phone",
     "hero_feed_store": "Ad for a store with prices too low to be real and no returns",
@@ -129,7 +128,21 @@
     "threat_db_lvl": "LVL",
     "threat_db_title": "Threat Database",
     "threat_db_updated": "updated",
-    "threat_db_view_all": "VIEW_ALL_THREATS"
+    "threat_db_view_all": "VIEW_ALL_THREATS",
+    "ways_aria": "Three ways to use DiScammer",
+    "ways_check_cta": "Open the checker",
+    "ways_check_line": "Paste a suspicious message and see the tells, in your browser.",
+    "ways_check_tag": "ANALYZER",
+    "ways_check_verb": "Check",
+    "ways_eyebrow": "// THREE_WAYS_IN",
+    "ways_learn_cta": "Take the course",
+    "ways_learn_line": "Six modules on how scams are built, and how to stop them.",
+    "ways_learn_tag": "COURSE",
+    "ways_learn_verb": "Learn",
+    "ways_practice_cta": "Play the game",
+    "ways_practice_line": "Triage real scam scripts against the clock in Antifraud Hero.",
+    "ways_practice_tag": "GAME",
+    "ways_practice_verb": "Practice"
   },
   "journal": {
     "filed_under_label": "// FILED UNDER",
@@ -925,6 +938,22 @@
         "obfuscated_path_label": "Overlong or scrambled path",
         "obfuscated_path_body": "The part after the host is unusually long or packed with encoded characters. That length is often used to bury the real destination or smuggle parameters past a glance."
       }
+    },
+    "checker": {
+      "console_label": "message_checker.local",
+      "input_label": "Paste a message that feels off",
+      "placeholder": "e.g. Your account will be blocked. Confirm the code we just sent to keep it active.",
+      "signals_label": "// FIRST_PASS_SIGNALS",
+      "awaiting": "awaiting input…",
+      "privacy": "runs in your browser · nothing is sent or stored",
+      "inspect_link": "Inspect a link",
+      "clean": "no obvious tells. that is not the same as safe.",
+      "meter_aria": "threat level {level} of 5",
+      "lvl_1": "LOW",
+      "lvl_2": "GUARDED",
+      "lvl_3": "ELEVATED",
+      "lvl_4": "HIGH",
+      "lvl_5": "CRITICAL"
     }
   },
   "check": {

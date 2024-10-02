@@ -1,4 +1,4 @@
-import{r as m,j as g}from"../main-CHZkJE9D.js";import{p as y}from"./useReducedMotion-DkqmxPD5.js";const b=`#version 300 es
+import{r as m,j as g}from"../main-BLjdfXLq.js";import{p as y}from"./useReducedMotion-CvneMpQI.js";const b=`#version 300 es
 in vec2 a_position;
 out vec2 v_uv;
 void main() {
