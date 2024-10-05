@@ -77,7 +77,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
           <span className="w-2 h-2 rounded-full bg-[#2b3759]" aria-hidden="true" />
           <span className="w-2 h-2 rounded-full bg-[#8b94a8]" aria-hidden="true" />
           <span className="w-2 h-2 rounded-full bg-[#8b94a8]" aria-hidden="true" />
-          <span className="ml-auto text-[9.5px] tracking-[0.14em] text-[#6b7588]">
+          <span className="ml-auto text-[9.5px] tracking-[0.14em] text-[#8b94a8]">
             {tr('console_label')}
           </span>
         </div>
@@ -101,7 +101,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
           />
 
           <div className="flex items-center justify-between mt-3 mb-2">
-            <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#6b7588]">
+            <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#8b94a8]">
               {tr('signals_label')}
             </span>
             {result !== null && (
@@ -117,7 +117,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
 
           {/* live results — announced politely */}
           <div aria-live="polite" className="text-[12px] leading-[1.7] min-h-[52px]">
-            {result === null && <span className="text-[#6b7588]">{tr('awaiting')}</span>}
+            {result === null && <span className="text-[#8b94a8]">{tr('awaiting')}</span>}
 
             {result !== null && (
               <>
@@ -192,7 +192,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
 
       {/* privacy line + deeper tool link */}
       <div className="flex items-center justify-between gap-2.5 mt-2">
-        <span className="text-[10px] text-[#6b7588] leading-[1.4]">{tr('privacy')}</span>
+        <span className="text-[10px] text-[#8b94a8] leading-[1.4]">{tr('privacy')}</span>
         <a
           href={`/${lang}/inspect`}
           className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#65def0] hover:text-[#9eecf6] transition-colors whitespace-nowrap"

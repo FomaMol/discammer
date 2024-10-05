@@ -129,7 +129,7 @@
       <a href="/{{ _lang }}/course" class="group block bg-[#0b0f1a] hover:bg-[#1a2236] transition-colors" style="padding:clamp(18px,2.5vw,26px);">
         <div class="flex items-center justify-between mb-2.5">
           <span class="text-[#65def0]" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5A2 2 0 0 1 5 4.5h6v15H5a2 2 0 0 0-2 2v-15Z"/><path d="M21 6.5a2 2 0 0 0-2-2h-6v15h6a2 2 0 0 1 2 2v-15Z"/></svg></span>
-          <span class="font-mono text-[10px] tracking-[0.12em] text-[#6b7588]">{{ t(_lang, 'home.ways_learn_tag') }}</span>
+          <span class="font-mono text-[10px] tracking-[0.12em] text-[#8b94a8]">{{ t(_lang, 'home.ways_learn_tag') }}</span>
         </div>
         <div class="font-mono font-bold text-[15px] tracking-[-0.01em] text-[#f3f5fa]">{{ t(_lang, 'home.ways_learn_verb') }}</div>
         <div class="font-sans text-[14px] leading-[1.5] text-[#aab2c4] mt-2" style="text-wrap:pretty;">{{ t(_lang, 'home.ways_learn_line') }}</div>
@@ -139,7 +139,7 @@
       <a href="/{{ _lang }}/check" class="group block bg-[#0b0f1a] hover:bg-[#1a2236] transition-colors" style="padding:clamp(18px,2.5vw,26px);">
         <div class="flex items-center justify-between mb-2.5">
           <span class="text-[#65def0]" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 7.7-7 9-4-1.3-7-4.4-7-9V6l7-3Z"/><path d="m9 11.8 2 2 4-4"/></svg></span>
-          <span class="font-mono text-[10px] tracking-[0.12em] text-[#6b7588]">{{ t(_lang, 'home.ways_check_tag') }}</span>
+          <span class="font-mono text-[10px] tracking-[0.12em] text-[#8b94a8]">{{ t(_lang, 'home.ways_check_tag') }}</span>
         </div>
         <div class="font-mono font-bold text-[15px] tracking-[-0.01em] text-[#f3f5fa]">{{ t(_lang, 'home.ways_check_verb') }}</div>
         <div class="font-sans text-[14px] leading-[1.5] text-[#aab2c4] mt-2" style="text-wrap:pretty;">{{ t(_lang, 'home.ways_check_line') }}</div>
@@ -149,7 +149,7 @@
       <a href="/{{ _lang }}/game" class="group block bg-[#0b0f1a] hover:bg-[#1a2236] transition-colors" style="padding:clamp(18px,2.5vw,26px);">
         <div class="flex items-center justify-between mb-2.5">
           <span class="text-[#65def0]" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7.5" width="19" height="9" rx="4.5"/><path d="M6.5 10.5v3M5 12h3"/><circle cx="16" cy="11" r=".8" fill="currentColor" stroke="none"/><circle cx="17.6" cy="13" r=".8" fill="currentColor" stroke="none"/></svg></span>
-          <span class="font-mono text-[10px] tracking-[0.12em] text-[#6b7588]">{{ t(_lang, 'home.ways_practice_tag') }}</span>
+          <span class="font-mono text-[10px] tracking-[0.12em] text-[#8b94a8]">{{ t(_lang, 'home.ways_practice_tag') }}</span>
         </div>
         <div class="font-mono font-bold text-[15px] tracking-[-0.01em] text-[#f3f5fa]">{{ t(_lang, 'home.ways_practice_verb') }}</div>
         <div class="font-sans text-[14px] leading-[1.5] text-[#aab2c4] mt-2" style="text-wrap:pretty;">{{ t(_lang, 'home.ways_practice_line') }}</div>
@@ -435,7 +435,7 @@
             {% endfor %}
           </div>
           <span class="font-mono text-[10px] tracking-[0.1em]" style="color:{{ _fcolor }};">
-            {{ t(_lang, 'home.threat_db_lvl') }} {{ _fl }} / 5
+            {{ t(_lang, 'home.threat_db_lvl') }} {{ _fl }}/5 · {{ t(_lang, 'threat.lvl_' ~ _fl) }}
           </span>
         </div>
       </div>
@@ -471,8 +471,8 @@
           ></span>
           {% endfor %}
         </div>
-        <span class="font-mono text-[10px] tracking-[0.08em]" style="color:{{ _gcolor }};">
-          {{ t(_lang, 'home.threat_db_lvl') }} {{ _gl }}
+        <span class="font-mono text-[10px] tracking-[0.08em] whitespace-nowrap" style="color:{{ _gcolor }};">
+          {{ t(_lang, 'home.threat_db_lvl') }} {{ _gl }}/5 · {{ t(_lang, 'threat.lvl_' ~ _gl) }}
         </span>
       </div>
     </a>

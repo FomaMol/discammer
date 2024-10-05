@@ -1074,5 +1074,27 @@
     "headline": "Find it fast",
     "empty_title": "Nothing matches that yet.",
     "empty_hint": "try a scam type, a name, or a topic"
+  },
+  "threat": {
+    "lvl_1": "LOW",
+    "lvl_2": "GUARDED",
+    "lvl_3": "ELEVATED",
+    "lvl_4": "HIGH",
+    "lvl_5": "CRITICAL"
+  },
+  "action": {
+    "eyebrow": "// DO THIS TODAY",
+    "guide_title": "Run a real message through the checker",
+    "guide_body": "If a message brought you here, paste it into the checker and see which tells it trips, right in your browser. Nothing is sent or stored.",
+    "guide_cta": "Open the checker",
+    "article_title": "Check a message that feels off",
+    "article_body": "Reading is the first half. The other half is catching it live. Paste a suspicious message and the checker names the tells, in your browser.",
+    "article_cta": "Open the checker",
+    "inspect_title": "Got the whole message, not just the link?",
+    "inspect_body": "The message checker reads the full text for scam tells the same way this inspector reads a URL, in your browser, nothing sent.",
+    "inspect_cta": "Open the checker",
+    "course_title": "Put it into practice",
+    "course_body": "Antifraud Hero drops real scam scripts onto your console. Triage them against the clock and build the reflex.",
+    "course_cta": "Play Antifraud Hero"
   }
 }

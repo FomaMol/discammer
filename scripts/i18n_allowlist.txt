@@ -389,3 +389,8 @@ client.checker.lvl_2
 client.checker.lvl_3
 client.checker.lvl_4
 client.checker.lvl_5
+threat.lvl_1
+threat.lvl_2
+threat.lvl_3
+threat.lvl_4
+threat.lvl_5

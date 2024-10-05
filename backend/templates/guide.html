@@ -185,7 +185,7 @@
           <span class="rounded-[1px]" style="width: 6px; height: {{ 7 + (i-1)*3 }}px; background: {{ _tl_color if i <= _tl else '#2b3759' }};"></span>
           {% endfor %}
         </div>
-        <span class="font-mono text-[13px] font-bold tabular-nums" style="color: {{ _tl_color }};">{{ _tl }} / 5</span>
+        <span class="font-mono text-[13px] font-bold tabular-nums whitespace-nowrap" style="color: {{ _tl_color }};">{{ _tl }}/5 · {{ _level_word }}</span>
       </div>
     </div>
 
@@ -424,5 +424,8 @@
     toc.appendChild(frag);
   })();
 </script>
+
+{% from "_action_module.html" import action_module with context %}
+{{ action_module('action.guide_title', 'action.guide_body', 'action.guide_cta', '/' ~ _lang ~ '/check') }}
 
 {% endblock %}
