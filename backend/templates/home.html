@@ -69,43 +69,28 @@
         </div>
       </div>
 
-      {# ---------- RIGHT: incident_feed.log console + 2x2 real-stat grid ---------- #}
+      {# ---------- RIGHT (v2): the live message checker IS the hero + 2x2 real-stat grid ---------- #}
       <div style="font-family:'JetBrains Mono',ui-monospace,monospace;">
-        <div style="background:#0a0d16;border:1px solid #202a44;border-radius:6px;overflow:hidden;">
-          <div style="height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;background:linear-gradient(to right,#1a2236,#121828);border-bottom:1px solid #202a44;">
-            <span style="width:8px;height:8px;border-radius:50%;background:#2b3759;" aria-hidden="true"></span>
-            <span style="width:8px;height:8px;border-radius:50%;background:#8b94a8;" aria-hidden="true"></span>
-            <span style="width:8px;height:8px;border-radius:50%;background:#8b94a8;" aria-hidden="true"></span>
-            <span style="margin-left:auto;font-size:9.5px;letter-spacing:.14em;color:#8b94a8;">incident_feed.log</span>
-          </div>
-          <div style="padding:14px 14px 16px;font-size:11.5px;line-height:1.85;color:#aab2c4;">
-            {# Four honest, representative scam PATTERNS the site covers — not a fake live feed.
-               The time column is a plain step label (STEP 01..04), never a fabricated "3h ago". #}
-            <div style="display:flex;gap:8px;">
-              <span style="color:#8b94a8;flex:none;">01</span>
-              <span style="color:#e76670;flex:none;">PHISH</span>
-              <span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_phish') }}</span>
+        {# v2 T1.1 — promote the checker into the hero ("the pause, made into a tool").
+           Pure client-side analysis; nothing leaves the browser. No-JS users get the
+           static incident-feed console below as the fallback. #}
+        <div data-component="MessageChecker" data-props='{"lang": "{{ _lang }}"}'>
+          <noscript>
+            <div style="background:#0a0d16;border:1px solid #202a44;border-radius:6px;overflow:hidden;">
+              <div style="height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;background:linear-gradient(to right,#1a2236,#121828);border-bottom:1px solid #202a44;">
+                <span style="width:8px;height:8px;border-radius:50%;background:#2b3759;" aria-hidden="true"></span>
+                <span style="width:8px;height:8px;border-radius:50%;background:#8b94a8;" aria-hidden="true"></span>
+                <span style="width:8px;height:8px;border-radius:50%;background:#8b94a8;" aria-hidden="true"></span>
+                <span style="margin-left:auto;font-size:9.5px;letter-spacing:.14em;color:#8b94a8;">incident_feed.log</span>
+              </div>
+              <div style="padding:14px 14px 16px;font-size:11.5px;line-height:1.85;color:#aab2c4;">
+                <div style="display:flex;gap:8px;"><span style="color:#8b94a8;flex:none;">01</span><span style="color:#e76670;flex:none;">PHISH</span><span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_phish') }}</span></div>
+                <div style="display:flex;gap:8px;"><span style="color:#8b94a8;flex:none;">02</span><span style="color:#f4b965;flex:none;">VOICE</span><span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_voice') }}</span></div>
+                <div style="display:flex;gap:8px;"><span style="color:#8b94a8;flex:none;">03</span><span style="color:#f4b965;flex:none;">STORE</span><span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_store') }}</span></div>
+                <div style="display:flex;gap:8px;"><span style="color:#8b94a8;flex:none;">04</span><span style="color:#7ce896;flex:none;">SAFE&nbsp;</span><span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_safe') }}</span></div>
+              </div>
             </div>
-            <div style="display:flex;gap:8px;">
-              <span style="color:#8b94a8;flex:none;">02</span>
-              <span style="color:#f4b965;flex:none;">VOICE</span>
-              <span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_voice') }}</span>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <span style="color:#8b94a8;flex:none;">03</span>
-              <span style="color:#f4b965;flex:none;">STORE</span>
-              <span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_store') }}</span>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <span style="color:#8b94a8;flex:none;">04</span>
-              <span style="color:#7ce896;flex:none;">SAFE&nbsp;</span>
-              <span style="color:#aab2c4;">{{ t(_lang, 'home.hero_feed_safe') }}</span>
-            </div>
-            <div style="display:flex;gap:8px;color:#8b94a8;margin-top:2px;">
-              <span aria-hidden="true" style="color:#65def0;">&gt;</span>
-              <span>{{ t(_lang, 'home.hero_feed_footer') }}: {{ latest_published_at or '----' }}<span aria-hidden="true" style="width:6px;height:12px;background:#65def0;display:inline-block;margin-left:4px;vertical-align:-1px;animation:blink 1.1s steps(1) infinite;"></span></span>
-            </div>
-          </div>
+          </noscript>
         </div>
 
         {# 2x2 stat grid — all four values are REAL data, no fabricated metrics. #}
@@ -128,6 +113,48 @@
           </div>
         </div>
       </div>
+
+    </div>
+  </div>
+</section>
+
+{# ===== v2 CLARITY BAND — "Three ways in" (Learn / Check / Practice) =====
+   States what the product is in plain verbs, in <5s. Each is a real <a> with a
+   visible focus ring, a trailing arrow, and a >=44px hit area (v2 U1/U4). ===== #}
+<section class="border-b border-[#202a44] bg-[#121828]" aria-label="{{ t(_lang, 'home.ways_aria') }}">
+  <div class="max-w-[1120px] mx-auto" style="padding:clamp(20px,3vw,30px) clamp(16px,4vw,40px);">
+    <div class="font-mono font-semibold text-[10px] uppercase tracking-[0.16em] text-[#8b94a8] mb-4">{{ t(_lang, 'home.ways_eyebrow') }}</div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#202a44] border border-[#202a44] rounded-[6px] overflow-hidden">
+
+      <a href="/{{ _lang }}/course" class="group block bg-[#0b0f1a] hover:bg-[#1a2236] transition-colors" style="padding:clamp(18px,2.5vw,26px);">
+        <div class="flex items-center justify-between mb-2.5">
+          <span class="text-[#65def0]" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5A2 2 0 0 1 5 4.5h6v15H5a2 2 0 0 0-2 2v-15Z"/><path d="M21 6.5a2 2 0 0 0-2-2h-6v15h6a2 2 0 0 1 2 2v-15Z"/></svg></span>
+          <span class="font-mono text-[10px] tracking-[0.12em] text-[#8b94a8]">{{ t(_lang, 'home.ways_learn_tag') }}</span>
+        </div>
+        <div class="font-mono font-bold text-[15px] tracking-[-0.01em] text-[#f3f5fa]">{{ t(_lang, 'home.ways_learn_verb') }}</div>
+        <div class="font-sans text-[14px] leading-[1.5] text-[#aab2c4] mt-2" style="text-wrap:pretty;">{{ t(_lang, 'home.ways_learn_line') }}</div>
+        <div class="font-mono font-semibold text-[11px] tracking-[0.08em] text-[#65def0] mt-2.5 group-hover:text-[#9eecf6] transition-colors">{{ t(_lang, 'home.ways_learn_cta') }} <span aria-hidden="true">&rarr;</span></div>
+      </a>
+
+      <a href="/{{ _lang }}/check" class="group block bg-[#0b0f1a] hover:bg-[#1a2236] transition-colors" style="padding:clamp(18px,2.5vw,26px);">
+        <div class="flex items-center justify-between mb-2.5">
+          <span class="text-[#65def0]" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 7.7-7 9-4-1.3-7-4.4-7-9V6l7-3Z"/><path d="m9 11.8 2 2 4-4"/></svg></span>
+          <span class="font-mono text-[10px] tracking-[0.12em] text-[#8b94a8]">{{ t(_lang, 'home.ways_check_tag') }}</span>
+        </div>
+        <div class="font-mono font-bold text-[15px] tracking-[-0.01em] text-[#f3f5fa]">{{ t(_lang, 'home.ways_check_verb') }}</div>
+        <div class="font-sans text-[14px] leading-[1.5] text-[#aab2c4] mt-2" style="text-wrap:pretty;">{{ t(_lang, 'home.ways_check_line') }}</div>
+        <div class="font-mono font-semibold text-[11px] tracking-[0.08em] text-[#65def0] mt-2.5 group-hover:text-[#9eecf6] transition-colors">{{ t(_lang, 'home.ways_check_cta') }} <span aria-hidden="true">&rarr;</span></div>
+      </a>
+
+      <a href="/{{ _lang }}/game" class="group block bg-[#0b0f1a] hover:bg-[#1a2236] transition-colors" style="padding:clamp(18px,2.5vw,26px);">
+        <div class="flex items-center justify-between mb-2.5">
+          <span class="text-[#65def0]" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7.5" width="19" height="9" rx="4.5"/><path d="M6.5 10.5v3M5 12h3"/><circle cx="16" cy="11" r=".8" fill="currentColor" stroke="none"/><circle cx="17.6" cy="13" r=".8" fill="currentColor" stroke="none"/></svg></span>
+          <span class="font-mono text-[10px] tracking-[0.12em] text-[#8b94a8]">{{ t(_lang, 'home.ways_practice_tag') }}</span>
+        </div>
+        <div class="font-mono font-bold text-[15px] tracking-[-0.01em] text-[#f3f5fa]">{{ t(_lang, 'home.ways_practice_verb') }}</div>
+        <div class="font-sans text-[14px] leading-[1.5] text-[#aab2c4] mt-2" style="text-wrap:pretty;">{{ t(_lang, 'home.ways_practice_line') }}</div>
+        <div class="font-mono font-semibold text-[11px] tracking-[0.08em] text-[#65def0] mt-2.5 group-hover:text-[#9eecf6] transition-colors">{{ t(_lang, 'home.ways_practice_cta') }} <span aria-hidden="true">&rarr;</span></div>
+      </a>
 
     </div>
   </div>
@@ -408,7 +435,7 @@
             {% endfor %}
           </div>
           <span class="font-mono text-[10px] tracking-[0.1em]" style="color:{{ _fcolor }};">
-            {{ t(_lang, 'home.threat_db_lvl') }} {{ _fl }} / 5
+            {{ t(_lang, 'home.threat_db_lvl') }} {{ _fl }}/5 · {{ t(_lang, 'threat.lvl_' ~ _fl) }}
           </span>
         </div>
       </div>
@@ -444,8 +471,8 @@
           ></span>
           {% endfor %}
         </div>
-        <span class="font-mono text-[10px] tracking-[0.08em]" style="color:{{ _gcolor }};">
-          {{ t(_lang, 'home.threat_db_lvl') }} {{ _gl }}
+        <span class="font-mono text-[10px] tracking-[0.08em] whitespace-nowrap" style="color:{{ _gcolor }};">
+          {{ t(_lang, 'home.threat_db_lvl') }} {{ _gl }}/5 · {{ t(_lang, 'threat.lvl_' ~ _gl) }}
         </span>
       </div>
     </a>

@@ -508,3 +508,20 @@ This DESIGN.md supersedes the existing `globals.css` token block. When implement
 6. Replace `border-radius` values >= 8px on cards with the new `radius.lg` (6px). Tighten button radii to `radius.md` (4px).
 
 See `docs/references/` for inspiration files (Warp, VoltAgent, Vercel, Cursor, Raycast DESIGN.mds — read for *technique*, do not copy *appearance*).
+
+---
+
+## v2 "Field Office" additions (see docs/design/v2/00-DESIGN-SYSTEM-v2.md)
+
+Tokens added to `globals.css` `@theme` (values stay on the locked palette):
+- `--shadow-panel`, `--shadow-pop` — tinted-blue elevation (never pure black).
+
+Utilities (two-register type rule, DS-v2 §3):
+- `.t-data` (JetBrains Mono, tabular) · `.t-editorial` (Geist) — every text node is exactly one register.
+- `.ds-grain` — opt-in ≤3% noise on `code-bg` terminal wells.
+
+v2 UX-clarity moves shipped on the v1 stack: checker-led home hero (`MessageChecker`
+island, pure client-side `analyze()`, detection→learning guide links, aria-live),
+"Three ways in" clarity band, threat meters always `bars + LVL n/5 + WORD`
+(`threat.lvl_1..5`), reusable "DO THIS TODAY" action module (`_action_module.html`),
+breadcrumbs on inner pages. Brand stays locked (cyan `#65def0`, JBM + Geist, cool-dark).

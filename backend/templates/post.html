@@ -309,4 +309,7 @@
 {# Lead-paragraph styling for .post-prose lives in globals.css. Scoped there
    so it doesn't leak into guide/module/lesson .prose surfaces. #}
 
+{% from "_action_module.html" import action_module with context %}
+{{ action_module('action.article_title', 'action.article_body', 'action.article_cta', '/' ~ _lang ~ '/check') }}
+
 {% endblock %}

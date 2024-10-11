@@ -5,6 +5,13 @@
 
 {% set _lang = lang %}
 
+  <nav class="font-mono text-[11px] text-[#8b94a8] flex flex-wrap items-center gap-2 max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-10 pt-6" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
+    <a href="/{{ _lang }}/" class="text-[#3a8b9a] hover:text-[#65def0] transition">{{ t(_lang, 'footer.home') }}</a>
+    <span class="text-[#6b7588]" aria-hidden="true">/</span>
+    <span class="text-[#e7ecf5]" aria-current="page">{{ t(_lang, 'nav.inspect') }}</span>
+  </nav>
+
+
 {# ─────────────────────────────────────────────────────────────────────
    INSPECT — the link/URL inspector (F2), flagship sibling of the message
    analyzer. SSR explainer + the LinkInspector island. The inspector is
@@ -193,5 +200,8 @@
   </section>
 
 </main>
+
+{% from "_action_module.html" import action_module with context %}
+{{ action_module('action.inspect_title', 'action.inspect_body', 'action.inspect_cta', '/' ~ _lang ~ '/check') }}
 
 {% endblock %}

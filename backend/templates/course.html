@@ -225,4 +225,7 @@
   </div>
 </section>
 
+{% from "_action_module.html" import action_module with context %}
+{{ action_module('action.course_title', 'action.course_body', 'action.course_cta', '/' ~ _lang ~ '/game') }}
+
 {% endblock %}
