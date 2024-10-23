@@ -60,6 +60,19 @@ typography:
   # Display roles use mono (JetBrains Mono); body uses sans (Geist).
   # The brand voice is "analyst-at-console", so mono carries identity — but body reads as Geist for long-form articles.
 
+  # Delivery (T0.2): self-hosted variable woff2 — Geist 400..700, JetBrains Mono
+  # 400..800 — EN/RU subsets only (latin / latin-ext / cyrillic / cyrillic-ext)
+  # under backend/static/fonts/. The @font-face block is inlined in base.html
+  # <head> with font-display:swap (FOUT, never invisible text). Above-the-fold
+  # subsets are preloaded (<link rel=preload as=font crossorigin>, chosen from
+  # `_lang` server-side): EN preloads latin; RU preloads cyrillic + latin, since
+  # RU pages also show the Latin DISCAMMER wordmark, brand name, and punctuation.
+  # No third-party origin, no render-blocking font stylesheet — gstatic is gone.
+  # NOTE: metric-matched `size-adjust` fallbacks (next/font style) were evaluated
+  # and deliberately deferred — cross-platform local() targets plus an xAvg-basis
+  # mismatch make them fragile to verify, and same-origin preload of the active
+  # subset already removes the dominant font-swap layout shift.
+
   display-hero:
     family: family-mono
     sizeClamp: "clamp(2.5rem, 1.6rem + 4.5vw, 4.5rem)"
