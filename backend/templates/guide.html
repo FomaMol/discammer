@@ -40,30 +40,18 @@
 {% set _lang = lang %}
 
 {# ─────────────────────────────────────────────────────────────────────
-   Deterministic case-file metadata derived from the guide row. Nothing
-   here is fabricated at request time: the case id, last-activity label,
-   risk words and risk colors all resolve from real guide fields.
+   Case-file metadata (T2.4 stat-truth). `case_id` is a COSMETIC case-file
+   reference deterministically derived from the guide's own real fields
+   (id + year + category) — stable across requests, not a real case-tracking
+   number. Risk words/colors resolve from the real `threat_level`. We DO NOT
+   fabricate a "last activity" recency or a "next review" schedule — there is
+   no such data, so nothing here implies a metric we don't have.
    ──────────────────────────────────────────────────────────────────── #}
 {% set _pub = guide.published_at or '' %}
 {% set _year = _pub[:4] if _pub|length >= 4 else now().strftime('%Y') %}
 {% set _cat_code = (guide.category or 'GEN') | upper %}
 {% set case_seq = ((guide.id or 1) * 47 + 113) % 1000 %}
 {% set case_id = 'DCM-' ~ _year ~ '-' ~ _cat_code ~ '-' ~ '%03d' | format(case_seq) %}
-
-{# Per-slug believable LAST_ACTIVITY — stable across requests. #}
-{% set _activity_map = {
-  'phishing':                       '3h AGO',
-  'nigerian-letters':               '11h AGO',
-  'get-rich-quick-schemes':         '6h AGO',
-  'investment-pyramids':            '2h AGO',
-  'false-charities':                '1d AGO',
-  'fake-online-stores':             '4h AGO',
-  'abuse-on-dating-sites':          '8h AGO',
-  'sms-and-phone-scams':            '1h AGO',
-  'fraud-with-lotteries':           '14h AGO',
-  'scam-sites-working-at-home':     '9h AGO'
-} %}
-{% set last_activity = _activity_map.get(guide.slug, '5h AGO') %}
 
 {# Risk tier → words + color. Index-safe when threat_level is None. #}
 {% set _tl = guide.threat_level or 1 %}
@@ -138,15 +126,13 @@
       <span class="text-[#e7ecf5] break-all" aria-current="page">{{ guide.slug }}</span>
     </nav>
 
-    <!-- Chip row: SCAM GUIDE + case id + last activity -->
+    <!-- Chip row: SCAM GUIDE + case id (derived, cosmetic) -->
     <div class="flex flex-wrap items-center gap-2.5 mb-4">
       <span class="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase"
             style="color: #e76670; background: #0a0d16; border: 1px solid {{ '#e76670' if _tl >= 4 else _tl_color }}66; border-radius: 2px; padding: 4px 8px;">
         {{ t(_lang, 'guide.eyebrow_scam_guide') }}
       </span>
       <span class="font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ t(_lang, 'guide.case_file_case_prefix') }}{{ case_id }}</span>
-      <span class="font-mono text-[11px] text-[#6b7588]" aria-hidden="true">·</span>
-      <span class="hidden sm:inline font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ t(_lang, 'guide.last_threat_logged') }} {{ last_activity | lower }}</span>
     </div>
 
     <!-- H1 -->
@@ -172,7 +158,7 @@
    ──────────────────────────────────────────────────────────────────── #}
 <div class="relative z-[5] mx-auto max-w-[820px] px-4 sm:px-6 lg:px-10" style="margin-top: -32px;">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-       style="background-color: #1a2236; border: 1px solid {{ _tl_color }}73; border-radius: 6px; box-shadow: 0 16px 40px -16px rgba(0,0,0,0.6), 0 0 28px -10px {{ _tl_color }}1a;">
+       style="background-color: #1a2236; border: 1px solid {{ _tl_color }}73; border-radius: 6px; box-shadow: 0 16px 40px -16px rgba(6,10,22,0.66), 0 0 28px -10px {{ _tl_color }}1a;">
 
     <!-- THREAT LEVEL -->
     <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[#202a44]"
@@ -251,7 +237,7 @@
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-3">
           {{ t(_lang, 'guide.investigator_notes_label') }}
         </div>
-        <div class="border border-[#202a44]" style="background-color: #0a0d16;">
+        <div class="border border-[#202a44] ds-grain" style="background-color: #0a0d16;">
           <div class="flex items-center gap-2 px-3 sm:px-4 py-2 border-b border-[#202a44]" style="background: linear-gradient(to right, #1a2236, #121828);">
             <span class="w-2 h-2 rounded-full bg-[#2b3759]"></span>
             <span class="w-2 h-2 rounded-full bg-[#8b94a8]"></span>
@@ -301,8 +287,8 @@
       </p>
       <ol class="space-y-2.5 list-none">
         {% for i in range(1, 4) %}
-        <li class="flex gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
-          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px] pt-0.5">{{ i }}.</span>
+        <li class="flex items-baseline gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
+          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px]">{{ i }}.</span>
           <span>{{ t(_lang, 'guide.check_' ~ i) }}</span>
         </li>
         {% endfor %}
@@ -327,7 +313,7 @@
       {% set _letter = (related.title or '?')[0] | upper %}
       {% set _rseq = ((related.id or loop.index) * 47 + 113) % 1000 %}
       <a href="/{{ _lang }}/guide/{{ related.slug }}"
-         class="group flex items-center gap-3.5 bg-[#0b0f1a] border border-[#202a44] hover:border-[#3a8b9a] rounded-[6px] p-4 transition-colors duration-260 min-w-0">
+         class="group flex items-center gap-3.5 bg-[#0b0f1a] border border-[#202a44] hover:border-[#3a8b9a] rounded-[6px] p-4 transition-colors duration-200 min-w-0">
         <span aria-hidden="true"
               class="inline-flex items-center justify-center w-9 h-9 border font-mono font-bold text-[18px] leading-none shrink-0"
               style="color: {{ _rcolor }}; border-color: {{ _rcolor }}40; background: {{ _rcolor }}0d; border-radius: 4px; letter-spacing: -0.04em;">{{ _letter }}</span>
@@ -362,7 +348,7 @@
       ] %}
       {% for _code, _href, _key in _ops %}
       <a href="{{ _href }}"
-         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-180">
+         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-200">
         <span class="flex items-baseline gap-3 min-w-0">
           <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">{{ _code }}</span>
           <span class="font-mono text-[#8b94a8] shrink-0" aria-hidden="true">&#9656;</span>
@@ -381,9 +367,7 @@
     <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#8b94a8] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
       <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_chain_label') }}</span> {{ t(_lang, 'guide.custody_investigator_value') }}</span>
       <span class="text-[#6b7588]" aria-hidden="true">·</span>
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_last_reviewed_label') }}</span> {{ now().strftime('%Y-%m-%d') }}</span>
-      <span class="text-[#6b7588]" aria-hidden="true">·</span>
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_next_review_label') }}</span> {{ t(_lang, 'guide.custody_next_review_value') }}</span>
+      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_last_reviewed_label') }}</span> {{ guide.published_at or _year }}</span>
       <span class="text-[#6b7588]" aria-hidden="true">·</span>
       <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_classification_label') }}</span> {{ t(_lang, 'guide.custody_classification_value') }}</span>
     </p>

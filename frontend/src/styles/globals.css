@@ -32,6 +32,7 @@
   --color-cyan:        #65def0;
   --color-cyan-strong: #9eecf6;
   --color-cyan-dim:    #3a8b9a;
+  --color-cyan-veil:   rgba(101, 222, 240, 0.15);   /* soft cyan glow layer (certificate, featured) */
 
   /* — Semantic accents (meaning-bearing, not interchangeable) — */
   --color-amber:        #f4b965;
@@ -539,7 +540,9 @@ a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
   .status-dot--red,
   .status-dot--cyan { animation: none; opacity: 0.9; }
   [style*="animation: glitch"],
-  [style*="animation:glitch"] { animation: none !important; }
+  [style*="animation:glitch"],
+  [style*="animation: blink"],
+  [style*="animation:blink"] { animation: none !important; }   /* inline terminal cursor (home hero) */
 
   /* Wordmark reveal — show fully, never animate */
   .wordmark-reveal { animation: none !important; }

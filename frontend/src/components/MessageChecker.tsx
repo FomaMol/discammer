@@ -69,7 +69,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
     <div className="font-mono">
       {/* terminal-well console */}
       <div
-        className="rounded-[6px] overflow-hidden border border-[#2b3759] bg-[#0a0d16]"
+        className="ds-grain rounded-[6px] overflow-hidden border border-[#2b3759] bg-[#0a0d16]"
         style={{ boxShadow: '0 0 40px -14px rgba(101,222,240,0.18)' }}
       >
         {/* header strip */}

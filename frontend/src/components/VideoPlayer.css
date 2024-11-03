@@ -26,7 +26,7 @@
   overflow: hidden;
   box-shadow:
     0 0 0 1px rgba(0, 240, 255, 0.18),
-    0 12px 40px rgba(0, 0, 0, 0.6);
+    0 12px 40px rgba(6, 10, 22, 0.6); /* tinted blue depth, never pure black */
 }
 
 /* Round the poster image too so it doesn't peek past the container chrome. */

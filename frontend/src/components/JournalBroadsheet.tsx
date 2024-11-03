@@ -643,7 +643,7 @@ function CompactRow({
         {/* Arrow */}
         <span
           aria-hidden="true"
-          className="font-mono text-[#8b94a8] group-hover:text-[#65def0] group-hover:translate-x-0.5 transition-all shrink-0"
+          className="font-mono text-[#8b94a8] group-hover:text-[#65def0] group-hover:translate-x-0.5 transition-all duration-200 motion-reduce:transform-none shrink-0"
         >
           →
         </span>

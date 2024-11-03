@@ -197,8 +197,6 @@
     "custody_classification_value": "UNCLASSIFIED ONCE PUBLIC",
     "custody_investigator_value": "DCM-OPS",
     "custody_last_reviewed_label": "LAST_REVIEWED:",
-    "custody_next_review_label": "NEXT_REVIEW:",
-    "custody_next_review_value": "90 DAYS",
     "investigator_notes_command_prefix": "dcm-ops@case-",
     "investigator_notes_command_suffix": "~ % cat investigator_notes.txt",
     "investigator_notes_fake_online_stores": "storefronts copy real-brand product pages pixel-for-pixel; prices set 35-60% below RRP.\ndomain age usually under 90 days; WHOIS data redacted or registered to a shell address.\npayment forms accept card-only (no PayPal, no cash-on-delivery), which is the tell.\nproducts never ship; chargeback windows close before victims realize the order is fake.\nrecommend: search \"{domain} reviews scam\" and check the site age before ordering.",
@@ -232,7 +230,6 @@
     "check_3": "Decide your next step in advance: who you'd contact through a channel you already trust, and what you would never do (pay a fee, share a code, follow the link).",
     "eyebrow_threat_database": "threat_database",
     "eyebrow_scam_guide": "SCAM GUIDE",
-    "last_threat_logged": "last threat logged",
     "strip_vector": "VECTOR",
     "related_threats_label": "RELATED_THREATS"
   },

@@ -76,7 +76,7 @@
            static incident-feed console below as the fallback. #}
         <div data-component="MessageChecker" data-props='{"lang": "{{ _lang }}"}'>
           <noscript>
-            <div style="background:#0a0d16;border:1px solid #202a44;border-radius:6px;overflow:hidden;">
+            <div class="ds-grain" style="background:#0a0d16;border:1px solid #202a44;border-radius:6px;overflow:hidden;">
               <div style="height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;background:linear-gradient(to right,#1a2236,#121828);border-bottom:1px solid #202a44;">
                 <span style="width:8px;height:8px;border-radius:50%;background:#2b3759;" aria-hidden="true"></span>
                 <span style="width:8px;height:8px;border-radius:50%;background:#8b94a8;" aria-hidden="true"></span>
@@ -353,10 +353,16 @@
 </section>
 
 <section
-  class="max-w-[1120px] mx-auto px-4 sm:px-6 md:px-10 py-14 sm:py-20 lg:py-24 border-t border-[#202a44]"
+  class="border-t border-b border-[#202a44]"
+  style="background-color:#0e1422;"
   aria-label="{{ t(_lang, 'home.threat_db_title') }}"
 >
+  {# v2 T2.1 — the section that breaks the site's 1120px rhythm: a full-bleed
+     DATA-WALL band (a tint deeper than the editorial bands around it) whose
+     content sits at a wider 1320px, so the threat cards breathe edge-out into a
+     true scroll peak. #}
   {% if guides %}
+  <div class="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 py-14 sm:py-20 lg:py-24">
   {# --- Compute featured (highest threat_level) + the rest --- #}
   {% set _guides_ranked = guides | sort(attribute='threat_level', reverse=True) | list %}
   {% set _featured = _guides_ranked[0] %}
@@ -488,6 +494,7 @@
       <span>{{ t(_lang, 'home.threat_db_view_all') }}</span>
       <span aria-hidden="true">&rarr;</span>
     </a>
+  </div>
   </div>
   {% endif %}
 </section>
@@ -634,7 +641,7 @@
 
       <!-- RIGHT: syllabus.json console -->
       <div class="font-mono min-w-0">
-        <div class="bg-[#0a0d16] border border-[#202a44] overflow-hidden" style="border-radius: 6px;">
+        <div class="bg-[#0a0d16] border border-[#202a44] overflow-hidden ds-grain" style="border-radius: 6px;">
           <!-- header strip -->
           <div class="flex items-center gap-1.5 px-3 border-b border-[#202a44]"
                style="height: 26px; background: linear-gradient(to right, #1a2236, #121828);">
