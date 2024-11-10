@@ -587,7 +587,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
 function CertificationCallout({ lang }: { lang: Locale }) {
   const tr = makeTranslator('courseProgress');
   return (
-    <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 grid-pattern rounded-[4px]">
+    <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 rounded-[4px]">
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
         <div className="md:col-span-2">
           <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2">

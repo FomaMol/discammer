@@ -133,3 +133,34 @@ export function collectFailedResponses(page: Page): string[] {
 export function appFailedResponses(failed: string[]): string[] {
   return failed.filter((f) => !PROD_ONLY_ASSET_RE.test(f));
 }
+
+/**
+ * Run `action` while recording every request URL + POST body, then assert none of
+ * them contain any of `needles` (distinctive substrings of whatever the user
+ * typed). Proves a client-side-only tool never ships the input off the machine.
+ * Shared by the checker + inspector privacy specs.
+ */
+export async function assertNoNetworkLeak(
+  page: Page,
+  needles: string[],
+  action: () => Promise<void>,
+): Promise<void> {
+  const captured: string[] = [];
+  const handler = (req: import('@playwright/test').Request) => {
+    captured.push(req.url());
+    const body = req.postData();
+    if (body) captured.push(body);
+  };
+  page.on('request', handler);
+  try {
+    await action();
+    await page.waitForTimeout(500); // allow any (hypothetical) request to fire
+  } finally {
+    page.off('request', handler);
+  }
+  for (const text of captured) {
+    for (const needle of needles) {
+      expect(text.includes(needle), `request leaked input "${needle}":\n${text}`).toBeFalsy();
+    }
+  }
+}

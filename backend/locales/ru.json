@@ -197,8 +197,6 @@
     "custody_classification_value": "НЕСЕКРЕТНО ПОСЛЕ ПУБЛИКАЦИИ",
     "custody_investigator_value": "DCM-OPS",
     "custody_last_reviewed_label": "ПОСЛЕДНЯЯ_ПРОВЕРКА:",
-    "custody_next_review_label": "СЛЕД_ПРОВЕРКА:",
-    "custody_next_review_value": "90 ДНЕЙ",
     "investigator_notes_command_prefix": "dcm-ops@case-",
     "investigator_notes_command_suffix": "~ % cat investigator_notes.txt",
     "investigator_notes_fake_online_stores": "магазины пиксель-в-пиксель копируют страницы реальных брендов; цены — на 35-60% ниже RRP.\nвозраст домена обычно меньше 90 дней; WHOIS закрыт или зарегистрирован на подставной адрес.\nформы оплаты принимают только карту (без PayPal, без оплаты при доставке), и это и есть сигнал.\nтовар не приходит; окно chargeback закрывается раньше, чем жертва понимает, что заказ фейковый.\nсовет: погугли «{domain} отзывы scam» и проверь возраст сайта до заказа.",
@@ -232,7 +230,6 @@
     "check_3": "Решите заранее свой следующий шаг: к кому обратитесь по каналу, которому уже доверяете, и чего не сделаете никогда (не заплатите сбор, не сообщите код, не перейдёте по ссылке).",
     "eyebrow_threat_database": "база_угроз",
     "eyebrow_scam_guide": "СХЕМА ОБМАНА",
-    "last_threat_logged": "последняя угроза зафиксирована",
     "strip_vector": "ВЕКТОР",
     "related_threats_label": "СВЯЗАННЫЕ_УГРОЗЫ"
   },

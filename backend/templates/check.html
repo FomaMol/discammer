@@ -38,7 +38,7 @@
      checklist below, which is always useful on its own.
      ──────────────────────────────────────────────────────────────────── #}
   {% set _analyzer_props = {"lang": _lang} %}
-  <section class="mt-9 sm:mt-11 border border-[#202a44] bg-[#0a0d16]/50 rounded-[6px] p-4 sm:p-6"
+  <section class="mt-9 sm:mt-11 border border-[#202a44] bg-[#0a0d16]/50 rounded-[6px] p-4 sm:p-6 ds-grain"
            aria-labelledby="check-tool-heading">
     <h2 id="check-tool-heading" class="sr-only">{{ t(_lang, 'check.heading') }}</h2>
     <div data-component="MessageAnalyzer" data-props='{{ _analyzer_props | tojson | forceescape }}'></div>
