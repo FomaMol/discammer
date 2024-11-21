@@ -113,6 +113,26 @@ _LESSON_REQUIRED_COLS = {
 }
 
 
+async def _apply_pragmas(conn) -> None:
+    """Apply the per-connection SQLite tuning every connection should share.
+
+    ``journal_mode=WAL`` is the important one: in the default rollback-journal
+    mode a single writer (e.g. the startup reseed, or any future write) blocks
+    *all* readers, which under concurrency turns into request stalls and the
+    intermittent timeouts that read as "the site is down". WAL lets readers run
+    concurrently with a writer. It is a persistent property of the DB file, so
+    setting it once sticks, but we re-assert it on every connection so a freshly
+    recreated DB is always in WAL.
+
+    ``busy_timeout`` makes a connection wait (up to 5s) for a lock instead of
+    failing immediately with "database is locked"; ``synchronous=NORMAL`` is the
+    safe, faster durability setting recommended with WAL.
+    """
+    await conn.execute("PRAGMA journal_mode=WAL")
+    await conn.execute("PRAGMA busy_timeout=5000")
+    await conn.execute("PRAGMA synchronous=NORMAL")
+
+
 async def init_db() -> None:
     """Initialise the database: ensure the data directory and tables exist.
 
@@ -122,6 +142,7 @@ async def init_db() -> None:
     """
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        await _apply_pragmas(db)
         for table, required in (
             ("post", _POST_REQUIRED_COLS),
             ("scam_guide", _SCAM_GUIDE_REQUIRED_COLS),
@@ -142,6 +163,7 @@ async def get_db():
     """Async context manager that yields an aiosqlite connection with row_factory."""
     db = await aiosqlite.connect(config.DATABASE_PATH)
     db.row_factory = aiosqlite.Row
+    await _apply_pragmas(db)
     try:
         yield db
     finally:
@@ -151,15 +173,16 @@ async def get_db():
 async def get_conn():
     """FastAPI dependency: one aiosqlite connection per request.
 
-    Opens a single connection, configures ``row_factory`` and ``busy_timeout``
-    once, yields it for the lifetime of the request, and closes it on teardown.
+    Opens a single connection, sets ``row_factory`` and applies the shared
+    pragmas via ``_apply_pragmas`` (WAL + busy_timeout + synchronous=NORMAL),
+    yields it for the lifetime of the request, and closes it on teardown.
     Routes that depend on this and pass the connection into the CRUD helpers
     below therefore open exactly one connection per request instead of one per
     helper call.
     """
     conn = await aiosqlite.connect(config.DATABASE_PATH)
     conn.row_factory = aiosqlite.Row
-    await conn.execute("PRAGMA busy_timeout = 5000")
+    await _apply_pragmas(conn)
     try:
         yield conn
     finally:

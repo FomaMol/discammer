@@ -51,7 +51,12 @@ RUN chmod +x /app/scripts/docker-entrypoint.sh
 
 EXPOSE 8000
 WORKDIR /app/backend
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+# start-period covers the cold-start work before the app can serve: the
+# entrypoint chown + the lifespan init_db + the full wipe-and-reseed (incl. the
+# FTS index build). 45s (was 15s) gives generous margin so a slow seed under
+# load isn't reported `unhealthy` mid-boot. Failures during start-period never
+# count toward the unhealthy verdict, so this only delays the FIRST real check.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=45s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4)"
 # Image starts as root → entrypoint chowns /app/data → gosu drops to APP_UID →
 # exec's this CMD. Keep --no-access-log (v4).
