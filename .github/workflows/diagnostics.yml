@@ -1,0 +1,57 @@
+name: Prod diagnostics (read-only)
+
+# Manual, READ-ONLY snapshot of the production host so we can root-cause the
+# intermittent flapping without giving the agent direct SSH. Every command
+# below only reads state (free/df/ps/logs/inspect/dmesg) — nothing writes,
+# restarts, or deploys. Runs in the `production` environment to reach the
+# DEPLOY_* secrets; dispatch with:
+#   gh workflow run diagnostics.yml --ref ops/prod-hardening
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    name: SSH read-only host snapshot
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 8
+    steps:
+      - name: Dump host + container state
+        uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17 # v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: 22
+          command_timeout: 5m
+          script: |
+            set +e
+            echo "===== kernel / uptime / load ====="; uname -a; uptime
+            echo "===== CPU count ====="; nproc 2>/dev/null
+            echo "===== memory (MB) ====="; free -m
+            echo "===== swap ====="; swapon --show 2>/dev/null; cat /proc/swaps 2>/dev/null
+            echo "===== disk ====="; df -h / /opt 2>/dev/null
+            cd /opt/discammer 2>/dev/null
+            COMPOSE="docker compose -f docker-compose.yml -f docker-compose.prod.yml"
+            echo "===== docker ps -a ====="; docker ps -a
+            echo "===== compose ps ====="; $COMPOSE ps
+            cid=$($COMPOSE ps -q web 2>/dev/null)
+            echo "web container id: $cid"
+            echo "===== restart count / state / OOM flag ====="
+            [ -n "$cid" ] && docker inspect -f 'RestartCount={{.RestartCount}} Status={{.State.Status}} Running={{.State.Running}} OOMKilled={{.State.OOMKilled}} ExitCode={{.State.ExitCode}} StartedAt={{.State.StartedAt}} FinishedAt={{.State.FinishedAt}}' "$cid"
+            echo "===== docker stats (one shot) ====="; docker stats --no-stream 2>/dev/null
+            echo "===== container memory limit ====="
+            [ -n "$cid" ] && docker inspect -f 'Memory={{.HostConfig.Memory}} MemorySwap={{.HostConfig.MemorySwap}} NanoCpus={{.HostConfig.NanoCpus}}' "$cid"
+            echo "===== uvicorn processes + RSS inside container ====="
+            [ -n "$cid" ] && docker exec "$cid" sh -c 'ps -eo pid,ppid,rss,vsz,cmd 2>/dev/null | head -40' 2>/dev/null || echo "(ps unavailable in image)"
+            echo "===== OOM kills in dmesg (history) ====="
+            dmesg -T 2>/dev/null | grep -iE 'out of memory|oom-kill|killed process|invoked oom' | tail -40 || echo "(no dmesg access)"
+            echo "===== OOM kills in kernel journal ====="
+            journalctl -k --no-pager 2>/dev/null | grep -iE 'oom|killed process' | tail -40 || echo "(no journal access)"
+            echo "===== container last-200 log lines ====="
+            [ -n "$cid" ] && docker logs --tail 200 "$cid" 2>&1 | tail -200
+            echo "===== nginx error log (tail 80) ====="
+            tail -n 80 /var/log/nginx/error.log 2>/dev/null || echo "(no nginx error log access)"
+            echo "===== nginx worker / connection settings ====="
+            grep -REn 'worker_processes|worker_connections|keepalive' /etc/nginx/nginx.conf /etc/nginx/sites-enabled/ 2>/dev/null | head -20 || echo "(no nginx conf access)"
+            echo "===== DONE ====="

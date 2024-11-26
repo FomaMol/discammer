@@ -10,6 +10,7 @@ import aiosqlite
 
 import config
 from config import CONTENT_DIR
+from database import _apply_pragmas
 
 log = logging.getLogger(__name__)
 
@@ -924,6 +925,10 @@ async def seed_database() -> None:
 async def _reseed_content() -> None:
     """Wipe + reinsert all content tables. Caller holds the seed lock."""
     async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        # Share the same connection tuning as the rest of the app (WAL is already
+        # persistent on the file from init_db; this also gives the busy_timeout
+        # and synchronous=NORMAL settings to the single largest write txn).
+        await _apply_pragmas(db)
         await db.execute("BEGIN")
 
         await db.execute("DELETE FROM post")

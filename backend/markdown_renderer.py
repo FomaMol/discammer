@@ -1,5 +1,6 @@
 import re
 import threading
+from functools import lru_cache
 from urllib.parse import urlparse
 
 import bleach
@@ -184,23 +185,22 @@ def _strip_duplicate_h1(text: str, post_title: str) -> str:
     return remainder.lstrip("\n")
 
 
-def render_markdown(text: str, post_title: str | None = None) -> str:
-    """Convert a Markdown string to sanitized HTML for the cyberpunk terminal UI.
+@lru_cache(maxsize=256)
+def _render_markdown_cached(text: str) -> str:
+    """Pure render+sanitize, memoized on the final markdown ``text``.
 
-    Sanitization strips scripts, event handlers, and dangerous URL schemes, but
-    preserves iframe embeds from a small allowlist of video/document hosts so
-    migrated video newsletters and interviews continue to render.
-
-    When ``post_title`` is supplied, a leading ``# Title`` line that duplicates
-    the post's frontmatter title is removed so the rendered body does not carry
-    a second h1 alongside the template's page heading.
+    ``markdown.convert`` + ``bleach.clean`` are CPU-heavy and were re-run on
+    every request, which serialized SSR pages on the threadpool under load
+    (measured: a page that renders in ~0.25s sequentially climbed to ~5s under
+    concurrency). The rendered output is a deterministic function of the input
+    text and the content is immutable for the lifetime of the process (the DB
+    is reseeded only at startup), so memoizing is safe and turns repeat renders
+    into a dict lookup. ``lru_cache`` is thread-safe under the GIL, so it is
+    safe to call from ``run_in_threadpool``. ``maxsize=256`` comfortably covers
+    the whole content corpus (~100 bodies across both locales) with headroom,
+    and bounds memory if content ever grows. A process restart (the only time
+    content changes) starts with an empty cache, so there is no staleness.
     """
-    if not text:
-        return ""
-
-    if post_title:
-        text = _strip_duplicate_h1(text, post_title)
-
     md = _get_md()
     md.reset()
     html = md.convert(text)
@@ -215,3 +215,27 @@ def render_markdown(text: str, post_title: str | None = None) -> str:
     )
 
     return f'<div class="md-content cyber-terminal">{safe}</div>'
+
+
+def render_markdown(text: str, post_title: str | None = None) -> str:
+    """Convert a Markdown string to sanitized HTML for the cyberpunk terminal UI.
+
+    Sanitization strips scripts, event handlers, and dangerous URL schemes, but
+    preserves iframe embeds from a small allowlist of video/document hosts so
+    migrated video newsletters and interviews continue to render.
+
+    When ``post_title`` is supplied, a leading ``# Title`` line that duplicates
+    the post's frontmatter title is removed so the rendered body does not carry
+    a second h1 alongside the template's page heading.
+
+    The heavy render is memoized (see ``_render_markdown_cached``); this wrapper
+    keeps the cheap, branch-y pre-processing (empty check, duplicate-h1 strip)
+    outside the cache so the memo key is the final markdown actually rendered.
+    """
+    if not text:
+        return ""
+
+    if post_title:
+        text = _strip_duplicate_h1(text, post_title)
+
+    return _render_markdown_cached(text)
