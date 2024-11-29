@@ -21,4 +21,13 @@ services:
       - ./data:/app/data
     environment:
       - PYTHONUNBUFFERED=1
+      # Run multiple uvicorn workers (uvicorn reads $WEB_CONCURRENCY). The app is
+      # ~70 MB/worker and SSR renders Jinja synchronously per request, so a single
+      # worker serialized page renders under any concurrency burst. The prod VPS
+      # has 2 CPUs and ~1.4 GB free RAM, so 2 workers parallelize renders across
+      # both cores with ample headroom. Startup stays safe: init_db and the
+      # content reseed each serialize across workers via an fcntl flock
+      # (.init.lock / .seed.lock). Set here (base) rather than prod-only so the CI
+      # e2e job — which uses this file — exercises the multi-worker startup path.
+      - WEB_CONCURRENCY=2
     restart: unless-stopped

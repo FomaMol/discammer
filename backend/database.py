@@ -1,3 +1,4 @@
+import fcntl
 import json
 from typing import Dict, List, Optional
 from contextlib import asynccontextmanager
@@ -127,9 +128,14 @@ async def _apply_pragmas(conn) -> None:
     ``busy_timeout`` makes a connection wait (up to 5s) for a lock instead of
     failing immediately with "database is locked"; ``synchronous=NORMAL`` is the
     safe, faster durability setting recommended with WAL.
+
+    Order matters: ``busy_timeout`` is set FIRST so the subsequent
+    ``journal_mode=WAL`` switch (which needs a brief exclusive lock) WAITS for a
+    competing connection instead of erroring out — without this, two worker
+    processes starting at once race on the very first WAL switch of a fresh DB.
     """
-    await conn.execute("PRAGMA journal_mode=WAL")
     await conn.execute("PRAGMA busy_timeout=5000")
+    await conn.execute("PRAGMA journal_mode=WAL")
     await conn.execute("PRAGMA synchronous=NORMAL")
 
 
@@ -139,23 +145,39 @@ async def init_db() -> None:
     All content tables are rebuilt from seed on every startup, so it is safe
     to drop any of them when its column set is out of sync with the current
     schema.
+
+    Serialized across worker processes with an exclusive ``fcntl.flock`` on
+    ``DATA_DIR/.init.lock``: under ``uvicorn --workers N`` every worker runs
+    this at startup, and the first ``journal_mode=WAL`` switch of a fresh DB
+    plus the ``CREATE``/``DROP`` statements need exclusive write access. Without
+    the lock the workers race and one dies with "database is locked" (busy_timeout
+    alone does not cover the WAL-mode switch). The lock mirrors the one
+    ``seed_database`` uses for the reseed; the two locks are taken sequentially
+    (init then seed), never nested, so they cannot deadlock. POSIX-only — prod
+    is Linux, dev macOS.
     """
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
-    async with aiosqlite.connect(config.DATABASE_PATH) as db:
-        await _apply_pragmas(db)
-        for table, required in (
-            ("post", _POST_REQUIRED_COLS),
-            ("scam_guide", _SCAM_GUIDE_REQUIRED_COLS),
-            ("course_module", _COURSE_MODULE_REQUIRED_COLS),
-            ("lesson", _LESSON_REQUIRED_COLS),
-        ):
-            cursor = await db.execute(f"PRAGMA table_info({table})")
-            existing_cols = {row[1] for row in await cursor.fetchall()}
-            if existing_cols and not required.issubset(existing_cols):
-                await db.execute(f"DROP TABLE {table}")
+    lock_fd = open(config.DATA_DIR / ".init.lock", "w")
+    try:
+        fcntl.flock(lock_fd.fileno(), fcntl.LOCK_EX)
+        async with aiosqlite.connect(config.DATABASE_PATH) as db:
+            await _apply_pragmas(db)
+            for table, required in (
+                ("post", _POST_REQUIRED_COLS),
+                ("scam_guide", _SCAM_GUIDE_REQUIRED_COLS),
+                ("course_module", _COURSE_MODULE_REQUIRED_COLS),
+                ("lesson", _LESSON_REQUIRED_COLS),
+            ):
+                cursor = await db.execute(f"PRAGMA table_info({table})")
+                existing_cols = {row[1] for row in await cursor.fetchall()}
+                if existing_cols and not required.issubset(existing_cols):
+                    await db.execute(f"DROP TABLE {table}")
 
-        await db.executescript(SQL_CREATE_TABLES)
-        await db.commit()
+            await db.executescript(SQL_CREATE_TABLES)
+            await db.commit()
+    finally:
+        fcntl.flock(lock_fd.fileno(), fcntl.LOCK_UN)
+        lock_fd.close()
 
 
 @asynccontextmanager
