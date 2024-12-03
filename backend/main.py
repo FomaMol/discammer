@@ -172,6 +172,22 @@ async def request_logging_middleware(request: "Request", call_next):
             "duration_ms": duration_ms,
         },
     )
+
+    # Cache-Control. Previously NOTHING was set, so browsers (notably iOS Safari)
+    # applied *heuristic* caching to the HTML: a transient bad/partial response
+    # served during a deploy/restart window could get pinned as "fresh" and keep
+    # rendering — a persistent blank/black page for that user while every fresh
+    # request gets the good page. Two buckets:
+    #   - content-hashed JS/CSS (filename changes on every build) -> cache hard.
+    #   - everything else, above all HTML -> `no-cache`: store but ALWAYS
+    #     revalidate (ETag 304s keep it cheap), so a bad response can never be
+    #     served stale and a deploy is picked up on the next load.
+    _path = request.url.path
+    if "cache-control" not in (k.lower() for k in response.headers.keys()):
+        if _path.startswith(("/static/js/", "/static/css/")):
+            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        else:
+            response.headers["Cache-Control"] = "no-cache"
     return response
 
 # Jinja2 templates — stored on app.state so routers can access them.
