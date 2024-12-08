@@ -35,6 +35,63 @@ preflight_diagnostics() {
   echo "===================================================================="
 }
 
+# REL-3: apply the repo's nginx config to the host, gated + safe.
+#
+# Gated by APPLY_NGINX=1 because deploy/nginx/discammer.conf still carries
+# `# RECONCILE:` markers — it is a best-known reconstruction, not yet a verified
+# mirror of the live vhost. DO NOT enable this until that file has been diffed
+# against the live config and every RECONCILE line resolved (see
+# deploy/nginx/README.md). Until then this is a no-op.
+#
+# When enabled it is fail-safe: it backs up the live files, copies the repo
+# config in, runs `nginx -t`, and reloads ONLY if the test passes. On ANY
+# failure it restores the backup and leaves the running nginx untouched — the
+# same "never break the thing that's serving" contract deploy.sh uses for the
+# app container.
+sync_nginx_config() {
+  local repo_dir="$1"
+  if [ "${APPLY_NGINX:-0}" != "1" ]; then
+    echo "nginx config sync skipped (set APPLY_NGINX=1 once deploy/nginx/*.conf is reconciled with live)"
+    return 0
+  fi
+  command -v nginx >/dev/null 2>&1 || { echo "nginx not on host — skipping config sync" >&2; return 0; }
+
+  local vhost_dst="${NGINX_VHOST_DST:-/etc/nginx/sites-enabled/discammer.conf}"
+  local include_src="$repo_dir/deploy/nginx/cloudflare-real-ip.conf"
+  local include_dst="/etc/nginx/cloudflare-real-ip.conf"
+  local vhost_src="$repo_dir/deploy/nginx/discammer.conf"
+  local stamp; stamp="$(date -u +%Y%m%d-%H%M%S)"
+  local bak="/etc/nginx/.discammer-backup-$stamp"
+
+  mkdir -p "$bak"
+  [ -f "$vhost_dst" ] && cp -a "$vhost_dst" "$bak/" || true
+  [ -f "$include_dst" ] && cp -a "$include_dst" "$bak/" || true
+
+  # Copy the CF real-IP include FIRST — the vhost `include`s it, so it must be in
+  # place before `nginx -t` parses the vhost.
+  [ -f "$include_src" ] && cp -a "$include_src" "$include_dst"
+  cp -a "$vhost_src" "$vhost_dst"
+
+  if nginx -t; then
+    nginx -s reload && echo "nginx config applied from git + reloaded"
+  else
+    echo "nginx -t FAILED on the repo config — restoring backup, live nginx untouched" >&2
+    [ -f "$bak/discammer.conf" ] && cp -a "$bak/discammer.conf" "$vhost_dst" || true
+    [ -f "$bak/cloudflare-real-ip.conf" ] && cp -a "$bak/cloudflare-real-ip.conf" "$include_dst" || rm -f "$include_dst"
+    return 1
+  fi
+}
+
+# CF-5: purge the Cloudflare edge cache after a healthy deploy. Best-effort —
+# skips cleanly when CF_API_TOKEN/CF_ZONE_ID are unset and never fails the
+# deploy (the script itself exits 0 unless RUN_STRICT=1).
+purge_edge_cache() {
+  local repo_dir="$1"
+  if [ -x "$repo_dir/scripts/cf-purge-cache.sh" ]; then
+    "$repo_dir/scripts/cf-purge-cache.sh" || echo "edge purge non-fatal failure — site is healthy" >&2
+  fi
+}
+
 main() {
   local repo_dir="${REPO_DIR:-/opt/discammer}"
   local compose="docker compose -f docker-compose.yml -f docker-compose.prod.yml"
@@ -152,9 +209,16 @@ main() {
     exit 1
   fi
 
-  # Healthy: prune dangling leftovers older than 24h. The :prev tag keeps the
-  # rollback candidate safe regardless of age. Best-effort: a daemon hiccup here
-  # must NOT fail the deploy job — the site is already up and serving.
+  # Healthy from here. Apply the proxy-layer config from git (gated, fail-safe)
+  # and refresh the edge cache so the new release isn't shadowed by stale HTML.
+  # Both are best-effort: the app is already up and serving, so a hiccup in
+  # either must not fail the deploy job.
+  sync_nginx_config "$repo_dir" || echo "nginx config sync failed (non-fatal — app is healthy, live nginx untouched)" >&2
+  purge_edge_cache "$repo_dir"
+
+  # Prune dangling leftovers older than 24h. The :prev tag keeps the rollback
+  # candidate safe regardless of age. Best-effort: a daemon hiccup here must NOT
+  # fail the deploy job — the site is already up and serving.
   docker image prune -f --filter "until=24h" \
     || echo "image prune failed (non-fatal — site is healthy)" >&2
 }
