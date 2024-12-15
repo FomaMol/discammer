@@ -7,8 +7,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from config import (
+    API_RATE_LIMIT,
     CLIENT_ERROR_RATE_LIMIT,
     CLIENT_ERROR_SAMPLE_RATE,
+    CSP_REPORT_RATE_LIMIT,
     METRICS_TOKEN,
     SITE_ORIGIN,
     STATIC_DIR,
@@ -16,6 +18,8 @@ from config import (
     configure_logging,
 )
 from database import init_db
+from ratelimit import RateLimiter
+from security import apply_security_headers, generate_nonce
 from seed_data import seed_database
 
 # Ensure the backend package is on sys.path so sibling imports work when
@@ -83,6 +87,21 @@ _request_logger = configure_logging()
 # never feeds the counters it exposes (no self-counting feedback loop).
 _METRICS_PATH = "/api/metrics"
 
+# ---------------------------------------------------------------------------
+# Rate limiters (SEC-2). One per concern, each an in-process per-IP token bucket
+# (see backend/ratelimit.py). Per-worker — the Cloudflare edge limit (CF-6) is
+# the global limiter; these are origin-side defense in depth.
+# ---------------------------------------------------------------------------
+# General read-API limiter (posts/guides/course/search). Excludes the paths
+# below: /api/health (monitors must never be throttled), /api/metrics (gated
+# separately), and the beacon/CSP sinks which have their own stricter buckets.
+_api_limiter = RateLimiter(API_RATE_LIMIT)
+_csp_report_limiter = RateLimiter(CSP_REPORT_RATE_LIMIT)
+# Paths under /api/ the general limiter must NOT touch.
+_API_RATE_LIMIT_EXEMPT = frozenset(
+    {"/api/health", "/api/metrics", "/api/client-errors", "/api/csp-report"}
+)
+
 
 def _route_template(request: "Request", fallback_path: str) -> str:
     """Low-cardinality route label for metrics.
@@ -119,7 +138,21 @@ def _record_metrics(request: "Request", status: int, duration_s: float) -> None:
 async def request_logging_middleware(request: "Request", call_next):
     rid = request.headers.get("X-Request-ID") or uuid4().hex
     request.state.request_id = rid
+    # SEC-1: per-request CSP nonce, exposed to templates as
+    # request.state.csp_nonce so inline <script> blocks can carry it.
+    request.state.csp_nonce = generate_nonce()
     start = _time_mod.perf_counter()
+
+    # SEC-2: origin-side per-IP rate limit on the public read API. Over the
+    # limit → 429 with no log line (no spam), Retry-After hints a backoff.
+    # Skips the exempt paths (health/metrics/own-limiter endpoints).
+    _path = request.url.path
+    if (
+        _path.startswith("/api/")
+        and _path not in _API_RATE_LIMIT_EXEMPT
+        and not _api_limiter.allow(_client_ip(request))
+    ):
+        return _Response(status_code=429, headers={"Retry-After": "60"})
 
     try:
         response = await call_next(request)
@@ -182,12 +215,24 @@ async def request_logging_middleware(request: "Request", call_next):
     #   - everything else, above all HTML -> `no-cache`: store but ALWAYS
     #     revalidate (ETag 304s keep it cheap), so a bad response can never be
     #     served stale and a deploy is picked up on the next load.
-    _path = request.url.path
     if "cache-control" not in (k.lower() for k in response.headers.keys()):
         if _path.startswith(("/static/js/", "/static/css/")):
             response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
         else:
             response.headers["Cache-Control"] = "no-cache"
+
+    # SEC-1: security headers on HTML documents only (CSP/X-Frame-Options/etc.
+    # are document-level — pointless on JSON/asset responses). The nonce in the
+    # CSP matches the one rendered into this page's inline <script> tags. The
+    # Unity game (/play/) gets the hardening headers but NOT the nonce CSP — its
+    # static engine-generated HTML can't be nonce'd and needs WASM eval.
+    if response.headers.get("content-type", "").startswith("text/html"):
+        apply_security_headers(
+            response,
+            request.state.csp_nonce,
+            include_csp=not _path.startswith("/play/"),
+        )
+
     return response
 
 # Jinja2 templates — stored on app.state so routers can access them.
@@ -336,17 +381,11 @@ from fastapi import Request, Response as _Response  # noqa: E402
 
 _CLIENT_ERROR_MAX_BODY = 2048  # ~2 KB hard cap on the request body.
 
-# Per-IP token bucket: ip -> (tokens, last_refill_monotonic). Refilled at
-# CLIENT_ERROR_RATE_LIMIT tokens/minute. Now genuinely per-IP (see _client_ip),
-# so the key space is the client-IP space — hard-capped at
-# _CLIENT_ERROR_BUCKET_MAX entries (see _client_error_allow) so a flood of
-# distinct IPs can't grow it unboundedly. Cleared in tests.
-_client_error_buckets: dict[str, tuple[float, float]] = {}
-_CLIENT_ERROR_REFILL_PER_SEC = CLIENT_ERROR_RATE_LIMIT / 60.0
-# Hard ceiling on the number of tracked IP buckets. Refill window (seconds) used
-# to evict stale buckets before falling back to a full reset.
-_CLIENT_ERROR_BUCKET_MAX = 4096
-_CLIENT_ERROR_REFILL_WINDOW_SEC = 60.0
+# Per-IP token bucket for the beacon (SEC-2: now the shared RateLimiter). The
+# module-level ``_client_error_buckets`` alias points at the limiter's live
+# bucket store so existing tests that clear it keep working unchanged.
+_client_error_limiter = RateLimiter(CLIENT_ERROR_RATE_LIMIT)
+_client_error_buckets = _client_error_limiter.buckets
 
 # Allowed error *names* are short identifier-ish tokens (JS error class names).
 # Anything else is bucketed to "Error" so a smuggled user paragraph in `name`
@@ -384,35 +423,12 @@ def _client_ip(request: "Request") -> str:
 
 
 def _client_error_allow(ip: str) -> bool:
-    """Token-bucket admission test. Returns False when the per-IP rate is
-    exceeded. Side-effect: decrements the bucket on admit.
+    """Token-bucket admission test (delegates to the shared RateLimiter).
 
     "Per-IP" holds behind our nginx: ``ip`` comes from ``_client_ip`` which
     resolves the real client via the trusted X-Real-IP header, so distinct
     clients get independent buckets even though they share the proxy socket."""
-    now = _time_mod.monotonic()
-    existing = _client_error_buckets.get(ip)
-    if existing is None and len(_client_error_buckets) >= _CLIENT_ERROR_BUCKET_MAX:
-        # At the cap and about to add a NEW key — first drop stale buckets
-        # (untouched for longer than a full refill window; they'd refill to full
-        # anyway). If that doesn't free room, clear the whole dict: a bounded
-        # worst-case reset. The limiter just refills fresh — fail-safe for
-        # telemetry, never a crash or unbounded memory.
-        cutoff = now - _CLIENT_ERROR_REFILL_WINDOW_SEC
-        for stale in [k for k, (_, last) in _client_error_buckets.items() if last < cutoff]:
-            del _client_error_buckets[stale]
-        if len(_client_error_buckets) >= _CLIENT_ERROR_BUCKET_MAX:
-            _client_error_buckets.clear()
-    tokens, last = existing if existing is not None else (float(CLIENT_ERROR_RATE_LIMIT), now)
-    tokens = min(
-        float(CLIENT_ERROR_RATE_LIMIT),
-        tokens + (now - last) * _CLIENT_ERROR_REFILL_PER_SEC,
-    )
-    if tokens < 1.0:
-        _client_error_buckets[ip] = (tokens, now)
-        return False
-    _client_error_buckets[ip] = (tokens - 1.0, now)
-    return True
+    return _client_error_limiter.allow(ip)
 
 
 def _ua_family(user_agent: str | None) -> str:
@@ -508,6 +524,92 @@ async def client_errors(request: Request):
             "error_name": name,
             "message_class": message_class,
             "ua_family": _ua_family(request.headers.get("user-agent")),
+        },
+    )
+    return _Response(status_code=204)
+
+
+# ---------------------------------------------------------------------------
+# SEC-1 — CSP violation report sink (POST /api/csp-report)
+#
+# Where browsers POST Content-Security-Policy-Report-Only violations during the
+# bake-in period. Same privacy posture as the client-error beacon: stores
+# NOTHING, body-capped before parsing, per-IP rate-limited (no log spam), and
+# logs only the COARSE shape of a violation — the violated directive and the
+# SCHEME+HOST of the blocked URI (never the full path/query, which are our own
+# URLs but kept minimal anyway). One line per report, at INFO, so a week of
+# Report-Only surfaces what the strict policy would block before we enforce.
+# ---------------------------------------------------------------------------
+
+_CSP_REPORT_MAX_BODY = 8192  # CSP reports are small JSON; 8 KB is generous.
+# A directive token is a short keyword like "script-src" / "frame-src".
+_CSP_DIRECTIVE_RE = _re.compile(r"^[a-z][a-z0-9\-]{0,39}$")
+
+
+def _csp_blocked_origin(value) -> str:
+    """Reduce a blocked-uri to scheme://host (or a coarse keyword like
+    'inline'/'eval'/'data'); drop path/query entirely."""
+    if not isinstance(value, str) or not value:
+        return "unknown"
+    low = value.lower()
+    if low in ("inline", "eval", "self", "data", "blob"):
+        return low
+    try:
+        from urllib.parse import urlparse
+
+        p = urlparse(value)
+        if p.scheme and p.hostname:
+            return f"{p.scheme}://{p.hostname}"
+        if p.scheme:
+            return f"{p.scheme}:"
+    except ValueError:
+        pass
+    return "other"
+
+
+@app.post("/api/csp-report", include_in_schema=False)
+async def csp_report(request: Request):
+    content_length = request.headers.get("content-length")
+    if content_length is not None:
+        try:
+            if int(content_length) > _CSP_REPORT_MAX_BODY:
+                return _Response(status_code=413)
+        except ValueError:
+            return _Response(status_code=413)
+
+    body = bytearray()
+    async for chunk in request.stream():
+        body.extend(chunk)
+        if len(body) > _CSP_REPORT_MAX_BODY:
+            return _Response(status_code=413)
+    body = bytes(body)
+
+    if not _csp_report_limiter.allow(_client_ip(request)):
+        return _Response(status_code=429)
+
+    directive = "unknown"
+    blocked = "unknown"
+    try:
+        import json as _json
+
+        payload = _json.loads(body or b"{}")
+        # report-uri sends {"csp-report": {...}}; tolerate a bare object too.
+        report = payload.get("csp-report", payload) if isinstance(payload, dict) else {}
+        if isinstance(report, dict):
+            d = report.get("effective-directive") or report.get("violated-directive") or ""
+            d = d.split()[0] if isinstance(d, str) and d else ""
+            if _CSP_DIRECTIVE_RE.match(d):
+                directive = d
+            blocked = _csp_blocked_origin(report.get("blocked-uri"))
+    except (ValueError, TypeError):
+        pass
+
+    _request_logger.info(
+        "csp violation",
+        extra={
+            "rid": getattr(request.state, "request_id", None),
+            "csp_directive": directive,
+            "csp_blocked": blocked,
         },
     )
     return _Response(status_code=204)

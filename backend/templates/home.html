@@ -4,7 +4,7 @@
 {% block jsonld %}
 {% set _home_url = request.url._url if request else '' %}
 {% set _lang_h = lang | default('en') %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
   "@graph": [

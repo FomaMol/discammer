@@ -36,3 +36,18 @@ def client(app):
 
     with TestClient(app) as c:
         yield c
+
+
+@pytest.fixture(autouse=True)
+def _reset_rate_limiters():
+    """Isolate the in-memory per-IP limiters between tests so the general
+    /api/* limiter (and the CSP-report sink) can't bleed accumulated counts from
+    one test into another — the TestClient reuses 'testclient' as the peer IP.
+    The client-error beacon limiter has its own reset in test_client_errors."""
+    import main
+
+    for name in ("_api_limiter", "_csp_report_limiter", "_client_error_limiter"):
+        lim = getattr(main, name, None)
+        if lim is not None:
+            lim.clear()
+    yield

@@ -6,7 +6,7 @@
 {# Article + BreadcrumbList. Strings escaped via | tojson so quotes / linebreaks survive. #}
 {% set _post_url = request.url._url if request else '' %}
 {% set _post_image = post.cover_image or '/static/images/og/discammer-og.svg' %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
   "@graph": [

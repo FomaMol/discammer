@@ -95,7 +95,7 @@
   {% endfor %}
 
   {# Base JSON-LD: Organization + WebSite. Per-page templates can append more via the jsonld block. #}
-  <script type="application/ld+json">
+  <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
   {
     "@context": "https://schema.org",
     "@graph": [
@@ -321,7 +321,7 @@
        frontend/src/utils/i18n.ts — no per-component translation tables.
        `get_client_bundle` is a Jinja global registered in main.py; the
        `is defined` guard keeps pages rendering even if it were ever absent. -->
-  <script>
+  <script nonce="{{ request.state.csp_nonce }}">
     window.__DISCAMMER_I18N__ = {
       lang: {{ _lang | tojson }},
       otherLang: {{ _other | tojson }},

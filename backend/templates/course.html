@@ -5,7 +5,7 @@
 {% block jsonld %}
 {% set _course_url = request.url._url if request else '' %}
 {% set _iso_duration = (course_totals.iso_duration if course_totals else 'PT8H') %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
   "@graph": [

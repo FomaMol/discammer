@@ -88,6 +88,44 @@ CLIENT_ERROR_RATE_LIMIT = _env_int("CLIENT_ERROR_RATE_LIMIT", 30)
 METRICS_TOKEN = os.environ.get("METRICS_TOKEN", "")
 
 
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.environ.get(name)
+    if raw is None or raw == "":
+        return default
+    return raw.strip().lower() not in ("0", "false", "no", "off")
+
+
+# ---------------------------------------------------------------------------
+# Security (SEC-1 CSP + headers, SEC-2 rate limiting)
+# ---------------------------------------------------------------------------
+
+# Content-Security-Policy. Shipped in Report-Only first (reports violations,
+# blocks nothing) so the strict policy can be validated against the real pages —
+# islands, the WebGL hero, Plyr, embedded video iframes — before enforcing. Flip
+# CSP_REPORT_ONLY=0 to enforce once reports are clean. CSP_ENABLED=0 disables it
+# entirely. See backend/security.py for the policy itself.
+CSP_ENABLED = _env_bool("CSP_ENABLED", True)
+CSP_REPORT_ONLY = _env_bool("CSP_REPORT_ONLY", True)
+# Where the browser POSTs violation reports. Empty disables the report-uri
+# directive (and the endpoint stays harmless/unused).
+CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", "/api/csp-report")
+# Extra space-separated connect-src hosts (e.g. "https://static.cloudflareinsights.com"
+# when the CF Web Analytics beacon — CF-9 — is enabled).
+CSP_CONNECT_EXTRA = os.environ.get("CSP_CONNECT_EXTRA", "")
+
+# Per-IP token-bucket ceiling (requests/minute) applied to the public read
+# endpoints under /api/* (posts/guides/course/search) as origin-side defense in
+# depth behind the Cloudflare edge rate limit (CF-6). Excludes /api/health
+# (monitors must never be throttled), /api/metrics, and the beacon/CSP endpoints
+# which carry their own stricter limiters. 0 disables. Calibrate against the
+# PERF-4 baseline (docs/deploy/capacity.md).
+API_RATE_LIMIT = _env_int("API_RATE_LIMIT", 240)
+
+# Per-IP ceiling (requests/minute) for the CSP violation report sink. Reports can
+# burst from a single broken page load, so this is generous but bounded.
+CSP_REPORT_RATE_LIMIT = _env_int("CSP_REPORT_RATE_LIMIT", 60)
+
+
 # ---------------------------------------------------------------------------
 # Logging configuration
 #
@@ -113,6 +151,9 @@ _REQUEST_LOG_FIELDS = (
     "error_name",
     "message_class",
     "ua_family",
+    # SEC-1 CSP report sink — coarse violation shape only.
+    "csp_directive",
+    "csp_blocked",
 )
 
 

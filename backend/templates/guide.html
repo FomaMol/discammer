@@ -6,7 +6,7 @@
 {% set _guide_url = request.url._url if request else '' %}
 {% set _guide_image = '/static/images/og/discammer-og.svg' %}
 {% set _guide_category = (guide.category or 'fraud') | replace('-', ' ') | title %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
   "@graph": [
@@ -382,7 +382,7 @@
 </div>
 
 <!-- Auto-populate the sticky ToC from rendered h2 headings -->
-<script>
+<script nonce="{{ request.state.csp_nonce }}">
   (function () {
     const article = document.getElementById('guide-article');
     const toc = document.getElementById('guide-toc');
