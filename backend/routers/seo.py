@@ -85,30 +85,45 @@ async def sitemap_xml(request: Request) -> Response:
     guides = await get_guides(locale="en")
     modules = await get_course_modules(locale="en")
 
-    urls: list[str] = []
-    for lang in SUPPORTED_LANGS:
-        urls.append(f"{base}/{lang}/")
-        urls.append(f"{base}/{lang}/journal")
-        urls.append(f"{base}/{lang}/course")
-        urls.append(f"{base}/{lang}/game")
-        urls.append(f"{base}/{lang}/about")
-        for post in posts:
-            slug = post.get("slug")
-            if slug:
-                urls.append(f"{base}/{lang}/journal/{slug}")
-        for guide in guides:
-            slug = guide.get("slug")
-            if slug:
-                urls.append(f"{base}/{lang}/guide/{slug}")
-        for module in modules:
-            slug = module.get("slug")
-            if slug:
-                urls.append(f"{base}/{lang}/course/{slug}")
+    # Language-agnostic path suffixes (slugs are shared across locales). "" is
+    # the localized home (/{lang}/); the rest map to /{lang}/{suffix}.
+    suffixes: list[str] = ["", "journal", "course", "game", "about"]
+    for post in posts:
+        if post.get("slug"):
+            suffixes.append(f"journal/{post['slug']}")
+    for guide in guides:
+        if guide.get("slug"):
+            suffixes.append(f"guide/{guide['slug']}")
+    for module in modules:
+        if module.get("slug"):
+            suffixes.append(f"course/{module['slug']}")
 
+    def _loc(lang: str, suffix: str) -> str:
+        return f"{base}/{lang}/" if not suffix else f"{base}/{lang}/{suffix}"
+
+    # SEO-1: emit one <url> per (locale, page) carrying xhtml:link hreflang
+    # alternates to every locale + x-default (→ en), so Google links the locales
+    # instead of treating /en and /ru as duplicates.
     body_parts = ['<?xml version="1.0" encoding="UTF-8"?>\n']
-    body_parts.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
-    for url in urls:
-        body_parts.append(f"  <url><loc>{_xml_escape(url)}</loc></url>\n")
+    body_parts.append(
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+    )
+    for suffix in suffixes:
+        alternates = "".join(
+            f'    <xhtml:link rel="alternate" hreflang="{lang}" '
+            f'href="{_xml_escape(_loc(lang, suffix))}"/>\n'
+            for lang in SUPPORTED_LANGS
+        )
+        alternates += (
+            f'    <xhtml:link rel="alternate" hreflang="x-default" '
+            f'href="{_xml_escape(_loc("en", suffix))}"/>\n'
+        )
+        for lang in SUPPORTED_LANGS:
+            body_parts.append(
+                f"  <url><loc>{_xml_escape(_loc(lang, suffix))}</loc>\n"
+                f"{alternates}  </url>\n"
+            )
     body_parts.append("</urlset>\n")
 
     return Response("".join(body_parts), media_type="application/xml; charset=utf-8")

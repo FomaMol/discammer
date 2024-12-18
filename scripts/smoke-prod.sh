@@ -39,6 +39,36 @@ fi
 
 echo "[smoke-prod] target:    ${BASE_URL}"
 echo "[smoke-prod] expect SHA: ${SMOKE_EXPECT_SHA:-<unset; any non-empty version passes>}"
+
+# SEC-1/SEC-4 — assert security headers on the live HTML before the Playwright
+# pass. The always-on hardening headers are FATAL if missing (a regression in
+# backend/security.py or a stale image). The CSP is reported as a warning only,
+# since it is env-toggleable (CSP_ENABLED) and rolls out Report-Only first.
+check_security_headers() {
+  local url="${BASE_URL}/en/"
+  echo "[smoke-prod] checking security headers on ${url} ..."
+  local hdrs
+  hdrs="$(curl -fsSL -D - -o /dev/null --max-time 15 "$url" | tr 'A-Z' 'a-z')" || {
+    echo "[smoke-prod] ERROR: could not fetch ${url} for header check" >&2
+    return 1
+  }
+  local missing=()
+  for h in x-frame-options x-content-type-options referrer-policy permissions-policy; do
+    grep -qi "^${h}:" <<< "$hdrs" || missing+=("$h")
+  done
+  if [ "${#missing[@]}" -ne 0 ]; then
+    echo "[smoke-prod] ERROR: missing required security headers: ${missing[*]}" >&2
+    return 1
+  fi
+  if grep -qiE '^content-security-policy(-report-only)?:' <<< "$hdrs"; then
+    echo "[smoke-prod] CSP present ($(grep -oiE 'content-security-policy(-report-only)?' <<< "$hdrs" | head -1))."
+  else
+    echo "[smoke-prod] WARNING: no CSP header (CSP_ENABLED off?)." >&2
+  fi
+  echo "[smoke-prod] security headers OK."
+}
+check_security_headers
+
 echo "[smoke-prod] running @smoke specs (read-only) ..."
 
 # E2E_BASE_URL routes the Playwright config at the external origin and SKIPS the

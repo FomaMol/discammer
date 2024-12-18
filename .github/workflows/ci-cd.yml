@@ -44,6 +44,29 @@ jobs:
         if: always()
         run: pip-audit -r requirements.txt -r requirements-dev.txt --desc || true
 
+      # SEC-4 — static application security testing (SAST). Non-blocking for
+      # now (|| true): we surface findings in the log to triage before turning
+      # any rule into a gate. bandit = Python security linter; semgrep =
+      # pattern rules incl. FastAPI/XSS. Scope to our code (backend/, scripts/),
+      # never the vendored .venv.
+      - name: Install SAST tools (pinned)
+        # Non-fatal: SAST is informational for now, so a tool-install hiccup or a
+        # pin that ages out must never block the supply-chain job. The scan steps
+        # below tolerate the tool being absent (|| true).
+        if: always()
+        run: pip install bandit==1.8.6 semgrep==1.139.0 || echo "::warning::SAST tools failed to install — scans skipped"
+
+      - name: bandit (Python SAST — informational)
+        if: always()
+        run: bandit -r backend -x backend/.venv,backend/tests -ll || true
+
+      - name: semgrep (informational)
+        if: always()
+        run: |
+          semgrep --config p/python --config p/security-audit \
+            --exclude backend/.venv --exclude backend/tests \
+            backend scripts || true
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
