@@ -5,6 +5,31 @@
 
 ---
 
+## Статус выполнения (обновлено 2026-06-23)
+
+Реализовано всё, что делается кодом, по Спринтам 1–3. Внешние действия Cloudflare (регистрация, NS, дашборд) — подготовлены конфиги + пошаговый runbook, но **требуют ручного выполнения владельцем**.
+
+| ID | Статус | Артефакт |
+|----|--------|----------|
+| CF-1,2,3,4,6,7,9 | 📋 Документировано (внешнее) | `docs/cloudflare/SETUP.md` |
+| CF-5 | ✅ Код | `scripts/cf-purge-cache.sh` + хук в `deploy.sh` |
+| CF-8 | ✅ Код | `scripts/cf-firewall.sh`, `deploy/nginx/cloudflare-real-ip.conf`, `scripts/gen-cf-real-ip.sh` |
+| SEC-1 | ✅ Код (Report-Only) | `backend/security.py`, nonce во всех inline-`<script>`, `docs/security/CSP.md` |
+| SEC-2 | ✅ Код | `backend/ratelimit.py` + `/api/*` лимит |
+| SEC-3 | ✅ Документировано | `docs/ops/secrets.md` |
+| SEC-4 | ✅ Код | bandit/semgrep в CI + header-check в `smoke-prod.sh` |
+| REL-1 | ✅ Код | `scripts/backup-db.sh`/`restore-db.sh`, `docs/ops/backups.md` |
+| REL-2 | ✅ Документировано | `docs/ops/runbook.md` |
+| REL-3 | ✅ Код (gated `APPLY_NGINX=1`) | `sync_nginx_config` в `deploy.sh` |
+| PERF-4 | ✅ Код | `scripts/loadtest/`, `docs/deploy/capacity.md` |
+| SEO-1 | ✅ Код | hreflang/canonical (`base.html`) + sitemap `xhtml:link` |
+
+**Осталось (не начато):** AN-1, OBS-1, UX-3 (Спринт 3, код-доступно); весь Спринт 4 (P2: PERF-1/2/3, OBS-2, SEO-2/3, UX-1/2/5, REL-4); backlog через brainstorming — UX-4, UX-6, UX-7.
+
+**⚠️ Перед enforce CSP:** конвертировать inline `onmouseover` в `home.html` в CSS `:hover` (см. `docs/security/CSP.md`).
+
+---
+
 ## 0. Краткий обзор текущего состояния
 
 **Что уже хорошо (база, на которую опираемся):**
