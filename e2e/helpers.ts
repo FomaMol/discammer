@@ -110,6 +110,15 @@ export function appConsoleErrors(errors: string[]): string[] {
     if (/Failed to load resource: the server responded with a status of (404|403)/i.test(e)) {
       return false;
     }
+    // SEC-1: CSP ships Report-Only first (intentional diagnostics, never
+    // blocking). Chromium logs report-only violations at error level prefixed
+    // "[Report Only]". They are telemetry, not application errors, so drop them
+    // — the same reasoning we use for intentional i18n console.warn. (An
+    // ENFORCED violation has no "[Report Only]" prefix and is NOT filtered, so
+    // a real breakage after we flip to enforce would still fail the suite.)
+    if (/\[Report Only\]/i.test(e)) {
+      return false;
+    }
     return true;
   });
 }

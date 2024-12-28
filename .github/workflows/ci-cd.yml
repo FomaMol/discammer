@@ -155,6 +155,11 @@ jobs:
     name: E2E (Playwright)
     runs-on: ubuntu-latest
     needs: [backend-tests, frontend-build]
+    # SEC-2: Playwright drives all traffic from one source IP (no nginx in CI),
+    # so disable the origin /api/* rate limit here — otherwise the shared bucket
+    # would throttle the run. docker-compose.yml reads this at `up` time.
+    env:
+      API_RATE_LIMIT: "0"
     steps:
       - uses: actions/checkout@v4
         with:

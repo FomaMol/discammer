@@ -30,4 +30,11 @@ services:
       # (.init.lock / .seed.lock). Set here (base) rather than prod-only so the CI
       # e2e job — which uses this file — exercises the multi-worker startup path.
       - WEB_CONCURRENCY=2
+      # SEC-2 origin-side /api/* rate limit (per-IP, req/min). Prod uses the
+      # default (unset → 240 in config). The e2e job sets API_RATE_LIMIT=0 to
+      # disable it, because Playwright drives every request from a SINGLE source
+      # IP (no nginx in CI → no per-client X-Real-IP), which would otherwise
+      # share one bucket and throttle the test run. The real global limiter is
+      # the Cloudflare edge (CF-6); this is origin-side defense in depth.
+      - API_RATE_LIMIT=${API_RATE_LIMIT:-240}
     restart: unless-stopped

@@ -37,6 +37,13 @@
 
 {% block content %}
 
+{# SEC-1: related-card hover border via CSS :hover + a --hv-bc custom property
+   (per-item colour set inline) instead of an inline onmouseover handler, which
+   a nonce-based CSP forbids. #}
+<style>
+  .hv-border:hover{border-color:var(--hv-bc)!important;}
+</style>
+
 {% set _lang = lang %}
 {% set _next_post = related_posts[0] if related_posts and related_posts|length > 0 else None %}
 {% set _cover_label = t(_lang, 'post.cover_label') %}
@@ -282,10 +289,8 @@
       <li>
         <a
           href="/{{ _lang }}/journal/{{ related.slug }}"
-          class="group block h-full rounded-md transition-colors duration-300"
-          style="background: #0b0f1a; border: 1px solid #202a44; padding: 20px; text-decoration: none;"
-          onmouseover="this.style.borderColor='{{ _rhover }}'"
-          onmouseout="this.style.borderColor='#202a44'"
+          class="group block h-full rounded-md transition-colors duration-300 hv-border"
+          style="--hv-bc: {{ _rhover }}; background: #0b0f1a; border: 1px solid #202a44; padding: 20px; text-decoration: none;"
         >
           <span
             class="font-mono uppercase rounded-sm"
