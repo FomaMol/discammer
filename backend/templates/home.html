@@ -37,21 +37,6 @@
 {% set _lang = lang %}
 {% set _now = now() %}
 
-{# SEC-1: hover states as CSS :hover (not inline onmouseover handlers, which a
-   nonce-based CSP forbids). !important beats the element's inline base style;
-   --hv-bc / --hv-bg custom properties let one rule serve differently-coloured
-   cards. style-src 'unsafe-inline' permits this inline <style> block. #}
-<style>
-  .hv-cta-primary:hover{background:#9eecf6!important;transform:translateY(-1px)!important;}
-  .hv-cta-ghost:hover{border-color:#3a8b9a!important;color:#9eecf6!important;background:rgba(101,222,240,0.08)!important;}
-  .hv-cta-green:hover{background:rgba(124,232,150,0.10)!important;border-color:#7ce896!important;}
-  .hv-link:hover{color:#65def0!important;}
-  .hv-indent:hover{padding-left:8px!important;}
-  .hv-border:hover{border-color:var(--hv-bc)!important;}
-  .hv-lift:hover{border-color:var(--hv-bc)!important;transform:translateY(-2px)!important;}
-  .hv-fill:hover{border-color:var(--hv-bc)!important;background:var(--hv-bg)!important;}
-</style>
-
 {# ===== HOME A — editorial cadence redesign (ported from docs/design/redesign-canvas) ===== #}
 
 <section style="position:relative;overflow:hidden;border-bottom:1px solid #202a44;" aria-label="{{ t(_lang, 'home.hero_aria') }}">
@@ -75,8 +60,8 @@
         <p style="font-family:Geist,ui-sans-serif,system-ui,sans-serif;font-size:clamp(16px,1.1vw,18px);line-height:1.6;color:#aab2c4;max-width:52ch;margin:0 0 32px;text-wrap:pretty;">{{ t(_lang, 'home.hero_subtitle') }}</p>
 
         <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px;">
-          <a href="/{{ _lang }}/course" class="hv-cta-primary" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0b0f1a;background:#65def0;border:none;border-radius:4px;padding:13px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:transform .18s cubic-bezier(0.16,1,0.3,1),background .18s cubic-bezier(0.16,1,0.3,1);">{{ t(_lang, 'home.hero_cta_course') }}</a>
-          <a href="/{{ _lang }}/game" class="hv-cta-ghost" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#e7ecf5;background:transparent;border:1px solid #2b3759;border-radius:4px;padding:13px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .18s cubic-bezier(0.16,1,0.3,1);"><span aria-hidden="true">&#9654;</span>{{ t(_lang, 'home.hero_cta_game') }}</a>
+          <a href="/{{ _lang }}/course" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0b0f1a;background:#65def0;border:none;border-radius:4px;padding:13px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:transform .18s cubic-bezier(0.16,1,0.3,1),background .18s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.background='#9eecf6';this.style.transform='translateY(-1px)';" onmouseout="this.style.background='#65def0';this.style.transform='translateY(0)';">{{ t(_lang, 'home.hero_cta_course') }}</a>
+          <a href="/{{ _lang }}/game" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#e7ecf5;background:transparent;border:1px solid #2b3759;border-radius:4px;padding:13px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .18s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.borderColor='#3a8b9a';this.style.color='#9eecf6';this.style.background='rgba(101,222,240,0.08)';" onmouseout="this.style.borderColor='#2b3759';this.style.color='#e7ecf5';this.style.background='transparent';"><span aria-hidden="true">&#9654;</span>{{ t(_lang, 'home.hero_cta_game') }}</a>
         </div>
 
         <div style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:#8b94a8;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -206,8 +191,9 @@
       </h2>
     </div>
     <a href="/{{ _lang }}/journal"
-       class="group font-mono inline-flex items-center gap-1.5 whitespace-nowrap hv-link"
-       style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aab2c4;text-decoration:none;transition:color .18s cubic-bezier(0.16,1,0.3,1);">
+       class="group font-mono inline-flex items-center gap-1.5 whitespace-nowrap"
+       style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aab2c4;text-decoration:none;transition:color .18s cubic-bezier(0.16,1,0.3,1);"
+       onmouseover="this.style.color='#65def0'" onmouseout="this.style.color='#aab2c4'">
       <span>{{ t(_lang, 'home.iv_all') }}</span><span aria-hidden="true">&rarr;</span>
     </a>
   </div>
@@ -218,8 +204,9 @@
 
     <!-- FEATURED LEAD (interviews[0]) -->
     <a href="/{{ _lang }}/journal/{{ lead.slug }}"
-       class="group block hv-lift"
-       style="--hv-bc:#3a8b9a;position:relative;background:#1a2236;border:1px solid #2b3759;border-radius:6px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;min-height:340px;transition:border-color .26s cubic-bezier(0.16,1,0.3,1),transform .26s cubic-bezier(0.16,1,0.3,1);"
+       class="group block"
+       style="position:relative;background:#1a2236;border:1px solid #2b3759;border-radius:6px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;min-height:340px;transition:border-color .26s cubic-bezier(0.16,1,0.3,1),transform .26s cubic-bezier(0.16,1,0.3,1);"
+       onmouseover="this.style.borderColor='#3a8b9a';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#2b3759';this.style.transform='none'"
        aria-label="{{ t(_lang, 'journal.filter_interview') }}: {{ lead.title }}">
       <div style="flex:1;position:relative;background:linear-gradient(135deg,#13243a,#0c1422);border-bottom:1px solid #202a44;display:flex;align-items:flex-end;padding:22px;overflow:hidden;">
         <div class="font-mono" aria-hidden="true" style="position:absolute;top:18px;right:18px;font-size:54px;font-weight:800;color:rgba(101,222,240,0.10);letter-spacing:-0.04em;line-height:1;">01</div>
@@ -255,8 +242,9 @@
     <div class="flex flex-col" style="gap:18px;">
       {% for iv in siblings %}
       <a href="/{{ _lang }}/journal/{{ iv.slug }}"
-         class="group block hv-fill"
-         style="--hv-bc:#3a8b9a;--hv-bg:#1a2236;flex:1;background:#121828;border:1px solid #202a44;border-radius:6px;padding:18px 18px 16px;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .26s cubic-bezier(0.16,1,0.3,1),background .26s cubic-bezier(0.16,1,0.3,1);"
+         class="group block"
+         style="flex:1;background:#121828;border:1px solid #202a44;border-radius:6px;padding:18px 18px 16px;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .26s cubic-bezier(0.16,1,0.3,1),background .26s cubic-bezier(0.16,1,0.3,1);"
+         onmouseover="this.style.borderColor='#3a8b9a';this.style.background='#1a2236'" onmouseout="this.style.borderColor='#202a44';this.style.background='#121828'"
          aria-label="{{ t(_lang, 'journal.filter_interview') }}: {{ iv.title }}">
         <div>
           <div class="flex items-center gap-2.5" style="margin-bottom:12px;">
@@ -317,8 +305,10 @@
       </p>
       <a
         href="/{{ _lang }}/journal"
-        class="inline-flex items-center font-mono hv-cta-green"
+        class="inline-flex items-center font-mono"
         style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7ce896;background:transparent;border:1px solid rgba(124,232,150,0.4);border-radius:4px;padding:10px 16px;text-decoration:none;transition:background 180ms cubic-bezier(0.16,1,0.3,1),border-color 180ms cubic-bezier(0.16,1,0.3,1);"
+        onmouseover="this.style.background='rgba(124,232,150,0.10)';this.style.borderColor='#7ce896';"
+        onmouseout="this.style.background='transparent';this.style.borderColor='rgba(124,232,150,0.4)';"
       >
         {{ t(_lang, 'home.nl_subscribe') }}
       </a>
@@ -333,8 +323,10 @@
       <li>
         <a
           href="/{{ _lang }}/journal/{{ nl.slug }}"
-          class="group grid items-baseline hv-indent"
+          class="group grid items-baseline"
           style="grid-template-columns:auto 1fr auto;gap:14px;padding:18px 0;border-bottom:1px solid #202a44;text-decoration:none;transition:padding-left 200ms cubic-bezier(0.16,1,0.3,1);"
+          onmouseover="this.style.paddingLeft='8px';"
+          onmouseout="this.style.paddingLeft='0';"
         >
           {% if nl.published_at %}
           <time
@@ -529,8 +521,10 @@
       <!-- FEATURED: articles[0] -->
       {% set _feat = articles[0] %}
       <a href="/{{ _lang }}/journal/{{ _feat.slug }}"
-         class="group block hv-lift"
-         style="--hv-bc:#f4b965;position:relative;background:#0b0f1a;border:1px solid #202a44;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-height:300px;text-decoration:none;transition:border-color .26s cubic-bezier(0.16,1,0.3,1),transform .26s cubic-bezier(0.16,1,0.3,1);">
+         class="group block"
+         style="position:relative;background:#0b0f1a;border:1px solid #202a44;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-height:300px;text-decoration:none;transition:border-color .26s cubic-bezier(0.16,1,0.3,1),transform .26s cubic-bezier(0.16,1,0.3,1);"
+         onmouseover="this.style.borderColor='#f4b965';this.style.transform='translateY(-2px)';"
+         onmouseout="this.style.borderColor='#202a44';this.style.transform='translateY(0)';">
 
         <!-- Cover: real image if present, else big faint mono "A" glyph -->
         <div style="flex:1;position:relative;min-height:160px;border-bottom:1px solid #202a44;overflow:hidden;
@@ -570,8 +564,10 @@
       <div style="display:flex;flex-direction:column;gap:18px;">
         {% for ar in articles[1:3] %}
         <a href="/{{ _lang }}/journal/{{ ar.slug }}"
-           class="group block hv-border"
-           style="--hv-bc:#f4b965;flex:1;background:#0b0f1a;border:1px solid #202a44;border-radius:6px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-height:120px;text-decoration:none;transition:border-color .26s cubic-bezier(0.16,1,0.3,1);">
+           class="group block"
+           style="flex:1;background:#0b0f1a;border:1px solid #202a44;border-radius:6px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-height:120px;text-decoration:none;transition:border-color .26s cubic-bezier(0.16,1,0.3,1);"
+           onmouseover="this.style.borderColor='#f4b965';"
+           onmouseout="this.style.borderColor='#202a44';">
           <h3 style="font-family:Geist,system-ui,sans-serif;font-weight:600;font-size:17px;line-height:1.3;letter-spacing:-0.01em;color:#e7ecf5;margin:0;text-wrap:balance;">
             {{ ar.title }}
           </h3>
@@ -586,8 +582,10 @@
         <!-- Fallback so the pair column never collapses to empty when only 1 article exists -->
         {% if articles|length <= 1 %}
         <a href="/{{ _lang }}/journal"
-           class="group block hv-border"
-           style="--hv-bc:#f4b965;flex:1;background:#0b0f1a;border:1px solid #202a44;border-radius:6px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:120px;text-decoration:none;transition:border-color .26s cubic-bezier(0.16,1,0.3,1);">
+           class="group block"
+           style="flex:1;background:#0b0f1a;border:1px solid #202a44;border-radius:6px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:120px;text-decoration:none;transition:border-color .26s cubic-bezier(0.16,1,0.3,1);"
+           onmouseover="this.style.borderColor='#f4b965';"
+           onmouseout="this.style.borderColor='#202a44';">
           <span style="font-family:Geist,system-ui,sans-serif;font-weight:600;font-size:15px;line-height:1.3;color:#aab2c4;">
             {{ t(_lang, 'home.art_browse_all') }}
           </span>
