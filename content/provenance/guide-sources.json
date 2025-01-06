@@ -1,0 +1,242 @@
+{
+  "version": 1,
+  "catalogued_at": "2026-07-13",
+  "guides": {
+    "abuse-on-dating-sites": {
+      "scope": {
+        "en": "Educational pattern guide. Its sources are U.S. public-agency guidance; local reporting and payment-recovery routes differ. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источники — рекомендации государственных органов США; местные каналы обращений и возврата платежей различаются. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/what-know-about-romance-scams",
+          "title": {
+            "en": "What To Know About Romance Scams",
+            "ru": "Что важно знать о романтическом мошенничестве"
+          },
+          "scope_note": {
+            "en": "Supports the guide's patterns of fake profiles, unverifiable distance stories, money requests, and independent verification steps.",
+            "ru": "Подтверждает описанные в гиде паттерны фейковых профилей, непроверяемых историй о расстоянии, просьб о деньгах и независимой проверки."
+          }
+        }
+      ]
+    },
+    "fake-online-stores": {
+      "scope": {
+        "en": "Educational pattern guide. Its sources are U.S. public-agency guidance; local consumer rights and card-dispute rules differ. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источники — рекомендации государственных органов США; местные права потребителей и правила оспаривания платежей различаются. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/online-shopping",
+          "title": {
+            "en": "Online Shopping",
+            "ru": "Покупки в интернете"
+          },
+          "scope_note": {
+            "en": "Supports independent seller research, payment-method caution, record keeping, and the point that HTTPS alone does not prove legitimacy.",
+            "ru": "Подтверждает независимую проверку продавца, осторожность со способами оплаты, сохранение документов и то, что HTTPS сам по себе не доказывает добросовестность."
+          }
+        }
+      ]
+    },
+    "false-charities": {
+      "scope": {
+        "en": "Educational pattern guide. Its source is U.S. public-agency guidance; charity registers and reporting routes differ by jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источник — рекомендации государственного органа США; реестры фондов и каналы обращений различаются по юрисдикциям. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/giving-charity",
+          "title": {
+            "en": "Before Giving to a Charity",
+            "ru": "Перед пожертвованием благотворительной организации"
+          },
+          "scope_note": {
+            "en": "Supports independent charity research, caution with urgent appeals and unexpected links, and safer donation verification.",
+            "ru": "Подтверждает независимую проверку фонда, осторожность со срочными просьбами и неожиданными ссылками, а также безопасную проверку пожертвований."
+          }
+        }
+      ]
+    },
+    "fraud-with-lotteries": {
+      "scope": {
+        "en": "Educational pattern guide. Its source is U.S. public-agency guidance; contest rules and reporting routes differ by jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источник — рекомендации государственного органа США; правила конкурсов и каналы обращений различаются по юрисдикциям. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/fake-prize-sweepstakes-and-lottery-scams",
+          "title": {
+            "en": "Fake Prize, Sweepstakes, and Lottery Scams",
+            "ru": "Поддельные призовые, лотерейные и конкурсные схемы"
+          },
+          "scope_note": {
+            "en": "Supports the no-fee, no-sensitive-data, independent-verification, and prompt-payment-provider contact guidance.",
+            "ru": "Подтверждает рекомендации не платить за приз, не передавать чувствительные данные, проверять источник независимо и быстро связываться с платёжным провайдером."
+          }
+        }
+      ]
+    },
+    "get-rich-quick-schemes": {
+      "scope": {
+        "en": "Educational pattern guide. Its source is U.S. public-agency guidance; business, investment, and consumer rules differ by jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источник — рекомендации государственного органа США; правила для бизнеса, инвестиций и потребителей различаются по юрисдикциям. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/multi-level-marketing-businesses-and-pyramid-schemes",
+          "title": {
+            "en": "Multi-Level Marketing Businesses and Pyramid Schemes",
+            "ru": "Многоуровневый маркетинг и финансовые пирамиды"
+          },
+          "scope_note": {
+            "en": "Supports scrutiny of earnings claims, recruitment incentives, recurring costs, and pressure tactics; it is not investment advice.",
+            "ru": "Подтверждает необходимость проверять заявления о доходе, стимулы к рекрутированию, регулярные расходы и давление; это не инвестиционная рекомендация."
+          }
+        }
+      ]
+    },
+    "investment-pyramids": {
+      "scope": {
+        "en": "Educational pattern guide. Its sources are U.S. investor-education resources; registration, legality, and reporting routes must be checked with the regulator in the reader's jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источники — материалы по защите инвесторов в США; регистрацию, законность и каналы обращений нужно проверять у регулятора своей юрисдикции. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Securities and Exchange Commission — Investor.gov",
+          "recorded_at": "2026-07-13",
+          "url": "https://www.investor.gov/protect-your-investments/fraud/types-fraud/pyramid-schemes",
+          "title": {
+            "en": "Pyramid Schemes",
+            "ru": "Финансовые пирамиды"
+          },
+          "scope_note": {
+            "en": "Supports the recruitment, genuine-sales, compensation, and collapse-pattern explanations.",
+            "ru": "Подтверждает объяснения о рекрутировании, реальных продажах, вознаграждении и механизме обрушения схемы."
+          }
+        },
+        {
+          "publisher": "U.S. Securities and Exchange Commission — Investor.gov",
+          "recorded_at": "2026-07-13",
+          "url": "https://www.investor.gov/protect-your-investments/fraud/types-fraud/ponzi-scheme",
+          "title": {
+            "en": "Ponzi Scheme",
+            "ru": "Схема Понци"
+          },
+          "scope_note": {
+            "en": "Supports the distinction between a Ponzi scheme and normal investment activity, including the use of later investors' funds for earlier payouts.",
+            "ru": "Подтверждает отличие схемы Понци от обычной инвестиционной деятельности, включая выплаты ранним инвесторам за счёт средств поздних."
+          }
+        }
+      ]
+    },
+    "nigerian-letters": {
+      "scope": {
+        "en": "Educational pattern guide. The historical label in the slug does not attribute fraud to a country or nationality. Its source is U.S. law-enforcement guidance; reporting routes differ by jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Историческое название в slug не приписывает мошенничество стране или национальности. Источник — рекомендации правоохранительного органа США; каналы обращений различаются по юрисдикциям. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "Federal Bureau of Investigation (FBI)",
+          "recorded_at": "2026-07-13",
+          "url": "https://www.fbi.gov/how-we-can-help-you/scams-and-safety/common-frauds-and-scams/business-and-investment-fraud",
+          "title": {
+            "en": "Business and Investment Fraud",
+            "ru": "Мошенничество в бизнесе и инвестициях"
+          },
+          "scope_note": {
+            "en": "Supports the definition of advance-fee fraud and the description of the historic Nigerian-letter/419 pattern; it does not establish a sender's location.",
+            "ru": "Подтверждает определение мошенничества с предоплатой и описание исторического паттерна «нигерийского письма»/419; источник не устанавливает местоположение отправителя."
+          }
+        }
+      ]
+    },
+    "phishing": {
+      "scope": {
+        "en": "Educational pattern guide. Its source is U.S. cybersecurity guidance; organizational incident procedures and reporting routes differ. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источник — рекомендации по кибербезопасности государственного органа США; процедуры инцидентов и каналы обращений в организациях различаются. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "Cybersecurity and Infrastructure Security Agency (CISA)",
+          "recorded_at": "2026-07-13",
+          "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing",
+          "title": {
+            "en": "Recognize and Report Phishing",
+            "ru": "Распознавание фишинга и сообщение о нём"
+          },
+          "scope_note": {
+            "en": "Supports the pause-before-clicking, independent contact, reporting, password, and multi-factor-authentication guidance.",
+            "ru": "Подтверждает рекомендации остановиться перед переходом, связываться независимо, сообщать о фишинге, использовать уникальные пароли и многофакторную аутентификацию."
+          }
+        }
+      ]
+    },
+    "scam-sites-working-at-home": {
+      "scope": {
+        "en": "Educational pattern guide. Its source is U.S. consumer guidance; employment, identity, and reporting rules differ by jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источник — рекомендации по защите потребителей государственного органа США; трудовые правила, защита личности и каналы обращений различаются по юрисдикциям. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/job-scams",
+          "title": {
+            "en": "Job Scams",
+            "ru": "Мошенничество с вакансиями"
+          },
+          "scope_note": {
+            "en": "Supports the warnings about up-front fees, reshipping, fake checks, premature data requests, and independent employer verification.",
+            "ru": "Подтверждает предупреждения о предоплате, пересылке товаров, фальшивых чеках, ранних запросах данных и независимой проверке работодателя."
+          }
+        }
+      ]
+    },
+    "sms-and-phone-scams": {
+      "scope": {
+        "en": "Educational pattern guide. Its sources are U.S. consumer guidance; telecommunications tools, banks, and reporting routes differ by jurisdiction. This catalogue documents supporting guidance, not live threat intelligence or a promise of ongoing human review.",
+        "ru": "Образовательный гид по типовым сценариям. Источники — рекомендации по защите потребителей государственного органа США; телеком-инструменты, банки и каналы обращений различаются по юрисдикциям. Каталог фиксирует подтверждающие рекомендации, а не оперативные данные об угрозах и не обещание постоянной ручной проверки."
+      },
+      "sources": [
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/articles/phone-scams",
+          "title": {
+            "en": "Phone Scams",
+            "ru": "Телефонное мошенничество"
+          },
+          "scope_note": {
+            "en": "Supports the caller-ID spoofing, impersonation, payment-method, and prompt-response guidance.",
+            "ru": "Подтверждает рекомендации о подмене номера, выдаче себя за другого, способах оплаты и быстром реагировании."
+          }
+        },
+        {
+          "publisher": "U.S. Federal Trade Commission (FTC)",
+          "recorded_at": "2026-07-13",
+          "url": "https://consumer.ftc.gov/features/pass-it-on/unwanted-calls-and-text-messages",
+          "title": {
+            "en": "Unwanted Calls and Text Messages",
+            "ru": "Нежелательные звонки и текстовые сообщения"
+          },
+          "scope_note": {
+            "en": "Supports not trusting caller ID, not clicking unexpected-text links, and using available blocking or reporting tools.",
+            "ru": "Подтверждает, что нельзя доверять определителю номера, переходить по ссылкам из неожиданных СМС и что стоит использовать доступные инструменты блокировки и сообщения о мошенничестве."
+          }
+        }
+      ]
+    }
+  }
+}

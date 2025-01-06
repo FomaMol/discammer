@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS scam_guide (
     threat_level INTEGER,
     category TEXT,
     published_at TEXT,
+    source_scope TEXT,
+    source_catalogued_at TEXT,
+    sources_json TEXT,
     UNIQUE(slug, locale)
 );
 
@@ -87,6 +90,9 @@ _SCAM_GUIDE_REQUIRED_COLS = {
     "locale",
     "title",
     "content",
+    "source_scope",
+    "source_catalogued_at",
+    "sources_json",
 }
 
 _COURSE_MODULE_REQUIRED_COLS = {
@@ -272,7 +278,7 @@ async def get_guides(conn=None, locale: str = "en") -> List[Dict]:
         (locale,),
     )
     rows = await cursor.fetchall()
-    return [dict(row) for row in rows]
+    return [_hydrate_guide(row) for row in rows]
 
 
 async def get_guide_by_slug(conn=None, slug: str = "", locale: str = "en") -> Optional[Dict]:
@@ -285,7 +291,26 @@ async def get_guide_by_slug(conn=None, slug: str = "", locale: str = "en") -> Op
         (slug, locale),
     )
     row = await cursor.fetchone()
-    return dict(row) if row else None
+    return _hydrate_guide(row) if row else None
+
+
+def _hydrate_guide(row) -> Dict:
+    """Convert a scam-guide row into a public, locale-specific source record.
+
+    ``sources_json`` is editorial metadata generated from the checked-in
+    provenance catalogue.  It deliberately describes source scope rather than
+    pretending that the guide is a live alert, case record, or investigation.
+    Invalid or missing metadata fails closed to an empty list, which the page
+    renders as an explicit absence rather than manufacturing a source trail.
+    """
+    guide = dict(row)
+    raw = guide.pop("sources_json", None)
+    try:
+        sources = json.loads(raw) if raw else []
+    except (json.JSONDecodeError, TypeError):
+        sources = []
+    guide["sources"] = sources if isinstance(sources, list) else []
+    return guide
 
 
 def _hydrate_module(row) -> Dict:

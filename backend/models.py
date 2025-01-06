@@ -13,6 +13,16 @@ class PostResponse(BaseModel):
     published_at: Optional[str] = None
 
 
+class GuideSource(BaseModel):
+    """One editorial source supporting a guide's general safety guidance."""
+
+    publisher: str
+    title: str
+    url: str
+    scope_note: Optional[str] = None
+    recorded_at: str
+
+
 class ScamGuideResponse(BaseModel):
     id: int
     slug: str
@@ -21,6 +31,9 @@ class ScamGuideResponse(BaseModel):
     icon: Optional[str] = None
     threat_level: Optional[int] = None
     category: Optional[str] = None
+    source_scope: Optional[str] = None
+    source_catalogued_at: Optional[str] = None
+    sources: list[GuideSource] = []
 
 
 class CourseModuleResponse(BaseModel):

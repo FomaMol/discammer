@@ -40,18 +40,13 @@
 {% set _lang = lang %}
 
 {# ─────────────────────────────────────────────────────────────────────
-   Case-file metadata (T2.4 stat-truth). `case_id` is a COSMETIC case-file
-   reference deterministically derived from the guide's own real fields
-   (id + year + category) — stable across requests, not a real case-tracking
-   number. Risk words/colors resolve from the real `threat_level`. We DO NOT
-   fabricate a "last activity" recency or a "next review" schedule — there is
-   no such data, so nothing here implies a metric we don't have.
+   Guide metadata. This is an educational pattern guide, not a case file or
+   live alert. Static risk labels are a reading aid; source metadata is loaded
+   from the checked-in catalogue and never represents a current investigation.
    ──────────────────────────────────────────────────────────────────── #}
 {% set _pub = guide.published_at or '' %}
 {% set _year = _pub[:4] if _pub|length >= 4 else now().strftime('%Y') %}
 {% set _cat_code = (guide.category or 'GEN') | upper %}
-{% set case_seq = ((guide.id or 1) * 47 + 113) % 1000 %}
-{% set case_id = 'DCM-' ~ _year ~ '-' ~ _cat_code ~ '-' ~ '%03d' | format(case_seq) %}
 
 {# Risk tier → words + color. Index-safe when threat_level is None. #}
 {% set _tl = guide.threat_level or 1 %}
@@ -63,7 +58,7 @@
 {# ─────────────────────────────────────────────────────────────────────
    Page-scoped CSS — § counter prefix on prose h2s (preserves the
    grandfathered cyan side-stripe), decorative line-number gutter, and
-   the investigator-notes blinking cursor. Scoped to #guide-article so it
+   the pattern-notes blinking cursor. Scoped to #guide-article so it
    cannot leak elsewhere.
    ──────────────────────────────────────────────────────────────────── #}
 <style>
@@ -108,7 +103,7 @@
 {# ─────────────────────────────────────────────────────────────────────
    1) HEADER BAND — full-bleed case-file band over code-bg with a soft
    threat-coloured radial glow, the threat_database breadcrumb eyebrow,
-   the SCAM GUIDE chip + case id + last activity, the title, and lead.
+   a SCAM GUIDE chip and stable guide reference, title, and lead.
    ──────────────────────────────────────────────────────────────────── #}
 <section class="relative overflow-hidden border-b border-[#202a44]" style="background-color: #0a0d16;">
   <div class="pointer-events-none absolute inset-0"
@@ -126,13 +121,13 @@
       <span class="text-[#e7ecf5] break-all" aria-current="page">{{ guide.slug }}</span>
     </nav>
 
-    <!-- Chip row: SCAM GUIDE + case id (derived, cosmetic) -->
+    <!-- Chip row: educational guide label + stable content reference. -->
     <div class="flex flex-wrap items-center gap-2.5 mb-4">
       <span class="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase"
             style="color: #e76670; background: #0a0d16; border: 1px solid {{ '#e76670' if _tl >= 4 else _tl_color }}66; border-radius: 2px; padding: 4px 8px;">
         {{ t(_lang, 'guide.eyebrow_scam_guide') }}
       </span>
-      <span class="font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ t(_lang, 'guide.case_file_case_prefix') }}{{ case_id }}</span>
+      <span class="font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ t(_lang, 'guide.reference_label') }}{{ guide.slug }}</span>
     </div>
 
     <!-- H1 -->
@@ -152,9 +147,9 @@
 </section>
 
 {# ─────────────────────────────────────────────────────────────────────
-   2) CASE-FILE STRIP — overlaps the header band for depth. Real columns
-   only: THREAT LEVEL meter, VECTOR (category), INDEXED (published_at or
-   year), STATUS. No fabricated "targets / first 60 sec" copy.
+   2) GUIDE STRIP — overlaps the header band for depth. It shows a static
+   reading-priority label, category, source count, and the catalogue date.
+   None of these values claims a live operational status.
    ──────────────────────────────────────────────────────────────────── #}
 <div class="relative z-[5] mx-auto max-w-[820px] px-4 sm:px-6 lg:px-10" style="margin-top: -32px;">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
@@ -181,19 +176,16 @@
       <div class="font-mono text-[13px] text-[#e7ecf5] uppercase break-words">{{ guide.category or '—' }}</div>
     </div>
 
-    <!-- INDEXED (published_at) -->
+    <!-- SOURCE COUNT -->
     <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[#202a44]">
-      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.spec_indexed') }}</div>
-      <div class="font-mono text-[13px] text-[#e7ecf5] tabular-nums">{{ guide.published_at or _year }}</div>
+      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.strip_sources') }}</div>
+      <div class="font-mono text-[13px] text-[#e7ecf5] tabular-nums">{{ guide.sources | length }} {{ t(_lang, 'guide.strip_sources_value') }}</div>
     </div>
 
-    <!-- STATUS -->
+    <!-- CATALOGUE DATE -->
     <div class="px-[18px] py-4">
-      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.spec_status') }}</div>
-      <div class="font-mono text-[13px] text-[#7ce896] uppercase inline-flex items-center gap-2">
-        <span class="w-1.5 h-1.5 bg-[#7ce896] rounded-full inline-block"></span>
-        {{ t(_lang, 'guide.spec_active') }}
-      </div>
+      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.strip_catalogued') }}</div>
+      <div class="font-mono text-[13px] text-[#e7ecf5] tabular-nums">{{ guide.source_catalogued_at or '—' }}</div>
     </div>
   </div>
 </div>
@@ -221,7 +213,7 @@
     </aside>
 
     <!-- Article column with line-number gutter -->
-    <main class="lg:col-span-9 lg:order-1 min-w-0">
+    <div class="lg:col-span-9 lg:order-1 min-w-0">
       <div class="flex">
         <div class="hidden sm:block dossier-gutter" aria-hidden="true">
           {% for n in range(1, 64) %}<span>{{ '%03d' | format(n) }}</span>{% endfor %}
@@ -231,11 +223,11 @@
         </article>
       </div>
 
-      {# INVESTIGATOR'S NOTES — terminal-window panel, per-slug believable
-         notes from locales; falls back to a generic block. #}
+      {# EDUCATIONAL PATTERN NOTES — terminal-window panel, per-slug notes
+         from locales; no claim of a real-world investigation. #}
       <section class="mt-12 sm:mt-14">
         <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-3">
-          {{ t(_lang, 'guide.investigator_notes_label') }}
+          {{ t(_lang, 'guide.pattern_notes_label') }}
         </div>
         <div class="border border-[#202a44] ds-grain" style="background-color: #0a0d16;">
           <div class="flex items-center gap-2 px-3 sm:px-4 py-2 border-b border-[#202a44]" style="background: linear-gradient(to right, #1a2236, #121828);">
@@ -243,7 +235,7 @@
             <span class="w-2 h-2 rounded-full bg-[#8b94a8]"></span>
             <span class="w-2 h-2 rounded-full bg-[#8b94a8]"></span>
             <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[#8b94a8] truncate">
-              {{ t(_lang, 'guide.investigator_notes_command_prefix') }}{{ case_id | lower }} {{ t(_lang, 'guide.investigator_notes_command_suffix') }}
+              {{ t(_lang, 'guide.pattern_notes_command_prefix') }}{{ guide.slug }} {{ t(_lang, 'guide.pattern_notes_command_suffix') }}
             </span>
           </div>
           {% set _slug_to_notes_key = {
@@ -259,7 +251,39 @@
 <span class="text-[#8b94a8]">&gt;</span> <span class="dossier-cursor"></span></pre>
         </div>
       </section>
-    </main>
+
+      {# SOURCE CATALOGUE — cited, static editorial support for general advice.
+         This deliberately sits beside the guide rather than pretending to
+         validate a visitor's individual message or provide a live feed. #}
+      <section class="mt-12 sm:mt-14 border-t border-[#202a44] pt-8" aria-labelledby="guide-sources-heading">
+        <h2 id="guide-sources-heading" class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
+          {{ t(_lang, 'guide.sources_heading') }}
+        </h2>
+        <p class="font-sans text-[15px] leading-[1.65] text-[#cdd4e3] max-w-3xl">
+          {{ guide.source_scope or t(_lang, 'guide.sources_unavailable') }}
+        </p>
+        <p class="font-sans text-[14px] leading-[1.6] text-[#8b94a8] max-w-3xl mt-3">
+          {{ t(_lang, 'guide.sources_limit') }}
+        </p>
+        {% if guide.sources %}
+        <ol class="mt-6 space-y-3 list-none max-w-3xl">
+          {% for source in guide.sources %}
+          <li class="border border-[#202a44] bg-[#0a0d16] px-4 py-4 sm:px-5">
+            <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer"
+               class="font-mono text-[14px] leading-[1.45] text-[#9eecf6] hover:text-[#65def0] underline decoration-[#3a8b9a]/60 underline-offset-4 transition-colors">
+              {{ source.title }} <span aria-hidden="true">↗</span><span class="sr-only">{{ t(_lang, 'guide.opens_external') }}</span>
+            </a>
+            <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-[#8b94a8] mt-2">{{ source.publisher }}</p>
+            <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-[#8b94a8] mt-1">{{ t(_lang, 'guide.source_recorded_label') }}{{ source.recorded_at }}</p>
+            {% if source.scope_note %}
+            <p class="font-sans text-[14px] leading-[1.55] text-[#aab2c4] mt-2">{{ source.scope_note }}</p>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ol>
+        {% endif %}
+      </section>
+    </div>
   </div>
 
   {# KNOWLEDGE CHECK (F1) — client-side recall test. Island mount preserved
@@ -361,15 +385,13 @@
   </section>
 
   {# ─────────────────────────────────────────────────────────────────
-     6) CHAIN_OF_CUSTODY footer — paper-trail strip.
+     6) EDITORIAL-SCOPE footer — provenance path without false review claims.
      ──────────────────────────────────────────────────────────────── #}
   <div class="mt-12 border-t border-b border-[#202a44] py-5">
     <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#8b94a8] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_chain_label') }}</span> {{ t(_lang, 'guide.custody_investigator_value') }}</span>
+      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.editorial_scope_label') }}</span> {{ t(_lang, 'guide.editorial_scope_value') }}</span>
       <span class="text-[#6b7588]" aria-hidden="true">·</span>
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_last_reviewed_label') }}</span> {{ guide.published_at or _year }}</span>
-      <span class="text-[#6b7588]" aria-hidden="true">·</span>
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.custody_classification_label') }}</span> {{ t(_lang, 'guide.custody_classification_value') }}</span>
+      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.catalogued_label') }}</span> {{ guide.source_catalogued_at or '—' }}</span>
     </p>
   </div>
 

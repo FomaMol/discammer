@@ -1,277 +1,226 @@
-# DiScammer — обзор проекта
+# DiScammer - technical and portfolio overview
 
-## Что это
+**Last reconciled:** 2026-07-13
+**Primary audience:** contributors, reviewers, and university-portfolio readers
+**Project author:** Foma Molchanov
+**Public portfolio dossier:** `/en/portfolio` and `/ru/portfolio`
 
-**DiScammer** — образовательная платформа по кибербезопасности и распознаванию онлайн-мошенничества. Сайт публикует гайды по типам скама, интервью с экспертами, рассылки, статьи и обучающий курс; отдельной фичей встроена интерактивная Unity WebGL-игра «Antifraud Hero» (`/play/`).
+## What DiScammer is
 
-Контент — на английском, статичный, переезжает с исходного Tilda-сайта по плану в [DISCAMMER_REDESIGN_PLAN_v2.md](DISCAMMER_REDESIGN_PLAN_v2.md) (русский).
+DiScammer is a bilingual, privacy-conscious anti-scam learning product. It
+helps a reader pause, inspect a suspicious message or link, and learn the
+recognition patterns behind phishing, social engineering, financial fraud,
+account security, AI-enabled deception, and incident response.
 
-Текущий объём контента:
+The product combines a server-rendered site, an educational journal archive,
+ten scam-type guides with a static official-source catalogue, a nine-module
+course, two in-browser checking tools, and the separate Unity WebGL game
+*Antifraud Hero*. It is not a bank, security operation, credential issuer, or
+emergency recovery service.
 
-- 10 гайдов (`content/guides/`) — типы скама с уровнем угрозы.
-- 8 интервью (`content/interviews/`).
-- 8 рассылок (`content/newsletters/`).
-- 7 статей (`content/articles/`).
-- Курс из модулей, захардкоженных в `backend/seed_data.py` (`COURSE_MODULES`).
+The portfolio dossier identifies Foma Molchanov and explains the project in
+plain language. Before an admissions submission, its authorship and tooling
+disclosure require Foma's own reviewed account; this repository can evidence
+implementation, but cannot independently prove personal authorship or learning
+outcomes.
 
-Прод-домен: **discammer.com**.
+## Product boundaries and truthful wording
 
----
+These limits are part of the product, not fine print:
 
-## Архитектура
+- The message checker and link inspector run their analysis in the browser.
+  Their input is not sent to a DiScammer analysis API.
+- Course progress and the completion record are browser-local. Clearing browser
+  storage or changing device can remove them.
+- The final self-assessment is untimed, unproctored, and unmonitored. The local
+  completion record is not a verified credential, proof of identity, proof of
+  competence, or an institutionally issued certificate.
+- The journal is an archive, not an evidenced subscription or weekly publishing
+  service.
+- Guide sources are a static, checked-in catalogue of primary-source safety
+  guidance. They support general educational advice, not a live threat feed,
+  case investigation, verification of a reader's message, or a promise of
+  recurring human review. Legal rights, reporting, and recovery routes depend
+  on the reader's jurisdiction.
+- "Local-first" does not mean that absolutely no operational data exists:
+  normal web access logging and a privacy-scrubbed, sampled client-error signal
+  are distinct from the checker input and local course record.
 
-Сервер-рендеринг на FastAPI + Jinja2 с **islands-гидрацией** на React: Jinja отдаёт полноценный HTML, а React монтируется только в помеченные `[data-component]` элементы.
+The active record of wording decisions is
+[`docs/portfolio/CLAIM_LEDGER.md`](docs/portfolio/CLAIM_LEDGER.md). It is an
+internal governance document, not a public product page. Do not introduce a
+public claim unless the ledger can point to implementation evidence or a named
+primary source.
 
-### Поток запроса
+## Current, historically accurate scope
 
-1. `backend/main.py` поднимает `FastAPI`, монтирует `/static`, цепляет Jinja2 к `app.state.templates` и подключает три роутера.
-2. [`routers/pages.py`](backend/routers/pages.py) рендерит SSR-страницы: `/`, `/journal`, `/journal/{slug}`, `/guide/{slug}`, `/course`, `/game`. Markdown из БД конвертируется в HTML на сервере через [`markdown_renderer.render_markdown`](backend/markdown_renderer.py) и инжектится в шаблон.
-3. [`routers/api.py`](backend/routers/api.py) отдаёт JSON под `/api/posts`, `/api/guides`, `/api/course/modules` — для тех островов, что подгружают данные на клиенте.
-4. [`routers/game.py`](backend/routers/game.py) обслуживает Unity WebGL-сборку под `/play/`, корректно проставляя `Content-Encoding: br` для предсжатых `.wasm.br`/`.data.br`/`.framework.js.br`.
-5. Все страницы наследуют [`templates/base.html`](backend/templates/base.html), который тянет `/static/css/main.css` и `/static/js/app.js`.
-
-### Острова (islands)
-
-[`frontend/src/main.tsx`](frontend/src/main.tsx) — единственная точка входа, бандлится в `backend/static/js/app.js`. По `DOMContentLoaded` он сканирует DOM на `[data-component]`, ищет имя в lazy-реестре `components`, парсит `data-props` (JSON) и монтирует React-компонент в этот элемент через `createRoot`. SSR-разметка сохраняется как `dangerouslySetInnerHTML` — на случай, если гидрация не сработала.
-
-Зарегистрировано **12 React-островов** в [`frontend/src/components/`](frontend/src/components/):
-
-`HeroTypewriter`, `HeroTerminal`, `ParticleBackground`, `ScanlineOverlay`, `ContentCarousel`, `ScamTypesGrid`, `GlitchText`, `TerminalBlock`, `JournalFilter`, `CourseProgress`, `GameLauncher`, `MobileMenu`.
-
-**Добавление нового виджета — три изменения:** компонент `.tsx` в `frontend/src/components/` → регистрация в `components` в `main.tsx` → `<div data-component="Name" data-props='...'></div>` в Jinja-шаблоне → ребилд фронта.
-
----
-
-## Технический стек
-
-### Backend — Python
-
-| Компонент | Версия | Назначение |
-| --- | --- | --- |
-| Python | 3.12 (прод-контейнер) / 3.14 (локально) | Рантайм |
-| FastAPI | ≥ 0.115 | Веб-фреймворк |
-| Uvicorn | ≥ 0.34 (`[standard]`) | ASGI-сервер |
-| Jinja2 | ≥ 3.1 | Шаблонизатор для SSR |
-| aiosqlite | ≥ 0.20 | Асинхронный драйвер SQLite |
-| markdown | ≥ 3.7 | Парсер Markdown → HTML |
-| bleach | ≥ 6.0 | Санитизация HTML |
-| python-multipart | ≥ 0.0.18 | Парсинг multipart-форм |
-| aiofiles | ≥ 24.1 | Асинхронный I/O |
-
-Зависимости — в [requirements.txt](requirements.txt); dev-зависимости (pytest) — в [requirements-dev.txt](requirements-dev.txt).
-
-### Frontend — TypeScript / React
-
-| Компонент | Версия | Назначение |
-| --- | --- | --- |
-| React + ReactDOM | 18.3 | UI-острова |
-| TypeScript | 5.7 | Типизация |
-| Vite | 6.0 | Сборщик и dev-сервер |
-| `@vitejs/plugin-react` | 4.3 | React + Fast Refresh |
-| TailwindCSS | 4.0 | Стили (через `@tailwindcss/vite`) |
-| `@types/react`, `@types/react-dom` | 18.3 | Типы |
-
-Зависимости — в [frontend/package.json](frontend/package.json).
-
-### Хранилище и контент
-
-- **SQLite** через `aiosqlite`, файл — `data/discammer.db` (в `.gitignore`, монтируется как volume в docker-compose).
-- Три таблицы определены инлайн в [`backend/database.py`](backend/database.py): `post` (interview/newsletter/article различаются по полю `type`), `scam_guide`, `course_module`.
-- `init_db()` создаёт таблицы; `seed_database()` вызывается через FastAPI lifespan-хук и **на каждом старте чистит + переливает** `post`/`scam_guide`/`course_module`. Безопасно: эти таблицы хранят только производный из markdown контент, пользовательских данных там нет.
-
-### Контент-пайплайн
-
-Источник правды — markdown-файлы в `content/{guides,interviews,newsletters,articles}/`. [`backend/seed_data.py`](backend/seed_data.py) сам парсит YAML-подобный frontmatter регуляркой (не PyYAML — поддерживаются только плоские `key: value` пары и приведение к int; никаких вложенных структур, никаких списков).
-
-Поля frontmatter, которые читает сидер: `slug`, `title`, `subtitle`/`description`, `type`, `icon`, `threat_level`, `category`, `cover_image`, `published_at`. Для interview/newsletter/article `type` по умолчанию = имя поддиректории без хвостовой `s`.
-
-Модули курса — захардкожены в `COURSE_MODULES` внутри `seed_data.py`, не подтягиваются из файлов.
-
-### Стилизация
-
-TailwindCSS v4 через плагин `@tailwindcss/vite`. Дизайн-токены — в [`frontend/src/styles/globals.css`](frontend/src/styles/globals.css) внутри `@theme`. Палитра — киберпанк:
-
-| Токен | Значение |
+| Surface | Implemented repository content |
 | --- | --- |
-| Фон | `#0B0E17` |
-| Cyan-акцент | `#00F0FF` |
-| Green | `#39FF6B` |
-| Red | `#FF4757` |
-| Amber | `#FFB547` |
+| Guides | 10 authored English/Russian Markdown pairs and 12 linked official primary-source entries, each with authored EN/RU scope and source notes |
+| Journal | 8 interview, 8 newsletter, and 7 article English/Russian Markdown pairs |
+| Course | 9 modules; 55 lesson JSON pairs (EN/RU) |
+| Interactive tools | Local message checker and link inspector |
+| Learning record | Browser-local progress, self-assessment result, and printable personal record |
+| Game | A separately served Unity WebGL build at `/play/` |
 
-Директива `@source "../../../backend/templates/**/*.html"` в `globals.css` говорит Tailwind v4 сканировать Jinja-шаблоны — иначе классы, используемые только в `.html`, выпиливаются purge-стадией.
+Content parity describes paired files and interface strings. The guide source
+catalogue is reviewed repository content, not a claim of real-time editorial
+monitoring, complete jurisdictional coverage, or user-research results.
 
-### Игра
+## Architecture
 
-Pre-built Unity WebGL-бандл лежит в [`backend/game_build/`](backend/game_build/) (в репо). Раздаётся отдельным роутером [`routers/game.py`](backend/routers/game.py):
+### Request and rendering model
 
-- Файлы под `Build/` (версионированные `web_gl_build_10.*`) — `Cache-Control: public, max-age=31536000, immutable`.
-- Прочие — `max-age=86400`.
-- `*.br` отдаются с `Content-Encoding: br` и корректным inner `Content-Type` (`application/wasm`, `application/javascript`, `application/octet-stream`).
-- `/play` → 307 редирект на `/play/`, чтобы относительные пути в `index.html` резолвились.
+DiScammer uses FastAPI and Jinja2 for server-rendered HTML, with React used as
+small interactive islands. `backend/main.py` mounts `/static`, creates the
+Jinja environment, and includes four routers:
 
----
+- `routers/pages.py` - localized SSR pages and compatibility redirects;
+- `routers/api.py` - JSON data, health, search, metrics, and client-error
+  endpoints under `/api`;
+- `routers/game.py` - the Unity WebGL build under `/play/`;
+- `routers/seo.py` - robots, sitemap, RSS feed, and web manifest.
 
-## Структура репозитория
+Root and legacy paths redirect to a language-prefixed page. The normal product
+surface is `/en/...` or `/ru/...`, including home, journal, guides, course
+modules and lessons, game, About, Portfolio, message check, link inspection,
+and search. The complete route contract belongs to the router source and tests,
+not this summary.
 
-```
-DiScammer/
-├── backend/
-│   ├── main.py                  # FastAPI app + lifespan + Jinja2 env
-│   ├── config.py                # пути (STATIC_DIR, TEMPLATES_DIR, DATABASE_PATH...)
-│   ├── database.py              # SQL DDL + CRUD-хелперы (aiosqlite)
-│   ├── models.py                # Pydantic-модели для API-ответов
-│   ├── seed_data.py             # парсер frontmatter + COURSE_MODULES
-│   ├── markdown_renderer.py     # markdown → bleach-sanitized HTML
-│   ├── routers/
-│   │   ├── pages.py             # SSR-страницы
-│   │   ├── api.py               # /api/* JSON
-│   │   └── game.py              # /play/* Unity WebGL
-│   ├── templates/               # Jinja2: base, home, journal, post, guide, course, game, 404
-│   ├── static/                  # собранные css/main.css и js/app.js (артефакт Vite)
-│   ├── game_build/              # Unity WebGL (предсжатые .br)
-│   └── tests/
-├── frontend/
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── tsconfig.json
-│   └── src/
-│       ├── main.tsx             # entry — гидрация островов
-│       ├── components/          # 12 React-островов
-│       ├── styles/globals.css   # @theme tokens + @source для Jinja
-│       └── utils/
-├── content/
-│   ├── guides/                  # 10 файлов
-│   ├── interviews/              # 8 файлов
-│   ├── newsletters/             # 8 файлов
-│   └── articles/                # 7 файлов
-├── data/                        # SQLite (gitignored, persistent volume)
-├── scripts/
-│   └── deploy.sh                # вызывается по SSH с GitHub Actions
-├── .github/workflows/ci-cd.yml  # tests → build → docker build → SSH deploy
-├── Dockerfile                   # multi-stage: node:20 → python:3.12
-├── docker-compose.yml           # базовый
-├── docker-compose.prod.yml      # прод-оверрайды
-├── requirements.txt
-├── requirements-dev.txt
-├── CLAUDE.md                    # инструкции для агентов
-└── DISCAMMER_REDESIGN_PLAN_v2.md  # дизайн-спека (русская)
-```
+`frontend/src/main.tsx` registers 23 lazy React islands. On load, it finds
+`[data-component]` mounts, reads JSON props, and hydrates only those mounts.
+The server HTML is retained as the suspense and error fallback so an island
+failure does not intentionally turn a reading surface into a blank box.
 
----
+### Frontend assets
 
-## Сборка и разработка
+Vite builds into `backend/static/` and writes
+`backend/static/.vite/manifest.json`. `backend/assets.py` resolves the hashed
+entry, CSS, and static-import preload files at render time. Dynamic island
+chunks load only when needed. Content-hashed filenames are the JavaScript and
+CSS cache-busting mechanism; do not restore query-string cache busting for
+these assets.
 
-### Backend (из `backend/`)
+`backend/static/` is a committed build artifact. After frontend source or
+template class changes, run the frontend build and include the updated static
+assets and manifest in the same change.
+
+### Content and storage
+
+SQLite is the runtime content store (`data/discammer.db`). The schema includes
+`post`, `scam_guide`, `course_module`, `lesson`, and a full-text-search index.
+The content tables are derived state:
+
+- guides, interviews, newsletters, and articles are Markdown files with flat
+  front matter under `content/`;
+- `content/provenance/guide-sources.json` maps every guide slug to one to three
+  official primary sources plus authored EN/RU scope and source notes. During
+  reseeding, it becomes locale-specific guide metadata exposed on the reading
+  page and `/api/guides`;
+- course module metadata is declared in `COURSE_MODULES` in
+  `backend/seed_data.py`;
+- course lessons are file-driven JSON under
+  `content/course/{module_slug}/{lesson_slug}.{locale}.json`.
+
+At startup, the application reseeds those derived content tables under a file
+lock. Do not place user accounts, hosted progress, or any other durable user
+state in tables that reseeding clears.
+
+## Design and localization
+
+The active product authority is [`PRODUCT.md`](PRODUCT.md), and the active
+visual authority is [`DESIGN.md`](DESIGN.md). The current design is a readable
+"Field Office" rather than generic cyberpunk: the game can be more immersive,
+while the website prioritizes calm, specific, accessible reading.
+
+Both Russian and English are authored surfaces. Locale files live in
+`backend/locales/`; `scripts/i18n_audit.py` checks key use, dead keys, and
+EN/RU key parity. Keep language changes paired, and test mobile layouts with
+Cyrillic rather than treating Russian as a post-implementation translation.
+
+`DISCAMMER_REDESIGN_PLAN_v2.md` is retained only as a historical Tilda
+migration and early-design record. It is not an active specification.
+
+## Quality and operational status
+
+### What the repository verifies
+
+The repository contains 21 backend pytest modules, 5 frontend Vitest files,
+and 21 Playwright E2E specifications. CI also type-checks and builds the
+frontend, checks committed static assets, runs dependency audits, and builds a
+Docker image. The E2E workflow exercises the composed application and includes
+accessibility and visual/performance checks described in the test tooling.
+
+Useful local checks:
 
 ```bash
-.venv/bin/uvicorn main:app --reload --host 0.0.0.0 --port 8000
+pytest -q
+(cd frontend && npm test && npm run build)
+python3 scripts/i18n_audit.py
 ```
 
-Важно: `main:app` нужно поднимать **из директории `backend/`** — `main.py` подкидывает её в `sys.path`, иначе sibling-импорты вида `from database import ...` ломаются. `uvicorn backend.main:app` из корня — не работает.
-
-Установка зависимостей (из корня):
+For a fresh local test environment, install `pytest` and `httpx` alongside the
+runtime requirements:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt pytest httpx
 ```
 
-### Frontend (из `frontend/`)
+`httpx` is needed by FastAPI's test client; it is a test-environment
+requirement, not a production runtime claim.
 
-```bash
-npm install
-npm run dev        # Vite dev-сервер (для итераций по компонентам)
-npm run build      # tsc типчек + Vite build → ../backend/static/
-npm run preview    # превью бандла
-```
+### Status vocabulary
 
-`outDir` Vite — `../backend/static` с `emptyOutDir: false`. Сборка **перезаписывает** `backend/static/js/app.js` и `backend/static/css/main.css` на месте; отдельного `frontend/dist/` нет. После правки любого React-компонента нужен ребилд, чтобы FastAPI отдавал свежий бандл.
+Use these terms precisely in issues, portfolio copy, and release notes:
 
-`rollupOptions.output.inlineDynamicImports: true` — все lazy-чанки React.lazy инлайнятся в `app.js`. Это сознательно: без инлайнинга кэш-бастинг через `?v=...` приводил к двойной инстанциации React и ошибке #321 (Invalid hook call).
-
-### Полный стек локально
-
-```bash
-docker compose up --build    # билд фронта → бэкенд-имидж, слушает :8000
-```
-
-### Тесты
-
-В корне есть `pytest.ini`, в `backend/tests/` — pytest-тесты. CI прогоняет `pytest -q`. (Файлы `test_*.py` под `backend/.venv/` — это библиотечные, не наши.)
-
----
-
-## CI/CD
-
-[`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) — четыре джобы:
-
-1. **backend-tests** — Python 3.12, `pytest -q`.
-2. **frontend-build** — Node 20, `npm ci` + `npm run build` (tsc типчек включён в build-скрипт).
-3. **docker-build** — `docker buildx`, билд без push, с GHA-кэшем.
-4. **deploy** — только на пуш в `main`. Подключается по SSH (`appleboy/ssh-action`), вызывает `bash /opt/discammer/scripts/deploy.sh` на сервере. После — health-check: ждёт `GET /` → 200 (до 10 попыток с шагом 5 сек), затем прогоняет `/`, `/journal`, `/course`, `/game`, `/api/posts`, `/api/guides`.
-
-Сервер: `/opt/discammer` — клон репо. [`scripts/deploy.sh`](scripts/deploy.sh) делает `git fetch && git reset --hard origin/main`, поднимает `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build` и подчищает dangling-имиджи старше 24 часов (один свежий оставляется как rollback-кандидат).
-
-GH-секреты для деплоя: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`.
-
----
-
-## Docker
-
-Multi-stage [Dockerfile](Dockerfile):
-
-1. **Стадия `frontend-build`** (`node:20-slim`) — копирует `frontend/`, существующий `backend/static/` (на случай партиал-апдейтов) и `backend/templates/` (Tailwind v4 их сканирует через `@source`, без них классы вычищаются), запускает `npm ci && npm run build`.
-2. **Стадия рантайма** (`python:3.12-slim`) — ставит `requirements.txt`, копирует `backend/`, `content/`, готовый `backend/static/` из первой стадии. `EXPOSE 8000`, `WORKDIR /app/backend`, `CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]`.
-
-[`docker-compose.yml`](docker-compose.yml) — сервис `web`, проброс `:8000`, volume `./data:/app/data` (БД переживает рестарт), `restart: unless-stopped`.
-
----
-
-## Эндпоинты
-
-### Страницы (HTML, SSR)
-
-| Маршрут | Шаблон | Что делает |
-| --- | --- | --- |
-| `GET /` | `home.html` | Главная: 4 свежих interview/newsletter/article + все гайды + статы |
-| `GET /journal` | `journal.html` | Лента всех постов + гайдов |
-| `GET /journal/{slug}` | `post.html` | Детальная страница поста + 3 related того же типа |
-| `GET /guide/{slug}` | `guide.html` | Детальная страница гайда + 9 related |
-| `GET /course` | `course.html` | Список модулей курса |
-| `GET /game` | `game.html` | Лендинг с лаунчером Unity-игры |
-
-### JSON API
-
-| Маршрут | Ответ |
+| Term | Meaning |
 | --- | --- |
-| `GET /api/posts?type=&limit=` | `List[PostResponse]` |
-| `GET /api/guides` | `List[ScamGuideResponse]` |
-| `GET /api/course/modules` | `List[CourseModuleResponse]` |
+| `implemented` | Source code and its repository checks exist. |
+| `locally verified` | A named command or local visual check passed on a stated revision. |
+| `configured` | A configuration or runbook exists; this does not prove an external service is enabled. |
+| `staging verified` | A named staging environment was checked. |
+| `production verified` | A dated check against the deployed service passed. |
 
-### Игра
+Do not turn `implemented` or `configured` into a production-security,
+availability, educational-efficacy, or credential claim.
 
-| Маршрут | Что отдаёт |
-| --- | --- |
-| `GET /play` | 307 → `/play/` |
-| `GET /play/` | `game_build/index.html` (no-cache) |
-| `GET /play/{path}` | Любой ассет из `game_build/` с корректным MIME, brotli-заголовками и cache policy |
+## Contributor workflow
 
-### Статика
+```bash
+# Backend tests from the repository root
+python -m pip install -r requirements.txt pytest httpx
+pytest -q
 
-`GET /static/*` — Vite-артефакты (`css/main.css`, `js/app.js` и пр.). В шаблонах URL'ы оборачивает helper `asset_url(path)` из `main.py` — добавляет `?v=<mtime>` к финальному URL, чтобы браузер не залипал на старом бандле после деплоя (Vite даёт стабильные имена без хеша).
+# Frontend tests and production build
+cd frontend
+npm ci
+npm test
+npm run build
 
----
+# Locale contract audit from the repository root
+python3 scripts/i18n_audit.py
+```
 
-## Известные особенности
+For local backend development, start `main:app` from `backend/`; the module is
+configured for sibling imports in that working directory. For end-to-end
+development, use Docker Compose. The CI workflow is the current reference for
+the complete production-like test sequence.
 
-- **Python 3.14 + Jinja2 `LRUCache` несовместимы локально.** В `main.py` `Environment` собирается вручную с `cache_size=0` и передаётся в `Jinja2Templates(env=...)`. Не «упрощать» обратно в `Jinja2Templates(directory=...)` — сломается локалка. В прод-контейнере (3.12) безвредно.
-- **React дедуп.** В `vite.config.ts` стоит `resolve.dedupe: ['react', 'react-dom', 'react/jsx-runtime']` — иначе lazy-чанки тянут второй экземпляр React, и хуки ломаются (Invalid hook call, error #321).
-- **Сидер пересоздаёт контент-таблицы на каждом старте.** Это by design — markdown — источник правды. Любая правка frontmatter или тела применится после следующего рестарта контейнера.
-- **`backend/static/` коммитится в репо** (Vite-артефакт), потому что Dockerfile частично переиспользует существующий каталог. Не забывать ребилдить фронт и коммитить вместе с правками компонентов.
+## Documentation map and authority order
 
----
+When documents disagree, follow this order:
 
-## Связанные документы
+1. Executable code, schemas, tests, and generated build manifest;
+2. [`PRODUCT.md`](PRODUCT.md) and [`DESIGN.md`](DESIGN.md) for product and
+   visual intent;
+3. [`docs/portfolio/CLAIM_LEDGER.md`](docs/portfolio/CLAIM_LEDGER.md) for
+   public-claim limits and unresolved truth work;
+4. [`FEATURE_PLAN.md`](FEATURE_PLAN.md) for future work, whose status labels
+   are not production proof;
+5. historical plans, handoffs, and reviews for context only.
 
-- [CLAUDE.md](CLAUDE.md) — инструкции для AI-агентов, краткая выжимка из этого документа.
-- [DISCAMMER_REDESIGN_PLAN_v2.md](DISCAMMER_REDESIGN_PLAN_v2.md) — авторитетная спека редизайна и миграции контента с Tilda (русский).
+The concise, tool-oriented version of this document is
+[`CLAUDE.md`](CLAUDE.md). The admissions-facing repository guide is
+[`docs/portfolio/README.md`](docs/portfolio/README.md). Rebuild
+`PROJECT.pdf` with `scripts/generate-project-pdf.py` whenever this overview
+changes materially, then render and inspect every PDF page before committing it.

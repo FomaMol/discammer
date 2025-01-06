@@ -1,39 +1,33 @@
 ---
-title: "Phishing: How to Avoid Getting Hooked by Scammers"
+title: "Phishing"
 slug: "phishing"
-description: "Phishing is one of the most common forms of internet fraud, aimed at obtaining users' personal and financial data."
+description: "Recognize messages designed to make you reveal information, open a harmful attachment, or visit a lookalike site."
 icon: "🎣"
 threat_level: 5
-category: "phishing"
+category: "cybersecurity"
 published_at: "2025-02-14"
 ---
 
-Phishing is one of the most common forms of internet fraud, aimed at obtaining users' personal and financial data. Phishing attacks often disguise themselves as legitimate messages from banks, social networks, online stores, or other services. Scammers create fake websites or emails that are nearly indistinguishable from the real thing, luring users "onto the hook" with deceptive tactics to make them share confidential information.  
-## How Does Phishing Work?
-A phishing attack typically begins when a user receives an email or message from a "trusted source." Scammers may employ several tactics:  
-  
+Phishing is a social-engineering technique: a message pretends to be from a trusted source in order to make you click, open, sign in, pay, or disclose information. It can arrive through email, text, social media, calls, or a message in a work tool.
 
+## Signals to pause on
 
-  1. **Emails** – the most common method for phishing. Scammers send emails posing as reputable companies, containing links to fake websites.
-  2. **Spoofed Websites** – links in phishing emails often lead to websites that look identical to legitimate ones. Users may believe they are on a real site and willingly enter their data.
-  3. **Phone Calls and SMS** – sometimes, scammers use phone calls and text messages, offering "urgent assistance" or claiming that the user must immediately verify their details.
+1. **Unexpected urgency or fear.** A supposed account problem, invoice, delivery, or security alert pushes you to act before checking.
+2. **A link whose destination is unclear.** A short, misspelled, or lookalike domain can lead to a fake sign-in page.
+3. **An attachment you were not expecting.** Do not open it merely because the sender name looks familiar.
+4. **A request for passwords, one-time codes, or payment data.** A real organization can be contacted through a channel you find independently.
+5. **A small mismatch.** An unusual sender address, a different reply-to address, or an odd request is enough reason to verify.
 
-  
-**A Real Story** :  
-  
-Recently, a real-life phishing incident highlighted the dangers of such attacks. Maria, an accountant at a large company, received an email allegedly from her bank with the subject "Urgent Security Update." The email stated that her account was blocked and to unblock it, she needed to immediately click a link and log into her account. The email appeared legitimate, using the bank’s logo and familiar branding.  
-⠀  
-Without suspecting anything, Maria clicked the link and entered her details. A few hours later, she discovered a large sum of money had been withdrawn from her account. When she contacted her bank, she learned that she had fallen victim to a phishing scam. The scammers had used the information she entered to access her account and withdraw the funds.  
-This story is a reminder that even the most careful people can fall victim if they don’t exercise caution.  
-## How to Protect Yourself from Phishing
-  
+## Illustrative scenario — not a case report
 
+You receive a delivery alert saying an address must be confirmed today. The button opens a page that looks like the delivery company and asks you to sign in. Instead of using the button, open a new browser tab, type the company’s known address yourself, or use the app you already installed. If the alert is not visible there, do not enter credentials.
 
-  1. **Always double-check the sender**. The sender's address may look legitimate at first, but inconsistencies can often be noticed upon closer inspection.
-  2. **Never click on links from unknown emails**. It’s safer to manually enter the company’s web address into your browser.
-  3. **Verify websites for authenticity**. Before entering any data, make sure the website’s address begins with "https://" and that it belongs to the correct domain.
-  4. **Install security software**. Antivirus and other security software can help detect and block phishing sites.
-  5. **Remember that banks don’t request personal information via email**. If you receive a message asking for personal details, it’s best to contact your bank directly.
+## A safer verification routine
 
-  
-Phishing schemes continue to evolve, but awareness of these tactics can help everyone keep their money and data secure.
+1. Pause before clicking a link, opening an attachment, or responding to an unexpected request.
+2. Reach the organization through a website, app, or phone number you already know or find independently.
+3. Use unique passwords and enable multi-factor authentication where available; never share a one-time code with an unsolicited contact.
+4. Use the service’s spam or phishing-reporting feature when available, then delete the message.
+5. If you entered credentials on a suspicious page, change the password through the real service immediately and review account activity.
+
+No single visual signal proves a message safe or malicious. Independent contact and a pause before acting are stronger than judging the wording alone.

@@ -4,7 +4,9 @@ import fcntl
 import json
 import logging
 import re
+from datetime import date
 from pathlib import Path
+from urllib.parse import urlparse
 
 import aiosqlite
 
@@ -15,6 +17,7 @@ from database import _apply_pragmas
 log = logging.getLogger(__name__)
 
 SUPPORTED_LOCALES = ("en", "ru")
+GUIDE_PROVENANCE_PATH = CONTENT_DIR / "provenance" / "guide-sources.json"
 
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:
@@ -84,6 +87,126 @@ def load_markdown_files(directory: Path) -> list[tuple[dict, str, str]]:
         meta.setdefault("slug", base_stem)
         results.append((meta, body, locale))
     return results
+
+
+def _localized_provenance_value(value: object, locale: str) -> str:
+    """Return a catalogue value in ``locale`` without guessing a translation.
+
+    Source titles and scope notes are authored in both languages.  An absent
+    locale intentionally becomes an empty string rather than leaking English
+    into the Russian surface or inventing an unofficial translation.
+    """
+    if isinstance(value, dict):
+        localized = value.get(locale, "")
+        return localized if isinstance(localized, str) else ""
+    return value if isinstance(value, str) else ""
+
+
+def _require_iso_date(value: object, location: str) -> str:
+    """Validate a catalogue date without treating it as a live-status signal."""
+    if not isinstance(value, str):
+        raise ValueError(f"Guide provenance {location} must be an ISO date string")
+    try:
+        date.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError(
+            f"Guide provenance {location} must use YYYY-MM-DD"
+        ) from exc
+    return value
+
+
+def _require_bilingual_text(value: object, location: str) -> dict[str, str]:
+    """Require authored, non-empty EN/RU text rather than a fallback locale."""
+    if not isinstance(value, dict) or set(value) != set(SUPPORTED_LOCALES):
+        raise ValueError(f"Guide provenance {location} must contain exactly en and ru")
+    if not all(isinstance(value[locale], str) and value[locale].strip() for locale in SUPPORTED_LOCALES):
+        raise ValueError(f"Guide provenance {location} must contain non-empty EN/RU text")
+    return value
+
+
+def load_guide_provenance(expected_slugs: set[str]) -> tuple[str, dict[str, dict]]:
+    """Load checked-in source metadata for the educational guide set.
+
+    The catalogue is deliberately small and static: it provides provenance for
+    general anti-scam guidance, not real-time intelligence or validation of a
+    visitor's particular message. It is a release gate: malformed, incomplete,
+    or locale-incomplete data aborts the reseed instead of silently erasing an
+    apparently source-backed entry from the public page.
+    """
+    if not GUIDE_PROVENANCE_PATH.exists():
+        raise ValueError(f"Guide provenance catalogue is missing: {GUIDE_PROVENANCE_PATH}")
+    try:
+        raw = json.loads(GUIDE_PROVENANCE_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Could not load guide provenance catalogue: {exc}") from exc
+
+    if not isinstance(raw, dict) or raw.get("version") != 1:
+        raise ValueError("Guide provenance catalogue must declare version 1")
+    guides = raw.get("guides")
+    if not isinstance(guides, dict) or set(guides) != expected_slugs:
+        missing = sorted(expected_slugs - set(guides or {}))
+        extra = sorted(set(guides or {}) - expected_slugs)
+        raise ValueError(
+            "Guide provenance catalogue slugs do not match authored guides: "
+            f"missing={missing}, extra={extra}"
+        )
+    catalogued_at = _require_iso_date(raw.get("catalogued_at"), "catalogued_at")
+
+    for slug, entry in guides.items():
+        if not isinstance(entry, dict):
+            raise ValueError(f"Guide provenance guides.{slug} must be an object")
+        _require_bilingual_text(entry.get("scope"), f"guides.{slug}.scope")
+        sources = entry.get("sources")
+        if not isinstance(sources, list) or not 1 <= len(sources) <= 3:
+            raise ValueError(f"Guide provenance guides.{slug}.sources must contain 1–3 entries")
+        for index, source in enumerate(sources):
+            location = f"guides.{slug}.sources[{index}]"
+            if not isinstance(source, dict):
+                raise ValueError(f"Guide provenance {location} must be an object")
+            publisher = source.get("publisher")
+            if not isinstance(publisher, str) or not publisher.strip():
+                raise ValueError(f"Guide provenance {location}.publisher must be non-empty")
+            url = source.get("url")
+            parsed = urlparse(url) if isinstance(url, str) else None
+            if not parsed or parsed.scheme != "https" or not parsed.hostname:
+                raise ValueError(f"Guide provenance {location}.url must be an HTTPS URL")
+            _require_bilingual_text(source.get("title"), f"{location}.title")
+            _require_bilingual_text(source.get("scope_note"), f"{location}.scope_note")
+            _require_iso_date(source.get("recorded_at"), f"{location}.recorded_at")
+
+    return catalogued_at, guides
+
+
+def guide_provenance_for_locale(
+    catalogue: dict[str, dict], catalogued_at: str, slug: str, locale: str
+) -> tuple[str, str, str]:
+    """Return locale-specific ``(scope, date, sources_json)`` for one guide."""
+    entry = catalogue.get(slug)
+    if not isinstance(entry, dict):
+        return "", "", "[]"
+
+    source_rows: list[dict[str, str]] = []
+    for source in entry.get("sources", []):
+        if not isinstance(source, dict):
+            continue
+        publisher = source.get("publisher", "")
+        url = source.get("url", "")
+        title = _localized_provenance_value(source.get("title"), locale)
+        scope_note = _localized_provenance_value(source.get("scope_note"), locale)
+        recorded_at = source.get("recorded_at", "")
+        if all(isinstance(value, str) and value for value in (publisher, url, title)):
+            source_rows.append(
+                {
+                    "publisher": publisher,
+                    "url": url,
+                    "title": title,
+                    "scope_note": scope_note,
+                    "recorded_at": recorded_at if isinstance(recorded_at, str) else "",
+                }
+            )
+
+    scope = _localized_provenance_value(entry.get("scope"), locale)
+    return scope, catalogued_at, json.dumps(source_rows, ensure_ascii=False)
 
 
 # ---------------------------------------------------------------------------
@@ -652,53 +775,62 @@ COURSE_MODULES = [
         "difficulty": "Capstone",
         "translations": {
             "en": {
-                "title": "Final Assessment & Certification",
+                "title": "Final Practice & Local Completion Record",
                 "description": (
-                    "A 40-question proctored exam plus three scenario-based "
-                    "simulations. Pass with 80% to earn your DiScammer certificate."
+                    "A 40-question self-assessment and a capstone scenario to complete "
+                    "at your own pace. Meet the threshold to create a local completion "
+                    "record on this device."
                 ),
                 "difficulty": "Capstone",
                 "topics": [
                     "40 multiple-choice questions covering Modules 1–8",
-                    "Phishing-triage simulation",
-                    "Voice-deepfake response simulation",
-                    "Live incident-response simulation",
+                    "Capstone scenario: a multi-stage fraud attempt",
+                    "Review of answers and explanations",
+                    "A browser-local completion record",
                 ],
                 "objectives": [
-                    "Score 80% or higher on the written exam",
-                    "Complete all three scenario simulations within the time limit",
-                    "Receive the DiScammer Defender certificate (shareable to LinkedIn)",
+                    "Reach 80% or higher in the self-assessment",
+                    "Work through the capstone scenario at your own pace",
+                    "Create a printable local record of completed learning milestones",
                 ],
                 "content": (
-                    "## Module 9 — Final Assessment & Certification\n\n"
-                    "This is where it gets real. The assessment mirrors the kind of "
-                    "decisions you will actually face — fast, ambiguous, with real "
-                    "consequences. Pass it and you have earned the certification."
+                    "## Module 9 — Final Practice & Local Completion Record\n\n"
+                    "Use this module to practise decisions you may face outside the "
+                    "course: urgent, ambiguous requests that deserve a pause and an "
+                    "independent check. The self-assessment is untimed and unproctored. "
+                    "After completing the milestones, you can create a personal record "
+                    "stored only in this browser. It is not a verified credential or "
+                    "proof of competence."
                 ),
             },
             "ru": {
-                "title": "Итоговая аттестация и сертификат",
+                "title": "Финальная практика и локальная запись о прохождении",
                 "description": (
-                    "Экзамен из 40 вопросов плюс три сценарных симуляции. Сдай "
-                    "минимум на 80% — и получи сертификат DiScammer."
+                    "Самооценка из 40 вопросов и итоговый сценарий, которые можно "
+                    "пройти в своём темпе. Выполни порог — и создай локальную запись "
+                    "о прохождении на этом устройстве."
                 ),
                 "difficulty": "Финал",
                 "topics": [
                     "40 вопросов по материалам Модулей 1–8",
-                    "Симуляция: разбор фишинга",
-                    "Симуляция: реакция на голосовой дипфейк",
-                    "Симуляция: реакция на инцидент в реальном времени",
+                    "Итоговый сценарий: многоэтапная попытка мошенничества",
+                    "Разбор ответов и объяснений",
+                    "Локальная запись о завершённых этапах обучения",
                 ],
                 "objectives": [
-                    "Набрать 80% и выше на письменном экзамене",
-                    "Пройти все три симуляции в отведённое время",
-                    "Получить сертификат DiScammer Defender для LinkedIn",
+                    "Набрать 80% и выше в самооценке",
+                    "Пройти итоговый сценарий в своём темпе",
+                    "Создать печатную локальную запись о завершённых этапах обучения",
                 ],
                 "content": (
-                    "## Модуль 9 — Итоговая аттестация и сертификат\n\n"
-                    "Здесь начинается серьёзная игра. Аттестация повторяет реальные "
-                    "решения, которые тебе придётся принимать — быстро, в условиях "
-                    "неопределённости. Сдашь — заслужил сертификат."
+                    "## Модуль 9 — Финальная практика и локальная запись о прохождении\n\n"
+                    "Используй этот модуль, чтобы потренировать решения, с которыми "
+                    "можно столкнуться вне курса: срочные и неоднозначные запросы, "
+                    "где нужно остановиться и проверить всё независимым способом. "
+                    "Самооценка проходит без таймера и прокторинга. После выполнения "
+                    "этапов можно создать личную запись, которая хранится только в этом "
+                    "браузере. Это не проверяемое удостоверение и не доказательство "
+                    "компетентности."
                 ),
             },
         },
@@ -942,17 +1074,24 @@ async def _reseed_content() -> None:
             "WHERE name IN ('post','scam_guide','course_module','lesson')"
         )
 
-        for meta, content, locale in load_markdown_files(CONTENT_DIR / "guides"):
+        guide_rows = load_markdown_files(CONTENT_DIR / "guides")
+        expected_guide_slugs = {str(meta.get("slug", "")) for meta, _, _ in guide_rows}
+        catalogued_at, provenance_catalogue = load_guide_provenance(expected_guide_slugs)
+        for meta, content, locale in guide_rows:
             slug = meta.get("slug", "")
             # Per-slug override beats whatever the markdown frontmatter shipped
             # (those were OS emoji — see SCAM_GUIDE_ICONS docstring). Fall back
             # to the frontmatter value for any slug not yet in the table so a
             # newly-added guide still renders something until it's mapped.
             icon = SCAM_GUIDE_ICONS.get(slug, meta.get("icon", ""))
+            source_scope, source_catalogued_at, sources_json = guide_provenance_for_locale(
+                provenance_catalogue, catalogued_at, slug, locale
+            )
             await db.execute(
                 "INSERT INTO scam_guide "
-                "(slug, locale, title, description, content, icon, threat_level, category, published_at) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "(slug, locale, title, description, content, icon, threat_level, category, published_at, "
+                "source_scope, source_catalogued_at, sources_json) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     slug,
                     locale,
@@ -963,6 +1102,9 @@ async def _reseed_content() -> None:
                     meta.get("threat_level", 3),
                     meta.get("category", ""),
                     meta.get("published_at", ""),
+                    source_scope,
+                    source_catalogued_at,
+                    sources_json,
                 ),
             )
 

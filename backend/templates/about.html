@@ -33,6 +33,14 @@
     {{ t(_lang, 'about.lead') }}
   </p>
 
+  <p class="mt-5 font-sans text-[16px] leading-[1.7] text-[#cdd4e3] max-w-[62ch]">
+    <a href="/{{ _lang }}/portfolio"
+       class="inline-flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#65def0] underline underline-offset-4 decoration-[#3a8b9a] decoration-1 transition-colors hover:text-[#9eecf6] hover:decoration-[#65def0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#65def0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0f1a]">
+      {{ t(_lang, 'about.portfolio_link') }}
+      <span aria-hidden="true">→</span>
+    </a>
+  </p>
+
   {# 4. Three sections — h2 cyan mono, body Geist sentence-case. #}
   <section class="mt-10 sm:mt-12" aria-labelledby="believe-heading">
     <h2 id="believe-heading"

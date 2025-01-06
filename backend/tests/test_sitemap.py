@@ -41,3 +41,11 @@ def test_sitemap_guide_pages_are_localized_pairs(client):
     # Every en guide must have a ru counterpart at the same suffix.
     for l in guide_en:
         assert l.replace("/en/guide/", "/ru/guide/") in locs
+
+
+def test_sitemap_includes_localized_portfolio_dossier(client):
+    r = client.get("/sitemap.xml")
+    root = ET.fromstring(r.text)
+    locs = [u.findtext(f"{SM}loc", "") for u in root.findall(f"{SM}url")]
+    assert any(url.endswith("/en/portfolio") for url in locs)
+    assert any(url.endswith("/ru/portfolio") for url in locs)

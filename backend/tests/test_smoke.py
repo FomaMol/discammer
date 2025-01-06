@@ -25,6 +25,21 @@ def test_game_page_renders(client):
     assert r.status_code == 200
 
 
+def test_portfolio_dossier_renders_in_both_languages(client):
+    """The admissions-facing dossier is public, localized, and switchable."""
+    for lang, other in (("en", "ru"), ("ru", "en")):
+        r = client.get(f"/{lang}/portfolio")
+        assert r.status_code == 200
+        assert "Foma Molchanov" in r.text
+        assert f'href="/lang/{other}?next=/{other}/portfolio"' in r.text
+
+
+def test_legacy_portfolio_path_redirects_to_localized_dossier(client):
+    r = client.get("/portfolio", follow_redirects=False)
+    assert r.status_code == 302
+    assert r.headers["location"] == "/en/portfolio"
+
+
 def test_unknown_post_returns_404(client):
     r = client.get("/journal/this-slug-does-not-exist")
     assert r.status_code == 404

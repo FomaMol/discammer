@@ -193,6 +193,11 @@ async def about_compat(request: Request):
     return _legacy_redirect(request, "/about")
 
 
+@router.get("/portfolio", include_in_schema=False)
+async def portfolio_compat(request: Request):
+    return _legacy_redirect(request, "/portfolio")
+
+
 @router.get("/check", include_in_schema=False)
 async def check_compat(request: Request):
     return _legacy_redirect(request, "/check")
@@ -510,6 +515,24 @@ async def about(request: Request, lang: str = LangPath):
         {
             **_base_context(request, lang),
             "page_title": t(lang, "about.page_title"),
+        },
+    )
+
+
+@router.get("/{lang}/portfolio", response_class=HTMLResponse)
+async def portfolio(request: Request, lang: str = LangPath):
+    """Public project dossier for admissions and portfolio reviewers.
+
+    This is intentionally a static, server-rendered account of scope and
+    limitations. It makes the student author, implemented work, and remaining
+    validation explicit without asking a reviewer to infer them from the UI.
+    """
+    return _templates(request).TemplateResponse(
+        request,
+        "portfolio.html",
+        {
+            **_base_context(request, lang),
+            "page_title": t(lang, "portfolio.page_title"),
         },
     )
 

@@ -87,7 +87,7 @@ async def sitemap_xml(request: Request) -> Response:
 
     # Language-agnostic path suffixes (slugs are shared across locales). "" is
     # the localized home (/{lang}/); the rest map to /{lang}/{suffix}.
-    suffixes: list[str] = ["", "journal", "course", "game", "about"]
+    suffixes: list[str] = ["", "journal", "course", "game", "about", "portfolio"]
     for post in posts:
         if post.get("slug"):
             suffixes.append(f"journal/{post['slug']}")

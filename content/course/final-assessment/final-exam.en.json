@@ -1,8 +1,8 @@
 {
   "order": 1,
-  "title": "Final exam — 40 questions across all modules",
+  "title": "Final self-assessment — 40 questions across Modules 1–8",
   "est_minutes": 40,
-  "body_md": "## The capstone written exam\n\nYou've worked through eight modules of theory, examples, and practice. This exam asks you to apply that knowledge under timed conditions. The format:\n\n- **40 multiple-choice questions**, five per module, drawn from the patterns we covered.\n- **Pass mark: 80%** (32 correct). Below that, you'll see what you missed and can retake the exam.\n- **Honest mode.** No retry within a single question — pick once and the answer is submitted. The exam is for *you*; cheating yourself defeats the purpose.\n- **Pass once and your result is recorded** for the certificate page.\n\nTake your time. There's no clock other than the one you set yourself.",
+  "body_md": "## Final self-assessment\n\nYou've worked through eight modules of theory, examples, and practice. This untimed self-assessment helps you apply that knowledge at your own pace. It is not proctored, monitored, or independently verified. The format:\n\n- **40 multiple-choice questions**, five per module, drawn from the patterns covered in Modules 1–8.\n- **Personal benchmark: 80%** (32 correct). Below that, review the answers and retake the full self-assessment whenever you want.\n- **One choice per question per attempt.** Choose an answer, then see the result before continuing.\n- **Local result only.** A passing result is saved in this browser so it can appear in your personal completion record. It is not sent to DiScammer and cannot be verified by DiScammer or a third party.\n\nTake your time. There is no timer, proctor, or external record.",
   "widget_type": "exam",
   "widget_config": {
     "passThreshold": 0.8,

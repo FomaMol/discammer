@@ -276,11 +276,18 @@ export default function ExamWidget({ config }: Props) {
               {current.module}
             </div>
           )}
-          <h3 className="font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
+          <h3
+            id={`${radioGroup}-question-${index}`}
+            className="font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]"
+          >
             {current.question}
           </h3>
 
-          <fieldset className="mt-5 space-y-2.5" disabled={answeredThis}>
+          <fieldset
+            aria-labelledby={`${radioGroup}-question-${index}`}
+            className="mt-5 space-y-2.5"
+            disabled={answeredThis}
+          >
             {current.choices.map((choice, i) => {
               const isPicked = picked === i;
               const isCorrectShown = answeredThis && i === correctIndex;
