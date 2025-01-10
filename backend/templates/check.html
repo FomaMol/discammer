@@ -9,7 +9,9 @@
    CHECK — the flagship "Проверка сообщения" red-flag analyzer (F2).
    SSR explainer + the MessageAnalyzer island. The analyzer is 100%
    client-side: nothing the reader pastes leaves the browser. The page
-   itself works without JS (the <noscript> 60-second checklist below).
+   itself works without JS. Its static incident-action fallback stays visible
+   when an island chunk cannot load; the separate <noscript> checklist below
+   remains a prevention checklist for a suspicious message.
    ───────────────────────────────────────────────────────────────────── #}
 
 <article class="max-w-[48rem] mx-auto px-4 sm:px-6 py-10 sm:py-14">
@@ -32,16 +34,58 @@
   </p>
 
   {# ───────────────────────── ANALYZER ISLAND ─────────────────────────
-     MessageAnalyzer mounts here. The island captures its own inner HTML
-     (none — it renders entirely client-side), so there is no SSR fallback
-     markup to preserve; the no-JS surface is the separate <noscript>
-     checklist below, which is always useful on its own.
-     ──────────────────────────────────────────────────────────────────── #}
+     The island captures this static inner HTML before it mounts. Successful
+     hydration replaces the fallback with the interactive analyzer; a failed
+     chunk or render restores it, so the panel never becomes blank. #}
   {% set _analyzer_props = {"lang": _lang} %}
   <section class="mt-9 sm:mt-11 border border-[#202a44] bg-[#0a0d16]/50 rounded-[6px] p-4 sm:p-6 ds-grain"
            aria-labelledby="check-tool-heading">
     <h2 id="check-tool-heading" class="sr-only">{{ t(_lang, 'check.heading') }}</h2>
-    <div data-component="MessageAnalyzer" data-props='{{ _analyzer_props | tojson | forceescape }}'></div>
+    <div data-component="MessageAnalyzer" data-props='{{ _analyzer_props | tojson | forceescape }}'>
+      <section aria-labelledby="check-incident-heading">
+        <h2 id="check-incident-heading" class="font-mono text-[14px] font-bold uppercase tracking-[0.08em] text-[#e7ecf5]">
+          {{ t(_lang, 'check.incident_heading') }}
+        </h2>
+        <p class="mt-2 max-w-[62ch] font-sans text-[14px] leading-[1.6] text-[#aab2c4]">
+          {{ t(_lang, 'check.incident_intro') }}
+        </p>
+        <ol class="mt-5 space-y-3 list-none max-w-[62ch]">
+          <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+            <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">1.</span>
+            <span>{{ t(_lang, 'check.incident_1') }}</span>
+          </li>
+          <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+            <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">2.</span>
+            <span>{{ t(_lang, 'check.incident_2') }}</span>
+          </li>
+          <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+            <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">3.</span>
+            <span>{{ t(_lang, 'check.incident_3') }}</span>
+          </li>
+          <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+            <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">4.</span>
+            <span>{{ t(_lang, 'check.incident_4') }}</span>
+          </li>
+          <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+            <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">5.</span>
+            <span>{{ t(_lang, 'check.incident_5') }}</span>
+          </li>
+          <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
+            <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">6.</span>
+            <span>{{ t(_lang, 'check.incident_6') }}</span>
+          </li>
+        </ol>
+        <p class="mt-5 max-w-[62ch] font-sans text-[12px] leading-[1.5] text-[#8b94a8]">
+          {{ t(_lang, 'check.incident_privacy') }}
+        </p>
+        <p class="mt-3 max-w-[62ch] font-sans text-[12px] leading-[1.5] text-[#8b94a8]">
+          {{ t(_lang, 'check.incident_disclaimer') }}
+        </p>
+        <p class="mt-4 border border-[#e76670]/40 bg-[#e76670]/[0.06] px-3 py-3 font-sans text-[13px] leading-[1.5] text-[#cdd4e3]">
+          {{ t(_lang, 'check.incident_danger') }}
+        </p>
+      </section>
+    </div>
   </section>
 
   {# ───────────────────────── NO-JS CHECKLIST ─────────────────────────

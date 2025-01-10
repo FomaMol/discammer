@@ -18,11 +18,13 @@ test('typing "phishing" yields a highlighted result linking to the phishing guid
 
   // Results appear after the debounced /api/search fetch resolves. The guide
   // result links to /en/guide/phishing.
-  const guideLink = page.locator('a[href="/en/guide/phishing"]').first();
+  // Scope to the dynamic listbox. The shared footer also links to this guide,
+  // so an unscoped href would not prove the debounced search rendered a result.
+  const guideLink = page.locator('[role="listbox"] a[href="/en/guide/phishing"]');
   await expect(guideLink).toBeVisible({ timeout: 10_000 });
 
   // A <mark> highlight is present in the rendered results.
-  await expect(page.locator('mark').first()).toBeVisible();
+  await expect(guideLink.locator('mark')).toBeVisible();
 
   // Clicking the result navigates to the guide page.
   await guideLink.click();

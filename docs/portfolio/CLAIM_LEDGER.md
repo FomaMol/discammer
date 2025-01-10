@@ -1,7 +1,7 @@
-# DiScammer Wave 0–1 — Claim Ledger
+# DiScammer Wave 0–2 — Claim Ledger
 
-**Status:** active source for the Wave 0 Product Truth Gate and Wave 1
-evidence work
+**Status:** active source for the Wave 0 Product Truth Gate, Wave 1 evidence
+work, and Wave 2 incident-action guidance
 **Last reviewed:** 2026-07-13
 **Scope:** public product, course, privacy, and portfolio claims audited during
 Wave 0. This is not evidence of educational efficacy, security certification,
@@ -48,6 +48,7 @@ by DiScammer.
 | PT-17 | `backend/templates/about.html`, `backend/templates/portfolio.html`, `backend/locales/{en,ru}.json` | “Built by the operators / DCM-OPS” obscured the author and could imply an organization that issued records. | `unresolved` — About identifies Foma Molchanov and links to a bilingual public dossier that separates implemented facts from the authorship and tooling account Foma must confirm. | The dossier intentionally asks Foma to confirm detailed personal-contribution and tool-use wording before an application submission; the repository cannot attest to those personal facts. | Admissions case-study / About lane |
 | PT-18 | All public product and portfolio pages | A reader could infer user testing, improved scam-recognition outcomes, or educational efficacy. | `unresolved` — no such claim may be introduced in Wave 0. A future claim requires a documented study protocol, consent, participant context, and appropriately limited findings. | This repository contains technical tests, not a user-research study or outcome dataset. | Future Scenario Lab / research lane |
 | PT-19 | `backend/templates/guide.html`, guide locale strings | Case-file labels, an “ACTIVE” status, “LAST_REVIEWED”, and investigator language could make a static educational page look like a current operational dossier. | `corrected` — guide pages show a stable guide reference, source count, catalogue date, educational pattern notes, and an editorial-scope footer. | The source catalogue date is a repository catalogue date, not a live-status timestamp or promise of ongoing review. The page states the limit next to its sources. | Wave 1 presentation lane |
+| PT-20 | `frontend/src/components/IncidentActionWizard.tsx`, `backend/templates/check.html`, locale copy | A post-check action panel could be mistaken for incident reporting, case verification, recovery service, or a reason to submit sensitive details. | `corrected` — Wave 2 provides only local, educational next steps. It never receives the pasted message or analysis result, does not file a report, verify an incident, recover funds, promise an outcome, or ask for passwords, card details, or recovery codes. | The interactive component accepts only locale, holds selections in page memory, and has no network or storage API. The static fallback gives the same limited guidance when JavaScript or the island fails. Browser tests cover both a clean and flagged result, keyboard use, and non-transmission of pasted fixture text; EN/RU locale parity is audited. | Wave 2 incident-action lane |
 
 ## Release checks for this ledger
 
@@ -62,6 +63,8 @@ by DiScammer.
   public guide slugs and keeps its public source labels in RU/EN parity.
 - [x] PT-19 removes static guide language that implied an active case or a
   recurring review process.
+- [x] PT-20 keeps incident-action choices local to the current page and does
+  not turn the checker into reporting, case verification, or recovery service.
 - [ ] PT-17 requires Foma's final review of his personal-contribution and
   tooling disclosure before an admissions submission.
 - [x] A final repository search found no public claim of proctoring,

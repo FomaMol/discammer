@@ -2,6 +2,7 @@ import { useId, useRef, useState } from 'react';
 import { analyze, type AnalysisResult, type RedFlag } from '../data/redflags';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
+import IncidentActionWizard from './IncidentActionWizard';
 import VerdictCard from './VerdictCard';
 
 /**
@@ -244,6 +245,11 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
           </>
         )}
       </div>
+
+      {/* Kept outside aria-live: this is an interactive local tool, not part of
+          the result announcement. It receives only the locale, never text or
+          analysis data, and remains available even after a clean heuristic read. */}
+      {result !== null && <IncidentActionWizard lang={lang} />}
     </div>
   );
 }
