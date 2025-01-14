@@ -119,14 +119,26 @@ describe('userinfo @-trick detection', () => {
   });
 });
 
-describe('deceptive / excessive subdomain detection', () => {
+describe('deceptive brand-label embedding detection', () => {
   it('a brand-in-subdomain deceptive host fires deceptive_subdomain', () => {
-    // The registrable domain is secure-login.ru; paypal.com is a fake prefix.
+    // `paypal.com` is embedded before further labels, a narrow brand-shaped tell.
     expect(findingIds('http://paypal.com.secure-login.ru/account')).toContain('deceptive_subdomain');
   });
 
-  it('a normal two-label host does not fire deceptive_subdomain', () => {
+  it('a normal domain does not fire deceptive_subdomain', () => {
     expect(findingIds('https://paypal.com/account')).not.toContain('deceptive_subdomain');
+  });
+
+  it('does not infer a deceptive prefix from a compound ending', () => {
+    expect(findingIds('https://paypal.co.uk/account')).not.toContain('deceptive_subdomain');
+  });
+
+  it('fails closed for an unmodelled compound ending', () => {
+    expect(findingIds('https://paypal.co.in/account')).not.toContain('deceptive_subdomain');
+  });
+
+  it('still flags a brand-shaped prefix before a compound suffix', () => {
+    expect(findingIds('https://paypal.com.evil.co.uk/account')).toContain('deceptive_subdomain');
   });
 });
 
@@ -180,6 +192,14 @@ describe('brand-lookalike detection', () => {
 
   it('the genuine brand domain does not fire brand_lookalike', () => {
     expect(findingIds('https://paypal.com/login')).not.toContain('brand_lookalike');
+  });
+
+  it('fails closed for a lookalike before an unmodelled compound ending', () => {
+    expect(findingIds('https://paypa1.co.in/login')).not.toContain('brand_lookalike');
+  });
+
+  it('flags a lookalike embedded before an explicit brand-like label', () => {
+    expect(findingIds('https://paypa1.com.evil.co.uk/login')).toContain('brand_lookalike');
   });
 });
 

@@ -10,15 +10,23 @@ import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 /**
  * Local, inline incident-action guide for a person who may already have acted.
  *
- * The component deliberately accepts only the current language. In particular,
- * it has no message-text or analysis-result prop, performs no fetches or
- * reporting, and keeps its checkbox state in memory only for the current page.
+ * The component deliberately accepts only the current language and a fixed
+ * surface label. In particular, it has no pasted-input, hostname, finding, or
+ * risk prop, performs no fetches or reporting, and keeps its checkbox state in
+ * memory only for the current page.
  */
+type IncidentActionSurface = 'message' | 'link';
+
 interface IncidentActionWizardProps {
   lang?: Locale;
+  /** Static UI context only, never analysis data or a user-provided value. */
+  surface?: IncidentActionSurface;
 }
 
-export default function IncidentActionWizard({ lang: langProp }: IncidentActionWizardProps) {
+export default function IncidentActionWizard({
+  lang: langProp,
+  surface = 'message',
+}: IncidentActionWizardProps) {
   const lang = currentLang(langProp);
   const tr = makeTranslator('incident');
   const [selected, setSelected] = useState<readonly IncidentImpact[]>([]);
@@ -60,6 +68,7 @@ export default function IncidentActionWizard({ lang: langProp }: IncidentActionW
     <section
       data-incident-action-wizard
       data-lang={lang}
+      data-surface={surface}
       className="mt-8 border border-[#2b3759] bg-[#121828]/70 rounded-[4px]"
     >
       <details>
