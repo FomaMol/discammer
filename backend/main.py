@@ -225,12 +225,17 @@ async def request_logging_middleware(request: "Request", call_next):
     # are document-level — pointless on JSON/asset responses). The nonce in the
     # CSP matches the one rendered into this page's inline <script> tags. The
     # Unity game (/play/) gets the hardening headers but NOT the nonce CSP — its
-    # static engine-generated HTML can't be nonce'd and needs WASM eval.
+    # static engine-generated HTML can't be nonce'd and needs WASM eval — and
+    # answers SAMEORIGIN instead of DENY: /{lang}/game embeds /play/ in a
+    # same-origin iframe (GameLauncher), which DENY breaks with a
+    # "refused to connect" frame.
     if response.headers.get("content-type", "").startswith("text/html"):
+        _is_play = _path == "/play" or _path.startswith("/play/")
         apply_security_headers(
             response,
             request.state.csp_nonce,
-            include_csp=not _path.startswith("/play/"),
+            include_csp=not _is_play,
+            same_origin_framing=_is_play,
         )
 
     return response

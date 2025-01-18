@@ -89,7 +89,10 @@ def build_csp(nonce: str) -> str:
         # Local /media/ video is same-origin; blob: for client-built media.
         "media-src 'self' blob:",
         f"connect-src {' '.join(connect)}",
-        f"frame-src {' '.join(_frame_src_hosts())}",
+        # 'self' first: /{lang}/game frames the same-origin Unity bundle at
+        # /play/ (GameLauncher island); without it, enforcing CSP would block
+        # the game iframe from the parent side.
+        f"frame-src 'self' {' '.join(_frame_src_hosts())}",
         "worker-src 'self'",
         "manifest-src 'self'",
     ]
@@ -99,8 +102,9 @@ def build_csp(nonce: str) -> str:
 
 
 # Static document headers that don't depend on the per-request nonce.
+# X-Frame-Options is NOT here: it depends on the route (DENY everywhere except
+# the /play/ game bundle, which the same-origin game page frames).
 _STATIC_DOC_HEADERS = {
-    "X-Frame-Options": "DENY",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Cross-Origin-Opener-Policy": "same-origin",
@@ -112,7 +116,13 @@ _STATIC_DOC_HEADERS = {
 }
 
 
-def apply_security_headers(response, nonce: str, *, include_csp: bool = True) -> None:
+def apply_security_headers(
+    response,
+    nonce: str,
+    *,
+    include_csp: bool = True,
+    same_origin_framing: bool = False,
+) -> None:
     """Add the security headers to an HTML document ``response`` in place.
 
     Only call for ``text/html`` responses — CSP/X-Frame-Options/etc. are
@@ -123,7 +133,15 @@ def apply_security_headers(response, nonce: str, *, include_csp: bool = True) ->
     index.html carries inline loader scripts we can't nonce and needs WASM
     eval; giving it the nonce-only policy would break it once enforced. The
     game bundle is otherwise self-contained.
+
+    ``same_origin_framing=True`` answers ``X-Frame-Options: SAMEORIGIN`` instead
+    of ``DENY`` — required for ``/play/``, which ``/{lang}/game`` embeds in an
+    ``<iframe>`` (GameLauncher). DENY blocks even same-origin framing and the
+    browser renders "refused to connect" inside the game dialog.
     """
+    response.headers.setdefault(
+        "X-Frame-Options", "SAMEORIGIN" if same_origin_framing else "DENY"
+    )
     for name, value in _STATIC_DOC_HEADERS.items():
         response.headers.setdefault(name, value)
     if include_csp and CSP_ENABLED:
