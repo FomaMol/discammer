@@ -529,6 +529,39 @@ a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+   home.html / post.html hover affordances (SEC-1).
+   These replace inline onmouseover/onmouseout handlers so the CSP can drop
+   inline event handlers on enforce. The resting styles stay in each element's
+   inline `style=""`; only the :hover delta lives here. Like .card-interactive,
+   the :hover rules use !important to override the inline base on hover (an
+   inline declaration otherwise beats a class selector). The element's own
+   inline `transition` drives the easing; transforms are suppressed under
+   reduced motion in the block below.
+   ────────────────────────────────────────────────────────────────────────── */
+/* Hero CTAs */
+.dcm-hero-cta-primary:hover { background: #9eecf6 !important; transform: translateY(-1px); }
+.dcm-hero-cta-primary:active { transform: translateY(0); }
+.dcm-hero-cta-secondary:hover {
+  border-color: #3a8b9a !important;
+  color: #9eecf6 !important;
+  background: rgba(101, 222, 240, 0.08) !important;
+}
+/* "View all →" inline link */
+.dcm-link-cyan:hover { color: #65def0 !important; }
+/* Newsletter subscribe pill — green fill */
+.dcm-cta-green:hover { background: rgba(124, 232, 150, 0.10) !important; border-color: #7ce896 !important; }
+/* Newsletter list row — indent on hover */
+.dcm-row-indent:hover { padding-left: 8px !important; }
+/* Interview cards — cyan-dim border, with/without lift */
+.dcm-card-cyan-lift:hover { border-color: #3a8b9a !important; transform: translateY(-2px); }
+.dcm-card-cyan-fill:hover { border-color: #3a8b9a !important; background: #1a2236 !important; }
+/* Article cards — amber border, with/without lift */
+.dcm-card-amber-lift:hover { border-color: #f4b965 !important; transform: translateY(-2px); }
+.dcm-card-amber:hover { border-color: #f4b965 !important; }
+/* post.html related card — hover border color is data-driven via --rhover */
+.dcm-card-hovervar:hover { border-color: var(--rhover) !important; }
+
+/* ──────────────────────────────────────────────────────────────────────────
    Reduced motion — kill decorative animations, keep affordance transitions.
    Color/opacity transitions on hover remain (they aren't vestibular triggers).
    ────────────────────────────────────────────────────────────────────────── */
@@ -566,4 +599,9 @@ a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
     transform: none !important;
   }
   .dcm-badge-pulse { animation: none !important; opacity: 1 !important; }
+  /* home hover CTAs/cards — suppress the lift, keep color/border shifts */
+  .dcm-hero-cta-primary:hover,
+  .dcm-hero-cta-primary:active,
+  .dcm-card-cyan-lift:hover,
+  .dcm-card-amber-lift:hover { transform: none !important; }
 }

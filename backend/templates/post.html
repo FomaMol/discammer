@@ -282,10 +282,8 @@
       <li>
         <a
           href="/{{ _lang }}/journal/{{ related.slug }}"
-          class="group block h-full rounded-md transition-colors duration-300"
-          style="background: #0b0f1a; border: 1px solid #202a44; padding: 20px; text-decoration: none;"
-          onmouseover="this.style.borderColor='{{ _rhover }}'"
-          onmouseout="this.style.borderColor='#202a44'"
+          class="group block h-full rounded-md transition-colors duration-300 dcm-card-hovervar"
+          style="background: #0b0f1a; border: 1px solid #202a44; padding: 20px; text-decoration: none; --rhover: {{ _rhover }};"
         >
           <span
             class="font-mono uppercase rounded-sm"
