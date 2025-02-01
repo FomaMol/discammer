@@ -69,6 +69,31 @@ def test_json_api_has_no_document_csp(client):
     assert "x-frame-options" not in {k.lower() for k in r.headers}
 
 
+def test_csp_enforce_mode_flips_to_enforcing_header(client, monkeypatch):
+    """Wave 1 enforce switch: CSP_REPORT_ONLY=0 must emit an enforcing
+    Content-Security-Policy (not -Report-Only) carrying the SAME policy body.
+    This locks the flip to a pure env change — no code edit — and guards against
+    a regression that would silently keep the site in report-only forever."""
+    import security
+
+    # Report-Only by default (the enforcing header must be absent).
+    ro = client.get("/en/")
+    ro_policy = ro.headers.get("content-security-policy-report-only")
+    assert ro_policy, "default config must ship Report-Only"
+    assert "content-security-policy" not in {k.lower() for k in ro.headers}
+
+    # Flip the flag off → enforcing header, and no report-only alongside it.
+    monkeypatch.setattr(security, "CSP_REPORT_ONLY", False)
+    enf = client.get("/en/")
+    keys = {k.lower() for k in enf.headers}
+    assert "content-security-policy" in keys, "enforce mode must use the enforcing header"
+    assert "content-security-policy-report-only" not in keys, "must not also send report-only"
+
+    # Identical policy modulo the fresh per-request nonce.
+    strip = lambda p: re.sub(r"'nonce-[A-Za-z0-9_\-]+'", "'nonce-X'", p)
+    assert strip(enf.headers["content-security-policy"]) == strip(ro_policy)
+
+
 def test_api_rate_limit_returns_429_over_ceiling(client):
     """The general /api/* limiter rejects over the per-IP ceiling. Swap in a
     tiny limiter so the test doesn't have to send hundreds of requests."""
