@@ -30,6 +30,29 @@
 
 ---
 
+## Прогресс исполнения (сессия 2026-07-14, контроллер Claude)
+
+Локальная среда поднята: `.venv` (uv → Python 3.12.13, точные пины requirements),
+`.nodeenv` (Node 20.19.4, Docker-паритет). Базлайн зелёный: pytest, vitest, i18n,
+`npm run build` воспроизводит committed static без diff.
+
+- **Волна 0 — ГОТОВО.** Task 0.1 уже был в `ea812fc`. Task 0.2 — `e2e/game-launch.spec.ts`
+  написан и **проверен в реальном браузере** (Launch → `/play/` 200 + `X-Frame-Options:
+  SAMEORIGIN` + Unity-контейнер рендерится + Escape закрывает). Коммит `b3fdf8e`.
+- **Волна 1 — ГОТОВО (код).** Task 1.1: все 17 inline-хендлеров (home.html×10 элементов,
+  post.html×1) → `.dcm-*` CSS `:hover` (idiom `.card-interactive` c `!important`,
+  reduced-motion гасит только lift). Проверено в браузере: 17/17 hover'ов
+  воспроизводят исходные цвета/сдвиги; data-driven цвет post через `--rhover`. Rebuild
+  детерминирован (Tailwind entry-CSS хэш каскадит в имена JS-чанков; логика JS
+  байт-идентична). Коммит `3993871`. Task 1.2: тест enforce-флипа CSP (`42128ce`).
+  Независимое adversarial-ревью Волны 1: **SHIP**, 0 дефектов.
+- **Осталось владельцу (Волны 0–1):** деплой + прод-проверка `/en/game`; флип
+  `CSP_REPORT_ONLY=0` после чистой недели `/api/csp-report`.
+- **Дальше:** Волна 2 (AN-1, OBS-1 [нужно решение владельца: GlitchTip vs расширить
+  пайплайн], UX-3), затем Волна 3.
+
+---
+
 ## Волна 0 — HOTFIX: игра на `/en/game` (выполняется немедленно)
 
 ### Task 0.1: Разрешить same-origin фрейминг для `/play/`
