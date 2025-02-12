@@ -135,3 +135,107 @@ def test_request_counter_increments_via_middleware(client, monkeypatch):
         return s
 
     assert total_requests(after) > total_requests(before)
+
+
+# ---------------------------------------------------------------------------
+# AN-1 — privacy-first product-usage surface counter.
+#
+# A second, PII-free series `discammer_surface_views_total{surface,lang}` records
+# WHICH server-rendered surface (home/journal/post/guide/course/module/lesson/
+# game/about/portfolio/tools_check/tools_inspect/search) a reader loaded, keyed
+# only by the coarse surface name and the UI language. It NEVER carries a slug,
+# path, query string, request body, IP, or any user content — the checker/
+# inspector are counted by surface NAME only and their text never reaches the
+# server. Cardinality is ~13 surfaces × 2 langs.
+# ---------------------------------------------------------------------------
+
+_SURFACE = "discammer_surface_views_total"
+
+
+def _surface_lines(text: str) -> list[str]:
+    """Just the surface-views sample lines from a full exposition."""
+    return [ln for ln in text.splitlines() if ln.startswith(_SURFACE + "{")]
+
+
+def _surface_value(text: str, surface: str, lang: str) -> float:
+    """Value of `discammer_surface_views_total{surface=..,lang=..}` (0 if absent)."""
+    for line in _surface_lines(text):
+        if f'surface="{surface}"' in line and f'lang="{lang}"' in line:
+            return float(line.rsplit(" ", 1)[1])
+    return 0.0
+
+
+def _surface_total(text: str) -> float:
+    """Sum of every surface-views sample (across all surface/lang pairs)."""
+    return sum(float(ln.rsplit(" ", 1)[1]) for ln in _surface_lines(text))
+
+
+def test_surface_view_records_guide_en(client):
+    """A GET of a guide page increments surface="guide",lang="en" by 1."""
+    from metrics import collector
+
+    before = _surface_value(collector.render(), "guide", "en")
+    assert client.get("/en/guide/phishing").status_code == 200
+    text = collector.render()
+    assert _surface_value(text, "guide", "en") == before + 1.0
+    # Exact label shape (surface first, then lang) is present.
+    assert f'{_SURFACE}{{surface="guide",lang="en"}}' in text
+
+
+def test_surface_view_records_game_ru(client):
+    """`/ru/game` increments surface="game",lang="ru"."""
+    from metrics import collector
+
+    before = _surface_value(collector.render(), "game", "ru")
+    assert client.get("/ru/game").status_code == 200
+    assert _surface_value(collector.render(), "game", "ru") == before + 1.0
+
+
+def test_non_page_get_does_not_increment_surface(client):
+    """Non-page GETs (a JSON API endpoint, a static asset) add NOTHING to the
+    surface counter — only server-rendered HTML page surfaces are counted."""
+    from metrics import collector
+
+    before = _surface_total(collector.render())
+    # A 2xx JSON API response — not HTML, not a page surface.
+    assert client.get("/api/posts").status_code == 200
+    # A 2xx static asset — not HTML, route is the /static mount, not a surface.
+    assert client.get("/static/.vite/manifest.json").status_code == 200
+    assert _surface_total(collector.render()) == before
+
+
+def test_surface_views_never_leak_a_slug(client):
+    """PII guard: after visiting a guide and a journal post, the surface-views
+    lines carry the COARSE surface name only — never the slug."""
+    from metrics import collector
+
+    assert client.get("/en/guide/phishing").status_code == 200
+    assert client.get("/en/journal/the-story-of-alex-chen").status_code == 200
+
+    blob = "\n".join(_surface_lines(collector.render()))
+    # Slugs must NOT appear anywhere in the surface series.
+    assert "phishing" not in blob
+    assert "the-story-of-alex-chen" not in blob
+    assert "alex-chen" not in blob
+    # The coarse surface names are what got recorded instead.
+    assert 'surface="guide"' in blob
+    assert 'surface="post"' in blob
+
+
+def test_collector_observe_surface_counts_and_escapes():
+    """Unit test on MetricsCollector: two observations → count 2, HELP/TYPE
+    present, and label values are escaped per the Prometheus text format."""
+    import metrics
+
+    collector = metrics.MetricsCollector()
+    collector.observe_surface(surface="guide", lang="en")
+    collector.observe_surface(surface="guide", lang="en")
+
+    text = collector.render()
+    assert f"# HELP {_SURFACE}" in text
+    assert f"# TYPE {_SURFACE} counter" in text
+    assert _series_value(text, _SURFACE, surface="guide", lang="en") == 2.0
+
+    # Label escaping intact (a smuggled quote/backslash is escaped, not raw).
+    collector.observe_surface(surface='a"b\\c', lang="en")
+    assert 'surface="a\\"b\\\\c"' in collector.render()

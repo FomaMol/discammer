@@ -425,6 +425,25 @@ visitor IP (not a CF IP); the beacon rate-limit triggers on the real IP; SSH sti
 **DoD:** data flowing into the CF dashboard; no new cookies in the browser (only `lang`); if the JS
 beacon is used, CSP updated and `assertNoNetworkLeak` still green (or server-side mode chosen).
 
+### AN-1 · Privacy-first product analytics — two halves
+
+`FEATURE_PLAN.md` AN-1 sits **on top of** CF-9 and has two halves:
+
+- **(a) Server-side surface counter — `discammer_surface_views_total` — implemented (repo change).**
+  A PII-free, RED-adjacent Prometheus counter in `backend/metrics.py`, fed once per request from the
+  existing request middleware in `backend/main.py`. It records **which server-rendered surface** a
+  reader loaded (`home` / `journal` / `post` / `guide` / `course` / `module` / `lesson` / `game` /
+  `about` / `portfolio` / `tools_check` / `tools_inspect` / `search`), labelled only by the coarse
+  **surface name** and the **UI language** (`en`/`ru`). It never carries a slug, path, query string,
+  request body, IP, or any user content — the checker/inspector are counted by surface **name** only,
+  and their pasted text runs entirely in the browser and never reaches the server. Cardinality stays
+  tiny (~13 surfaces × 2 langs). It is exposed via the already token-gated / loopback-only
+  `/api/metrics` (see CF-6 — that endpoint MUST stay blocked at the public edge). **Not**
+  production-verified: only a dated external check of live scrapes could claim that.
+- **(b) Cloudflare Web Analytics (cookieless, edge) — owner configuration step (CF-9 above).** The
+  traffic/pages/Web-Vitals half is enabled by the **owner** in the Cloudflare dashboard per CF-9;
+  it is a dashboard action, not a repo change.
+
 ---
 
 ## Status checklist — Чек-лист

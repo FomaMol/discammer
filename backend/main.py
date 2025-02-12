@@ -134,6 +134,65 @@ def _record_metrics(request: "Request", status: int, duration_s: float) -> None:
     )
 
 
+# ---------------------------------------------------------------------------
+# AN-1 — privacy-first product-usage surface counter.
+#
+# Maps a CANONICAL localized page route TEMPLATE (never a concrete slug) to a
+# coarse surface NAME, so we can see WHICH surface a reader loaded without any
+# user tracking, cookies, slugs, or raw checker/inspector input. The checker and
+# inspector are counted by surface name only (tools_check / tools_inspect); their
+# pasted text runs entirely in the browser and never reaches the server, so there
+# is nothing here that could capture it. Cardinality is tiny (~13 surfaces × 2
+# langs). Fed from `_record_surface_view` in the request middleware.
+# ---------------------------------------------------------------------------
+_SURFACE_BY_ROUTE: dict[str, str] = {
+    "/{lang}/": "home",
+    "/{lang}": "home",
+    "/{lang}/journal": "journal",
+    "/{lang}/journal/{slug}": "post",
+    "/{lang}/guide/{slug}": "guide",
+    "/{lang}/course": "course",
+    "/{lang}/course/{module_slug}": "module",
+    "/{lang}/course/{module_slug}/{lesson_slug}": "lesson",
+    "/{lang}/game": "game",
+    "/{lang}/about": "about",
+    "/{lang}/portfolio": "portfolio",
+    "/{lang}/check": "tools_check",
+    "/{lang}/inspect": "tools_inspect",
+    "/{lang}/search": "search",
+}
+# The only language labels we will emit — a defensive allowlist so a malformed
+# path param can never widen the surface counter's cardinality.
+_SURFACE_LANGS = frozenset({"en", "ru"})
+
+
+def _record_surface_view(request: "Request", response) -> None:
+    """AN-1: record ONE product-usage surface view.
+
+    Records only when ALL hold: method is GET; the response is a 2xx; the matched
+    route TEMPLATE is a known page surface; and the response is HTML. The labels
+    are the coarse surface NAME and the UI language (``en``/``ru``) only — never a
+    slug, path, query string, request body, IP, or any user content. Deriving the
+    surface from the route *template* (via ``_route_template``) is what guarantees
+    a slug can never enter the label: a per-slug path collapses to one template
+    key like ``/{lang}/guide/{slug}`` before the mapping lookup.
+    """
+    if request.method != "GET":
+        return
+    status = response.status_code
+    if not (200 <= status < 300):
+        return
+    surface = _SURFACE_BY_ROUTE.get(_route_template(request, request.url.path))
+    if surface is None:
+        return
+    if not response.headers.get("content-type", "").startswith("text/html"):
+        return
+    lang = request.path_params.get("lang")
+    if lang not in _SURFACE_LANGS:
+        return
+    _metrics_collector.observe_surface(surface=surface, lang=lang)
+
+
 @app.middleware("http")
 async def request_logging_middleware(request: "Request", call_next):
     rid = request.headers.get("X-Request-ID") or uuid4().hex
@@ -183,6 +242,9 @@ async def request_logging_middleware(request: "Request", call_next):
     # O2: record RED metrics once, here, from the existing middleware (no second
     # middleware). Route TEMPLATE label keeps cardinality bounded.
     _record_metrics(request, response.status_code, elapsed)
+    # AN-1: record the product-usage surface view (privacy-first, PII-free) on
+    # the same normal path — never on the 500/exception branch above.
+    _record_surface_view(request, response)
 
     # Asset/probe 404s are noise at INFO — drop them to DEBUG. Reuse the same
     # classifier the 404 handlers use so the two stay in lockstep.
