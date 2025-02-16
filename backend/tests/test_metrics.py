@@ -239,3 +239,125 @@ def test_collector_observe_surface_counts_and_escapes():
     # Label escaping intact (a smuggled quote/backslash is escaped, not raw).
     collector.observe_surface(surface='a"b\\c', lang="en")
     assert 'surface="a\\"b\\\\c"' in collector.render()
+
+
+# ---------------------------------------------------------------------------
+# OBS-1 — error-tracking signals on the EXISTING Prometheus surface.
+#
+# Two additions fed from the two error signals that already exist, plus a
+# release tag — no new user data, no third-party service:
+#   * `discammer_error_events_total{source,kind}` — a 5xx spike shows as rising
+#     source="server"; a brand-new `kind` value is a new error type. `source` is
+#     {"server","client"} only; server `kind` is a bounded/guarded exception
+#     class name, client `kind` is the already-allowlisted scrubbed error name.
+#     NEVER a message, stack, URL, query, IP, or any user content.
+#   * `discammer_build_info{version,git_sha}` — constant-1 gauge that lets a
+#     dashboard correlate an error spike with the deployed release.
+# ---------------------------------------------------------------------------
+
+_ERROR_EVENTS = "discammer_error_events_total"
+_BUILD_INFO = "discammer_build_info"
+
+
+def _error_event_value(text: str, source: str, kind: str) -> float:
+    """Value of `discammer_error_events_total{source=..,kind=..}` (0 if absent)."""
+    for line in text.splitlines():
+        if not line.startswith(_ERROR_EVENTS + "{"):
+            continue
+        if f'source="{source}"' in line and f'kind="{kind}"' in line:
+            return float(line.rsplit(" ", 1)[1])
+    return 0.0
+
+
+def test_error_events_counter_unit():
+    """Two server ValueError events → count 2, with HELP/TYPE present."""
+    import metrics
+
+    collector = metrics.MetricsCollector()
+    collector.observe_error_event(source="server", kind="ValueError")
+    collector.observe_error_event(source="server", kind="ValueError")
+
+    text = collector.render()
+    assert f"# HELP {_ERROR_EVENTS}" in text
+    assert f"# TYPE {_ERROR_EVENTS} counter" in text
+    assert (
+        _series_value(text, _ERROR_EVENTS, source="server", kind="ValueError") == 2.0
+    )
+    assert 'discammer_error_events_total{source="server",kind="ValueError"} 2' in text
+
+
+def test_build_info_gauge_unit():
+    """`set_build_info` emits exactly one constant-1 gauge row; absent before."""
+    import metrics
+
+    collector = metrics.MetricsCollector()
+    # Nothing set yet → no build_info sample line (HELP/TYPE may still print).
+    assert _BUILD_INFO + "{" not in collector.render()
+
+    collector.set_build_info(version="1.0.0", git_sha="abc123")
+    text = collector.render()
+    assert f"# TYPE {_BUILD_INFO} gauge" in text
+    assert 'discammer_build_info{version="1.0.0",git_sha="abc123"} 1' in text
+
+
+def test_safe_error_kind_bounds_cardinality():
+    """`_safe_error_kind`: a normal exception name passes; anything that could
+    widen the label (over-long, or not a Python identifier) buckets to "Other"."""
+    import main
+
+    assert main._safe_error_kind("ValueError") == "ValueError"
+    # A 200-char string is a valid identifier but far too long → "Other".
+    assert main._safe_error_kind("E" * 200) == "Other"
+    # A non-identifier (spaces/punctuation) → "Other".
+    assert main._safe_error_kind("not an identifier!") == "Other"
+
+
+def test_client_beacon_increments_error_events(client):
+    """A scrubbable client-error beacon POST increments
+    `discammer_error_events_total{source="client",kind=<scrubbed name>}` by 1 —
+    reading NO new payload field (the beacon collects exactly what it did before)."""
+    from metrics import collector
+
+    before = _error_event_value(collector.render(), "client", "TypeError")
+    r = client.post(
+        "/api/client-errors",
+        json={"name": "TypeError", "messageClass": "TypeError/short", "location": "Widget"},
+    )
+    assert r.status_code == 204
+    assert _error_event_value(collector.render(), "client", "TypeError") == before + 1.0
+
+
+def test_server_5xx_increments_error_events(app):
+    """A real 500 through the middleware stack increments
+    `discammer_error_events_total{source="server",...}` AND returns a 500.
+
+    A throwaway route that raises is registered at the FRONT of the router (so it
+    wins over the greedy `/{lang}` page route), driven by a TestClient that lets
+    the 500 surface as a response instead of re-raising into the test."""
+    from fastapi.testclient import TestClient
+
+    from metrics import collector
+
+    class Obs1Boom(Exception):
+        pass
+
+    async def _boom():
+        raise Obs1Boom("obs1 synthetic failure")
+
+    app.router.add_api_route("/__obs1_boom__", _boom, methods=["GET"])
+    # The just-added route is appended last; move it to the front so it isn't
+    # shadowed by `/{lang}` (which matches any single segment).
+    route = app.router.routes.pop()
+    app.router.routes.insert(0, route)
+    try:
+        before = _error_event_value(collector.render(), "server", "Obs1Boom")
+        tc = TestClient(app, raise_server_exceptions=False)
+        r = tc.get("/__obs1_boom__")
+        assert r.status_code == 500
+        assert (
+            _error_event_value(collector.render(), "server", "Obs1Boom") == before + 1.0
+        )
+    finally:
+        app.router.routes = [
+            rt for rt in app.router.routes if getattr(rt, "path", None) != "/__obs1_boom__"
+        ]

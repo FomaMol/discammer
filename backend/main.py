@@ -11,6 +11,7 @@ from config import (
     CLIENT_ERROR_RATE_LIMIT,
     CLIENT_ERROR_SAMPLE_RATE,
     CSP_REPORT_RATE_LIMIT,
+    GIT_SHA,
     METRICS_TOKEN,
     SITE_ORIGIN,
     STATIC_DIR,
@@ -54,10 +55,14 @@ async def lifespan(app: FastAPI):
 # App
 # ---------------------------------------------------------------------------
 
+# Deployed application version. Kept as one constant so the OpenAPI metadata and
+# the OBS-1 build-info gauge (set below) never drift apart.
+APP_VERSION = "1.0.0"
+
 app = FastAPI(
     title="DiScammer",
     description="Cybersecurity education platform",
-    version="1.0.0",
+    version=APP_VERSION,
     lifespan=lifespan,
 )
 
@@ -80,6 +85,11 @@ import time as _time_mod  # noqa: E402
 from uuid import uuid4  # noqa: E402
 
 from metrics import collector as _metrics_collector  # noqa: E402
+
+# OBS-1: register the build-info gauge once, at import, so /api/metrics can
+# correlate an error spike with the deployed release. GIT_SHA is a build id
+# (the deploy pipeline passes the short SHA; "dev" locally), not PII.
+_metrics_collector.set_build_info(version=APP_VERSION, git_sha=GIT_SHA)
 
 _request_logger = configure_logging()
 
@@ -132,6 +142,17 @@ def _record_metrics(request: "Request", status: int, duration_s: float) -> None:
         status=status,
         duration_s=duration_s,
     )
+
+
+def _safe_error_kind(name: str) -> str:
+    """Bound the cardinality of the OBS-1 error-events ``kind`` label.
+
+    Exception class names are developer/library-controlled, but this defensively
+    guarantees no unexpected string can widen the label: return ``name`` only when
+    it is a Python identifier of at most 64 chars, else the catch-all ``"Other"``."""
+    if isinstance(name, str) and len(name) <= 64 and name.isidentifier():
+        return name
+    return "Other"
 
 
 # ---------------------------------------------------------------------------
@@ -215,7 +236,7 @@ async def request_logging_middleware(request: "Request", call_next):
 
     try:
         response = await call_next(request)
-    except Exception:
+    except Exception as exc:
         # Log the failure once with the rid, then re-raise so FastAPI's
         # exception handlers run and produce the actual response. The
         # ServerErrorMiddleware above us turns this into a 500.
@@ -223,6 +244,13 @@ async def request_logging_middleware(request: "Request", call_next):
         duration_ms = round(elapsed * 1000, 2)
         # Record the 5xx in RED metrics too (errors are the whole point).
         _record_metrics(request, 500, elapsed)
+        # OBS-1: also record a bounded server error EVENT so a 5xx spike (rising
+        # source="server") and a new error type (a new `kind`) are visible and
+        # alertable on /api/metrics. The kind is the guarded exception class name
+        # only — never a message, stack, URL, query, or any user content.
+        _metrics_collector.observe_error_event(
+            source="server", kind=_safe_error_kind(type(exc).__name__)
+        )
         _request_logger.exception(
             "request failed",
             extra={
@@ -580,6 +608,13 @@ async def client_errors(request: Request):
             _ = _scrub_location(payload.get("location"))  # validated, not logged raw
     except (ValueError, TypeError):
         pass
+
+    # OBS-1: record the coarse, ALREADY-scrubbed client error name as an error
+    # event so client crash types/spikes are visible + alertable on /api/metrics.
+    # This reads NO new payload field — `name` is the same allowlisted value the
+    # beacon logs today, so the privacy boundary (store nothing, coarse fields
+    # only) is unchanged.
+    _metrics_collector.observe_error_event(source="client", kind=name)
 
     rid = getattr(request.state, "request_id", None)
     # NB: ``name`` is a reserved LogRecord attribute (the logger name), so the

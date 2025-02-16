@@ -484,6 +484,54 @@ CF dashboard → **Notifications → Add**. Enable at least:
 - **Security Events Alert / spike** — surge in WAF/firewall events = likely §2 DDoS.
 - Route to email (and/or a webhook → Telegram).
 
+### 9.3 OBS-1 error-tracking signals (on `/api/metrics`)
+
+OBS-1 extends the existing privacy-scrubbed pipeline rather than standing up a
+third-party error tracker (GlitchTip/Sentry). Two extra series on the already
+token-gated `/api/metrics` surface make 5xx spikes, new error types, and
+post-deploy regressions visible and alertable — **without** collecting any new
+user data. Both are fed from the two error signals that already exist (the
+middleware 5xx branch and the scrubbed client-error beacon); no new client field
+is collected and the beacon still stores nothing. **Status: implemented** (source
++ tests in `backend/metrics.py`, `backend/main.py`,
+`backend/tests/test_metrics.py`).
+
+- **`discammer_error_events_total{source,kind}`** (counter):
+  - `source` is `"server"` or `"client"` only.
+  - A **rising `source="server"` rate = a 5xx spike** — the same event the origin
+    error runbook (§3) covers, now countable per error `kind`.
+  - A **brand-new `kind` value = a new error type** just appeared (a fresh
+    exception class on the server, or a new scrubbed crash class on the client).
+  - `kind` is a bounded/guarded exception class name (server) or the already
+    allowlisted scrubbed error name (client) — **never** a message, stack, URL,
+    query string, IP, or any user content. Server `kind` is length- and
+    identifier-guarded (`_safe_error_kind`) so it can never widen cardinality;
+    anything unexpected buckets to `"Other"`.
+- **`discammer_build_info{version,git_sha}`** (constant-1 gauge): the deployed
+  `version` + short `git_sha`, so a dashboard/alert can **correlate an error
+  spike with the release** that introduced it (post-deploy regression detection).
+  `git_sha` is a build identifier, not PII.
+
+**Alerting (REL-2 wiring — owner configuration step).** These signals ride the
+same notification paths set up in §9.1/§9.2:
+- **5xx spike** → the external uptime monitor (§9.1) already alerts on
+  `/api/health` 5xx/down, and **Cloudflare Origin Error Rate** (§9.2) is the
+  earliest edge-side "origin is erroring" signal; a rising `source="server"`
+  error rate on `/api/metrics` is the origin-side confirmation and lets you see
+  *which* `kind` is spiking.
+- **New error type** → alert on a previously-unseen `kind` label appearing (or a
+  step change in `discammer_error_events_total`), routed to the same
+  Telegram/email contacts.
+- Wiring the specific alert rules (thresholds, new-label detection) into
+  UptimeRobot/Cloudflare Notifications is the operator's **configured** step and
+  is only **production verified** once a dated external check confirms an alert
+  actually fires (induce a controlled failure on staging, per the REL-2 DoD in
+  §9.1).
+
+> Reaching `/api/metrics` requires the `METRICS_TOKEN` bearer (or a loopback
+> caller); it stays closed (404) to the public otherwise (§0). Scrape it from a
+> trusted collector — do not expose it publicly.
+
 ---
 
 ## 10. Cloudflare support contact

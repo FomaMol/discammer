@@ -40,6 +40,14 @@ _DURATION = "discammer_request_duration_seconds"
 # reader loaded, keyed only by a coarse surface name + UI language. Never a
 # slug/path/query/body/IP or any user content (see main.py `_record_surface_view`).
 _SURFACE_VIEWS = "discammer_surface_views_total"
+# OBS-1: error-tracking on the EXISTING surface. `discammer_error_events_total`
+# is fed from the two error signals that already exist (the middleware 5xx branch
+# and the scrubbed client-error beacon) — a rising source="server" is a 5xx
+# spike, a brand-new `kind` value is a new error type. `discammer_build_info` is
+# a constant-1 gauge that lets a dashboard correlate a spike with a release.
+# Labels are never a message/stack/URL/query/IP or any user content.
+_ERROR_EVENTS = "discammer_error_events_total"
+_BUILD_INFO = "discammer_build_info"
 
 
 def status_class(status: int) -> str:
@@ -79,6 +87,13 @@ class MetricsCollector:
         # AN-1: (surface, lang) -> count. Cardinality is tiny by construction —
         # both labels come from fixed vocabularies in main.py.
         self._surface_views: dict[tuple[str, str], float] = defaultdict(float)
+        # OBS-1: (source, kind) -> count. `source` is {"server","client"} only;
+        # `kind` is a bounded/guarded exception name (server) or the already-
+        # allowlisted scrubbed error name (client) — never user content.
+        self._error_events: dict[tuple[str, str], float] = defaultdict(float)
+        # OBS-1: (version, git_sha) for a constant-1 build-info gauge, or None
+        # until set. `git_sha` is a build identifier, not PII.
+        self._build_info: tuple[str, str] | None = None
 
     def observe(self, *, method: str, route: str, status: int, duration_s: float) -> None:
         """Record one request. Called once per request from the middleware."""
@@ -107,6 +122,25 @@ class MetricsCollector:
         with self._lock:
             self._surface_views[(surface, lang)] += 1.0
 
+    def observe_error_event(self, *, source: str, kind: str) -> None:
+        """Record one error event (OBS-1).
+
+        ``source`` is ``"server"`` or ``"client"`` only. ``kind`` is a bounded,
+        guarded exception class name (server) or the already-allowlisted scrubbed
+        error name (client) — never a message, stack, URL, query, IP, or any user
+        content. The caller in ``main.py`` is what guarantees both stay coarse."""
+        with self._lock:
+            self._error_events[(source, kind)] += 1.0
+
+    def set_build_info(self, *, version: str, git_sha: str) -> None:
+        """Set the constant build-info gauge (OBS-1 release correlation).
+
+        Emits a single ``discammer_build_info{version,git_sha} 1`` row so a
+        dashboard can correlate an error spike with the deployed release. The
+        ``git_sha`` is a build identifier, not PII. Idempotent — last call wins."""
+        with self._lock:
+            self._build_info = (version, git_sha)
+
     def render(self) -> str:
         """Render the full exposition as Prometheus text (version 0.0.4)."""
         lines: list[str] = []
@@ -117,6 +151,8 @@ class MetricsCollector:
             hist_sum = dict(self._hist_sum)
             hist_count = dict(self._hist_count)
             surface_views = dict(self._surface_views)
+            error_events = dict(self._error_events)
+            build_info = self._build_info
 
         # Requests counter.
         lines.append(f"# HELP {_REQUESTS} Total HTTP requests by method, route and status class.")
@@ -162,6 +198,28 @@ class MetricsCollector:
             lines.append(
                 f'{_SURFACE_VIEWS}{{surface="{_escape_label(surface)}",'
                 f'lang="{_escape_label(lang)}"}} {_fmt_float(value)}'
+            )
+
+        # OBS-1 error-events counter. `source` ∈ {server,client}; `kind` is a
+        # bounded/guarded exception name (server) or the scrubbed allowlisted
+        # error name (client). Never a message/stack/URL/query/IP or user content.
+        lines.append(f"# HELP {_ERROR_EVENTS} Error events by source and bounded error kind.")
+        lines.append(f"# TYPE {_ERROR_EVENTS} counter")
+        for (source, kind), value in sorted(error_events.items()):
+            lines.append(
+                f'{_ERROR_EVENTS}{{source="{_escape_label(source)}",'
+                f'kind="{_escape_label(kind)}"}} {_fmt_float(value)}'
+            )
+
+        # OBS-1 build-info gauge — constant 1; labels correlate metrics with a
+        # release. Rendered only once a build has been registered.
+        lines.append(f"# HELP {_BUILD_INFO} Build identity (constant 1); labels correlate metrics with a release.")
+        lines.append(f"# TYPE {_BUILD_INFO} gauge")
+        if build_info is not None:
+            version, git_sha = build_info
+            lines.append(
+                f'{_BUILD_INFO}{{version="{_escape_label(version)}",'
+                f'git_sha="{_escape_label(git_sha)}"}} 1'
             )
 
         return "\n".join(lines) + "\n"
