@@ -16,7 +16,24 @@ import AxeBuilder from '@axe-core/playwright';
  * the gate blocks on contrast regressions alongside structural a11y violations.
  */
 
-const A11Y_PAGES = ['/en/', '/en/course', '/en/check', '/en/inspect', '/en/search', '/en/journal', '/ru/'];
+// UX-3 (WCAG 2.2 AA): coverage extended beyond the original key pages to a post,
+// a threat guide, a course module, a lesson, the game, and the about page so the
+// gate scans every server-rendered surface type, not just the landing set.
+const A11Y_PAGES = [
+  '/en/',
+  '/ru/',
+  '/en/course',
+  '/en/course/threat-fundamentals',
+  '/en/course/threat-fundamentals/attack-vectors',
+  '/en/journal',
+  '/en/journal/blockchain',
+  '/en/guide/phishing',
+  '/en/game',
+  '/en/about',
+  '/en/check',
+  '/en/inspect',
+  '/en/search',
+];
 
 // Rules excluded from the blocking gate (none — contrast is now enforced, see header note).
 const EXCLUDED_RULES = new Set<string>([]);
@@ -28,7 +45,18 @@ for (const path of A11Y_PAGES) {
     await page.waitForTimeout(800);
 
     const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      // wcag22aa adds WCAG 2.2 success criteria; target-size (2.5.8, 24x24 CSS
+      // px pointer targets) is enabled explicitly since axe ships it outside the
+      // default tag set.
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .options({ rules: { 'target-size': { enabled: true } } })
+      // The guide's `.dossier-gutter` is a purely decorative, aria-hidden
+      // line-number flourish (fake ordinals, not real article lines). WCAG 1.4.3
+      // exempts pure decoration from the text-contrast requirement, and the design
+      // system's decorative-glyph tier is deliberately sub-4.5:1 (see this repo's
+      // --color-ink-dim note). axe can't infer decorative intent, so it is
+      // excluded here rather than lit up to body-text brightness.
+      .exclude('.dossier-gutter')
       .analyze();
 
     const blocking = results.violations.filter(

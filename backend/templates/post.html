@@ -125,7 +125,7 @@
   {% if _type_breadcrumb == _type_breadcrumb_key %}{% set _type_breadcrumb = post.type %}{% endif %}
   <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
     <span class="text-[#8b94a8]">
-      <a href="/{{ _lang }}/" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#8b94a8]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
+      <a href="/{{ _lang }}/" class="underline underline-offset-2 hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="underline underline-offset-2 hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#8b94a8]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
     </span>
   </nav>
 

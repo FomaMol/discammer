@@ -57,3 +57,23 @@ test('GameLauncher opens /play/ in a same-origin iframe that actually renders', 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
 });
+
+test('GameLauncher dialog is keyboard accessible — no focus trap (UX-3)', async ({ page }) => {
+  await page.goto('/en/game', { waitUntil: 'domcontentloaded' });
+  const launch = page.getByRole('button', { name: /launch simulation/i });
+  await launch.click();
+
+  const dialog = page.getByRole('dialog', { name: 'Antifraud Hero' });
+  await expect(dialog).toBeVisible();
+
+  // On open, focus moves INTO the dialog (the Close button) — not stranded on the
+  // now-inert page behind the modal.
+  const closeBtn = dialog.getByRole('button');
+  await expect(closeBtn).toBeFocused();
+
+  // Escape always exits (WCAG 2.1.2 No Keyboard Trap) and focus RETURNS to the
+  // trigger, so a keyboard user is never stuck and never loses their place.
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(launch).toBeFocused();
+});
