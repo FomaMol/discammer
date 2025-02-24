@@ -113,7 +113,18 @@
         "url": "https://discammer.com/",
         "name": "DiScammer",
         "publisher": { "@id": "https://discammer.com/#org" },
-        "inLanguage": ["en", "ru"]
+        "inLanguage": ["en", "ru"],
+        {# SEO-2: sitelinks searchbox. Target is the current locale's SSR search
+           (`/{lang}/search?q=`); {search_term_string} is a schema.org literal
+           placeholder (single braces are inert in Jinja), Google substitutes it. #}
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{{ _origin }}/{{ _lang }}/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
       }
     ]
   }

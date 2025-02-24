@@ -3,6 +3,11 @@
 {% block og_type %}article{% endblock %}
 
 {% block jsonld %}
+{# SEO-2: FAQPage is intentionally NOT emitted here. Google's FAQ policy (and the
+   project's truthfulness guardrails) require the markup to mirror visible Q&A on
+   the page; these guides are prose + educational pattern notes, not explicit
+   question/answer pairs. Adding FAQPage would be fabricated structured data.
+   Emit it only once a guide carries genuine, visible Q&A content. #}
 {% set _guide_url = request.url._url if request else '' %}
 {% set _guide_image = '/static/images/og/discammer-og.svg' %}
 {% set _guide_category = (guide.category or 'fraud') | replace('-', ' ') | title %}
