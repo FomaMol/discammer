@@ -327,6 +327,27 @@ def test_client_beacon_increments_error_events(client):
     assert _error_event_value(collector.render(), "client", "TypeError") == before + 1.0
 
 
+def test_client_beacon_kind_is_allowlisted_not_just_shaped(client):
+    """SECURITY (bounded cardinality): the client `kind` label must be a strict
+    allowlist, not merely identifier-shaped. An anonymous beacon POST with an
+    arbitrary identifier name must NOT mint its own Prometheus series — it buckets
+    to "Other" — or the public endpoint could grow the collector's series set
+    unboundedly (a cardinality / memory soft-DoS)."""
+    from metrics import collector
+
+    arbitrary = "TotallyMadeUp123"  # identifier-shaped, so it passes _scrub_error_name
+    before_other = _error_event_value(collector.render(), "client", "Other")
+    r = client.post("/api/client-errors", json={"name": arbitrary})
+    assert r.status_code == 204
+
+    text = collector.render()
+    # The arbitrary name never becomes its own series...
+    assert _error_event_value(text, "client", arbitrary) == 0.0
+    assert f'kind="{arbitrary}"' not in text
+    # ...it is bucketed to the catch-all instead.
+    assert _error_event_value(text, "client", "Other") == before_other + 1.0
+
+
 def test_server_5xx_increments_error_events(app):
     """A real 500 through the middleware stack increments
     `discammer_error_events_total{source="server",...}` AND returns a 500.

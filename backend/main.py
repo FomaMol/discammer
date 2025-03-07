@@ -155,6 +155,35 @@ def _safe_error_kind(name: str) -> str:
     return "Other"
 
 
+# The only client-error ``kind`` values the metric will emit. Unlike the server
+# path (code-controlled exception class names), the client ``name`` arrives from
+# the PUBLIC, unauthenticated beacon (POST /api/client-errors), so shape-checking
+# is not enough: an anonymous caller could otherwise mint an unbounded set of
+# identifier-shaped label values, each a new Prometheus series + a never-trimmed
+# key in the collector (a cardinality / memory soft-DoS). This strict allowlist
+# covers the JS built-in error classes plus the common DOMException ``.name``
+# values; everything else buckets to ``"Other"``.
+_CLIENT_ERROR_KINDS = frozenset(
+    {
+        "Error", "EvalError", "RangeError", "ReferenceError", "SyntaxError",
+        "TypeError", "URIError", "AggregateError", "InternalError",
+        "AbortError", "NotAllowedError", "NotFoundError", "NotSupportedError",
+        "SecurityError", "NetworkError", "QuotaExceededError", "TimeoutError",
+        "TypeMismatchError", "InvalidStateError", "OperationError", "DataError",
+    }
+)
+
+
+def _client_error_kind(name: str) -> str:
+    """Bound the OBS-1 client error-events ``kind`` label to a strict allowlist.
+
+    The client error name comes from the public, unauthenticated beacon, so —
+    unlike the server path — a shape check is insufficient. Only a known error
+    name passes; anything else buckets to ``"Other"`` so no anonymous caller can
+    widen metric cardinality or grow the collector's series set unboundedly."""
+    return name if name in _CLIENT_ERROR_KINDS else "Other"
+
+
 # ---------------------------------------------------------------------------
 # AN-1 — privacy-first product-usage surface counter.
 #
@@ -609,12 +638,15 @@ async def client_errors(request: Request):
     except (ValueError, TypeError):
         pass
 
-    # OBS-1: record the coarse, ALREADY-scrubbed client error name as an error
-    # event so client crash types/spikes are visible + alertable on /api/metrics.
-    # This reads NO new payload field — `name` is the same allowlisted value the
-    # beacon logs today, so the privacy boundary (store nothing, coarse fields
-    # only) is unchanged.
-    _metrics_collector.observe_error_event(source="client", kind=name)
+    # OBS-1: record the client error type as an error event so client crash
+    # types/spikes are visible + alertable on /api/metrics. Reads NO new payload
+    # field (`name` is the same coarse value the beacon logs today), and the
+    # metric label is passed through the strict `_client_error_kind` allowlist so
+    # the public beacon can't inflate metric cardinality. The privacy boundary
+    # (store nothing, coarse fields only) is unchanged.
+    _metrics_collector.observe_error_event(
+        source="client", kind=_client_error_kind(name)
+    )
 
     rid = getattr(request.state, "request_id", None)
     # NB: ``name`` is a reserved LogRecord attribute (the logger name), so the
