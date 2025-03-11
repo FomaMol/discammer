@@ -83,6 +83,16 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
     setResult(inspect(url));
   };
 
+  // Onboarding "Load example" — fill the input with the localized, clearly
+  // fictional lookalike URL AND render its findings in the SAME click. It is a
+  // static local string run through the same pure inspect(); the URL is never
+  // fetched, opened, or sent anywhere.
+  const onLoadExample = () => {
+    const ex = tr('example');
+    setUrl(ex);
+    setResult(inspect(ex));
+  };
+
   const level = result?.level ?? 0;
   const meterColor = levelColor(level);
 
@@ -117,6 +127,15 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
             className="shrink-0 px-5 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[4px] cursor-pointer"
           >
             {tr('inspect')}
+          </button>
+          {/* Onboarding secondary action — loads a canned lookalike URL and shows
+              its findings in one click. type="button" so it never submits. */}
+          <button
+            type="button"
+            onClick={onLoadExample}
+            className="shrink-0 px-5 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition-colors rounded-[4px] cursor-pointer focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+          >
+            {tr('load_example')}
           </button>
           {/* Privacy line — load-bearing: the link stays in the browser. */}
           <p className="text-[11px] leading-[1.45] text-[#8b94a8] max-w-[46ch]">

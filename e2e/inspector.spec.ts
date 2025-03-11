@@ -87,7 +87,9 @@ test('local action guidance supports keyboard-only impact selection in both lang
     await page.goto(path);
     const root = page.locator(INSPECTOR);
     await root.locator('input').fill('https://example.com');
-    await root.getByRole('button').click();
+    // The primary action is the submit button; a second "Load example" button
+    // (type=button) now shares the container, so target submit specifically.
+    await root.locator('button[type="submit"]').click();
 
     const wizard = page.locator(INCIDENT_WIZARD);
     await expect(wizard).toBeVisible();
@@ -136,6 +138,54 @@ test('SSR action guidance is restored when the inspector chunk cannot load', asy
   await expect(page.locator('#inspect-incident-heading')).toHaveText('If you already opened the link');
   await expect(page.locator(INCIDENT_WIZARD)).toHaveCount(0);
 });
+
+/**
+ * UX-2 onboarding — the /inspect LinkInspector "Load example" button. One click
+ * must fill the input with the localized canned lookalike URL AND render its
+ * findings (meter + >=1 finding) without a second click, in both languages, and
+ * the example URL must never leave the browser or be opened.
+ */
+const INSPECTOR_LOAD_EXAMPLE: Record<string, RegExp> = {
+  en: /load example/i,
+  ru: /Загрузить пример/i,
+};
+
+for (const lang of ['en', 'ru']) {
+  test(`${lang}: "Load example" fills the input and renders findings in one click — nothing leaves the browser`, async ({
+    page,
+  }) => {
+    await page.goto(`/${lang}/inspect`);
+    const root = page.locator(INSPECTOR);
+    await expect(root).toBeAttached();
+
+    // The URL field specifically — after findings render, the incident-action
+    // wizard adds checkbox inputs to this island, so a bare `input` is ambiguous.
+    const input = root.locator('input[inputmode="url"]');
+    await expect(input).toBeVisible();
+    await expect(input).toHaveValue(''); // starts empty
+
+    const loadBtn = root.getByRole('button', { name: INSPECTOR_LOAD_EXAMPLE[lang] });
+    await expect(loadBtn).toBeVisible();
+
+    // The example URL is a static local string — loading it must not hit the
+    // network, and the inspector must not navigate to it.
+    await assertNoNetworkLeak(page, ['secure-login-verify', 'your-bank.example.com'], async () => {
+      await loadBtn.click();
+      await expect(root.locator('[role="meter"]')).toBeVisible({ timeout: 5_000 });
+    });
+
+    // The click filled the input…
+    expect((await input.inputValue()).length).toBeGreaterThan(0);
+
+    // …and rendered a non-zero meter + at least one finding card in ONE click.
+    const meter = root.locator('[role="meter"]');
+    expect(Number(await meter.getAttribute('aria-valuenow'))).toBeGreaterThan(0);
+    await expect.poll(() => root.locator('ul li h3').count()).toBeGreaterThan(0);
+
+    // Never navigates to the pasted link.
+    expect(page.url()).toContain(`/${lang}/inspect`);
+  });
+}
 
 test('an inspected URL stays out of requests, browser storage, and the address bar', async ({
   page,

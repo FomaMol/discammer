@@ -52,6 +52,55 @@ for (const lang of ['en', 'ru']) {
   });
 }
 
+/**
+ * UX-2 onboarding — the /check MessageAnalyzer "Load example" button. One click
+ * must fill the textarea with the localized canned scam AND render its verdict
+ * (meter + >=1 flag) without a second click, in both languages, and nothing the
+ * example contains may leave the browser.
+ */
+const ANALYZER = '[data-component="MessageAnalyzer"]';
+const ANALYZER_LOAD_EXAMPLE: Record<string, RegExp> = {
+  en: /load example/i,
+  ru: /Загрузить пример/i,
+};
+const ANALYZER_EXAMPLE_NEEDLES: Record<string, string[]> = {
+  en: ['verify-account', 'security department', 'one-time code'],
+  ru: ['verify-account', 'служба безопасности', 'код из СМС'],
+};
+
+for (const lang of ['en', 'ru']) {
+  test(`${lang}: /check "Load example" fills the input and renders a verdict in one click — no text leaves the browser`, async ({
+    page,
+  }) => {
+    await page.goto(`/${lang}/check`);
+    const root = page.locator(ANALYZER);
+    await expect(root).toBeAttached();
+
+    const textarea = root.locator('textarea');
+    await expect(textarea).toBeVisible();
+    await expect(textarea).toHaveValue(''); // starts empty
+
+    const loadBtn = root.getByRole('button', { name: ANALYZER_LOAD_EXAMPLE[lang] });
+    await expect(loadBtn).toBeVisible();
+
+    // The example is a static local string — loading it must not hit the network.
+    await assertNoNetworkLeak(page, ANALYZER_EXAMPLE_NEEDLES[lang], async () => {
+      await loadBtn.click();
+      await expect(root.locator('[role="meter"]')).toBeVisible({ timeout: 5_000 });
+    });
+
+    // The click filled the textarea…
+    expect((await textarea.inputValue()).length).toBeGreaterThan(0);
+
+    // …and rendered a non-zero meter + at least one flag card in the SAME click.
+    const meter = root.locator('[role="meter"]');
+    expect(Number(await meter.getAttribute('aria-valuenow'))).toBeGreaterThan(0);
+    await expect
+      .poll(() => root.locator('[aria-live="polite"] ul li').count())
+      .toBeGreaterThan(0);
+  });
+}
+
 test('en: a benign message fires no tells (calm clean state, no guide links)', async ({ page }) => {
   await page.goto('/en/');
   const checker = page.locator(CHECKER);
