@@ -25,6 +25,8 @@
  *       obfuscated path)
  */
 
+import { isShortenerHost, isSuspiciousTld } from './threat_feed';
+
 export type UrlFinding = {
   /** Stable id used by tests and React keys. Never localized. */
   id: string;
@@ -252,56 +254,19 @@ function hasPunycode(parsed: ParsedUrl): boolean {
   return /(^|[./@])xn--[a-z0-9-]+/i.test(parsed.raw);
 }
 
-// A small, curated set of high-abuse / file-extension-collision TLDs. Kept
-// short on purpose — this is a tell, not a blocklist.
-const SUSPICIOUS_TLDS = new Set([
-  'zip',
-  'mov',
-  'top',
-  'xyz',
-  'gq',
-  'ml',
-  'cf',
-  'tk',
-  'ga',
-  'work',
-  'click',
-  'link',
-  'country',
-  'kim',
-  'loan',
-  'rest',
-  'fit',
-  'cam',
-]);
-
+// High-abuse / file-extension-collision TLDs and URL-shortener hosts live in
+// threat_feed.ts as DATA lists: the built-in seeds there are consulted through
+// the augmented sets below, which the UX-5 feed can grow at runtime (set-union)
+// without a redeploy. Kept short on purpose — these are tells, not blocklists.
 function hasSuspiciousTld(host: string): boolean {
   if (!host || host.startsWith('[')) return false;
   const dot = host.lastIndexOf('.');
   if (dot === -1) return false;
-  return SUSPICIOUS_TLDS.has(host.slice(dot + 1));
+  return isSuspiciousTld(host.slice(dot + 1));
 }
 
-const SHORTENER_HOSTS = new Set([
-  'bit.ly',
-  'tinyurl.com',
-  'is.gd',
-  't.co',
-  'goo.gl',
-  'ow.ly',
-  'buff.ly',
-  'rebrand.ly',
-  'cutt.ly',
-  'shorturl.at',
-  'vk.cc',
-  'clck.ru',
-  't.me',
-  'rb.gy',
-  'tiny.cc',
-]);
-
 function isShortener(host: string): boolean {
-  return SHORTENER_HOSTS.has(host);
+  return isShortenerHost(host);
 }
 
 /**

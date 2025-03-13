@@ -1,5 +1,6 @@
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { inspect, type InspectionResult, type UrlFinding } from '../data/url_heuristics';
+import { loadThreatRules } from '../data/threat_feed';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
 import IncidentActionWizard from './IncidentActionWizard';
@@ -76,6 +77,14 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
   const [result, setResult] = useState<InspectionResult | null>(null);
   const inputId = useId();
   const formRef = useRef<HTMLFormElement>(null);
+
+  // UX-5: pull the updatable threat-rules feed once, in the background. It only
+  // set-unions new shortener hosts / suspicious TLDs into the built-in lists —
+  // it sends NO pasted URL, never blocks inspection, and silently keeps the
+  // built-ins if it fails.
+  useEffect(() => {
+    void loadThreatRules();
+  }, []);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

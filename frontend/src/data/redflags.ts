@@ -22,6 +22,8 @@
  *       a QR-code mention)
  */
 
+import { shortenerHostList } from './threat_feed';
+
 export type RedFlag = {
   /** Stable id used by tests and React keys. Never localized. */
   id: string;
@@ -90,27 +92,12 @@ function hasPunycode(raw: string): boolean {
   return /(^|[.\/@])xn--[a-z0-9-]+/i.test(raw);
 }
 
-const SHORTENER_HOSTS = [
-  'bit.ly',
-  'tinyurl.com',
-  'is.gd',
-  't.co',
-  'goo.gl',
-  'ow.ly',
-  'buff.ly',
-  'rebrand.ly',
-  'cutt.ly',
-  'shorturl.at',
-  'vk.cc',
-  'clck.ru',
-  't.me',
-  'rb.gy',
-  'tiny.cc',
-];
-
 function hasShortener(lower: string): boolean {
   // Word-bounded host match so "abit.ly" or an email domain don't false-fire.
-  return SHORTENER_HOSTS.some((host) => {
+  // The host list comes from threat_feed.ts (built-in seeds ∪ any UX-5 feed
+  // entries); every entry is validated to `[a-z0-9.-]` there, so building a
+  // regex from it here can't inject a metacharacter.
+  return shortenerHostList().some((host) => {
     const escaped = host.replace(/\./g, '\\.');
     return new RegExp(`(^|[\\s/@])${escaped}([\\s/?#]|$)`, 'i').test(lower);
   });

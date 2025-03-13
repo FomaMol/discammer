@@ -1,10 +1,13 @@
+import json
+import threading
 from html import escape as html_escape
+from pathlib import Path
 from typing import List, Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 
-from config import GIT_SHA
+from config import CONTENT_DIR, GIT_SHA
 from database import (
     SNIPPET_CLOSE,
     SNIPPET_OPEN,
@@ -160,3 +163,97 @@ async def search(
         }
         for row in rows
     ]
+
+
+# ---------------------------------------------------------------------------
+# UX-5 — updatable threat-rules feed (GET /api/threat-rules).
+#
+# Serves a checked-in, versioned DATA feed (URL-shortener hosts + high-abuse
+# TLDs) straight from ``content/threat-rules/threat-rules.json``. It is CONTENT,
+# reviewed like markdown — NOT user state — and is deliberately served from the
+# file rather than a DB table, so it is untouched by the startup wipe+reseed.
+#
+# The client MERGES this data (set-union) into its built-in shortener/TLD lists
+# so the in-browser checker/inspector pick up new signatures WITHOUT a frontend
+# redeploy. The feed carries DATA ONLY — never serialized functions, never any
+# user input. The rule *functions* stay compiled into the JS bundle; only these
+# two data lists are updatable. The response echoes no request body and holds no
+# user text, so the client's "nothing leaves the device" guarantee is preserved
+# (this GET is the sole new network call and sends no user data).
+# ---------------------------------------------------------------------------
+_THREAT_RULES_PATH: Path = CONTENT_DIR / "threat-rules" / "threat-rules.json"
+
+# Parsed feed cached in-process — the file is static content, so we read + parse
+# it once per worker. ``None`` means "not yet loaded"; the endpoint test resets
+# it to force a re-read against a patched path.
+_THREAT_RULES_CACHE: Optional[dict] = None
+_THREAT_RULES_LOCK = threading.Lock()
+
+# The empty-but-valid feed returned when the file is missing/malformed. Serving
+# this (instead of 500ing) lets the client fall back cleanly to its built-ins.
+_EMPTY_THREAT_FEED = {"version": "unavailable", "shortener_hosts": [], "suspicious_tlds": []}
+
+
+def _read_threat_rules_file(path: Path) -> dict:
+    """Read + validate the feed file, returning a normalized dict.
+
+    Pure and defensive: a missing file, unreadable file, malformed JSON, or a
+    wrong-shaped payload all degrade to ``_EMPTY_THREAT_FEED`` rather than
+    raising, so the endpoint (and the app) can never crash on a bad file. Every
+    host/TLD is coerced to a lowercase string; non-string entries are dropped.
+    """
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return dict(_EMPTY_THREAT_FEED)
+    if not isinstance(data, dict):
+        return dict(_EMPTY_THREAT_FEED)
+
+    version = data.get("version")
+    shortener = data.get("shortener_hosts")
+    tlds = data.get("suspicious_tlds")
+
+    def _clean(items) -> list:
+        if not isinstance(items, list):
+            return []
+        return [s.strip().lower() for s in items if isinstance(s, str) and s.strip()]
+
+    return {
+        "version": version if isinstance(version, str) and version else "unavailable",
+        "shortener_hosts": _clean(shortener),
+        "suspicious_tlds": _clean(tlds),
+    }
+
+
+def _load_threat_rules() -> dict:
+    """Return the parsed feed, reading the file at most once per worker."""
+    global _THREAT_RULES_CACHE
+    cached = _THREAT_RULES_CACHE
+    if cached is not None:
+        return cached
+    with _THREAT_RULES_LOCK:
+        if _THREAT_RULES_CACHE is None:
+            _THREAT_RULES_CACHE = _read_threat_rules_file(_THREAT_RULES_PATH)
+        return _THREAT_RULES_CACHE
+
+
+@router.get("/threat-rules")
+async def threat_rules(lang: Locale = Query(default="en")):
+    """Serve the versioned threat-rules DATA feed for the client-side engines.
+
+    Host/TLD lists are not localized, so ``lang`` is accepted for forward-compat
+    and simply echoed. A long-ish ``public`` cache lets Cloudflare (CF-5) hold it
+    at the edge while still refreshing within the hour so new rules propagate
+    without waiting on a build.
+    """
+    feed = _load_threat_rules()
+    payload = {
+        "version": feed["version"],
+        "shortener_hosts": feed["shortener_hosts"],
+        "suspicious_tlds": feed["suspicious_tlds"],
+        "lang": lang,
+    }
+    return JSONResponse(
+        content=payload,
+        headers={"Cache-Control": "public, max-age=3600"},
+    )

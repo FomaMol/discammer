@@ -1,0 +1,40 @@
+{
+  "version": "2026-07-14",
+  "shortener_hosts": [
+    "bit.ly",
+    "tinyurl.com",
+    "is.gd",
+    "t.co",
+    "goo.gl",
+    "ow.ly",
+    "buff.ly",
+    "rebrand.ly",
+    "cutt.ly",
+    "shorturl.at",
+    "vk.cc",
+    "clck.ru",
+    "t.me",
+    "rb.gy",
+    "tiny.cc"
+  ],
+  "suspicious_tlds": [
+    "zip",
+    "mov",
+    "top",
+    "xyz",
+    "gq",
+    "ml",
+    "cf",
+    "tk",
+    "ga",
+    "work",
+    "click",
+    "link",
+    "country",
+    "kim",
+    "loan",
+    "rest",
+    "fit",
+    "cam"
+  ]
+}

@@ -1,5 +1,6 @@
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { analyze, type AnalysisResult, type RedFlag } from '../data/redflags';
+import { loadThreatRules } from '../data/threat_feed';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
 import IncidentActionWizard from './IncidentActionWizard';
@@ -74,6 +75,13 @@ export default function MessageAnalyzer({ lang: langProp }: MessageAnalyzerProps
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const textareaId = useId();
   const formRef = useRef<HTMLFormElement>(null);
+
+  // UX-5: pull the updatable threat-rules feed once, in the background. It only
+  // set-unions new shortener hosts into the built-in list — it sends NO user
+  // text, never blocks analysis, and silently keeps the built-ins if it fails.
+  useEffect(() => {
+    void loadThreatRules();
+  }, []);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
