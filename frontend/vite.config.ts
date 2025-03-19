@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { serviceWorkerPlugin } from './vite-plugin-sw';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  // serviceWorkerPlugin runs on `build` only (apply: 'build'); it reads the
+  // emitted Vite manifest and writes a versioned `backend/static/sw.js` — see
+  // vite-plugin-sw.ts. FastAPI serves that file from root scope (GET /sw.js).
+  plugins: [react(), tailwindcss(), serviceWorkerPlugin()],
   // The bundle is served under /static/ by FastAPI. Without this base, Vite's
   // preload helper computes cross-chunk URLs from the default base `/` (e.g.
   // `/js/chunks/x.js`) which 404 — the dynamic import() still resolves

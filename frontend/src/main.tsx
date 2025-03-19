@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/globals.css';
 import { reportClientError } from './utils/beacon';
+import { registerServiceWorker } from './utils/sw-register';
 
 // Component registry — lazy on purpose. Each React.lazy(() => import(...))
 // becomes its own hashed dynamic chunk, so an island's deps (e.g. Plyr inside
@@ -107,3 +108,8 @@ if (document.readyState === 'loading') {
 } else {
   hydrateIslands();
 }
+
+// PERF-3: register the offline/PWA service worker (network-first HTML, cache-first
+// hashed assets). No-op on unsupported browsers; registration failures never
+// break the page. Registered after islands are scheduled so it can't delay them.
+registerServiceWorker();

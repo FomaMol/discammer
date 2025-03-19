@@ -15,7 +15,7 @@ from typing import Optional
 from fastapi import APIRouter, Request
 from fastapi.responses import PlainTextResponse, Response
 
-from config import SITE_ORIGIN
+from config import SITE_ORIGIN, STATIC_DIR
 from database import get_course_modules, get_guides, get_posts
 from i18n import SUPPORTED_LANGS
 
@@ -233,6 +233,42 @@ async def webmanifest() -> Response:
     return Response(
         content=json.dumps(manifest, ensure_ascii=False, indent=2),
         media_type="application/manifest+json",
+    )
+
+
+# ---------------------------------------------------------------------------
+# PERF-3 — service worker, served from ROOT scope.
+#
+# The SW must be served from the origin root (not under /static/) so it can
+# control navigations site-wide, and with `Cache-Control: no-cache` so browsers
+# always re-fetch it and pick up a new deploy's worker (never pin a stale one —
+# the same anti-stale reasoning as the HTML `no-cache` in main.py). The file
+# itself is emitted into backend/static/sw.js by `npm run build`
+# (frontend/vite-plugin-sw.ts); this route just serves it from `/sw.js`.
+# ---------------------------------------------------------------------------
+
+_SERVICE_WORKER_PATH = STATIC_DIR / "sw.js"
+
+
+@router.get("/sw.js", include_in_schema=False)
+async def service_worker() -> Response:
+    try:
+        body = _SERVICE_WORKER_PATH.read_bytes()
+    except OSError:
+        # Frontend not built yet — no worker to serve. 404 so the client-side
+        # registration fails gracefully (it is guarded and swallows failures);
+        # a previously installed worker keeps running on its own update cycle.
+        return Response(status_code=404)
+    return Response(
+        content=body,
+        media_type="text/javascript",
+        headers={
+            # Always revalidate the worker so a new deploy is picked up promptly.
+            "Cache-Control": "no-cache",
+            # Permit root scope explicitly (belt-and-braces; the file is already
+            # served from the root path, which grants `/` by default).
+            "Service-Worker-Allowed": "/",
+        },
     )
 
 

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+  DiScammer offline fallback (PERF-3). Served by the service worker ONLY when a
+  navigation fails because the device is offline AND no cached copy of the
+  requested page exists. It is intentionally self-contained: no external CSS,
+  no web fonts, and NO JavaScript — so it renders even with an empty cache and
+  never trips the nonce-based CSP (there are no inline scripts to block).
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Offline · DiScammer</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: #0b0f1a;
+      color: #e7ecf5;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    .card {
+      max-width: 30rem;
+      width: 100%;
+      text-align: left;
+      border: 1px solid #202a44;
+      border-radius: 6px;
+      padding: 28px 26px;
+      background: #0e1424;
+    }
+    .badge {
+      font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #65def0;
+      margin: 0 0 14px;
+    }
+    h1 { font-size: 20px; margin: 0 0 10px; color: #f3f5fa; }
+    p { margin: 0 0 12px; color: #aab2c4; font-size: 15px; }
+    .ru { color: #8b94a8; font-size: 14px; }
+    a.reload {
+      display: inline-block;
+      margin-top: 8px;
+      font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0b0f1a;
+      background: #65def0;
+      padding: 10px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #f0a35e; margin-right: 8px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <p class="badge"><span class="dot"></span>No connection · Нет сети</p>
+    <h1>You are offline</h1>
+    <p>
+      This page is not available offline yet. Reconnect and reload — pages you
+      have already opened, and the on-device Checker and Inspector, stay
+      available without a network.
+    </p>
+    <p class="ru">
+      Эта страница недоступна офлайн. Восстановите соединение и обновите. Ранее
+      открытые страницы и локальные инструменты «Проверка» и «Инспектор»
+      работают без сети.
+    </p>
+    <a class="reload" href="/">Reload · Обновить</a>
+  </main>
+</body>
+</html>
