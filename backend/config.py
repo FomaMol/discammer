@@ -87,6 +87,15 @@ CLIENT_ERROR_RATE_LIMIT = _env_int("CLIENT_ERROR_RATE_LIMIT", 30)
 # scraper.
 METRICS_TOKEN = os.environ.get("METRICS_TOKEN", "")
 
+# SEO-3 — IndexNow key. When set, the origin serves the key-ownership file at
+# `GET /<key>.txt` (see routers/seo.py) so Bing/Yandex can verify that whoever
+# submits URLs via the IndexNow API controls this host. Empty (the default)
+# keeps that route closed (404) — the feature is opt-in and adds no public
+# surface until the owner provisions a key. The key must be 8–128 characters
+# from [a-zA-Z0-9-] per the IndexNow spec; a malformed value is treated as
+# unset so a typo can't publish a bogus ownership file.
+INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "")
+
 
 def _env_bool(name: str, default: bool) -> bool:
     raw = os.environ.get(name)

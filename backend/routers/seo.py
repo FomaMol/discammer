@@ -8,6 +8,7 @@ All routes are excluded from the OpenAPI schema (they aren't user-facing API).
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from typing import Optional
@@ -268,6 +269,55 @@ async def service_worker() -> Response:
             # Permit root scope explicitly (belt-and-braces; the file is already
             # served from the root path, which grants `/` by default).
             "Service-Worker-Allowed": "/",
+        },
+    )
+
+
+# ---------------------------------------------------------------------------
+# SEO-3 — IndexNow key-ownership file, served from ROOT scope.
+#
+# IndexNow lets us notify Bing/Yandex the moment content changes
+# (scripts/indexnow-ping.sh, called from deploy.sh). Those engines only accept a
+# submission if the submitting host proves control of the key by hosting a file
+# named `<key>.txt` at the site root whose body is the key itself.
+#
+# This route is OPT-IN and adds no public surface until the owner sets
+# INDEXNOW_KEY: with it unset the route 404s. The path pattern is a single
+# segment ending in `.txt`, so it can only ever match a root-level `*.txt`
+# request — and `/robots.txt` is registered ABOVE it, so that explicit route
+# still wins. A request for any `.txt` that is not the configured key returns a
+# plain 404 (never the branded HTML 404), so the key is not guessable by probing
+# and no other `.txt` name is shadowed.
+# ---------------------------------------------------------------------------
+
+# IndexNow spec: key is 8–128 chars from [a-zA-Z0-9-]. Validating the CONFIGURED
+# key (not the request) means a typo'd env value is treated as "unset" rather
+# than publishing a bogus ownership file.
+_INDEXNOW_KEY_RE = re.compile(r"^[a-zA-Z0-9-]{8,128}$")
+
+
+def _valid_indexnow_key(key: str) -> bool:
+    return bool(key) and bool(_INDEXNOW_KEY_RE.match(key))
+
+
+@router.get("/{indexnow_key}.txt", include_in_schema=False)
+async def indexnow_key_file(indexnow_key: str) -> Response:
+    # Read the key at request time (not an import-time constant) so it can be
+    # provisioned via env without a code change — and so tests can set it.
+    import config
+
+    configured = config.INDEXNOW_KEY
+    if not _valid_indexnow_key(configured) or indexnow_key != configured:
+        # Unset/malformed key, or a probe for a different `.txt` name → plain
+        # 404. Not the HTML template: this is a machine-facing well-known file.
+        return Response(status_code=404)
+    return Response(
+        content=configured,
+        media_type="text/plain; charset=utf-8",
+        headers={
+            # The ownership token is stable per key; let the edge cache it. It is
+            # not secret (it is published on purpose) so a long TTL is safe.
+            "Cache-Control": "public, max-age=86400",
         },
     )
 

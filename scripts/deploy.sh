@@ -92,6 +92,17 @@ purge_edge_cache() {
   fi
 }
 
+# SEO-3: ping IndexNow (Bing/Yandex) with the changed/sitemap URLs after a
+# healthy deploy. Best-effort — the script skips cleanly when INDEXNOW_KEY is
+# unset and never fails the deploy (exits 0 unless RUN_STRICT=1). Mirrors the
+# purge_edge_cache contract above.
+ping_indexnow() {
+  local repo_dir="$1"
+  if [ -x "$repo_dir/scripts/indexnow-ping.sh" ]; then
+    "$repo_dir/scripts/indexnow-ping.sh" || echo "IndexNow ping non-fatal failure — site is healthy" >&2
+  fi
+}
+
 main() {
   local repo_dir="${REPO_DIR:-/opt/discammer}"
   local compose="docker compose -f docker-compose.yml -f docker-compose.prod.yml"
@@ -215,6 +226,7 @@ main() {
   # either must not fail the deploy job.
   sync_nginx_config "$repo_dir" || echo "nginx config sync failed (non-fatal — app is healthy, live nginx untouched)" >&2
   purge_edge_cache "$repo_dir"
+  ping_indexnow "$repo_dir"
 
   # Prune dangling leftovers older than 24h. The :prev tag keeps the rollback
   # candidate safe regardless of age. Best-effort: a daemon hiccup here must NOT
