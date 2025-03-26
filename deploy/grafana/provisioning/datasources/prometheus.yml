@@ -1,0 +1,14 @@
+# OBS-2 — Grafana datasource provisioning. Points Grafana at the Prometheus
+# service on the private `obs` network (docker-compose.observability.yml). No
+# credentials: Prometheus itself is loopback-only and unauthenticated behind it.
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    uid: discammer-prom
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      timeInterval: "15s"

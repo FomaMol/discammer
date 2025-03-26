@@ -1,0 +1,70 @@
+# =============================================================================
+# prometheus.yml — OBS-2 scrape config for DiScammer's RED metrics
+# =============================================================================
+# Scrapes GET /api/metrics on the app. That endpoint (backend/main.py) exposes
+# the RED series defined in backend/metrics.py:
+#   discammer_requests_total{method,route,status_class}
+#   discammer_errors_total{method,route,status_class}      # 5xx only
+#   discammer_request_duration_seconds_{bucket,sum,count}{method,route}
+#   discammer_surface_views_total{surface,lang}            # AN-1
+#   discammer_error_events_total{source,kind}              # OBS-1
+#   discammer_build_info{version,git_sha}                  # OBS-1
+#
+# ── Access: loopback vs token (backend/main.py metrics_endpoint) ─────────────
+#   * METRICS_TOKEN set  -> caller must send `Authorization: Bearer <token>`.
+#   * METRICS_TOKEN unset -> only a LOOPBACK (127.0.0.1/::1) caller may scrape;
+#                            everyone else gets 404 (surface not advertised).
+# This config uses the TOKEN path, because Prometheus scrapes `web:8000` over
+# the docker bridge (not loopback). Set METRICS_TOKEN on the app and put the
+# same value in the mounted token file (credentials_file below). If instead you
+# run Prometheus so it reaches the app on the host loopback (target
+# host.docker.internal:8000 with the app published on 127.0.0.1:8000 AND
+# host-gateway routing), you can drop the `authorization` block — but the token
+# path is the portable default and works with the app on its own bridge.
+#
+# ── ⚠ MULTI-WORKER SCRAPE CAVEAT (read docs/ops/monitoring.md) ───────────────
+# The app runs 2 uvicorn workers (WEB_CONCURRENCY=2) and the collector in
+# backend/metrics.py is IN-PROCESS, so there are TWO independent metric sets
+# behind the single `web:8000` port. Each scrape is load-balanced to ONE worker
+# at random, so a counter can appear to jump around or move non-monotonically
+# between scrapes. Consequences:
+#   * COUNTERS: treat rate()/increase() as SAMPLED, not exact. Over a window the
+#     rates are directionally correct (both workers see similar traffic) but a
+#     point-in-time counter value is only one worker's tally.
+#   * For EXACT counts, either run the app with WEB_CONCURRENCY=1, or move to a
+#     shared/multiprocess collector (out of scope here).
+# This is documented, not silently ignored: the dashboards/alerts below are
+# written to tolerate it (rates over 5m windows), and monitoring.md spells out
+# the exact-count options.
+# =============================================================================
+
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: "discammer"
+
+rule_files:
+  - "/etc/prometheus/alerts.yml"
+
+scrape_configs:
+  - job_name: "discammer-app"
+    metrics_path: "/api/metrics"
+    scheme: "http"
+    scrape_interval: 15s
+    # Bearer token read from a mounted file so no secret lives in this repo.
+    # docker-compose.observability.yml mounts the gitignored
+    # deploy/prometheus/metrics_token here; its value must equal the app's
+    # METRICS_TOKEN. Remove this block only if you switch to loopback access.
+    authorization:
+      type: "Bearer"
+      credentials_file: "/etc/prometheus/metrics_token"
+    static_configs:
+      - targets:
+          - "web:8000"
+        labels:
+          service: "discammer"
+    # Alternative loopback target (no token). Requires the app published on the
+    # host's 127.0.0.1:8000 and Prometheus routing via host-gateway:
+    #   - targets: ["host.docker.internal:8000"]

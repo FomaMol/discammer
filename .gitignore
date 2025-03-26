@@ -32,6 +32,9 @@ Thumbs.db
 # Env
 .env
 
+# OBS-2 — real Prometheus metrics token (only the .example is committed)
+/deploy/prometheus/metrics_token
+
 # Test/CI
 .pytest_cache/
 .coverage

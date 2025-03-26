@@ -1,0 +1,14 @@
+# OBS-2 — Grafana dashboard provider. Loads any dashboard JSON dropped in
+# /var/lib/grafana/dashboards (mounted from deploy/grafana/dashboards).
+apiVersion: 1
+providers:
+  - name: discammer
+    orgId: 1
+    folder: DiScammer
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: false

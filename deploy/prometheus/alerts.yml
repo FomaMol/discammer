@@ -1,0 +1,71 @@
+# =============================================================================
+# alerts.yml — OBS-2 Prometheus alerting rules for DiScammer
+# =============================================================================
+# Rules are written to tolerate the multi-worker scrape caveat (see
+# prometheus.yml + docs/ops/monitoring.md): everything is a rate() over a 5m
+# window, never a point-in-time counter value. Routing these to a receiver
+# (Alertmanager -> Telegram/email, REL-2) is an owner step; this file only
+# defines WHAT fires, not WHERE it goes.
+# Status: configured — not production-verified until fired against the live app.
+# =============================================================================
+groups:
+  - name: discammer-availability
+    rules:
+      - alert: DiscammerAppDown
+        # No successful scrape of the app target for 3m — origin down or
+        # /api/metrics unreachable (bad token, crash, network).
+        expr: up{job="discammer-app"} == 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "DiScammer app is not scrapeable"
+          description: "Prometheus cannot scrape web:8000/api/metrics for 3m (origin down or metrics auth broken)."
+
+      - alert: DiscammerNoMetrics
+        # The target vanished entirely from service discovery.
+        expr: absent(up{job="discammer-app"})
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "DiScammer metrics target is absent"
+          description: "No up series for job discammer-app for 5m — check the scrape config / target."
+
+  - name: discammer-red
+    rules:
+      - alert: DiscammerHigh5xxRate
+        # 5xx share of traffic over 5m. discammer_errors_total is 5xx-only.
+        expr: |
+          sum(rate(discammer_errors_total[5m]))
+            / clamp_min(sum(rate(discammer_requests_total[5m])), 1e-9) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "DiScammer 5xx rate > 5%"
+          description: "Server error share has exceeded 5% of requests for 10m (rate over 5m; sampled across 2 workers)."
+
+      - alert: DiscammerLatencyP95High
+        # p95 request latency across routes. Buckets are cumulative _bucket series.
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(discammer_request_duration_seconds_bucket[5m])) by (le)
+          ) > 1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "DiScammer p95 latency > 1s"
+          description: "95th-percentile request duration has exceeded 1s for 10m (rate over 5m)."
+
+      - alert: DiscammerClientErrorSpike
+        # OBS-1 client beacon: a sustained rise in browser errors.
+        expr: sum(rate(discammer_error_events_total{source="client"}[5m])) > 1
+        for: 15m
+        labels:
+          severity: info
+        annotations:
+          summary: "DiScammer client-error beacon spike"
+          description: "Client error events > 1/s for 15m — check for a shipped frontend regression (correlate with discammer_build_info)."

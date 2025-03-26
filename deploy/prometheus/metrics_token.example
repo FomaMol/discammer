@@ -1,0 +1,7 @@
+REPLACE_WITH_THE_APP_METRICS_TOKEN
+# ^ This file is the TEMPLATE. Copy it to `metrics_token` (gitignored) and put
+#   the app's real METRICS_TOKEN value on the first line with NO trailing
+#   newline, e.g.:
+#       printf '%s' "$METRICS_TOKEN" > deploy/prometheus/metrics_token
+#   Prometheus mounts `metrics_token` and sends it as `Authorization: Bearer …`.
+#   Never commit the real token — only this .example placeholder is tracked.

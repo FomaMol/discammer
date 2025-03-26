@@ -1,0 +1,100 @@
+# =============================================================================
+# docker-compose.observability.yml — OBS-2: Prometheus + Grafana (OPT-IN)
+# =============================================================================
+# This is a SEPARATE compose project. It is NOT referenced by the app's
+# `docker compose up` (docker-compose.yml + docker-compose.prod.yml), so a
+# normal deploy is completely unchanged by it. It defines NO `web` service and
+# never recreates the app — it only scrapes it.
+#
+# Bring it up as its own project so it can't collide with the app stack:
+#   docker compose -f docker-compose.observability.yml -p discammer-obs up -d
+# Tear down:
+#   docker compose -f docker-compose.observability.yml -p discammer-obs down
+#
+# Reaching the app: Prometheus joins the app's existing compose network
+# (external `app` below) and scrapes the `web` service at `web:8000` — see
+# deploy/prometheus/prometheus.yml. Because that request arrives over the docker
+# bridge (NOT loopback), the app requires a Bearer token, so METRICS_TOKEN must
+# be set on the app and the matching token mounted here (see the token file
+# volume below). Full setup + the multi-worker scrape caveat are in
+# docs/ops/monitoring.md.
+#
+# NO SECRETS ARE COMMITTED. The Grafana admin password is a required env var
+# (compose refuses to start without it) and the metrics token is read from a
+# host file that is gitignored (deploy/prometheus/metrics_token, seeded from
+# deploy/prometheus/metrics_token.example).
+#
+# Status: CONFIGURED (this file + provisioning exist and are valid). It is NOT
+# production-verified — only the owner bringing it up against the live app and a
+# dated check of real scrapes could claim that.
+# =============================================================================
+
+name: discammer-obs
+
+networks:
+  # The app's compose network, joined so Prometheus can resolve `web:8000`.
+  # External = we don't create it here; the app project (docker-compose.yml,
+  # default project name "discammer") owns it. Override the name if the app
+  # runs under a different project: APP_NETWORK=<project>_default.
+  app:
+    external: true
+    name: "${APP_NETWORK:-discammer_default}"
+  # Private network for Grafana <-> Prometheus.
+  obs:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+services:
+  prometheus:
+    image: "prom/prometheus:v2.54.1"
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=${PROM_RETENTION:-15d}"
+      - "--web.enable-lifecycle"
+    volumes:
+      - "./deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
+      - "./deploy/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro"
+      # The app's METRICS_TOKEN, as a file. Seed it from the committed example:
+      #   cp deploy/prometheus/metrics_token.example deploy/prometheus/metrics_token
+      #   printf '%s' "$METRICS_TOKEN" > deploy/prometheus/metrics_token
+      # The real file is gitignored so the token is never committed.
+      - "${METRICS_TOKEN_FILE:-./deploy/prometheus/metrics_token}:/etc/prometheus/metrics_token:ro"
+      - "prometheus_data:/prometheus"
+    networks:
+      - app
+      - obs
+    # Lets the owner alternatively point the scrape at the host's 127.0.0.1:8000
+    # (loopback, no token needed) via host.docker.internal — see prometheus.yml.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Bind to loopback only: the dashboards/console must not be exposed publicly.
+    # Reach them via an SSH tunnel or put Cloudflare Access in front (REL-4).
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    image: "grafana/grafana:11.2.0"
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    environment:
+      # No default password: compose refuses to start until the owner supplies
+      # one, so no credential is ever committed.
+      - "GF_SECURITY_ADMIN_USER=${GF_ADMIN_USER:-admin}"
+      - "GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD:?set GF_ADMIN_PASSWORD in the environment or a .env file (never commit it)}"
+      - "GF_USERS_ALLOW_SIGN_UP=false"
+      - "GF_SERVER_ROOT_URL=${GF_ROOT_URL:-http://localhost:3000}"
+    volumes:
+      - "./deploy/grafana/provisioning:/etc/grafana/provisioning:ro"
+      - "./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro"
+      - "grafana_data:/var/lib/grafana"
+    networks:
+      - obs
+    # Loopback-only, same reasoning as Prometheus above.
+    ports:
+      - "127.0.0.1:3000:3000"
