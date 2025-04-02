@@ -17,6 +17,8 @@ frontend/dist/
 # Anchored to the repo root so it only ignores the SQLite data dir
 # (data/discammer.db) and not source trees like frontend/src/data/.
 /data/
+# REL-4 — staging's isolated data dir (docker-compose.staging.yml).
+/data-staging/
 *.db
 
 # IDE

@@ -1,0 +1,44 @@
+# =============================================================================
+# docker-compose.staging.yml — REL-4: staging instance (OVERRIDE)
+# =============================================================================
+# A pre-prod copy that CANNOT touch prod data. Used AS AN OVERRIDE on top of the
+# base file, under its own project name so containers/volumes never collide with
+# the prod stack (docker-compose.yml + docker-compose.prod.yml, project
+# "discammer"):
+#
+#   docker compose -f docker-compose.yml -f docker-compose.staging.yml \
+#     -p discammer-staging up -d --build
+#   docker compose -f docker-compose.yml -f docker-compose.staging.yml \
+#     -p discammer-staging down
+#
+# Isolation from prod:
+#   * separate project name (discammer-staging) → separate network + container
+#     names;
+#   * separate data dir (./data-staging, gitignored) → its own SQLite db, so a
+#     staging reseed/migration never touches prod's ./data;
+#   * bound to host loopback on a different port (127.0.0.1:8001) so it isn't
+#     public — front it with Cloudflare Access / an SSH tunnel (docs/ops/staging.md).
+#
+# Purpose: land CF rule / CSP / migration experiments here BEFORE prod
+# (FEATURE_PLAN REL-4). Status: configured — bring-up + the staging.discammer.com
+# subdomain + CF Access are owner steps; not production-verified here.
+# =============================================================================
+name: discammer-staging
+
+services:
+  web:
+    container_name: discammer-staging-web
+    # Loopback-only and a distinct port so staging never clashes with prod (8000)
+    # and isn't exposed to the internet directly.
+    ports: !override
+      - "127.0.0.1:8001:8000"
+    # Its OWN data dir — staging's wipe+reseed can never erase prod's ./data.
+    volumes: !override
+      - ./data-staging:/app/data
+    environment:
+      # Fresh, self-seeded content on every start (the default, made explicit for
+      # staging). Keep the origin-side API limiter default; CF Access fronts it.
+      - PYTHONUNBUFFERED=1
+      - WEB_CONCURRENCY=2
+      - SEED_ON_STARTUP=1
+      - API_RATE_LIMIT=${STAGING_API_RATE_LIMIT:-240}

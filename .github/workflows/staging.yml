@@ -1,0 +1,54 @@
+# REL-4 — staging smoke. Manual only (workflow_dispatch), so it never interferes
+# with the CI/CD pipeline in ci-cd.yml. It brings the staging compose up locally
+# on the runner (its OWN project + data dir, per docker-compose.staging.yml) and
+# smoke-checks a few routes, then tears it down. This proves the staging stack
+# builds and serves BEFORE it is pointed at the staging.discammer.com host.
+#
+# A real deploy to a staging SERVER (SSH) is intentionally NOT wired here: it
+# needs owner-provisioned secrets/host. When those exist, add a gated deploy job
+# mirroring the prod `deploy` job in ci-cd.yml. Status: configured.
+name: Staging smoke
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  staging-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bring up the staging stack (own project + data dir)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.staging.yml \
+            -p discammer-staging up -d --build
+
+      - name: Wait for health, then smoke a few routes
+        run: |
+          set -euo pipefail
+          base="http://127.0.0.1:8001"
+          # Poll /api/health until the container is ready (max ~60s).
+          for i in $(seq 1 60); do
+            if curl -fsS "$base/api/health" >/dev/null 2>&1; then break; fi
+            sleep 1
+            if [ "$i" = "60" ]; then echo "staging never became healthy"; exit 1; fi
+          done
+          # A handful of canonical routes must all answer 200.
+          for path in /api/health /en/ /ru/ /en/check /en/inspect /sitemap.xml; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' "$base$path")"
+            echo "$path -> $code"
+            [ "$code" = "200" ] || { echo "FAIL: $path returned $code"; exit 1; }
+          done
+
+      - name: Logs on failure
+        if: failure()
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.staging.yml \
+            -p discammer-staging logs --tail=200 || true
+
+      - name: Tear down
+        if: always()
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.staging.yml \
+            -p discammer-staging down -v || true
