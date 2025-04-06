@@ -446,6 +446,44 @@ beacon is used, CSP updated and `assertNoNetworkLeak` still green (or server-sid
 
 ---
 
+## PERF-1 · Edge-cache HTML at a micro-TTL — Кэш HTML на edge (микро-TTL)
+
+**Status: configured (owner dashboard step).** No repo code change is needed —
+the app already sends the right headers and the deploy purge already covers HTML
+(CF-5). This is one extra Cache Rule.
+
+**Why:** SSR renders Jinja synchronously on 2 workers. Even a 30–60 s edge cache
+of guest HTML collapses repeat renders during a traffic burst. It's safe here
+because the site has **no server-side personalization** — all user state
+(checker/inspector input, course progress) is client-side/local, and the UI
+language is in the **path** (`/en/…`, `/ru/…`), so the URL is already a correct
+cache key (no cookie-based variance to leak).
+
+**Cache Rule (Cloudflare → Caching → Cache Rules), ABOVE the CF-5 "No-cache
+dynamic" rule:**
+
+| Match | Cache | Edge TTL | Browser TTL |
+| --- | --- | --- | --- |
+| `http.request.uri.path` starts with `/en/` or `/ru/` **AND** `http.request.method eq "GET"` **AND NOT** path starts with `/api/` | Eligible | 30–60 s | Respect origin (`no-cache`) |
+
+- **EXCLUDE** `/api/`, `/lang/` (the apex language redirect), and `/play/`.
+  Keep the browser at `no-cache` (origin already sends it) so a client never
+  pins HTML — only the *edge* holds the 30–60 s copy. This is the same
+  anti-stale posture as the iOS incident (commit 78ec137) and the service
+  worker (PERF-3): the shared edge may cache briefly, the client must not.
+- **Purge on deploy is already wired** — `scripts/cf-purge-cache.sh` (CF-5)
+  purges `/en/` and `/ru/` prefixes after a healthy deploy, so a release can't
+  serve a stale document past the deploy.
+- Start conservative (30 s) and only raise it after watching `cf-cache-status`
+  and confirming no language/staleness surprises. If in doubt, leave HTML on
+  **Bypass** (CF-5 default) — this is an optimization, not a correctness need.
+
+**DoD:** 2nd request to `/en/guide/phishing` → `cf-cache-status: HIT`; the RU
+and EN variants never mix (distinct path cache keys); origin nginx logs show a
+drop in repeat SSR renders under load.
+
+---
+
 ## Status checklist — Чек-лист
 
 | ID | Section | Status |
@@ -459,6 +497,7 @@ beacon is used, CSP updated and `assertNoNetworkLeak` still green (or server-sid
 | CF-7 | Redirect/Config/Transform rules (Rocket Loader OFF) | ☐ |
 | CF-8 | Origin lock-down + real IP (**LAST**) | ☐ |
 | CF-9 | Web Analytics (cookieless) | ☐ |
+| PERF-1 | Edge-cache HTML micro-TTL (`/en/`,`/ru/` GET, 30–60 s) | ☐ |
 
 ### Cross-referenced repo artifacts (created in this engineering effort)
 - `scripts/cf-firewall.sh` — origin firewall (CF-8), run **last**, keep SSH open.
