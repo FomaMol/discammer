@@ -46,10 +46,27 @@
   детерминирован (Tailwind entry-CSS хэш каскадит в имена JS-чанков; логика JS
   байт-идентична). Коммит `3993871`. Task 1.2: тест enforce-флипа CSP (`42128ce`).
   Независимое adversarial-ревью Волны 1: **SHIP**, 0 дефектов.
-- **Осталось владельцу (Волны 0–1):** деплой + прод-проверка `/en/game`; флип
-  `CSP_REPORT_ONLY=0` после чистой недели `/api/csp-report`.
-- **Дальше:** Волна 2 (AN-1, OBS-1 [нужно решение владельца: GlitchTip vs расширить
-  пайплайн], UX-3), затем Волна 3.
+- **Волна 2 — ГОТОВО.** AN-1 `discammer_surface_views_total{surface,lang}` (`4b73fe0`);
+  OBS-1 error-events + build_info, владелец выбрал «расширить пайплайн» (`883c923`) +
+  фикс cardinality из ревью (клиентский `kind` теперь строгий allowlist, `1d199a9`);
+  UX-3 WCAG 2.2 — axe расширен на post/guide/module/lesson/game/about + target-size,
+  починены реальные нарушения (breadcrumb underline, guide #6b7588→#8b94a8),
+  GameLauncher keyboard-trap тест (`e669598`). Adversarial-ревью Волны 2: 1 HIGH
+  (исправлен) + остальное clean.
+- **Волна 3 — ГОТОВО.** SEO-2 SearchAction (`980b30b`); PERF-2 (обложки — remote CDN,
+  WebP N/A; decode-hint, `a32032c`); UX-2 «Загрузить пример» чекер/инспектор
+  (`9b291ca`); UX-5 обновляемый threat-rules фид, data-only + офлайн-fallback
+  (`3b5e1c7`); PERF-3 Service Worker — офлайн-инструменты, HTML network-first
+  (anti-stale), проверено в браузере (`4c78069`); SEO-3 IndexNow + key-file route
+  (`aba617b`); OBS-2 Prometheus+Grafana стек, configured (`ac9b45e`); REL-4 staging
+  compose + manual smoke, configured (`69d56ff`); PERF-1 edge-cache HTML runbook,
+  configured (`bb12c5e`).
+- **Финал:** pytest 157, vitest 139, i18n parity, e2e зелёные локально, build
+  воспроизводит committed static. Все Волны 0–3 из плана закрыты.
+- **Осталось владельцу:** деплой + прод-проверки (`/en/game`, `/sw.js` SAMEORIGIN);
+  `CSP_REPORT_ONLY=0` после чистой недели; Cloudflare (CF-*, PERF-1); поднять
+  OBS-2/REL-4 через Docker; INDEXNOW_KEY + GSC/Bing/Yandex верификация; алерт-роутинг
+  (REL-2). **Волна 4** (UX-4/6/7) — backlog, нужен brainstorming (не начата).
 
 ---
 
