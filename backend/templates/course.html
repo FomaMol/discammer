@@ -3,7 +3,10 @@
 {% block title %}{{ t(_lang, 'page_titles.course') }}{% endblock %}
 
 {% block jsonld %}
-{% set _course_url = request.url._url if request else '' %}
+{# absolute_url(): absolute URLs come from the configured origin, never from
+   request.url — see base.html `_origin`. #}
+{% set _course_url = absolute_url(localized_url(_lang, 'course')) %}
+{% set _home_url = absolute_url(localized_url(_lang)) %}
 {% set _iso_duration = (course_totals.iso_duration if course_totals else 'PT8H') %}
 <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
@@ -27,7 +30,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": {{ t(_lang, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang, 'footer.home') | tojson }}, "item": {{ _home_url | tojson }} },
         { "@type": "ListItem", "position": 2, "name": {{ t(_lang, 'page_titles.course') | tojson }}, "item": {{ _course_url | tojson }} }
       ]
     }

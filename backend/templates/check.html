@@ -1,9 +1,41 @@
 {% extends "base.html" %}
 {% block title %}{{ t(lang, 'page_titles.check') }}{% endblock %}
 
+{% block jsonld %}
+{# SEO-2 step 2: BreadcrumbList mirroring the visible trail below (home →
+   check). Same idiom as post/guide/course: absolute `item` URLs from
+   absolute_url(), so they agree with <link rel="canonical"> on scheme+host
+   instead of inheriting the untrusted request scheme. #}
+{% set _lang_c = lang | default('en') %}
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_c, 'footer.home') | tojson }}, "item": {{ absolute_url(localized_url(_lang_c)) | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang_c, 'nav.check') | tojson }}, "item": {{ absolute_url(localized_url(_lang_c, 'check')) | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% set _lang = lang %}
+
+{# Visible breadcrumb — the trail the BreadcrumbList above marks up. Same
+   markup as the sibling tool pages (inspect.html / search.html); Google
+   requires the structured data to mirror a real on-page trail, so the two
+   ship together. #}
+  <nav class="font-mono text-[11px] text-[#8b94a8] flex flex-wrap items-center gap-2 max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-10 pt-6" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
+    <a href="/{{ _lang }}/" class="text-[#3a8b9a] hover:text-[#65def0] transition">{{ t(_lang, 'footer.home') }}</a>
+    <span class="text-[#6b7588]" aria-hidden="true">/</span>
+    <span class="text-[#e7ecf5]" aria-current="page">{{ t(_lang, 'nav.check') }}</span>
+  </nav>
 
 {# ─────────────────────────────────────────────────────────────────────
    CHECK — the flagship "Проверка сообщения" red-flag analyzer (F2).

@@ -3,7 +3,12 @@
 {% block title %}{{ lesson.title }} — {{ module.title }} — DiScammer{% endblock %}
 
 {% block jsonld %}
-{% set _lesson_url = request.url._url if request else '' %}
+{# absolute_url(): absolute URLs come from the configured origin, never from
+   request.url — see base.html `_origin`. #}
+{% set _lesson_url = absolute_url(localized_url(_lang, 'course/' ~ module.slug ~ '/' ~ lesson.slug)) %}
+{% set _module_url = absolute_url(localized_url(_lang, 'course/' ~ module.slug)) %}
+{% set _course_url = absolute_url(localized_url(_lang, 'course')) %}
+{% set _home_url = absolute_url(localized_url(_lang)) %}
 <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
@@ -20,16 +25,16 @@
       "isPartOf": {
         "@type": "Course",
         "name": {{ t(_lang, 'course.title_long') | tojson }},
-        "url": {{ ('/' ~ _lang ~ '/course') | tojson }}
+        "url": {{ _course_url | tojson }}
       },
       "provider": { "@id": "https://discammer.com/#org" }
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": {{ t(_lang, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang ~ '/') | tojson }} },
-        { "@type": "ListItem", "position": 2, "name": {{ t(_lang, 'page_titles.course') | tojson }}, "item": {{ ('/' ~ _lang ~ '/course') | tojson }} },
-        { "@type": "ListItem", "position": 3, "name": {{ module.title | tojson }}, "item": {{ ('/' ~ _lang ~ '/course/' ~ module.slug) | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang, 'footer.home') | tojson }}, "item": {{ _home_url | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang, 'page_titles.course') | tojson }}, "item": {{ _course_url | tojson }} },
+        { "@type": "ListItem", "position": 3, "name": {{ module.title | tojson }}, "item": {{ _module_url | tojson }} },
         { "@type": "ListItem", "position": 4, "name": {{ lesson.title | tojson }}, "item": {{ _lesson_url | tojson }} }
       ]
     }

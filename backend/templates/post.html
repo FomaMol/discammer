@@ -4,7 +4,12 @@
 
 {% block jsonld %}
 {# Article + BreadcrumbList. Strings escaped via | tojson so quotes / linebreaks survive. #}
-{% set _post_url = request.url._url if request else '' %}
+{# absolute_url(): absolute URLs come from the configured origin, never from
+   request.url — see base.html `_origin`. #}
+{% set _lang_p = lang | default('en') %}
+{% set _post_url = absolute_url(localized_url(_lang_p, 'journal/' ~ post.slug)) %}
+{% set _journal_url = absolute_url(localized_url(_lang_p, 'journal')) %}
+{% set _home_url = absolute_url(localized_url(_lang_p)) %}
 {% set _post_image = post.cover_image or '/static/images/og/discammer-og.svg' %}
 <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
@@ -17,7 +22,7 @@
       "image": {{ _post_image | tojson }},
       "author": { "@type": "Organization", "name": "DiScammer Editorial" },
       "publisher": { "@id": "https://discammer.com/#org" },
-      "inLanguage": {{ (lang | default('en')) | tojson }},
+      "inLanguage": {{ _lang_p | tojson }},
       "url": {{ _post_url | tojson }},
       "description": {{ (post.subtitle or post.title) | tojson }},
       "isPartOf": { "@id": "https://discammer.com/#site" }
@@ -25,8 +30,8 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": {{ t(lang, 'post.breadcrumb_home') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/') | tojson }} },
-        { "@type": "ListItem", "position": 2, "name": {{ t(lang, 'post.breadcrumb_journal') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/journal') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_p, 'post.breadcrumb_home') | tojson }}, "item": {{ _home_url | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang_p, 'post.breadcrumb_journal') | tojson }}, "item": {{ _journal_url | tojson }} },
         { "@type": "ListItem", "position": 3, "name": {{ post.title | tojson }}, "item": {{ _post_url | tojson }} }
       ]
     }

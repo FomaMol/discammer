@@ -1,6 +1,30 @@
 {% extends "base.html" %}
 {% block title %}{{ t(lang, 'page_titles.search') }}{% endblock %}
 
+{% block jsonld %}
+{# SEO-2 step 2: BreadcrumbList mirroring the visible trail below (home →
+   search). Same idiom as post/guide/course: absolute `item` URLs from
+   absolute_url(), so they agree with <link rel="canonical"> on scheme+host
+   instead of inheriting the untrusted request scheme. The leaf is the bare
+   /{lang}/search — the canonical drops ?q= too, so a query must not fork the
+   crumb away from the page it points at. #}
+{% set _lang_s = lang | default('en') %}
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_s, 'footer.home') | tojson }}, "item": {{ absolute_url(localized_url(_lang_s)) | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang_s, 'nav.search') | tojson }}, "item": {{ absolute_url(localized_url(_lang_s, 'search')) | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block head %}
 {# Snippet highlight — <mark> only appears inside .dcm-snippet (SSR) and the
    SearchConsole island. Theme it to the cyan accent instead of the browser

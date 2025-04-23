@@ -448,6 +448,28 @@ def _localized_url(lang: str, path: str = "") -> str:
 _env.globals["localized_url"] = _localized_url
 
 
+def _absolute_url(path: str = "/") -> str:
+    """Absolutise a site-relative path against the configured public origin.
+
+    The single template-side helper for the "absolute URLs come from
+    config.SITE_ORIGIN, never from the request" rule that base.html's `_origin`
+    already documents for canonical/og/hreflang. NOT request.url / base_url:
+    their scheme comes from the same untrusted ASGI scope, and behind the prod
+    nginx proxy that reports http:// (uvicorn only trusts X-Forwarded-* from
+    loopback, while the proxy connects from the Docker bridge). Anything that
+    disagrees with the canonical on scheme+host — BreadcrumbList `item`, JSON-LD
+    `url` — reads to Google as a different page.
+
+    Already-absolute inputs pass through so callers can hand it a full URL.
+    """
+    if path.startswith(("http://", "https://")):
+        return path
+    return f"{SITE_ORIGIN}/{path.lstrip('/')}"
+
+
+_env.globals["absolute_url"] = _absolute_url
+
+
 def client_runtime_config() -> dict:
     """Non-secret runtime config surfaced to the browser as
     ``window.__DISCAMMER_CONFIG__``. Currently only the client-error beacon

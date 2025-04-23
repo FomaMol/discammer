@@ -2,8 +2,11 @@
 {% block title %}{{ t(lang, 'page_titles.site_full') }}{% endblock %}
 
 {% block jsonld %}
-{% set _home_url = request.url._url if request else '' %}
+{# Absolute URLs come from the configured origin (base.html `_origin`), never
+   from request.url — its scheme is untrusted behind the prod proxy and would
+   disagree with <link rel="canonical">. absolute_url() is that rule. #}
 {% set _lang_h = lang | default('en') %}
+{% set _home_url = absolute_url(localized_url(_lang_h)) %}
 <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
@@ -25,7 +28,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_h, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang_h ~ '/') | tojson }} }
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_h, 'footer.home') | tojson }}, "item": {{ _home_url | tojson }} }
       ]
     }
   ]

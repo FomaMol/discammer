@@ -88,7 +88,24 @@ async def sitemap_xml(request: Request) -> Response:
 
     # Language-agnostic path suffixes (slugs are shared across locales). "" is
     # the localized home (/{lang}/); the rest map to /{lang}/{suffix}.
-    suffixes: list[str] = ["", "journal", "course", "game", "about", "portfolio"]
+    # "check"/"inspect" are the two flagship tool pages: crawlable (robots.txt
+    # only disallows /api/, /play/, /lang/), canonicalized, hreflang-paired and
+    # linked from the nav — so this list, whose contract is every localized
+    # canonical URL, has to carry them like any other indexable page.
+    # "search" is deliberately NOT here: it is an internal search-results
+    # surface, which Google asks you to keep out of the index. It still gets a
+    # BreadcrumbList (that markup describes the page, it does not solicit
+    # crawling).
+    suffixes: list[str] = [
+        "",
+        "journal",
+        "course",
+        "check",
+        "inspect",
+        "game",
+        "about",
+        "portfolio",
+    ]
     for post in posts:
         if post.get("slug"):
             suffixes.append(f"journal/{post['slug']}")

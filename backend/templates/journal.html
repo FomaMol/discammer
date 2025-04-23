@@ -2,8 +2,11 @@
 {% block title %}{{ t(lang, 'page_titles.journal') }}{% endblock %}
 
 {% block jsonld %}
-{% set _journal_url = request.url._url if request else '' %}
+{# absolute_url(): absolute URLs come from the configured origin, never from
+   request.url — see base.html `_origin`. #}
 {% set _lang_j = lang | default('en') %}
+{% set _journal_url = absolute_url(localized_url(_lang_j, 'journal')) %}
+{% set _home_url = absolute_url(localized_url(_lang_j)) %}
 <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
 {
   "@context": "https://schema.org",
@@ -27,7 +30,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_j, 'footer.home') | tojson }}, "item": {{ ('/' ~ _lang_j ~ '/') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_j, 'footer.home') | tojson }}, "item": {{ _home_url | tojson }} },
         { "@type": "ListItem", "position": 2, "name": {{ t(_lang_j, 'page_titles.journal') | tojson }}, "item": {{ _journal_url | tojson }} }
       ]
     }

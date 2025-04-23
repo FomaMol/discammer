@@ -8,7 +8,12 @@
    the page; these guides are prose + educational pattern notes, not explicit
    question/answer pairs. Adding FAQPage would be fabricated structured data.
    Emit it only once a guide carries genuine, visible Q&A content. #}
-{% set _guide_url = request.url._url if request else '' %}
+{# absolute_url(): absolute URLs come from the configured origin, never from
+   request.url — see base.html `_origin`. #}
+{% set _lang_g = lang | default('en') %}
+{% set _guide_url = absolute_url(localized_url(_lang_g, 'guide/' ~ guide.slug)) %}
+{% set _journal_url = absolute_url(localized_url(_lang_g, 'journal')) %}
+{% set _home_url = absolute_url(localized_url(_lang_g)) %}
 {% set _guide_image = '/static/images/og/discammer-og.svg' %}
 {% set _guide_category = (guide.category or 'fraud') | replace('-', ' ') | title %}
 <script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
@@ -21,7 +26,7 @@
       "datePublished": {{ (guide.published_at or '') | tojson }},
       "image": {{ _guide_image | tojson }},
       "publisher": { "@id": "https://discammer.com/#org" },
-      "inLanguage": {{ (lang | default('en')) | tojson }},
+      "inLanguage": {{ _lang_g | tojson }},
       "url": {{ _guide_url | tojson }},
       "description": {{ (guide.description or guide.title) | tojson }},
       "about": { "@type": "Thing", "name": {{ _guide_category | tojson }} },
@@ -30,8 +35,8 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": {{ t((lang | default('en')), 'footer.home') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/') | tojson }} },
-        { "@type": "ListItem", "position": 2, "name": {{ t(lang, 'footer.threat_database') | tojson }}, "item": {{ ('/' ~ (lang | default('en')) ~ '/journal') | tojson }} },
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_g, 'footer.home') | tojson }}, "item": {{ _home_url | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang_g, 'footer.threat_database') | tojson }}, "item": {{ _journal_url | tojson }} },
         { "@type": "ListItem", "position": 3, "name": {{ guide.title | tojson }}, "item": {{ _guide_url | tojson }} }
       ]
     }

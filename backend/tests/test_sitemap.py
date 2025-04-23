@@ -49,3 +49,35 @@ def test_sitemap_includes_localized_portfolio_dossier(client):
     locs = [u.findtext(f"{SM}loc", "") for u in root.findall(f"{SM}url")]
     assert any(url.endswith("/en/portfolio") for url in locs)
     assert any(url.endswith("/ru/portfolio") for url in locs)
+
+
+def test_sitemap_includes_localized_tool_pages(client):
+    """The two flagship tool pages are crawlable, canonicalized, hreflang-paired
+    and linked from nav — robots.txt lets crawlers have them, so the sitemap
+    (whose contract is every localized canonical URL) must list them too."""
+    r = client.get("/sitemap.xml")
+    root = ET.fromstring(r.text)
+    locs = [u.findtext(f"{SM}loc", "") for u in root.findall(f"{SM}url")]
+    for suffix in ("check", "inspect"):
+        for lang in ("en", "ru"):
+            assert any(
+                url.endswith(f"/{lang}/{suffix}") for url in locs
+            ), f"sitemap must list /{lang}/{suffix}"
+
+
+def test_sitemap_tool_pages_carry_hreflang_alternates(client):
+    """SEO-1 puts xhtml:link alternates inside every <url>; the tool pages are
+    not allowed to be the exception."""
+    r = client.get("/sitemap.xml")
+    root = ET.fromstring(r.text)
+
+    for suffix in ("check", "inspect"):
+        entry = next(
+            u
+            for u in root.findall(f"{SM}url")
+            if u.findtext(f"{SM}loc", "").endswith(f"/en/{suffix}")
+        )
+        by_lang = {l.get("hreflang"): l.get("href") for l in entry.findall(f"{XH}link")}
+        assert by_lang.get("en", "").endswith(f"/en/{suffix}")
+        assert by_lang.get("ru", "").endswith(f"/ru/{suffix}")
+        assert by_lang.get("x-default", "").endswith(f"/en/{suffix}")

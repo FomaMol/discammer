@@ -1,6 +1,28 @@
 {% extends "base.html" %}
 {% block title %}{{ t(lang, 'page_titles.inspect') }}{% endblock %}
 
+{% block jsonld %}
+{# SEO-2 step 2: BreadcrumbList mirroring the visible trail below (home →
+   inspect). Same idiom as post/guide/course: absolute `item` URLs from
+   absolute_url(), so they agree with <link rel="canonical"> on scheme+host
+   instead of inheriting the untrusted request scheme. #}
+{% set _lang_i = lang | default('en') %}
+<script type="application/ld+json" nonce="{{ request.state.csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ t(_lang_i, 'footer.home') | tojson }}, "item": {{ absolute_url(localized_url(_lang_i)) | tojson }} },
+        { "@type": "ListItem", "position": 2, "name": {{ t(_lang_i, 'nav.inspect') | tojson }}, "item": {{ absolute_url(localized_url(_lang_i, 'inspect')) | tojson }} }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% set _lang = lang %}
