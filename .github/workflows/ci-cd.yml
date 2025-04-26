@@ -5,6 +5,15 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Manual, opt-in run. Its only extra power is seeding the Q1 Linux visual
+  # baselines (see the `e2e` job). It CANNOT deploy: the `deploy` job is pinned
+  # to `github.event_name == 'push'` on main, and `smoke-prod` needs `deploy`.
+  workflow_dispatch:
+    inputs:
+      seed_visual_baselines:
+        description: "Q1: regenerate the Linux visual baselines (--update-snapshots) and upload them as the visual-baselines-linux artifact for the owner to commit. Does not deploy."
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -44,28 +53,68 @@ jobs:
         if: always()
         run: pip-audit -r requirements.txt -r requirements-dev.txt --desc || true
 
-      # SEC-4 — static application security testing (SAST). Non-blocking for
-      # now (|| true): we surface findings in the log to triage before turning
-      # any rule into a gate. bandit = Python security linter; semgrep =
-      # pattern rules incl. FastAPI/XSS. Scope to our code (backend/, scripts/),
-      # never the vendored .venv.
+      # SEC-4 — static application security testing (SAST). Non-blocking by
+      # design (|| true): SEC-4 says "non-blocking сначала" — we triage findings
+      # before turning any rule into a gate. bandit = Python security linter;
+      # semgrep = pattern rules incl. FastAPI/XSS. Scope to our code (backend/,
+      # scripts/), never the vendored .venv.
+      #
+      # Each scan now writes a machine-readable JSON report to sast-reports/ and
+      # the whole dir uploads as an artifact (SEC-4 DoD: "отчёты в артефактах").
+      # The log-only output these steps used to produce left nothing durable to
+      # triage against or to diff run-over-run. The human-readable findings still
+      # reach the log as well — see the per-step notes below.
       - name: Install SAST tools (pinned)
         # Non-fatal: SAST is informational for now, so a tool-install hiccup or a
         # pin that ages out must never block the supply-chain job. The scan steps
-        # below tolerate the tool being absent (|| true).
+        # below tolerate the tool being absent (|| true), and the artifact upload
+        # tolerates the reports being absent (if-no-files-found: ignore).
         if: always()
         run: pip install bandit==1.8.6 semgrep==1.139.0 || echo "::warning::SAST tools failed to install — scans skipped"
 
-      - name: bandit (Python SAST — informational)
-        if: always()
-        run: bandit -r backend -x backend/.venv,backend/tests -ll || true
-
-      - name: semgrep (informational)
+      - name: bandit (Python SAST — informational, JSON report)
+        # Two passes on purpose. bandit 1.8.6 takes ONE -f at a time, and
+        # `-f json -o FILE` prints only INFO lines to stdout — the findings
+        # themselves would vanish from the log. So: pass 1 writes the durable
+        # JSON artifact, pass 2 reproduces the previous screen output for
+        # at-a-glance triage. The scan is ~4k LOC, so the second pass is cheap.
+        # bandit exits non-zero when it finds anything; `|| true` keeps that
+        # informational, exactly as before.
         if: always()
         run: |
+          mkdir -p sast-reports
+          bandit -r backend -x backend/.venv,backend/tests -ll \
+            -f json -o sast-reports/bandit.json || true
+          bandit -r backend -x backend/.venv,backend/tests -ll || true
+
+      - name: semgrep (informational, JSON report)
+        # One pass: --json-output writes the report file while the default
+        # human-readable findings still stream to the log, so no second scan is
+        # needed (verified against the pinned 1.139.0). semgrep exits 0 on
+        # findings by default; `|| true` additionally covers a missing tool or a
+        # registry fetch failure, keeping this non-blocking.
+        if: always()
+        run: |
+          mkdir -p sast-reports
           semgrep --config p/python --config p/security-audit \
             --exclude backend/.venv --exclude backend/tests \
+            --json-output=sast-reports/semgrep.json \
             backend scripts || true
+
+      - name: Upload SAST reports (SEC-4)
+        # The durable half of SEC-4's DoD. `warn`, not `ignore`: the scan steps
+        # end in `|| true`, so a failed tool install produces no reports and the
+        # artifact would silently vanish behind a green job — leaving "reports in
+        # artifacts" looking satisfied while nothing was actually scanned. `warn`
+        # surfaces that as an annotation without failing the job, so SAST stays
+        # non-blocking (only `error` would colour it).
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-reports
+          path: sast-reports
+          retention-days: 30
+          if-no-files-found: warn
 
       - uses: actions/setup-node@v4
         with:
@@ -242,28 +291,76 @@ jobs:
           E2E_BASE_URL: http://127.0.0.1:8000
         run: npx playwright test
 
-      # ---- Q1: visual regression (NON-BLOCKING until Linux baselines seeded) --
-      # Playwright names snapshots per-OS: the committed baselines are *-darwin
-      # (generated on the macOS dev box). CI is Linux, so until the *-linux
-      # baselines exist this step would always "fail" (missing snapshot). It is
-      # therefore `continue-on-error: true` so it CANNOT turn the e2e gate red
-      # before baselines are seeded — it surfaces diffs as an uploaded artifact
-      # only. The visual spec runs only under its dedicated config (which sets
-      # PW_VISUAL); the default `npx playwright test` above skips it.
+      # ---- Q1: visual regression (SELF-ARMING) -------------------------------
+      # Playwright names snapshots per-OS. The committed baselines are *-darwin
+      # (macOS dev box); CI is Linux, so without *-linux baselines every run
+      # would fail on "missing snapshot". The gate therefore arms itself off the
+      # baselines actually committed to the repo, instead of a hand-flipped
+      # `continue-on-error: true` that someone must remember to revert:
       #
-      # ONE-TIME SEEDING (owner/CI action — needs a push the owner controls):
-      #   temporarily change the run line below to append `--update-snapshots`,
-      #   push, let this job commit/download the generated e2e/visual.spec.ts-
-      #   snapshots/*-linux.png, commit them to the repo, then drop the flag AND
-      #   flip `continue-on-error` to false to make the gate blocking. Exact
-      #   command + workflow documented in docs/deploy/visual-regression.md.
-      - name: Visual regression (Q1, non-blocking until Linux baselines seeded)
+      #   0 committed *-linux.png -> NON-BLOCKING (diffs uploaded, job stays green)
+      #   >0 committed *-linux.png -> BLOCKING (a real visual regression fails e2e)
+      #
+      # So the ONLY remaining owner step is to seed the baselines; the gate goes
+      # live in the same commit that adds them, with no second workflow edit.
+      #
+      # SEEDING (owner action, from the Actions tab): run this workflow via
+      # "Run workflow" with seed_visual_baselines = true. That run regenerates
+      # the Linux baselines and uploads them as `visual-baselines-linux`;
+      # download, unzip into e2e/visual.spec.ts-snapshots/, and commit. The
+      # seeding run is forced non-blocking (it defines the baseline, so it has
+      # nothing to compare against). Full runbook:
+      # docs/deploy/visual-regression.md.
+      #
+      # The visual spec runs only under its dedicated config (which sets
+      # PW_VISUAL); the default `npx playwright test` above skips it.
+      - name: Decide visual-regression mode (Q1)
+        id: visual_mode
+        env:
+          SEED: ${{ github.event.inputs.seed_visual_baselines }}
+        run: |
+          # `github.event.inputs` is null on push/PR, so SEED is empty there and
+          # this can only ever be a seeding run via workflow_dispatch.
+          count=$(find e2e/visual.spec.ts-snapshots -name '*-linux.png' 2>/dev/null | wc -l | tr -d ' ')
+          echo "Committed Linux visual baselines: ${count:-0}"
+          if [ "$SEED" = "true" ]; then
+            echo "::notice::Q1 seeding run — regenerating Linux baselines (--update-snapshots). Gate forced non-blocking; download the visual-baselines-linux artifact and commit it."
+            echo "update=true" >> "$GITHUB_OUTPUT"
+            echo "blocking=false" >> "$GITHUB_OUTPUT"
+          elif [ "${count:-0}" -gt 0 ]; then
+            echo "Q1 visual gate: BLOCKING (${count} Linux baselines committed)."
+            echo "update=false" >> "$GITHUB_OUTPUT"
+            echo "blocking=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Q1 visual gate is NON-BLOCKING — no *-linux.png baselines are committed, so CI is NOT proving visual parity. Seed them by running this workflow with seed_visual_baselines=true (see docs/deploy/visual-regression.md)."
+            echo "update=false" >> "$GITHUB_OUTPUT"
+            echo "blocking=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Visual regression (Q1 — blocking once Linux baselines are committed)
         id: visual
-        continue-on-error: true
+        continue-on-error: ${{ steps.visual_mode.outputs.blocking != 'true' }}
         working-directory: e2e
         env:
           E2E_BASE_URL: http://127.0.0.1:8000
-        run: npx playwright test visual.spec.ts -c visual.config.ts
+          UPDATE: ${{ steps.visual_mode.outputs.update }}
+        run: |
+          if [ "$UPDATE" = "true" ]; then
+            npx playwright test visual.spec.ts -c visual.config.ts --update-snapshots
+          else
+            npx playwright test visual.spec.ts -c visual.config.ts
+          fi
+
+      - name: Upload generated Linux baselines (Q1 seeding run only)
+        if: always() && github.event.inputs.seed_visual_baselines == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines-linux
+          path: e2e/visual.spec.ts-snapshots/*-linux.png
+          retention-days: 7
+          # `warn`, not `ignore`: an empty seeding run means the seeding failed,
+          # and that must be visible rather than silently producing nothing.
+          if-no-files-found: warn
 
       - name: Upload visual diffs (Q1)
         if: always()

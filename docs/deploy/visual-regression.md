@@ -80,29 +80,61 @@ fonts and sub-pixel rasterization differ.
   a one-time CI run (Docker isn't available on the dev box, so they can't be
   generated locally).
 
-Because the linux baselines are missing, the CI visual step is **non-blocking**
-(`continue-on-error: true` in `.github/workflows/ci-cd.yml`, in the `e2e` job).
-It uploads diffs as the `visual-regression-results` artifact but CANNOT turn the
-e2e gate red. **CI is NOT proving visual parity yet** — it only proves the spec
-executes.
+### Current status (be precise about this)
 
-### One-time linux baseline seeding (owner/CI action)
+| thing | state |
+|-------|-------|
+| the 44-snapshot spec + pinned geometry | written, passes locally on darwin |
+| the CI wiring (self-arming gate + seeding path) | **configured** — present in `ci-cd.yml`, not yet exercised by a CI run |
+| committed `*-linux.png` baselines | **none (0 of 44)** |
+| the gate itself | **INERT** — it cannot fail today |
 
-This needs a push the repo owner controls (same pattern as the A1 CI-only
-proof). Steps:
+**CI is NOT proving visual parity.** It only proves the spec executes. A real
+visual regression today uploads a `visual-regression-results` artifact and the
+e2e job still goes green. Nothing here is production verified.
 
-1. In `.github/workflows/ci-cd.yml`, temporarily append `--update-snapshots` to
-   the **"Visual regression (Q1, …)"** step's run line:
-   ```yaml
-   run: npx playwright test visual.spec.ts -c visual.config.ts --update-snapshots
-   ```
-2. Push to a branch / main. The job generates `*-linux.png` baselines under
-   `e2e/visual.spec.ts-snapshots/`. Commit them back (download the artifact, or
-   add a commit step) so they live in the repo alongside the darwin set.
-3. Revert the `--update-snapshots` flag, and flip `continue-on-error: true` →
-   `false` on that step to make the visual gate **blocking**.
+### How the gate arms itself
 
-After step 3, a real visual regression on CI fails the e2e job.
+The step is no longer pinned `continue-on-error: true`. The `Decide
+visual-regression mode (Q1)` step counts the committed `*-linux.png` baselines
+and sets the gate accordingly:
+
+| committed `*-linux.png` | `continue-on-error` | effect |
+|---|---|---|
+| **0** (today) | `true` | non-blocking; logs a `::warning::` that parity is unproven |
+| **> 0** | `false` | **blocking** — a real visual regression fails the e2e job |
+
+So the gate goes live **in the same commit that adds the baselines** — there is
+no second workflow edit to remember, and no way to leave a `continue-on-error`
+pin behind by accident. It also fails safe: if the decide step is skipped, the
+gate stays non-blocking rather than turning CI red.
+
+### The one remaining owner step: seed the linux baselines
+
+Baselines are platform-specific and **cannot be generated on the macOS dev box**
+(no Docker there, and darwin rasterization wouldn't match Linux anyway), so this
+needs one CI run the owner triggers. No workflow edit is required.
+
+1. **Actions → CI/CD → Run workflow**, set **`seed_visual_baselines` = `true`**.
+   (This `workflow_dispatch` run cannot deploy: `deploy` is pinned to
+   `github.event_name == 'push'` on `main`, and `smoke-prod` needs `deploy`.)
+2. The `e2e` job runs the visual spec with `--update-snapshots` against the
+   compose-served app and uploads the generated files as the
+   **`visual-baselines-linux`** artifact. The seeding run is forced
+   non-blocking — it *defines* the baseline, so it has nothing to compare to.
+3. Download that artifact, unzip it into `e2e/visual.spec.ts-snapshots/`, and
+   commit the 44 `*-linux.png` files alongside the darwin set.
+
+On that commit the gate flips to **blocking** by itself, and from then on a real
+visual regression fails the e2e job. Until step 3 lands, treat a green e2e as
+saying nothing about visual parity.
+
+> **Reviewing the seeded baselines:** they are the definition of "correct", so
+> look at them before committing — `--update-snapshots` will happily bless a
+> regression that is already on the branch.
+>
+> **Never regenerate the linux set on macOS.** `--update-snapshots` locally
+> writes `*-darwin.png` only; it cannot refresh the linux baselines.
 
 ---
 
