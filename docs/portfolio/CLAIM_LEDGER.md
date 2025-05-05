@@ -50,6 +50,16 @@ by DiScammer.
 | PT-19 | `backend/templates/guide.html`, guide locale strings | Case-file labels, an “ACTIVE” status, “LAST_REVIEWED”, and investigator language could make a static educational page look like a current operational dossier. | `corrected` — guide pages show a stable guide reference, source count, catalogue date, educational pattern notes, and an editorial-scope footer. | The source catalogue date is a repository catalogue date, not a live-status timestamp or promise of ongoing review. The page states the limit next to its sources. | Wave 1 presentation lane |
 | PT-20 | `frontend/src/components/{MessageAnalyzer,LinkInspector,IncidentActionWizard}.tsx`, `backend/templates/{check,inspect}.html`, locale copy | A post-check action panel could be mistaken for incident reporting, case verification, recovery service, or a reason to submit sensitive details. | `corrected` — Waves 2–3 provide only local, educational next steps on both message and link checks. The guide never receives a pasted message or link, hostname, finding, or risk result; it does not file a report, verify an incident, recover funds, promise an outcome, or ask for passwords, card details, or recovery codes. | The interactive guide accepts only locale plus a fixed surface label, keeps selections in page memory, and has no network or storage API. Each SSR fallback gives the same bounded guidance when JavaScript or an island fails: stop interacting, use a trusted channel, protect an affected account or payment path, do not open a downloaded file, and involve someone trusted. Browser tests cover clean and flagged results, keyboard use, fallback restoration, and non-transmission of fixture text or links; EN/RU locale parity is audited. | Waves 2–3 incident-action lane |
 
+## Product decisions that leave a claim unchanged
+
+A declined or deferred feature is not a claim change. This section records such
+decisions so a later reader can see that the wording above was re-checked
+against them and deliberately left alone.
+
+| Date | Decision | Effect on this ledger |
+| --- | --- | --- |
+| 2026-07-15 | `FEATURE_PLAN.md` UX-6 — an opt-in, server-side LLM analysis of a pasted message — was **declined** by the owner, not deferred and not built. | **No claim changes, and no new claim.** PT-14 and PT-20 are recorded against a checker and inspector whose input is analyzed in the browser. Declining UX-6 means no server-side path for user message text is introduced, so both entries remain accurate exactly as written. Their wording is unchanged here — not weakened, not strengthened, and not extended into a broader privacy promise than PT-14 already permits. If an opt-in transmission feature is ever reconsidered, it requires a new ledger entry and corrected public wording **before** release, not a footnote to an existing claim. |
+
 ## Release checks for this ledger
 
 - [x] The final module, self-assessment, and local-record lesson use matching
