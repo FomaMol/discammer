@@ -70,17 +70,31 @@ log line), and logs only the **coarse shape** — the violated directive and the
 Ship in Report-Only (the default), bake for ~1 week, watch the `csp violation`
 log lines, then flip `CSP_REPORT_ONLY=0`.
 
-**Before enforcing, close these known gaps** (they will appear in Report-Only):
+**Status: the flip has not been performed.** It is an owner action against a
+deployed environment, and no dated external check of an enforcing header exists
+yet. The flip itself is a pure env change — no code edit — which
+`test_csp_enforce_mode_flips_to_enforcing_header`
+(`backend/tests/test_security_headers.py`, commit `42128ce`) locks in by
+asserting `CSP_REPORT_ONLY=0` emits the enforcing `Content-Security-Policy`
+header with the same policy body. That test is a repo check, not evidence that
+enforce mode is live.
 
-1. **Inline `onmouseover`/`onmouseout` handlers in `templates/home.html`**
-   (~10, decorative hover styling). With `script-src` nonce-only these are
-   reported and will be *blocked when enforced*. Convert them to CSS `:hover`
-   (Tailwind `hover:` utilities or a small rule) and rebuild the frontend. Until
-   then, enforcing would disable those hover effects (cosmetic only).
-2. **`style-src 'unsafe-inline'`** remains because the design uses many
-   `style="…"` attributes plus the inline `@font-face` block; inline style
-   *attributes* can't be nonce'd. Hardening (utility-only styling / hashed style
-   block) is future work — not a blocker for enforcing `script-src`.
+**Known gaps** (they appear in Report-Only):
+
+1. ~~**Inline `onmouseover`/`onmouseout` handlers in `templates/home.html`**~~ —
+   **closed** by commit `3993871` (2026-07-14). All 22 handler attributes on 11
+   elements (`home.html`: 10 elements × `onmouseover`+`onmouseout` = 20;
+   `post.html`: 1 element × 2) were converted to `.dcm-*` CSS
+   `:hover` rules (`frontend/src/styles/globals.css:542-562`, reduced-motion
+   variants at `603-606`) and the frontend was rebuilt. `grep -rn
+   "onmouseover\|onmouseout" backend/templates/` now returns zero matches, so
+   nonce-only `script-src` no longer costs those hover effects when enforced.
+   This gap is **not** a blocker for the flip.
+2. **`style-src 'unsafe-inline'`** — **still open.** It remains because the
+   design uses many `style="…"` attributes plus the inline `@font-face` block;
+   inline style *attributes* can't be nonce'd. Hardening (utility-only styling
+   / hashed style block) is future work — not a blocker for enforcing
+   `script-src`.
 
 ## `/play/` (Unity WebGL) is excluded from CSP
 

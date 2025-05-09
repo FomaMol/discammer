@@ -1,6 +1,6 @@
 # DiScammer - technical and portfolio overview
 
-**Last reconciled:** 2026-07-13
+**Last reconciled:** 2026-07-15 against revision `4682e35`
 **Primary audience:** contributors, reviewers, and university-portfolio readers
 **Project author:** Foma Molchanov
 **Public portfolio dossier:** `/en/portfolio` and `/ru/portfolio`
@@ -43,8 +43,12 @@ These limits are part of the product, not fine print:
   recurring human review. Legal rights, reporting, and recovery routes depend
   on the reader's jurisdiction.
 - "Local-first" does not mean that absolutely no operational data exists:
-  normal web access logging and a privacy-scrubbed, sampled client-error signal
-  are distinct from the checker input and local course record.
+  normal web access logging, a privacy-scrubbed, sampled client-error signal,
+  and an aggregate per-surface view counter are distinct from the checker input
+  and local course record. The view counter is keyed only by a coarse surface
+  name derived from the route template and the UI language, never by a slug,
+  path, query, address, or any reader content; the checker and inspector are
+  counted by surface name alone, and their text never leaves the browser.
 
 The active record of wording decisions is
 [`docs/portfolio/CLAIM_LEDGER.md`](docs/portfolio/CLAIM_LEDGER.md). It is an
@@ -59,7 +63,7 @@ primary source.
 | Guides | 10 authored English/Russian Markdown pairs and 12 linked official primary-source entries, each with authored EN/RU scope and source notes |
 | Journal | 8 interview, 8 newsletter, and 7 article English/Russian Markdown pairs |
 | Course | 9 modules; 55 lesson JSON pairs (EN/RU) |
-| Interactive tools | Local message checker and link inspector |
+| Interactive tools | Local message checker and link inspector, each with a loadable onboarding example; their island code is precached, so a page already visited still opens offline |
 | Learning record | Browser-local progress, self-assessment result, and printable personal record |
 | Game | A separately served Unity WebGL build at `/play/` |
 
@@ -76,10 +80,18 @@ small interactive islands. `backend/main.py` mounts `/static`, creates the
 Jinja environment, and includes four routers:
 
 - `routers/pages.py` - localized SSR pages and compatibility redirects;
-- `routers/api.py` - JSON data, health, search, metrics, and client-error
-  endpoints under `/api`;
+- `routers/api.py` - JSON content, health, search, and the versioned
+  threat-rules feed under `/api`;
 - `routers/game.py` - the Unity WebGL build under `/play/`;
-- `routers/seo.py` - robots, sitemap, RSS feed, and web manifest.
+- `routers/seo.py` - robots, sitemap, RSS feed, web manifest, the root-scope
+  service worker at `/sw.js`, and the IndexNow key file.
+
+The operational `/api` endpoints are registered directly on the application in
+`backend/main.py` rather than in `routers/api.py`: a Prometheus exposition at
+`/api/metrics` gated by bearer token or loopback, the client-error beacon at
+`/api/client-errors`, and the CSP report sink at `/api/csp-report`. The
+threat-rules feed is data only - it ships host and TLD lists to the in-browser
+engines and never receives a reader's message or URL.
 
 Root and legacy paths redirect to a language-prefixed page. The normal product
 surface is `/en/...` or `/ru/...`, including home, journal, guides, course
@@ -104,6 +116,24 @@ these assets.
 `backend/static/` is a committed build artifact. After frontend source or
 template class changes, run the frontend build and include the updated static
 assets and manifest in the same change.
+
+### Service worker and offline behavior
+
+`frontend/sw-src.js` is a template; `frontend/vite-plugin-sw.ts` substitutes the
+version, precache list, and offline URL at build time and writes
+`backend/static/sw.js`. Do not edit the generated file. The worker precaches the
+app shell, self-hosted fonts, brand icons, the checker and inspector island
+chunks, and a JavaScript-free `offline.html`.
+
+Its caching rules are deliberate. Documents and navigations are network-first:
+an online reader always gets the fresh document, and a cached copy is served
+only when the network fails, falling back to `offline.html` for a page never
+visited. Content-hashed bundles, fonts, and brand icons are cache-first. `/api/`
+requests, `/sw.js`, and the `/play/` game bundle are never intercepted, so no
+API or threat-rules response is ever served stale. Cache names carry a
+content-derived version, and every cache outside the current allowlist is purged
+on activate. Preserve this anti-stale contract: a stale document must never be
+pinned.
 
 ### Content and storage
 
@@ -145,10 +175,10 @@ migration and early-design record. It is not an active specification.
 
 ### What the repository verifies
 
-The repository contains 21 backend pytest modules, 5 frontend Vitest files,
-and 21 Playwright E2E specifications. CI also type-checks and builds the
-frontend, checks committed static assets, runs dependency audits, and builds a
-Docker image. The E2E workflow exercises the composed application and includes
+The repository contains 27 backend pytest modules, 9 frontend Vitest files, and
+22 Playwright E2E specifications. CI also type-checks and builds the frontend,
+checks committed static assets, runs dependency audits, and builds a Docker
+image. The E2E workflow exercises the composed application and includes
 accessibility and visual/performance checks described in the test tooling.
 
 Useful local checks:
@@ -158,6 +188,14 @@ pytest -q
 (cd frontend && npm test && npm run build)
 python3 scripts/i18n_audit.py
 ```
+
+On 2026-07-15, at revision `4682e35`, these commands were `locally verified` in
+the sense defined below: `pytest -q` reported 157 passed, `npm test` reported
+139 tests passing across 9 files, and `scripts/i18n_audit.py` exited cleanly
+with no dead keys, no missing references, and EN/RU parity. Those are local
+results on one machine. They are not a staging or production check, and nothing
+on this revision is deployed. The Playwright E2E suite is run by CI against the
+composed application and was not part of this local reconciliation.
 
 For a fresh local test environment, install `pytest` and `httpx` alongside the
 runtime requirements:
