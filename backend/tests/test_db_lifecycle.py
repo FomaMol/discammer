@@ -6,6 +6,12 @@ connection per request even when a route fans out across several CRUD helpers
 
 A4 verifies the ``fcntl.flock`` guard in ``seed_database`` lets two concurrent
 seeds serialize without corruption and leaves the content tables populated.
+
+UX-4 adds the ``sync_blob`` survival invariant: the project has two destructive
+startup paths, both hardcoded allowlists over the four derived CONTENT tables,
+and ``sync_blob`` is protected only by its ABSENCE from them. Absence is not
+self-documenting and a future refactor can undo it silently, so both paths are
+pinned by a test rather than by a comment.
 """
 from __future__ import annotations
 
@@ -127,3 +133,84 @@ def test_seed_on_startup_off_skips_wipe(temp_seed_db, monkeypatch):
     asyncio.run(seed_data.seed_database())
 
     assert _count(config.DATABASE_PATH, "course_module") == seeded
+
+
+# ---------------------------------------------------------------------------
+# UX-4 — sync_blob survives both destructive startup paths
+# ---------------------------------------------------------------------------
+
+_BLOB_ID = "a" * 64
+_CIPHERTEXT = b"opaque-ciphertext"
+
+
+def _insert_blob(db_path, blob_id: str = _BLOB_ID) -> None:
+    """Write a sync blob with the sync module absent — this is a schema test."""
+    conn = sqlite3.connect(db_path)
+    try:
+        conn.execute(
+            "INSERT OR REPLACE INTO sync_blob"
+            " (blob_id, ciphertext, updated_at, last_seen_at) VALUES (?, ?, ?, ?)",
+            (blob_id, _CIPHERTEXT, "2026-07-15T00:00:00+00:00", "2026-07-15T00:00:00+00:00"),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _fetch_blob(db_path, blob_id: str = _BLOB_ID):
+    conn = sqlite3.connect(db_path)
+    try:
+        return conn.execute(
+            "SELECT ciphertext FROM sync_blob WHERE blob_id = ?", (blob_id,)
+        ).fetchone()
+    finally:
+        conn.close()
+
+
+def test_reseed_does_not_touch_sync_blob(temp_seed_db):
+    """UX-4 invariant: sync_blob holds durable USER state, so the startup
+    wipe+reseed of derived content tables must never touch it. This is the
+    promise seed_database()'s own docstring already makes; this test is what
+    makes it real rather than aspirational."""
+    _insert_blob(config.DATABASE_PATH)
+
+    asyncio.run(seed_data.seed_database())
+
+    # Guard the guard: if the seed silently no-opped, a surviving blob would
+    # prove nothing. Assert the wipe+reseed actually ran.
+    assert _count(config.DATABASE_PATH, "course_module") > 0
+
+    row = _fetch_blob(config.DATABASE_PATH)
+    assert row is not None, "reseed wiped user state — the seed DELETE allowlist leaked"
+    assert row[0] == _CIPHERTEXT
+
+
+def test_column_drift_drop_does_not_touch_sync_blob(temp_seed_db):
+    """The other destructive path: init_db DROPs a content table whose columns
+    drifted from the schema. That strategy is only safe because those tables are
+    rebuilt from seed; for user state it would be data loss. sync_blob must stay
+    out of the loop's tuple, so drift on a content table must not reach it."""
+    _insert_blob(config.DATABASE_PATH)
+
+    # Force real drift: rebuild `post` missing the required columns so the
+    # drop-loop actually fires. Without this the test would pass vacuously.
+    conn = sqlite3.connect(config.DATABASE_PATH)
+    try:
+        conn.execute("DROP TABLE post")
+        conn.execute("CREATE TABLE post (id INTEGER PRIMARY KEY, slug TEXT)")
+        conn.commit()
+    finally:
+        conn.close()
+
+    asyncio.run(database.init_db())
+
+    conn = sqlite3.connect(config.DATABASE_PATH)
+    try:
+        post_cols = {row[1] for row in conn.execute("PRAGMA table_info(post)")}
+    finally:
+        conn.close()
+    assert "title" in post_cols, "drift path did not fire — the test proved nothing"
+
+    row = _fetch_blob(config.DATABASE_PATH)
+    assert row is not None, "drift DROP reached sync_blob — user state is not drop-safe"
+    assert row[0] == _CIPHERTEXT

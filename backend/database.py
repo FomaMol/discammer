@@ -72,11 +72,37 @@ CREATE TABLE IF NOT EXISTS lesson (
     est_minutes INTEGER DEFAULT 5,
     UNIQUE(module_slug, slug, locale)
 );
+
+-- UX-4 · the project's first table of durable USER state, and therefore the
+-- first one for which the "drop and reseed" schema strategy used above is
+-- data loss rather than a refresh.
+--
+-- It is deliberately absent from BOTH destructive paths:
+--   * seed_database()'s DELETE list (seed_data.py), and
+--   * init_db()'s column-drift DROP loop below.
+-- Both are hardcoded allowlists over the four derived CONTENT tables, so this
+-- table is protected by staying OUT of them — an invariant pinned by
+-- tests/test_db_lifecycle.py because absence documents nothing on its own.
+-- Never add it to _*_REQUIRED_COLS: that path DROPs on drift and would destroy
+-- user progress. Evolving this schema needs a real migration decision instead.
+--
+-- Contents are AES-GCM ciphertext encrypted by the client under a key derived
+-- from a secret that never leaves the browser; the server cannot read them.
+CREATE TABLE IF NOT EXISTS sync_blob (
+    blob_id TEXT PRIMARY KEY,
+    ciphertext BLOB NOT NULL,
+    updated_at TEXT NOT NULL,
+    last_seen_at TEXT NOT NULL
+);
+
+-- Supports the TTL sweep's `WHERE last_seen_at < ?` scan.
+CREATE INDEX IF NOT EXISTS idx_sync_blob_last_seen ON sync_blob (last_seen_at);
 """
 
 # Columns each table must carry — ``init_db`` drops + recreates a content
 # table if the live DB is missing any of them. Safe because all four tables are
-# rebuilt from seed on every startup.
+# rebuilt from seed on every startup. ``sync_blob`` is USER state, is rebuilt
+# from nothing, and MUST NOT be given an entry here — see its schema comment.
 _POST_REQUIRED_COLS = {
     "slug",
     "locale",
