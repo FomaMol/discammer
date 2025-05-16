@@ -12,6 +12,18 @@ startup paths, both hardcoded allowlists over the four derived CONTENT tables,
 and ``sync_blob`` is protected only by its ABSENCE from them. Absence is not
 self-documenting and a future refactor can undo it silently, so both paths are
 pinned by a test rather than by a comment.
+
+The two paths need different techniques, and the difference is the whole point:
+
+* The seed wipe is pinned BEHAVIOURALLY. ``DELETE FROM`` over the content tables
+  runs on every startup, so putting sync_blob on that list destroys the blob on
+  the very next boot — a test that reseeds and re-reads the blob catches it.
+* The drift DROP is pinned STRUCTURALLY, by reading ``_DRIFT_CHECKED_TABLES``.
+  It cannot be pinned behaviourally: drifting a content table drops that table
+  and no other, so sync_blob survives that experiment whether or not it is on
+  the list. Adding it there is inert today and only fires later, on the next
+  sync_blob schema change. A behavioural test would sit green through the entire
+  window in which the mistake was still cheap to fix.
 """
 from __future__ import annotations
 
@@ -185,11 +197,71 @@ def test_reseed_does_not_touch_sync_blob(temp_seed_db):
     assert row[0] == _CIPHERTEXT
 
 
+def test_sync_blob_is_not_a_drift_checked_table():
+    """The invariant the drift path actually turns on: membership in the loop's
+    table list.
+
+    This is a structural assertion on purpose. No end-to-end drift test can pin
+    this invariant, because drifting a CONTENT table can never reach sync_blob —
+    SQLite drops the table you name and no other, so `DROP TABLE post` leaves
+    sync_blob standing whether or not sync_blob is in the loop. The dangerous
+    mutation (adding sync_blob with the columns it really has) is a NO-OP today
+    and only detonates later, when someone adds a column to sync_blob's schema
+    and the live DB's older column set fails `issubset` — DROP TABLE sync_blob,
+    every user's progress gone, suite green the whole way. Reading the list is
+    the only thing that catches that while it is still harmless.
+    """
+    checked = {name for name, _ in database._DRIFT_CHECKED_TABLES}
+    assert "sync_blob" not in checked, (
+        "sync_blob entered init_db's drift-DROP loop. It is durable USER state "
+        "rebuilt from nothing; the next column added to its schema would DROP "
+        "the table and destroy every linked user's progress. Schema changes here "
+        "need a migration, not the content tables' drop-and-reseed strategy."
+    )
+
+
+def test_drift_checked_tables_is_init_db_s_live_control_surface(temp_seed_db, monkeypatch):
+    """Guard the guard: the structural test above is worth exactly nothing if
+    init_db stops reading _DRIFT_CHECKED_TABLES (say, a refactor re-inlines the
+    tuple and leaves the constant behind as decoration). Empty the constant and
+    the drift it would otherwise repair must survive — proving the constant
+    drives the loop rather than describing it.
+    """
+    conn = sqlite3.connect(config.DATABASE_PATH)
+    try:
+        conn.execute("DROP TABLE post")
+        conn.execute("CREATE TABLE post (id INTEGER PRIMARY KEY, slug TEXT)")
+        conn.commit()
+    finally:
+        conn.close()
+
+    monkeypatch.setattr(database, "_DRIFT_CHECKED_TABLES", ())
+    asyncio.run(database.init_db())
+
+    conn = sqlite3.connect(config.DATABASE_PATH)
+    try:
+        post_cols = {row[1] for row in conn.execute("PRAGMA table_info(post)")}
+    finally:
+        conn.close()
+    assert "title" not in post_cols, (
+        "init_db repaired drift with an EMPTY _DRIFT_CHECKED_TABLES, so it reads "
+        "some other list — asserting on that constant proves nothing about what "
+        "the drop loop will actually touch"
+    )
+
+
 def test_column_drift_drop_does_not_touch_sync_blob(temp_seed_db):
-    """The other destructive path: init_db DROPs a content table whose columns
-    drifted from the schema. That strategy is only safe because those tables are
-    rebuilt from seed; for user state it would be data loss. sync_blob must stay
-    out of the loop's tuple, so drift on a content table must not reach it."""
+    """End-to-end companion to the structural test above: with the real table
+    list, drift on a content table fires the DROP path and sync_blob comes
+    through intact.
+
+    Deliberately modest about what this proves. SQLite would leave sync_blob
+    standing here even if sync_blob WERE in the loop, so this cannot pin the
+    exclusion — test_sync_blob_is_not_a_drift_checked_table does that. What this
+    adds is that the drift path really runs (see the `title` guard) and that a
+    blob survives a real init_db repair rather than, say, an executescript that
+    recreates the world.
+    """
     _insert_blob(config.DATABASE_PATH)
 
     # Force real drift: rebuild `post` missing the required columns so the

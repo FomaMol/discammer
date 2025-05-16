@@ -102,7 +102,9 @@ CREATE INDEX IF NOT EXISTS idx_sync_blob_last_seen ON sync_blob (last_seen_at);
 # Columns each table must carry — ``init_db`` drops + recreates a content
 # table if the live DB is missing any of them. Safe because all four tables are
 # rebuilt from seed on every startup. ``sync_blob`` is USER state, is rebuilt
-# from nothing, and MUST NOT be given an entry here — see its schema comment.
+# from nothing, and MUST NOT be wired into the drop loop: define no
+# ``_SYNC_BLOB_REQUIRED_COLS`` and add no entry to ``_DRIFT_CHECKED_TABLES``
+# below, which is where that mistake would actually take effect.
 _POST_REQUIRED_COLS = {
     "slug",
     "locale",
@@ -144,6 +146,23 @@ _LESSON_REQUIRED_COLS = {
     "widget_config_json",
     "est_minutes",
 }
+
+# The drift-DROP loop's table list, hoisted out of ``init_db`` so the exclusion
+# below is assertable rather than merely stated.
+#
+# EVERY table named here is one ``init_db`` may DROP without warning. That is
+# only acceptable for the four derived CONTENT tables, which the startup reseed
+# rebuilds in full. ``sync_blob`` is durable USER state rebuilt from nothing:
+# adding it here is a no-op the day you do it and data loss the day someone next
+# touches its schema, which is precisely why
+# tests/test_db_lifecycle.py::test_sync_blob_is_not_a_drift_checked_table reads
+# this list instead of waiting for a drift test to notice.
+_DRIFT_CHECKED_TABLES = (
+    ("post", _POST_REQUIRED_COLS),
+    ("scam_guide", _SCAM_GUIDE_REQUIRED_COLS),
+    ("course_module", _COURSE_MODULE_REQUIRED_COLS),
+    ("lesson", _LESSON_REQUIRED_COLS),
+)
 
 
 async def _apply_pragmas(conn) -> None:
@@ -194,12 +213,7 @@ async def init_db() -> None:
         fcntl.flock(lock_fd.fileno(), fcntl.LOCK_EX)
         async with aiosqlite.connect(config.DATABASE_PATH) as db:
             await _apply_pragmas(db)
-            for table, required in (
-                ("post", _POST_REQUIRED_COLS),
-                ("scam_guide", _SCAM_GUIDE_REQUIRED_COLS),
-                ("course_module", _COURSE_MODULE_REQUIRED_COLS),
-                ("lesson", _LESSON_REQUIRED_COLS),
-            ):
+            for table, required in _DRIFT_CHECKED_TABLES:
                 cursor = await db.execute(f"PRAGMA table_info({table})")
                 existing_cols = {row[1] for row in await cursor.fetchall()}
                 if existing_cols and not required.issubset(existing_cols):
