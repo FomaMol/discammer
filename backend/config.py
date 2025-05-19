@@ -134,6 +134,30 @@ API_RATE_LIMIT = _env_int("API_RATE_LIMIT", 240)
 # burst from a single broken page load, so this is generous but bounded.
 CSP_REPORT_RATE_LIMIT = _env_int("CSP_REPORT_RATE_LIMIT", 60)
 
+# ---------------------------------------------------------------------------
+# UX-4 — course progress sync (POST /api/sync/{push,pull,delete})
+# ---------------------------------------------------------------------------
+
+# Per-IP ceiling (requests/minute) for the sync endpoints. These are the app's
+# only write path, so they get a stricter bucket than the 240/min general read
+# budget: 20/min is far above a real user (auto-push is debounced client-side)
+# and far below anything useful for hammering the store. NB: rate limiting does
+# NOT protect the blob's contents — a blob is fetched once and attacked offline.
+# The code's 128 bits of entropy is what protects it; this bucket only protects
+# the server's disk and CPU.
+SYNC_RATE_LIMIT = _env_int("SYNC_RATE_LIMIT", 20)
+
+# Hard cap (bytes) on the encrypted blob request body, enforced before parsing.
+# A Dossier is a few KB (9 modules of lessons + exam + cert name + guide
+# checklists), so 64 KB is headroom rather than a limit users can reach.
+SYNC_MAX_BODY = _env_int("SYNC_MAX_BODY", 65536)
+
+# Blobs untouched for this long are swept (owner decision 2026-07-15). Without an
+# email we cannot know a code is abandoned, so an unused blob must age out on its
+# own. Every push and pull refreshes last_seen_at, so an active user never loses
+# anything. Consumed by the sweep added in the next task.
+SYNC_BLOB_TTL_DAYS = _env_int("SYNC_BLOB_TTL_DAYS", 365)
+
 
 # ---------------------------------------------------------------------------
 # Logging configuration

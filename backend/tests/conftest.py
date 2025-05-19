@@ -43,10 +43,19 @@ def _reset_rate_limiters():
     """Isolate the in-memory per-IP limiters between tests so the general
     /api/* limiter (and the CSP-report sink) can't bleed accumulated counts from
     one test into another — the TestClient reuses 'testclient' as the peer IP.
-    The client-error beacon limiter has its own reset in test_client_errors."""
+    The client-error beacon limiter has its own reset in test_client_errors.
+
+    ``_sync_limiter`` (UX-4) must be here too: the ``client`` fixture is
+    session-scoped, so without a reset a sync test that deliberately floods to
+    429 would leave the bucket empty and 429 the next test's first push."""
     import main
 
-    for name in ("_api_limiter", "_csp_report_limiter", "_client_error_limiter"):
+    for name in (
+        "_api_limiter",
+        "_csp_report_limiter",
+        "_client_error_limiter",
+        "_sync_limiter",
+    ):
         lim = getattr(main, name, None)
         if lim is not None:
             lim.clear()

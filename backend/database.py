@@ -581,6 +581,92 @@ async def search_content(
     return [dict(row) for row in rows]
 
 
+# ---------------------------------------------------------------------------
+# UX-4 — sync blob store
+#
+# The one place the project writes durable USER state. Every function here treats
+# ``ciphertext`` as bytes it may not interpret: nothing below decodes, parses,
+# validates the shape of, or derives anything from it. That is not fastidiousness
+# — the server holds no key and must never grow a code path that looks like it
+# could. The blob is AES-GCM output produced in the browser under a key derived
+# from a secret the server never receives.
+#
+# These open their own short-lived connections rather than taking the ``conn``
+# request dependency: the endpoints live in main.py (next to the other two POST
+# sinks) and are not wired through the ``get_conn`` router plumbing.
+# ---------------------------------------------------------------------------
+
+def _utc_now_iso() -> str:
+    """Timestamp for the blob's lease.
+
+    Fixed-width ISO-8601 in UTC, which is what lets the TTL sweep compare
+    ``last_seen_at`` as a STRING: with a constant offset and constant field
+    widths, lexicographic order is chronological order. Every writer of these two
+    columns must go through this function or that property silently breaks.
+    """
+    from datetime import datetime, timezone
+
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+async def sync_put(blob_id: str, ciphertext: bytes) -> None:
+    """Upsert an opaque client-encrypted blob. We never inspect ``ciphertext``.
+
+    Upsert rather than insert-or-fail: a push is "make the server's copy match
+    mine", and the client has no notion of whether a blob already exists.
+    """
+    now = _utc_now_iso()
+    async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        await _apply_pragmas(db)
+        await db.execute(
+            "INSERT INTO sync_blob (blob_id, ciphertext, updated_at, last_seen_at)"
+            " VALUES (?, ?, ?, ?)"
+            " ON CONFLICT(blob_id) DO UPDATE SET"
+            "   ciphertext = excluded.ciphertext,"
+            "   updated_at = excluded.updated_at,"
+            "   last_seen_at = excluded.last_seen_at",
+            (blob_id, ciphertext, now, now),
+        )
+        await db.commit()
+
+
+async def sync_get(blob_id: str) -> Optional[tuple[bytes, str]]:
+    """Fetch a blob and refresh its TTL lease. Returns ``(ciphertext, updated_at)``.
+
+    A read extends ``last_seen_at`` so an active user's blob never ages out, while
+    ``updated_at`` — which the client uses to reason about staleness — is only
+    moved by an actual write.
+    """
+    async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        await _apply_pragmas(db)
+        cursor = await db.execute(
+            "SELECT ciphertext, updated_at FROM sync_blob WHERE blob_id = ?",
+            (blob_id,),
+        )
+        row = await cursor.fetchone()
+        if row is None:
+            return None
+        await db.execute(
+            "UPDATE sync_blob SET last_seen_at = ? WHERE blob_id = ?",
+            (_utc_now_iso(), blob_id),
+        )
+        await db.commit()
+        return row[0], row[1]
+
+
+async def sync_delete(blob_id: str) -> None:
+    """Erase a blob. Idempotent — deleting an absent id is a no-op success.
+
+    Idempotence is a user-facing property, not an implementation detail: erasing
+    is the one operation a person retries when they are anxious, and the second
+    attempt must not look like a failure.
+    """
+    async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        await _apply_pragmas(db)
+        await db.execute("DELETE FROM sync_blob WHERE blob_id = ?", (blob_id,))
+        await db.commit()
+
+
 async def get_related_guides(
     conn=None, exclude_slug: str = "", limit: int = 9, locale: str = "en"
 ) -> List[Dict]:

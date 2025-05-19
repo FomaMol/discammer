@@ -15,10 +15,12 @@ from config import (
     METRICS_TOKEN,
     SITE_ORIGIN,
     STATIC_DIR,
+    SYNC_MAX_BODY,
+    SYNC_RATE_LIMIT,
     TEMPLATES_DIR,
     configure_logging,
 )
-from database import init_db
+from database import init_db, sync_delete, sync_get, sync_put
 from ratelimit import RateLimiter
 from security import apply_security_headers, generate_nonce
 from seed_data import seed_database
@@ -107,9 +109,22 @@ _METRICS_PATH = "/api/metrics"
 # separately), and the beacon/CSP sinks which have their own stricter buckets.
 _api_limiter = RateLimiter(API_RATE_LIMIT)
 _csp_report_limiter = RateLimiter(CSP_REPORT_RATE_LIMIT)
-# Paths under /api/ the general limiter must NOT touch.
+# UX-4: sync gets its own, stricter bucket — it is the app's only write path, and
+# a write to disk deserves a tighter budget than a read from cache.
+_sync_limiter = RateLimiter(SYNC_RATE_LIMIT)
+# Paths under /api/ the general limiter must NOT touch: they either must never be
+# throttled (health), are gated separately (metrics), or carry their own stricter
+# bucket and would otherwise be counted twice.
 _API_RATE_LIMIT_EXEMPT = frozenset(
-    {"/api/health", "/api/metrics", "/api/client-errors", "/api/csp-report"}
+    {
+        "/api/health",
+        "/api/metrics",
+        "/api/client-errors",
+        "/api/csp-report",
+        "/api/sync/push",
+        "/api/sync/pull",
+        "/api/sync/delete",
+    }
 )
 
 
@@ -938,3 +953,151 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     if not path.startswith("/api/") and not path.startswith("/play/"):
         return _render_404(request)
     return JSONResponse(status_code=422, content={"detail": exc.errors()})
+
+
+# ---------------------------------------------------------------------------
+# UX-4 — course progress sync (POST /api/sync/{push,pull,delete})
+#
+# Privacy model: the client derives blob_id and enc_key from one 128-bit secret
+# via HKDF and only blob_id ever reaches us. The blob is AES-GCM ciphertext we
+# hold no key for. Nothing in this section may interpret it — the base64 decode
+# below is a transport concern (JSON has no byte type), and the bytes it yields
+# go straight to storage unread.
+#
+# Design notes, each load-bearing:
+#   * blob_id travels in the BODY, never the URL. A path would land it in nginx
+#     access logs, and blob_id grants read+delete on the blob. This also happens
+#     to be why these are POSTs rather than a RESTful GET/DELETE pair.
+#   * Body-size-capped BEFORE parsing, the same two-layer guard as the beacon
+#     above (Content-Length early-out + streaming cap).
+#   * Own per-IP bucket, stricter than the general read limiter, and exempted
+#     from that limiter so a push is not billed twice.
+#   * delete exists so a user can actually erase their data, not merely stop
+#     sending it.
+# ---------------------------------------------------------------------------
+
+import base64 as _b64  # noqa: E402
+import json as _json_mod  # noqa: E402
+
+# Strict canonical form: exactly 64 lowercase hex characters, the hex encoding of
+# HKDF's 32-byte 'id' output. fullmatch, not match: `$` also matches BEFORE a
+# trailing newline, so `^[0-9a-f]{64}$` would admit "aaa...a\n" as a distinct id
+# for the same blob.
+_SYNC_BLOB_ID_RE = _re.compile(r"[0-9a-f]{64}")
+
+
+async def _read_capped_sync_body(request: "Request") -> bytes | None:
+    """Read the body, never buffering past SYNC_MAX_BODY. None => too large.
+
+    Content-Length is a cheap early-out but only a hint (it can be spoofed small
+    or absent under chunked encoding), so the streaming read is capped too.
+    """
+    content_length = request.headers.get("content-length")
+    if content_length is not None:
+        try:
+            if int(content_length) > SYNC_MAX_BODY:
+                return None
+        except ValueError:
+            return None
+    body = bytearray()
+    async for chunk in request.stream():
+        body.extend(chunk)
+        if len(body) > SYNC_MAX_BODY:
+            return None
+    return bytes(body)
+
+
+def _sync_blob_id(payload) -> str | None:
+    """Extract a well-formed blob_id, or None. Validated before any DB contact."""
+    if not isinstance(payload, dict):
+        return None
+    blob_id = payload.get("blob_id")
+    if isinstance(blob_id, str) and _SYNC_BLOB_ID_RE.fullmatch(blob_id):
+        return blob_id
+    return None
+
+
+async def _sync_request(request: "Request") -> tuple[str, dict] | _Response:
+    """Shared prologue for all three endpoints: cap, throttle, parse, validate.
+
+    Returns ``(blob_id, payload)`` or the error Response to send back. The order
+    is deliberate and identical to the beacon's: size before parse (never
+    allocate for a body we will reject), throttle before work.
+    """
+    body = await _read_capped_sync_body(request)
+    if body is None:
+        return _Response(status_code=413)
+    if not _sync_limiter.allow(_client_ip(request)):
+        return _Response(status_code=429, headers={"Retry-After": "60"})
+    try:
+        payload = _json_mod.loads(body)
+    except ValueError:
+        return _Response(status_code=400)
+    blob_id = _sync_blob_id(payload)
+    if blob_id is None:
+        return _Response(status_code=400)
+    return blob_id, payload
+
+
+async def _sync_sweep_if_due() -> None:
+    """Placeholder — the interval-gated TTL sweep lands in the next task.
+
+    Present so the push path already has its call site: the sweep's trigger is a
+    property of when pushes happen, and wiring it in later is a smaller change
+    than inventing the call site later too.
+    """
+    return None
+
+
+@app.post("/api/sync/push", include_in_schema=False)
+async def sync_push(request: Request):
+    prepared = await _sync_request(request)
+    if isinstance(prepared, _Response):
+        return prepared
+    blob_id, payload = prepared
+
+    blob = payload.get("blob")
+    if not isinstance(blob, str) or not blob:
+        return _Response(status_code=400)
+    try:
+        # validate=True so a blob with junk outside the base64 alphabet is a 400
+        # rather than being silently truncated into a blob that can never decrypt.
+        ciphertext = _b64.b64decode(blob, validate=True)
+    except (ValueError, _b64.binascii.Error):
+        return _Response(status_code=400)
+    if not ciphertext:
+        return _Response(status_code=400)
+
+    await sync_put(blob_id, ciphertext)
+    await _sync_sweep_if_due()
+    return _Response(status_code=204)
+
+
+@app.post("/api/sync/pull", include_in_schema=False)
+async def sync_pull(request: Request):
+    prepared = await _sync_request(request)
+    if isinstance(prepared, _Response):
+        return prepared
+    blob_id, _payload = prepared
+
+    found = await sync_get(blob_id)
+    if found is None:
+        return _Response(status_code=404)
+    ciphertext, updated_at = found
+    # no-store: this is user data, and an intermediary caching it would hand the
+    # blob to whoever shares that cache.
+    return JSONResponse(
+        {"blob": _b64.b64encode(ciphertext).decode(), "updated_at": updated_at},
+        headers={"Cache-Control": "no-store"},
+    )
+
+
+@app.post("/api/sync/delete", include_in_schema=False)
+async def sync_delete_endpoint(request: Request):
+    prepared = await _sync_request(request)
+    if isinstance(prepared, _Response):
+        return prepared
+    blob_id, _payload = prepared
+
+    await sync_delete(blob_id)
+    return _Response(status_code=204)
