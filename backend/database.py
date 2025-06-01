@@ -667,6 +667,36 @@ async def sync_delete(blob_id: str) -> None:
         await db.commit()
 
 
+async def sync_sweep(ttl_days: int) -> int:
+    """Delete blobs untouched for ``ttl_days``. Returns the number removed.
+
+    Data minimisation with no account to hang it on: holding no email and no
+    plaintext is exactly what leaves the server unable to tell an abandoned blob
+    from a dormant one, so an unused blob has to age out on its own rather than
+    live forever on a 2 GB VPS. The lease renews on every push and pull, so the
+    only blobs this can reach are ones nobody has opened for a year.
+
+    The string comparison on ``last_seen_at`` is correct, not a shortcut: every
+    writer goes through ``_utc_now_iso()``, so the column holds fixed-width
+    ISO-8601 at a constant UTC offset, and lexicographic order is chronological
+    order. Backdated rows planted by tests use the same shape for that reason.
+
+    Uses the index ``idx_sync_blob_last_seen`` created alongside the table.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=ttl_days)).isoformat(
+        timespec="seconds"
+    )
+    async with aiosqlite.connect(config.DATABASE_PATH) as db:
+        await _apply_pragmas(db)
+        cursor = await db.execute(
+            "DELETE FROM sync_blob WHERE last_seen_at < ?", (cutoff,)
+        )
+        await db.commit()
+        return cursor.rowcount or 0
+
+
 async def get_related_guides(
     conn=None, exclude_slug: str = "", limit: int = 9, locale: str = "en"
 ) -> List[Dict]:

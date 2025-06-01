@@ -15,12 +15,13 @@ from config import (
     METRICS_TOKEN,
     SITE_ORIGIN,
     STATIC_DIR,
+    SYNC_BLOB_TTL_DAYS,
     SYNC_MAX_BODY,
     SYNC_RATE_LIMIT,
     TEMPLATES_DIR,
     configure_logging,
 )
-from database import init_db, sync_delete, sync_get, sync_put
+from database import init_db, sync_delete, sync_get, sync_put, sync_sweep
 from ratelimit import RateLimiter
 from security import apply_security_headers, generate_nonce
 from seed_data import seed_database
@@ -50,6 +51,10 @@ async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle hook."""
     await init_db()
     await seed_database()
+    # UX-4: age out abandoned sync blobs. Cheap, and already serialized across
+    # workers by init_db's flock having run first. Goes through the same gate as
+    # the push path so the two triggers cannot sweep twice over one interval.
+    await _sync_sweep_if_due()
     yield
 
 
@@ -1039,14 +1044,36 @@ async def _sync_request(request: "Request") -> tuple[str, dict] | _Response:
     return blob_id, payload
 
 
-async def _sync_sweep_if_due() -> None:
-    """Placeholder — the interval-gated TTL sweep lands in the next task.
+# Sweep at most once a day. Neither obvious trigger works alone: startup only is
+# too rare for a process that stays up for months, and per-push is write
+# amplification against the one table holding user data. The gate makes the push
+# path the clock without paying for it on every write.
+_SYNC_SWEEP_INTERVAL_SEC = 86400.0
 
-    Present so the push path already has its call site: the sweep's trigger is a
-    property of when pushes happen, and wiring it in later is a smaller change
-    than inventing the call site later too.
+# None means "not swept in this process yet", which is NOT the same as 0.0.
+# time.monotonic()'s reference point is undefined by contract, so a 0.0 sentinel
+# would silently mean "swept a very long time ago" on platforms that count from
+# boot and "swept just now" on any that count from process start — the first
+# sweep would then depend on the platform. None says what is meant.
+_sync_last_sweep: float | None = None
+
+
+async def _sync_sweep_if_due() -> None:
+    """Run the TTL sweep if the interval has elapsed. Cheap no-op otherwise.
+
+    Called from the push path and from startup, so it is the single place the
+    sweep can fire; startup going through the same gate is what stops the first
+    push of a fresh process from re-sweeping seconds after boot.
     """
-    return None
+    global _sync_last_sweep
+    now = time.monotonic()
+    if (
+        _sync_last_sweep is not None
+        and now - _sync_last_sweep < _SYNC_SWEEP_INTERVAL_SEC
+    ):
+        return
+    _sync_last_sweep = now
+    await sync_sweep(SYNC_BLOB_TTL_DAYS)
 
 
 @app.post("/api/sync/push", include_in_schema=False)
