@@ -1096,7 +1096,16 @@ async def sync_push(request: Request):
         return _Response(status_code=400)
 
     await sync_put(blob_id, ciphertext)
-    await _sync_sweep_if_due()
+    # The blob is committed by now, so the user's write has already succeeded and
+    # nothing the sweep does can change that. Housekeeping rides along on this
+    # path only because a long-lived process needs some clock; it is not part of
+    # the push, and it must not be able to fail one. A 'database is locked' after
+    # the busy_timeout would otherwise report a stored blob as an error, which the
+    # client maps to 'error' — the worst kind of wrong: alarming and false.
+    try:
+        await _sync_sweep_if_due()
+    except Exception:
+        _request_logger.exception("sync sweep failed", extra={"path": "/api/sync/push"})
     return _Response(status_code=204)
 
 

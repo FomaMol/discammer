@@ -21,9 +21,9 @@ from __future__ import annotations
 
 import asyncio
 import base64
+import time
 
 import aiosqlite
-import pytest
 
 import config
 import database
@@ -41,6 +41,30 @@ def _insert_blob(blob_id: str, ciphertext: bytes, last_seen_at: str) -> None:
                 (blob_id, ciphertext, last_seen_at, last_seen_at),
             )
             await db.commit()
+
+    asyncio.run(_run())
+
+
+def _backdate_lease(blob_id: str, last_seen_at: str) -> None:
+    """Age the lease of a blob that must ALREADY exist.
+
+    Deliberately an UPDATE, unlike _insert_blob's INSERT OR REPLACE: a caller
+    that arranged the row through the push endpoint is making a claim about
+    push, and a helper that conjures the row on demand would let that claim
+    rot silently. Here the arrangement fails loudly instead.
+    """
+
+    async def _run() -> None:
+        async with aiosqlite.connect(config.DATABASE_PATH) as db:
+            cursor = await db.execute(
+                "UPDATE sync_blob SET last_seen_at = ? WHERE blob_id = ?",
+                (last_seen_at, blob_id),
+            )
+            await db.commit()
+            assert cursor.rowcount == 1, (
+                "no blob to backdate — the push this test depends on did not "
+                "create the row"
+            )
 
     asyncio.run(_run())
 
@@ -96,15 +120,30 @@ def test_sweep_keeps_a_blob_one_day_short_of_the_ttl(client):
 
 
 def test_pull_refreshes_ttl(client):
-    """An active user must never age out: every access extends the lease."""
+    """An active user must never age out: every access extends the lease.
+
+    Scope, stated plainly: the refresh this pins lives in sync_get and shipped
+    with the endpoints, not with the sweep — this test passes against the tree
+    from before the sweep existed. It is here as a regression pin, because the
+    sweep is what gives that refresh teeth: the lease became load-bearing the
+    day something started deleting rows by it. It is not evidence the sweep was
+    test-driven.
+
+    The push is deliberately the thing that creates the row, and _backdate_lease
+    refuses to invent one, so this exercises the round trip its name promises
+    rather than a row planted behind the endpoints' backs.
+    """
     blob_id = "3" * 64
-    client.post(
-        "/api/sync/push",
-        json={"blob_id": blob_id, "blob": base64.b64encode(b"x").decode()},
+    assert (
+        client.post(
+            "/api/sync/push",
+            json={"blob_id": blob_id, "blob": base64.b64encode(b"x").decode()},
+        ).status_code
+        == 204
     )
 
     # Backdate the lease so a successful pull has something to refresh.
-    _insert_blob(blob_id, b"x", "2020-01-01T00:00:00+00:00")
+    _backdate_lease(blob_id, "2020-01-01T00:00:00+00:00")
 
     assert client.post("/api/sync/pull", json={"blob_id": blob_id}).status_code == 200
 
@@ -143,3 +182,80 @@ def test_sweep_is_gated_to_once_per_interval(client):
     assert calls == [config.SYNC_BLOB_TTL_DAYS], (
         "expected exactly one sweep per interval, got %d" % len(calls)
     )
+
+
+def test_sweep_fires_again_once_the_interval_has_elapsed(client):
+    """The gate must be a clock, not a latch.
+
+    Its sibling above pins "at most once per interval" — which a gate that fires
+    once and then never again satisfies perfectly. That mutant is the exact
+    failure the gate exists to prevent (the startup-only sweep on a process that
+    stays up for months), so "at least once per interval" has to be pinned too,
+    or the two halves of the gate are only half tested.
+
+    ONE_DAY_SEC is deliberately a literal rather than main._SYNC_SWEEP_INTERVAL_SEC:
+    the requirement is "sweep about daily", and a test that derives its clock from
+    the constant it is checking would follow that constant anywhere — to 1e12 —
+    and still pass.
+    """
+    import main
+
+    ONE_DAY_SEC = 86400.0
+    calls: list[int] = []
+
+    async def _counting_sweep(ttl_days: int) -> int:
+        calls.append(ttl_days)
+        return 0
+
+    original = main.sync_sweep
+    original_last = main._sync_last_sweep
+    main.sync_sweep = _counting_sweep
+    # A day and a second since the last sweep: due by any reading of "daily".
+    main._sync_last_sweep = time.monotonic() - ONE_DAY_SEC - 1
+    try:
+        asyncio.run(main._sync_sweep_if_due())
+    finally:
+        main.sync_sweep = original
+        main._sync_last_sweep = original_last
+
+    assert calls == [config.SYNC_BLOB_TTL_DAYS], (
+        "a day has passed and the sweep did not fire — the gate is a latch, or "
+        "the interval is no longer daily"
+    )
+
+
+def test_a_failing_sweep_does_not_fail_the_users_push(client):
+    """Housekeeping must never fail a user write.
+
+    The sweep is a passenger on the push path, not part of it: by the time it
+    runs, sync_put has already committed the blob. If a sweep error escaped, a
+    push that fully succeeded would surface to the client as a failure, and
+    pushProgress would map it to 'error' — telling someone their progress did not
+    save while it sits safely in the table. The DB is the one place that error is
+    plausible (a 'database is locked' after the 5s busy_timeout under multi-worker
+    contention), which is to say: once a day, on the write path, for real users.
+    """
+    import main
+
+    async def _failing_sweep(ttl_days: int) -> int:
+        raise RuntimeError("database is locked")
+
+    blob_id = "5" * 64
+    original = main.sync_sweep
+    original_last = main._sync_last_sweep
+    main.sync_sweep = _failing_sweep
+    main._sync_last_sweep = None  # force the gate open so the sweep really runs
+    try:
+        response = client.post(
+            "/api/sync/push",
+            json={"blob_id": blob_id, "blob": base64.b64encode(b"kept").decode()},
+        )
+    finally:
+        main.sync_sweep = original
+        main._sync_last_sweep = original_last
+
+    assert response.status_code == 204, (
+        "a sweep failure turned a stored push into an error — the user is told "
+        "sync failed while their blob is on disk"
+    )
+    assert _last_seen(blob_id) is not None, "the push should have persisted"
