@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { exportProgress, markLessonComplete } from './progress';
+import { exportProgress, importProgress, markLessonComplete } from './progress';
 import {
   clearLinkedCode,
   deleteRemote,
@@ -9,7 +9,13 @@ import {
   pushProgress,
   saveLinkedCode,
 } from './sync-client';
-import { deriveKeys, encodeCode, encryptDossier, generateSecret } from './sync-crypto';
+import {
+  decryptDossier,
+  deriveKeys,
+  encodeCode,
+  encryptDossier,
+  generateSecret,
+} from './sync-crypto';
 
 /**
  * UX-4 · sync transport + link state.
@@ -23,6 +29,13 @@ import { deriveKeys, encodeCode, encryptDossier, generateSecret } from './sync-c
  * The load-bearing assertions are the negative ones. The server is assumed
  * hostile, so what must NEVER appear on the wire (the code itself, plaintext
  * progress) is the contract worth pinning.
+ *
+ * A negative assertion earns its keep only if it can actually fail. Opacity is
+ * therefore checked against the DECODED envelope, never the base64 text: base64
+ * never contains the ASCII of its own plaintext, so `body` not containing
+ * "certName" is equally true of btoa(dossier) — the one mutation that would hand
+ * the server everything. Same idiom as the backend's
+ * test_database_file_holds_no_plaintext, which asserts on decoded bytes.
  */
 
 function makeStorage() {
@@ -77,12 +90,37 @@ describe('link state', () => {
     expect(loadLinkedCode()).toBeNull();
   });
 
+  it('keeps the link in its own storage key, clear of the progress record', () => {
+    // `discammer:sync:v1` is an interface, not an implementation detail: it is
+    // named in the plan, and other devices/versions read it. Pin the literal.
+    //
+    // The collision this forbids is silent and total. Point LINK_KEY at
+    // `discammer:progress:v1` and saveLinkedCode overwrites the dossier with a
+    // bare code string; progress.ts's read() swallows the JSON.parse error and
+    // returns EMPTY. Every lesson the user ever completed disappears, with no
+    // error anywhere — and unlinking a device must not cost progress either.
+    markLessonComplete('mod-1', 'lesson-1');
+    saveLinkedCode('DSCMCODE');
+
+    expect(storage.getItem('discammer:sync:v1')).toBe('DSCMCODE');
+    expect(exportProgress().lessons['mod-1']?.lessons['lesson-1']).toBe(true);
+
+    clearLinkedCode();
+    expect(exportProgress().lessons['mod-1']?.lessons['lesson-1']).toBe(true);
+  });
+
   it('never puts the code inside the synced dossier', () => {
     // The code is the key. If it rode inside its own ciphertext, then anyone who
     // ever decrypted one blob would hold the code that opens every future one —
     // and "unlink this device" could never actually unlink anything.
+    markLessonComplete('mod-1', 'lesson-1');
     saveLinkedCode('SECRETCODE');
-    expect(JSON.stringify(exportProgress())).not.toContain('SECRETCODE');
+    const dossier = JSON.stringify(exportProgress());
+
+    // Guard the guard: an empty dossier contains no code trivially, so the
+    // assertion below only means something once there is progress to search.
+    expect(dossier).toContain('lesson-1');
+    expect(dossier).not.toContain('SECRETCODE');
   });
 
   it('survives storage being unavailable rather than throwing', () => {
@@ -104,6 +142,18 @@ describe('transport', () => {
     const fetchMock = vi.fn(async () => noContent());
     vi.stubGlobal('fetch', fetchMock);
     markLessonComplete('mod-1', 'lesson-1');
+    // Seed the most identifying field the dossier carries: a real name is the
+    // one thing here a hostile server could not derive on its own.
+    importProgress(
+      JSON.stringify({
+        v: 2,
+        exportedAt: '2026-07-15T00:00:00.000Z',
+        lessons: {},
+        exams: null,
+        certName: 'Ada Lovelace',
+        guideChecks: {},
+      }),
+    );
 
     const code = encodeCode(generateSecret());
     expect(await pushProgress(code)).toBe('ok');
@@ -114,10 +164,37 @@ describe('transport', () => {
     const body = JSON.parse(init.body as string);
     expect(Object.keys(body).sort()).toEqual(['blob', 'blob_id']);
     expect(body.blob_id).toMatch(/^[0-9a-f]{64}$/);
-    // The blob must be opaque: no dossier field names in the wire payload.
-    expect(init.body).not.toContain('lessons');
-    expect(init.body).not.toContain('certName');
-    expect(init.body).not.toContain('lesson-1');
+
+    // Decode the envelope and search the BYTES. Asserting `init.body` does not
+    // contain "certName" would pass for any base64 whatsoever, including
+    // btoa(dossier) — an assertion that cannot fail is not an assertion.
+    const raw = atob(body.blob);
+    expect(raw).not.toContain('lessons');
+    expect(raw).not.toContain('certName');
+    expect(raw).not.toContain('lesson-1');
+    expect(raw).not.toContain('Ada Lovelace');
+  });
+
+  it('sends a blob that is real ciphertext under this code, not just noise', async () => {
+    // The positive half of opacity, and the half that pins WHICH key. "No
+    // plaintext on the wire" is also satisfied by sending garbage, or by
+    // encrypting under a constant key an attacker could extract from the bundle.
+    // Round-tripping through the code's own HKDF-derived key is what makes the
+    // envelope both readable by the user and unreadable by the server.
+    const fetchMock = vi.fn(async () => noContent());
+    vi.stubGlobal('fetch', fetchMock);
+    markLessonComplete('mod-1', 'lesson-1');
+
+    const secret = generateSecret();
+    expect(await pushProgress(encodeCode(secret))).toBe('ok');
+
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    const { blob } = JSON.parse(init.body as string);
+    const { encKey } = await deriveKeys(secret);
+    const plaintext = await decryptDossier(encKey, blob);
+
+    expect(plaintext).not.toBeNull();
+    expect(JSON.parse(plaintext as string).lessons['mod-1'].lessons['lesson-1']).toBe(true);
   });
 
   it('never sends the code itself, on any verb', async () => {
@@ -229,5 +306,17 @@ describe('transport', () => {
     await pushProgress(encodeCode(generateSecret()));
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(init.credentials).toBe('omit');
+  });
+
+  it('asks every cache layer to stand aside', async () => {
+    // Not inherited from threat_feed.ts — that fetch is cache: 'default', which
+    // is right for a public rule list and wrong for a read of user state. A
+    // cached pull would answer with yesterday's dossier after another device
+    // pushed today, and would reach the user looking exactly like data loss.
+    const fetchMock = vi.fn(async () => noContent());
+    vi.stubGlobal('fetch', fetchMock);
+    await pushProgress(encodeCode(generateSecret()));
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(init.cache).toBe('no-store');
   });
 });

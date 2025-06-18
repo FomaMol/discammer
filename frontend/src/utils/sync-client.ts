@@ -56,6 +56,11 @@ export function clearLinkedCode(): void {
  * `credentials: 'omit'` matches the threat-feed fetch: these endpoints identify
  * a blob by knowledge of blob_id and nothing else, so an ambient cookie could
  * only ever link a blob to a session.
+ *
+ * `cache: 'no-store'` is NOT inherited from there — threat_feed.ts deliberately
+ * uses 'default' for a cacheable public rule list. This is a read of user state,
+ * where a cached 200 would answer a pull with a dossier older than what another
+ * device just pushed, and reach the user looking exactly like data loss.
  */
 async function post(path: string, body: unknown): Promise<Response | null> {
   try {
