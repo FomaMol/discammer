@@ -21,6 +21,7 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   HeroTerminal: React.lazy(() => import('./components/HeroTerminal')),
   JournalBroadsheet: React.lazy(() => import('./components/JournalBroadsheet')),
   CourseProgress: React.lazy(() => import('./components/CourseProgress')),
+  ProgressSync: React.lazy(() => import('./components/ProgressSync')),
   GameLauncher: React.lazy(() => import('./components/GameLauncher')),
   MobileMenu: React.lazy(() => import('./components/MobileMenu')),
   ModuleLessons: React.lazy(() => import('./components/ModuleLessons')),

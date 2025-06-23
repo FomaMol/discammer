@@ -159,6 +159,14 @@
       </ol>
     </noscript>
   </div>
+
+  {# ---------- Progress sync (ProgressSync island) ----------
+     Sits directly under CourseProgress's dossier export/import footer: same
+     concern (carrying progress off this browser), so the two read as one block.
+     No <noscript> fallback on purpose — sync is client-side encryption end to
+     end, so with JS off there is nothing honest to render here. The island also
+     removes itself when WebCrypto is unavailable. #}
+  <div data-component="ProgressSync" data-props='{"locale":"{{ _lang }}"}'></div>
 </section>
 
 {# ---------- How it works ---------- #}
