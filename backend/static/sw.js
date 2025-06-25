@@ -27,8 +27,8 @@
  *      takes control promptly — safe precisely because of rules 1 and 4.
  */
 
-const VERSION = '6bdf451f67b9';
-const PRECACHE_URLS = ["/static/css/main-DHKY3Tx_.css","/static/favicon.svg","/static/fonts/geist-cyrillic-ext.woff2","/static/fonts/geist-cyrillic.woff2","/static/fonts/geist-latin-ext.woff2","/static/fonts/geist-latin.woff2","/static/fonts/jetbrains-mono-cyrillic-ext.woff2","/static/fonts/jetbrains-mono-cyrillic.woff2","/static/fonts/jetbrains-mono-latin-ext.woff2","/static/fonts/jetbrains-mono-latin.woff2","/static/js/chunks/IncidentActionWizard-Bh_nqeru.js","/static/js/chunks/KnowledgeCheck-D9F7U2LD.js","/static/js/chunks/LinkInspector-CFoz47-V.js","/static/js/chunks/MessageAnalyzer-BshAYb8F.js","/static/js/chunks/MessageChecker-YgMEAORP.js","/static/js/chunks/i18n-gVZb7XXq.js","/static/js/chunks/progress-C6rp_L2-.js","/static/js/chunks/redflags-Dfk9x4ad.js","/static/js/chunks/threat_feed-BciEgeoR.js","/static/js/chunks/useReducedMotion-4HUp37O4.js","/static/js/main-C8Pvyill.js","/static/logomark.svg","/static/offline.html"];
+const VERSION = 'aa4c36309dfd';
+const PRECACHE_URLS = ["/static/css/main-DHKY3Tx_.css","/static/favicon.svg","/static/fonts/geist-cyrillic-ext.woff2","/static/fonts/geist-cyrillic.woff2","/static/fonts/geist-latin-ext.woff2","/static/fonts/geist-latin.woff2","/static/fonts/jetbrains-mono-cyrillic-ext.woff2","/static/fonts/jetbrains-mono-cyrillic.woff2","/static/fonts/jetbrains-mono-latin-ext.woff2","/static/fonts/jetbrains-mono-latin.woff2","/static/js/chunks/IncidentActionWizard-BNlQhzCu.js","/static/js/chunks/KnowledgeCheck-BC8IVaeT.js","/static/js/chunks/LinkInspector-ByASx5VV.js","/static/js/chunks/MessageAnalyzer-krki4IxG.js","/static/js/chunks/MessageChecker-Dq_6XUhk.js","/static/js/chunks/i18n-gVZb7XXq.js","/static/js/chunks/progress-C6rp_L2-.js","/static/js/chunks/redflags-Dfk9x4ad.js","/static/js/chunks/threat_feed-BciEgeoR.js","/static/js/chunks/useReducedMotion-D4-C4fB1.js","/static/js/main-CuRqSRfq.js","/static/logomark.svg","/static/offline.html"];
 const OFFLINE_URL = '/static/offline.html';
 
 // Caches are namespaced by VERSION so activate() can purge everything from a

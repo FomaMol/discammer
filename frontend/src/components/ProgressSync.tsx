@@ -123,14 +123,53 @@ type Status =
   | 'pulled'
   | 'not_found'
   | 'bad_code'
+  | 'pull_failed'
   | 'erasing'
   | 'erased'
   | 'erase_failed'
   | 'copied'
   | 'copy_failed';
 
+/**
+ * The single mapping from a pullProgress outcome to what the user is told. Both
+ * pull call sites — refresh on a linked device, link on an unlinked one — go
+ * through here.
+ *
+ * They used to each hand-roll their own ternary chain over a four-outcome union,
+ * and each chain covered three outcomes and let the fourth fall through to
+ * whatever the last branch happened to be: refresh called a network failure a
+ * wrong code, link called it a failed send. A `switch` over the union is what
+ * makes that class of bug a compile error instead of a lie on screen.
+ *
+ * The distinction being drawn is the one the user cannot draw for themselves:
+ * 'bad-code' / 'not-found' are facts ABOUT THE CODE, and in a product with no
+ * recovery path they are terminal — a user who believes them will discard the
+ * code. 'error' is a fact about the NETWORK and says nothing about the code at
+ * all. Collapsing the second into the first tells someone their only key is
+ * dead because their train went into a tunnel.
+ */
+export function pullStatus(result: 'ok' | 'not-found' | 'bad-code' | 'error'): Status {
+  switch (result) {
+    case 'ok':
+      return 'pulled';
+    case 'not-found':
+      return 'not_found';
+    case 'bad-code':
+      return 'bad_code';
+    case 'error':
+      return 'pull_failed';
+  }
+}
+
 const BUSY: Status[] = ['pushing', 'pulling', 'erasing'];
-const BAD: Status[] = ['push_failed', 'not_found', 'bad_code', 'erase_failed', 'copy_failed'];
+const BAD: Status[] = [
+  'push_failed',
+  'not_found',
+  'bad_code',
+  'pull_failed',
+  'erase_failed',
+  'copy_failed',
+];
 
 function statusText(tr: (key: string) => string, status: Status): string {
   switch (status) {
@@ -148,6 +187,8 @@ function statusText(tr: (key: string) => string, status: Status): string {
       return tr('status_not_found');
     case 'bad_code':
       return tr('status_bad_code');
+    case 'pull_failed':
+      return tr('status_pull_failed');
     case 'erasing':
       return tr('status_erasing');
     case 'erased':
@@ -265,15 +306,15 @@ export default function ProgressSync({ locale }: Props) {
       setStatus('pulled');
       return;
     }
-    // Deliberately do NOT link on not-found or bad-code: a typo would otherwise
-    // leave the device silently pushing to a blob nobody will ever pull.
-    setStatus(result === 'not-found' ? 'not_found' : result === 'bad-code' ? 'bad_code' : 'push_failed');
+    // Deliberately do NOT link on not-found, bad-code or error: a typo would
+    // otherwise leave the device silently pushing to a blob nobody will ever
+    // pull, and a network failure proves nothing about the code either way.
+    setStatus(pullStatus(result));
   }
 
   async function handleRefresh(code: string) {
     setStatus('pulling');
-    const result = await pullProgress(code);
-    setStatus(result === 'ok' ? 'pulled' : result === 'not-found' ? 'not_found' : 'bad_code');
+    setStatus(pullStatus(await pullProgress(code)));
   }
 
   function handleUnlink() {
@@ -372,7 +413,7 @@ export default function ProgressSync({ locale }: Props) {
  * in the view that only OFFERS to generate — because a warning a user reads
  * after they already hold a code is not a warning, it is a disclaimer.
  */
-function UnlinkedPanel({
+export function UnlinkedPanel({
   tr,
   draft,
   setDraft,
@@ -408,6 +449,13 @@ function UnlinkedPanel({
           type="button"
           data-testid="sync-create"
           onClick={onCreate}
+          // Gated on the same `busy` as the link button. Without this, a user
+          // who tires of a slow LINK_DEVICE pull can mint and confirm a second
+          // code, and the pull — still in flight — then resolves 'ok' and
+          // relinks the device to the TYPED code, silently orphaning the one
+          // the user just wrote down. The code is the only key; the key on the
+          // paper and the key in the browser must never diverge.
+          disabled={busy}
           className={BTN_CYAN}
         >
           <span aria-hidden="true">▸</span> {tr('create_action')}

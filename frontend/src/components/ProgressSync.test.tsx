@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { markLessonComplete, recordGuideCheck } from '../utils/progress';
 import { saveLinkedCode } from '../utils/sync-client';
 import { encodeCode, formatCode, generateSecret } from '../utils/sync-crypto';
-import ProgressSync, { startAutoPush } from './ProgressSync';
+import ProgressSync, { UnlinkedPanel, pullStatus, startAutoPush } from './ProgressSync';
 
 /**
  * UX-4 · the ProgressSync island.
@@ -197,6 +197,107 @@ describe('the linked state', () => {
     const html = markup();
     expect(html).toContain('data-testid="sync-unlink"');
     expect(html).toContain('data-testid="sync-erase"');
+  });
+});
+
+/**
+ * Both pull call sites — PULL_FROM_SERVER on a linked device, and LINK_DEVICE on
+ * an unlinked one — route their result through pullStatus. They used to each
+ * hand-roll a ternary chain, and both chains forgot that pullProgress has a
+ * fourth outcome.
+ */
+describe('pullStatus', () => {
+  it('names a pull that never reached the server a failed pull', () => {
+    // THE defect. 'error' is what pullProgress returns when the request did not
+    // complete (offline: fetch rejects, post() returns null) or came back 429 /
+    // 5xx (sync-client.ts:95-97) — all of which say nothing whatsoever about
+    // the code. The refresh path used to fall through to 'bad_code' and tell a
+    // LINKED device — whose code demonstrably opens the blob, because it either
+    // created it or linked with it — that the code does not open this data.
+    //
+    // That is not a cosmetic mislabel. This product deliberately has no reset
+    // and no recovery, so "your code is wrong" reads as "your code is dead",
+    // and the rational response is to unlink and start over — orphaning the
+    // real blob and stranding the synced copy behind a code just discarded.
+    // The app ships a service worker; offline is a designed-for state.
+    expect(pullStatus('error')).toBe('pull_failed');
+  });
+
+  it('does not call a failed pull a failed send', () => {
+    // The link path's own version of the same bug, mapping 'error' to
+    // 'push_failed' — a status whose text promises a retry "on your next
+    // change". Two lies in one line: nothing was sent (this is a pull), and
+    // nothing will retry (the link did not happen, so linkedCode stays null and
+    // startAutoPush returns early on `if (!code)` — there is no retry path in
+    // existence for it to mean).
+    expect(pullStatus('error')).not.toBe('push_failed');
+  });
+
+  it('still tells a wrong code apart from an unknown one and from success', () => {
+    // Guard the guard: 'pull_failed' must be a NEW branch, not a new default
+    // that swallows the three outcomes that were already right.
+    expect(pullStatus('ok')).toBe('pulled');
+    expect(pullStatus('not-found')).toBe('not_found');
+    expect(pullStatus('bad-code')).toBe('bad_code');
+  });
+});
+
+/**
+ * `busy` reaches the panel already; the create button just ignored it.
+ */
+describe('the unlinked panel while a pull is in flight', () => {
+  const renderUnlinked = (busy: boolean) =>
+    renderToStaticMarkup(
+      <UnlinkedPanel
+        tr={(key: string) => key}
+        draft="DSCM-K7F2Q-ABCDE-FGHJK-MNPQR-S"
+        setDraft={() => undefined}
+        busy={busy}
+        onCreate={() => undefined}
+        onLink={() => undefined}
+      />,
+    );
+
+  /**
+   * Reads the rendered `disabled` ATTRIBUTE — deliberately not a substring test.
+   * BTN_BASE carries the Tailwind variants `disabled:opacity-50` and
+   * `disabled:cursor-not-allowed`, so a `toContain('disabled')` on the tag is
+   * satisfied by the class list alone and passes against a button that is not
+   * disabled at all. That is exactly what the first draft of this test did, and
+   * only the idle case below exposed it. React SSR emits the boolean prop as
+   * `disabled=""`, which the `disabled:` variants cannot spoof.
+   */
+  const isDisabled = (html: string, testid: string) => {
+    const tag = html.match(new RegExp(`<button[^>]*data-testid="${testid}"[^>]*>`))?.[0];
+    if (tag === undefined) throw new Error(`no <button data-testid="${testid}"> rendered`);
+    return / disabled=""/.test(tag);
+  };
+
+  it('cannot mint a new code while an in-flight pull can still overwrite it', () => {
+    // The interleaving: type a code → LINK_DEVICE → the pull is slow (mobile) →
+    // give up → CREATE_SYNC_CODE → "I HAVE SAVED IT" writes a real blob under
+    // the new code → the old pull NOW resolves 'ok' and calls saveLinkedCode
+    // (ProgressSync.tsx:262-263), clobbering the code the user just wrote down.
+    // The device ends up linked to the typed code while the code the user
+    // physically saved points at a different, orphaned blob.
+    //
+    // On a component whose entire premise is that the code is the only key,
+    // "the key on your paper is not the key in your browser" is the one outcome
+    // that must be unreachable.
+    expect(isDisabled(renderUnlinked(true), 'sync-create')).toBe(true);
+  });
+
+  it('leaves both ways in usable when nothing is in flight', () => {
+    // Guard the guard: a button disabled unconditionally would satisfy the test
+    // above while removing the feature it protects.
+    const idle = renderUnlinked(false);
+    expect(isDisabled(idle, 'sync-create')).toBe(false);
+    expect(isDisabled(idle, 'sync-link')).toBe(false);
+  });
+
+  it('keeps the link button gated while a pull is in flight', () => {
+    // Pre-existing and correct — pinned so the fix above cannot regress it.
+    expect(isDisabled(renderUnlinked(true), 'sync-link')).toBe(true);
   });
 });
 

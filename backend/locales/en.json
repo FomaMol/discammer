@@ -492,6 +492,7 @@
       "status_pulled": "// synced copy merged in",
       "status_not_found": "// nothing stored under that code yet",
       "status_bad_code": "// that code does not open this data",
+      "status_pull_failed": "// could not reach the server — nothing changed. Try again",
       "status_erasing": "// erasing…",
       "status_erased": "// synced copy erased from the server",
       "status_erase_failed": "// could not erase — the copy may still be there, try again",
