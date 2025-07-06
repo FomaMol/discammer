@@ -30,8 +30,14 @@ These limits are part of the product, not fine print:
 
 - The message checker and link inspector run their analysis in the browser.
   Their input is not sent to a DiScammer analysis API.
-- Course progress and the completion record are browser-local. Clearing browser
-  storage or changing device can remove them.
+- Course progress and the completion record are browser-local by default.
+  Clearing browser storage or changing device can remove them. A learner may opt
+  into sync, which stores a copy on the server — encrypted in the browser under a
+  key derived from a code the server never receives, so the stored copy is
+  ciphertext the server cannot read. That copy includes the name typed for the
+  completion record: the protection is the encryption, not an absence of the
+  name. There is no account, email, or password, and losing the code means losing
+  that copy, because only the learner holds the key.
 - The final self-assessment is untimed, unproctored, and unmonitored. The local
   completion record is not a verified credential, proof of identity, proof of
   competence, or an institutionally issued certificate.
@@ -64,7 +70,7 @@ primary source.
 | Journal | 8 interview, 8 newsletter, and 7 article English/Russian Markdown pairs |
 | Course | 9 modules; 55 lesson JSON pairs (EN/RU) |
 | Interactive tools | Local message checker and link inspector, each with a loadable onboarding example; their island code is precached, so a page already visited still opens offline |
-| Learning record | Browser-local progress, self-assessment result, and printable personal record |
+| Learning record | Browser-local progress, self-assessment result, and printable personal record; optional sync of that record to other devices via a code, stored server-side only as client-encrypted ciphertext |
 | Game | A separately served Unity WebGL build at `/play/` |
 
 Content parity describes paired files and interface strings. The guide source
@@ -156,6 +162,18 @@ At startup, the application reseeds those derived content tables under a file
 lock. Do not place user accounts, hosted progress, or any other durable user
 state in tables that reseeding clears.
 
+The schema also has one table that is **not** derived content: `sync_blob`, added
+by UX-4. It holds opt-in, client-encrypted course progress keyed by a `blob_id`
+the client derives from a secret the server never sees, so the rows are
+ciphertext the application cannot read. It is deliberately absent from
+`seed_database()`'s DELETE list and from `init_db()`'s column-drift DROP loop —
+both are hardcoded allowlists over the derived content tables, and the table is
+excluded by staying out of them. `backend/tests/test_db_lifecycle.py` pins both
+exclusions, because a docstring promise that reseeding spares user state is only
+worth what a failing test makes it worth. Never add `sync_blob` to a
+`_*_REQUIRED_COLS` tuple: that path recovers from schema drift by dropping the
+table, which is a correct strategy for content and a data-loss bug for progress.
+
 ## Design and localization
 
 The active product authority is [`PRODUCT.md`](PRODUCT.md), and the active
@@ -175,7 +193,7 @@ migration and early-design record. It is not an active specification.
 
 ### What the repository verifies
 
-The repository contains 27 backend pytest modules, 9 frontend Vitest files, and
+The repository contains 29 backend pytest modules, 13 frontend Vitest files, and
 22 Playwright E2E specifications. CI also type-checks and builds the frontend,
 checks committed static assets, runs dependency audits, and builds a Docker
 image. The E2E workflow exercises the composed application and includes
@@ -189,13 +207,19 @@ pytest -q
 python3 scripts/i18n_audit.py
 ```
 
-On 2026-07-15, at revision `4682e35`, these commands were `locally verified` in
-the sense defined below: `pytest -q` reported 157 passed, `npm test` reported
-139 tests passing across 9 files, and `scripts/i18n_audit.py` exited cleanly
-with no dead keys, no missing references, and EN/RU parity. Those are local
-results on one machine. They are not a staging or production check, and nothing
-on this revision is deployed. The Playwright E2E suite is run by CI against the
-composed application and was not part of this local reconciliation.
+On 2026-07-16, at the revision this documentation commit creates (parent
+`14bfe41`), these commands were `locally verified` in the sense defined below:
+`pytest -q` reported 246 passed, `npm test` reported 196 tests passing across 13
+files, and `scripts/i18n_audit.py` exited cleanly with no dead keys, no missing
+references, and EN/RU parity. The jump from the previously recorded 157 and 139
+is UX-4's sync work and its tests, not a re-count of the same suites.
+
+Those are local results on one machine. They are not a staging or production
+check, and nothing on this revision is deployed. The Playwright E2E suite is run
+by CI against the composed application and was not part of this local
+reconciliation; UX-4's own cross-device E2E scenario is not written yet, so the
+sync round-trip is currently evidenced by unit and API tests rather than by a
+browser-level device change.
 
 For a fresh local test environment, install `pytest` and `httpx` alongside the
 runtime requirements:

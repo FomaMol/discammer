@@ -26,6 +26,7 @@ Docker container "web"  ── uvicorn, 2 workers (WEB_CONCURRENCY=2)
    │
    ▼
 SQLite (WAL mode), bind-mounted ./data  ── content reseeded from git on every start
+                                        ── sync_blob (UX-4) is NOT: durable user state
 ```
 
 - **VPS:** `203.0.113.11` — **2 vCPU / 2 GB RAM / NO SWAP**. The no-swap fact
@@ -552,7 +553,22 @@ same notification paths set up in §9.1/§9.2:
 
 See [`docs/ops/backups.md`](./backups.md) (REL-1) for the authoritative backup
 RPO/RTO and the restore procedure (`scripts/restore-db.sh`). Summary for incident
-context: content is reseeded from git on every container start, so a lost DB mostly
-self-heals **except** for any writable/user tables (course progress, certificates) —
-those depend on the R2 backup. During a DB-loss incident, restore from the latest R2
-backup before declaring recovery.
+context: content is reseeded from git on every container start, so **that half** of
+a lost DB self-heals. **`sync_blob` does not.** Since UX-4 the DB carries durable
+user state — opt-in, client-encrypted course progress — and it exists nowhere else:
+only the learner holds the decryption key, so we cannot rebuild a blob from any
+artefact we hold, and with no email on file we cannot even notify the people
+affected.
+
+Operationally this means:
+
+- A DB-loss incident is a **user-data incident**, not just a content outage. Do
+  not let a green `/api/health` and correctly reseeded content close it — those
+  will both look fine on an empty `sync_blob`.
+- **Restore from the latest R2 backup before declaring recovery.** Starting the
+  container on a fresh DB will happily serve a perfect-looking site that has
+  quietly dropped every synced learner.
+- Everything between the last snapshot and the loss is gone for good (RPO ≈ 24 h).
+  Affected learners still hold their own local copy on the device they synced
+  from; a `push` from that device restores their blob. That is the only recovery
+  path, and it is theirs to trigger, not ours.

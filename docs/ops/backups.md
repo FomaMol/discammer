@@ -16,11 +16,26 @@ production SQLite database.
 ## Why & what we protect
 
 The content tables (`post`, `scam_guide`, `course_module`) are **wiped and
-reseeded from git on every startup**, so they are disposable. The DB file is
-nonetheless the *only* stateful path on the box, and any **future writable
-table** — course progress, certificates, sync state (UX-4) — would be
-**irreplaceable** on disk loss. Backups are cheap insurance now and load-bearing
-the moment user data lands.
+reseeded from git on every startup**, so they are disposable.
+
+**`sync_blob` is not.** UX-4 added the project's first durable *user* table, so
+the sentence this section used to carry — "any future writable table would be
+irreplaceable" — is no longer about the future. It is here now:
+
+- `sync_blob` holds opt-in, client-encrypted course progress keyed by `blob_id`.
+- It is deliberately excluded from `seed_database()`'s DELETE list and from
+  `init_db()`'s column-drift DROP loop, and
+  `backend/tests/test_db_lifecycle.py` pins both exclusions.
+- **Losing the DB file now loses user data**, and the loss is permanent: only
+  the learner holds the key, so we cannot reconstruct a blob from anything we
+  have, and we have no email with which to tell anyone it happened.
+- `backup-db.sh` snapshots the **whole file**, so `sync_blob` is covered without
+  any change to REL-1. That is worth stating explicitly rather than leaving it
+  to be inferred at 03:00: the table needs no special handling, but it does need
+  the restore to actually be run instead of the box being written off as
+  self-healing content.
+
+Backups were cheap insurance before UX-4. They are load-bearing now.
 
 `backup-db.sh` uses SQLite's **online backup API** (`.backup`), which is the
 only correct way to snapshot a live WAL database — a naked `cp` of the `.db`
@@ -30,9 +45,14 @@ backup never replaces a good one.
 
 ### RPO / RTO
 
+Before UX-4 these were bookkeeping — the only thing to lose was content that git
+could re-emit. Since `sync_blob`, the RPO is a real quantity of real user data.
+
 - **RPO (Recovery Point Objective) ≈ 24 h** — daily cron, so at most ~1 day of
-  writes is lost in a worst-case disk failure. Tighten by running the cron more
-  often if/when user-write volume justifies it.
+  writes is lost in a worst-case disk failure. Concretely: a learner who linked
+  a device or finished a module since the last snapshot loses that, silently, and
+  we have no way to tell them. Tighten by running the cron more often if/when
+  user-write volume justifies it.
 - **RTO (Recovery Time Objective) ≈ minutes** — restore is: pull latest →
   verify → stop container → swap file → start. The DB is tiny (single-digit
   MB), so the wall-clock cost is dominated by the container restart.
