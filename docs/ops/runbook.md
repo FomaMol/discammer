@@ -569,6 +569,22 @@ Operationally this means:
   container on a fresh DB will happily serve a perfect-looking site that has
   quietly dropped every synced learner.
 - Everything between the last snapshot and the loss is gone for good (RPO ≈ 24 h).
-  Affected learners still hold their own local copy on the device they synced
-  from; a `push` from that device restores their blob. That is the only recovery
-  path, and it is theirs to trigger, not ours.
+  Affected learners still hold their own local copy on the device they synced from,
+  and that copy is what restores the blob — but **do not count on it coming back
+  quickly, and do not describe it to anyone as a recovery step they can take.**
+  `ProgressSync` has no push button (spec §6.2 chose auto-push over a "save"
+  button deliberately), so re-upload happens only as a **side effect** of the
+  learner making further progress: finishing a lesson, an exam, or a guide check
+  fires the auto-push that recreates the blob. Concretely, on a still-linked
+  device: opening the course pushes nothing; "Refresh from server" only pulls and
+  will show not-found. Worse, the **re-link path is blocked once the blob is
+  gone** — re-entering a code calls `pullProgress`, and the UI deliberately
+  refuses to link on not-found, so a learner who unlinked (or switched device)
+  cannot re-attach that code at all. The learner with the most to lose — one who
+  finished the course, whose blob carries the exam result and `certName` — has no
+  remaining coursework to trigger a push with.
+- The honest summary for a status update: restoring from backup is **our** job and
+  the only recovery we control. There is no user-facing "re-sync" action to point
+  people at. If the restore fails, an affected learner's server-side copy returns
+  only if they happen to do more coursework on a still-linked device; their local
+  progress is untouched either way, so nobody loses the course itself.

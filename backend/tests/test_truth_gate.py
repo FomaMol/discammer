@@ -8,6 +8,7 @@ credential or changing its stated scope without updating the dossier.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import database
@@ -20,6 +21,8 @@ LOCALES = ROOT / "backend" / "locales"
 CLAIM_LEDGER = ROOT / "docs" / "portfolio" / "CLAIM_LEDGER.md"
 BACKUPS_DOC = ROOT / "docs" / "ops" / "backups.md"
 RUNBOOK_DOC = ROOT / "docs" / "ops" / "runbook.md"
+SYNC_TESTS = Path(__file__).resolve().parent / "test_sync.py"
+PROGRESS_SYNC = ROOT / "frontend" / "src" / "components" / "ProgressSync.tsx"
 
 # The ledger row covering UX-4's optional progress sync.
 SYNC_CLAIM_ID = "PT-21"
@@ -133,6 +136,89 @@ def test_sync_claim_rests_on_encryption_not_on_denying_what_it_stores():
             f"{SYNC_CLAIM_ID} denies collecting data it demonstrably stores: "
             f"{false_comfort!r}"
         )
+
+
+def test_sync_claim_cites_evidence_that_exists_and_says_what_it_actually_pins():
+    """The sibling test above checks the claim's *wording*; nothing checked its
+    *evidence*, which is the column this ledger's own "How to read this ledger"
+    makes the checkable basis for public copy. A citation to a test that does not
+    exist is worse than no citation: it reads as verified and cannot be followed.
+
+    Two failure modes, both of which the ledger had:
+      * naming a test that no longer exists (the marker-grep test was dropped in
+        f74726a as inverted — the marker IS in the DB by construction, so the
+        only way to pass it was for the server to lose the user's data);
+      * denying that the server decodes. It does: main.py b64decodes every push.
+        What it never does is DECRYPT, and that distinction is the whole claim.
+    """
+    row = _ledger_row(SYNC_CLAIM_ID)
+    assert row, f"{SYNC_CLAIM_ID} is missing from the ledger"
+
+    sync_src = SYNC_TESTS.read_text(encoding="utf-8")
+    # The (?!\.py) keeps the file the row names ("backend/tests/test_sync.py")
+    # from being read as a citation of a test function called test_sync().
+    cited = sorted(set(re.findall(r"\btest_[a-z0-9_]+\b(?!\.py)", row)))
+    assert cited, (
+        f"{SYNC_CLAIM_ID} cites no test by name — the evidence column has to be "
+        "followable, not a gesture at a file"
+    )
+    for name in cited:
+        assert f"def {name}(" in sync_src, (
+            f"{SYNC_CLAIM_ID} cites {name}(), which does not exist in "
+            f"{SYNC_TESTS.name}. The evidence column is the checkable basis for "
+            "public wording; an unfollowable citation is a false one"
+        )
+
+    main_src = (ROOT / "backend" / "main.py").read_text(encoding="utf-8")
+    assert "b64decode" in main_src, (
+        "this test assumes the push handler base64-decodes the transport "
+        "encoding; if that stopped being true, rewrite the claim, not the test"
+    )
+    lowered = row.lower()
+    for false_denial in ("never decode", "does not decode", "cannot decode"):
+        assert false_denial not in lowered, (
+            f"{SYNC_CLAIM_ID} says the server {false_denial}s the blob, but "
+            "main.py b64decodes every push. The server decodes the transport "
+            "encoding and never DECRYPTS the payload — say that instead"
+        )
+    assert "decrypt" in lowered, (
+        f"{SYNC_CLAIM_ID} must rest on what the server cannot do (decrypt), not "
+        "on a denial of what it demonstrably does (decode)"
+    )
+
+
+def test_runbook_does_not_promise_a_recovery_push_the_ui_cannot_trigger():
+    """A DB-loss incident sends an operator to this runbook, so what it says
+    about recovery has to be true of the shipped UI, not of a plausible one.
+
+    ProgressSync has no manual push control — spec §6.2 deliberately chose
+    auto-push over a "save" button — so an already-linked learner cannot re-upload
+    on demand: mount does not push, "Refresh from server" only pulls (404 after a
+    loss), and re-entering the code cannot re-link because handleLinkExisting
+    refuses to link on not-found. A re-push happens only as a side effect of new
+    coursework, which the learner most likely to care about — one who finished —
+    no longer has.
+    """
+    component = PROGRESS_SYNC.read_text(encoding="utf-8")
+    has_manual_push = 'data-testid="sync-push"' in component
+    runbook = RUNBOOK_DOC.read_text(encoding="utf-8").lower()
+
+    if has_manual_push:
+        return  # a push control now exists; the runbook may promise one
+
+    assert "theirs to trigger" not in runbook, (
+        "the runbook says a re-push is the learner's to trigger, but "
+        "ProgressSync exposes no push control (testids: sync-refresh, "
+        "sync-unlink, sync-erase). Nothing in the UI fires a push on demand"
+    )
+    assert "side effect" in runbook, (
+        "the runbook must say a re-push happens only as a side effect of further "
+        "coursework — that is the only thing that fires auto-push"
+    )
+    assert "re-link" in runbook, (
+        "the runbook must say the re-link path is blocked once the blob is gone: "
+        "handleLinkExisting refuses to link on not-found"
+    )
 
 
 def test_ops_docs_name_the_durable_user_state_the_database_now_holds():
