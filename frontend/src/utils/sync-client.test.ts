@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { analyze } from '../data/redflags';
 import { exportProgress, importProgress, markLessonComplete } from './progress';
 import {
   clearLinkedCode,
@@ -195,6 +196,84 @@ describe('transport', () => {
 
     expect(plaintext).not.toBeNull();
     expect(JSON.parse(plaintext as string).lessons['mod-1'].lessons['lesson-1']).toBe(true);
+  });
+
+  /**
+   * The two tests below guard the promise "UX-4 did not touch the checker" at
+   * the ONLY layer where it is checkable.
+   *
+   * An earlier attempt lived in e2e/progress-sync.spec.ts and pointed
+   * assertNoNetworkLeak at a linked device, expecting to catch checker text
+   * "riding out inside a blob". That instrument cannot see it: the helper greps
+   * request bodies for plaintext needles, and AES-GCM ciphertext never contains
+   * the plaintext of its own input. The test would have stayed green through
+   * exactly the leak it was written to catch. So the guard belongs here, before
+   * encryption, where the dossier is still readable.
+   */
+  it('encrypts a closed set of progress fields — nothing can ride along unnoticed', async () => {
+    // For checker text (or anything else) to reach the server, it must first be
+    // a field in the dossier. Pinning the key set is what makes that impossible
+    // to do quietly: a new field fails here and nowhere else. The neighbouring
+    // tests all assert on ABSENCE, and absence tests cannot see an addition
+    // whose name they were never told.
+    const fetchMock = vi.fn(async () => noContent());
+    vi.stubGlobal('fetch', fetchMock);
+    markLessonComplete('mod-1', 'lesson-1');
+
+    const secret = generateSecret();
+    expect(await pushProgress(encodeCode(secret))).toBe('ok');
+
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    const { blob } = JSON.parse(init.body as string);
+    const { encKey } = await deriveKeys(secret);
+    const payload = JSON.parse((await decryptDossier(encKey, blob)) as string);
+
+    // Exactly the Dossier interface (progress.ts) — no more. Asserted against
+    // the DECRYPTED push body rather than exportProgress() directly, so it also
+    // pins that the transport adds no context of its own on the way out.
+    expect(Object.keys(payload).sort()).toEqual([
+      'certName',
+      'exams',
+      'exportedAt',
+      'guideChecks',
+      'lessons',
+      'v',
+    ]);
+  });
+
+  it('carries nothing from the checker, whose engine touches no progress state', async () => {
+    // The realistic route by which pasted text would reach a blob: someone
+    // decides a checker result is worth remembering, writes it through progress
+    // state, and auto-push ships it. `analyze` is the exact engine MessageChecker
+    // calls, so a side effect added there fails right here.
+    const scam =
+      'URGENT: This is Sberbank security department. Tell us the one-time code ' +
+      'and confirm via bit.ly/secure-acct';
+    const fetchMock = vi.fn(async () => noContent());
+    vi.stubGlobal('fetch', fetchMock);
+    markLessonComplete('mod-1', 'lesson-1');
+
+    const result = analyze(scam);
+    // Guard the guard: if the fixture stopped tripping any rule, the assertions
+    // below would hold for a message the checker never actually processed.
+    expect(result.fired.length).toBeGreaterThan(0);
+
+    const secret = generateSecret();
+    expect(await pushProgress(encodeCode(secret))).toBe('ok');
+
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    const { blob } = JSON.parse(init.body as string);
+    const { encKey } = await deriveKeys(secret);
+    const plaintext = (await decryptDossier(encKey, blob)) as string;
+
+    // Read the decrypted dossier, not the wire: the wire is base64 and would
+    // pass this trivially. Same reasoning as the opacity test above, inverted.
+    expect(plaintext).toContain('lesson-1');
+    for (const needle of ['Sberbank', 'one-time', 'bit.ly/secure']) {
+      expect(plaintext, `the checker's input reached the blob via "${needle}"`).not.toContain(
+        needle,
+      );
+    }
   });
 
   it('never sends the code itself, on any verb', async () => {

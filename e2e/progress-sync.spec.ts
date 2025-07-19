@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { SCAM_FIXTURE, assertNoNetworkLeak } from './helpers';
+import { assertNoNetworkLeak } from './helpers';
 
 /**
  * UX-4 · progress sync, end to end.
@@ -17,7 +17,6 @@ import { SCAM_FIXTURE, assertNoNetworkLeak } from './helpers';
  */
 
 const PROGRESS_KEY = 'discammer:progress:v1';
-const LINK_KEY = 'discammer:sync:v1';
 const MODULE = 'threat-fundamentals';
 const LESSON = 'attack-vectors';
 
@@ -119,44 +118,26 @@ test('progress survives a device change via the sync code', async ({ browser }) 
 });
 
 /**
- * A syntactically valid code (26 Crockford chars, no I/L/O/U). Real enough that
- * a push would genuinely reach the server if one were ever attempted here —
- * a bogus code would fail in decodeCode and the test would pass for the wrong
- * reason, proving only that broken codes are inert.
+ * Deliberately NOT here: "the checker ships nothing even on a device linked for
+ * sync". That test lived here and was removed, because no repair could make it
+ * mean what it claimed.
+ *
+ * It named a real threat — auto-push subscribes to progress events, so the day
+ * someone routes a checker result through progress state, the text the user
+ * pasted starts riding out inside a blob. But it reached for assertNoNetworkLeak,
+ * which greps request bodies for plaintext needles, and the blob is AES-GCM
+ * ciphertext that by construction never contains the plaintext of its own input.
+ * The instrument cannot see the leak it was aimed at: it would have stayed green
+ * straight through the failure. (It was also inert for two duller reasons — its
+ * code constant was 25 chars where decodeCode demands 26, and ProgressSync mounts
+ * only on /en/course while MessageChecker mounts only on /en/, so the auto-push
+ * it meant to outlast never ran at all.)
+ *
+ * The guard now lives in frontend/src/utils/sync-client.test.ts, asserting the
+ * dossier's key set and content BEFORE encryption — the last point where the
+ * payload is still readable, and therefore the only place the check can fail
+ * when it should. It is verified against an injected leak, not merely asserted.
  */
-const LINKED_CODE = 'DSCM-K7F2Q-M3XVW-9BHTR-5NPZ4-C';
-
-const SCAM_NEEDLES = ['Sberbank', 'one-time', 'bit.ly/secure', 'bit.ly%2Fsecure'];
-
-test('the checker ships nothing even on a device linked for sync', async ({ page }) => {
-  // UX-4 was supposed to leave the checker alone. "Supposed to" is the part a
-  // test exists to remove: the auto-push subscribes to progress events, and the
-  // day someone routes a checker result through progress state, the input the
-  // user pasted starts riding out inside a blob. It would be encrypted, and it
-  // would still be a broken promise — the ledger says the text never leaves the
-  // browser, not that it leaves in a form we like.
-  await page.addInitScript(
-    ([key, value]) => window.localStorage.setItem(key, value),
-    [LINK_KEY, LINKED_CODE],
-  );
-
-  await page.goto('/en/');
-  const checker = page.locator('[data-component="MessageChecker"]');
-  const textarea = checker.locator('textarea');
-  await expect(textarea).toBeVisible({ timeout: 10_000 });
-
-  await assertNoNetworkLeak(page, SCAM_NEEDLES, async () => {
-    await textarea.fill(SCAM_FIXTURE);
-    await expect(checker.locator('[role="meter"]')).toBeVisible({ timeout: 5_000 });
-    // Outlast the 2s auto-push debounce: a push that fired after the guard
-    // stopped listening would be a leak this test declared clean.
-    await page.waitForTimeout(3_000);
-  });
-
-  // The device is still linked — the scenario under test was real, not one where
-  // sync happened to be off.
-  expect(await page.evaluate((k) => localStorage.getItem(k), LINK_KEY)).toBe(LINKED_CODE);
-});
 
 test('the no-leak guard itself can still fail', async ({ page }) => {
   // Every privacy claim in checker.spec.ts and inspector.spec.ts rests on
