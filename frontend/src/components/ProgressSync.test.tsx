@@ -374,6 +374,29 @@ describe('startAutoPush', () => {
     stop();
   });
 
+  it('suppresses a push that fires while an erase is in flight', () => {
+    // The race the final review caught. sync_put is an UPSERT, so a debounced
+    // push that fires during the erase's in-flight round trip re-creates the very
+    // blob the user asked us to destroy — resurrecting it for the full 365-day
+    // TTL while the UI reports "erased". A data-minimisation erase must win.
+    //
+    // The fix cannot be decided at arm time: the debounce is armed BEFORE the
+    // user clicks Erase (e.g. Refresh dispatched `discammer:progress`, then they
+    // click Erase within the 2s window). So the scheduled push re-checks, at FIRE
+    // time, whether an erase has since begun.
+    vi.useFakeTimers();
+    const push = vi.fn();
+    let erasing = false;
+    const stop = startAutoPush(encodeCode(generateSecret()), push, 2000, () => !erasing);
+
+    markLessonComplete('mod-1', 'lesson-1'); // arms the 2s debounce
+    erasing = true; // user clicks Erase inside the window; delete is in flight
+    vi.advanceTimersByTime(2000); // the armed timer now fires
+
+    expect(push).not.toHaveBeenCalled();
+    stop();
+  });
+
   it('coalesces across event types, not just within one', () => {
     // A finished exam writes the record AND the lesson state. Three listeners
     // each arming their own timer would be three encrypt+POST round trips for

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { subscribe } from '../utils/progress';
 import {
@@ -50,13 +50,20 @@ export function startAutoPush(
   code: string | null,
   push: (code: string) => void,
   delayMs: number = AUTO_PUSH_DEBOUNCE_MS,
+  shouldPush: () => boolean = () => true,
 ): () => void {
   if (!code || typeof window === 'undefined') return () => undefined;
 
   let timer: ReturnType<typeof setTimeout> | undefined;
   const schedule = () => {
     if (timer !== undefined) clearTimeout(timer);
-    timer = setTimeout(() => push(code), delayMs);
+    // Decide at FIRE time, not arm time. The debounce may be armed before the
+    // user clicks Erase; by the time it fires an erase can be in flight, and
+    // pushing then would re-UPSERT (sync_put) the blob they just deleted. So the
+    // push re-checks whether it is still wanted the instant before it runs.
+    timer = setTimeout(() => {
+      if (shouldPush()) push(code);
+    }, delayMs);
   };
 
   // subscribe() covers `discammer:progress` and the cross-tab `storage` event.
@@ -239,6 +246,11 @@ export default function ProgressSync({ locale }: Props) {
 
   const linkedCode = stage.kind === 'linked' ? stage.code : null;
 
+  // True from the instant Erase is clicked until the delete resolves (or fails).
+  // A ref, not state: the armed auto-push timer reads it at fire time and must
+  // see the latest value without waiting for a re-render.
+  const erasing = useRef(false);
+
   const runPush = useCallback((code: string) => {
     setStatus('pushing');
     void pushProgress(code).then((result) => {
@@ -254,7 +266,10 @@ export default function ProgressSync({ locale }: Props) {
     });
   }, []);
 
-  useEffect(() => startAutoPush(linkedCode, runPush), [linkedCode, runPush]);
+  useEffect(
+    () => startAutoPush(linkedCode, runPush, AUTO_PUSH_DEBOUNCE_MS, () => !erasing.current),
+    [linkedCode, runPush],
+  );
 
   function handleCreate() {
     // Local only. Nothing is stored and nothing is sent until the user confirms
@@ -327,16 +342,24 @@ export default function ProgressSync({ locale }: Props) {
   }
 
   async function handleErase(code: string) {
+    // Set the guard BEFORE the await: an auto-push armed during the erase window
+    // reads erasing.current at fire time (see startAutoPush) and stands down, so
+    // it cannot re-UPSERT the blob mid-delete and resurrect it for the full TTL.
+    erasing.current = true;
     setStatus('erasing');
     const result = await deleteRemote(code);
     if (result === 'ok') {
+      // The device is now unlinked, so nothing should push again — leave the
+      // guard set; the effect teardown on the stage change cancels the timer too.
       clearLinkedCode();
       setStage({ kind: 'unlinked' });
       setConfirmErase(false);
       setStatus('erased');
     } else {
       // Keep the link: the blob may still exist, and pretending otherwise would
-      // leave data on the server the user believes they deleted.
+      // leave data on the server the user believes they deleted. Let auto-push
+      // resume so the still-linked device keeps syncing.
+      erasing.current = false;
       setStatus('erase_failed');
     }
   }
