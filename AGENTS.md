@@ -120,5 +120,38 @@ docker compose up --build
 
 Before handing off a change, run the relevant backend tests, frontend tests,
 production build, and i18n audit. Verify the changed RU and EN routes with and
-without JavaScript where applicable. Do not deploy, push, or open a pull request
-without explicit authorization.
+without JavaScript where applicable.
+
+## Deploy authorization (owner grant, 2026-07-16)
+
+The owner has granted standing authorization to deploy code autonomously —
+without a per-deploy confirmation — the moment a change clears the gate below.
+Do not wait for a go-ahead once every gate item is green; deploying is then the
+expected next step, not a thing to ask about.
+
+**Green-light gate — ALL must hold, verified this session, not assumed:**
+
+1. `pytest -q` (from `backend/`), `npm test` and `npm run build` (from
+   `frontend/`), and `scripts/i18n_audit.py` all green.
+2. `npm run build` reproduces the committed `backend/static/` with zero diff.
+3. The change has passed its review (adversarial/whole-branch where the work
+   warranted it) with no unresolved confirmed defect.
+4. It integrates into `main` as a clean fast-forward **or** a clean, re-built,
+   re-tested merge. Never force-push `main`, never rewrite shared history, never
+   drop or overwrite a commit already on `main` — reconcile it in and re-run the
+   gate. A branch that does not cleanly reach `main` has NOT passed the gate,
+   even if its own tests are green.
+
+**Mechanism.** Deploy = push to `main`; CI/CD (`ci-cd.yml`) is the pipeline. Its
+`deploy` job is itself gated on `needs: [audit, backend-tests, frontend-build,
+docker-build, e2e]`, and `deploy.sh` health-probes with auto-rollback to `:prev`,
+so a red pipeline simply does not ship. After a push, confirm the deploy landed
+(`/api/health` reports the pushed SHA) and the post-deploy smoke is green; report
+the SHA. Only a dated live check earns the words `production verified`.
+
+**Still requires explicit confirmation — NOT covered by "deploy tested code":**
+force-pushing or rewriting shared history; the CSP enforce flip
+(`CSP_REPORT_ONLY=0`); secret creation/rotation; destructive DB operations or any
+data deletion; Cloudflare / DNS / infrastructure dashboard changes; and anything
+a code rollback cannot undo. These are separate irreversible actions, not the
+deploy of a tested changeset — surface them, do not self-authorize them.
