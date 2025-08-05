@@ -2,6 +2,7 @@ import { useId, useRef, useState } from 'react';
 import { inspect, type InspectionResult, type UrlFinding } from '../data/url_heuristics';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 import { useReducedMotion } from '../utils/useReducedMotion';
+import IncidentActionWizard from './IncidentActionWizard';
 
 /**
  * LinkInspector — the link/URL inspector island (F2), flagship sibling of the
@@ -239,6 +240,11 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
           </>
         )}
       </div>
+
+      {/* Kept outside aria-live: this local guide receives only the locale and
+          a constant surface label. It never receives the pasted URL, judged
+          hostname, heuristic findings, or risk score. */}
+      {result !== null && <IncidentActionWizard lang={lang} surface="link" />}
     </div>
   );
 }

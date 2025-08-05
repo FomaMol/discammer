@@ -42,7 +42,7 @@ export type UrlFinding = {
 export type ParsedUrl = {
   /** The original, untouched input. */
   raw: string;
-  /** Lowercased host (registrable part included), or '' if none could be read. */
+  /** Lowercased hostname, or '' if none could be read. */
   host: string;
   /**
    * The host EXACTLY as typed in the original input, before the `URL`
@@ -305,12 +305,17 @@ function isShortener(host: string): boolean {
 }
 
 /**
- * Excessive / deceptive sub-domains. Two signals folded into one finding:
- *   1. A known brand label sits in the sub-domain while the REGISTRABLE domain
- *      (last two labels) is something else — e.g. `paypal.com.secure-login.ru`.
- *   2. The host stacks an unusually deep sub-domain chain (>= 4 labels) without
- *      being an IP.
- * The brand-in-subdomain case is the strong tell and is what tests assert.
+ * A deliberately small set of familiar labels attackers often embed after a
+ * brand-shaped label. These are only literal labels in a host; they are NOT a
+ * suffix resolver, a registrable-domain model, or an ownership lookup.
+ */
+const BRAND_LIKE_SUFFIX_LABELS = new Set(['com', 'net', 'org', 'ru', 'io', 'app', 'info', 'biz']);
+
+/**
+ * A narrow deceptive-label embedding: a known brand is immediately followed
+ * by one of the literal labels above, and further labels remain — e.g.
+ * `paypal.com.secure-login.ru`. It makes no claim about a registrable domain,
+ * a public suffix, or who owns the host. Unknown patterns fail closed.
  */
 const DECEPTIVE_BRAND_LABELS = [
   'paypal',
@@ -333,14 +338,15 @@ const DECEPTIVE_BRAND_LABELS = [
 function hasDeceptiveSubdomain(host: string): boolean {
   if (!host || host.startsWith('[') || looksLikeIp(host)) return false;
   const labels = host.split('.').filter(Boolean);
-  if (labels.length < 3) return false;
-  // The sub-domain labels are everything except the last two (registrable part).
-  const subLabels = labels.slice(0, -2);
-  for (const label of subLabels) {
-    if (DECEPTIVE_BRAND_LABELS.includes(label)) return true;
+  for (let index = 0; index < labels.length - 2; index += 1) {
+    if (
+      DECEPTIVE_BRAND_LABELS.includes(labels[index]) &&
+      BRAND_LIKE_SUFFIX_LABELS.has(labels[index + 1])
+    ) {
+      return true;
+    }
   }
-  // Otherwise only flag a genuinely deep chain (4+ labels) as deceptive.
-  return labels.length >= 4;
+  return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -400,23 +406,25 @@ function deLeet(label: string): string {
 }
 
 /**
- * Brand lookalike: the registrable label is NOT a known brand, but is a near
- * miss of one (edit distance 1–2 after de-leeting) — typosquats like `paypa1`,
- * `gооgle`, `app1e`. The exact brand domain never fires.
+ * Brand lookalike: a candidate is immediately followed by one of the same
+ * literal brand-like labels, either as a short host (`paypa1.com`) or embedded
+ * in a longer host (`paypa1.com.evil.co.uk`). Unknown label patterns fail
+ * closed. The exact brand label never fires; this does not resolve domains.
  */
 function hasBrandLookalike(host: string): boolean {
   if (!host || host.startsWith('[') || looksLikeIp(host)) return false;
   const labels = host.split('.').filter(Boolean);
-  if (labels.length < 2) return false;
-  const sld = labels[labels.length - 2]; // second-level (registrable) label
-  if (!sld) return false;
-  if (KNOWN_BRANDS.includes(sld)) return false; // genuine brand label → not a lookalike
-  const norm = deLeet(sld);
-  if (KNOWN_BRANDS.includes(norm)) return true; // de-leeted to an exact brand
-  for (const brand of KNOWN_BRANDS) {
-    if (Math.abs(norm.length - brand.length) > 2) continue;
-    const d = editDistance(norm, brand);
-    if (d >= 1 && d <= 2) return true;
+  for (let index = 0; index < labels.length - 1; index += 1) {
+    const candidate = labels[index];
+    if (!BRAND_LIKE_SUFFIX_LABELS.has(labels[index + 1])) continue;
+    if (KNOWN_BRANDS.includes(candidate)) continue;
+    const norm = deLeet(candidate);
+    if (KNOWN_BRANDS.includes(norm)) return true;
+    for (const brand of KNOWN_BRANDS) {
+      if (Math.abs(norm.length - brand.length) > 2) continue;
+      const d = editDistance(norm, brand);
+      if (d >= 1 && d <= 2) return true;
+    }
   }
   return false;
 }
