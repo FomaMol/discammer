@@ -69,6 +69,26 @@ check_security_headers() {
 }
 check_security_headers
 
+# The game is embedded same-origin by /{lang}/game. A generic security-header
+# check on /en/ cannot catch X-Frame-Options: DENY on the framed /play/ document,
+# which renders as "refused to connect" in Chrome. Keep this probe deliberately
+# read-only and independent of the large Unity payload.
+check_game_embed_headers() {
+  local url="${BASE_URL}/play/"
+  echo "[smoke-prod] checking game embed headers on ${url} ..."
+  local hdrs
+  hdrs="$(curl -fsSL -D - -o /dev/null --max-time 15 "$url" | tr 'A-Z' 'a-z')" || {
+    echo "[smoke-prod] ERROR: could not fetch ${url} for game embed check" >&2
+    return 1
+  }
+  if ! grep -qE '^x-frame-options:[[:space:]]*sameorigin[[:space:]]*$' <<< "$hdrs"; then
+    echo "[smoke-prod] ERROR: ${url} must answer X-Frame-Options: SAMEORIGIN" >&2
+    return 1
+  fi
+  echo "[smoke-prod] game embed headers OK."
+}
+check_game_embed_headers
+
 echo "[smoke-prod] running @smoke specs (read-only) ..."
 
 # E2E_BASE_URL routes the Playwright config at the external origin and SKIPS the
