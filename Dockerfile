@@ -5,6 +5,8 @@ COPY frontend/package.json frontend/package-lock.json ./frontend/
 RUN cd frontend && npm ci
 COPY frontend/ ./frontend/
 COPY backend/static/ ./backend/static/
+# Frontend data tests import the authored locale JSON during the typecheck.
+COPY backend/locales/ ./backend/locales/
 # Tailwind v4 scans backend/templates/**/*.html via `@source` in globals.css —
 # without these, classes used only in Jinja templates get purged from the bundle.
 COPY backend/templates/ ./backend/templates/
