@@ -430,11 +430,18 @@ jobs:
         # Pinned by commit SHA: this third-party action receives the prod SSH
         # key, and a moved tag must not be able to swap the code under it.
         uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17 # v1.2.0
+        env:
+          # deploy.sh invokes the repository's fail-safe Cloudflare purge after
+          # the new container is healthy. Forward the scoped secrets to the
+          # remote shell without writing them to the repository or logs.
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           port: 22
+          envs: CF_API_TOKEN,CF_ZONE_ID
           # deploy.sh now builds with --pull and runs a health probe with
           # rollback; 10m could kill it between `up -d` and the probe.
           command_timeout: 18m
