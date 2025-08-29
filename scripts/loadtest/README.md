@@ -66,7 +66,7 @@ BASE_URL=https://discammer.com k6 run scripts/loadtest/smoke.js
 #    Point BASE_URL at the VPS IP but keep the Host header = discammer.com so
 #    nginx routes correctly. Easiest: an /etc/hosts override or k6's --hosts:
 BASE_URL=https://discammer.com \
-  k6 run --hosts discammer.com:203.0.113.11 scripts/loadtest/smoke.js
+  k6 run --hosts discammer.com:203.0.113.10 scripts/loadtest/smoke.js
 ```
 
 - **Through CF**, SSR and media should show many `cf-cache-status: HIT`s (especially

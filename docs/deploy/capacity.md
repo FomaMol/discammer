@@ -27,7 +27,7 @@ SSR `/en/` · `/api/posts` · `/api/search?q=<term>` · media `/static/images/og
 | Run | How | Tells us |
 |-----|-----|----------|
 | **Through CF** | `BASE_URL=https://discammer.com` | What real users experience (edge cache + WAF) |
-| **Direct to origin** | `--hosts discammer.com:203.0.113.11` (keeps Host header) | True origin capacity, cache bypassed |
+| **Direct to origin** | `--hosts discammer.com:203.0.113.10` (keeps Host header) | True origin capacity, cache bypassed |
 
 **Procedure:**
 

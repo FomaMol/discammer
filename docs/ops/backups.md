@@ -5,7 +5,7 @@ production SQLite database.
 
 - **Scripts**: [`scripts/backup-db.sh`](../../scripts/backup-db.sh),
   [`scripts/restore-db.sh`](../../scripts/restore-db.sh)
-- **Prod host**: `203.0.113.11` (2 vCPU / 2 GB / no swap), repo root
+- **Prod host**: `203.0.113.10` (2 vCPU / 2 GB / no swap), repo root
   `/opt/discammer`
 - **Live DB**: `/opt/discammer/data/discammer.db` (bind-mounted into the
   container at `/app/data`, **WAL mode** → `-wal`/`-shm` sidecars)

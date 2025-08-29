@@ -12,7 +12,7 @@ execution of that spec. Where the plan and this file disagree, the plan wins —
 | --- | --- |
 | Apex domain | `discammer.com` |
 | WWW | `www.discammer.com` (redirects to apex) |
-| Origin VPS | `203.0.113.11` · 2 vCPU / 2 GB RAM / **no swap** |
+| Origin VPS | `203.0.113.10` · 2 vCPU / 2 GB RAM / **no swap** |
 | TLS today | nginx on host terminates TLS — Let's Encrypt + certbot, HTTP/2 |
 | App | Docker, uvicorn 2 workers, published **loopback-only** on `127.0.0.1:8000` (`docker-compose.prod.yml`) |
 | Media | `/media/` (~15 GB) served **by nginx** from `/opt/discammer/media/` — NOT by the app. `Cache-Control: public, max-age=2592000, immutable` (30 d) |
@@ -87,7 +87,7 @@ Cloudflare (CDN/WAF, origin hidden). Grey cloud = DNS-only (no proxy).
 
 | Type | Name | Content | Proxy | Notes |
 | --- | --- | --- | --- | --- |
-| `A` | `@` (apex) | `203.0.113.11` | **Proxied** 🟠 | The site. Hides origin, enables CDN/WAF. |
+| `A` | `@` (apex) | `203.0.113.10` | **Proxied** 🟠 | The site. Hides origin, enables CDN/WAF. |
 | `CNAME` | `www` | `discammer.com` | **Proxied** 🟠 | Redirect www→apex stays on nginx (or move to CF Redirect Rule, see CF-7 — do **not** duplicate). |
 | `TXT` | (SPF/DMARC/verification) | as-is | **DNS-only** ⚪ | TXT is metadata; never proxy. |
 | `MX` | (if mail exists) | as-is | **DNS-only** ⚪ | Proxying MX breaks mail. |
@@ -101,7 +101,7 @@ forget the proxy toggle if/when you do it.
 ### Verify
 ```bash
 curl -sI https://discammer.com | grep -i '^server'   # → cloudflare
-dig A discammer.com +short                            # → CF anycast IPs, NOT 203.0.113.11
+dig A discammer.com +short                            # → CF anycast IPs, NOT 203.0.113.10
 dig A www.discammer.com +short                        # → CF anycast IPs
 dig TXT discammer.com +short                          # → your SPF/DMARC still present
 ```
@@ -156,7 +156,7 @@ behind CF), and require **mTLS** so the origin accepts TLS **only** from Cloudfl
 curl -sI https://discammer.com | head -1
 
 # Direct to origin in spite of CF, presenting the right Host — mTLS must REFUSE it:
-curl -sI --resolve discammer.com:443:203.0.113.11 https://discammer.com -H 'Host: discammer.com'
+curl -sI --resolve discammer.com:443:203.0.113.10 https://discammer.com -H 'Host: discammer.com'
 #   → TLS handshake failure / no required SSL certificate was sent  (mTLS working)
 ```
 Run **SSL Labs** (https://www.ssllabs.com/ssltest/analyze.html?d=discammer.com) → target **A / A+**.
@@ -168,9 +168,23 @@ the CF client cert is **refused** (mTLS works); SSL Labs A/A+.
 
 ## CF-4 · HSTS on edge + preload — HSTS
 
-**Priority P0 · Low.** Move/duplicate HSTS to the edge and prep for CSP (SEC-1). nginx already sends
-`Strict-Transport-Security: max-age=63072000; includeSubDomains`. Make the **edge** the source of
-truth and reconcile `max-age` so they don't conflict.
+**Priority P0 · Low.** Put HSTS on the edge and prep for CSP (SEC-1).
+
+> **Corrected 2026-08-01.** This section used to say "nginx already sends
+> `Strict-Transport-Security: max-age=63072000; includeSubDomains`". **It does not.** A live probe
+> that day found no `strict-transport-security` header on any production response — HTML, JSON,
+> static assets, redirects, 404s, apex or `www` — and hstspreload.org's API independently returned
+> `response.no_header` for the domain. The `add_header` at `deploy/nginx/discammer.conf:130` is
+> real, but that file self-describes as a reconstruction, the line carries a `# RECONCILE:` tag, and
+> `sync_nginx_config()` in `scripts/deploy.sh` is gated behind `APPLY_NGINX=1` (default: skip), so
+> it has never reached the live vhost. HSTS is *configured*, never *production verified* — and there
+> is nothing at the edge to "reconcile" with.
+>
+> This matters beyond bookkeeping: with no HSTS, the trailing-slash redirect that answered
+> `Location: http://…` produced a genuine cleartext hop rather than a browser-upgraded one.
+
+Enable it at **SSL/TLS → Edge Certificates → HSTS**, then verify on the wire before ticking CF-4.
+Resolve the `www` → apex redirect (CF-7) **first** if you intend to set `includeSubDomains`.
 
 ### Steps
 1. Cloudflare → **SSL/TLS → Edge Certificates → HTTP Strict Transport Security (HSTS)** → **Enable**:
@@ -317,8 +331,20 @@ edge; WAF events visible in Security → Events; legitimate traffic unaffected (
 features that break the islands/Unity.
 
 ### Steps
-1. **Redirect Rule** — `www → apex`. **Only create this if you remove the redirect from nginx**
-   (today nginx does `www → apex`). Do **not** duplicate it. If you move it to CF:
+1. **Redirect Rule** — `www → apex`. **Corrected 2026-08-01: there is nothing to duplicate — no
+   `www` redirect is live anywhere.** `https://www.discammer.com/en/` answers **200** with the full
+   site, and `https://www.discammer.com/` answers `302 Location: /en/` — a *relative* target, so the
+   visitor stays on `www` for the whole session. The origin genuinely honours `Host: www` (distinct
+   `x-request-id`, `cf-cache-status: DYNAMIC`, and the slash-redirect returns
+   `http://www.discammer.com/…`, a string only the origin could build). The `www` 443 server block
+   at `deploy/nginx/discammer.conf:74-87` exists in the repo but was never applied — same
+   `APPLY_NGINX=1` gate as the HSTS line in CF-4.
+
+   Real user impact: the `lang` cookie is set host-only (no `Domain`), so **language preference
+   silently resets** whenever someone crosses `www` ↔ apex. SEO is bounded — canonical, hreflang and
+   all 100 sitemap URLs correctly point at the apex.
+
+   Pick **exactly one** layer — this rule *or* the nginx block. If you use CF:
    Cloudflare → **Rules → Redirect Rules** → match `http.host eq "www.discammer.com"` →
    **Dynamic redirect** to `concat("https://discammer.com", http.request.uri.path)`, **301**,
    preserve query string. Then delete the `www` 443 server block from `deploy/nginx/discammer.conf`
@@ -384,7 +410,7 @@ sudo bash scripts/cf-firewall.sh
 ### Verify
 ```bash
 # Direct origin request (bypassing CF) must FAIL — refused/timeout:
-curl -sI --resolve discammer.com:443:203.0.113.11 https://discammer.com -H 'Host: discammer.com'
+curl -sI --resolve discammer.com:443:203.0.113.10 https://discammer.com -H 'Host: discammer.com'
 #   → connection refused / timeout (firewall) and/or TLS refusal (mTLS from CF-3)
 
 # On the origin, tail nginx logs while you browse the live site — you should see the REAL visitor IP,
@@ -394,7 +420,7 @@ sudo tail -f /var/log/nginx/access.log
 Confirm the app (`request_logging_middleware`, the `/api/client-errors` beacon rate-limit) reads the
 restored IP.
 
-**DoD:** direct `curl` to `203.0.113.11` (bypassing CF) is refused/timed out; nginx logs show the real
+**DoD:** direct `curl` to `203.0.113.10` (bypassing CF) is refused/timed out; nginx logs show the real
 visitor IP (not a CF IP); the beacon rate-limit triggers on the real IP; SSH still works from your IP.
 
 ---

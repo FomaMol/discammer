@@ -4,7 +4,7 @@ set -euo pipefail
 # =============================================================================
 # cf-firewall.sh — lock the origin so :80/:443 accept Cloudflare ONLY (CF-8)
 # =============================================================================
-# After traffic is proxied through Cloudflare, the origin (203.0.113.11) must
+# After traffic is proxied through Cloudflare, the origin (203.0.113.10) must
 # refuse direct web hits — otherwise an attacker bypasses the CF WAF/DDoS shield
 # by stuffing requests straight at the IP. This script rebuilds the ufw allow
 # list for the web ports from Cloudflare's published edge ranges. Everything
@@ -128,7 +128,7 @@ done <<< "$ranges"
 if [ "$APPLY" = "1" ]; then
   ufw --force enable
   ufw reload
-  log "Applied. Verify from OFF-Cloudflare: a direct 'curl -sI --resolve discammer.com:443:203.0.113.11 https://discammer.com' should hang/refuse, while https://discammer.com (via CF) still serves."
+  log "Applied. Verify from OFF-Cloudflare: a direct 'curl -sI --resolve discammer.com:443:203.0.113.10 https://discammer.com' should hang/refuse, while https://discammer.com (via CF) still serves."
 else
   log "DRY RUN complete. Re-run with APPLY=1 (and ADMIN_SSH_CIDR set) to apply."
 fi

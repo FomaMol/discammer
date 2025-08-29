@@ -1,7 +1,7 @@
 # DiScammer — Feature Plan
 
 > Исчерпывающий, готовый к исполнению план развития инфраструктуры, безопасности, UX, производительности, SEO и аналитики.
-> Версия: 1.0 · Дата: 2026-06-23 · Прод: `discammer.com` → VPS `203.0.113.11` (2 vCPU / 2 GB RAM / без swap)
+> Версия: 1.0 · Дата: 2026-06-23 · Прод: `discammer.com` → VPS `203.0.113.10` (2 vCPU / 2 GB RAM / без swap)
 
 ---
 
@@ -64,7 +64,7 @@
 
 | # | Слабое место | Риск | Закрывается фичей |
 |---|---|---|---|
-| W1 | Origin-IP `203.0.113.11` светится публично; TLS/DDoS только на 2-ядерном VPS | DDoS кладёт сайт; нет буфера | CF-1…CF-9 |
+| W1 | Origin-IP `203.0.113.10` светится публично; TLS/DDoS только на 2-ядерном VPS | DDoS кладёт сайт; нет буфера | CF-1…CF-9 |
 | W2 | 15 GB видео отдаётся с origin → весь трафик/полоса на VPS | Дорого, медленно, single point | CF-5 (edge cache) |
 | W3 | Нет CSP, X-Frame-Options, Permissions-Policy | XSS/clickjacking | SEC-1 |
 | W4 | Rate-limit только на beacon; публичные `/api/*` и SSR не защищены | Скрейпинг/abuse кладёт воркеры | SEC-2, CF-6 |
@@ -99,7 +99,7 @@
 
 ## 2. Инфраструктура — Cloudflare (полная интеграция)
 
-> **Стратегия.** Cloudflare ставится «перед» текущим nginx как reverse-proxy + CDN + WAF + DDoS-щит. Origin (`203.0.113.11`) скрывается и запирается так, чтобы принимать трафик **только** от Cloudflare. nginx и `deploy.sh` остаются как есть — меняется лишь сертификат origin и firewall. Это даёт мгновенный выигрыш по W1, W2, W4 без переписывания приложения.
+> **Стратегия.** Cloudflare ставится «перед» текущим nginx как reverse-proxy + CDN + WAF + DDoS-щит. Origin (`203.0.113.10`) скрывается и запирается так, чтобы принимать трафик **только** от Cloudflare. nginx и `deploy.sh` остаются как есть — меняется лишь сертификат origin и firewall. Это даёт мгновенный выигрыш по W1, W2, W4 без переписывания приложения.
 >
 > **План тарифа.** Старт на **Free** (DDoS L3/4 unmetered, Universal SSL, неограниченный CDN-кэш, базовый WAF/Managed Ruleset, 5 Cache/Configuration Rules, Web Analytics — всё бесплатно и закрывает 90% потребностей). Апгрейд до **Pro ($20/мес)** только когда понадобятся расширенные WAF Managed Rulesets, Image Resizing/Polish и тонкий rate-limiting.
 
@@ -122,7 +122,7 @@
 - **Описание**: Прописать корректные записи с правильным режимом проксирования (оранжевое облако = трафик идёт через CF; серое = DNS-only).
 - **Зачем**: W1, W2. Проксирование скрывает origin и включает CDN/WAF.
 - **Шаги**:
-  1. `A` · `@` (apex) → `203.0.113.11` · **Proxied (оранжевое облако)**.
+  1. `A` · `@` (apex) → `203.0.113.10` · **Proxied (оранжевое облако)**.
   2. `CNAME` · `www` → `discammer.com` · **Proxied**. (Редирект `www → apex` остаётся на nginx, либо переносится в CF Redirect Rule — см. CF-7.)
   3. **Решение по медиа**: если в будущем выносить `/media/` на отдельный поддомен `media.discammer.com` — `A` запись → origin, **Proxied**, чтобы 15 GB кэшировались на edge. Пока `/media/` под apex — оно и так проксируется. (См. CF-5.)
   4. Сохранить TXT-записи (SPF/DMARC/верификации), `MX` если есть почта — все **DNS-only (серое облако)**, чтобы не ломать почту.
@@ -146,7 +146,7 @@
 ### CF-4 · HSTS и заголовки безопасности на edge
 
 - **Приоритет**: P0 · **Сложность**: Низкая · **Оценка**: 0.25 дня
-- **Описание**: Перенести/продублировать HSTS на edge и подготовить площадку для CSP (см. SEC-1). HSTS уже есть в nginx (`max-age=63072000; includeSubDomains`) — на edge добавляем preload.
+- **Описание**: Поставить HSTS на edge и подготовить площадку для CSP (см. SEC-1). **Исправлено 2026-08-01:** здесь было написано «HSTS уже есть в nginx (`max-age=63072000; includeSubDomains`)» — это неверно. Живая проверка 2026-08-01 не нашла заголовка `Strict-Transport-Security` ни на одном ответе прода (HTML, JSON, статика, редиректы, 404, apex и `www`), и hstspreload.org независимо вернул `response.no_header`. Строка `add_header` в `deploy/nginx/discammer.conf:130` существует, но этот файл — реконструкция с меткой `# RECONCILE:`, а `sync_nginx_config()` в `scripts/deploy.sh` закрыт за `APPLY_NGINX=1` (по умолчанию пропускается), так что до живого vhost она не доезжала. Статус HSTS — **⚙️ конфиг**, не «production verified».
 - **Зачем**: W3. Единая точка управления заголовками + preload.
 - **Шаги**:
   1. CF → **SSL/TLS → Edge Certificates → HTTP Strict Transport Security (HSTS)**: `max-age=12 месяцев` для начала (потом 24), **Include subDomains**, **Preload** (после проверки, что все поддомены на HTTPS), **No-Sniff** on.
@@ -204,7 +204,7 @@
 ### CF-8 · Запирание origin (origin lock-down + real IP)
 
 - **Приоритет**: P0 · **Сложность**: Средняя · **Оценка**: 0.5 дня
-- **Описание**: После переключения трафика на CF — закрыть origin от прямого доступа и восстановить реальный IP клиента в логах/rate-limit. Без этого атакующий обходит CF, стуча по `203.0.113.11` напрямую.
+- **Описание**: После переключения трафика на CF — закрыть origin от прямого доступа и восстановить реальный IP клиента в логах/rate-limit. Без этого атакующий обходит CF, стуча по `203.0.113.10` напрямую.
 - **Зачем**: W1. Главный смысл CF-щита теряется, если origin доступен напрямую.
 - **Шаги**:
   1. **Firewall (ufw/iptables на VPS)**: разрешить :443 (и :80 для ACME, если нужен) **только** с [официальных IP-диапазонов Cloudflare](https://www.cloudflare.com/ips/) (IPv4 + IPv6). Всё остальное — DROP. SSH (:22) — только со своего IP/бастиона.
@@ -213,7 +213,7 @@
      - Сгенерировать `deploy/nginx/cloudflare-real-ip.conf` из списка диапазонов, `include` в server-блок. **Закоммитить** (REL-3).
   3. Проверить, что приложение (`request_logging_middleware`, beacon rate-limit) корректно читает восстановленный IP.
   4. (Опц., усиление) **Authenticated Origin Pulls** уже включён в CF-3 — origin принимает TLS только от CF. Firewall + mTLS = двойной замок.
-- **DoD**: прямой `curl https://203.0.113.11` (с Host: discammer.com, в обход CF) → connection refused/timeout; в nginx-логах виден реальный IP посетителя (не CF-IP); rate-limit beacon срабатывает по реальному IP.
+- **DoD**: прямой `curl https://203.0.113.10` (с Host: discammer.com, в обход CF) → connection refused/timeout; в nginx-логах виден реальный IP посетителя (не CF-IP); rate-limit beacon срабатывает по реальному IP.
 
 ### CF-9 · Cloudflare Web Analytics (privacy-first)
 

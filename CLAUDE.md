@@ -96,3 +96,19 @@ verified`. Keep these states distinct in documentation and public copy.
 For the longer technical overview, contributor commands, and documentation map,
 read [`PROJECT.md`](PROJECT.md). For admissions evidence and author-review
 requirements, read [`docs/portfolio/README.md`](docs/portfolio/README.md).
+
+## Production host (переезд 30–31 июля 2026)
+
+Прод переехал с латвийского VPS на российский — Beget закрывает Латвию.
+
+- **Прод-сервер:** `203.0.113.10` (Diligent Mira, Beget, SPB, 2 vCPU / 2 GB / 30 GB NVMe, без swap)
+- **Старый адрес `203.0.113.11` (Swift Kendal, Латвия) больше не использовать.** Он ещё жив и до
+  переключения DNS принимает трафик, но будет удалён.
+- Приложение крутится в docker (`discammer-web-1`), перед ним nginx, домен проксируется Cloudflare.
+- Деплой: `scripts/deploy.sh` выполняется на самом сервере.
+- Доступ по SSH — ключ, а не пароль. Root-пароль на новом сервере равен латвийскому: при переносе
+  `/etc/shadow` приехал со старой машины.
+
+Важно: `/var/log` при переносе не копировался, поэтому подкаталоги логов на новом сервере созданы
+заново пустыми. Если добавляете сервис, который пишет в свой каталог в `/var/log`, — создавайте его
+явно, иначе сервис не стартует.

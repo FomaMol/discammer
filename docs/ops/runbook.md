@@ -29,7 +29,7 @@ SQLite (WAL mode), bind-mounted ./data  ── content reseeded from git on ever
                                         ── sync_blob (UX-4) is NOT: durable user state
 ```
 
-- **VPS:** `203.0.113.11` — **2 vCPU / 2 GB RAM / NO SWAP**. The no-swap fact
+- **VPS:** `203.0.113.10` — **2 vCPU / 2 GB RAM / NO SWAP**. The no-swap fact
   matters for OOM: there is zero cushion, the kernel OOM-killer fires immediately.
 - **Repo on host:** `/opt/discammer` (`REPO_DIR`).
 - **Compose:** `docker compose -f docker-compose.yml -f docker-compose.prod.yml`.
@@ -68,7 +68,7 @@ curl -sS -o /dev/null -w "%{http_code} %{time_total}s\n" https://discammer.com/a
 # 2. Is it CF or origin? Compare edge vs direct-to-origin (bypass CF).
 #    Resolve discammer.com straight to the VPS IP, skip the edge:
 curl -sS -o /dev/null -w "ORIGIN %{http_code} %{time_total}s\n" \
-  --resolve discammer.com:443:203.0.113.11 https://discammer.com/api/health
+  --resolve discammer.com:443:203.0.113.10 https://discammer.com/api/health
 
 # 3. Read the headers — cf-cache-status / server tells you who answered.
 curl -sSI https://discammer.com/ | grep -iE 'server|cf-cache-status|cf-ray|cache-control'
@@ -192,7 +192,7 @@ Check `OOMKilled=true` → go to §4. Check disk → §5. Otherwise app crash / 
 **VERIFY**
 ```bash
 curl -sS -o /dev/null -w "ORIGIN %{http_code} %{time_total}s\n" \
-  --resolve discammer.com:443:203.0.113.11 https://discammer.com/api/health
+  --resolve discammer.com:443:203.0.113.10 https://discammer.com/api/health
 curl -sS https://discammer.com/api/health   # should report the expected SHA
 ```
 `/api/health` 200 direct-to-origin **and** through the edge; SHA is the one you
@@ -382,7 +382,7 @@ echo | openssl s_client -connect discammer.com:443 -servername discammer.com 2>/
   | openssl x509 -noout -issuer -subject -dates
 
 # Origin cert (CF → nginx), bypass the edge:
-echo | openssl s_client -connect 203.0.113.11:443 -servername discammer.com 2>/dev/null \
+echo | openssl s_client -connect 203.0.113.10:443 -servername discammer.com 2>/dev/null \
   | openssl x509 -noout -issuer -subject -dates
 
 nginx -t                                  # config valid?
@@ -437,7 +437,7 @@ gh workflow run diagnostics.yml --ref main && gh run watch
 # ── HEALTH checks ───────────────────────────────────────────────────────────
 curl -sS -o /dev/null -w "EDGE   %{http_code} %{time_total}s\n" https://discammer.com/api/health
 curl -sS -o /dev/null -w "ORIGIN %{http_code} %{time_total}s\n" \
-  --resolve discammer.com:443:203.0.113.11 https://discammer.com/api/health
+  --resolve discammer.com:443:203.0.113.10 https://discammer.com/api/health
 
 # ── CLOUDFLARE Under Attack Mode is a dashboard toggle ──────────────────────
 #   Overview → Security Level → "I'm Under Attack"  (revert to Medium after)
