@@ -44,6 +44,38 @@ def test_sw_is_always_revalidated(client):
     assert "no-cache" in cache_control or "max-age=0" in cache_control, cache_control
 
 
+def test_sw_is_not_cacheable_by_the_cdn(client):
+    """State the no-store intent to the CDN, not just to the browser.
+
+    Production serves `/sw.js` as `cache-control: max-age=14400` even though the
+    origin sets `no-cache` (observed 2026-08-01). A cache-busted request returns
+    `cf-cache-status: MISS` and STILL carries `max-age=14400`, so this is not an
+    edge-staleness artifact: the Cloudflare zone is applying its Free-plan
+    default Browser Cache TTL instead of the "Respect Existing Headers" setting
+    that `docs/cloudflare/SETUP.md` mandates (its checklist row is unchecked).
+    The same rewrite hits the whole non-hashed-static bucket — fonts, favicon,
+    logomark, the OG image — so the zone setting, not this route, is the real
+    remedy.
+
+    Scope discipline: the worker itself is NOT known to go stale. The Service
+    Worker spec forces `cache: no-cache` on the top-level script request for
+    both registration and every update check, `sw-register.ts` leaves
+    `updateViaCache` at its default, the worker calls no `importScripts()`, and
+    the precache already bypasses the HTTP cache via
+    `new Request(url, {cache: 'reload'})`. So this asserts DEFENCE IN DEPTH and
+    makes the origin's intent legible to any CDN — it is not the fix for an
+    observed stale-worker incident, and must not be described as one.
+
+    `Cloudflare-CDN-Cache-Control` (CF-specific, highest precedence) and
+    `CDN-Cache-Control` (RFC 9213) are consumed by the edge and stripped before
+    the response reaches the browser, so neither weakens the `no-cache` above.
+    """
+    _require_built()
+    r = client.get("/sw.js")
+    assert r.headers.get("cloudflare-cdn-cache-control", "").lower() == "no-store"
+    assert r.headers.get("cdn-cache-control", "").lower() == "no-store"
+
+
 def test_sw_declares_root_scope_header(client):
     """Service-Worker-Allowed: / is set explicitly (belt-and-braces for root scope)."""
     _require_built()

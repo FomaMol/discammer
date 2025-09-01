@@ -283,6 +283,23 @@ async def service_worker() -> Response:
         headers={
             # Always revalidate the worker so a new deploy is picked up promptly.
             "Cache-Control": "no-cache",
+            # …and say the same thing to the CDN, which does not read the line
+            # above. Production serves this file as `max-age=14400` (observed
+            # 2026-08-01); a cache-busted request still returns `max-age=14400`
+            # on a `cf-cache-status: MISS`, so the Cloudflare zone is applying
+            # its default Browser Cache TTL rather than the "Respect Existing
+            # Headers" setting docs/cloudflare/SETUP.md mandates. That zone
+            # setting is the actual remedy — it covers the whole non-hashed
+            # bucket (fonts, favicon, logomark, OG image), not just this route.
+            #
+            # No stale-worker exposure is known: the Service Worker spec forces
+            # `cache: no-cache` on the script request for registration AND every
+            # update check, sw-register.ts leaves `updateViaCache` at default,
+            # and the worker uses no importScripts(). This is defence in depth,
+            # not an incident fix. Both headers are consumed and stripped by the
+            # edge, so the browser still sees the plain `no-cache` above.
+            "Cloudflare-CDN-Cache-Control": "no-store",  # CF-specific, wins over the below
+            "CDN-Cache-Control": "no-store",  # RFC 9213 — any other CDN in front
             # Permit root scope explicitly (belt-and-braces; the file is already
             # served from the root path, which grants `/` by default).
             "Service-Worker-Allowed": "/",

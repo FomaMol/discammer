@@ -11,6 +11,7 @@ from config import (
     CLIENT_ERROR_RATE_LIMIT,
     CLIENT_ERROR_SAMPLE_RATE,
     CSP_REPORT_RATE_LIMIT,
+    DOCS_ENABLED,
     GIT_SHA,
     METRICS_TOKEN,
     SITE_ORIGIN,
@@ -71,6 +72,13 @@ app = FastAPI(
     description="Cybersecurity education platform",
     version=APP_VERSION,
     lifespan=lifespan,
+    # Interactive docs are opt-in (config.DOCS_ENABLED, default off). Passing
+    # None to all three unregisters the routes outright rather than hiding them,
+    # so /docs, /redoc, /openapi.json and /docs/oauth2-redirect all 404 in
+    # production instead of loading unpinned third-party JS on our origin.
+    docs_url="/docs" if DOCS_ENABLED else None,
+    redoc_url="/redoc" if DOCS_ENABLED else None,
+    openapi_url="/openapi.json" if DOCS_ENABLED else None,
 )
 
 # Static files
@@ -354,9 +362,23 @@ async def request_logging_middleware(request: "Request", call_next):
     #   - everything else, above all HTML -> `no-cache`: store but ALWAYS
     #     revalidate (ETag 304s keep it cheap), so a bad response can never be
     #     served stale and a deploy is picked up on the next load.
+    #
+    # The hashed-asset branch is gated on a SUCCESSFUL status. Keying it off the
+    # path alone meant a 404 under those prefixes also went out as
+    # `max-age=31536000, immutable`, and Cloudflare pinned it: probing a
+    # nonexistent chunk on production returned `cf-cache-status: MISS` then
+    # `HIT` with a climbing age (2026-08-01). One request for a new hash while
+    # the origin could not serve it — the window before the new container is up,
+    # a rollback to :prev, a host migration — froze that 404 at the edge for a
+    # YEAR, and `immutable` stops browsers revalidating even on reload. Everyone
+    # behind that PoP then got the HTML but no CSS and no JS: an unstyled page
+    # with no island. A miss must stay cheap to retry, so it gets `no-store`.
     if "cache-control" not in (k.lower() for k in response.headers.keys()):
         if _path.startswith(("/static/js/", "/static/css/")):
-            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+            if response.status_code == 200:
+                response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+            else:
+                response.headers["Cache-Control"] = "no-store"
         else:
             response.headers["Cache-Control"] = "no-cache"
 
