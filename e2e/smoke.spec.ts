@@ -78,6 +78,58 @@ test('@smoke /api/health reports a build version (matches SMOKE_EXPECT_SHA when 
 });
 
 /**
+ * Redirects must not leave TLS.
+ *
+ * Production answered every trailing-slash URL with a 307 to a CLEARTEXT
+ * location — `https://discammer.com/en/course/` -> `http://discammer.com/en/course`
+ * (2026-08-01), on a zone that sends no HSTS, so browsers really opened port 80
+ * before bouncing back. Starlette's `redirect_slashes` builds its absolute
+ * Location from the ASGI scope scheme, which stays "http" whenever uvicorn does
+ * not trust nginx's `X-Forwarded-Proto` (see docker-compose.prod.yml's
+ * FORWARDED_ALLOW_IPS). Only a live https origin can observe this, so the
+ * assertion is meaningless against a local http server — hence the skip.
+ */
+test('@smoke a trailing-slash redirect keeps the https scheme', async ({ request, baseURL }) => {
+  test.skip(!baseURL?.startsWith('https://'), 'scheme downgrade is only observable over https');
+
+  const resp = await request.get('/en/course/', { maxRedirects: 0 });
+  expect([301, 302, 307, 308], 'trailing slash should redirect').toContain(resp.status());
+
+  const location = resp.headers()['location'] ?? '';
+  expect(location.length, 'redirect carries a Location').toBeGreaterThan(0);
+  // A relative Location is fine — it inherits the request's scheme. An absolute
+  // one must stay on https.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(location)) {
+    expect(
+      location.startsWith('https://'),
+      `redirect Location downgraded to cleartext: ${location}`,
+    ).toBe(true);
+  }
+});
+
+/**
+ * A MISSING hashed asset must never be cacheable.
+ *
+ * The Cache-Control middleware keyed the year-long `immutable` header off the
+ * path prefix alone, so a 404 under /static/js/ or /static/css/ went out as
+ * `max-age=31536000, immutable` and Cloudflare pinned it (`cf-cache-status`
+ * MISS then HIT with a climbing age, 2026-08-01). One request for a new hash
+ * during a deploy window then froze that 404 at the edge for a year, and every
+ * visitor behind that PoP got the HTML with no CSS and no JS. Probing a hash
+ * that cannot exist is a read-only GET, safe against production.
+ */
+test('@smoke a missing hashed asset is not cached', async ({ request }) => {
+  const resp = await request.get('/static/js/chunks/smoke-absent-DEADBEEF.js');
+  expect(resp.status(), 'a nonexistent chunk must 404').toBe(404);
+
+  const cacheControl = (resp.headers()['cache-control'] ?? '').toLowerCase();
+  expect(
+    cacheControl.includes('immutable') || cacheControl.includes('max-age=31536000'),
+    `a 404 for a hashed asset must not be cacheable, got: ${cacheControl || '<none>'}`,
+  ).toBe(false);
+});
+
+/**
  * Hydration health — at least one React island must mount on the home page.
  * `[data-component]` marks every island; after main.tsx runs, a hydrated island
  * has a non-empty rendered subtree. A zero count means the bundle failed to

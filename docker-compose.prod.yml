@@ -2,6 +2,28 @@ services:
   web:
     ports: !override
       - "127.0.0.1:8000:8000"
+    environment:
+      # Make uvicorn actually TRUST nginx's X-Forwarded-Proto.
+      #
+      # uvicorn ships proxy-header support on by default but only honours the
+      # headers when the peer is in `forwarded_allow_ips`, which defaults to
+      # "127.0.0.1". The line above publishes the app loopback-only ON THE HOST,
+      # but the container's peer is the Docker bridge gateway (172.x.x.1) — so
+      # the default never matched, uvicorn discarded X-Forwarded-Proto, and
+      # every request looked like plain http to Starlette. The visible symptom
+      # was `https://discammer.com/en/course/` answering 307 with
+      # `Location: http://discammer.com/en/course`: redirect_slashes builds its
+      # absolute Location from the ASGI scope scheme, and (unlike canonical /
+      # sitemap / feed URLs, which seo.py patches via SITE_ORIGIN) nothing
+      # corrected it. With no HSTS on the zone, browsers really did dial :80.
+      #
+      # `*` is safe HERE and only here: the `ports: !override` above means the
+      # container is reachable solely from the host's loopback, i.e. only by our
+      # nginx. Do NOT copy this into the base compose file, whose `8000:8000`
+      # binds every interface. Per-IP rate limiting is unaffected either way —
+      # `_client_ip` (backend/main.py) reads X-Real-IP / X-Forwarded-For itself
+      # rather than relying on request.client.
+      - FORWARDED_ALLOW_IPS=*
     # restart: unless-stopped (set in the base file) auto-recovers the realistic
     # failures: a crash or an OOM-kill exits the container (code 137) and Docker
     # brings it back. (An autoheal-style sidecar that restarts an *unhealthy but
