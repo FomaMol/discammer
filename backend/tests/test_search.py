@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import sqlite3
 
+import pytest
+
 import config
 
 
@@ -129,3 +131,53 @@ def test_search_page_marks_are_real_html(client):
     # rendered (marked safe), proving escape-then-mark ran server-side.
     assert "dcm-snippet" in r.text
     assert "<mark>" in r.text
+
+
+# ---------------------------------------------------------------------------
+# Control characters in ?q= (2026-08-01 production probe).
+#
+# `GET /api/search?q=%00` and `/{lang}/search?q=%00` both returned an unhandled
+# 500 on production. `_build_match_terms` quotes every term into an FTS5 string
+# literal, so this is not injection and nothing leaked — but SQLite reads bound
+# text as a C string, so an embedded NUL truncates it and the MATCH parser
+# aborts with "unterminated string". An unauthenticated one-parameter way to
+# manufacture origin 500s, which Cloudflare does not absorb (DYNAMIC).
+#
+# \x01 and \x02 matter for a second reason: they are SNIPPET_OPEN/SNIPPET_CLOSE.
+# A query carrying them could smuggle the sentinels into snippet text, which the
+# route later swaps for real <mark> tags AFTER escaping — so stripping them here
+# also keeps that escape-then-mark contract airtight.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "raw",
+    ["\x00", "phishing\x00", "\x01open", "close\x02", "\x00\x01\x02", "a\x1fb"],
+)
+def test_search_survives_control_characters(client, raw):
+    """Control chars must degrade to a clean result, never a 500."""
+    r = client.get("/api/search", params={"q": raw})
+    assert r.status_code == 200, f"{raw!r} -> {r.status_code}"
+    assert isinstance(r.json(), list)
+
+
+@pytest.mark.parametrize("lang", ["en", "ru"])
+def test_search_page_survives_control_characters(client, lang):
+    """The user-facing page must not answer a crafted URL with a bare 500."""
+    r = client.get(f"/{lang}/search", params={"q": "\x00"})
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("text/html")
+
+
+def test_control_chars_do_not_reach_the_match_expression():
+    """Stripping happens in the term builder, so every caller is covered."""
+    from database import _build_match_terms
+
+    terms = _build_match_terms("phi\x00shing \x01\x02 ok")
+    joined = " ".join(terms)
+    for ch in ("\x00", "\x01", "\x02"):
+        assert ch not in joined, f"{ch!r} survived into {joined!r}"
+    # A term that was ONLY control characters must vanish rather than become "".
+    assert '""*' not in joined
+    assert '"phishing"*' in joined
+    assert '"ok"*' in joined

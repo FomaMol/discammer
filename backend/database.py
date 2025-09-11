@@ -1,5 +1,6 @@
 import fcntl
 import json
+import re
 from typing import Dict, List, Optional
 from contextlib import asynccontextmanager
 
@@ -474,6 +475,13 @@ _FTS_BODY_COL = 3
 SNIPPET_OPEN = "\x01"
 SNIPPET_CLOSE = "\x02"
 
+# Every C0 control character plus DEL. Stripped from search terms before they
+# are quoted into an FTS5 MATCH expression — see _build_match_terms for why
+# quoting alone does not contain NUL, and why the two sentinels above must not
+# be reachable from user input. `str.split()` already drops the whitespace
+# controls (\t \n \v \f \r); this covers the rest.
+_CONTROL_CHARS = re.compile(r"[\x00-\x1f\x7f]")
+
 
 def _build_match_terms(q: str) -> list[str]:
     """Turn a raw user query into a list of safe FTS5 prefix-match terms.
@@ -484,11 +492,22 @@ def _build_match_terms(q: str) -> list[str]:
     The raw query is therefore NEVER concatenated into the MATCH expression as
     bare syntax — every term is a quoted literal, so query operators, parens, and
     SQL metacharacters in user input are inert.
+
+    Control characters are dropped before quoting. Quoting alone was not enough
+    for two of them: SQLite binds text as a C string, so an embedded NUL
+    truncates the MATCH expression mid-literal and the FTS5 parser aborts with
+    "unterminated string" — `?q=%00` was answering 500 on both /api/search and
+    the localized search pages (production, 2026-08-01). And ``\x01``/``\x02``
+    are SNIPPET_OPEN/SNIPPET_CLOSE, so letting them through would smuggle the
+    sentinels into snippet text that the route later converts to real <mark>
+    tags after escaping. Stripping here covers every caller of the builder.
     """
     terms: list[str] = []
     for raw in q.split():
-        token = raw.strip()
+        token = _CONTROL_CHARS.sub("", raw).strip()
         if not token:
+            # The term was nothing but control characters — drop it rather than
+            # emit `""*`, which matches everything.
             continue
         escaped = token.replace('"', '""')
         terms.append(f'"{escaped}"*')
