@@ -164,3 +164,36 @@ def test_csp_report_oversized_body_413(client):
         headers={"Content-Type": "application/json"},
     )
     assert r.status_code == 413
+
+
+# ---------------------------------------------------------------------------
+# FastAPI's interactive docs must not be served in the production default.
+#
+# /docs, /redoc and /openapi.json all answered 200 on production (verified
+# 2026-08-01). Both HTML pages load third-party JavaScript onto the
+# discammer.com origin from a FLOATING major range with no `integrity=`:
+# `cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js` and
+# `redoc@2`. A compromised upstream publish would run with full same-origin
+# access. Every visit also fires a CSP violation into /api/csp-report.
+#
+# The schema itself leaked nothing — sync, metrics, csp-report and
+# client-errors all carry include_in_schema=False — so this is a supply-chain
+# and signal-hygiene fix, not an information-disclosure one. Say that
+# accurately rather than inflating it.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "path", ["/docs", "/redoc", "/openapi.json", "/docs/oauth2-redirect"]
+)
+def test_interactive_docs_are_not_served_by_default(client, path):
+    """Routes are unregistered, not merely hidden — so these are real 404s."""
+    r = client.get(path)
+    assert r.status_code == 404, f"{path} -> {r.status_code}"
+
+
+def test_no_third_party_script_host_is_reachable_through_docs(client):
+    """Guard the actual harm: no jsDelivr <script> ever renders on our origin."""
+    for path in ("/docs", "/redoc"):
+        r = client.get(path)
+        assert "cdn.jsdelivr.net" not in r.text, path

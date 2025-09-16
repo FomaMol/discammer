@@ -115,6 +115,21 @@ def _env_bool(name: str, default: bool) -> bool:
 # entirely. See backend/security.py for the policy itself.
 CSP_ENABLED = _env_bool("CSP_ENABLED", True)
 CSP_REPORT_ONLY = _env_bool("CSP_REPORT_ONLY", True)
+
+# FastAPI's interactive docs (/docs, /redoc, /openapi.json). OFF by default —
+# they were reachable on production (verified 2026-08-01) and both pages pull
+# unpinned, un-SRI'd third-party JavaScript onto the discammer.com origin:
+# Swagger UI from `cdn.jsdelivr.net/npm/swagger-ui-dist@5` (a floating major
+# range), ReDoc from `redoc@2` plus Google Fonts. A compromised upstream build
+# would then execute with full same-origin access on a site whose whole subject
+# is verifying what you are looking at. They also fire a CSP violation report on
+# every visit, polluting the channel meant to surface real problems.
+#
+# No information disclosure was involved — every documented operation was an
+# already-public GET, and sync/metrics/csp-report/client-errors all carry
+# `include_in_schema=False`. This is purely about not running someone else's
+# unpinned script on our origin. Set DOCS_ENABLED=1 for local exploration.
+DOCS_ENABLED = _env_bool("DOCS_ENABLED", False)
 # Where the browser POSTs violation reports. Empty disables the report-uri
 # directive (and the endpoint stays harmless/unused).
 CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", "/api/csp-report")
