@@ -45,7 +45,7 @@ def test_sw_is_always_revalidated(client):
 
 
 def test_sw_is_not_cacheable_by_the_cdn(client):
-    """State the no-store intent to the CDN, not just to the browser.
+    """State the always-revalidate intent to the CDN, not just to the browser.
 
     Production serves `/sw.js` as `cache-control: max-age=14400` even though the
     origin sets `no-cache` (observed 2026-08-01). A cache-busted request returns
@@ -66,14 +66,21 @@ def test_sw_is_not_cacheable_by_the_cdn(client):
     makes the origin's intent legible to any CDN — it is not the fix for an
     observed stale-worker incident, and must not be described as one.
 
+    `no-cache`, not `no-store`, and that distinction is load-bearing:
+    `sw-register.ts` runs on every page load and the spec makes that request
+    bypass the browser cache, so the checks land on the edge. `no-store` would
+    turn the edge into a pass-through and move one origin request per page view
+    onto a 2 vCPU box. `no-cache` lets the edge hold the bytes while forbidding
+    it to serve them unrevalidated.
+
     `Cloudflare-CDN-Cache-Control` (CF-specific, highest precedence) and
     `CDN-Cache-Control` (RFC 9213) are consumed by the edge and stripped before
     the response reaches the browser, so neither weakens the `no-cache` above.
     """
     _require_built()
     r = client.get("/sw.js")
-    assert r.headers.get("cloudflare-cdn-cache-control", "").lower() == "no-store"
-    assert r.headers.get("cdn-cache-control", "").lower() == "no-store"
+    assert r.headers.get("cloudflare-cdn-cache-control", "").lower() == "no-cache"
+    assert r.headers.get("cdn-cache-control", "").lower() == "no-cache"
 
 
 def test_sw_declares_root_scope_header(client):

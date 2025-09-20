@@ -11,7 +11,7 @@ execution of that spec. Where the plan and this file disagree, the plan wins —
 | Thing | Value |
 | --- | --- |
 | Apex domain | `discammer.com` |
-| WWW | `www.discammer.com` (redirects to apex) |
+| WWW | `www.discammer.com` — **serves the whole site at 200; no redirect to apex is live anywhere** (verified 2026-08-01). Creating one is net-new work, not a move: see CF-7. |
 | Origin VPS | `203.0.113.10` · 2 vCPU / 2 GB RAM / **no swap** |
 | TLS today | nginx on host terminates TLS — Let's Encrypt + certbot, HTTP/2 |
 | App | Docker, uvicorn 2 workers, published **loopback-only** on `127.0.0.1:8000` (`docker-compose.prod.yml`) |
@@ -88,7 +88,7 @@ Cloudflare (CDN/WAF, origin hidden). Grey cloud = DNS-only (no proxy).
 | Type | Name | Content | Proxy | Notes |
 | --- | --- | --- | --- | --- |
 | `A` | `@` (apex) | `203.0.113.10` | **Proxied** 🟠 | The site. Hides origin, enables CDN/WAF. |
-| `CNAME` | `www` | `discammer.com` | **Proxied** 🟠 | Redirect www→apex stays on nginx (or move to CF Redirect Rule, see CF-7 — do **not** duplicate). |
+| `CNAME` | `www` | `discammer.com` | **Proxied** 🟠 | **No www→apex redirect exists today** (verified 2026-08-01) — www serves the site directly. Create one in exactly one layer: see CF-7. |
 | `TXT` | (SPF/DMARC/verification) | as-is | **DNS-only** ⚪ | TXT is metadata; never proxy. |
 | `MX` | (if mail exists) | as-is | **DNS-only** ⚪ | Proxying MX breaks mail. |
 | `A`/`CNAME` | ACME / mail hosts (if any) | as-is | **DNS-only** ⚪ | Keep service records grey. |

@@ -143,10 +143,11 @@ def test_search_page_marks_are_real_html(client):
 # aborts with "unterminated string". An unauthenticated one-parameter way to
 # manufacture origin 500s, which Cloudflare does not absorb (DYNAMIC).
 #
-# \x01 and \x02 matter for a second reason: they are SNIPPET_OPEN/SNIPPET_CLOSE.
-# A query carrying them could smuggle the sentinels into snippet text, which the
-# route later swaps for real <mark> tags AFTER escaping — so stripping them here
-# also keeps that escape-then-mark contract airtight.
+# The rest of C0 and DEL are stripped as inert noise, not as a defence. In
+# particular \x01/\x02 are SNIPPET_OPEN/SNIPPET_CLOSE, but a query can never
+# reach snippet output: snippet() builds its result from the INDEXED content and
+# takes the sentinels as bound parameters, while the query only ever becomes the
+# MATCH expression. Do not read these cases as guarding escape-then-mark.
 # ---------------------------------------------------------------------------
 
 

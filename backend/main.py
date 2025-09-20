@@ -375,7 +375,14 @@ async def request_logging_middleware(request: "Request", call_next):
     # with no island. A miss must stay cheap to retry, so it gets `no-store`.
     if "cache-control" not in (k.lower() for k in response.headers.keys()):
         if _path.startswith(("/static/js/", "/static/css/")):
-            if response.status_code == 200:
+            # Gate on FAILURE, not on the literal 200. `== 200` also caught the
+            # two success-ish statuses StaticFiles emits: a 304 from a
+            # conditional request and a 206 from a Range request. RFC 9111
+            # §4.3.4 makes a cache update its stored headers from the 304, so a
+            # 304 carrying `no-store` tells the cache to evict the very asset it
+            # just revalidated — cancelling the caching this branch exists to
+            # protect, on a 2 vCPU origin.
+            if response.status_code < 400:
                 response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
             else:
                 response.headers["Cache-Control"] = "no-store"

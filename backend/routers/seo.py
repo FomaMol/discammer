@@ -296,10 +296,24 @@ async def service_worker() -> Response:
             # `cache: no-cache` on the script request for registration AND every
             # update check, sw-register.ts leaves `updateViaCache` at default,
             # and the worker uses no importScripts(). This is defence in depth,
-            # not an incident fix. Both headers are consumed and stripped by the
-            # edge, so the browser still sees the plain `no-cache` above.
-            "Cloudflare-CDN-Cache-Control": "no-store",  # CF-specific, wins over the below
-            "CDN-Cache-Control": "no-store",  # RFC 9213 — any other CDN in front
+            # not an incident fix.
+            #
+            # `no-cache`, deliberately, NOT `no-store`. sw-register.ts runs on
+            # every page load and the spec makes that request bypass the browser
+            # cache, so those checks land on the edge today (cf-cache-status:
+            # EXPIRED). `no-store` would make the edge a pass-through and move
+            # one origin request per page view onto a 2 vCPU / 2 GB box —
+            # paying real capacity to fix a problem that does not exist.
+            # `no-cache` keeps the edge holding the bytes while forbidding it to
+            # serve them without revalidating, which is the actual intent.
+            #
+            # Neither header is acted on by browsers — both are consumed at the
+            # edge — so neither weakens the `no-cache` above. The browser-facing
+            # value nevertheless stays wrong in production (`max-age=14400`)
+            # until the zone's Browser Cache TTL is set to Respect Existing
+            # Headers; that is the fix, and it is not this file's to make.
+            "Cloudflare-CDN-Cache-Control": "no-cache",  # CF-specific, wins over the below
+            "CDN-Cache-Control": "no-cache",  # RFC 9213 — any other CDN in front
             # Permit root scope explicitly (belt-and-braces; the file is already
             # served from the root path, which grants `/` by default).
             "Service-Worker-Allowed": "/",

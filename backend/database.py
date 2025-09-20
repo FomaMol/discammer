@@ -493,14 +493,21 @@ def _build_match_terms(q: str) -> list[str]:
     bare syntax — every term is a quoted literal, so query operators, parens, and
     SQL metacharacters in user input are inert.
 
-    Control characters are dropped before quoting. Quoting alone was not enough
-    for two of them: SQLite binds text as a C string, so an embedded NUL
-    truncates the MATCH expression mid-literal and the FTS5 parser aborts with
-    "unterminated string" — `?q=%00` was answering 500 on both /api/search and
-    the localized search pages (production, 2026-08-01). And ``\x01``/``\x02``
-    are SNIPPET_OPEN/SNIPPET_CLOSE, so letting them through would smuggle the
-    sentinels into snippet text that the route later converts to real <mark>
-    tags after escaping. Stripping here covers every caller of the builder.
+    Control characters are dropped before quoting. Quoting alone did not contain
+    NUL: SQLite binds text as a C string, so an embedded NUL truncates the MATCH
+    expression mid-literal and the FTS5 parser aborts with "unterminated
+    string". `?q=%00` was answering an unhandled 500 on both /api/search and the
+    localized search pages (production, 2026-08-01). The rest of C0 and DEL go
+    with it because they are inert noise in a search term, not because any of
+    them is individually dangerous.
+
+    Note what this is NOT protecting: the snippet escape-then-mark contract in
+    routers/api.py. Query text cannot reach snippet output at all — `snippet()`
+    builds its result from the INDEXED content and receives SNIPPET_OPEN /
+    SNIPPET_CLOSE as bound parameters, while the query only ever becomes the
+    MATCH expression. Stripping \\x01/\\x02 here is incidental, not a defence.
+
+    Stripping in the builder covers every caller rather than one route.
     """
     terms: list[str] = []
     for raw in q.split():
@@ -563,7 +570,11 @@ async def search_content(
     # the route still escape-then-marks, which is a no-op without markers.
     needles: list[str] = []
     for raw in q.split():
-        token = raw.strip()
+        # Same control-character strip as _build_match_terms, for the same
+        # reason: SQLite reads a LIKE pattern as a C string too, so `%foo\x00%`
+        # silently degrades to a suffix-only `%foo`. Both backends must
+        # normalize identically or they answer the same query differently.
+        token = _CONTROL_CHARS.sub("", raw).strip()
         if token:
             needles.append(f"%{token}%")
     if not needles:

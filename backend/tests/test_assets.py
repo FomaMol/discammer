@@ -123,10 +123,37 @@ def test_missing_hashed_asset_is_never_cached(client, path):
     assert "no-store" in cache_control, f"{path}: {cache_control}"
 
 
+_IMMUTABLE = "public, max-age=31536000, immutable"
+
+
 def test_present_hashed_asset_still_gets_the_immutable_year(client):
     """The fix must not weaken the hit path: a real hashed asset keeps the
     year-long immutable TTL that makes content-hashed bundles free to re-serve."""
     entry_file = _entry_file()
     r = client.get(f"/static/{entry_file}")
     assert r.status_code == 200
-    assert r.headers.get("cache-control") == "public, max-age=31536000, immutable"
+    assert r.headers.get("cache-control") == _IMMUTABLE
+
+
+def test_revalidation_and_range_keep_the_immutable_header(client):
+    """A 304 and a 206 are hits, not misses.
+
+    The first cut of this fix gated on `status_code == 200`, which also stripped
+    the header from the two success-ish statuses StaticFiles emits. RFC 9111
+    §4.3.4 requires a cache to update its stored response from a 304's headers,
+    so a 304 carrying `no-store` instructs the cache to DROP the asset it just
+    revalidated — the exact opposite of what this branch is for, and a real cost
+    on a 2 vCPU origin. Measured before the fix: 304 and 206 both `no-store`.
+    """
+    entry_file = _entry_file()
+    fresh = client.get(f"/static/{entry_file}")
+    etag = fresh.headers.get("etag")
+    assert etag, "StaticFiles should emit an ETag for a conditional request"
+
+    revalidated = client.get(f"/static/{entry_file}", headers={"If-None-Match": etag})
+    assert revalidated.status_code == 304
+    assert revalidated.headers.get("cache-control") == _IMMUTABLE
+
+    partial = client.get(f"/static/{entry_file}", headers={"Range": "bytes=0-99"})
+    assert partial.status_code == 206
+    assert partial.headers.get("cache-control") == _IMMUTABLE

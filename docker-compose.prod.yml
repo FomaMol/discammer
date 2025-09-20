@@ -17,13 +17,30 @@ services:
       # sitemap / feed URLs, which seo.py patches via SITE_ORIGIN) nothing
       # corrected it. With no HSTS on the zone, browsers really did dial :80.
       #
-      # `*` is safe HERE and only here: the `ports: !override` above means the
-      # container is reachable solely from the host's loopback, i.e. only by our
-      # nginx. Do NOT copy this into the base compose file, whose `8000:8000`
-      # binds every interface. Per-IP rate limiting is unaffected either way —
+      # It must be the bridge RANGE, never `*`. The wildcard looks equivalent
+      # here — the container is loopback-published, so only nginx can reach it —
+      # but it changes how uvicorn reads X-Forwarded-For, not just the scheme.
+      # With `trusted_hosts="*"`, `_TrustedHosts.always_trust` is set and
+      # `get_trusted_client_host()` returns `x_forwarded_for_hosts[0]`: the
+      # LEFTMOST entry. nginx uses `$proxy_add_x_forwarded_for`, which APPENDS
+      # the peer to whatever the caller sent, so the leftmost entry is
+      # attacker-supplied. Anyone on the internet could send
+      # `X-Forwarded-For: 127.0.0.1`, land in `scope["client"]` as 127.0.0.1,
+      # and walk straight through `_is_local_request` — the only thing guarding
+      # /api/metrics when METRICS_TOKEN is unset (backend/main.py:837-856).
+      #
+      # With a concrete CIDR, `always_trust` is False and the same function
+      # walks the chain in REVERSE, returning the first hop NOT in the trusted
+      # set — i.e. the address nginx appended, which a public client cannot
+      # forge. X-Forwarded-Proto is still honoured because the peer really is
+      # the bridge gateway. 172.16.0.0/12 covers Docker's whole default address
+      # pool (172.17-172.31); uvicorn parses it via ipaddress.ip_network.
+      #
+      # Do NOT copy this into the base compose file, whose `8000:8000` binds
+      # every interface. Per-IP rate limiting is unaffected either way —
       # `_client_ip` (backend/main.py) reads X-Real-IP / X-Forwarded-For itself
       # rather than relying on request.client.
-      - FORWARDED_ALLOW_IPS=*
+      - FORWARDED_ALLOW_IPS=172.16.0.0/12
     # restart: unless-stopped (set in the base file) auto-recovers the realistic
     # failures: a crash or an OOM-kill exits the container (code 137) and Docker
     # brings it back. (An autoheal-style sidecar that restarts an *unhealthy but

@@ -23,6 +23,7 @@ confront the trust setting sitting next to it.
 """
 from __future__ import annotations
 
+import ipaddress
 from pathlib import Path
 
 import pytest
@@ -76,10 +77,35 @@ def _env_map(service: dict) -> dict[str, str]:
 def test_prod_trusts_proxy_headers():
     """Without this, every trailing-slash redirect leaves the site over http://."""
     env = _env_map(_web_service(_PROD_COMPOSE))
-    assert env.get("FORWARDED_ALLOW_IPS") == "*", (
+    assert env.get("FORWARDED_ALLOW_IPS"), (
         "docker-compose.prod.yml must set FORWARDED_ALLOW_IPS so uvicorn honours "
         "nginx's X-Forwarded-Proto; otherwise redirects downgrade to http://"
     )
+
+
+def test_proxy_trust_is_never_the_wildcard():
+    """`*` would make /api/metrics publicly readable. This is the whole point.
+
+    uvicorn's `_TrustedHosts` treats `"*"` as `always_trust`, and
+    `get_trusted_client_host()` then returns the LEFTMOST X-Forwarded-For entry.
+    nginx appends with `$proxy_add_x_forwarded_for`, so the leftmost value is
+    whatever the caller sent. A request carrying `X-Forwarded-For: 127.0.0.1`
+    would therefore arrive with `request.client.host == "127.0.0.1"` and satisfy
+    `_is_local_request` — the only guard on /api/metrics while METRICS_TOKEN is
+    unset (backend/main.py:837-856).
+
+    A concrete CIDR takes the other branch, which walks the chain in reverse and
+    returns the first hop outside the trusted set: the address nginx appended,
+    which a public client cannot forge.
+    """
+    value = _env_map(_web_service(_PROD_COMPOSE)).get("FORWARDED_ALLOW_IPS", "")
+    assert value != "*", "FORWARDED_ALLOW_IPS=* makes X-Forwarded-For caller-controlled"
+
+    entries = [item.strip() for item in value.split(",") if item.strip()]
+    assert entries, "FORWARDED_ALLOW_IPS must not be empty"
+    for entry in entries:
+        network = ipaddress.ip_network(entry, strict=False)  # raises on a literal
+        assert network.is_private, f"{entry} is not a private range"
 
 
 def test_prod_publishes_the_app_loopback_only():
