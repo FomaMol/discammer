@@ -14,12 +14,20 @@ absolute `Location` from the ASGI scope scheme, and — unlike canonical, sitema
 and feed URLs, which `routers/seo.py` rewrites through `SITE_ORIGIN` — nothing
 corrected it.
 
-The fix is `FORWARDED_ALLOW_IPS=*` in the prod compose file. That wildcard is
-only defensible while the app is unreachable from anywhere but the host's
-nginx: on a service published to `0.0.0.0`, any client could assert its own
-scheme and forged client IP. These tests pin that pairing so the two settings
-cannot drift apart — a later "let's expose 8000 for debugging" edit has to
-confront the trust setting sitting next to it.
+The fix is `FORWARDED_ALLOW_IPS` in the prod compose file — set to the Docker
+bridge RANGE, never to `*`. The wildcard looks equivalent (the container is
+loopback-published, so only nginx can reach it) but it also changes how uvicorn
+reads X-Forwarded-For: `always_trust` makes it take the LEFTMOST entry, and
+nginx APPENDS rather than replaces, so the leftmost value is whatever the caller
+sent. That turned `X-Forwarded-For: 127.0.0.1` into a bypass of
+`_is_local_request`, the only guard on /api/metrics while METRICS_TOKEN is
+unset. Caught in review before it shipped.
+
+These tests therefore work at two levels: the config assertions pin the setting
+and the loopback-only binding together so they cannot drift apart, and the
+behavioural ones drive uvicorn's real middleware and the real app — including
+the worst-case wildcard configuration, which the app must now survive on its
+own.
 """
 from __future__ import annotations
 
@@ -109,13 +117,13 @@ def test_proxy_trust_is_never_the_wildcard():
 
 
 def test_prod_publishes_the_app_loopback_only():
-    """The justification for the wildcard above: nothing but the host can connect."""
+    """The justification for trusting the bridge at all: only the host can connect."""
     ports = _web_service(_PROD_COMPOSE).get("ports") or []
     assert ports, "docker-compose.prod.yml must pin the published port"
     for mapping in ports:
         assert str(mapping).startswith("127.0.0.1:"), (
-            f"published port {mapping!r} is not loopback-only — FORWARDED_ALLOW_IPS=* "
-            "would then let any client forge its own scheme and client IP"
+            f"published port {mapping!r} is not loopback-only — trusting forwarded "
+            "headers would then let any client on the network assert its own scheme"
         )
 
 
@@ -126,3 +134,75 @@ def test_base_compose_does_not_trust_arbitrary_proxies():
         "docker-compose.yml publishes on every interface; trusting forwarded "
         "headers there would let any client on the network spoof scheme/IP"
     )
+
+
+# ---------------------------------------------------------------------------
+# Behavioural half of this file: the config assertions above only read YAML.
+# These drive uvicorn's real middleware, which is where the actual danger lives.
+# ---------------------------------------------------------------------------
+
+
+def _run_proxy_middleware(trusted_hosts: str, x_forwarded_for: str) -> tuple[str, str]:
+    """Return (client_host, scheme) after uvicorn's ProxyHeadersMiddleware runs.
+
+    The scope models production: the peer is the Docker bridge gateway, because
+    nginx reaches the container through the published loopback port.
+    """
+    import asyncio
+
+    from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
+
+    seen: dict = {}
+
+    async def app(scope, receive, send):
+        seen.update(scope)
+
+    scope = {
+        "type": "http",
+        "client": ("172.18.0.1", 45678),
+        "scheme": "http",
+        "headers": [
+            (b"x-forwarded-for", x_forwarded_for.encode()),
+            (b"x-forwarded-proto", b"https"),
+        ],
+    }
+    asyncio.run(ProxyHeadersMiddleware(app, trusted_hosts=trusted_hosts)(scope, None, None))
+    return seen["client"][0], seen["scheme"]
+
+
+# nginx APPENDS with $proxy_add_x_forwarded_for, so a caller who sends their own
+# X-Forwarded-For ends up leftmost and the real address is appended after it.
+_FORGED = "127.0.0.1, 203.0.113.9"
+
+
+def test_wildcard_trust_would_hand_the_attacker_the_client_host():
+    """Document the trap concretely, so nobody 'simplifies' the CIDR back to *."""
+    host, scheme = _run_proxy_middleware("*", _FORGED)
+    assert host == "127.0.0.1", "uvicorn takes the leftmost XFF entry when always_trust"
+    assert scheme == "https"
+
+
+def test_scoped_trust_returns_the_address_nginx_appended():
+    """The configured range must resolve the real client, not the forged one."""
+    host, scheme = _run_proxy_middleware("172.16.0.0/12", _FORGED)
+    assert host == "203.0.113.9"
+    # …while still honouring X-Forwarded-Proto, which is the point of the setting.
+    assert scheme == "https"
+
+
+def test_metrics_gate_holds_even_under_wildcard_trust(client):
+    """Defence in depth: the gate must not rest on the deploy config alone.
+
+    Wraps the real app in the worst-case middleware configuration and forges the
+    header. /api/metrics must still refuse — it is documented as never public,
+    and METRICS_TOKEN is unset in production.
+    """
+    from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
+
+    from fastapi.testclient import TestClient
+
+    import main
+
+    wrapped = TestClient(ProxyHeadersMiddleware(main.app, trusted_hosts="*"))
+    r = wrapped.get("/api/metrics", headers={"X-Forwarded-For": _FORGED})
+    assert r.status_code == 404, f"metrics leaked under forged XFF: {r.status_code}"

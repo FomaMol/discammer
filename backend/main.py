@@ -842,6 +842,21 @@ _LOOPBACK_HOSTS = {"127.0.0.1", "::1"}
 
 
 def _is_local_request(request: Request) -> bool:
+    # A genuine loopback scrape reaches uvicorn directly and carries no proxy
+    # headers at all. Anything bearing X-Forwarded-For or X-Real-IP came through
+    # a proxy by definition, so it is not local no matter what the socket says.
+    #
+    # This guard is what keeps the gate from resting on one line of deploy
+    # config. `request.client.host` is only as trustworthy as uvicorn's
+    # `forwarded_allow_ips`: with the wildcard, uvicorn takes the LEFTMOST
+    # X-Forwarded-For entry — which nginx appends to rather than replaces — so
+    # `X-Forwarded-For: 127.0.0.1` from anywhere on the internet would otherwise
+    # walk straight through here (reproduced 2026-08-01: 200 with the forged
+    # header, 404 without). The origin is also directly reachable today, since
+    # the CF-8 firewall lock is still unchecked, so the edge is no backstop.
+    if "x-forwarded-for" in request.headers or "x-real-ip" in request.headers:
+        return False
+
     client = request.client
     host = client.host if client else ""
     return host in _LOOPBACK_HOSTS
