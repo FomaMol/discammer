@@ -471,7 +471,31 @@ jobs:
             echo "GET ${path} -L -> HTTP $code"
             if [ "$code" != "200" ]; then fail=1; fi
           done
-          exit $fail
+          [ "$fail" = "0" ] || exit 1
+
+          # The 200s above prove SOMETHING healthy answers the domain — not that
+          # it is the box we just deployed to. On 2026-08-01 that gap bit: the
+          # deploy ran green against DEPLOY_HOST while Cloudflare pointed at a
+          # different server, so `203.0.113.11` came up on the new SHA and every
+          # visitor stayed on the old one. Every check here passed.
+          #
+          # Assert the domain actually reports what we shipped. smoke-prod does
+          # this too, but it is a separate job: without this the DEPLOY step
+          # itself reports success for a deploy that never reached production.
+          expected="${GITHUB_SHA:0:7}"
+          deployed=$(curl -sL --max-time 15 https://discammer.com/api/health \
+            | sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+          echo "expected SHA: ${expected} | domain reports: ${deployed:-<none>}"
+          case "$expected" in
+            "$deployed"*) ;;
+            *)
+              echo "::error::Deploy did NOT reach the server behind discammer.com."
+              echo "::error::Shipped ${expected}, but the domain still reports '${deployed:-<none>}'."
+              echo "::error::Most likely the DEPLOY_HOST secret points at a machine that no"
+              echo "::error::longer serves the domain. Check it against the Cloudflare A record."
+              exit 1
+              ;;
+          esac
 
   smoke-prod:
     name: Post-deploy production smoke (O3)
