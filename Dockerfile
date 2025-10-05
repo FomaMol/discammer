@@ -30,6 +30,8 @@ RUN apt-get update \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./backend/
+# Fail the image build on missing assets, LFS pointers, or altered vendor bytes.
+RUN python backend/verify_game_build.py
 COPY content/ ./content/
 COPY --from=frontend-build /app/backend/static/ ./backend/static/
 RUN mkdir -p /app/data

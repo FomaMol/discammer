@@ -1,0 +1,80 @@
+{
+  "archive_sha256": "5177fa94cfe4f1c439e64751873e5c8f245282f29f7817a9d65f2eeb7b894aec",
+  "previous_revision": "7167c9d7741e5926faf15752125c8d08cf9201ff",
+  "previous_files": {
+    "index.html": {
+      "size": 6728,
+      "sha256": "b1a7424d327558ca2428465dd6e9f8c07bdfd94fff56eda23f8343837d001fa9"
+    },
+    "Loadscreen/Progress_bar_1.png": {
+      "size": 10385,
+      "sha256": "16e50f4a0e9f77ccce16dd0f9d0d52456337a50668c13de05cb9c20ecafb40d7"
+    },
+    "Loadscreen/Progress_bar_2.png": {
+      "size": 15857,
+      "sha256": "02bedef96237620a2bb77a5262f3882991bbb58e119247f439b306080d1b560f"
+    },
+    "Loadscreen/global_mini_1.png": {
+      "size": 4006,
+      "sha256": "d2fe72e176e8739f5b89f74311362a65444c265a76361b5cf71b0edfe6f21361"
+    },
+    "Loadscreen/PressStart2P.woff2": {
+      "size": 4704,
+      "sha256": "42144b97bd2942ea606e5d880684eae0f7be5c804bdd57b1faac5a8d7699ae6e"
+    },
+    "Build/web_gl_build_10.data.br": {
+      "size": 16380319,
+      "sha256": "317d0cca38085d2d31d9af85b905ce25b3f2d8cdf11cb14887b1fa117507f193"
+    },
+    "Build/web_gl_build_10.framework.js.br": {
+      "size": 77659,
+      "sha256": "f41796c3109c874b435d23563257e5b460397e082633c13af68431e71a2e4317"
+    },
+    "Build/web_gl_build_10.loader.js": {
+      "size": 26982,
+      "sha256": "4ac90f29eef1e559aade8ca8f3dd0edc27222186d763b5566fc47516b2bf48d2"
+    },
+    "Build/web_gl_build_10.wasm.br": {
+      "size": 8957099,
+      "sha256": "6fea88babf49b7ab6b5b3c9a0d2467cab4793df3e1e176545bf6c249e198d04d"
+    }
+  },
+  "files": {
+    "Build/AntifraudWebBuild.data.br": {
+      "size": 17281873,
+      "sha256": "60c434c03282d0e862aceda2eb9b7ccbda318da0e861a3811e7f9b4f00cf11fe"
+    },
+    "Build/AntifraudWebBuild.framework.js.br": {
+      "size": 77801,
+      "sha256": "c575b2956f4c99547fec7859610a086f3c70891e234919d7a95a1a682a0b83a3"
+    },
+    "Build/AntifraudWebBuild.loader.js": {
+      "size": 26982,
+      "sha256": "ca5e4ab893346e7ac062ac4e707e9f271fab725c3d4e4a5868e9747a511f609e"
+    },
+    "Build/AntifraudWebBuild.wasm.br": {
+      "size": 8536158,
+      "sha256": "6903212f8838bacbcc580b5089d46e6f32abd35363b0d3e283cd5b7e8f6d65b8"
+    },
+    "index.html": {
+      "size": 5669,
+      "sha256": "ccf68a19d0234672b428c098578f8128f09c89250a7a9305cafb0fcd8dd7a9fb"
+    },
+    "Loadscreen/global_mini_1.png": {
+      "size": 4006,
+      "sha256": "d2fe72e176e8739f5b89f74311362a65444c265a76361b5cf71b0edfe6f21361"
+    },
+    "Loadscreen/PressStart2P.woff2": {
+      "size": 4704,
+      "sha256": "42144b97bd2942ea606e5d880684eae0f7be5c804bdd57b1faac5a8d7699ae6e"
+    },
+    "Loadscreen/Progress_bar_1.png": {
+      "size": 10385,
+      "sha256": "16e50f4a0e9f77ccce16dd0f9d0d52456337a50668c13de05cb9c20ecafb40d7"
+    },
+    "Loadscreen/Progress_bar_2.png": {
+      "size": 15857,
+      "sha256": "02bedef96237620a2bb77a5262f3882991bbb58e119247f439b306080d1b560f"
+    }
+  }
+}

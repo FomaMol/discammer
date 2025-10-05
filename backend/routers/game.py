@@ -44,16 +44,18 @@ def _brotli_content_type(name: str) -> str | None:
     return "application/octet-stream"
 
 
+# Only the retained, explicitly versioned release can be immutable. New vendor
+# names are reused between releases, so require revalidation even inside Build/.
+_LEGACY_IMMUTABLE = {
+    f"Build/web_gl_build_10.{suffix}"
+    for suffix in ("loader.js", "framework.js.br", "data.br", "wasm.br")
+}
+
+
 def _cache_control_for(relpath: Path) -> str:
-    """Build/ contains version-stamped (web_gl_build_10.*) immutable assets.
-    Loadscreen/ assets change with the build but reference is by name; keep
-    short cache. index.html must never be cached (same policy as /play/),
-    or a stale copy keeps referencing pruned version-stamped assets for a day.
-    """
-    parts = relpath.parts
-    if parts and parts[0] == "Build":
+    if relpath.as_posix() in _LEGACY_IMMUTABLE:
         return _IMMUTABLE_CACHE
-    if relpath == Path("index.html"):
+    if relpath == Path("index.html") or relpath.parts[0] == "Build":
         return "no-cache"
     return _SHORT_CACHE
 
