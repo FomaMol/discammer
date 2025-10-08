@@ -7,66 +7,140 @@
    below so existing components still resolve; new code should use the
    canonical names. All values are OKLCH-tuned for brand identity.
    ────────────────────────────────────────────────────────────────────────── */
-@theme {
+/* September themes: only site surfaces, never game vendor assets. */
+:root, html[data-theme="soft-red"] {
+  --canvas: #151314;
+  --panel: #211e1f;
+  --raised: #2e292a;
+  --input: #383032;
+  --border: #393032;
+  --border-strong: #887476;
+  --text: #ede5e3;
+  --text-strong: #f7f0ec;
+  --text-medium: #dccdca;
+  --text-soft: #c4b3af;
+  --text-soft2: #cbbcb7;
+  --muted: #b6a29d;
+  --dim: #97837e;
+  --brand: #f29587;
+  --brand-hover: #ffb5a6;
+  --brand-dim: #c88578;
+  --success: #7ce896;
+  --warning: #f4b965;
+  --danger: #ff8995;
+  --threat-mid: #f29b6c;
+  --code: #100e0f;
+  --focus: var(--brand);
+  color-scheme: dark;
+}
+html[data-theme="graphite-silver"] {
+  --canvas: #101314;
+  --panel: #181d1e;
+  --raised: #232a2b;
+  --input: #2c3435;
+  --border: #2a3233;
+  --border-strong: #718681;
+  --text: #e4e9e8;
+  --text-strong: #f1f4f2;
+  --text-medium: #cdd5d3;
+  --text-soft: #b1bcb9;
+  --text-soft2: #bdc6c3;
+  --muted: #a2b0ac;
+  --dim: #82938e;
+  --brand: #dce8df;
+  --brand-hover: #f1f5ec;
+  --brand-dim: #8eab99;
+  --success: #7ce896;
+  --warning: #f4b965;
+  --danger: #ff8995;
+  --threat-mid: #f29b6c;
+  --code: #0c1011;
+  --focus: var(--brand);
+  color-scheme: dark;
+}
+
+@theme inline {
   /* — Canvas (cool tinted dark, never neutral gray) — */
-  --color-canvas:         #0b0f1a;
-  --color-canvas-soft:    #121828;
-  --color-canvas-raised:  #1a2236;
-  --color-canvas-input:   #1e2740;
+  --color-canvas:         var(--canvas);
+  --color-canvas-soft:    var(--panel);
+  --color-canvas-raised:  var(--raised);
+  --color-canvas-input:   var(--input);
 
   /* — Hairlines (carry the cool tint) — */
-  --color-hairline:        #202a44;
-  --color-hairline-strong: #2b3759;
+  --color-hairline:        var(--border);
+  --color-hairline-strong: var(--border-strong);
 
   /* — Ink (tinted toward canvas) — */
-  --color-ink:         #e7ecf5;
-  --color-ink-strong:  #f3f5fa;
-  --color-ink-medium:  #cdd4e3;
-  --color-ink-soft:    #aab2c4;
-  --color-ink-soft2:   #b6bdce;
-  --color-ink-mute:    #8b94a8;   /* lifted from #6b7588 for WCAG AA on canvas-input */
-  --color-ink-faint:   #8b94a8;   /* lifted from #475064 (failed even 3:1) for WCAG AA text */
-  --color-ink-dim:     #6b7588;   /* NON-TEXT / decorative only (large glyphs, hairlines) — meets 3:1 */
+  --color-ink:         var(--text);
+  --color-ink-strong:  var(--text-strong);
+  --color-ink-medium:  var(--text-medium);
+  --color-ink-soft:    var(--text-soft);
+  --color-ink-soft2:   var(--text-soft2);
+  --color-ink-mute:    var(--muted);   /* lifted from var(--dim) for WCAG AA on canvas-input */
+  --color-ink-faint:   var(--muted);   /* lifted from var(--muted) (failed even 3:1) for WCAG AA text */
+  --color-ink-dim:     var(--dim);   /* NON-TEXT / decorative only (large glyphs, hairlines) — meets 3:1 */
 
   /* — Brand cyan (tuned down from neon #00F0FF) — */
-  --color-cyan:        #65def0;
-  --color-cyan-strong: #9eecf6;
-  --color-cyan-dim:    #3a8b9a;
-  --color-cyan-veil:   rgba(101, 222, 240, 0.15);   /* soft cyan glow layer (certificate, featured) */
+  --color-cyan:        var(--brand);
+  --color-cyan-strong: var(--brand-hover);
+  --color-cyan-dim:    var(--brand-dim);
+  --color-cyan-veil:   color-mix(in srgb,var(--brand) 15%,transparent);   /* soft cyan glow layer (certificate, featured) */
 
   /* — Semantic accents (meaning-bearing, not interchangeable) — */
-  --color-amber:        #f4b965;
-  --color-green:        #7ce896;
-  --color-red:          #e76670;
-  --color-threat-mid:   #f29b6c;
+  --color-amber:        var(--warning);
+  --color-green:        var(--success);
+  --color-red:          var(--danger);
+  --color-threat-mid:   var(--threat-mid);
 
   /* — Code surface — */
-  --color-code-bg:      #0a0d16;
+  --color-code-bg:      var(--code);
 
   /* ─── Legacy aliases (do not use in new code; here so existing arbitrary
      Tailwind utilities like `bg-bg-primary` keep resolving) ─── */
-  --color-bg-primary:     #0b0f1a;
-  --color-bg-secondary:   #121828;
-  --color-bg-panel:       #1a2236;
-  --color-bg-surface:     #1e2740;
-  --color-accent-cyan:    #65def0;
-  --color-accent-cyan-dim: #3a8b9a;
-  --color-accent-green:   #7ce896;
-  --color-accent-red:     #e76670;
-  --color-accent-amber:   #f4b965;
-  --color-text-primary:   #e7ecf5;
-  --color-text-secondary: #aab2c4;
-  --color-text-muted:     #8b94a8;
-  --color-border-default: #202a44;
+  --color-bg-primary:     var(--canvas);
+  --color-bg-secondary:   var(--panel);
+  --color-bg-panel:       var(--raised);
+  --color-bg-surface:     var(--input);
+  --color-accent-cyan:    var(--brand);
+  --color-accent-cyan-dim: var(--brand-dim);
+  --color-accent-green:   var(--success);
+  --color-accent-red:     var(--danger);
+  --color-accent-amber:   var(--warning);
+  --color-text-primary:   var(--text);
+  --color-text-secondary: var(--text-soft);
+  --color-text-muted:     var(--muted);
+  --color-border-default: var(--border);
 
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-raised: var(--raised);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-strong: var(--text-strong);
+  --color-text-medium: var(--text-medium);
+  --color-text-soft: var(--text-soft);
+  --color-text-soft2: var(--text-soft2);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-dim: var(--brand-dim);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-threat-mid: var(--threat-mid);
+  --color-code: var(--code);
+  --color-focus: var(--focus);
   /* — Type families (Geist for reading, JetBrains Mono for voice) — */
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, 'Cascadia Code', monospace;
   --font-display: 'JetBrains Mono', ui-monospace, monospace;
 
   /* — v2 "Field Office" — tinted-blue elevation tokens (never pure black). — */
-  --shadow-panel: 0 1px 0 0 #202a44, 0 18px 40px -24px rgba(8, 12, 24, 0.7);
-  --shadow-pop:   0 0 0 1px #2b3759, 0 24px 56px -28px rgba(6, 10, 22, 0.8);
+  --shadow-panel: 0 1px 0 0 var(--border), 0 18px 40px -24px color-mix(in srgb,var(--code) 70%,transparent);
+  --shadow-pop:   0 0 0 1px var(--border-strong), 0 24px 56px -28px color-mix(in srgb,var(--code) 80%,transparent);
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -149,9 +223,9 @@ body::before {
    ────────────────────────────────────────────────────────────────────────── */
 
 /* Text glows — kept for selective use on h1 wordmark / featured headings */
-@utility glow-cyan  { text-shadow: 0 0 12px rgba(101, 222, 240, 0.32); }
-@utility glow-green { text-shadow: 0 0 12px rgba(124, 232, 150, 0.32); }
-@utility glow-amber { text-shadow: 0 0 12px rgba(244, 185, 101, 0.32); }
+@utility glow-cyan  { text-shadow: 0 0 12px color-mix(in srgb,var(--brand) 32%,transparent); }
+@utility glow-green { text-shadow: 0 0 12px color-mix(in srgb,var(--success) 32%,transparent); }
+@utility glow-amber { text-shadow: 0 0 12px color-mix(in srgb,var(--warning) 32%,transparent); }
 
 /* Tabular numerals — for dates, IDs, metadata */
 @utility tabular-nums {
@@ -161,8 +235,8 @@ body::before {
 /* Grid background pattern — used on hero only; never on body sections */
 @utility grid-pattern {
   background-image:
-    linear-gradient(rgba(32, 42, 68, 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(32, 42, 68, 0.5) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb,var(--border) 50%,transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb,var(--border) 50%,transparent) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -173,8 +247,8 @@ body::before {
   inset: 0;
   background: repeating-linear-gradient(
     0deg,
-    rgba(101, 222, 240, 0.025) 0px,
-    rgba(101, 222, 240, 0.025) 1px,
+    color-mix(in srgb,var(--brand) 2.5%,transparent) 0px,
+    color-mix(in srgb,var(--brand) 2.5%,transparent) 1px,
     transparent 1px,
     transparent 3px
   );
@@ -294,7 +368,7 @@ body::before {
 .prose a {
   color: var(--color-cyan);
   text-decoration: underline;
-  text-decoration-color: rgba(101, 222, 240, 0.4);
+  text-decoration-color: color-mix(in srgb,var(--brand) 40%,transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   word-break: break-word;
@@ -331,7 +405,7 @@ body::before {
   padding: 0.5em 0 0.5em 1.1em;
   color: var(--color-ink-soft2);
   font-style: italic;
-  background: rgba(244, 185, 101, 0.05);
+  background: color-mix(in srgb,var(--warning) 5%,transparent);
 }
 .prose blockquote p { margin-top: 0.5em; }
 .prose blockquote p:first-child { margin-top: 0; }
@@ -517,7 +591,7 @@ body::before {
               box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.dcm-mission-card:hover {
-  box-shadow: 0 0 0 1px #3a8b9a, 0 12px 24px -16px rgba(8, 13, 28, 0.7);
+  box-shadow: 0 0 0 1px var(--brand-dim), 0 12px 24px -16px rgba(8, 13, 28, 0.7);
 }
 a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
 @keyframes dcm-badge-pulse {
@@ -539,25 +613,25 @@ a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
    reduced motion in the block below.
    ────────────────────────────────────────────────────────────────────────── */
 /* Hero CTAs */
-.dcm-hero-cta-primary:hover { background: #9eecf6 !important; transform: translateY(-1px); }
+.dcm-hero-cta-primary:hover { background: var(--brand-hover) !important; transform: translateY(-1px); }
 .dcm-hero-cta-primary:active { transform: translateY(0); }
 .dcm-hero-cta-secondary:hover {
-  border-color: #3a8b9a !important;
-  color: #9eecf6 !important;
-  background: rgba(101, 222, 240, 0.08) !important;
+  border-color: var(--brand-dim) !important;
+  color: var(--brand-hover) !important;
+  background: color-mix(in srgb,var(--brand) 8%,transparent) !important;
 }
 /* "View all →" inline link */
-.dcm-link-cyan:hover { color: #65def0 !important; }
+.dcm-link-cyan:hover { color: var(--brand) !important; }
 /* Newsletter subscribe pill — green fill */
-.dcm-cta-green:hover { background: rgba(124, 232, 150, 0.10) !important; border-color: #7ce896 !important; }
+.dcm-cta-green:hover { background: color-mix(in srgb,var(--success) 10%,transparent) !important; border-color: var(--success) !important; }
 /* Newsletter list row — indent on hover */
 .dcm-row-indent:hover { padding-left: 8px !important; }
 /* Interview cards — cyan-dim border, with/without lift */
-.dcm-card-cyan-lift:hover { border-color: #3a8b9a !important; transform: translateY(-2px); }
-.dcm-card-cyan-fill:hover { border-color: #3a8b9a !important; background: #1a2236 !important; }
+.dcm-card-cyan-lift:hover { border-color: var(--brand-dim) !important; transform: translateY(-2px); }
+.dcm-card-cyan-fill:hover { border-color: var(--brand-dim) !important; background: var(--raised) !important; }
 /* Article cards — amber border, with/without lift */
-.dcm-card-amber-lift:hover { border-color: #f4b965 !important; transform: translateY(-2px); }
-.dcm-card-amber:hover { border-color: #f4b965 !important; }
+.dcm-card-amber-lift:hover { border-color: var(--warning) !important; transform: translateY(-2px); }
+.dcm-card-amber:hover { border-color: var(--warning) !important; }
 /* post.html related card — hover border color is data-driven via --rhover */
 .dcm-card-hovervar:hover { border-color: var(--rhover) !important; }
 
@@ -605,3 +679,21 @@ a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
   .dcm-card-cyan-lift:hover,
   .dcm-card-amber-lift:hover { transform: none !important; }
 }
+
+/* Shared readable controls and long-form reading. */
+input:not([type=radio]):not([type=checkbox]), textarea, select { font-size: max(1rem, 16px); }
+input:not([type=radio]):not([type=checkbox]), textarea, select { border-color: var(--border-strong); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.prose { font-size: 1.0625rem; line-height: 1.7; max-width: 68ch; }
+.theme-switcher { position: relative; color: var(--text-soft); font-family: var(--font-sans); }
+.theme-trigger { display: flex; align-items: center; gap: .75rem; justify-content: center; min-width: 44px; min-height: 44px; cursor: pointer; border-radius: 4px; }
+.theme-trigger:hover { background: var(--raised); color: var(--text); }
+.theme-tooltip { display: none; position: absolute; top: 100%; right: 0; padding: .4rem .6rem; font-size: 13px; background: var(--raised); white-space: nowrap; }
+.theme-trigger:hover .theme-tooltip, .theme-trigger:focus-visible .theme-tooltip { display: block; }
+.theme-options { position: absolute; right: 0; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--border-strong); padding: .5rem; min-width: 230px; box-shadow: var(--shadow-pop); border-radius: 4px; z-index: 60; }
+.theme-option { display: flex; gap: .7rem; align-items: center; min-height: 44px; padding: .4rem .6rem; cursor: pointer; font-size: 14px; color: var(--text); }
+.theme-option:hover { background: var(--raised); }
+.theme-option input { accent-color: var(--brand); width: 16px; height: 16px; }
+.theme-inline { width: 100%; }
+.theme-inline .theme-trigger { justify-content: start; }
+.theme-inline .theme-options { position: static; margin: .5rem 0; box-shadow: none; min-width: 0; }

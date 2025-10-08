@@ -23,6 +23,7 @@ const components: Record<string, React.LazyExoticComponent<React.ComponentType<a
   CourseProgress: React.lazy(() => import('./components/CourseProgress')),
   ProgressSync: React.lazy(() => import('./components/ProgressSync')),
   GameLauncher: React.lazy(() => import('./components/GameLauncher')),
+  ThemeSwitcher: React.lazy(() => import('./components/ThemeSwitcher')),
   MobileMenu: React.lazy(() => import('./components/MobileMenu')),
   ModuleLessons: React.lazy(() => import('./components/ModuleLessons')),
   LessonWidget: React.lazy(() => import('./components/LessonWidget')),

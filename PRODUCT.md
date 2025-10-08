@@ -46,7 +46,7 @@ Emotional arc: arrive curious or worried → feel "this person knows what they'r
 
 ## Accessibility & Inclusion
 
-- **WCAG 2.1 AA minimum.** Body copy hits AA contrast on the dark canvas (≥ 4.5:1); large display type and brand cyan hit AA Large (≥ 3:1) — verify the accent cyan against the canvas with a contrast checker and adjust the cyan's chroma if it falls short rather than darkening the canvas.
+- **WCAG 2.1 AA minimum.** Body copy hits AA contrast on the dark canvas (≥ 4.5:1); large display type and brand accents hit AA Large (≥ 3:1) — verify each selected brand accent against the canvas with a contrast checker and adjust its lightness if it falls short rather than darkening the canvas.
 - **Keyboard navigable everywhere.** Visible focus rings (not just `outline: none` cleared without replacement). Skip-to-content link in `base.html`. The journal filter and carousels need full arrow-key support.
 - **Reduced-motion respected.** `prefers-reduced-motion` already kills scanlines and glitch; extend to typewriter, particle background, and any future scroll-triggered choreography. Hover color transitions stay — they aren't vestibular triggers.
 - **Screen reader semantics.** Use `<article>` for posts and guides, `<nav>` for navigation, real headings (no styled divs). Threat-level indicators need an aria-label that reads as "уровень угрозы: 4 из 5", not just visual bars.

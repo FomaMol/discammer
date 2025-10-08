@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import ThemeSwitcher from './ThemeSwitcher';
 import { createPortal } from 'react-dom';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 
@@ -43,6 +44,12 @@ export default function MobileMenu({
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
 
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1280px)');
+    const closeOnDesktop = () => { if (desktop.matches) setIsOpen(false); };
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => desktop.removeEventListener('change', closeOnDesktop);
+  }, []);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
@@ -74,7 +81,7 @@ export default function MobileMenu({
       if (e.key !== 'Tab' || !panelRef.current) return;
 
       const focusables = panelRef.current.querySelectorAll<HTMLElement>(
-        'a, button, [tabindex]:not([tabindex="-1"])'
+        'a, button, input:checked, [tabindex]:not([tabindex="-1"])'
       );
       if (focusables.length === 0) return;
       const first = focusables[0];
@@ -100,7 +107,7 @@ export default function MobileMenu({
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative z-50 w-10 h-10 flex flex-col items-center justify-center gap-1.5 md:hidden"
+        className="relative z-50 w-11 h-11 flex flex-col items-center justify-center gap-1.5 xl:hidden"
         aria-label={isOpen ? closeLabel : openLabel}
         aria-expanded={isOpen}
         aria-controls={panelId}
@@ -133,7 +140,7 @@ export default function MobileMenu({
             aria-modal="true"
             aria-label={navAria}
             aria-hidden={!isOpen}
-            className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out motion-reduce:transition-none md:hidden ${
+            className={`fixed inset-0 z-40 bg-bg-primary/98 transition-transform duration-300 ease-out motion-reduce:transition-none xl:hidden ${
               isOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
             }`}
           >
@@ -141,9 +148,9 @@ export default function MobileMenu({
             <div className="scanline-overlay" />
 
             {/* Menu content */}
-            <nav className="relative z-10 flex flex-col items-start justify-center h-full px-6 sm:px-8 pt-28 sm:pt-32 pb-16 sm:pb-20 overflow-y-auto">
+            <nav className="relative z-10 flex flex-col items-start justify-start h-full px-6 sm:px-8 pt-20 pb-8 overflow-y-auto">
               <div
-                className="text-xs text-text-muted mb-8 uppercase tracking-[0.3em]"
+                className="text-xs text-text-muted mb-3 uppercase tracking-[0.3em]"
                 style={{ fontFamily: '"JetBrains Mono", monospace' }}
               >
                 {navHeader}
@@ -159,7 +166,7 @@ export default function MobileMenu({
                     tabIndex={isOpen ? 0 : -1}
                     aria-current={isActive ? 'page' : undefined}
                     onClick={() => setIsOpen(false)}
-                    className="group flex items-center gap-4 py-3 w-full"
+                    className="group flex items-center gap-4 py-2.5 min-h-11 w-full"
                     style={{
                       animation: isOpen
                         ? `glitch 0.1s linear ${i * 0.05}s 1`
@@ -175,7 +182,7 @@ export default function MobileMenu({
                     <span
                       className={`${
                         isActive ? 'text-accent-cyan' : 'text-text-primary'
-                      } text-xl group-hover:text-accent-cyan group-hover:glow-cyan transition-colors duration-200`}
+                      } text-base group-hover:text-accent-cyan group-hover:glow-cyan transition-colors duration-200`}
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
                       &gt; {link.label}
@@ -195,7 +202,7 @@ export default function MobileMenu({
                   tabIndex={isOpen ? 0 : -1}
                   aria-label={switchAriaLabel || `${chipCurrent} → ${chipOther}`}
                   rel="alternate"
-                  className="group flex items-center gap-4 py-3 w-full mt-4 border-t border-border-default pt-6"
+                  className="group flex items-center gap-4 py-2.5 min-h-11 w-full mt-4 border-t border-border-default pt-6"
                 >
                   <span
                     className="text-text-muted text-xs"
@@ -207,8 +214,8 @@ export default function MobileMenu({
                     <span
                       className="inline-flex items-center justify-center h-7 px-2 text-accent-cyan font-mono text-xs font-bold tracking-[0.14em] rounded-sm tabular-nums border"
                       style={{
-                        backgroundColor: 'rgba(101,222,240,0.08)',
-                        borderColor: '#3a8b9a',
+                        backgroundColor: 'color-mix(in srgb,var(--brand) 8%,transparent)',
+                        borderColor: 'var(--brand-dim)',
                         minWidth: '1.875rem',
                         fontFamily: '"JetBrains Mono", monospace',
                       }}
@@ -235,6 +242,7 @@ export default function MobileMenu({
                 </a>
               )}
 
+              {isOpen && <ThemeSwitcher inline />}
               {/* Decorative footer */}
               <div className="mt-auto pt-8 border-t border-border-default w-full">
                 <p

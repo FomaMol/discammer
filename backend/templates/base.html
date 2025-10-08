@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ lang | default('en') }}">
+<html data-theme="soft-red" lang="{{ lang | default('en') }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +29,8 @@
      first 3 chars of any 404 path like /enterprise into /ruterprise. #}
   {% set _alt_path = request.url.path[3:] if request and (request.url.path == '/' ~ _lang or request.url.path.startswith('/' ~ _lang ~ '/')) else '/' %}
   <meta name="description" content="{{ _meta_description }}">
-  <meta name="theme-color" content="#0b0f1a">
+  <meta name="theme-color" content="#151314">
+  <script nonce="{{ request.state.csp_nonce }}">(()=>{let t='soft-red';try{if(localStorage.getItem('discammer.theme.v1')==='graphite-silver')t='graphite-silver'}catch{}document.documentElement.dataset.theme=t;document.querySelector('meta[name="theme-color"]').content=t==='soft-red'?'#151314':'#101314'})();</script>
   <meta name="generator" content="DiScammer">
   {% if _canonical_url %}<link rel="canonical" href="{{ _canonical_url }}">{% endif %}
   <link rel="manifest" href="/manifest.webmanifest">
@@ -144,32 +145,32 @@
        Top navigation — backdrop-blurred, hairline border.
        Wordmark = JetBrains Mono 800 (no Press Start 2P).
        ───────────────────────────────────────────────────────────────────── -->
-  <nav class="fixed top-0 left-0 right-0 z-50 h-14 backdrop-blur-md border-b border-[#202a44]" style="background-color: color-mix(in srgb, #0b0f1a 86%, transparent); backdrop-filter: blur(10px) saturate(140%);">
+  <nav class="fixed top-0 left-0 right-0 z-50 h-14 backdrop-blur-md border-b border-[var(--border)]" style="background-color: color-mix(in srgb, var(--canvas) 86%, transparent); backdrop-filter: blur(10px) saturate(140%);">
     <div class="h-full flex items-center gap-3 sm:gap-5 px-4 sm:px-6 lg:px-10">
 
       <!-- Logo: reticle scope-mark + wordmark (redesign canvas SITE NAV) -->
       <a href="/{{ _lang }}/" class="flex items-center gap-2.5 shrink-0" aria-label="DiScammer">
         <span class="relative inline-flex items-center justify-center shrink-0" style="width:22px;height:22px;" aria-hidden="true">
-          <span class="absolute inset-0" style="border:1.5px solid #3a8b9a;border-radius:2px;"></span>
-          <span class="absolute" style="top:-1px;left:-1px;width:6px;height:6px;border-top:1.5px solid #65def0;border-left:1.5px solid #65def0;"></span>
-          <span class="absolute" style="bottom:-1px;right:-1px;width:6px;height:6px;border-bottom:1.5px solid #65def0;border-right:1.5px solid #65def0;"></span>
-          <span style="width:6px;height:6px;background:#65def0;border-radius:1px;box-shadow:0 0 8px rgba(101,222,240,0.6);"></span>
+          <span class="absolute inset-0" style="border:1.5px solid var(--brand-dim);border-radius:2px;"></span>
+          <span class="absolute" style="top:-1px;left:-1px;width:6px;height:6px;border-top:1.5px solid var(--brand);border-left:1.5px solid var(--brand);"></span>
+          <span class="absolute" style="bottom:-1px;right:-1px;width:6px;height:6px;border-bottom:1.5px solid var(--brand);border-right:1.5px solid var(--brand);"></span>
+          <span style="width:6px;height:6px;background:var(--brand);border-radius:1px;box-shadow:0 0 8px color-mix(in srgb,var(--brand) 60%,transparent);"></span>
         </span>
-        <span class="font-mono font-extrabold text-[15px] tracking-[-0.02em] text-[#f3f5fa]">DISCAMMER</span>
+        <span class="font-mono font-extrabold text-[15px] tracking-[-0.02em] text-[var(--text-strong)]">DISCAMMER</span>
       </a>
 
       <div class="flex-1"></div>
 
       <!-- Desktop nav — 4 links + search icon + EN|RU toggle + Start-the-course CTA (canvas SITE NAV) -->
       {% set _nav_path = request.url.path if request else '' %}
-      <div class="hidden md:flex items-center gap-0.5">
-        {% for _section, _label_key in [('course', 'nav.course'), ('journal', 'nav.journal'), ('check', 'nav.check'), ('inspect', 'nav.inspect')] %}
+      <div class="hidden xl:flex items-center gap-0.5">
+        {% for _section, _label_key in [('game', 'nav.game_short'), ('course', 'nav.course'), ('journal', 'nav.journal'), ('check', 'nav.check'), ('inspect', 'nav.inspect')] %}
         {% set _section_href = '/' ~ _lang ~ '/' ~ _section %}
         {% set _is_current = _nav_path.rstrip('/') == _section_href %}
         {% set _is_active = _is_current or _nav_path.startswith(_section_href ~ '/') %}
         <a href="{{ _section_href }}"
            {% if _is_active %}aria-current="{{ 'page' if _is_current else 'true' }}"{% endif %}
-           class="font-mono uppercase text-[11px] tracking-[0.12em] font-semibold transition-colors px-3 py-2 rounded-sm {{ 'text-[#f3f5fa] border-b-2 border-[#65def0]' if _is_active else 'text-[#aab2c4] hover:text-[#e7ecf5]' }}">
+           class="font-mono uppercase text-[13px] tracking-[0.12em] font-semibold transition-colors px-2 py-3 rounded-sm {{ 'text-[var(--text-strong)] border-b-2 border-[var(--brand)]' if _is_active else 'text-[var(--text-soft)] hover:text-[var(--text)]' }}">
           {{ t(_lang, _label_key) }}
         </a>
         {% endfor %}
@@ -179,24 +180,25 @@
       {% set _search_href = '/' ~ _lang ~ '/search' %}
       <a href="{{ _search_href }}" aria-label="{{ t(_lang, 'nav.search') }}"
          {% if _nav_path.rstrip('/') == _search_href %}aria-current="page"{% endif %}
-         class="hidden md:inline-flex items-center justify-center w-9 h-9 rounded-sm border border-[#2b3759] text-[#aab2c4] hover:text-[#9eecf6] hover:border-[#3a8b9a] transition-colors">
+         class="hidden xl:inline-flex items-center justify-center w-11 h-11 rounded-sm border border-[var(--border-strong)] text-[var(--text-soft)] hover:text-[var(--brand-hover)] hover:border-[var(--brand-dim)] transition-colors">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16.5" y2="16.5"></line></svg>
       </a>
 
-      <span class="hidden md:block w-px h-5 bg-[#2b3759] mx-1"></span>
+      <span class="hidden xl:block w-px h-5 bg-[var(--border-strong)] mx-1"></span>
 
       {# Language toggle — inline route to the other language (never a modal). Current lang is the
          cyan chip; the other lang is muted and lights to cyan on hover. #}
       <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
-         class="hidden md:inline-flex items-center font-mono text-[11px] font-semibold tracking-[0.06em] rounded-sm overflow-hidden border border-[#2b3759]"
+         class="hidden xl:inline-flex min-h-11 items-center font-mono text-[13px] font-semibold tracking-[0.06em] rounded-sm overflow-hidden border border-[var(--border-strong)]"
          aria-label="{{ t(_lang, 'lang.switch_to') }}" rel="alternate" hreflang="{{ _other }}">
-        <span class="px-2 py-1 text-[#65def0]" style="background-color: rgba(101,222,240,0.08);">{{ t(_lang, 'lang.short') }}</span>
-        <span class="px-2 py-1 text-[#8b94a8] hover:text-[#65def0] transition-colors">{{ t(_lang, 'lang.other_short') }}</span>
+        <span class="px-2 py-1 text-[var(--brand)]" style="background-color: color-mix(in srgb,var(--brand) 8%,transparent);">{{ t(_lang, 'lang.short') }}</span>
+        <span class="px-2 py-1 text-[var(--muted)] hover:text-[var(--brand)] transition-colors">{{ t(_lang, 'lang.other_short') }}</span>
       </a>
 
+      <div class="hidden xl:block" data-component="ThemeSwitcher" data-props='{}'></div>
       <!-- Start the course — primary CTA (reuses the home hero CTA string) -->
       <a href="/{{ _lang }}/course"
-         class="hidden md:inline-flex items-center font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#0b0f1a] bg-[#65def0] rounded-sm px-4 py-2 whitespace-nowrap hover:bg-[#9eecf6] transition-colors">
+         class="hidden xl:inline-flex items-center font-mono text-[13px] font-bold uppercase tracking-[0.12em] text-[var(--canvas)] bg-[var(--brand)] rounded-sm px-4 py-2 whitespace-nowrap hover:bg-[var(--brand-hover)] transition-colors">
         {{ t(_lang, 'home.hero_cta_course') }}
       </a>
 
@@ -220,17 +222,13 @@
         ]
       } %}
       <div data-component="MobileMenu" data-props='{{ _mobile_menu_props | tojson | forceescape }}'>
-        <noscript>
-          <div class="md:hidden flex flex-wrap gap-x-3 gap-y-1 font-mono uppercase text-[10px] tracking-[0.16em]">
-            <a href="/{{ _lang }}/course" class="text-cyan">{{ t(_lang, 'nav.course') }}</a>
-            <a href="/{{ _lang }}/journal" class="text-cyan">{{ t(_lang, 'nav.journal') }}</a>
-            <a href="/{{ _lang }}/check" class="text-cyan">{{ t(_lang, 'nav.check') }}</a>
-            <a href="/{{ _lang }}/inspect" class="text-cyan">{{ t(_lang, 'nav.inspect') }}</a>
-            <a href="/{{ _lang }}/search" class="text-cyan">{{ t(_lang, 'nav.search') }}</a>
-            <a href="/{{ _lang }}/game" class="text-cyan">{{ t(_lang, 'nav.game_short') }}</a>
-            <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="text-green">{{ t(_lang, 'lang.other_short') }}</a>
+        <details class="xl:hidden relative ssr-menu">
+          <summary class="min-h-11 flex items-center cursor-pointer font-mono text-sm">{{ t(_lang, 'client.nav.open_menu') }}</summary>
+          <div class="absolute right-0 top-full w-64 p-4 bg-panel border border-border shadow-pop">
+            {% for link in _mobile_menu_props.links %}<a class="block py-3 text-brand" href="{{ link.href }}">{{ link.label }}</a>{% endfor %}
+            <a class="block py-3" href="{{ _mobile_menu_props.switchHref }}">{{ _mobile_menu_props.switchLabel }}</a>
           </div>
-        </noscript>
+        </details>
       </div>
     </div>
   </nav>
@@ -265,7 +263,7 @@
                rel="alternate"
                hreflang="{{ _other }}">
               <span class="inline-flex items-center justify-center h-6 px-1.5 text-cyan font-mono text-[10px] font-bold tracking-[0.14em] rounded-sm tabular-nums border"
-                    style="background-color: rgba(101,222,240,0.08); border-color: #3a8b9a; min-width: 1.625rem;">
+                    style="background-color: color-mix(in srgb,var(--brand) 8%,transparent); border-color: var(--brand-dim); min-width: 1.625rem;">
                 {{ t(_lang, 'lang.short') }}
               </span>
               <span class="font-mono text-ink-faint text-[11px] mx-1.5" aria-hidden="true">&rarr;</span>

@@ -149,13 +149,13 @@
     "hero_headline_l1": "Build the",
     "hero_headline_l2": "detector in",
     "hero_headline_l3": "your own",
-    "hero_pill": "MONITORING · FREE · RU / EN",
+    "hero_pill": "Learning · Free · RU / EN",
     "hero_stat_guides": "Threat guides",
     "hero_stat_interviews": "Interviews",
     "hero_stat_last_filed": "Last filed",
     "hero_stat_lessons": "Lessons",
     "hero_subtitle": "Not another course you finish and forget. DiScammer teaches the cognitive moves of an anti-fraud analyst, so the next time a message feels off, you pause, and you check, before the money moves.",
-    "hero_tracking_label": "tracking_threats",
+    "hero_tracking_label": "learning example",
     "hero_tracking_value": "PHISHING_SMS",
     "iv_all": "All interviews",
     "iv_eyebrow": "INTERVIEW_LOG",
@@ -424,9 +424,11 @@
       "loading": "> Loading edition…",
       "empty": "> No entries filed under this section.",
       "featured_byline": "BY DCM EDITORIAL",
-      "min_read": "MIN READ",
       "skim_label": "// SKIM",
-      "skim_caption": "Older entries, compact view"
+      "skim_caption": "Older entries, compact view",
+      "error": "Could not load the journal. Please try again.",
+      "retry": "Retry",
+      "sections_label": "Journal sections"
     },
     "courseProgress": {
       "loading": "> Loading mission list",
@@ -883,7 +885,9 @@
       "result_count_one": "{count} result",
       "no_results": "Nothing matched. Try fewer or different words.",
       "badge_post": "BRIEFING",
-      "badge_guide": "GUIDE"
+      "badge_guide": "GUIDE",
+      "error": "Search could not load. Please try again.",
+      "loading": "Searching…"
     },
     "analyzer": {
       "input_label": "Paste the message you want to check",
@@ -1062,6 +1066,11 @@
       "lvl_3": "ELEVATED",
       "lvl_4": "HIGH",
       "lvl_5": "CRITICAL"
+    },
+    "theme": {
+      "label": "Appearance",
+      "soft_red": "Soft red",
+      "graphite_silver": "Graphite and silver"
     }
   },
   "check": {
@@ -1186,7 +1195,9 @@
     "stat_protect": "Protect",
     "stat_protect_desc": "Practice the safer next step before a simulated caller presses send.",
     "stat_rankup": "Rank up",
-    "stat_rankup_desc": "Build the reflex through repetition that sticks."
+    "stat_rankup_desc": "Build the reflex through repetition that sticks.",
+    "preview_alt": "Antifraud Hero main menu: an analyst’s workstation",
+    "preview_caption": "Screenshot of the supplied WebGL build"
   },
   "inspectpage": {
     "browser_note": "The link is analyzed in your browser and is not sent to the application or opened by it. Standard technical access and error events may still be logged without the pasted link.",
