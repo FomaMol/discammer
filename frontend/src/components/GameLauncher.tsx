@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { makeTranslator, type Locale } from '../utils/i18n';
 
@@ -121,12 +122,12 @@ export default function GameLauncher({
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-mono uppercase text-[13px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] rounded-[4px] hover:bg-[#9eecf6] hover:-translate-y-px active:translate-y-0 active:bg-[#3a8b9a] focus:outline-none focus-visible:shadow-[0_0_0_2px_#0b0f1a,0_0_0_4px_#65def0] transition-all duration-200 cursor-pointer"
+        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-mono uppercase text-[13px] tracking-[0.14em] font-bold bg-[var(--brand)] text-[var(--canvas)] rounded-[4px] hover:bg-[var(--brand-hover)] hover:-translate-y-px active:translate-y-0 active:bg-[var(--brand-dim)] focus:outline-none focus-visible:shadow-[0_0_0_2px_var(--canvas),0_0_0_4px_var(--brand)] transition-all duration-200 cursor-pointer"
       >
         {resolvedLabel}
       </button>
 
-      {open && (
+      {open && createPortal(
         <div
           ref={dialogRef}
           role="dialog"
@@ -134,8 +135,8 @@ export default function GameLauncher({
           aria-label="Antifraud Hero"
           className="fixed inset-0 z-[100] bg-black/95 flex flex-col"
         >
-          <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[#202a44] bg-[#0b0f1a]">
-            <span className="font-display-wordmark text-[#7ce896] text-xs md:text-sm glow-green tracking-widest">
+          <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-[var(--border)] bg-[var(--canvas)]">
+            <span className="font-display-wordmark text-[var(--success)] text-xs md:text-sm glow-green tracking-widest">
               ANTIFRAUD HERO
             </span>
             <button
@@ -143,7 +144,7 @@ export default function GameLauncher({
               type="button"
               onClick={close}
               aria-label={resolvedCloseAria}
-              className="font-mono uppercase text-xs md:text-sm tracking-[2px] text-[#aab2c4] hover:text-[#e76670] focus:text-[#e76670] transition-colors px-3 py-1 border border-[#202a44] hover:border-[#e76670] focus:border-[#e76670] focus:outline-none cursor-pointer"
+              className="font-mono uppercase text-xs md:text-sm tracking-[2px] text-[var(--text-soft)] hover:text-[var(--danger)] focus:text-[var(--danger)] transition-colors px-3 py-2 min-h-11 border border-[var(--border)] hover:border-[var(--danger)] focus:border-[var(--danger)] focus:outline-none cursor-pointer"
             >
               {resolvedCloseLabel}
             </button>
@@ -158,7 +159,7 @@ export default function GameLauncher({
               allow="autoplay; fullscreen; gamepad; pointer-lock"
             />
           </div>
-        </div>
+        </div>, document.body
       )}
     </>
   );

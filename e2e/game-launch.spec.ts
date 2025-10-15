@@ -19,6 +19,14 @@ const PLAY_DOC_RE = /\/play\/$/;
 test('GameLauncher opens /play/ in a same-origin iframe that actually renders', async ({
   page,
 }) => {
+  test.setTimeout(120_000);
+  const fatalErrors: string[] = [];
+  page.on('pageerror', error => fatalErrors.push(error.message));
+  const resources = ['loader.js', 'data.br', 'framework.js.br', 'wasm.br'];
+  const buildResponses = resources.map(suffix => page.waitForResponse(response =>
+    new URL(response.url()).pathname === `/play/Build/AntifraudWebBuild.${suffix}`,
+    { timeout: 90_000 }
+  ));
   // Arm the response wait BEFORE the click so we never miss it.
   const playResponsePromise = page.waitForResponse(
     (r) => PLAY_DOC_RE.test(new URL(r.url()).pathname) && r.request().method() === 'GET'
@@ -53,8 +61,30 @@ test('GameLauncher opens /play/ in a same-origin iframe that actually renders', 
   const framed = frameEl.contentFrame();
   await expect(framed.locator('#unity-container')).toBeAttached();
 
+  for (const response of await Promise.all(buildResponses)) {
+    expect(response.status(), response.url()).toBe(200);
+    expect(response.headers()['cache-control']).toBe('no-cache');
+    if (response.url().endsWith('.br')) expect(response.headers()['content-encoding']).toBe('br');
+    expect(await response.finished()).toBeNull();
+  }
+  // The vendor removes this only after createUnityInstance resolves. The empty
+  // Unity container alone is not a successful launch. Save the rendered canvas
+  // for menu review without modifying the supplied game or adding test hooks.
+  await expect(framed.locator('#loading-screen')).toHaveCount(0, { timeout: 90_000 });
+  const canvas = framed.locator('#unity-canvas');
+  await expect(canvas).toBeVisible();
+  await test.info().attach('unity-menu', { body: await canvas.screenshot(), contentType: 'image/png' });
+  expect(fatalErrors).toEqual([]);
+  // Focus inside Unity to exercise the iframe Escape listener.
+  await canvas.click({ position: { x: 10, y: 10 } });
   // Escape closes the dialog (GameLauncher's key handler).
   await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(frameEl).toHaveCount(0);
+  await expect(launch).toBeFocused();
+  await launch.click();
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button').click();
   await expect(dialog).toBeHidden();
 });
 
@@ -74,6 +104,21 @@ test('GameLauncher dialog is keyboard accessible — no focus trap (UX-3)', asyn
   // Escape always exits (WCAG 2.1.2 No Keyboard Trap) and focus RETURNS to the
   // trigger, so a keyboard user is never stuck and never loses their place.
   await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(launch).toBeFocused();
+});
+
+
+test('failed game resource leaves the outer close control usable', async ({ page }) => {
+  const failed = page.waitForEvent('requestfailed', request => request.url().endsWith('/Build/AntifraudWebBuild.wasm.br'));
+  await page.route('**/Build/AntifraudWebBuild.wasm.br', route => route.abort());
+  await page.goto('/en/game');
+  const launch = page.getByRole('button', { name: /launch simulation/i });
+  await launch.click();
+  const dialog = page.getByRole('dialog', { name: 'Antifraud Hero' });
+  await expect(dialog).toBeVisible();
+  await failed;
+  await dialog.getByRole('button').click();
   await expect(dialog).toBeHidden();
   await expect(launch).toBeFocused();
 });

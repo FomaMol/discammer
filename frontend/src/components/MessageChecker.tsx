@@ -24,16 +24,16 @@ interface MessageCheckerProps {
 
 // Level → meter color (mirrors the analyzer / ScamTypesGrid semantic palette).
 function levelColor(level: number): string {
-  if (level <= 0) return '#3a8b9a';
-  if (level <= 1) return '#7ce896';
-  if (level === 2) return '#f4b965';
-  if (level === 3) return '#f29b6c';
-  return '#e76670';
+  if (level <= 0) return 'var(--brand-dim)';
+  if (level <= 1) return 'var(--success)';
+  if (level === 2) return 'var(--warning)';
+  if (level === 3) return 'var(--threat-mid)';
+  return 'var(--danger)';
 }
 function severityColor(severity: 1 | 2 | 3): string {
-  if (severity === 3) return '#e76670';
-  if (severity === 2) return '#f4b965';
-  return '#7ce896';
+  if (severity === 3) return 'var(--danger)';
+  if (severity === 2) return 'var(--warning)';
+  return 'var(--success)';
 }
 
 export default function MessageChecker({ lang: langProp }: MessageCheckerProps) {
@@ -69,15 +69,15 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
     <div className="font-mono">
       {/* terminal-well console */}
       <div
-        className="ds-grain rounded-[6px] overflow-hidden border border-[#2b3759] bg-[#0a0d16]"
-        style={{ boxShadow: '0 0 40px -14px rgba(101,222,240,0.18)' }}
+        className="ds-grain rounded-[6px] overflow-hidden border border-[var(--border-strong)] bg-[var(--code)]"
+        style={{ boxShadow: '0 0 40px -14px color-mix(in srgb,var(--brand) 18%,transparent)' }}
       >
         {/* header strip */}
-        <div className="h-7 flex items-center gap-1.5 px-3 border-b border-[#202a44] bg-gradient-to-r from-[#1a2236] to-[#121828]">
-          <span className="w-2 h-2 rounded-full bg-[#2b3759]" aria-hidden="true" />
-          <span className="w-2 h-2 rounded-full bg-[#8b94a8]" aria-hidden="true" />
-          <span className="w-2 h-2 rounded-full bg-[#8b94a8]" aria-hidden="true" />
-          <span className="ml-auto text-[9.5px] tracking-[0.14em] text-[#8b94a8]">
+        <div className="h-7 flex items-center gap-1.5 px-3 border-b border-[var(--border)] bg-[var(--raised)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--border-strong)]" aria-hidden="true" />
+          <span className="w-2 h-2 rounded-full bg-[var(--muted)]" aria-hidden="true" />
+          <span className="w-2 h-2 rounded-full bg-[var(--muted)]" aria-hidden="true" />
+          <span className="ml-auto text-[12px] tracking-[0.14em] text-[var(--muted)]">
             {tr('console_label')}
           </span>
         </div>
@@ -85,7 +85,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
         <div className="p-3.5">
           <label
             htmlFor={textareaId}
-            className="block text-[9.5px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2"
+            className="block text-[12px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2"
           >
             {tr('input_label')}
           </label>
@@ -97,11 +97,11 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
             spellCheck={false}
             autoComplete="off"
             placeholder={tr('placeholder')}
-            className="w-full min-h-[84px] resize-y bg-[#0b0f1a] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-2.5 text-[12.5px] leading-[1.55] text-[#e7ecf5] placeholder:text-[#8b94a8]"
+            className="w-full min-h-[84px] resize-y bg-[var(--canvas)] border border-[var(--border)] focus:border-[var(--brand-dim)] focus:outline-none rounded-[4px] px-3 py-2.5 text-[16px] leading-[1.55] text-[var(--text)] placeholder:text-[var(--muted)]"
           />
 
           <div className="flex items-center justify-between mt-3 mb-2">
-            <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#8b94a8]">
+            <span className="text-[12px] uppercase tracking-[0.14em] text-[var(--muted)]">
               {tr('signals_label')}
             </span>
             {result !== null && (
@@ -117,7 +117,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
 
           {/* live results — announced politely */}
           <div aria-live="polite" className="text-[12px] leading-[1.7] min-h-[52px]">
-            {result === null && <span className="text-[#8b94a8]">{tr('awaiting')}</span>}
+            {result === null && <span className="text-[var(--muted)]">{tr('awaiting')}</span>}
 
             {result !== null && (
               <>
@@ -152,7 +152,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
                 </div>
 
                 {top.length === 0 ? (
-                  <p className="text-[11.5px] leading-[1.55] text-[#aab2c4] font-sans">
+                  <p className="text-[14px] leading-[1.55] text-[var(--text-soft)] font-sans">
                     {tr('clean')}
                   </p>
                 ) : (
@@ -167,13 +167,13 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
                             aria-hidden="true"
                           />
                           <span className="min-w-0">
-                            <span className="text-[12px] text-[#e7ecf5]">
+                            <span className="text-[12px] text-[var(--text)]">
                               {ta(`flags.${flag.flagKey}_label`)}
                             </span>
                             {flag.guideSlug && (
                               <a
                                 href={`/${lang}/guide/${flag.guideSlug}`}
-                                className="ml-2 text-[10.5px] uppercase tracking-[0.1em] text-[#65def0] hover:text-[#9eecf6] transition-colors whitespace-nowrap"
+                                className="ml-2 text-[12px] uppercase tracking-[0.1em] text-[var(--brand)] hover:text-[var(--brand-hover)] transition-colors whitespace-nowrap"
                               >
                                 {ta('guide_link')} <span aria-hidden="true">&#8594;</span>
                               </a>
@@ -191,11 +191,11 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
       </div>
 
       {/* privacy line + deeper tool link */}
-      <div className="flex items-center justify-between gap-2.5 mt-2">
-        <span className="text-[10px] text-[#8b94a8] leading-[1.4]">{tr('privacy')}</span>
+      <div className="flex items-center justify-between flex-wrap gap-2.5 mt-2">
+        <span className="text-[13px] text-[var(--muted)] leading-[1.4]">{tr('privacy')}</span>
         <a
           href={`/${lang}/inspect`}
-          className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#65def0] hover:text-[#9eecf6] transition-colors whitespace-nowrap"
+          className="shrink-0 text-[13px] font-semibold uppercase tracking-[0.1em] text-[var(--brand)] hover:text-[var(--brand-hover)] transition-colors whitespace-nowrap"
         >
           {tr('inspect_link')} <span aria-hidden="true">&#8594;</span>
         </a>

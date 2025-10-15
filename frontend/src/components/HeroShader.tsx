@@ -1,3 +1,4 @@
+import { themeColor } from '../utils/theme';
 import { useEffect, useRef } from 'react';
 import { prefersReducedMotion } from '../utils/useReducedMotion';
 
@@ -42,6 +43,7 @@ in vec2 v_uv;
 out vec4 fragColor;
 
 uniform float u_time;
+uniform vec3 u_brand;
 uniform vec2  u_resolution;
 
 // Hash + value noise (small, cheap)
@@ -106,7 +108,7 @@ void main() {
   float red   = streakLayer(p, dir, 30.0, 0.020, 0.08,  91.7);
 
   // Brand-tuned colors (match DESIGN.md tokens, not neon)
-  vec3 cyanC  = vec3(0.395, 0.871, 0.941);  // #65def0
+  vec3 cyanC = u_brand;
   vec3 amberC = vec3(0.957, 0.725, 0.396);  // #f4b965
   vec3 redC   = vec3(0.906, 0.400, 0.439);  // #e76670
 
@@ -197,6 +199,12 @@ export default function HeroShader() {
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
+    const brandLoc = gl.getUniformLocation(program, 'u_brand');
+    function updateTheme() {
+      const value = themeColor('brand').replace('#', '');
+      gl!.uniform3f(brandLoc, parseInt(value.slice(0,2),16)/255, parseInt(value.slice(2,4),16)/255, parseInt(value.slice(4,6),16)/255);
+      if (stopped || reduce) renderFrame(lastTime);
+    }
     const start = performance.now();
     let frame = 0;
     let stopped = false;
@@ -223,6 +231,8 @@ export default function HeroShader() {
       if (stopped || reduce) renderFrame(lastTime);
     }
 
+    updateTheme();
+    window.addEventListener('discammer:theme', updateTheme);
     resize();
     window.addEventListener('resize', resize);
 
@@ -262,6 +272,7 @@ export default function HeroShader() {
       io.disconnect();
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('discammer:theme', updateTheme);
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);
     };
@@ -272,7 +283,7 @@ export default function HeroShader() {
       ref={canvasRef}
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.35 }}
+      style={{ opacity: 0.2 }}
     />
   );
 }

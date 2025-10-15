@@ -14,82 +14,90 @@
    never hides content. The GameLauncher React island holds the real launch
    logic and is preserved exactly; we only restyle the shell around it.
    ───────────────────────────────────────────────────────────────────── #}
-<section class="relative overflow-hidden bg-[#0a0d16] border-b border-[#202a44]">
+<section class="relative overflow-hidden bg-[var(--code)] border-b border-[var(--border)]">
 
   {# CRT scanlines — reserved utility, hidden under reduced motion #}
   <div class="scanline-overlay" aria-hidden="true"></div>
   {# Radial vignette — darkens edges, focuses the wordmark #}
   <div class="absolute inset-0 pointer-events-none"
-       style="background:radial-gradient(70% 80% at 50% 45%, transparent 38%, rgba(5,7,13,0.72) 100%);"
+       style="background:radial-gradient(70% 80% at 50% 45%, transparent 38%, color-mix(in srgb,var(--code) 72%,transparent) 100%);"
        aria-hidden="true"></div>
 
-  <div class="relative z-20 max-w-[760px] mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24 text-center">
+  <div class="relative z-20 max-w-[1200px] mx-auto px-4 sm:px-6 py-12 sm:py-16 text-left">
 
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+    <div>
     {# SIMULATION READY pill #}
-    <div class="inline-flex items-center gap-2 rounded-full border border-[#3a8b9a] bg-[#65def0]/[0.08] pl-2.5 pr-3.5 py-1.5 mb-7">
+    <div class="inline-flex items-center gap-2 rounded-full border border-[var(--brand-dim)] bg-[var(--brand)]/[0.08] pl-2.5 pr-3.5 py-1.5 mb-7">
       <span class="status-dot status-dot--cyan" aria-hidden="true"></span>
-      <span class="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9eecf6]">
+      <span class="font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--brand-hover)]">
         {{ t(_lang, 'gamepage.sim_ready') }}
       </span>
     </div>
 
     {# Wordmark — two lines, strong cyan glow #}
-    <h1 class="font-display-wordmark text-[#f3f5fa] m-0 mb-5 leading-[0.95] text-[clamp(2.4rem,1.4rem+4vw,4.5rem)]"
-        style="text-shadow:0 0 40px rgba(101,222,240,0.28);">
+    <h1 class="font-display-wordmark text-[var(--text-strong)] m-0 mb-5 leading-[0.95] text-[clamp(2.4rem,1.4rem+4vw,4.5rem)]"
+        style="text-shadow:0 0 40px color-mix(in srgb,var(--brand) 28%,transparent);">
       {{ t(_lang, 'gamepage.wordmark_1') }}<br>{{ t(_lang, 'gamepage.wordmark_2') }}
     </h1>
 
     {# Lede #}
-    <p class="font-sans text-[16px] sm:text-[18px] leading-[1.6] text-[#aab2c4] max-w-[52ch] mx-auto mb-9">
+    <p class="font-sans text-[16px] sm:text-[18px] leading-[1.6] text-[var(--text-soft)] max-w-[52ch] mb-9">
       {{ t(_lang, 'gamepage.lede') }}
     </p>
 
     {# Launch CTA (React island) + run-note subline.
        The island renders the primary cyan button from data-props.label; the
        SEO/noscript fallback keeps the route usable with JS off. #}
-    <div class="flex flex-col items-center gap-4">
+    <div class="flex flex-col items-start gap-4">
       <div data-component="GameLauncher" data-props='{"label": {{ t(_lang, "gamepage.launch_cta") | tojson }}, "closeLabel": {{ t(_lang, "game.close") | tojson }}, "closeAria": {{ t(_lang, "game.close_label") | tojson }}}'>
-        <noscript>
+        
           <a href="/play/"
-             class="inline-flex items-center justify-center gap-2 px-9 py-4 font-mono uppercase text-[13px] sm:text-[14px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0a0d16] hover:bg-[#9eecf6] transition-colors rounded-[4px]">
+             class="inline-flex items-center justify-center gap-2 px-9 py-4 font-mono uppercase text-[13px] sm:text-[14px] tracking-[0.14em] font-bold bg-[var(--brand)] text-[var(--code)] hover:bg-[var(--brand-hover)] transition-colors rounded-[4px]">
             {{ t(_lang, 'gamepage.launch_cta') }}
           </a>
-        </noscript>
+        
       </div>
-      <p class="font-mono text-[10px] sm:text-[11px] text-[#8b94a8]">
+      <p class="font-mono text-[13px] text-[var(--muted)]">
         {{ t(_lang, 'gamepage.run_note') }}
       </p>
     </div>
 
+    </div>
+    <figure class="m-0">
+      <img src="/static/images/game-preview.webp" width="1600" height="900" alt="{{ t(_lang, 'gamepage.preview_alt') }}" class="w-full h-auto rounded-sm border border-border">
+      <figcaption class="text-muted text-sm mt-3">{{ t(_lang, 'gamepage.preview_caption') }}</figcaption>
+    </figure>
+    </div>
     {# Stat / capability row — Triage · Protect · Rank up #}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-12 text-left">
 
-      <div class="rounded-[6px] border border-[#202a44] bg-[#121828]/70 backdrop-blur-[3px] p-4">
-        <i class="ph ph-target text-[24px] text-[#65def0]" aria-hidden="true"></i>
-        <div class="font-mono text-[13px] font-bold text-[#e7ecf5] mt-2.5">
+      <div class="rounded-[6px] border border-[var(--border)] bg-[var(--panel)]/70 backdrop-blur-[3px] p-4">
+        <i class="ph ph-target text-[24px] text-[var(--brand)]" aria-hidden="true"></i>
+        <div class="font-mono text-[13px] font-bold text-[var(--text)] mt-2.5">
           {{ t(_lang, 'gamepage.stat_triage') }}
         </div>
-        <p class="font-sans text-[13px] leading-[1.5] text-[#8b94a8] mt-1">
+        <p class="font-sans text-[13px] leading-[1.5] text-[var(--muted)] mt-1">
           {{ t(_lang, 'gamepage.stat_triage_desc') }}
         </p>
       </div>
 
-      <div class="rounded-[6px] border border-[#202a44] bg-[#121828]/70 backdrop-blur-[3px] p-4">
-        <i class="ph ph-shield-check text-[24px] text-[#7ce896]" aria-hidden="true"></i>
-        <div class="font-mono text-[13px] font-bold text-[#e7ecf5] mt-2.5">
+      <div class="rounded-[6px] border border-[var(--border)] bg-[var(--panel)]/70 backdrop-blur-[3px] p-4">
+        <i class="ph ph-shield-check text-[24px] text-[var(--success)]" aria-hidden="true"></i>
+        <div class="font-mono text-[13px] font-bold text-[var(--text)] mt-2.5">
           {{ t(_lang, 'gamepage.stat_protect') }}
         </div>
-        <p class="font-sans text-[13px] leading-[1.5] text-[#8b94a8] mt-1">
+        <p class="font-sans text-[13px] leading-[1.5] text-[var(--muted)] mt-1">
           {{ t(_lang, 'gamepage.stat_protect_desc') }}
         </p>
       </div>
 
-      <div class="rounded-[6px] border border-[#202a44] bg-[#121828]/70 backdrop-blur-[3px] p-4">
-        <i class="ph ph-trophy text-[24px] text-[#f4b965]" aria-hidden="true"></i>
-        <div class="font-mono text-[13px] font-bold text-[#e7ecf5] mt-2.5">
+      <div class="rounded-[6px] border border-[var(--border)] bg-[var(--panel)]/70 backdrop-blur-[3px] p-4">
+        <i class="ph ph-trophy text-[24px] text-[var(--warning)]" aria-hidden="true"></i>
+        <div class="font-mono text-[13px] font-bold text-[var(--text)] mt-2.5">
           {{ t(_lang, 'gamepage.stat_rankup') }}
         </div>
-        <p class="font-sans text-[13px] leading-[1.5] text-[#8b94a8] mt-1">
+        <p class="font-sans text-[13px] leading-[1.5] text-[var(--muted)] mt-1">
           {{ t(_lang, 'gamepage.stat_rankup_desc') }}
         </p>
       </div>
@@ -107,23 +115,23 @@
      ───────────────────────────────────────────────────────────────────── #}
   <section aria-labelledby="vectors-heading">
     <h2 id="vectors-heading"
-        class="font-mono text-[11px] uppercase tracking-[0.18em] font-semibold text-[#65def0] mb-4 sm:mb-5">
-      <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'game.threat_vectors_heading') }}
+        class="font-mono text-[11px] uppercase tracking-[0.18em] font-semibold text-[var(--brand)] mb-4 sm:mb-5">
+      <span aria-hidden="true" style="color:var(--brand-dim)">&gt;&nbsp;</span>{{ t(_lang, 'game.threat_vectors_heading') }}
     </h2>
     <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4" role="list">
 
       {# 1. Phishing — red · P #}
-      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
-        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#e76670]"></span>
+      <li class="relative border border-[var(--border)] bg-[var(--panel)] pl-5 pr-4 py-4 rounded-[3px] hover:border-[var(--brand-dim)] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[var(--danger)]"></span>
         <div class="flex items-start gap-3">
           <span aria-hidden="true"
-                class="font-mono font-bold text-[24px] leading-none text-[#e76670] mt-0.5 w-6 text-center shrink-0"
+                class="font-mono font-bold text-[24px] leading-none text-[var(--danger)] mt-0.5 w-6 text-center shrink-0"
                 style="letter-spacing:-0.04em;">P</span>
           <div class="min-w-0 flex-1">
-            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[var(--text)]">
               {{ t(_lang, 'game.threat_phishing') }}
             </div>
-            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[var(--text-soft)]">
               {{ t(_lang, 'game.threat_phishing_desc') }}
             </p>
           </div>
@@ -131,17 +139,17 @@
       </li>
 
       {# 2. Fake online stores — amber · F #}
-      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
-        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#f4b965]"></span>
+      <li class="relative border border-[var(--border)] bg-[var(--panel)] pl-5 pr-4 py-4 rounded-[3px] hover:border-[var(--brand-dim)] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[var(--warning)]"></span>
         <div class="flex items-start gap-3">
           <span aria-hidden="true"
-                class="font-mono font-bold text-[24px] leading-none text-[#f4b965] mt-0.5 w-6 text-center shrink-0"
+                class="font-mono font-bold text-[24px] leading-none text-[var(--warning)] mt-0.5 w-6 text-center shrink-0"
                 style="letter-spacing:-0.04em;">F</span>
           <div class="min-w-0 flex-1">
-            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[var(--text)]">
               {{ t(_lang, 'game.threat_fake_stores') }}
             </div>
-            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[var(--text-soft)]">
               {{ t(_lang, 'game.threat_fake_stores_desc') }}
             </p>
           </div>
@@ -149,17 +157,17 @@
       </li>
 
       {# 3. Social engineering — cyan · S #}
-      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
-        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#65def0]"></span>
+      <li class="relative border border-[var(--border)] bg-[var(--panel)] pl-5 pr-4 py-4 rounded-[3px] hover:border-[var(--brand-dim)] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[var(--brand)]"></span>
         <div class="flex items-start gap-3">
           <span aria-hidden="true"
-                class="font-mono font-bold text-[24px] leading-none text-[#65def0] mt-0.5 w-6 text-center shrink-0"
+                class="font-mono font-bold text-[24px] leading-none text-[var(--brand)] mt-0.5 w-6 text-center shrink-0"
                 style="letter-spacing:-0.04em;">S</span>
           <div class="min-w-0 flex-1">
-            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[var(--text)]">
               {{ t(_lang, 'game.threat_social') }}
             </div>
-            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[var(--text-soft)]">
               {{ t(_lang, 'game.threat_social_desc') }}
             </p>
           </div>
@@ -167,17 +175,17 @@
       </li>
 
       {# 4. Investment fraud — green · I #}
-      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
-        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#7ce896]"></span>
+      <li class="relative border border-[var(--border)] bg-[var(--panel)] pl-5 pr-4 py-4 rounded-[3px] hover:border-[var(--brand-dim)] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[var(--success)]"></span>
         <div class="flex items-start gap-3">
           <span aria-hidden="true"
-                class="font-mono font-bold text-[24px] leading-none text-[#7ce896] mt-0.5 w-6 text-center shrink-0"
+                class="font-mono font-bold text-[24px] leading-none text-[var(--success)] mt-0.5 w-6 text-center shrink-0"
                 style="letter-spacing:-0.04em;">I</span>
           <div class="min-w-0 flex-1">
-            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[var(--text)]">
               {{ t(_lang, 'game.threat_investment') }}
             </div>
-            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[var(--text-soft)]">
               {{ t(_lang, 'game.threat_investment_desc') }}
             </p>
           </div>
@@ -185,17 +193,17 @@
       </li>
 
       {# 5. Deepfakes — amber · D #}
-      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
-        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#f4b965]"></span>
+      <li class="relative border border-[var(--border)] bg-[var(--panel)] pl-5 pr-4 py-4 rounded-[3px] hover:border-[var(--brand-dim)] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[var(--warning)]"></span>
         <div class="flex items-start gap-3">
           <span aria-hidden="true"
-                class="font-mono font-bold text-[24px] leading-none text-[#f4b965] mt-0.5 w-6 text-center shrink-0"
+                class="font-mono font-bold text-[24px] leading-none text-[var(--warning)] mt-0.5 w-6 text-center shrink-0"
                 style="letter-spacing:-0.04em;">D</span>
           <div class="min-w-0 flex-1">
-            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[var(--text)]">
               {{ t(_lang, 'game.threat_deepfake') }}
             </div>
-            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[var(--text-soft)]">
               {{ t(_lang, 'game.threat_deepfake_desc') }}
             </p>
           </div>
@@ -203,17 +211,17 @@
       </li>
 
       {# 6. Tech support / phone scams — red · T #}
-      <li class="relative border border-[#202a44] bg-[#121828] pl-5 pr-4 py-4 rounded-[3px] hover:border-[#3a8b9a] transition-colors">
-        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[#e76670]"></span>
+      <li class="relative border border-[var(--border)] bg-[var(--panel)] pl-5 pr-4 py-4 rounded-[3px] hover:border-[var(--brand-dim)] transition-colors">
+        <span aria-hidden="true" class="absolute left-0 top-0 bottom-0 w-px bg-[var(--danger)]"></span>
         <div class="flex items-start gap-3">
           <span aria-hidden="true"
-                class="font-mono font-bold text-[24px] leading-none text-[#e76670] mt-0.5 w-6 text-center shrink-0"
+                class="font-mono font-bold text-[24px] leading-none text-[var(--danger)] mt-0.5 w-6 text-center shrink-0"
                 style="letter-spacing:-0.04em;">T</span>
           <div class="min-w-0 flex-1">
-            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[#e7ecf5]">
+            <div class="font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.12em] font-bold text-[var(--text)]">
               {{ t(_lang, 'game.threat_phone') }}
             </div>
-            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[#aab2c4]">
+            <p class="mt-1 font-sans text-[13px] sm:text-[14px] leading-[1.55] text-[var(--text-soft)]">
               {{ t(_lang, 'game.threat_phone_desc') }}
             </p>
           </div>
@@ -225,7 +233,7 @@
   {# ─────────────────────────────────────────────────────────────────────
      CAUTION STRIP — honest expectation-setting. Amber, mono, single rule.
      ───────────────────────────────────────────────────────────────────── #}
-  <p class="mt-12 sm:mt-14 border-l-2 border-[#f4b965] pl-3 sm:pl-4 py-1.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#f4b965] leading-[1.6]">
+  <p class="mt-12 sm:mt-14 border border-[var(--warning)] px-4 py-1.5 font-mono text-[13px] uppercase tracking-[0.14em] text-[var(--warning)] leading-[1.6]">
     <span aria-hidden="true">&#9650;</span> {{ t(_lang, 'game.caution_strip') }}
   </p>
 </div>
