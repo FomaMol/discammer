@@ -46,70 +46,70 @@
    MissionBriefingTerminal island: the hero is now static SSR (real
    course_totals + real module list), and the interactive logic lives in
    the CourseProgress island lower down. #}
-<section class="relative overflow-hidden border-b border-[#202a44]" aria-label="{{ t(_lang, 'course.title_long') }}">
+<section class="relative overflow-hidden border-b border-[var(--border)]" aria-label="{{ t(_lang, 'course.title_long') }}">
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true"
-       style="background:radial-gradient(80% 120% at 80% 0%,rgba(101,222,240,0.07),transparent 55%);"></div>
+       style="background:radial-gradient(80% 120% at 80% 0%,color-mix(in srgb,var(--brand) 7%,transparent),transparent 55%);"></div>
 
   <div class="relative mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] gap-8 lg:gap-14 items-center"
        style="max-width:1120px;">
 
     {# LEFT — eyebrow, headline, lead, CTA #}
     <div>
-      <div class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0] mb-4">
-        <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.eyebrow') }}
+      <div class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)] mb-4">
+        <span aria-hidden="true" style="color:var(--brand-dim)">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.eyebrow') }}
       </div>
 
-      <h1 class="font-mono font-extrabold uppercase text-[#f3f5fa] tracking-[-0.04em] leading-[0.98] text-[clamp(2.2rem,1.4rem+3.2vw,3.75rem)] m-0 mb-[18px]" style="text-wrap:balance;">
+      <h1 class="font-mono font-extrabold uppercase text-[var(--text-strong)] tracking-[-0.04em] leading-[0.98] text-[clamp(2.2rem,1.4rem+3.2vw,3.75rem)] m-0 mb-[18px]" style="text-wrap:balance;">
         {{ t(_lang, 'coursepage.hero_title_line1') }}<br>{{ t(_lang, 'coursepage.hero_title_line2') }}
       </h1>
 
-      <p class="font-sans text-[18px] leading-[1.6] text-[#aab2c4] max-w-[48ch] m-0 mb-[26px]" style="text-wrap:pretty;">
+      <p class="font-sans text-[18px] leading-[1.6] text-[var(--text-soft)] max-w-[48ch] m-0 mb-[26px]" style="text-wrap:pretty;">
         {{ t(_lang, 'coursepage.hero_lead', modules=course_totals.modules, lessons=course_totals.lessons) }}
       </p>
 
       <div class="flex flex-wrap gap-3">
         {% if modules %}
         <a href="/{{ _lang }}/course/{{ modules[0].slug }}"
-           class="inline-flex items-center gap-2 font-mono text-[12px] font-bold uppercase tracking-[0.1em] text-[#0b0f1a] bg-[#65def0] hover:bg-[#9eecf6] rounded-[4px] px-6 py-3.5 transition focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]">
+           class="inline-flex items-center gap-2 font-mono text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--canvas)] bg-[var(--brand)] hover:bg-[var(--brand-hover)] rounded-[4px] px-6 py-3.5 transition focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]">
           <span aria-hidden="true">▸</span> {{ t(_lang, 'coursepage.hero_cta_start') }}
         </a>
         {% endif %}
         <a href="#modules"
-           class="inline-flex items-center gap-2 font-mono text-[12px] font-bold uppercase tracking-[0.1em] text-[#e7ecf5] border border-[#2b3759] hover:border-[#3a8b9a] rounded-[4px] px-6 py-3.5 transition focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]">
+           class="inline-flex items-center gap-2 font-mono text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text)] border border-[var(--border-strong)] hover:border-[var(--brand-dim)] rounded-[4px] px-6 py-3.5 transition focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]">
           <span aria-hidden="true">▸</span> {{ t(_lang, 'coursepage.hero_cta_modules') }}
         </a>
       </div>
     </div>
 
     {# RIGHT — syllabus.json terminal listing the real modules #}
-    <div class="bg-[#121828] border border-[#202a44] rounded-[6px] overflow-hidden ds-grain">
-      <div class="flex items-center justify-between px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60">
-        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#aab2c4]">
+    <div class="bg-[var(--panel)] border border-[var(--border)] rounded-[6px] overflow-hidden ds-grain">
+      <div class="flex items-center justify-between px-4 py-2.5 border-b border-[var(--border)] bg-[var(--raised)]/60">
+        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-soft)]">
           dcm-ops@academy ~ % cat syllabus.json
         </span>
-        <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8b94a8] tabular-nums">
+        <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] tabular-nums">
           {{ "%02d"|format(course_totals.modules) }} · {{ "%02d"|format(course_totals.lessons) }} · {{ course_totals.runtime }}
         </span>
       </div>
-      <div class="px-4 sm:px-5 py-5 bg-[#0a0d16] font-mono text-[12px] sm:text-[13px] leading-[1.85]">
-        <div class="text-[#7ce896]">&gt; {{ t(_lang, 'coursepage.terminal_modules', count=course_totals.modules) }}</div>
-        <div class="text-[#65def0] mb-3">&gt; {{ t(_lang, 'coursepage.terminal_lessons', count=course_totals.lessons) }}</div>
+      <div class="px-4 sm:px-5 py-5 bg-[var(--code)] font-mono text-[12px] sm:text-[13px] leading-[1.85]">
+        <div class="text-[var(--success)]">&gt; {{ t(_lang, 'coursepage.terminal_modules', count=course_totals.modules) }}</div>
+        <div class="text-[var(--brand)] mb-3">&gt; {{ t(_lang, 'coursepage.terminal_lessons', count=course_totals.lessons) }}</div>
         <ol class="space-y-1.5">
           {% for module in modules %}
           <li class="flex items-baseline justify-between gap-3">
-            <span class="text-[#aab2c4] truncate">
-              <span class="text-[#3a8b9a]" aria-hidden="true">{{ "%02d"|format(module.order) }}</span>
-              <span class="ml-2 text-[#e7ecf5]">{{ module.title }}</span>
+            <span class="text-[var(--text-soft)] break-words leading-relaxed">
+              <span class="text-[var(--brand-dim)]" aria-hidden="true">{{ "%02d"|format(module.order) }}</span>
+              <span class="ml-2 text-[var(--text)]">{{ module.title }}</span>
             </span>
             {% if module.is_locked %}
-            <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">{{ t(_lang, 'coursepage.terminal_status_locked') }}</span>
+            <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-soft)]">{{ t(_lang, 'coursepage.terminal_status_locked') }}</span>
             {% else %}
-            <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">{{ t(_lang, 'coursepage.terminal_status_ready') }}</span>
+            <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--success)]">{{ t(_lang, 'coursepage.terminal_status_ready') }}</span>
             {% endif %}
           </li>
           {% endfor %}
         </ol>
-        <div class="mt-3 text-[#8b94a8]">&gt; {{ t(_lang, 'coursepage.terminal_certificate') }}</div>
+        <div class="mt-3 text-[var(--muted)]">&gt; {{ t(_lang, 'coursepage.terminal_certificate') }}</div>
       </div>
     </div>
   </div>
@@ -117,53 +117,54 @@
 
 {# ---------- Mission list (CourseProgress island) ---------- #}
 <section id="modules" class="mx-auto px-4 sm:px-6 py-10 sm:py-14" style="max-width:1120px;">
-  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] mb-1">
+  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)] mb-1">
     {{ t(_lang, 'course.section_missions_eyebrow') }}
   </div>
-  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-2">
-    <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_missions_title') }}
+  <h2 class="font-mono font-bold uppercase text-[var(--brand)] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-2">
+    <span aria-hidden="true" style="color:var(--brand-dim)">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_missions_title') }}
   </h2>
-  <p class="font-sans text-[15px] text-[#aab2c4] leading-relaxed max-w-[62ch] mb-8 sm:mb-10">
+  <p class="font-sans text-[15px] text-[var(--text-soft)] leading-relaxed max-w-[62ch] mb-8 sm:mb-10">
     {{ t(_lang, 'course.section_missions_lead') }}
   </p>
 
-  <div data-component="CourseProgress" data-props='{"locale":"{{ _lang }}"}'>
+  <div data-component="CourseProgress" data-props='{"locale":"{{ _lang }}"}'></div>
+  <div id="course-foundation">
     {# SEO fallback when JS is disabled — server-rendered mission list #}
-    <noscript>
+
       <ol class="space-y-3 sm:space-y-4">
         {% for module in modules %}
         <li class="relative flex items-stretch gap-3 sm:gap-4">
-          <div class="shrink-0 w-12 h-12 sm:w-[55px] sm:h-[55px] flex items-center justify-center border {% if module.is_locked %}border-[#202a44] text-[#8b94a8]{% else %}border-[#3a8b9a] text-[#65def0]{% endif %} bg-[#0b0f1a] font-mono text-[16px] sm:text-[20px] font-extrabold tabular-nums rounded-[3px] mt-1">
+          <div class="shrink-0 w-12 h-12 sm:w-[55px] sm:h-[55px] flex items-center justify-center border {% if module.is_locked %}border-[var(--border)] text-[var(--muted)]{% else %}border-[var(--brand-dim)] text-[var(--brand)]{% endif %} bg-[var(--canvas)] font-mono text-[16px] sm:text-[20px] font-extrabold tabular-nums rounded-[3px] mt-1">
             {{ "%02d"|format(module.order) }}
           </div>
-          <a href="/{{ _lang }}/course/{{ module.slug }}" class="flex-1 min-w-0 {% if module.is_locked %}pointer-events-none opacity-70{% endif %}">
-            <div class="border border-[#202a44] bg-[#121828] rounded-[4px] flex flex-col sm:flex-row">
+          <{% if module.is_locked %}div{% else %}a href="/{{ _lang }}/course/{{ module.slug }}"{% endif %} class="flex-1 min-w-0 {% if module.is_locked %}opacity-70{% endif %}">
+            <div class="border border-[var(--border)] bg-[var(--panel)] rounded-[4px] flex flex-col sm:flex-row">
               <div class="flex-1 p-4 sm:p-5 sm:basis-[60%]">
-                <div class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#8b94a8] mb-2">{{ t(_lang, 'module.mission_label_prefix') }} {{ "%02d"|format(module.order) }}</div>
-                <h3 class="font-mono font-bold uppercase text-[#e7ecf5] text-[15px] sm:text-[17px] tracking-[-0.01em]">{{ module.title }}</h3>
+                <div class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] mb-2">{{ t(_lang, 'module.mission_label_prefix') }} {{ "%02d"|format(module.order) }}</div>
+                <h3 class="font-mono font-bold uppercase text-[var(--text)] text-[15px] sm:text-[17px] tracking-[-0.01em]">{{ module.title }}</h3>
                 {% if module.description %}
-                <p class="mt-2 font-sans text-[14px] text-[#aab2c4] leading-relaxed line-clamp-2">{{ module.description }}</p>
+                <p class="mt-2 font-sans text-[14px] text-[var(--text-soft)] leading-relaxed line-clamp-2">{{ module.description }}</p>
                 {% endif %}
               </div>
-              <div class="sm:basis-[40%] p-4 sm:p-5 sm:border-l border-t sm:border-t-0 border-[#202a44] bg-[#0b0f1a]/40 font-mono text-[11px] uppercase tracking-[0.14em]">
+              <div class="sm:basis-[40%] p-4 sm:p-5 sm:border-l border-t sm:border-t-0 border-[var(--border)] bg-[var(--canvas)]/40 font-mono text-[11px] uppercase tracking-[0.14em]">
                 {% if module.is_locked %}
-                <span class="text-[#e76670]">{{ t(_lang, 'course.card_status_locked') }}</span>
+                <span class="text-[var(--danger)]">{{ t(_lang, 'course.card_status_locked') }}</span>
                 {% else %}
-                <span class="text-[#7ce896]">{{ t(_lang, 'course.card_status_ready') }}</span>
+                <span class="text-[var(--success)]">{{ t(_lang, 'course.card_status_ready') }}</span>
                 {% endif %}
               </div>
             </div>
-          </a>
+          </{% if module.is_locked %}div{% else %}a{% endif %}>
         </li>
         {% endfor %}
       </ol>
-    </noscript>
+
   </div>
 
   {# ---------- Progress sync (ProgressSync island) ----------
      Sits directly under CourseProgress's dossier export/import footer: same
      concern (carrying progress off this browser), so the two read as one block.
-     No <noscript> fallback on purpose — sync is client-side encryption end to
+     No  fallback on purpose — sync is client-side encryption end to
      end, so with JS off there is nothing honest to render here. The island also
      removes itself when WebCrypto is unavailable. #}
   <div data-component="ProgressSync" data-props='{"locale":"{{ _lang }}"}'></div>
@@ -171,38 +172,38 @@
 
 {# ---------- How it works ---------- #}
 <section class="mx-auto px-4 sm:px-6 py-10 sm:py-14" style="max-width:1120px;" aria-label="{{ t(_lang, 'course.section_how_title') }}">
-  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-1">{{ t(_lang, 'course.section_how') }}</div>
-  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
-    <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_how_title') }}
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] mb-1">{{ t(_lang, 'course.section_how') }}</div>
+  <h2 class="font-mono font-bold uppercase text-[var(--brand)] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
+    <span aria-hidden="true" style="color:var(--brand-dim)">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_how_title') }}
   </h2>
 
-  <ol class="border-y border-[#202a44] divide-y divide-[#202a44]" role="list">
+  <ol class="border-y border-[var(--border)] divide-y divide-[var(--border)]" role="list">
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
-      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#8b94a8]">01</div>
-      <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#65def0]" style="letter-spacing: -0.005em;">
+      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[var(--muted)]">01</div>
+      <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[var(--brand)]" style="letter-spacing: -0.005em;">
         {{ t(_lang, 'course.step_learn') }}
       </div>
-      <p class="col-span-12 sm:col-span-8 font-sans text-[14px] sm:text-[15px] leading-relaxed text-[#aab2c4]">
+      <p class="col-span-12 sm:col-span-8 font-sans text-[14px] sm:text-[15px] leading-relaxed text-[var(--text-soft)]">
         {{ t(_lang, 'course.step_learn_text') }}
       </p>
     </li>
 
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
-      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#8b94a8]">02</div>
-      <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#7ce896]" style="letter-spacing: -0.005em;">
+      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[var(--muted)]">02</div>
+      <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[var(--success)]" style="letter-spacing: -0.005em;">
         {{ t(_lang, 'course.step_practice') }}
       </div>
-      <p class="col-span-12 sm:col-span-8 font-sans text-[14px] sm:text-[15px] leading-relaxed text-[#aab2c4]">
+      <p class="col-span-12 sm:col-span-8 font-sans text-[14px] sm:text-[15px] leading-relaxed text-[var(--text-soft)]">
         {{ t(_lang, 'course.step_practice_text') }}
       </p>
     </li>
 
     <li class="grid grid-cols-12 gap-3 sm:gap-4 py-5 sm:py-6">
-      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[#8b94a8]">03</div>
-      <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[#f4b965]" style="letter-spacing: -0.005em;">
+      <div class="col-span-2 sm:col-span-1 font-mono text-[10px] tabular-nums tracking-[0.18em] text-[var(--muted)]">03</div>
+      <div class="col-span-10 sm:col-span-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.14em] font-bold text-[var(--warning)]" style="letter-spacing: -0.005em;">
         {{ t(_lang, 'course.step_certify') }}
       </div>
-      <p class="col-span-12 sm:col-span-8 font-sans text-[14px] sm:text-[15px] leading-relaxed text-[#aab2c4]">
+      <p class="col-span-12 sm:col-span-8 font-sans text-[14px] sm:text-[15px] leading-relaxed text-[var(--text-soft)]">
         {{ t(_lang, 'course.step_certify_text') }}
       </p>
     </li>
@@ -211,27 +212,27 @@
 
 {# ---------- FAQ ---------- #}
 <section class="mx-auto px-4 sm:px-6 py-10 sm:py-14" style="max-width:1120px;" aria-label="{{ t(_lang, 'course.section_faq_title') }}">
-  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
-  <h2 class="font-mono font-bold uppercase text-[#65def0] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
-    <span aria-hidden="true" style="color:#3a8b9a">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_faq_title') }}
+  <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] mb-1">{{ t(_lang, 'course.section_faq') }}</div>
+  <h2 class="font-mono font-bold uppercase text-[var(--brand)] tracking-[-0.02em] text-[clamp(1.5rem,1.1rem+2vw,2.25rem)] leading-[1.05] mb-8 sm:mb-10">
+    <span aria-hidden="true" style="color:var(--brand-dim)">&gt;&nbsp;</span>{{ t(_lang, 'coursepage.section_faq_title') }}
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
-      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_who_q') }}</h3>
-      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_who_a') }}</p>
+    <div class="bg-[var(--panel)] border border-[var(--border)] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[var(--brand)] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_who_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[var(--text-soft)] leading-relaxed">{{ t(_lang, 'course.faq_who_a') }}</p>
     </div>
-    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
-      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_long_q') }}</h3>
-      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_long_a') }}</p>
+    <div class="bg-[var(--panel)] border border-[var(--border)] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[var(--brand)] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_long_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[var(--text-soft)] leading-relaxed">{{ t(_lang, 'course.faq_long_a') }}</p>
     </div>
-    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
-      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_install_q') }}</h3>
-      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_install_a') }}</p>
+    <div class="bg-[var(--panel)] border border-[var(--border)] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[var(--brand)] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_install_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[var(--text-soft)] leading-relaxed">{{ t(_lang, 'course.faq_install_a') }}</p>
     </div>
-    <div class="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
-      <h3 class="font-mono text-[13px] text-[#65def0] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_free_q') }}</h3>
-      <p class="mt-2 font-sans text-[15px] text-[#aab2c4] leading-relaxed">{{ t(_lang, 'course.faq_free_a') }}</p>
+    <div class="bg-[var(--panel)] border border-[var(--border)] p-5 rounded-[4px]">
+      <h3 class="font-mono text-[13px] text-[var(--brand)] uppercase tracking-[0.1em] font-bold">{{ t(_lang, 'course.faq_free_q') }}</h3>
+      <p class="mt-2 font-sans text-[15px] text-[var(--text-soft)] leading-relaxed">{{ t(_lang, 'course.faq_free_a') }}</p>
     </div>
   </div>
 </section>

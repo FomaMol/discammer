@@ -19,10 +19,10 @@ interface ScamTypesGridProps {
 
 // Color mapping by threat level (matches DESIGN.md semantic accents)
 function threatColor(level: number | undefined): string {
-  if (!level || level <= 2) return '#7ce896'; // green: safe
-  if (level === 3) return '#f4b965';            // amber: caution
-  if (level === 4) return '#f29b6c';            // mid: warn
-  return '#e76670';                              // red: severe
+  if (!level || level <= 2) return 'var(--success)'; // green: safe
+  if (level === 3) return 'var(--warning)';            // amber: caution
+  if (level === 4) return 'var(--threat-mid)';            // mid: warn
+  return 'var(--danger)';                              // red: severe
 }
 
 // Threat-bar widget — 5 slats, filled per level
@@ -42,7 +42,7 @@ function ThreatBar({ level, color, label }: { level: number; color: string; labe
           className="block w-[3px]"
           style={{
             height: `${6 + slot * 2}px`,
-            background: slot <= level ? color : 'rgba(101, 116, 136, 0.25)',
+            background: slot <= level ? color : 'color-mix(in srgb,var(--muted) 25%,transparent)',
           }}
           aria-hidden="true"
         />
@@ -84,17 +84,17 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
         className="text-base sm:text-xl md:text-2xl mb-5 sm:mb-7"
         style={{
           fontFamily: '"JetBrains Mono", monospace',
-          color: '#65def0',
+          color: 'var(--brand)',
           fontWeight: 700,
           letterSpacing: '-0.02em',
         }}
       >
-        <span className="text-[#8b94a8]">&gt;&nbsp;</span>
+        <span className="text-[var(--muted)]">&gt;&nbsp;</span>
         {title}
       </h2>
 
       {guides.length === 0 && (
-        <div className="w-full py-8 text-center text-sm" style={{ color: '#8b94a8' }}>
+        <div className="w-full py-8 text-center text-sm" style={{ color: 'var(--muted)' }}>
           {isLoading ? tr('loading') : tr('empty')}
         </div>
       )}
@@ -103,7 +103,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
       {featured.length > 0 && (
         <>
           <div
-            className="text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-3"
+            className="text-[10px] uppercase tracking-[3px] text-[var(--muted)] mb-3"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {tr('most_common')}
@@ -118,7 +118,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                 <a
                   key={g.id}
                   href={`/${locale}/guide/${g.slug}`}
-                  className="card-interactive group block bg-[#121828] border border-[#202a44] p-5"
+                  className="card-interactive group block bg-[var(--panel)] border border-[var(--border)] p-5"
                   style={{ textDecoration: 'none' }}
                   aria-label={`${g.title} — ${tr('threat')} L${level}`}
                 >
@@ -127,8 +127,8 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                     <div
                       className="w-10 h-10 flex items-center justify-center"
                       style={{
-                        background: 'rgba(244, 185, 101, 0.08)',
-                        border: `1px solid ${color}30`,
+                        background: 'color-mix(in srgb,var(--warning) 8%,transparent)',
+                        border: `1px solid color-mix(in srgb,${color} 18.82%,transparent)`,
                       }}
                     >
                       <span
@@ -155,7 +155,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
 
                   {/* Title */}
                   <h3
-                    className="text-[15px] leading-snug text-[#f3f5fa] mb-2 line-clamp-2"
+                    className="text-[15px] leading-snug text-[var(--text-strong)] mb-2 line-clamp-2"
                     style={{
                       fontFamily: '"JetBrains Mono", monospace',
                       fontWeight: 700,
@@ -168,7 +168,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                   {/* Single-line description */}
                   {description && (
                     <p
-                      className="text-[12px] leading-snug text-[#aab2c4] line-clamp-2 mb-4"
+                      className="text-[12px] leading-snug text-[var(--text-soft)] line-clamp-2 mb-4"
                       style={{ fontFamily: 'Geist, system-ui, sans-serif' }}
                     >
                       {description}
@@ -176,10 +176,10 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                   )}
 
                   {/* Bottom: threat slats + read */}
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-dashed border-[#202a44]">
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-dashed border-[var(--border)]">
                     <ThreatBar level={level} color={color} label={tr('threat_meter', { level })} />
                     <span
-                      className="text-[10px] uppercase tracking-[2px] text-[#aab2c4] group-hover:text-[#65def0] transition-colors"
+                      className="text-[10px] uppercase tracking-[2px] text-[var(--text-soft)] group-hover:text-[var(--brand)] transition-colors"
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
                       {tr('read')} <span aria-hidden="true">&#8594;</span>
@@ -196,12 +196,12 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
       {rest.length > 0 && (
         <>
           <div
-            className="text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-2"
+            className="text-[10px] uppercase tracking-[3px] text-[var(--muted)] mb-2"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {tr('full_index')}
           </div>
-          <ul className="border border-[#202a44] bg-[#0a0d16]/60 divide-y divide-[#202a44]">
+          <ul className="border border-[var(--border)] bg-[var(--code)]/60 divide-y divide-[var(--border)]">
             {rest.map((g) => {
               const level = g.threat_level ?? 2;
               const color = threatColor(level);
@@ -210,7 +210,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                 <li key={g.id}>
                   <a
                     href={`/${locale}/guide/${g.slug}`}
-                    className="flex items-center gap-3 px-3 sm:px-4 py-2.5 hover:bg-[#121828] transition-colors group"
+                    className="flex items-center gap-3 px-3 sm:px-4 py-2.5 hover:bg-[var(--panel)] transition-colors group"
                     style={{ textDecoration: 'none' }}
                     aria-label={`${g.title} — ${tr('threat')} L${level}`}
                   >
@@ -220,15 +220,15 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                         fontFamily: '"JetBrains Mono", monospace',
                         fontWeight: 700,
                         color,
-                        background: 'rgba(101, 222, 240, 0.04)',
-                        border: `1px solid ${color}30`,
+                        background: 'color-mix(in srgb,var(--brand) 4%,transparent)',
+                        border: `1px solid color-mix(in srgb,${color} 18.82%,transparent)`,
                       }}
                       aria-hidden="true"
                     >
                       {first}
                     </span>
                     <span
-                      className="flex-1 text-[13px] text-[#cdd4e3] group-hover:text-[#f3f5fa] transition-colors truncate"
+                      className="flex-1 text-[13px] text-[var(--text-medium)] group-hover:text-[var(--text-strong)] transition-colors truncate"
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
                       {g.title}
@@ -240,7 +240,7 @@ export default function ScamTypesGrid({ title, lang }: ScamTypesGridProps) {
                       {tr('threat_l')}{level}
                     </span>
                     <span
-                      className="text-[#8b94a8] group-hover:text-[#65def0] transition-colors"
+                      className="text-[var(--muted)] group-hover:text-[var(--brand)] transition-colors"
                       aria-hidden="true"
                     >
                       &#8594;

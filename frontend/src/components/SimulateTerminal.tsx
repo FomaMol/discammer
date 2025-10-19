@@ -7,21 +7,21 @@ interface SimulateTerminalProps {
 }
 
 const SCRIPT_EN = [
-  { text: '> ./discammer simulate', color: '#65def0', delay: 400 },
-  { text: '[OK]   booting incident simulator...', color: '#7ce896', delay: 700 },
-  { text: '[INFO] loading scenario pool ............ 14 ready', color: '#aab2c4', delay: 600 },
-  { text: '[INFO] sandbox isolated · network: stub', color: '#aab2c4', delay: 500 },
-  { text: '[OK]   sandbox ready', color: '#7ce896', delay: 600 },
-  { text: '$', color: '#65def0', delay: 0 },
+  { text: '> ./discammer simulate', color: 'var(--brand)', delay: 400 },
+  { text: '[OK]   booting incident simulator...', color: 'var(--success)', delay: 700 },
+  { text: '[INFO] loading scenario pool ............ 14 ready', color: 'var(--text-soft)', delay: 600 },
+  { text: '[INFO] sandbox isolated · network: stub', color: 'var(--text-soft)', delay: 500 },
+  { text: '[OK]   sandbox ready', color: 'var(--success)', delay: 600 },
+  { text: '$', color: 'var(--brand)', delay: 0 },
 ];
 
 const SCRIPT_RU = [
-  { text: '> ./discammer simulate', color: '#65def0', delay: 400 },
-  { text: '[OK]   запуск симулятора инцидентов...', color: '#7ce896', delay: 700 },
-  { text: '[INFO] загрузка сценариев ............ 14 готово', color: '#aab2c4', delay: 600 },
-  { text: '[INFO] песочница изолирована · сеть: заглушка', color: '#aab2c4', delay: 500 },
-  { text: '[OK]   песочница готова', color: '#7ce896', delay: 600 },
-  { text: '$', color: '#65def0', delay: 0 },
+  { text: '> ./discammer simulate', color: 'var(--brand)', delay: 400 },
+  { text: '[OK]   запуск симулятора инцидентов...', color: 'var(--success)', delay: 700 },
+  { text: '[INFO] загрузка сценариев ............ 14 готово', color: 'var(--text-soft)', delay: 600 },
+  { text: '[INFO] песочница изолирована · сеть: заглушка', color: 'var(--text-soft)', delay: 500 },
+  { text: '[OK]   песочница готова', color: 'var(--success)', delay: 600 },
+  { text: '$', color: 'var(--brand)', delay: 0 },
 ];
 
 export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
@@ -41,14 +41,14 @@ export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
   return (
     <div className="inline-block text-left w-full max-w-[560px]">
       {/* Terminal block */}
-      <div className="bg-[#0a0d16] border border-[#202a44] overflow-hidden">
+      <div className="bg-[var(--code)] border border-[var(--border)] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#121828] border-b border-[#202a44]">
-          <span className="w-2 h-2 rounded-full bg-[#2b3759]"></span>
-          <span className="w-2 h-2 rounded-full bg-[#475064]"></span>
-          <span className="w-2 h-2 rounded-full bg-[#475064]"></span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-[var(--panel)] border-b border-[var(--border)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--border-strong)]"></span>
+          <span className="w-2 h-2 rounded-full bg-[var(--muted)]"></span>
+          <span className="w-2 h-2 rounded-full bg-[var(--muted)]"></span>
           <span
-            className="ml-2 text-[10px] uppercase tracking-[2px] text-[#8b94a8]"
+            className="ml-2 text-[10px] uppercase tracking-[2px] text-[var(--muted)]"
             style={{ fontFamily: '"JetBrains Mono", monospace' }}
           >
             {tr('terminal_label')}
@@ -67,7 +67,7 @@ export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
                 <span
                   className="inline-block ml-1.5"
                   style={{
-                    color: '#7ce896',
+                    color: 'var(--success)',
                     animation: reduce ? undefined : 'blink 1s step-end infinite',
                   }}
                   aria-hidden="true"
@@ -83,7 +83,7 @@ export default function SimulateTerminal({ lang }: SimulateTerminalProps) {
       {/* CTA */}
       <a
         href={`/play/`}
-        className="mt-4 inline-flex items-center gap-2 px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-[#7ce896]/8 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/15 hover:shadow-[0_0_28px_rgba(124,232,150,0.28)] transition-all duration-300"
+        className="mt-4 inline-flex items-center gap-2 px-6 py-3 font-mono uppercase text-xs sm:text-sm tracking-[2px] bg-[var(--success)]/8 border border-[var(--success)] text-[var(--success)] hover:bg-[var(--success)]/15 hover:shadow-[0_0_28px_color-mix(in_srgb,var(--success)_28%,transparent)] transition-all duration-300"
         style={{ fontFamily: '"JetBrains Mono", monospace' }}
       >
         <span aria-hidden="true">&#9654;</span>

@@ -105,6 +105,8 @@ export default function CourseProgress({ locale }: Props) {
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
+    setError(false);
     fetchCourseModules(lang)
       .then((data) => {
         const list: ApiModule[] = Array.isArray(data) ? data : data?.modules ?? [];
@@ -121,6 +123,12 @@ export default function CourseProgress({ locale }: Props) {
       cancelled = true;
     };
   }, [lang]);
+
+  useEffect(() => {
+    const fallback = document.getElementById('course-foundation');
+    if (fallback) fallback.hidden = !loading && !error && modules.length > 0;
+    return () => { if (fallback) fallback.hidden = false; };
+  }, [loading, error, modules.length]);
 
   // Re-derive completion counts from localStorage on mount + on every change.
   useEffect(() => {
@@ -162,7 +170,7 @@ export default function CourseProgress({ locale }: Props) {
 
   if (loading) {
     return (
-      <div className="py-12 text-center font-mono text-sm text-[#8b94a8]">
+      <div className="py-12 text-center font-mono text-sm text-[var(--muted)]">
         {tr('loading')}
         <span className="cursor-blink" />
       </div>
@@ -171,7 +179,7 @@ export default function CourseProgress({ locale }: Props) {
 
   if (error || modules.length === 0) {
     return (
-      <div className="py-12 text-center font-mono text-sm text-[#e76670]">
+      <div className="py-12 text-center font-mono text-sm text-[var(--danger)]">
         {tr('error')}
       </div>
     );
@@ -260,13 +268,13 @@ function DossierFooter() {
   }
 
   return (
-    <div className="border-t border-[#202a44] pt-6">
+    <div className="border-t border-[var(--border)] pt-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">
             {trp('dossier_tag')}
           </div>
-          <p className="mt-1.5 font-sans text-[13px] text-[#8b94a8] leading-relaxed max-w-[52ch]">
+          <p className="mt-1.5 font-sans text-[13px] text-[var(--muted)] leading-relaxed max-w-[52ch]">
             {trp('dossier_hint')}
           </p>
         </div>
@@ -274,14 +282,14 @@ function DossierFooter() {
           <button
             type="button"
             onClick={handleExport}
-            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition rounded-[4px] focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)]/5 border border-[var(--brand)] text-[var(--brand)] hover:bg-[var(--brand)]/10 transition rounded-[4px] focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]"
           >
             <span aria-hidden="true">▸</span> {trp('export_action')}
           </button>
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] border border-[#202a44] hover:border-[#3a8b9a] hover:text-[#65def0] transition rounded-[4px] focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[var(--text-soft)] border border-[var(--border)] hover:border-[var(--brand-dim)] hover:text-[var(--brand)] transition rounded-[4px] focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]"
           >
             <span aria-hidden="true">▴</span> {trp('import_action')}
           </button>
@@ -302,8 +310,8 @@ function DossierFooter() {
           <div
             className={`mt-4 flex items-start justify-between gap-3 px-3.5 py-2.5 border rounded-[3px] font-mono text-[12px] leading-relaxed ${
               toast.kind === 'ok'
-                ? 'border-[#7ce896]/40 bg-[#7ce896]/8 text-[#7ce896]'
-                : 'border-[#e76670]/40 bg-[#e76670]/8 text-[#e76670]'
+                ? 'border-[var(--success)]/40 bg-[var(--success)]/8 text-[var(--success)]'
+                : 'border-[var(--danger)]/40 bg-[var(--danger)]/8 text-[var(--danger)]'
             }`}
           >
             <span>{toast.text}</span>
@@ -331,26 +339,26 @@ function StatsBanner({
 }) {
   const tr = makeTranslator('courseProgress');
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 border border-[#202a44] bg-[#121828]/60 divide-y md:divide-y-0 md:divide-x divide-[#202a44]">
+    <div className="grid grid-cols-2 md:grid-cols-4 border border-[var(--border)] bg-[var(--panel)]/60 divide-y md:divide-y-0 md:divide-x divide-[var(--border)]">
       <StatCell
         label={tr('stats_modules')}
         value={stats.moduleCount.toString().padStart(2, '0')}
-        accent="text-[#65def0]"
+        accent="text-[var(--brand)]"
       />
       <StatCell
         label={tr('stats_lessons')}
         value={`${stats.completedLessons}/${stats.totalLessons}`}
-        accent="text-[#7ce896]"
+        accent="text-[var(--success)]"
       />
       <StatCell
         label={tr('stats_runtime')}
         value={stats.duration}
-        accent="text-[#f4b965]"
+        accent="text-[var(--warning)]"
       />
       <StatCell
         label={tr('stats_progress')}
         value={`${progressPercent}%`}
-        accent="text-[#e7ecf5]"
+        accent="text-[var(--text)]"
       />
     </div>
   );
@@ -362,7 +370,7 @@ function StatCell({ label, value, accent }: { label: string; value: string; acce
       <div className={`font-mono text-xl sm:text-2xl font-bold tabular-nums ${accent}`}>
         {value}
       </div>
-      <div className="mt-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#8b94a8]">
+      <div className="mt-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">
         {label}
       </div>
     </div>
@@ -386,9 +394,9 @@ function MissionFlow({
   const tr = makeTranslator('courseProgress');
   return (
     <div className="relative">
-      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] mb-4">
+      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)] mb-4">
         {tr('flow_tag')}
-        <span className="ml-2 text-[#3a8b9a]" aria-hidden="true">
+        <span className="ml-2 text-[var(--brand-dim)]" aria-hidden="true">
           ━━━━━━━━━━
         </span>
       </div>
@@ -396,7 +404,7 @@ function MissionFlow({
         {/* Decorative vertical mission line — desktop only, behind the badge column */}
         <span
           aria-hidden="true"
-          className="hidden md:block absolute top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-[#202a44] to-transparent left-[27px]"
+          className="hidden md:block absolute top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-[var(--border)] to-transparent left-[27px]"
         />
         {modules.map((mod, i) => (
           <MissionCard
@@ -433,22 +441,22 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
   let badgeText: string;
   let badgePulse = '';
   if (moduleDone) {
-    badgeBorder = 'border-[#7ce896]';
-    badgeText = 'text-[#7ce896]';
-    badgeBg = 'bg-[#7ce896]/10';
+    badgeBorder = 'border-[var(--success)]';
+    badgeText = 'text-[var(--success)]';
+    badgeBg = 'bg-[var(--success)]/10';
   } else if (inProgress) {
-    badgeBorder = 'border-[#65def0]';
-    badgeText = 'text-[#65def0]';
-    badgeBg = 'bg-[#65def0]/10';
+    badgeBorder = 'border-[var(--brand)]';
+    badgeText = 'text-[var(--brand)]';
+    badgeBg = 'bg-[var(--brand)]/10';
     badgePulse = 'dcm-badge-pulse';
   } else if (locked) {
-    badgeBorder = 'border-[#202a44]';
-    badgeText = 'text-[#8b94a8]';
-    badgeBg = 'bg-[#0b0f1a]';
+    badgeBorder = 'border-[var(--border)]';
+    badgeText = 'text-[var(--muted)]';
+    badgeBg = 'bg-[var(--canvas)]';
   } else {
-    badgeBorder = 'border-[#3a8b9a]';
-    badgeText = 'text-[#65def0]';
-    badgeBg = 'bg-[#0b0f1a]';
+    badgeBorder = 'border-[var(--brand-dim)]';
+    badgeText = 'text-[var(--brand)]';
+    badgeBg = 'bg-[var(--canvas)]';
   }
 
   // Status badge content
@@ -456,36 +464,36 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
   let statusColor: string;
   if (moduleDone) {
     statusText = tr('status_completed');
-    statusColor = 'text-[#8b94a8] line-through decoration-[#6b7588]/40';
+    statusColor = 'text-[var(--muted)] line-through decoration-[var(--dim)]/40';
   } else if (inProgress) {
     statusText = tr('status_in_progress');
-    statusColor = 'text-[#65def0]';
+    statusColor = 'text-[var(--brand)]';
   } else if (locked) {
     statusText = tr('status_locked');
-    statusColor = 'text-[#e76670]';
+    statusColor = 'text-[var(--danger)]';
   } else {
     statusText = tr('status_ready');
-    statusColor = 'text-[#7ce896]';
+    statusColor = 'text-[var(--success)]';
   }
 
   const progressRatio = total > 0 ? Math.min(1, Math.max(0, completedLessons / total)) : 0;
 
   const cardBase =
-    'dcm-mission-card relative w-full border bg-[#121828] rounded-[4px] transition group';
+    'dcm-mission-card relative w-full border bg-[var(--panel)] rounded-[4px] transition group';
   const cardState = locked
-    ? 'border-[#202a44]'
-    : 'border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] hover:-translate-y-px';
+    ? 'border-[var(--border)]'
+    : 'border-[var(--border)] hover:border-[var(--brand-dim)] hover:bg-[var(--raised)] hover:-translate-y-px';
 
   const RowContent = (
     <div className="flex flex-col sm:flex-row gap-0 sm:gap-0">
       {/* LEFT — title + description */}
       <div className="flex-1 p-4 sm:p-5 sm:pr-4 min-w-0 sm:basis-[60%]">
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#8b94a8]">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">
             {tr('mission_prefix')} {order}
           </span>
           {module.difficulty && (
-            <span className="px-1.5 py-0.5 border border-[#202a44] font-mono text-[10px] uppercase tracking-[0.14em] text-[#aab2c4]">
+            <span className="px-1.5 py-0.5 border border-[var(--border)] font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-soft)]">
               {module.difficulty}
             </span>
           )}
@@ -493,8 +501,8 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         <h3
           className={`font-mono font-bold text-[15px] sm:text-[17px] uppercase tracking-[-0.01em] leading-snug ${
             locked
-              ? 'text-[#aab2c4]'
-              : 'text-[#e7ecf5] group-hover:text-[#65def0] transition-colors'
+              ? 'text-[var(--text-soft)]'
+              : 'text-[var(--text)] group-hover:text-[var(--brand)] transition-colors'
           }`}
         >
           {module.title}
@@ -502,7 +510,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         {module.description && (
           <p
             className={`mt-2 font-sans text-[14px] leading-relaxed line-clamp-2 ${
-              locked ? 'text-[#8b94a8]' : 'text-[#aab2c4]'
+              locked ? 'text-[var(--muted)]' : 'text-[var(--text-soft)]'
             }`}
           >
             {module.description}
@@ -511,42 +519,42 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
       </div>
 
       {/* RIGHT — status panel */}
-      <div className="sm:basis-[40%] sm:max-w-[280px] flex flex-col gap-1.5 p-4 sm:p-5 sm:pl-4 sm:border-l border-t sm:border-t-0 border-[#202a44] bg-[#0b0f1a]/40">
+      <div className="sm:basis-[40%] sm:max-w-[280px] flex flex-col gap-1.5 p-4 sm:p-5 sm:pl-4 sm:border-l border-t sm:border-t-0 border-[var(--border)] bg-[var(--canvas)]/40">
         <div className={`font-mono text-[11px] uppercase tracking-[0.14em] ${statusColor}`}>
           {statusText}
         </div>
         {inProgress && total > 0 && (
           <div className="mt-1.5">
-            <div className="h-[3px] bg-[#0b0f1a] border border-[#202a44] overflow-hidden rounded-[1px]">
+            <div className="h-[3px] bg-[var(--canvas)] border border-[var(--border)] overflow-hidden rounded-[1px]">
               <div
-                className="h-full bg-[#65def0] transition-[width] duration-300"
+                className="h-full bg-[var(--brand)] transition-[width] duration-300"
                 style={{ width: `${Math.round(progressRatio * 100)}%` }}
                 aria-hidden="true"
               />
             </div>
-            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+            <div className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
               {completedLessons}/{total} {lessonsShort}
             </div>
           </div>
         )}
         {moduleDone && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
             {completedLessons}/{total} {lessonsShort} · {tr('completed_at')}
           </div>
         )}
         {locked && previousModule && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#e76670] tabular-nums">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--danger)] tabular-nums">
             {tr('prereq')} {previousModule.order.toString().padStart(2, '0')}
           </div>
         )}
         {!locked && !moduleDone && !inProgress && (
-          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
             {total} {lessonsShort}
             {module.duration ? ` · ${module.duration}` : ''}
           </div>
         )}
         {!locked && (
-          <div className="mt-auto pt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#3a8b9a] group-hover:text-[#65def0] transition-colors">
+          <div className="mt-auto pt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--brand-dim)] group-hover:text-[var(--brand)] transition-colors">
             {tr('open_briefing')}
           </div>
         )}
@@ -570,7 +578,7 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
         ) : (
           <a
             href={`/${lang}/course/${module.slug}`}
-            className={`${cardBase} ${cardState} block focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]`}
+            className={`${cardBase} ${cardState} block focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]`}
             aria-label={`${tr('mission_prefix')} ${order} — ${module.title} — ${statusText.replace(/^[^A-Za-zА-Яа-я]+/, '')}`}
           >
             {RowContent}
@@ -587,23 +595,23 @@ function MissionCard({ module, previousModule, completedLessons, lang }: Mission
 function CertificationCallout({ lang }: { lang: Locale }) {
   const tr = makeTranslator('courseProgress');
   return (
-    <div className="relative overflow-hidden border border-[#202a44] bg-[#121828]/80 p-6 sm:p-8 rounded-[4px]">
+    <div className="relative overflow-hidden border border-[var(--border)] bg-[var(--panel)]/80 p-6 sm:p-8 rounded-[4px]">
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
         <div className="md:col-span-2">
-          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2">
             {tr('certification_tag')}
           </div>
-          <h3 className="font-mono font-bold text-[#e7ecf5] text-[clamp(1.25rem,1rem+1vw,1.75rem)] leading-snug tracking-[-0.01em]">
+          <h3 className="font-mono font-bold text-[var(--text)] text-[clamp(1.25rem,1rem+1vw,1.75rem)] leading-snug tracking-[-0.01em]">
             {tr('cert_headline')}
           </h3>
-          <p className="mt-3 font-sans text-[15px] sm:text-[16px] text-[#aab2c4] leading-relaxed max-w-2xl">
+          <p className="mt-3 font-sans text-[15px] sm:text-[16px] text-[var(--text-soft)] leading-relaxed max-w-2xl">
             {tr('cert_body')}
           </p>
         </div>
         <div className="flex justify-start md:justify-end">
           <a
             href={`/${lang}/game`}
-            className="inline-flex items-center gap-2 px-5 py-3 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/5 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/10 transition rounded-[4px]"
+            className="inline-flex items-center gap-2 px-5 py-3 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--success)]/5 border border-[var(--success)] text-[var(--success)] hover:bg-[var(--success)]/10 transition rounded-[4px]"
           >
             <span aria-hidden="true">▸</span> {tr('warm_up')}
           </a>

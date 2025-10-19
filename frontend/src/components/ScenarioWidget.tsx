@@ -33,23 +33,23 @@ const OUTCOME_STYLES: Record<
   { border: string; bg: string; text: string; symbol: string; labelKey: OutcomeKey }
 > = {
   good: {
-    border: 'border-[#7ce896]',
-    bg: 'bg-[#7ce896]/10',
-    text: 'text-[#7ce896]',
+    border: 'border-[var(--success)]',
+    bg: 'bg-[var(--success)]/10',
+    text: 'text-[var(--success)]',
     symbol: '▶',
     labelKey: 'outcome_optimal',
   },
   risky: {
-    border: 'border-[#f4b965]',
-    bg: 'bg-[#f4b965]/10',
-    text: 'text-[#f4b965]',
+    border: 'border-[var(--warning)]',
+    bg: 'bg-[var(--warning)]/10',
+    text: 'text-[var(--warning)]',
     symbol: '▲',
     labelKey: 'outcome_compromised',
   },
   disaster: {
-    border: 'border-[#e76670]',
-    bg: 'bg-[#e76670]/10',
-    text: 'text-[#e76670]',
+    border: 'border-[var(--danger)]',
+    bg: 'bg-[var(--danger)]/10',
+    text: 'text-[var(--danger)]',
     symbol: '✗',
     labelKey: 'outcome_mission_failed',
   },
@@ -65,18 +65,18 @@ export default function ScenarioWidget({ config }: Props) {
   const moralLabel = tr('moral');
 
   return (
-    <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
-      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-3">
+    <section className="relative bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--brand)] mb-3">
         {headingLabel}
       </div>
 
       {config.setup && (
-        <p className="font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
+        <p className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed max-w-[62ch]">
           {config.setup}
         </p>
       )}
 
-      <p className="mt-4 font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
+      <p className="mt-4 font-sans text-[var(--text)] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
         {config.prompt || promptDefault}
       </p>
 
@@ -94,9 +94,9 @@ export default function ScenarioWidget({ config }: Props) {
               cls: style.text,
             };
           } else if (picked === null) {
-            stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+            stateClass = 'border-[var(--border)] hover:border-[var(--brand)] hover:bg-[var(--brand)]/5';
           } else {
-            stateClass = 'border-[#202a44] opacity-50';
+            stateClass = 'border-[var(--border)] opacity-50';
           }
 
           return (
@@ -106,12 +106,12 @@ export default function ScenarioWidget({ config }: Props) {
               onClick={() => setPicked(i)}
               disabled={picked !== null && picked !== i}
               aria-pressed={isPicked}
-              className={`w-full text-left p-4 border transition rounded-[3px] ${stateClass} ${
+              className={`min-h-11 w-full text-left p-4 border transition rounded-[3px] ${stateClass} ${
                 picked !== null && picked !== i ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
               <div className="flex items-start justify-between gap-3">
-                <p className="flex-1 font-sans text-[15px] text-[#e7ecf5] leading-relaxed">
+                <p className="flex-1 font-sans text-[16px] text-[var(--text)] leading-relaxed">
                   {choice.text}
                 </p>
                 {badge && (
@@ -123,7 +123,7 @@ export default function ScenarioWidget({ config }: Props) {
                 )}
               </div>
               {isPicked && choice.explanation && (
-                <p className="mt-3 font-sans text-[14px] text-[#cdd4e3] leading-relaxed">
+                <p className="mt-3 font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
                   {choice.explanation}
                 </p>
               )}
@@ -133,11 +133,11 @@ export default function ScenarioWidget({ config }: Props) {
       </div>
 
       {picked !== null && config.moral && (
-        <div className="mt-5 p-4 border border-[#65def0]/40 bg-[#65def0]/5 rounded-[3px]">
-          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#65def0] mb-2">
+        <div className="mt-5 p-4 border border-[var(--brand)]/40 bg-[var(--brand)]/5 rounded-[3px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--brand)] mb-2">
             {moralLabel}
           </div>
-          <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed">{config.moral}</p>
+          <p className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">{config.moral}</p>
         </div>
       )}
 
@@ -146,7 +146,7 @@ export default function ScenarioWidget({ config }: Props) {
           <button
             type="button"
             onClick={() => setPicked(null)}
-            className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
+            className="min-h-11 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-soft)] hover:text-[var(--brand)] transition"
           >
             ↺ {resetLabel}
           </button>

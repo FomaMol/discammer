@@ -56,10 +56,10 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
   }, [visible]);
 
   function lineColor(line: string): string {
-    if (line.includes(tokens.ok) || line.includes(tokens.established) || line.includes('200')) return '#7ce896';
-    if (line.includes(tokens.awaiting)) return '#f4b965';
-    if (line.startsWith('   ')) return '#aab2c4';
-    return '#65def0';
+    if (line.includes(tokens.ok) || line.includes(tokens.established) || line.includes('200')) return 'var(--success)';
+    if (line.includes(tokens.awaiting)) return 'var(--warning)';
+    if (line.startsWith('   ')) return 'var(--text-soft)';
+    return 'var(--brand)';
   }
 
   return (
@@ -69,21 +69,21 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
         className="flex items-center justify-between mb-2 px-1"
         style={{ fontFamily: '"JetBrains Mono", monospace' }}
       >
-        <span className="text-[10px] uppercase tracking-[2.5px] text-[#8b94a8]">
+        <span className="text-[10px] uppercase tracking-[2.5px] text-[var(--muted)]">
           {tr('monitor_label')}
         </span>
-        <span className="text-[10px] uppercase tracking-[2px] text-[#8b94a8] tabular-nums">
+        <span className="text-[10px] uppercase tracking-[2px] text-[var(--muted)] tabular-nums">
           {tr('monitor_subtitle')}
         </span>
       </div>
-    <div className="bg-[#0b0f1a]/90 border border-[#202a44] overflow-hidden shadow-[0_0_40px_rgba(101,222,240,0.08)] backdrop-blur-sm">
+    <div className="bg-[var(--canvas)]/90 border border-[var(--border)] overflow-hidden shadow-[0_0_40px_color-mix(in_srgb,var(--brand)_8%,transparent)] backdrop-blur-sm">
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-3 py-2 bg-[#121828] border-b border-[#202a44]">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#2b3759]"></span>
-        <span className="w-2.5 h-2.5 rounded-full bg-[#475064]"></span>
-        <span className="w-2.5 h-2.5 rounded-full bg-[#475064]"></span>
+      <div className="flex items-center gap-2 px-3 py-2 bg-[var(--panel)] border-b border-[var(--border)]">
+        <span className="w-2.5 h-2.5 rounded-full bg-[var(--border-strong)]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[var(--muted)]"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-[var(--muted)]"></span>
         <span
-          className="ml-3 text-[10px] uppercase tracking-[2px] text-[#aab2c4]"
+          className="ml-3 text-[10px] uppercase tracking-[2px] text-[var(--text-soft)]"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
           discammer@threat-monitor ~ %
@@ -112,7 +112,7 @@ export default function HeroTerminal({ lines, lang }: HeroTerminalProps) {
           <span
             className="inline-block"
             style={{
-              color: '#65def0',
+              color: 'var(--brand)',
               animation: 'blink 1s step-end infinite',
               fontFamily: '"JetBrains Mono", monospace',
             }}

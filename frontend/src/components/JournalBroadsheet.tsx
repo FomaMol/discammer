@@ -39,37 +39,23 @@ type JournalKey =
   | 'loading'
   | 'empty'
   | 'featured_byline'
-  | 'min_read'
+  | 'error'
+  | 'retry'
+  | 'sections_label'
   | 'skim_label'
   | 'skim_caption';
 
 /** Per-type colors. Pulled inline (not class-name interpolation) so Tailwind v4
  *  doesn't see a dynamic class and tree-shake it. */
 const TYPE_COLOR: Record<string, { fg: string; bg: string; border: string }> = {
-  interview: { fg: '#65def0', bg: 'rgba(101,222,240,0.08)', border: 'rgba(101,222,240,0.4)' },
-  newsletter: { fg: '#7ce896', bg: 'rgba(124,232,150,0.08)', border: 'rgba(124,232,150,0.4)' },
-  article: { fg: '#f4b965', bg: 'rgba(244,185,101,0.08)', border: 'rgba(244,185,101,0.4)' },
-  guide: { fg: '#e76670', bg: 'rgba(231,102,112,0.08)', border: 'rgba(231,102,112,0.4)' },
+  interview: { fg: 'var(--brand)', bg: 'color-mix(in srgb,var(--brand) 8%,transparent)', border: 'color-mix(in srgb,var(--brand) 40%,transparent)' },
+  newsletter: { fg: 'var(--success)', bg: 'color-mix(in srgb,var(--success) 8%,transparent)', border: 'color-mix(in srgb,var(--success) 40%,transparent)' },
+  article: { fg: 'var(--warning)', bg: 'color-mix(in srgb,var(--warning) 8%,transparent)', border: 'color-mix(in srgb,var(--warning) 40%,transparent)' },
+  guide: { fg: 'var(--danger)', bg: 'color-mix(in srgb,var(--danger) 8%,transparent)', border: 'color-mix(in srgb,var(--danger) 40%,transparent)' },
 };
 
 function typeColor(type: string) {
   return TYPE_COLOR[type.toLowerCase()] || TYPE_COLOR.article;
-}
-
-/** Estimate reading time. We don't have the body text in the API payload, so
- *  use a deterministic guess from title+subtitle length and the post type
- *  (interviews tend to be longer than newsletters). Better than "5 MIN" everywhere. */
-function estReadingTime(item: Item): number {
-  const base = (item.title?.length || 0) + (item.subtitle?.length || 0);
-  const typeBase: Record<string, number> = {
-    interview: 9,
-    article: 7,
-    newsletter: 4,
-    guide: 6,
-  };
-  const t = typeBase[item.type.toLowerCase()] ?? 5;
-  // 1 minute per ~40 chars of subtitle, plus type baseline. Capped 3-14.
-  return Math.max(3, Math.min(14, t + Math.floor(base / 60)));
 }
 
 /** Format "2025-04-26" as "26 APR 2025" (English) or "26 АПР 2025" (Russian). */
@@ -99,6 +85,8 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
 
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   // Honor the about-page deep link /journal#threat-database: land directly
   // on the guides filter instead of the unfiltered feed.
   const [activeTab, setActiveTab] = useState<FilterKey>(() =>
@@ -109,6 +97,8 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
 
   useEffect(() => {
     let cancelled = false;
+    setIsLoading(true);
+    setError(false);
     Promise.all([
       fetchPosts(undefined, undefined, locale).then((data) => {
         const arr: Item[] = Array.isArray(data) ? data : [];
@@ -123,7 +113,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
         if (!cancelled) setItems([...posts, ...guides]);
       })
       .catch(() => {
-        if (!cancelled) setItems([]);
+        if (!cancelled) setError(true);
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
@@ -131,7 +121,13 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
     return () => {
       cancelled = true;
     };
-  }, [locale]);
+  }, [locale, attempt]);
+
+  useEffect(() => {
+    const fallback = document.getElementById("journal-foundation");
+    if (fallback) fallback.hidden = !isLoading && !error;
+    return () => { if (fallback) fallback.hidden = false; };
+  }, [isLoading, error]);
 
   const filtered = useMemo(() => {
     const tabToType: Record<FilterKey, string | null> = {
@@ -186,7 +182,7 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
           style={{
             letterSpacing: '0.14em',
             fontWeight: 600,
-            color: activeEyebrow ? '#65def0' : 'transparent',
+            color: activeEyebrow ? 'var(--brand)' : 'transparent',
           }}
         >
           {activeEyebrow || ' '}
@@ -195,8 +191,8 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
         {/* The index strip — hairline top + bottom, no scroll bars */}
         <div
           role="group"
-          aria-label="Journal sections"
-          className="border-y border-[#202a44] py-3 overflow-x-auto scrollbar-hide"
+          aria-label={tr('sections_label')}
+          className="border-y border-[var(--border)] py-3 overflow-x-auto scrollbar-hide"
           style={{ scrollbarWidth: 'none' }}
         >
           <div className="flex items-center gap-3 sm:gap-5 min-w-max">
@@ -206,29 +202,36 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
               return (
                 <div key={key} className="flex items-center gap-3 sm:gap-5">
                   {idx > 0 && (
-                    <span className="font-mono text-[#3a8b9a] select-none" aria-hidden="true">
+                    <span className="font-mono text-[var(--brand-dim)] select-none" aria-hidden="true">
                       ·
                     </span>
                   )}
                   <button
                     aria-pressed={isActive}
                     onClick={() => setActiveTab(key)}
-                    className={`group inline-flex items-baseline gap-1.5 whitespace-nowrap transition-colors duration-200 font-mono text-[11px] sm:text-xs uppercase ${
+                    onKeyDown={(event) => {
+                      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                      event.preventDefault();
+                      const next = event.key === 'Home' ? 0 : event.key === 'End' ? FILTER_KEYS.length - 1 : (idx + (event.key === 'ArrowRight' ? 1 : -1) + FILTER_KEYS.length) % FILTER_KEYS.length;
+                      setActiveTab(FILTER_KEYS[next]);
+                      event.currentTarget.closest('[role="group"]')?.querySelectorAll('button')[next]?.focus();
+                    }}
+                    className={`group inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap transition-colors duration-200 font-mono text-[11px] sm:text-xs uppercase ${
                       isActive
-                        ? 'text-[#65def0]'
-                        : 'text-[#aab2c4] hover:text-[#9eecf6]'
+                        ? 'text-[var(--brand)]'
+                        : 'text-[var(--text-soft)] hover:text-[var(--brand-hover)]'
                     }`}
                     style={{
                       letterSpacing: '0.14em',
                       fontWeight: 600,
-                      borderBottom: isActive ? '2px solid #65def0' : '2px solid transparent',
+                      borderBottom: isActive ? '2px solid var(--brand)' : '2px solid transparent',
                       paddingBottom: '4px',
                     }}
                   >
-                    <span className="text-[#8b94a8] tabular-nums">{num}.</span>
+                    <span className="text-[var(--muted)] tabular-nums">{num}.</span>
                     <span>{tr(key)}</span>
                     {isActive && (
-                      <span aria-hidden="true" className="ml-0.5 text-[#65def0]">
+                      <span aria-hidden="true" className="ml-0.5 text-[var(--brand)]">
                         ↓
                       </span>
                     )}
@@ -243,10 +246,12 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
       {/* ───────────── EMPTY / LOADING ───────────── */}
       {filtered.length === 0 ? (
         <div
-          className="py-16 text-center text-[#8b94a8] text-sm"
+          role="status"
+          className="py-16 text-center text-[var(--muted)] text-sm"
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
         >
-          {isLoading ? tr('loading') : tr('empty')}
+          {isLoading ? tr('loading') : error ? tr('error') : tr('empty')}
+          {error && <button type="button" className="block mx-auto mt-4 min-h-11 underline" onClick={() => setAttempt((value) => value + 1)}>{tr('retry')}</button>}
         </div>
       ) : (
         <>
@@ -282,19 +287,19 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
             <div className="mt-14 sm:mt-20">
               <div className="flex items-baseline justify-between mb-4 sm:mb-5 gap-4">
                 <div
-                  className="font-mono text-[10px] sm:text-[11px] uppercase text-[#65def0]"
+                  className="font-mono text-[10px] sm:text-[11px] uppercase text-[var(--brand)]"
                   style={{ letterSpacing: '0.14em', fontWeight: 600 }}
                 >
                   {tr('skim_label')}
                 </div>
                 <div
-                  className="font-mono text-[10px] uppercase text-[#8b94a8] text-right"
+                  className="font-mono text-[10px] uppercase text-[var(--muted)] text-right"
                   style={{ letterSpacing: '0.06em' }}
                 >
                   {tr('skim_caption')}
                 </div>
               </div>
-              <ul className="border-t border-[#202a44]">
+              <ul className="border-t border-[var(--border)]">
                 {compact.map((item) => (
                   <CompactRow
                     key={`row-${item.type}-${item.id}`}
@@ -331,20 +336,19 @@ function FeaturedCard({
   localizedBadge: (t: string) => string;
 }) {
   const c = typeColor(item.type);
-  const minutes = estReadingTime(item);
   const headlineRaw = item.title || '';
 
   return (
     <a
       href={hrefFor(item)}
-      className="card-interactive group block mt-10 sm:mt-14 border border-[#202a44] bg-[#0b0f1a]"
+      className="card-interactive group block mt-10 sm:mt-14 border border-[var(--border)] bg-[var(--canvas)]"
       style={{ textDecoration: 'none' }}
       aria-label={`${localizedBadge(item.type)}: ${headlineRaw}`}
     >
       <div className="grid grid-cols-1 lg:grid-cols-5">
         {/* Cover — 60% on desktop (3/5 cols) */}
         {item.cover_image && (
-          <div className="lg:col-span-3 relative overflow-hidden bg-[#0a0d16] aspect-[4/3] lg:aspect-auto lg:min-h-[360px]">
+          <div className="lg:col-span-3 relative overflow-hidden bg-[var(--code)] aspect-[4/3] lg:aspect-auto lg:min-h-[360px]">
             <img
               src={item.cover_image}
               alt=""
@@ -352,13 +356,14 @@ function FeaturedCard({
               className="absolute inset-0 w-full h-full object-cover"
               style={{ filter: 'saturate(0.85) contrast(1.05)' }}
               loading="eager"
+              onError={(event) => { event.currentTarget.hidden = true; }}
             />
             {/* Faint dark fade at the bottom for headline contrast on mobile-stack */}
             <div
               className="absolute inset-x-0 bottom-0 h-1/3 lg:hidden pointer-events-none"
               style={{
                 background:
-                  'linear-gradient(to top, rgba(11,15,26,0.55) 0%, transparent 100%)',
+                  'linear-gradient(to top, color-mix(in srgb,var(--canvas) 55%,transparent) 0%, transparent 100%)',
               }}
               aria-hidden="true"
             />
@@ -389,11 +394,11 @@ function FeaturedCard({
 
             {/* Headline — JetBrains Mono 700, sentence-case */}
             <h2
-              className="font-mono font-bold text-[#f3f5fa] mt-5 sm:mt-6 group-hover:text-[#65def0] transition-colors"
+              className="font-mono font-bold text-[var(--text-strong)] mt-5 sm:mt-6 group-hover:text-[var(--brand)] transition-colors"
               style={{
                 fontSize: 'clamp(2rem, 1.2rem + 2.6vw, 3.25rem)',
                 letterSpacing: '-0.02em',
-                lineHeight: '1.04',
+                lineHeight: '1.16',
                 maxWidth: '22ch',
               }}
             >
@@ -403,7 +408,7 @@ function FeaturedCard({
             {/* Lead paragraph — Geist 18px, max-w-60ch */}
             {item.subtitle && (
               <p
-                className="text-[#cdd4e3] mt-5 sm:mt-6 leading-[1.55] line-clamp-3 sm:line-clamp-4"
+                className="text-[var(--text-medium)] mt-5 sm:mt-6 leading-[1.55] line-clamp-3 sm:line-clamp-4"
                 style={{ fontSize: '1.0625rem', maxWidth: '60ch' }}
               >
                 {item.subtitle}
@@ -413,24 +418,18 @@ function FeaturedCard({
 
           {/* Byline strip */}
           <div
-            className="mt-7 sm:mt-9 pt-4 border-t border-[#202a44] font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] flex flex-wrap items-center gap-2"
+            className="mt-7 sm:mt-9 pt-4 border-t border-[var(--border)] font-mono text-[10px] sm:text-[11px] uppercase text-[var(--muted)] flex flex-wrap items-center gap-2"
             style={{ letterSpacing: '0.14em', fontWeight: 600 }}
           >
-            <span className="text-[#aab2c4]">{tr('featured_byline')}</span>
+            <span className="text-[var(--text-soft)]">{tr('featured_byline')}</span>
             {item.published_at && (
               <>
-                <span aria-hidden="true" className="text-[#8b94a8]">
+                <span aria-hidden="true" className="text-[var(--muted)]">
                   ·
                 </span>
                 <span className="tabular-nums">{formatBylineDate(item.published_at, locale)}</span>
               </>
             )}
-            <span aria-hidden="true" className="text-[#8b94a8]">
-              ·
-            </span>
-            <span className="tabular-nums">
-              {minutes} {tr('min_read')}
-            </span>
           </div>
         </div>
       </div>
@@ -464,7 +463,7 @@ function ZigzagCard({
   return (
     <a
       href={hrefFor(item)}
-      className="card-interactive group block border border-[#202a44] bg-[#121828]"
+      className="card-interactive group block border border-[var(--border)] bg-[var(--panel)]"
       style={{ textDecoration: 'none' }}
       aria-label={`${localizedBadge(item.type)}: ${headline}`}
     >
@@ -476,7 +475,7 @@ function ZigzagCard({
         {/* Cover */}
         {item.cover_image ? (
           <div
-            className="sm:col-span-2 relative overflow-hidden bg-[#0a0d16] aspect-[4/3] sm:aspect-auto sm:min-h-[200px]"
+            className="sm:col-span-2 relative overflow-hidden bg-[var(--code)] aspect-[4/3] sm:aspect-auto sm:min-h-[200px]"
             style={{ direction: 'ltr' }}
           >
             <img
@@ -486,11 +485,12 @@ function ZigzagCard({
               className="absolute inset-0 w-full h-full object-cover"
               style={{ filter: 'saturate(0.85) contrast(1.05)' }}
               loading="lazy"
+              onError={(event) => { event.currentTarget.hidden = true; }}
             />
           </div>
         ) : (
           <div
-            className="sm:col-span-2 bg-[#0a0d16] flex items-center justify-center min-h-[160px] sm:min-h-[200px]"
+            className="sm:col-span-2 bg-[var(--code)] flex items-center justify-center min-h-[160px] sm:min-h-[200px]"
             style={{ direction: 'ltr' }}
             aria-hidden="true"
           >
@@ -530,7 +530,7 @@ function ZigzagCard({
               </span>
               {item.published_at && (
                 <time
-                  className="text-[11px] text-[#8b94a8] tabular-nums"
+                  className="text-[11px] text-[var(--muted)] tabular-nums"
                   style={{
                     fontFamily: '"JetBrains Mono", monospace',
                     letterSpacing: '0.02em',
@@ -542,7 +542,7 @@ function ZigzagCard({
             </div>
 
             <h3
-              className="font-mono font-bold text-[#e7ecf5] mt-3 group-hover:text-[#65def0] transition-colors"
+              className="font-mono font-bold text-[var(--text)] mt-3 group-hover:text-[var(--brand)] transition-colors"
               style={{
                 fontSize: 'clamp(1.125rem, 0.9rem + 0.6vw, 1.4rem)',
                 letterSpacing: '-0.015em',
@@ -554,7 +554,7 @@ function ZigzagCard({
 
             {(item.subtitle || item.description) && (
               <p
-                className="text-[#aab2c4] text-sm mt-3 leading-relaxed line-clamp-2"
+                className="text-[var(--text-soft)] text-sm mt-3 leading-relaxed line-clamp-2"
                 style={{ maxWidth: '52ch' }}
               >
                 {item.subtitle || item.description}
@@ -585,10 +585,10 @@ function CompactRow({
 }) {
   const c = typeColor(item.type);
   return (
-    <li className="border-b border-[#202a44]">
+    <li className="border-b border-[var(--border)]">
       <a
         href={hrefFor(item)}
-        className="group flex items-center gap-3 sm:gap-5 py-3 sm:py-4 hover:bg-[#121828] transition-colors"
+        className="group flex items-center gap-3 sm:gap-5 py-3 sm:py-4 hover:bg-[var(--panel)] transition-colors"
         style={{ textDecoration: 'none' }}
       >
         {/* Color dot + badge label (mono) */}
@@ -615,7 +615,7 @@ function CompactRow({
 
         {/* Headline — JetBrains Mono. group-hover shifts to cyan. */}
         <span
-          className="flex-1 min-w-0 font-mono text-sm sm:text-[15px] text-[#e7ecf5] group-hover:text-[#65def0] transition-colors truncate"
+          className="flex-1 min-w-0 font-mono text-sm sm:text-[15px] text-[var(--text)] group-hover:text-[var(--brand)] transition-colors break-words leading-relaxed"
           style={{ letterSpacing: '-0.01em', fontWeight: 500 }}
         >
           {/* On mobile, render a small color square inline so the type is still visible */}
@@ -630,7 +630,7 @@ function CompactRow({
         {/* Date */}
         {item.published_at && (
           <time
-            className="hidden sm:inline text-[11px] text-[#8b94a8] tabular-nums shrink-0"
+            className="hidden sm:inline text-[11px] text-[var(--muted)] tabular-nums shrink-0"
             style={{
               fontFamily: '"JetBrains Mono", monospace',
               letterSpacing: '0.02em',
@@ -643,7 +643,7 @@ function CompactRow({
         {/* Arrow */}
         <span
           aria-hidden="true"
-          className="font-mono text-[#8b94a8] group-hover:text-[#65def0] group-hover:translate-x-0.5 transition-all duration-200 motion-reduce:transform-none shrink-0"
+          className="font-mono text-[var(--muted)] group-hover:text-[var(--brand)] group-hover:translate-x-0.5 transition-all duration-200 motion-reduce:transform-none shrink-0"
         >
           →
         </span>

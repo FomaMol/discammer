@@ -36,11 +36,11 @@ export default function LessonWidget({ type, config, locale }: Props) {
       );
     default:
       return (
-        <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
-          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#f4b965] mb-2">
+        <div className="bg-[var(--panel)] border border-[var(--border)] p-5 rounded-[4px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--warning)] mb-2">
             {tr('unavailable_header')}
           </div>
-          <p className="font-sans text-[14px] text-[#aab2c4] leading-relaxed">
+          <p className="font-sans text-[14px] text-[var(--text-soft)] leading-relaxed">
             {tr('unavailable_body', { type })}
           </p>
         </div>

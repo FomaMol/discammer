@@ -12,41 +12,41 @@
 #}
 <article class="mx-auto max-w-[72rem] px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
   <header class="max-w-[44rem]">
-    <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-[#8b94a8] sm:text-[11px]">
+    <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--muted)] sm:text-[11px]">
       {{ t(_lang, 'portfolio.eyebrow') }}
     </p>
-    <h1 class="mt-4 font-mono text-[#e7ecf5] font-bold tracking-[-0.02em] leading-[1.12]"
+    <h1 class="mt-4 font-mono text-[var(--text)] font-bold tracking-[-0.02em] leading-[1.12]"
         style="font-size: clamp(2rem, 1.45rem + 2.7vw, 3.25rem);">
       {{ t(_lang, 'portfolio.title') }}
     </h1>
-    <p class="mt-6 max-w-[62ch] font-sans text-[17px] leading-[1.65] text-[#cdd4e3] sm:text-[19px]">
+    <p class="mt-6 max-w-[62ch] font-sans text-[17px] leading-[1.65] text-[var(--text-medium)] sm:text-[19px]">
       {{ t(_lang, 'portfolio.lead') }}
     </p>
   </header>
 
-  <section class="mt-12 border-y border-[#202a44] py-6 sm:mt-16 sm:py-8" aria-labelledby="portfolio-status">
+  <section class="mt-12 border-y border-[var(--border)] py-6 sm:mt-16 sm:py-8" aria-labelledby="portfolio-status">
     <div class="grid gap-5 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12">
-      <h2 id="portfolio-status" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-status" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.status_heading') }}
       </h2>
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">
         {{ t(_lang, 'portfolio.status_body') }}
       </p>
     </div>
   </section>
 
-  <section class="mt-12 border border-[#f4b965]/60 bg-[#f4b965]/[0.07] p-6 sm:mt-16 sm:p-8" aria-labelledby="portfolio-first-person">
+  <section class="mt-12 border border-[var(--warning)]/60 bg-[var(--warning)]/[0.07] p-6 sm:mt-16 sm:p-8" aria-labelledby="portfolio-first-person">
     <div class="grid gap-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12">
       <div>
-        <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#f4b965] sm:text-[11px]">
+        <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--warning)] sm:text-[11px]">
           {{ t(_lang, 'portfolio.first_person_kicker') }}
         </p>
-        <h2 id="portfolio-first-person" class="mt-3 font-mono text-[20px] font-bold tracking-[-0.02em] text-[#e7ecf5] sm:text-[24px]">
+        <h2 id="portfolio-first-person" class="mt-3 font-mono text-[20px] font-bold tracking-[-0.02em] text-[var(--text)] sm:text-[24px]">
           {{ t(_lang, 'portfolio.first_person_heading') }}
         </h2>
       </div>
       <div>
-        <p class="border-b border-[#f4b965]/35 pb-5 font-sans text-[15px] font-medium leading-[1.65] text-[#f4b965]">
+        <p class="border-b border-[var(--warning)]/35 pb-5 font-sans text-[15px] font-medium leading-[1.65] text-[var(--warning)]">
           {{ t(_lang, 'portfolio.first_person_notice') }}
         </p>
         <div class="mt-6 space-y-5">
@@ -56,7 +56,7 @@
             'portfolio.first_person_choices',
             'portfolio.first_person_disclosure'
           ] %}
-            <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, _key) }}</p>
+            <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, _key) }}</p>
           {% endfor %}
         </div>
       </div>
@@ -65,35 +65,35 @@
 
   <div class="mt-12 grid gap-x-12 gap-y-12 lg:mt-16 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-y-16">
     <section aria-labelledby="portfolio-author">
-      <h2 id="portfolio-author" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-author" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.author_heading') }}
       </h2>
     </section>
     <div class="space-y-5">
-      <p class="font-mono text-[18px] font-semibold tracking-[-0.01em] text-[#e7ecf5] sm:text-[20px]">Foma Molchanov</p>
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.author_body') }}</p>
+      <p class="font-mono text-[18px] font-semibold tracking-[-0.01em] text-[var(--text)] sm:text-[20px]">Foma Molchanov</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.author_body') }}</p>
     </div>
 
     <section aria-labelledby="portfolio-problem">
-      <h2 id="portfolio-problem" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-problem" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.problem_heading') }}
       </h2>
     </section>
     <div class="space-y-5">
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.problem_body') }}</p>
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.audience_body') }}</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.problem_body') }}</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.audience_body') }}</p>
     </div>
 
     <section aria-labelledby="portfolio-contribution">
-      <h2 id="portfolio-contribution" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-contribution" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.contribution_heading') }}
       </h2>
     </section>
-    <div class="border-t border-[#202a44]">
-      <p class="border-b border-[#202a44] py-5 font-sans text-[15px] leading-[1.65] text-[#f4b965]">
+    <div class="border-t border-[var(--border)]">
+      <p class="border-b border-[var(--border)] py-5 font-sans text-[15px] leading-[1.65] text-[var(--warning)]">
         {{ t(_lang, 'portfolio.contribution_notice') }}
       </p>
-      <dl class="divide-y divide-[#202a44]">
+      <dl class="divide-y divide-[var(--border)]">
         {% for _term, _definition in [
           ('portfolio.contribution_product', 'portfolio.contribution_product_body'),
           ('portfolio.contribution_engineering', 'portfolio.contribution_engineering_body'),
@@ -102,24 +102,24 @@
           ('portfolio.contribution_accessibility', 'portfolio.contribution_accessibility_body')
         ] %}
           <div class="grid gap-2 py-5 sm:grid-cols-[minmax(10rem,0.55fr)_minmax(0,1.45fr)] sm:gap-6">
-            <dt class="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#aab2c4]">{{ t(_lang, _term) }}</dt>
-            <dd class="max-w-[58ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, _definition) }}</dd>
+            <dt class="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--text-soft)]">{{ t(_lang, _term) }}</dt>
+            <dd class="max-w-[58ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, _definition) }}</dd>
           </div>
         {% endfor %}
       </dl>
     </div>
 
     <section aria-labelledby="portfolio-iteration">
-      <h2 id="portfolio-iteration" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-iteration" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.iteration_heading') }}
       </h2>
     </section>
     <div class="space-y-5">
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.iteration_body') }}</p>
-      <ul class="max-w-[65ch] space-y-3 font-sans text-[16px] leading-[1.65] text-[#cdd4e3]" role="list">
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.iteration_body') }}</p>
+      <ul class="max-w-[65ch] space-y-3 font-sans text-[16px] leading-[1.65] text-[var(--text-medium)]" role="list">
         {% for _key in ['portfolio.learning_1', 'portfolio.learning_2', 'portfolio.learning_3'] %}
           <li class="flex gap-3">
-            <span aria-hidden="true" class="mt-0.5 font-mono text-[#f4b965]">▸</span>
+            <span aria-hidden="true" class="mt-0.5 font-mono text-[var(--warning)]">▸</span>
             <span>{{ t(_lang, _key) }}</span>
           </li>
         {% endfor %}
@@ -127,33 +127,33 @@
     </div>
 
     <section aria-labelledby="portfolio-validation">
-      <h2 id="portfolio-validation" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-validation" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.validation_heading') }}
       </h2>
     </section>
     <div class="space-y-5">
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.validation_body') }}</p>
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#f4b965]">{{ t(_lang, 'portfolio.validation_next') }}</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.validation_body') }}</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--warning)]">{{ t(_lang, 'portfolio.validation_next') }}</p>
     </div>
 
     <section aria-labelledby="portfolio-tools">
-      <h2 id="portfolio-tools" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+      <h2 id="portfolio-tools" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
         {{ t(_lang, 'portfolio.tools_heading') }}
       </h2>
     </section>
     <div class="space-y-5">
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.tools_body') }}</p>
-      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.disclosure_body') }}</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.tools_body') }}</p>
+      <p class="max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.disclosure_body') }}</p>
     </div>
   </div>
 
-  <section class="mt-12 border border-[#2b3759] bg-[#121828] p-6 sm:mt-16 sm:p-8" aria-labelledby="portfolio-next">
-    <h2 id="portfolio-next" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#65def0]">
+  <section class="mt-12 border border-[var(--border-strong)] bg-[var(--panel)] p-6 sm:mt-16 sm:p-8" aria-labelledby="portfolio-next">
+    <h2 id="portfolio-next" class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
       {{ t(_lang, 'portfolio.next_heading') }}
     </h2>
-    <p class="mt-4 max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[#cdd4e3]">{{ t(_lang, 'portfolio.next_body') }}</p>
+    <p class="mt-4 max-w-[65ch] font-sans text-[16px] leading-[1.7] text-[var(--text-medium)]">{{ t(_lang, 'portfolio.next_body') }}</p>
     <a href="/{{ _lang }}/about"
-       class="mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#65def0] underline underline-offset-4 decoration-[#3a8b9a] decoration-1 transition-colors hover:text-[#9eecf6] hover:decoration-[#65def0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#65def0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#121828]">
+       class="mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[var(--brand)] underline underline-offset-4 decoration-[var(--brand-dim)] decoration-1 transition-colors hover:text-[var(--brand-hover)] hover:decoration-[var(--brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--panel)]">
       {{ t(_lang, 'portfolio.back_to_about') }}
       <span aria-hidden="true">←</span>
     </a>

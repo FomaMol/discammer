@@ -23,6 +23,8 @@ interface SearchResult {
 interface SearchConsoleProps {
   lang?: Locale;
   query?: string;
+  restoreInputFocus?: boolean;
+  initialResults?: SearchResult[];
   apiPath?: string;
   placeholder?: string;
   submitLabel?: string;
@@ -42,6 +44,8 @@ function resultHref(lang: Locale, r: SearchResult): string {
 export default function SearchConsole({
   lang: langProp,
   query: initialQuery = '',
+  restoreInputFocus = false,
+  initialResults = [],
   apiPath = '/api/search',
   placeholder,
   submitLabel,
@@ -61,19 +65,31 @@ export default function SearchConsole({
   const resolvedGuideBadge = guideBadge ?? tr('badge_guide');
 
   const [query, setQuery] = useState(initialQuery);
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<SearchResult[]>(initialResults);
   const [active, setActive] = useState(-1); // -1 = no roving selection
   const [searched, setSearched] = useState(initialQuery.trim().length > 0);
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const previousQuery = useRef(initialQuery.trim());
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const listboxId = useId();
+  useEffect(() => { if (restoreInputFocus) inputRef.current?.focus(); }, [restoreInputFocus]);
 
   // Debounced, abortable fetch. A blank query clears results without a request.
   useEffect(() => {
     const q = query.trim();
+    let cancelled = false;
+    if (previousQuery.current !== q) setResults([]);
+    previousQuery.current = q;
+    abortRef.current?.abort();
+    setError(false);
+    setLoading(Boolean(q));
+    setActive(-1);
     if (!q) {
       abortRef.current?.abort();
       setResults([]);
@@ -90,19 +106,23 @@ export default function SearchConsole({
       fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } })
         .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
         .then((data: SearchResult[]) => {
+          if (cancelled) return;
+          if (!Array.isArray(data)) throw new Error("Invalid search response");
           setResults(Array.isArray(data) ? data : []);
           setActive(-1);
           setSearched(true);
         })
         .catch((err) => {
-          if (err?.name === 'AbortError') return; // superseded request
+          if (cancelled || err?.name === 'AbortError') return; // superseded request
           setResults([]);
           setActive(-1);
-          setSearched(true);
-        });
+          setError(true);
+          setSearched(false);
+        })
+        .finally(() => { if (!cancelled) setLoading(false); });
     }, DEBOUNCE_MS);
 
-    return () => window.clearTimeout(handle);
+    return () => { cancelled = true; window.clearTimeout(handle); abortRef.current?.abort(); };
   }, [query, lang, apiPath]);
 
   // Cancel any in-flight request on unmount.
@@ -148,7 +168,7 @@ export default function SearchConsole({
   );
 
   const activeId = active >= 0 ? `${listboxId}-opt-${active}` : undefined;
-  const showEmpty = searched && results.length > 0 ? false : searched && query.trim().length > 0;
+  const showEmpty = !loading && !error && searched && results.length === 0 && query.trim().length > 0;
 
   return (
     <div>
@@ -161,7 +181,7 @@ export default function SearchConsole({
         onSubmit={(e) => {
           // If JS handled navigation via an active selection, the input keydown
           // already prevented default. Otherwise allow the native GET submit.
-          if (active >= 0) e.preventDefault();
+          if (active >= 0 && results[active]) { e.preventDefault(); navigate(results[active]); }
         }}
       >
         <label htmlFor={`${listboxId}-input`} className="sr-only">
@@ -183,11 +203,11 @@ export default function SearchConsole({
           placeholder={resolvedPlaceholder}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={onKeyDown}
-          className="flex-1 min-w-0 bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-2.5 font-mono text-[14px] text-[#e7ecf5] placeholder:text-[#8b94a8]"
+          className="flex-1 min-w-0 bg-[var(--code)] border border-[var(--border)] focus:border-[var(--brand-dim)] focus:outline-none rounded-[4px] px-3 py-2.5 font-sans text-[16px] text-[var(--text)] placeholder:text-[var(--muted)]"
         />
         <button
           type="submit"
-          className="shrink-0 px-4 sm:px-5 py-2.5 font-mono uppercase text-[12px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[4px] cursor-pointer"
+          className="shrink-0 px-4 sm:px-5 py-2.5 font-mono uppercase text-[12px] tracking-[0.14em] font-bold bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition-colors rounded-[4px] cursor-pointer"
         >
           {resolvedSubmit}
         </button>
@@ -195,8 +215,8 @@ export default function SearchConsole({
 
       {/* Polite result-count announcement. Singular key avoids "1 results".
           Literal tr() calls per branch so the i18n audit sees both keys used. */}
-      <p aria-live="polite" className="sr-only">
-        {!searched
+      <p role="status" className={loading || error ? "mt-6 text-base text-[var(--muted)]" : "sr-only"}>
+        {loading ? tr('loading') : error ? tr('error') : !searched
           ? ''
           : results.length === 1
             ? tr('result_count_one', { count: results.length })
@@ -205,7 +225,7 @@ export default function SearchConsole({
 
       {results.length > 0 && (
         <>
-          <p className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums" aria-hidden="true">
+          <p className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums" aria-hidden="true">
             {results.length === 1
               ? tr('result_count_one', { count: results.length })
               : tr('result_count', { count: results.length })}
@@ -225,30 +245,30 @@ export default function SearchConsole({
                   aria-selected={i === active}
                   href={resultHref(lang, r)}
                   onMouseEnter={() => setActive(i)}
-                  className={`block border bg-[#121828] transition-colors rounded-[4px] px-4 py-3.5 ${
+                  className={`block border bg-[var(--panel)] transition-colors rounded-[4px] px-4 py-3.5 ${
                     i === active
-                      ? 'border-[#3a8b9a] bg-[#1a2236]'
-                      : 'border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236]'
+                      ? 'border-[var(--brand-dim)] bg-[var(--raised)]'
+                      : 'border-[var(--border)] hover:border-[var(--brand-dim)] hover:bg-[var(--raised)]'
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     {r.kind === 'guide' ? (
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#e76670]/10 text-[#e76670] border border-[#e76670]/40 rounded-sm" style={{ letterSpacing: '0.14em', fontWeight: 600 }}>
+                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--danger)]/10 text-[var(--danger)] border border-[var(--danger)]/40 rounded-sm" style={{ letterSpacing: '0.14em', fontWeight: 600 }}>
                         {resolvedGuideBadge}
                       </span>
                     ) : (
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style={{ letterSpacing: '0.14em', fontWeight: 600 }}>
+                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--brand)]/10 text-[var(--brand)] border border-[var(--brand)]/40 rounded-sm" style={{ letterSpacing: '0.14em', fontWeight: 600 }}>
                         {resolvedPostBadge}
                       </span>
                     )}
                   </div>
-                  <h2 className="font-mono font-bold text-[#e7ecf5] text-[15px]" style={{ letterSpacing: '-0.01em' }}>
+                  <h2 className="font-mono font-bold text-[var(--text)] text-[15px]" style={{ letterSpacing: '-0.01em' }}>
                     {r.title}
                   </h2>
                   {/* snippet_html is the only sanctioned dangerouslySetInnerHTML
                       field — server-escaped THEN marked (see module docstring). */}
                   <p
-                    className="mt-1 font-sans text-[13px] leading-[1.55] text-[#aab2c4] dcm-snippet"
+                    className="mt-1 font-sans text-[16px] leading-[1.65] text-[var(--text-soft)] dcm-snippet"
                     dangerouslySetInnerHTML={{ __html: r.snippet_html }}
                   />
                 </a>
@@ -259,7 +279,7 @@ export default function SearchConsole({
       )}
 
       {showEmpty && (
-        <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[#8b94a8]">
+        <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[var(--muted)]">
           {resolvedNoResults}
         </p>
       )}

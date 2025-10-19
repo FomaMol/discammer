@@ -46,18 +46,18 @@ export default function QuizWidget({ config }: Props) {
   const passedPill = tr('passed_pill');
 
   return (
-    <section className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+    <section className="relative bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
       <div className="flex items-center justify-between gap-3 mb-3">
-        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)]">
           {headingLabel}
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
           {config.choices.length} {tr('options_caption')}
         </div>
       </div>
 
       {/* Question — Geist sans, reads like prose */}
-      <h3 className="font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
+      <h3 className="font-sans text-[var(--text)] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]">
         {config.question}
       </h3>
 
@@ -71,15 +71,15 @@ export default function QuizWidget({ config }: Props) {
           let badge: { text: string; cls: string } | null = null;
 
           if (isCorrectShown) {
-            stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
-            badge = { text: correctLabel, cls: 'text-[#7ce896]' };
+            stateClass = 'border-[var(--success)] bg-[var(--success)]/10';
+            badge = { text: correctLabel, cls: 'text-[var(--success)]' };
           } else if (isWrongShown) {
-            stateClass = 'border-[#e76670] bg-[#e76670]/10';
-            badge = { text: incorrectLabel, cls: 'text-[#e76670]' };
+            stateClass = 'border-[var(--danger)] bg-[var(--danger)]/10';
+            badge = { text: incorrectLabel, cls: 'text-[var(--danger)]' };
           } else if (active) {
-            stateClass = 'border-[#65def0] bg-[#65def0]/8 text-[#65def0]';
+            stateClass = 'border-[var(--brand)] bg-[var(--brand)]/8 text-[var(--brand)]';
           } else {
-            stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+            stateClass = 'border-[var(--border)] hover:border-[var(--brand)] hover:bg-[var(--brand)]/5';
           }
 
           return (
@@ -96,17 +96,17 @@ export default function QuizWidget({ config }: Props) {
                   setSelected(i);
                   if (checked) setChecked(false);
                 }}
-                className="mt-1 accent-[#65def0] shrink-0"
+                className="mt-1 accent-[var(--brand)] shrink-0"
               />
               <span
-                className={`flex-1 font-sans text-[15px] leading-relaxed ${
+                className={`flex-1 font-sans text-[16px] leading-relaxed ${
                   active && !checked
-                    ? 'text-[#65def0]'
+                    ? 'text-[var(--brand)]'
                     : isCorrectShown
-                    ? 'text-[#e7ecf5]'
+                    ? 'text-[var(--text)]'
                     : isWrongShown
-                    ? 'text-[#e7ecf5]'
-                    : 'text-[#cdd4e3]'
+                    ? 'text-[var(--text)]'
+                    : 'text-[var(--text-medium)]'
                 }`}
               >
                 {choice.text}
@@ -128,17 +128,17 @@ export default function QuizWidget({ config }: Props) {
         <div
           className={`mt-4 p-4 border rounded-[3px] ${
             isCorrect
-              ? 'border-[#7ce896]/40 bg-[#7ce896]/5'
-              : 'border-[#f4b965]/40 bg-[#f4b965]/5'
+              ? 'border-[var(--success)]/40 bg-[var(--success)]/5'
+              : 'border-[var(--warning)]/40 bg-[var(--warning)]/5'
           }`}
         >
-          <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed">
+          <p className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
             {config.choices[selected]?.explanation}
           </p>
         </div>
       )}
       {checked && !isCorrect && config.hint && (
-        <p className="mt-3 font-sans text-[13px] text-[#aab2c4] italic">{config.hint}</p>
+        <p className="mt-3 font-sans text-[16px] text-[var(--text-soft)] italic">{config.hint}</p>
       )}
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -147,12 +147,12 @@ export default function QuizWidget({ config }: Props) {
             type="button"
             onClick={check}
             disabled={selected === null}
-            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
+            className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[var(--brand-dim)]"
           >
             <span aria-hidden="true">▸</span> {submitLabel}
           </button>
         ) : (
-          <span className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/10 border border-[#7ce896] text-[#7ce896] rounded-[4px]">
+          <span className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--success)]/10 border border-[var(--success)] text-[var(--success)] rounded-[4px]">
             {passedPill}
           </span>
         )}
@@ -160,7 +160,7 @@ export default function QuizWidget({ config }: Props) {
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#e7ecf5] transition"
+            className="min-h-11 inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[var(--text-soft)] hover:text-[var(--text)] transition"
           >
             ↺ {tryAgainLabel}
           </button>

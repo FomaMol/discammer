@@ -39,37 +39,37 @@ export default function OpsDebriefPanel({ takeaway, nextAction, lessonTitle }: P
 
   return (
     <section
-      className="bg-[#0b0f1a] border border-[#202a44] rounded-[4px] overflow-hidden mt-12"
+      className="bg-[var(--canvas)] border border-[var(--border)] rounded-[4px] overflow-hidden mt-12"
       aria-label="Operator debrief"
     >
-      <header className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#202a44] bg-[#121828]/60">
-        <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-        <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-        <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
+      <header className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[var(--border)] bg-[var(--panel)]/60">
+        <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+        <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+        <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[var(--success)]">
           {heading}
         </span>
       </header>
       <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-3.5">
         <div className="flex items-start gap-3">
           <span
-            className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896] pt-0.5 shrink-0 w-[110px]"
+            className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--success)] pt-0.5 shrink-0 w-[110px]"
             aria-hidden="true"
           >
             ▸ {takeawayLabel}
           </span>
-          <p className="flex-1 font-sans text-[14px] sm:text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
+          <p className="flex-1 font-sans text-[16px] text-[var(--text-medium)] leading-relaxed max-w-[62ch]">
             {final.takeaway}
           </p>
         </div>
-        <div className="flex items-start gap-3 pt-3 border-t border-[#202a44]">
+        <div className="flex items-start gap-3 pt-3 border-t border-[var(--border)]">
           <span
-            className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#f4b965] pt-0.5 shrink-0 w-[110px]"
+            className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--warning)] pt-0.5 shrink-0 w-[110px]"
             aria-hidden="true"
           >
             ▸ {nextActionLabel}
           </span>
-          <p className="flex-1 font-sans text-[14px] sm:text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
+          <p className="flex-1 font-sans text-[16px] text-[var(--text-medium)] leading-relaxed max-w-[62ch]">
             {final.nextAction}
           </p>
         </div>

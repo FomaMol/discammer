@@ -71,19 +71,19 @@
      ───────────────────────────────────────────────────────────────────── #}
   <header class="mb-8 sm:mb-10" aria-label="{{ t(_lang, 'a11y.masthead') }}">
     <!-- 1px top rule, dark cyan tint -->
-    <div class="h-px w-full" style="background-color: #2b3759;" aria-hidden="true"></div>
+    <div class="h-px w-full" style="background-color: var(--border-strong);" aria-hidden="true"></div>
 
     <!-- Eyebrow: > JOURNAL -->
     <div
-      class="pt-5 sm:pt-7 mb-3 sm:mb-4 font-mono text-[11px] text-[#65def0] uppercase"
+      class="pt-5 sm:pt-7 mb-3 sm:mb-4 font-mono text-[11px] text-[var(--brand)] uppercase"
       style="font-weight: 600; letter-spacing: 0.16em;"
     >
-      <span class="text-[#3a8b9a]" aria-hidden="true">&gt;</span> {{ t(_lang, 'journalpage.eyebrow') }}
+      <span class="text-[var(--brand-dim)]" aria-hidden="true">&gt;</span> {{ t(_lang, 'journalpage.eyebrow') }}
     </div>
 
     <!-- Masthead headline -->
     <h1
-      class="font-mono text-[#f3f5fa] break-words"
+      class="font-mono text-[var(--text-strong)] break-words"
       style="font-weight: 800; font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem); letter-spacing: -0.04em; line-height: 1; text-transform: uppercase; text-wrap: balance;"
     >
       {{ t(_lang, 'journalpage.masthead') }}
@@ -91,7 +91,7 @@
 
     <!-- Lede -->
     <p
-      class="mt-4 text-[17px] text-[#aab2c4] max-w-[54ch]"
+      class="mt-4 text-[17px] text-[var(--text-soft)] max-w-[54ch]"
       style="line-height: 1.6; text-wrap: pretty;"
     >
       {{ t(_lang, 'journalpage.lede') }}
@@ -99,7 +99,7 @@
 
     <!-- Dateline strip: single line, mono-meta, tabular figures (real now()) -->
     <div
-      class="flex items-center mt-6 pt-3 pb-2 border-t border-[#202a44] font-mono uppercase text-[10px] sm:text-[11px] text-[#8b94a8] tabular-nums"
+      class="flex items-center mt-6 pt-3 pb-2 border-t border-[var(--border)] font-mono uppercase text-[10px] sm:text-[11px] text-[var(--muted)] tabular-nums"
       style="letter-spacing: 0.14em; font-weight: 600;"
       role="group"
       aria-label="{{ t(_lang, 'a11y.dateline') }}"
@@ -113,7 +113,7 @@
     <!-- Dashed 1px rule under dateline -->
     <div
       class="w-full"
-      style="border-bottom: 1px dashed #202a44; height: 0;"
+      style="border-bottom: 1px dashed var(--border); height: 0;"
       aria-hidden="true"
     ></div>
   </header>
@@ -132,44 +132,44 @@
      no-JS browsers still see content. Layout is intentionally simple here —
      the broadsheet treatment lives in the React island above.
      ───────────────────────────────────────────────────────────────────── #}
-  <noscript>
+  <div id="journal-foundation">
     <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {% for post in posts %}
-      <a href="/{{ _lang }}/journal/{{ post.slug }}" class="block bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors duration-300 p-4 rounded-sm">
+      <a href="/{{ _lang }}/journal/{{ post.slug }}" class="block bg-[var(--panel)] border border-[var(--border)] hover:border-[var(--brand-dim)] hover:bg-[var(--raised)] transition-colors duration-300 p-4 rounded-sm">
         <div class="flex items-center gap-3 mb-3">
           {% if post.type == 'interview' %}
-          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#65def0]/10 text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
+          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--brand)]/10 text-[var(--brand)] border border-[var(--brand)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_interview') }}</span>
           {% elif post.type == 'newsletter' %}
-          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#7ce896]/10 text-[#7ce896] border border-[#7ce896]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
+          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--success)]/10 text-[var(--success)] border border-[var(--success)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_newsletter') }}</span>
           {% elif post.type == 'article' %}
-          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#f4b965]/10 text-[#f4b965] border border-[#f4b965]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
+          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--warning)]/10 text-[var(--warning)] border border-[var(--warning)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.filter_article') }}</span>
           {% else %}
-          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#aab2c4]/10 text-[#aab2c4] border border-[#aab2c4]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ post.type }}</span>
+          <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--text-soft)]/10 text-[var(--text-soft)] border border-[var(--text-soft)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ post.type }}</span>
           {% endif %}
-          <span class="text-[11px] font-mono text-[#8b94a8] tabular-nums">{{ post.published_at }}</span>
+          <span class="text-[11px] font-mono text-[var(--muted)] tabular-nums">{{ post.published_at }}</span>
         </div>
-        <h2 class="font-mono font-bold text-[#e7ecf5] mt-2" style="letter-spacing: -0.01em;">{{ post.title }}</h2>
-        <p class="text-[#aab2c4] text-sm mt-1 line-clamp-2">{{ post.subtitle }}</p>
+        <h2 class="font-mono font-bold text-[var(--text)] mt-2" style="letter-spacing: -0.01em;">{{ post.title }}</h2>
+        <p class="text-[var(--text-soft)] text-sm mt-1 line-clamp-2">{{ post.subtitle }}</p>
       </a>
       {% endfor %}
     </div>
 
     {% if guides %}
     <div class="mt-12 mb-6">
-      <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2" style="font-weight: 600;">{{ t(_lang, 'journal.threat_db_eyebrow') }}</div>
-      <h2 class="font-mono font-bold text-[#65def0] text-xl sm:text-2xl" style="letter-spacing: -0.02em;">{{ t(_lang, 'journal.threat_db_heading') }}</h2>
+      <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2" style="font-weight: 600;">{{ t(_lang, 'journal.threat_db_eyebrow') }}</div>
+      <h2 class="font-mono font-bold text-[var(--brand)] text-xl sm:text-2xl" style="letter-spacing: -0.02em;">{{ t(_lang, 'journal.threat_db_heading') }}</h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {% for guide in guides %}
-      <a href="/{{ _lang }}/guide/{{ guide.slug }}" class="block bg-[#121828] border border-[#202a44] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors duration-300 p-4 rounded-sm">
-        <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#e76670]/10 text-[#e76670] border border-[#e76670]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.guide_badge') }}</span>
-        <h3 class="font-mono font-bold text-[#e7ecf5] mt-2" style="letter-spacing: -0.01em;">{{ guide.title }}</h3>
-        <p class="text-[#aab2c4] text-sm mt-1 line-clamp-2">{{ guide.description }}</p>
+      <a href="/{{ _lang }}/guide/{{ guide.slug }}" class="block bg-[var(--panel)] border border-[var(--border)] hover:border-[var(--brand-dim)] hover:bg-[var(--raised)] transition-colors duration-300 p-4 rounded-sm">
+        <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--danger)]/10 text-[var(--danger)] border border-[var(--danger)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'journal.guide_badge') }}</span>
+        <h3 class="font-mono font-bold text-[var(--text)] mt-2" style="letter-spacing: -0.01em;">{{ guide.title }}</h3>
+        <p class="text-[var(--text-soft)] text-sm mt-1 line-clamp-2">{{ guide.description }}</p>
       </a>
       {% endfor %}
     </div>
     {% endif %}
-  </noscript>
+  </div>
 
   {# Archive block removed — the previous "VOL. IV NO. 20" links were all
      dead anchors (href="#") and the VOL/NO numbers were fabricated from the

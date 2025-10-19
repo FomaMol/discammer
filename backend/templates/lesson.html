@@ -51,27 +51,27 @@
      "course" segment is localized; module + lesson slugs stay ASCII so URL
      identifiers remain language-neutral. #}
   <nav aria-label="{{ t(_lang, 'a11y.breadcrumb') }}" class="mb-5">
-    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[#8b94a8]">
-      <li><a href="/{{ _lang }}/course" class="hover:text-[#65def0] transition">{{ t(_lang, 'breadcrumb.course') }}</a></li>
+    <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[12px] tracking-[0.02em] text-[var(--muted)]">
+      <li><a href="/{{ _lang }}/course" class="hover:text-[var(--brand)] transition">{{ t(_lang, 'breadcrumb.course') }}</a></li>
       <li aria-hidden="true">/</li>
-      <li><a href="/{{ _lang }}/course/{{ module.slug }}" class="hover:text-[#65def0] transition">{{ module.slug }}</a></li>
+      <li><a href="/{{ _lang }}/course/{{ module.slug }}" class="hover:text-[var(--brand)] transition">{{ module.slug }}</a></li>
       <li aria-hidden="true">/</li>
-      <li class="text-[#aab2c4]" aria-current="page">{{ lesson.slug }}</li>
+      <li class="text-[var(--text-soft)]" aria-current="page">{{ lesson.slug }}</li>
     </ol>
   </nav>
 
   {# OPERATOR LOG header strip — mono single-line, tabular-nums #}
   {% set _entry_no = ((module.order|int) * 100) + (lesson.order|int) %}
-  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] mb-3 tabular-nums break-words">
+  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[var(--muted)] mb-3 tabular-nums break-words">
     {{ t(_lang, 'lesson.operator_log_label') }}
-    <span class="text-[#aab2c4]">·</span>
+    <span class="text-[var(--text-soft)]">·</span>
     {{ t(_lang, 'lesson.entry_label') }} {{ "%03d"|format(_entry_no) }}
-    <span class="text-[#aab2c4]">·</span>
+    <span class="text-[var(--text-soft)]">·</span>
     {{ t(_lang, 'lesson.mission_short') }} {{ "%02d"|format(module.order) }}
-    <span class="text-[#aab2c4]">·</span>
-    {{ t(_lang, 'lesson.briefing_label') }} {{ "%02d"|format(lesson.order) }} <span class="text-[#aab2c4]">{{ t(_lang, 'lesson.of') }}</span> {{ "%02d"|format(lessons|length) }}
-    <span class="text-[#aab2c4]">·</span>
-    <span class="text-[#aab2c4]">EST {{ lesson.est_minutes }} {{ t(_lang, 'course.minutes_short') | upper }}</span>
+    <span class="text-[var(--text-soft)]">·</span>
+    {{ t(_lang, 'lesson.briefing_label') }} {{ "%02d"|format(lesson.order) }} <span class="text-[var(--text-soft)]">{{ t(_lang, 'lesson.of') }}</span> {{ "%02d"|format(lessons|length) }}
+    <span class="text-[var(--text-soft)]">·</span>
+    <span class="text-[var(--text-soft)]">EST {{ lesson.est_minutes }} {{ t(_lang, 'course.minutes_short') | upper }}</span>
   </div>
 
   {# Slatted progress bar — N narrow slats per briefing in this mission.
@@ -83,12 +83,12 @@
        aria-valuemax="{{ lessons|length }}"
        aria-label="{{ t(_lang, 'lesson.briefing_label') }} {{ lesson.order }} {{ t(_lang, 'lesson.of') }} {{ lessons|length }}">
     {% for l in lessons %}
-    <div class="flex-1 h-[4px] rounded-[1px] {% if l.order < lesson.order %}bg-[#7ce896]{% elif l.slug == lesson.slug %}bg-[#65def0]{% else %}bg-[#202a44]{% endif %}" aria-hidden="true"></div>
+    <div class="flex-1 h-[4px] rounded-[1px] {% if l.order < lesson.order %}bg-[var(--success)]{% elif l.slug == lesson.slug %}bg-[var(--brand)]{% else %}bg-[var(--border)]{% endif %}" aria-hidden="true"></div>
     {% endfor %}
   </div>
 
   {# h1 — display-article style (sentence case) #}
-  <h1 class="font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)]">
+  <h1 class="font-mono font-bold text-[var(--text-strong)] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)]">
     {{ lesson.title }}
   </h1>
 
@@ -120,32 +120,32 @@
     "takeaway": lesson.summary if lesson.summary else None,
     "nextAction": lesson.next_action if lesson.next_action else None
   } | tojson | forceescape }}'>
-    <noscript>
-      <section class="bg-[#0b0f1a] border border-[#202a44] rounded-[4px] overflow-hidden mt-12">
-        <header class="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#202a44] bg-[#121828]/60">
-          <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
-          <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
-          <span class="block w-2 h-2 rounded-full border border-[#2b3759]"></span>
-          <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7ce896]">
+
+      <section class="bg-[var(--canvas)] border border-[var(--border)] rounded-[4px] overflow-hidden mt-12">
+        <header class="flex items-center gap-2.5 px-4 py-2.5 border-b border-[var(--border)] bg-[var(--panel)]/60">
+          <span class="block w-2 h-2 rounded-full border border-[var(--border-strong)]"></span>
+          <span class="block w-2 h-2 rounded-full border border-[var(--border-strong)]"></span>
+          <span class="block w-2 h-2 rounded-full border border-[var(--border-strong)]"></span>
+          <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--success)]">
             {{ t(_lang, 'course.debrief_header') }}
           </span>
         </header>
         <div class="px-4 sm:px-6 py-4 space-y-3">
-          <p class="font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
-            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">▸ {{ t(_lang, 'course.debrief_takeaway_label') }}</span><br>
+          <p class="font-sans text-[15px] text-[var(--text-medium)] leading-relaxed">
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--success)]">▸ {{ t(_lang, 'course.debrief_takeaway_label') }}</span><br>
             {{ t(_lang, 'course.debrief_fallback_takeaway') }}
           </p>
-          <p class="font-sans text-[15px] text-[#cdd4e3] leading-relaxed pt-3 border-t border-[#202a44]">
-            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#f4b965]">▸ {{ t(_lang, 'course.debrief_next_action_label') }}</span><br>
+          <p class="font-sans text-[15px] text-[var(--text-medium)] leading-relaxed pt-3 border-t border-[var(--border)]">
+            <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--warning)]">▸ {{ t(_lang, 'course.debrief_next_action_label') }}</span><br>
             {{ t(_lang, 'course.debrief_fallback_next_action') }}
           </p>
         </div>
       </section>
-    </noscript>
+
   </div>
 
   {# Footer: mark complete + prev/next #}
-  <div class="mt-8 pt-6 border-t border-[#202a44]">
+  <div class="mt-8 pt-6 border-t border-[var(--border)]">
     <div data-component="LessonFooter" data-props="{{ {
       'moduleSlug': module.slug,
       'lessonSlug': lesson.slug,
@@ -156,16 +156,16 @@
       'nextTitle': next_lesson.title if next_lesson else None,
       'moduleHref': '/' ~ _lang ~ '/course/' ~ module.slug,
     } | tojson | forceescape }}">
-      <noscript>
-        <div class="flex items-center justify-between">
+
+        <div class="flex flex-wrap items-center justify-between gap-4">
           {% if prev_lesson %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ prev_lesson.slug }}" class="text-[#aab2c4] hover:text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'lesson.prev_briefing') }}</a>
+          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ prev_lesson.slug }}" class="text-[var(--text-soft)] hover:text-[var(--brand)] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'lesson.prev_briefing') }}</a>
           {% else %}<span></span>{% endif %}
           {% if next_lesson %}
-          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ next_lesson.slug }}" class="text-[#65def0] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'lesson.next_briefing') }}</a>
+          <a href="/{{ _lang }}/course/{{ module.slug }}/{{ next_lesson.slug }}" class="text-[var(--brand)] text-sm font-mono uppercase tracking-[0.14em]">{{ t(_lang, 'lesson.next_briefing') }}</a>
           {% endif %}
         </div>
-      </noscript>
+
     </div>
   </div>
 

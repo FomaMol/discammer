@@ -35,19 +35,19 @@ export default function ObjectivesPanel({ locale, objectives, moduleTitle }: Pro
 
   return (
     <section
-      className="bg-[#121828] border border-[#202a44] rounded-[4px] overflow-hidden"
+      className="bg-[var(--panel)] border border-[var(--border)] rounded-[4px] overflow-hidden"
       aria-label="Module objectives"
     >
-      <header className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60">
+      <header className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[var(--border)] bg-[var(--raised)]/60">
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-          <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-          <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
+          <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+          <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+          <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[var(--brand)]">
             {heading}
           </span>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] hidden sm:inline">
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] hidden sm:inline">
           {subtitle}
         </span>
       </header>
@@ -55,9 +55,9 @@ export default function ObjectivesPanel({ locale, objectives, moduleTitle }: Pro
         {items.map((line, i) => (
           <li
             key={i}
-            className="flex items-start gap-3 font-mono text-[12px] sm:text-[13px] uppercase tracking-[0.06em] leading-[1.7] text-[#cdd4e3]"
+            className="flex items-start gap-3 font-mono text-[16px] tracking-[0.01em] leading-[1.7] text-[var(--text-medium)]"
           >
-            <span className="text-[#f4b965] shrink-0 font-bold" aria-hidden="true">
+            <span className="text-[var(--warning)] shrink-0 font-bold" aria-hidden="true">
               ▸
             </span>
             <span className="flex-1 break-words">{line}</span>

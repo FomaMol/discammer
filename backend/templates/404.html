@@ -20,65 +20,65 @@
 
     {# Terminal block — DESIGN.md `terminal-block`, three header dots in muted
        hairline gray (not macOS red/yellow/green). Tinted shadow for lift. #}
-    <div class="border border-[#202a44] bg-[#0a0d16] rounded-[6px] overflow-hidden ds-grain shadow-[0_24px_60px_-20px_rgba(8,11,20,0.7)]">
+    <div class="border border-[var(--border)] bg-[var(--code)] rounded-[6px] overflow-hidden ds-grain shadow-[0_24px_60px_-20px_rgba(8,11,20,0.7)]">
 
       {# Header strip — three dots + the log filename #}
-      <div class="flex items-center gap-1.5 px-3 h-[30px] border-b border-[#202a44] bg-gradient-to-r from-[#1a2236] to-[#121828]">
-        <span class="w-2 h-2 rounded-full bg-[#2b3759]" aria-hidden="true"></span>
-        <span class="w-2 h-2 rounded-full bg-[#8b94a8]" aria-hidden="true"></span>
-        <span class="w-2 h-2 rounded-full bg-[#8b94a8]" aria-hidden="true"></span>
-        <span class="ml-auto text-[10px] tracking-[0.14em] text-[#8b94a8] tabular-nums">trace_route.log</span>
+      <div class="flex items-center gap-1.5 px-3 h-[30px] border-b border-[var(--border)] bg-gradient-to-r from-[var(--raised)] to-[var(--panel)]">
+        <span class="w-2 h-2 rounded-full bg-[var(--border-strong)]" aria-hidden="true"></span>
+        <span class="w-2 h-2 rounded-full bg-[var(--muted)]" aria-hidden="true"></span>
+        <span class="w-2 h-2 rounded-full bg-[var(--muted)]" aria-hidden="true"></span>
+        <span class="ml-auto text-[10px] tracking-[0.14em] text-[var(--muted)] tabular-nums">trace_route.log</span>
       </div>
 
       {# Body — the trace transcript #}
-      <div class="px-6 py-7 text-[13.5px] leading-[2] text-[#aab2c4]">
+      <div class="px-6 py-7 text-[13.5px] leading-[2] text-[var(--text-soft)]">
 
         {# Line 1: locating #}
         <div>
-          <span class="text-[#65def0]" aria-hidden="true">&gt;</span>
+          <span class="text-[var(--brand)]" aria-hidden="true">&gt;</span>
           <span class="ml-1">{{ t(_lang, 'not_found.trace_locating') }}</span>
         </div>
 
         {# Line 2: signal lost #}
-        <div class="text-[#e76670]">
+        <div class="text-[var(--danger)]">
           <span aria-hidden="true">&times;</span>
           <span class="ml-1 tabular-nums">404</span>
-          <span class="text-[#8b94a8]" aria-hidden="true">·</span>
+          <span class="text-[var(--muted)]" aria-hidden="true">·</span>
           <span>{{ t(_lang, 'not_found.trace_signal_lost') }}</span>
         </div>
 
         {# Line 3: the page is gone (muted mono) #}
-        <div class="text-[#8b94a8]">{{ t(_lang, 'not_found.trace_moved') }}</div>
+        <div class="text-[var(--muted)]">{{ t(_lang, 'not_found.trace_moved') }}</div>
 
         {# Divider #}
-        <div class="my-[18px] h-px bg-[#202a44]" aria-hidden="true"></div>
+        <div class="my-[18px] h-px bg-[var(--border)]" aria-hidden="true"></div>
 
         {# Geist reframe — the reading line, sentence-case, not mono #}
-        <p class="font-sans text-[15px] leading-[1.6] text-[#e7ecf5]">{{ t(_lang, 'not_found.reframe') }}</p>
+        <p class="font-sans text-[15px] leading-[1.6] text-[var(--text)]">{{ t(_lang, 'not_found.reframe') }}</p>
 
         {# CTAs — real route changes, not modals #}
         <div class="flex flex-wrap gap-2.5 mt-[22px]">
           <a href="/{{ _lang }}/"
-             class="inline-flex items-center text-[12px] font-bold tracking-[0.1em] uppercase text-[#0b0f1a] bg-[#65def0] rounded-[4px] px-[18px] py-[11px] hover:bg-[#9eecf6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#65def0] transition-colors">
+             class="inline-flex items-center text-[12px] font-bold tracking-[0.1em] uppercase text-[var(--canvas)] bg-[var(--brand)] rounded-[4px] px-[18px] py-[11px] hover:bg-[var(--brand-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] transition-colors">
             {{ t(_lang, 'not_found.cta_home') }}
           </a>
           <a href="/{{ _lang }}/journal#threat-database"
-             class="inline-flex items-center text-[12px] font-bold tracking-[0.1em] uppercase text-[#e7ecf5] bg-transparent border border-[#2b3759] rounded-[4px] px-[18px] py-[11px] hover:border-[#3a8b9a] hover:text-[#9eecf6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#65def0] transition-colors">
+             class="inline-flex items-center text-[12px] font-bold tracking-[0.1em] uppercase text-[var(--text)] bg-transparent border border-[var(--border-strong)] rounded-[4px] px-[18px] py-[11px] hover:border-[var(--brand-dim)] hover:text-[var(--brand-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] transition-colors">
             {{ t(_lang, 'not_found.cta_threat_db') }}
           </a>
         </div>
 
         {# Trailing prompt with blinking cursor #}
-        <div class="mt-[18px] text-[12px] text-[#8b94a8]">
+        <div class="mt-[18px] text-[12px] text-[var(--muted)]">
           <span aria-hidden="true">&gt;</span>
           <span class="ml-1">{{ t(_lang, 'not_found.trace_awaiting') }}</span>
-          <span class="cursor-blink inline-block w-[7px] h-[13px] bg-[#65def0] align-[-2px] ml-1" aria-hidden="true"></span>
+          <span class="cursor-blink inline-block w-[7px] h-[13px] bg-[var(--brand)] align-[-2px] ml-1" aria-hidden="true"></span>
         </div>
       </div>
     </div>
 
     {# Single-line system caption below the terminal #}
-    <p class="mt-5 sm:mt-6 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#8b94a8] tabular-nums text-center">
+    <p class="mt-5 sm:mt-6 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[var(--muted)] tabular-nums text-center">
       {{ t(_lang, 'not_found.system_log_caption') }}
     </p>
   </div>

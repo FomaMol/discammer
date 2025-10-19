@@ -125,11 +125,11 @@ export default function ExamWidget({ config }: Props) {
 
   if (total === 0) {
     return (
-      <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
-        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
+      <section className="bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)] mb-3">
           {heading}
         </div>
-        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#8b94a8]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[var(--muted)]">
           {tr('empty')}
         </p>
       </section>
@@ -143,8 +143,8 @@ export default function ExamWidget({ config }: Props) {
     const pct100 = Math.round(ratio * 100);
 
     return (
-      <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
-        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
+      <section className="bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)] mb-3">
           {heading}
           {' // '}
           {tr('result_suffix')}
@@ -154,13 +154,13 @@ export default function ExamWidget({ config }: Props) {
         <div
           className={`mt-2 p-4 sm:p-5 border rounded-[3px] ${
             passed
-              ? 'border-[#7ce896] bg-[#7ce896]/8'
-              : 'border-[#e76670] bg-[#e76670]/8'
+              ? 'border-[var(--success)] bg-[var(--success)]/8'
+              : 'border-[var(--danger)] bg-[var(--danger)]/8'
           }`}
         >
           <div
             className={`font-mono text-[12px] sm:text-[14px] uppercase tracking-[0.18em] font-bold ${
-              passed ? 'text-[#7ce896]' : 'text-[#e76670]'
+              passed ? 'text-[var(--success)]' : 'text-[var(--danger)]'
             }`}
           >
             {passed ? (
@@ -177,14 +177,14 @@ export default function ExamWidget({ config }: Props) {
           </div>
           <div
             className={`mt-2 font-mono text-2xl sm:text-3xl tabular-nums font-extrabold ${
-              passed ? 'text-[#7ce896]' : 'text-[#e76670]'
+              passed ? 'text-[var(--success)]' : 'text-[var(--danger)]'
             }`}
           >
             {score}/{total}
           </div>
         </div>
 
-        <p className="mt-4 font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
+        <p className="mt-4 font-sans text-[16px] text-[var(--text-medium)] leading-relaxed max-w-[62ch]">
           {passed
             ? `${tr('score_passed_prefix')} ${pct100}${tr('score_passed_body', {
                 threshold: Math.round(threshold * 100),
@@ -195,7 +195,7 @@ export default function ExamWidget({ config }: Props) {
         </p>
 
         <details className="mt-4">
-          <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0]">
+          <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-soft)] hover:text-[var(--brand)]">
             ▸ {reviewLabel}
           </summary>
           <ol className="mt-3 space-y-3">
@@ -206,20 +206,20 @@ export default function ExamWidget({ config }: Props) {
                 <li
                   key={i}
                   className={`p-3 border rounded-[3px] ${
-                    correct ? 'border-[#7ce896]/40 bg-[#7ce896]/5' : 'border-[#e76670]/40 bg-[#e76670]/5'
+                    correct ? 'border-[var(--success)]/40 bg-[var(--success)]/5' : 'border-[var(--danger)]/40 bg-[var(--danger)]/5'
                   }`}
                 >
                   <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em]">
-                    <span className="text-[#8b94a8] tabular-nums">Q{(i + 1).toString().padStart(2, '0')}</span>
-                    {q.module && <span className="text-[#aab2c4]">· {q.module}</span>}
-                    <span className={correct ? 'text-[#7ce896]' : 'text-[#e76670]'}>
+                    <span className="text-[var(--muted)] tabular-nums">Q{(i + 1).toString().padStart(2, '0')}</span>
+                    {q.module && <span className="text-[var(--text-soft)]">· {q.module}</span>}
+                    <span className={correct ? 'text-[var(--success)]' : 'text-[var(--danger)]'}>
                       · {correct ? correctLabel : incorrectLabel}
                     </span>
                   </div>
-                  <div className="mt-1.5 font-sans text-[14px] text-[#e7ecf5] leading-snug">{q.question}</div>
+                  <div className="mt-1.5 font-sans text-[16px] text-[var(--text)] leading-snug">{q.question}</div>
                   {!correct && q.choices.find((c) => c.correct) && (
-                    <div className="mt-1.5 font-sans text-[13px] text-[#aab2c4]">
-                      <span className="text-[#7ce896]">
+                    <div className="mt-1.5 font-sans text-[16px] text-[var(--text-soft)]">
+                      <span className="text-[var(--success)]">
                         {tr('review_correct_label')}
                       </span>{' '}
                       {q.choices.find((c) => c.correct)?.text}
@@ -235,7 +235,7 @@ export default function ExamWidget({ config }: Props) {
           <button
             type="button"
             onClick={restart}
-            className="inline-flex items-center gap-2 px-4 py-2 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
+            className="min-h-11 inline-flex items-center gap-2 px-4 py-2 font-mono uppercase text-[11px] tracking-[0.14em] text-[var(--text-soft)] hover:text-[var(--brand)] transition"
           >
             ↺ {restartLabel}
           </button>
@@ -249,12 +249,12 @@ export default function ExamWidget({ config }: Props) {
   const isLast = index === total - 1;
 
   return (
-    <section className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
+    <section className="bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
       <div className="flex items-center justify-between mb-3">
-        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)]">
           {heading}
         </div>
-        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
+        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-soft)] tabular-nums">
           {progressLabel}{(index + 1).toString().padStart(2, '0')} / {total.toString().padStart(2, '0')}
         </div>
       </div>
@@ -262,9 +262,9 @@ export default function ExamWidget({ config }: Props) {
       {/* Progress bar — slats per question */}
       <div className="mb-5 flex gap-[2px]" aria-hidden="true">
         {Array.from({ length: total }).map((_, i) => {
-          let bg = 'bg-[#202a44]';
-          if (i < index) bg = 'bg-[#7ce896]';
-          else if (i === index) bg = 'bg-[#65def0]';
+          let bg = 'bg-[var(--border)]';
+          if (i < index) bg = 'bg-[var(--success)]';
+          else if (i === index) bg = 'bg-[var(--brand)]';
           return <div key={i} className={`flex-1 h-[3px] ${bg} rounded-[1px]`} />;
         })}
       </div>
@@ -272,13 +272,13 @@ export default function ExamWidget({ config }: Props) {
       {current && (
         <>
           {current.module && (
-            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2">
+            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2">
               {current.module}
             </div>
           )}
           <h3
             id={`${radioGroup}-question-${index}`}
-            className="font-sans text-[#e7ecf5] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]"
+            className="font-sans text-[var(--text)] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]"
           >
             {current.question}
           </h3>
@@ -296,15 +296,15 @@ export default function ExamWidget({ config }: Props) {
               let stateClass: string;
               let badge: { text: string; cls: string } | null = null;
               if (isCorrectShown) {
-                stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
-                badge = { text: correctLabel, cls: 'text-[#7ce896]' };
+                stateClass = 'border-[var(--success)] bg-[var(--success)]/10';
+                badge = { text: correctLabel, cls: 'text-[var(--success)]' };
               } else if (isWrongShown) {
-                stateClass = 'border-[#e76670] bg-[#e76670]/10';
-                badge = { text: incorrectLabel, cls: 'text-[#e76670]' };
+                stateClass = 'border-[var(--danger)] bg-[var(--danger)]/10';
+                badge = { text: incorrectLabel, cls: 'text-[var(--danger)]' };
               } else if (isPicked) {
-                stateClass = 'border-[#65def0] bg-[#65def0]/8';
+                stateClass = 'border-[var(--brand)] bg-[var(--brand)]/8';
               } else {
-                stateClass = 'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+                stateClass = 'border-[var(--border)] hover:border-[var(--brand)] hover:bg-[var(--brand)]/5';
               }
 
               return (
@@ -318,9 +318,9 @@ export default function ExamWidget({ config }: Props) {
                     value={i}
                     checked={isPicked}
                     onChange={() => setPicked(i)}
-                    className="mt-1 accent-[#65def0] shrink-0"
+                    className="mt-1 accent-[var(--brand)] shrink-0"
                   />
-                  <span className="flex-1 font-sans text-[15px] text-[#cdd4e3] leading-relaxed">
+                  <span className="flex-1 font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
                     {choice.text}
                   </span>
                   {badge && (
@@ -339,11 +339,11 @@ export default function ExamWidget({ config }: Props) {
             <div
               className={`mt-4 p-3 border rounded-[3px] ${
                 current.choices[answers[index]]?.correct
-                  ? 'border-[#7ce896]/40 bg-[#7ce896]/5'
-                  : 'border-[#f4b965]/40 bg-[#f4b965]/5'
+                  ? 'border-[var(--success)]/40 bg-[var(--success)]/5'
+                  : 'border-[var(--warning)]/40 bg-[var(--warning)]/5'
               }`}
             >
-              <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed">
+              <p className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
                 {current.choices[answers[index]]?.explanation}
               </p>
             </div>
@@ -355,7 +355,7 @@ export default function ExamWidget({ config }: Props) {
                 type="button"
                 onClick={submit}
                 disabled={picked === null}
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
+                className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[var(--brand-dim)]"
               >
                 <span aria-hidden="true">▸</span> {submitLabel}
               </button>
@@ -363,7 +363,7 @@ export default function ExamWidget({ config }: Props) {
               <button
                 type="button"
                 onClick={finish}
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold"
+                className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--success)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold"
               >
                 {finishLabel}
               </button>
@@ -371,7 +371,7 @@ export default function ExamWidget({ config }: Props) {
               <button
                 type="button"
                 onClick={next}
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold"
+                className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold"
               >
                 {nextLabel}
               </button>

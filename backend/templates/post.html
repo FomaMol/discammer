@@ -83,24 +83,24 @@
 {# Type label + color, in language. Used for the kicker chip + filed-under. #}
 {% if post.type == 'interview' %}
   {% set _type_label = t(_lang, 'journal.filter_interview') %}
-  {% set _type_color = '#65def0' %}
-  {% set _type_bg = 'rgba(101,222,240,0.08)' %}
-  {% set _type_border = 'rgba(101,222,240,0.4)' %}
+  {% set _type_color = 'var(--brand)' %}
+  {% set _type_bg = 'color-mix(in srgb,var(--brand) 8%,transparent)' %}
+  {% set _type_border = 'color-mix(in srgb,var(--brand) 40%,transparent)' %}
 {% elif post.type == 'newsletter' %}
   {% set _type_label = t(_lang, 'journal.filter_newsletter') %}
-  {% set _type_color = '#7ce896' %}
-  {% set _type_bg = 'rgba(124,232,150,0.08)' %}
-  {% set _type_border = 'rgba(124,232,150,0.4)' %}
+  {% set _type_color = 'var(--success)' %}
+  {% set _type_bg = 'color-mix(in srgb,var(--success) 8%,transparent)' %}
+  {% set _type_border = 'color-mix(in srgb,var(--success) 40%,transparent)' %}
 {% elif post.type == 'article' %}
   {% set _type_label = t(_lang, 'journal.filter_article') %}
-  {% set _type_color = '#f4b965' %}
-  {% set _type_bg = 'rgba(244,185,101,0.08)' %}
-  {% set _type_border = 'rgba(244,185,101,0.4)' %}
+  {% set _type_color = 'var(--warning)' %}
+  {% set _type_bg = 'color-mix(in srgb,var(--warning) 8%,transparent)' %}
+  {% set _type_border = 'color-mix(in srgb,var(--warning) 40%,transparent)' %}
 {% else %}
   {% set _type_label = post.type | upper %}
-  {% set _type_color = '#aab2c4' %}
-  {% set _type_bg = 'rgba(170,178,196,0.08)' %}
-  {% set _type_border = 'rgba(170,178,196,0.4)' %}
+  {% set _type_color = 'var(--text-soft)' %}
+  {% set _type_bg = 'color-mix(in srgb,var(--text-soft) 8%,transparent)' %}
+  {% set _type_border = 'color-mix(in srgb,var(--text-soft) 40%,transparent)' %}
 {% endif %}
 
 {# Descriptor next to the badge — "field note · analysis" per post type. #}
@@ -129,8 +129,8 @@
   {% set _type_breadcrumb = t(_lang, _type_breadcrumb_key) %}
   {% if _type_breadcrumb == _type_breadcrumb_key %}{% set _type_breadcrumb = post.type %}{% endif %}
   <nav class="font-mono text-xs mb-6 sm:mb-8 break-all" style="letter-spacing: 0.02em;" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
-    <span class="text-[#8b94a8]">
-      <a href="/{{ _lang }}/" class="underline underline-offset-2 hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="underline underline-offset-2 hover:text-[#65def0] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[#8b94a8]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[#8b94a8]" aria-hidden="true">/</span><span class="text-[#65def0]" aria-current="page">{{ post.slug }}</span>
+    <span class="text-[var(--muted)]">
+      <a href="/{{ _lang }}/" class="underline underline-offset-2 hover:text-[var(--brand)] transition-colors">{{ t(_lang, 'post.breadcrumb_home') }}</a><span class="text-[var(--muted)]" aria-hidden="true">/</span><a href="/{{ _lang }}/journal" class="underline underline-offset-2 hover:text-[var(--brand)] transition-colors">{{ t(_lang, 'post.breadcrumb_journal') }}</a><span class="text-[var(--muted)]" aria-hidden="true">/</span>{{ _type_breadcrumb }}<span class="text-[var(--muted)]" aria-hidden="true">/</span><span class="text-[var(--brand)]" aria-current="page">{{ post.slug }}</span>
     </span>
   </nav>
 
@@ -141,12 +141,12 @@
         class="font-mono uppercase rounded-sm"
         style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; padding: 4px 8px; color: {{ _type_color }}; background: {{ _type_bg }}; border: 1px solid {{ _type_border }};"
       >{{ _type_label }}</span>
-      <span class="font-mono text-[11px] text-[#8b94a8]">{{ _descriptor }}</span>
+      <span class="font-mono text-[11px] text-[var(--muted)]">{{ _descriptor }}</span>
     </div>
 
     {# Editorial headline — Geist (sans) 600, sentence-case, not uppercase. #}
     <h1
-      class="font-sans font-semibold text-[#f3f5fa] break-words"
+      class="font-sans font-semibold text-[var(--text-strong)] break-words"
       style="font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.9rem); letter-spacing: -0.025em; line-height: 1.12; text-wrap: balance;"
     >
       {{ post.title }}
@@ -155,7 +155,7 @@
     {# Lead — subtitle as the editorial standfirst. #}
     {% if post.subtitle %}
     <p
-      class="text-[#aab2c4] mt-5 break-words"
+      class="text-[var(--text-soft)] mt-5 break-words"
       style="font-size: 19px; line-height: 1.6; max-width: 62ch; text-wrap: pretty;"
     >
       {{ post.subtitle }}
@@ -163,22 +163,22 @@
     {% endif %}
 
     {# Byline strip — DS monogram · DiScammer desk · date · read-time #}
-    <div class="flex items-center gap-3.5 py-4 mt-7 border-t border-b border-[#202a44]">
+    <div class="flex items-center gap-3.5 py-4 mt-7 border-t border-b border-[var(--border)]">
       <div
-        class="font-mono font-bold text-[#65def0] flex-none flex items-center justify-center"
-        style="width: 40px; height: 40px; border-radius: 3px; background: #0a0d16; border: 1px solid #2b3759; font-size: 14px;"
+        class="font-mono font-bold text-[var(--brand)] flex-none flex items-center justify-center"
+        style="width: 40px; height: 40px; border-radius: 3px; background: var(--code); border: 1px solid var(--border-strong); font-size: 14px;"
         aria-hidden="true"
       >DS</div>
       <div class="flex-1 min-w-0">
-        <div class="font-sans text-sm font-medium text-[#e7ecf5]">{{ t(_lang, 'articlepage.byline_desk') }}</div>
-        <div class="font-mono text-[11px] text-[#8b94a8] flex flex-wrap items-center gap-1.5">
+        <div class="font-sans text-sm font-medium text-[var(--text)]">{{ t(_lang, 'articlepage.byline_desk') }}</div>
+        <div class="font-mono text-[11px] text-[var(--muted)] flex flex-wrap items-center gap-1.5">
           {% if _byline_date %}
           <time class="tabular-nums" datetime="{{ _iso_date }}">{{ _byline_date }}</time>
           <span aria-hidden="true">·</span>
           {% endif %}
           <span class="tabular-nums">{{ _est_minutes }} {{ _min_label }}</span>
           <span aria-hidden="true">·</span>
-          <span class="text-[#8b94a8] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
+          <span class="text-[var(--muted)] tabular-nums">{{ _issue_label }} {{ "%04d"|format(_issue_no) }}</span>
         </div>
       </div>
     </div>
@@ -191,8 +191,8 @@
      `<div data-component="VideoPlayer" …>`. #}
   {% if post.cover_image and 'data-component="VideoPlayer"' not in post.content_html %}
   <figure class="mt-8 sm:mt-9">
-    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
-    <div class="border border-[#202a44] bg-[#0a0d16] overflow-hidden rounded-md">
+    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2" style="font-weight: 600;" aria-hidden="true">{{ _cover_label }}</div>
+    <div class="border border-[var(--border)] bg-[var(--code)] overflow-hidden rounded-md">
       <img
         src="{{ post.cover_image }}"
         alt="{{ _type_label }}: {{ post.title }}"
@@ -213,13 +213,13 @@
 
   {# FILED UNDER + NEXT IN SECTION — broadsheet "end of article" panel #}
   <section
-    class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[#202a44]"
+    class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-[var(--border)]"
     aria-label="{{ t(_lang, 'a11y.end_of_article') }}"
   >
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div
-          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] mb-2"
+          class="font-mono text-[10px] sm:text-[11px] uppercase text-[var(--muted)] mb-2"
           style="letter-spacing: 0.14em; font-weight: 600;"
         >
           {{ _filed_under_label }}
@@ -238,13 +238,13 @@
         style="text-decoration: none;"
       >
         <div
-          class="font-mono text-[10px] sm:text-[11px] uppercase text-[#8b94a8] group-hover:text-[#65def0] transition-colors mb-2"
+          class="font-mono text-[10px] sm:text-[11px] uppercase text-[var(--muted)] group-hover:text-[var(--brand)] transition-colors mb-2"
           style="letter-spacing: 0.14em; font-weight: 600;"
         >
           {{ _next_in_section_label }} <span aria-hidden="true">→</span>
         </div>
         <div
-          class="font-mono text-sm text-[#e7ecf5] group-hover:text-[#65def0] transition-colors line-clamp-2"
+          class="font-mono text-sm text-[var(--text)] group-hover:text-[var(--brand)] transition-colors line-clamp-2"
           style="letter-spacing: -0.01em; font-weight: 600; line-height: 1.3;"
         >
           {{ _next_post.title }}
@@ -255,10 +255,10 @@
   </section>
 
   {# Back link — kept minimal, mono uppercase #}
-  <div class="mt-10 sm:mt-14 pt-6 border-t border-[#202a44]">
+  <div class="mt-10 sm:mt-14 pt-6 border-t border-[var(--border)]">
     <a
       href="/{{ _lang }}/journal"
-      class="inline-block px-4 py-3 border border-[#202a44] bg-transparent text-[#aab2c4] hover:text-[#65def0] hover:border-[#3a8b9a] hover:bg-[#65def0]/5 transition-colors duration-200 rounded-sm font-mono uppercase text-[11px]"
+      class="inline-block px-4 py-3 border border-[var(--border)] bg-transparent text-[var(--text-soft)] hover:text-[var(--brand)] hover:border-[var(--brand-dim)] hover:bg-[var(--brand)]/5 transition-colors duration-200 rounded-sm font-mono uppercase text-[11px]"
       style="letter-spacing: 0.14em; font-weight: 600;"
     >
       {{ t(_lang, 'post.back') }}
@@ -269,38 +269,38 @@
 {# KEEP_READING — full-width tinted band of related posts (canvas editorial footer).
    Sits outside the narrow reading column at the 1120px container width. #}
 {% if related_posts and related_posts|length > 1 %}
-<section class="border-t border-[#202a44] bg-[#121828]" aria-label="{{ t(_lang, 'articlepage.keep_reading') }}">
+<section class="border-t border-[var(--border)] bg-[var(--panel)]" aria-label="{{ t(_lang, 'articlepage.keep_reading') }}">
   <div class="mx-auto" style="max-width: 1120px; padding: clamp(40px,6vw,64px) clamp(16px,4vw,40px);">
-    <div class="font-mono text-[11px] uppercase mb-6 text-[#8b94a8]" style="letter-spacing: 0.16em; font-weight: 600;">
-      <span aria-hidden="true" style="color: #3a8b9a;">&gt;&nbsp;</span>{{ t(_lang, 'articlepage.keep_reading') }}
+    <div class="font-mono text-[11px] uppercase mb-6 text-[var(--muted)]" style="letter-spacing: 0.16em; font-weight: 600;">
+      <span aria-hidden="true" style="color: var(--brand-dim);">&gt;&nbsp;</span>{{ t(_lang, 'articlepage.keep_reading') }}
     </div>
     <ul class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); list-style: none; margin: 0; padding: 0;">
       {% for related in related_posts[1:5] %}
         {% if related.type == 'interview' %}
-          {% set _rc = '#65def0' %}{% set _rbg = 'rgba(101,222,240,0.08)' %}{% set _rbd = 'rgba(101,222,240,0.4)' %}{% set _rlabel = t(_lang, 'journal.filter_interview') %}{% set _rhover = '#65def0' %}
+          {% set _rc = 'var(--brand)' %}{% set _rbg = 'color-mix(in srgb,var(--brand) 8%,transparent)' %}{% set _rbd = 'color-mix(in srgb,var(--brand) 40%,transparent)' %}{% set _rlabel = t(_lang, 'journal.filter_interview') %}{% set _rhover = 'var(--brand)' %}
         {% elif related.type == 'newsletter' %}
-          {% set _rc = '#7ce896' %}{% set _rbg = 'rgba(124,232,150,0.08)' %}{% set _rbd = 'rgba(124,232,150,0.4)' %}{% set _rlabel = t(_lang, 'journal.filter_newsletter') %}{% set _rhover = '#7ce896' %}
+          {% set _rc = 'var(--success)' %}{% set _rbg = 'color-mix(in srgb,var(--success) 8%,transparent)' %}{% set _rbd = 'color-mix(in srgb,var(--success) 40%,transparent)' %}{% set _rlabel = t(_lang, 'journal.filter_newsletter') %}{% set _rhover = 'var(--success)' %}
         {% elif related.type == 'article' %}
-          {% set _rc = '#f4b965' %}{% set _rbg = 'rgba(244,185,101,0.08)' %}{% set _rbd = 'rgba(244,185,101,0.4)' %}{% set _rlabel = t(_lang, 'journal.filter_article') %}{% set _rhover = '#f4b965' %}
+          {% set _rc = 'var(--warning)' %}{% set _rbg = 'color-mix(in srgb,var(--warning) 8%,transparent)' %}{% set _rbd = 'color-mix(in srgb,var(--warning) 40%,transparent)' %}{% set _rlabel = t(_lang, 'journal.filter_article') %}{% set _rhover = 'var(--warning)' %}
         {% else %}
-          {% set _rc = '#aab2c4' %}{% set _rbg = 'rgba(170,178,196,0.08)' %}{% set _rbd = 'rgba(170,178,196,0.4)' %}{% set _rlabel = related.type | upper %}{% set _rhover = '#65def0' %}
+          {% set _rc = 'var(--text-soft)' %}{% set _rbg = 'color-mix(in srgb,var(--text-soft) 8%,transparent)' %}{% set _rbd = 'color-mix(in srgb,var(--text-soft) 40%,transparent)' %}{% set _rlabel = related.type | upper %}{% set _rhover = 'var(--brand)' %}
         {% endif %}
       <li>
         <a
           href="/{{ _lang }}/journal/{{ related.slug }}"
           class="group block h-full rounded-md transition-colors duration-300 dcm-card-hovervar"
-          style="background: #0b0f1a; border: 1px solid #202a44; padding: 20px; text-decoration: none; --rhover: {{ _rhover }};"
+          style="background: var(--canvas); border: 1px solid var(--border); padding: 20px; text-decoration: none; --rhover: {{ _rhover }};"
         >
           <span
             class="font-mono uppercase rounded-sm"
             style="font-size: 10px; font-weight: 600; letter-spacing: 0.1em; padding: 3px 7px; color: {{ _rc }}; background: {{ _rbg }}; border: 1px solid {{ _rbd }};"
           >{{ _rlabel }}</span>
           <h3
-            class="font-sans font-semibold text-[#e7ecf5] group-hover:text-[#9eecf6] transition-colors"
+            class="font-sans font-semibold text-[var(--text)] group-hover:text-[var(--brand-hover)] transition-colors"
             style="font-size: 18px; line-height: 1.3; margin: 14px 0 12px; text-wrap: balance;"
           >{{ related.title }}</h3>
           {% if related.published_at %}
-          <div class="font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ related.published_at }}</div>
+          <div class="font-mono text-[11px] text-[var(--muted)] tabular-nums">{{ related.published_at }}</div>
           {% endif %}
         </a>
       </li>

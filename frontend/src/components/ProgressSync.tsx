@@ -224,10 +224,10 @@ function statusText(tr: (key: string) => string, status: Status): string {
 const CODE_PLACEHOLDER = formatCode('X'.repeat(26));
 
 const BTN_BASE =
-  'inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] transition rounded-[4px] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]';
-const BTN_CYAN = `${BTN_BASE} bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10`;
-const BTN_GHOST = `${BTN_BASE} text-[#aab2c4] border border-[#202a44] hover:border-[#3a8b9a] hover:text-[#65def0]`;
-const BTN_RED = `${BTN_BASE} text-[#e76670] border border-[#e76670]/40 hover:border-[#e76670] hover:bg-[#e76670]/8`;
+  'inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] transition rounded-[4px] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]';
+const BTN_CYAN = `${BTN_BASE} bg-[var(--brand)]/5 border border-[var(--brand)] text-[var(--brand)] hover:bg-[var(--brand)]/10`;
+const BTN_GHOST = `${BTN_BASE} text-[var(--text-soft)] border border-[var(--border)] hover:border-[var(--brand-dim)] hover:text-[var(--brand)]`;
+const BTN_RED = `${BTN_BASE} text-[var(--danger)] border border-[var(--danger)]/40 hover:border-[var(--danger)] hover:bg-[var(--danger)]/8`;
 
 export default function ProgressSync({ locale }: Props) {
   const lang = normalizeLocale(locale);
@@ -370,8 +370,8 @@ export default function ProgressSync({ locale }: Props) {
   if (!isSyncSupported()) return null;
 
   return (
-    <section className="border-t border-[#202a44] pt-6" data-testid="sync-root">
-      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8]">
+    <section className="border-t border-[var(--border)] pt-6" data-testid="sync-root">
+      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">
         {tr('tag')}
       </div>
 
@@ -417,10 +417,10 @@ export default function ProgressSync({ locale }: Props) {
             data-testid="sync-status"
             className={`mt-4 font-mono text-[12px] leading-relaxed ${
               BAD.includes(status)
-                ? 'text-[#e76670]'
+                ? 'text-[var(--danger)]'
                 : BUSY.includes(status)
-                  ? 'text-[#8b94a8]'
-                  : 'text-[#7ce896]'
+                  ? 'text-[var(--muted)]'
+                  : 'text-[var(--success)]'
             }`}
           >
             {statusText(tr, status)}
@@ -453,13 +453,13 @@ export function UnlinkedPanel({
 }) {
   return (
     <div className="mt-2">
-      <p className="font-sans text-[13px] text-[#8b94a8] leading-relaxed max-w-[62ch]">
+      <p className="font-sans text-[13px] text-[var(--muted)] leading-relaxed max-w-[62ch]">
         {tr('intro')}
       </p>
 
       <p
         data-testid="sync-loss-warning"
-        className="mt-4 flex items-start gap-2.5 px-3.5 py-3 border border-[#f4b965]/40 bg-[#f4b965]/8 rounded-[3px] font-sans text-[13px] leading-relaxed text-[#f4b965] max-w-[62ch]"
+        className="mt-4 flex items-start gap-2.5 px-3.5 py-3 border border-[var(--warning)]/40 bg-[var(--warning)]/8 rounded-[3px] font-sans text-[13px] leading-relaxed text-[var(--warning)] max-w-[62ch]"
       >
         <span aria-hidden="true" className="font-mono shrink-0">
           !
@@ -485,10 +485,10 @@ export function UnlinkedPanel({
         </button>
       </div>
 
-      <div className="mt-6 border-t border-[#202a44] pt-5">
+      <div className="mt-6 border-t border-[var(--border)] pt-5">
         <label
           htmlFor="sync-code-input"
-          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8]"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]"
         >
           {tr('have_code_label')}
         </label>
@@ -502,7 +502,7 @@ export function UnlinkedPanel({
             placeholder={CODE_PLACEHOLDER}
             autoComplete="off"
             spellCheck={false}
-            className="w-full sm:max-w-[24rem] px-3.5 py-2.5 bg-[#0b0f1a] border border-[#202a44] rounded-[3px] font-mono text-[13px] tracking-[0.08em] text-[#e7ecf5] placeholder:text-[#6b7588] focus:outline-none focus:border-[#3a8b9a]"
+            className="w-full sm:max-w-[24rem] px-3.5 py-2.5 bg-[var(--canvas)] border border-[var(--border)] rounded-[3px] font-mono text-[13px] tracking-[0.08em] text-[var(--text)] placeholder:text-[var(--dim)] focus:outline-none focus:border-[var(--brand-dim)]"
           />
           <button
             type="button"
@@ -514,7 +514,7 @@ export function UnlinkedPanel({
             <span aria-hidden="true">▴</span> {tr('link_action')}
           </button>
         </div>
-        <p className="mt-2.5 font-sans text-[12px] text-[#8b94a8] leading-relaxed max-w-[62ch]">
+        <p className="mt-2.5 font-sans text-[12px] text-[var(--muted)] leading-relaxed max-w-[62ch]">
           {tr('link_hint')}
         </p>
       </div>
@@ -542,20 +542,20 @@ function CreatedPanel({
 }) {
   return (
     <div className="mt-2">
-      <h3 className="font-mono font-bold text-[#e7ecf5] text-[15px] uppercase tracking-[-0.01em]">
+      <h3 className="font-mono font-bold text-[var(--text)] text-[15px] uppercase tracking-[-0.01em]">
         {tr('created_heading')}
       </h3>
 
       <p
         data-testid="sync-code-reveal"
-        className="mt-3 px-4 py-4 border border-[#65def0]/50 bg-[#0b0f1a] rounded-[4px] font-mono font-bold text-[#65def0] text-[clamp(0.95rem,0.7rem+1.1vw,1.35rem)] tracking-[0.08em] break-all select-all"
+        className="mt-3 px-4 py-4 border border-[var(--brand)]/50 bg-[var(--canvas)] rounded-[4px] font-mono font-bold text-[var(--brand)] text-[clamp(0.95rem,0.7rem+1.1vw,1.35rem)] tracking-[0.08em] break-all select-all"
       >
         {formatCode(code)}
       </p>
 
       <p
         data-testid="sync-loss-warning-repeat"
-        className="mt-3 font-sans text-[13px] leading-relaxed text-[#f4b965] max-w-[62ch]"
+        className="mt-3 font-sans text-[13px] leading-relaxed text-[var(--warning)] max-w-[62ch]"
       >
         {tr('created_warning')}
       </p>
@@ -617,14 +617,14 @@ function LinkedPanel({
     <div className="mt-2" data-testid="sync-linked">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
         <div className="min-w-0">
-          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">
             {tr('linked_code_label')}
           </div>
-          <p className="mt-1 font-mono font-bold text-[#65def0] text-[15px] tracking-[0.08em] break-all">
+          <p className="mt-1 font-mono font-bold text-[var(--brand)] text-[15px] tracking-[0.08em] break-all">
             {maskCode(code)}
           </p>
         </div>
-        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] shrink-0 tabular-nums">
+        <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] shrink-0 tabular-nums">
           {lastPush
             ? `${tr('last_push_label')} ${lastPush.toLocaleTimeString(lang)}`
             : tr('auto_push_hint')}
@@ -651,14 +651,14 @@ function LinkedPanel({
           {tr('unlink_action')}
         </button>
       </div>
-      <p className="mt-2.5 font-sans text-[12px] text-[#8b94a8] leading-relaxed max-w-[62ch]">
+      <p className="mt-2.5 font-sans text-[12px] text-[var(--muted)] leading-relaxed max-w-[62ch]">
         {tr('unlink_hint')}
       </p>
 
-      <div className="mt-5 border-t border-[#202a44] pt-5">
+      <div className="mt-5 border-t border-[var(--border)] pt-5">
         {confirmErase ? (
           <div className="flex flex-col gap-3">
-            <p className="font-sans text-[13px] leading-relaxed text-[#e76670] max-w-[62ch]">
+            <p className="font-sans text-[13px] leading-relaxed text-[var(--danger)] max-w-[62ch]">
               {tr('erase_confirm_question')}
             </p>
             <div className="flex flex-wrap items-center gap-3">
@@ -692,7 +692,7 @@ function LinkedPanel({
             >
               {tr('erase_action')}
             </button>
-            <p className="mt-2.5 font-sans text-[12px] text-[#8b94a8] leading-relaxed max-w-[62ch]">
+            <p className="mt-2.5 font-sans text-[12px] text-[var(--muted)] leading-relaxed max-w-[62ch]">
               {tr('erase_hint')}
             </p>
           </>

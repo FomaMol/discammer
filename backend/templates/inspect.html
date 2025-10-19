@@ -27,10 +27,10 @@
 
 {% set _lang = lang %}
 
-  <nav class="font-mono text-[11px] text-[#8b94a8] flex flex-wrap items-center gap-2 max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-10 pt-6" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
-    <a href="/{{ _lang }}/" class="text-[#3a8b9a] hover:text-[#65def0] transition">{{ t(_lang, 'footer.home') }}</a>
-    <span class="text-[#6b7588]" aria-hidden="true">/</span>
-    <span class="text-[#e7ecf5]" aria-current="page">{{ t(_lang, 'nav.inspect') }}</span>
+  <nav class="font-mono text-[11px] text-[var(--muted)] flex flex-wrap items-center gap-2 max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-10 pt-6" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
+    <a href="/{{ _lang }}/" class="text-[var(--brand-dim)] hover:text-[var(--brand)] transition">{{ t(_lang, 'footer.home') }}</a>
+    <span class="text-[var(--dim)]" aria-hidden="true">/</span>
+    <span class="text-[var(--text)]" aria-current="page">{{ t(_lang, 'nav.inspect') }}</span>
   </nav>
 
 
@@ -52,25 +52,25 @@
 <main>
 
   {# ───────────────────────── HERO ───────────────────────────────────── #}
-  <section style="border-bottom:1px solid #202a44;">
+  <section style="border-bottom:1px solid var(--border);">
     <div class="mx-auto"
          style="max-width:820px;padding:clamp(36px,5vw,64px) clamp(16px,4vw,40px) clamp(28px,3vw,36px);">
 
       {# Eyebrow — small mono operator-note line. #}
       <div class="font-mono"
-           style="font-size:11px;font-weight:600;letter-spacing:0.16em;color:#65def0;margin-bottom:14px;">
+           style="font-size:11px;font-weight:600;letter-spacing:0.16em;color:var(--brand);margin-bottom:14px;">
         {{ t(_lang, 'inspect.eyebrow') }}
       </div>
 
       {# HEADING. Arrows rule: `inspect.heading` is PLAIN TEXT; the styled `>`
          is rendered here by the template, never baked into the value. #}
       <h1 class="font-mono"
-          style="font-weight:800;font-size:clamp(1.9rem,1.3rem + 2.6vw,3.1rem);letter-spacing:-0.04em;line-height:1.02;color:#f3f5fa;margin:0 0 18px;text-wrap:balance;">
-        <span aria-hidden="true" style="color:#65def0;">&gt;</span>&nbsp;{{ t(_lang, 'inspect.heading') }}
+          style="font-weight:800;font-size:clamp(1.9rem,1.3rem + 2.6vw,3.1rem);letter-spacing:-0.04em;line-height:1.02;color:var(--text-strong);margin:0 0 18px;text-wrap:balance;">
+        <span aria-hidden="true" style="color:var(--brand);">&gt;</span>&nbsp;{{ t(_lang, 'inspect.heading') }}
       </h1>
 
       <p class="font-sans"
-         style="font-size:clamp(16px,1.1vw,18px);line-height:1.6;color:#aab2c4;max-width:62ch;margin:0;text-wrap:pretty;">
+         style="font-size:clamp(16px,1.1vw,18px);line-height:1.6;color:var(--text-soft);max-width:62ch;margin:0;text-wrap:pretty;">
         {{ t(_lang, 'inspect.lead') }}
       </p>
     </div>
@@ -89,48 +89,48 @@
     <h2 id="inspect-tool-heading" class="sr-only">{{ t(_lang, 'inspect.heading') }}</h2>
 
     {% set _inspector_props = {"lang": _lang} %}
-    <div style="background:#121828;border:1px solid #202a44;border-radius:6px;padding:clamp(18px,3vw,26px);">
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:clamp(18px,3vw,26px);">
       <div data-component="LinkInspector" data-props='{{ _inspector_props | tojson | forceescape }}'>
         <section aria-labelledby="inspect-incident-heading">
-          <h2 id="inspect-incident-heading" class="font-mono text-[14px] font-bold uppercase tracking-[0.08em] text-[#e7ecf5]">
+          <h2 id="inspect-incident-heading" class="font-mono text-[14px] font-bold uppercase tracking-[0.08em] text-[var(--text)]">
             {{ t(_lang, 'inspect.incident_heading') }}
           </h2>
-          <p class="mt-2 max-w-[62ch] font-sans text-[14px] leading-[1.6] text-[#aab2c4]">
+          <p class="mt-2 max-w-[62ch] font-sans text-[14px] leading-[1.6] text-[var(--text-soft)]">
             {{ t(_lang, 'inspect.incident_intro') }}
           </p>
           <ol class="mt-5 space-y-3 list-none max-w-[62ch]">
-            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">1.</span>
+            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)]">
+              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[var(--warning)]" aria-hidden="true">1.</span>
               <span>{{ t(_lang, 'inspect.incident_1') }}</span>
             </li>
-            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">2.</span>
+            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)]">
+              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[var(--warning)]" aria-hidden="true">2.</span>
               <span>{{ t(_lang, 'inspect.incident_2') }}</span>
             </li>
-            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">3.</span>
+            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)]">
+              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[var(--warning)]" aria-hidden="true">3.</span>
               <span>{{ t(_lang, 'inspect.incident_3') }}</span>
             </li>
-            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">4.</span>
+            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)]">
+              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[var(--warning)]" aria-hidden="true">4.</span>
               <span>{{ t(_lang, 'inspect.incident_4') }}</span>
             </li>
-            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">5.</span>
+            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)]">
+              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[var(--warning)]" aria-hidden="true">5.</span>
               <span>{{ t(_lang, 'inspect.incident_5') }}</span>
             </li>
-            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[#cdd4e3]">
-              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[#f4b965]" aria-hidden="true">6.</span>
+            <li class="flex gap-3 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)]">
+              <span class="shrink-0 pt-0.5 font-mono text-[12px] tabular-nums text-[var(--warning)]" aria-hidden="true">6.</span>
               <span>{{ t(_lang, 'inspect.incident_6') }}</span>
             </li>
           </ol>
-          <p class="mt-5 max-w-[62ch] font-sans text-[12px] leading-[1.5] text-[#8b94a8]">
+          <p class="mt-5 max-w-[62ch] font-sans text-[12px] leading-[1.5] text-[var(--muted)]">
             {{ t(_lang, 'inspect.incident_privacy') }}
           </p>
-          <p class="mt-3 max-w-[62ch] font-sans text-[12px] leading-[1.5] text-[#8b94a8]">
+          <p class="mt-3 max-w-[62ch] font-sans text-[12px] leading-[1.5] text-[var(--muted)]">
             {{ t(_lang, 'inspect.incident_disclaimer') }}
           </p>
-          <p class="mt-4 border border-[#e76670]/40 bg-[#e76670]/[0.06] px-3 py-3 font-sans text-[13px] leading-[1.5] text-[#cdd4e3]">
+          <p class="mt-4 border border-[var(--danger)]/40 bg-[var(--danger)]/[0.06] px-3 py-3 font-sans text-[13px] leading-[1.5] text-[var(--text-medium)]">
             {{ t(_lang, 'inspect.incident_danger') }}
           </p>
         </section>
@@ -138,10 +138,10 @@
 
       {# Browser-only reassurance — sits under the tool, mirrors the canvas note. #}
       <div class="flex items-center"
-           style="gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #202a44;">
-        <i class="ph ph-lock-key" style="font-size:18px;color:#3a8b9a;flex:none;" aria-hidden="true"></i>
+           style="gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border);">
+        <i class="ph ph-lock-key" style="font-size:18px;color:var(--brand-dim);flex:none;" aria-hidden="true"></i>
         <p class="font-sans"
-           style="font-size:13px;line-height:1.5;color:#8b94a8;margin:0;">
+           style="font-size:13px;line-height:1.5;color:var(--muted);margin:0;">
           {{ t(_lang, 'inspectpage.browser_note') }}
         </p>
       </div>
@@ -156,19 +156,19 @@
     <section class="mx-auto"
              style="max-width:820px;padding:0 clamp(16px,4vw,40px) clamp(12px,2vw,20px);"
              aria-labelledby="inspect-noscript-heading">
-      <div style="border:1px solid rgba(244,185,101,0.4);background:#0a0d16;border-radius:6px;padding:clamp(16px,3vw,24px);">
+      <div style="border:1px solid color-mix(in srgb,var(--warning) 40%,transparent);background:var(--code);border-radius:6px;padding:clamp(16px,3vw,24px);">
         <h2 id="inspect-noscript-heading" class="font-mono"
-            style="font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:#f4b965;margin:0 0 12px;">
+            style="font-size:12px;text-transform:uppercase;letter-spacing:0.18em;color:var(--warning);margin:0 0 12px;">
           {{ t(_lang, 'inspect.noscript_heading') }}
         </h2>
         <p class="font-sans"
-           style="font-size:14px;line-height:1.6;color:#aab2c4;max-width:64ch;margin:0 0 16px;">
+           style="font-size:14px;line-height:1.6;color:var(--text-soft);max-width:64ch;margin:0 0 16px;">
           {{ t(_lang, 'inspect.noscript_intro') }}
         </p>
         <ol class="list-none" style="margin:0;padding:0;display:flex;flex-direction:column;gap:10px;">
           {% for i in range(1, 7) %}
-          <li class="flex font-sans" style="gap:10px;font-size:14px;line-height:1.55;color:#aab2c4;">
-            <span class="shrink-0 font-mono tabular-nums" style="color:#f4b965;font-size:13px;padding-top:2px;">{{ i }}.</span>
+          <li class="flex font-sans" style="gap:10px;font-size:14px;line-height:1.55;color:var(--text-soft);">
+            <span class="shrink-0 font-mono tabular-nums" style="color:var(--warning);font-size:13px;padding-top:2px;">{{ i }}.</span>
             <span>{{ t(_lang, 'inspect.noscript_' ~ i) }}</span>
           </li>
           {% endfor %}
@@ -182,17 +182,17 @@
            style="max-width:820px;padding:clamp(24px,3vw,40px) clamp(16px,4vw,40px) clamp(56px,8vw,96px);"
            aria-labelledby="inspect-how-heading">
     <h2 id="inspect-how-heading" class="font-mono"
-        style="font-weight:700;font-size:clamp(18px,2vw,22px);letter-spacing:-0.02em;text-transform:uppercase;color:#65def0;margin:0 0 22px;">
+        style="font-weight:700;font-size:clamp(18px,2vw,22px);letter-spacing:-0.02em;text-transform:uppercase;color:var(--brand);margin:0 0 22px;">
       {{ t(_lang, 'inspect.how_heading') }}
     </h2>
 
     <ol class="list-none" style="margin:0 0 32px;padding:0;display:flex;flex-direction:column;gap:2px;">
       {% for i in range(1, 4) %}
       <li class="grid"
-          style="grid-template-columns:auto 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #202a44;">
-        <span class="font-mono tabular-nums" style="font-size:13px;font-weight:700;color:#65def0;">{{ i }}.</span>
+          style="grid-template-columns:auto 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);">
+        <span class="font-mono tabular-nums" style="font-size:13px;font-weight:700;color:var(--brand);">{{ i }}.</span>
         <p class="font-sans"
-           style="font-size:16px;line-height:1.6;color:#aab2c4;margin:0;text-wrap:pretty;">
+           style="font-size:16px;line-height:1.6;color:var(--text-soft);margin:0;text-wrap:pretty;">
           {{ t(_lang, 'inspect.how_' ~ i) }}
         </p>
       </li>
@@ -202,11 +202,11 @@
     {# PRIVACY — what happens to the link (full plain-language note). #}
     <div style="margin-bottom:32px;">
       <h3 class="font-mono"
-          style="font-weight:700;font-size:clamp(16px,2vw,18px);letter-spacing:-0.01em;text-transform:uppercase;color:#65def0;margin:0 0 12px;">
+          style="font-weight:700;font-size:clamp(16px,2vw,18px);letter-spacing:-0.01em;text-transform:uppercase;color:var(--brand);margin:0 0 12px;">
         {{ t(_lang, 'inspect.privacy_heading') }}
       </h3>
       <p class="font-sans"
-         style="font-size:15px;line-height:1.6;color:#aab2c4;max-width:64ch;margin:0;">
+         style="font-size:15px;line-height:1.6;color:var(--text-soft);max-width:64ch;margin:0;">
         {{ t(_lang, 'inspect.privacy_body') }}
       </p>
     </div>
@@ -214,29 +214,29 @@
     {# WORKED EXAMPLE — dissect one real-shaped lookalike address. #}
     <div style="margin-bottom:36px;">
       <h3 class="font-mono"
-          style="font-weight:700;font-size:clamp(16px,2vw,18px);letter-spacing:-0.01em;text-transform:uppercase;color:#65def0;margin:0 0 12px;">
+          style="font-weight:700;font-size:clamp(16px,2vw,18px);letter-spacing:-0.01em;text-transform:uppercase;color:var(--brand);margin:0 0 12px;">
         {{ t(_lang, 'inspect.example_heading') }}
       </h3>
       <p class="font-sans"
-         style="font-size:15px;line-height:1.6;color:#aab2c4;max-width:64ch;margin:0 0 16px;">
+         style="font-size:15px;line-height:1.6;color:var(--text-soft);max-width:64ch;margin:0 0 16px;">
         {{ t(_lang, 'inspect.example_intro') }}
       </p>
 
-      <figure style="margin:0;border:1px solid rgba(231,102,112,0.4);background:#0a0d16;border-radius:4px;padding:16px;">
+      <figure style="margin:0;border:1px solid color-mix(in srgb,var(--danger) 40%,transparent);background:var(--code);border-radius:4px;padding:16px;">
         <figcaption class="font-mono"
-                    style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:#e76670;margin-bottom:10px;">
+                    style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--danger);margin-bottom:10px;">
           {{ t(_lang, 'inspect.example_flags_intro') }}
         </figcaption>
         <code class="font-mono break-all"
-              style="display:block;font-size:14px;line-height:1.6;color:#e7ecf5;">
+              style="display:block;font-size:14px;line-height:1.6;color:var(--text);">
           {{ t(_lang, 'inspect.example_url') }}
         </code>
       </figure>
 
       <ul class="list-none" style="margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;">
         {% for i in range(1, 4) %}
-        <li class="flex font-sans" style="gap:10px;font-size:14px;line-height:1.55;color:#aab2c4;max-width:64ch;">
-          <span class="shrink-0" aria-hidden="true" style="color:#e76670;">&#9656;</span>
+        <li class="flex font-sans" style="gap:10px;font-size:14px;line-height:1.55;color:var(--text-soft);max-width:64ch;">
+          <span class="shrink-0" aria-hidden="true" style="color:var(--danger);">&#9656;</span>
           <span>{{ t(_lang, 'inspect.example_flag_' ~ i) }}</span>
         </li>
         {% endfor %}
@@ -245,21 +245,21 @@
 
     {# GUIDE CTA — most bad links arrive by SMS → phishing-SMS guide. #}
     <div class="flex flex-wrap items-center"
-         style="gap:18px;background:#1a2236;border:1px solid #3a8b9a;border-radius:6px;padding:clamp(20px,3vw,28px);">
-      <i class="ph ph-chat-dots" style="font-size:34px;color:#e76670;flex:none;" aria-hidden="true"></i>
+         style="gap:18px;background:var(--raised);border:1px solid var(--brand-dim);border-radius:6px;padding:clamp(20px,3vw,28px);">
+      <i class="ph ph-chat-dots" style="font-size:34px;color:var(--danger);flex:none;" aria-hidden="true"></i>
       <div style="flex:1;min-width:200px;">
         <h3 class="font-sans"
-            style="font-weight:600;font-size:18px;color:#f3f5fa;margin:0 0 6px;text-wrap:balance;">
+            style="font-weight:600;font-size:18px;color:var(--text-strong);margin:0 0 6px;text-wrap:balance;">
           {{ t(_lang, 'inspectpage.sms_cta_heading') }}
         </h3>
         <p class="font-sans"
-           style="font-size:15px;line-height:1.6;color:#aab2c4;margin:0;">
+           style="font-size:15px;line-height:1.6;color:var(--text-soft);margin:0;">
           {{ t(_lang, 'inspectpage.sms_cta_body') }}
         </p>
       </div>
       <a href="/{{ _lang }}/guide/sms-and-phone-scams"
          class="font-mono"
-         style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0b0f1a;background:#65def0;border:none;border-radius:4px;padding:12px 20px;white-space:nowrap;text-decoration:none;">
+         style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--canvas);background:var(--brand);border:none;border-radius:4px;padding:12px 20px;white-space:nowrap;text-decoration:none;">
         {{ t(_lang, 'inspectpage.sms_cta_button') }}
       </a>
     </div>

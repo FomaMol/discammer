@@ -25,12 +25,12 @@ interface ContentCarouselProps {
 }
 
 const BADGE_COLORS: Record<string, string> = {
-  INTERVIEW: 'bg-[#65def0]/15 text-[#65def0] border-[#65def0]/40',
-  NEWSLETTER: 'bg-[#7ce896]/15 text-[#7ce896] border-[#7ce896]/40',
-  ARTICLE: 'bg-[#f4b965]/15 text-[#f4b965] border-[#f4b965]/40',
-  'ИНТЕРВЬЮ': 'bg-[#65def0]/15 text-[#65def0] border-[#65def0]/40',
-  'РАССЫЛКА': 'bg-[#7ce896]/15 text-[#7ce896] border-[#7ce896]/40',
-  'СТАТЬЯ': 'bg-[#f4b965]/15 text-[#f4b965] border-[#f4b965]/40',
+  INTERVIEW: 'bg-[var(--brand)]/15 text-[var(--brand)] border-[var(--brand)]/40',
+  NEWSLETTER: 'bg-[var(--success)]/15 text-[var(--success)] border-[var(--success)]/40',
+  ARTICLE: 'bg-[var(--warning)]/15 text-[var(--warning)] border-[var(--warning)]/40',
+  'ИНТЕРВЬЮ': 'bg-[var(--brand)]/15 text-[var(--brand)] border-[var(--brand)]/40',
+  'РАССЫЛКА': 'bg-[var(--success)]/15 text-[var(--success)] border-[var(--success)]/40',
+  'СТАТЬЯ': 'bg-[var(--warning)]/15 text-[var(--warning)] border-[var(--warning)]/40',
 };
 
 function initials(s: string | undefined): string {
@@ -120,19 +120,19 @@ export default function ContentCarousel({
           className="text-base sm:text-xl md:text-2xl truncate"
           style={{
             fontFamily: '"JetBrains Mono", monospace',
-            color: '#65def0',
+            color: 'var(--brand)',
             fontWeight: 700,
             letterSpacing: '-0.02em',
           }}
         >
-          <span className="text-[#8b94a8]" aria-hidden="true">&gt;&nbsp;</span>
+          <span className="text-[var(--muted)]" aria-hidden="true">&gt;&nbsp;</span>
           {title}
         </h2>
         <div className="flex gap-2 flex-shrink-0">
           <button
             type="button"
             onClick={() => scroll('left')}
-            className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#0b0f1a] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
+            className="w-9 h-9 sm:w-10 sm:h-10 border border-[var(--border)] bg-[var(--canvas)] text-[var(--text-soft)] hover:text-[var(--brand)] hover:border-[var(--brand)] transition-colors flex items-center justify-center"
             aria-label={`${tr('scroll_left')}: ${title}`}
             aria-controls={trackId}
           >
@@ -141,7 +141,7 @@ export default function ContentCarousel({
           <button
             type="button"
             onClick={() => scroll('right')}
-            className="w-9 h-9 sm:w-10 sm:h-10 border border-[#202a44] bg-[#0b0f1a] text-[#aab2c4] hover:text-[#65def0] hover:border-[#65def0] transition-colors flex items-center justify-center"
+            className="w-9 h-9 sm:w-10 sm:h-10 border border-[var(--border)] bg-[var(--canvas)] text-[var(--text-soft)] hover:text-[var(--brand)] hover:border-[var(--brand)] transition-colors flex items-center justify-center"
             aria-label={`${tr('scroll_right')}: ${title}`}
             aria-controls={trackId}
           >
@@ -170,12 +170,12 @@ export default function ContentCarousel({
               <a
                 key={item.id}
                 href={href}
-                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[300px] md:w-[320px] lg:w-[calc(33.333%-12px)] max-w-[360px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
+                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[300px] md:w-[320px] lg:w-[calc(33.333%-12px)] max-w-[360px] bg-[var(--panel)] border border-[var(--border)] overflow-hidden snap-start group block"
                 style={{ textDecoration: 'none' }}
                 aria-label={`${badge}: ${item.title}`}
               >
                 {/* Square portrait, large */}
-                <div className="relative aspect-square bg-[#0a0d16] overflow-hidden">
+                <div className="relative aspect-square bg-[var(--code)] overflow-hidden">
                   {item.cover_image && item.cover_image !== '' ? (
                     <img
                       src={item.cover_image}
@@ -184,9 +184,9 @@ export default function ContentCarousel({
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-[#0a0d16]">
+                    <div className="w-full h-full flex items-center justify-center bg-[var(--code)]">
                       <span
-                        className="text-5xl text-[#65def0]/30"
+                        className="text-5xl text-[var(--brand)]/30"
                         style={{ fontFamily: '"JetBrains Mono", monospace', fontWeight: 700 }}
                       >
                         {initials(guest)}
@@ -201,7 +201,7 @@ export default function ContentCarousel({
                   </span>
                   {item.published_at && (
                     <time
-                      className="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-[2px] tabular-nums text-[#aab2c4] bg-[#0a0d16]/80"
+                      className="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] uppercase tracking-[2px] tabular-nums text-[var(--text-soft)] bg-[var(--code)]/80"
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
                     >
                       {item.published_at}
@@ -212,16 +212,16 @@ export default function ContentCarousel({
                 {/* Quote treatment */}
                 <div className="p-4">
                   <p
-                    className="text-[13px] leading-snug italic text-[#e7ecf5] line-clamp-3"
+                    className="text-[13px] leading-snug italic text-[var(--text)] line-clamp-3"
                     style={{ fontFamily: 'Geist, system-ui, sans-serif' }}
                   >
                     &ldquo;{quote}&rdquo;
                   </p>
                   <p
-                    className="mt-2 text-[11px] uppercase tracking-[2px] text-[#aab2c4]"
+                    className="mt-2 text-[11px] uppercase tracking-[2px] text-[var(--text-soft)]"
                     style={{ fontFamily: '"JetBrains Mono", monospace' }}
                   >
-                    <span className="text-[#8b94a8]">&mdash; </span>{guest}
+                    <span className="text-[var(--muted)]">&mdash; </span>{guest}
                   </p>
                 </div>
               </a>
@@ -235,13 +235,13 @@ export default function ContentCarousel({
               <a
                 key={item.id}
                 href={href}
-                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[320px] md:w-[360px] lg:w-[calc(33.333%-12px)] max-w-[420px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
+                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[320px] md:w-[360px] lg:w-[calc(33.333%-12px)] max-w-[420px] bg-[var(--panel)] border border-[var(--border)] overflow-hidden snap-start group block"
                 style={{ textDecoration: 'none' }}
                 aria-label={`${tr('dispatch')}: ${item.title}`}
               >
                 <div className="p-4 sm:p-5">
                   {/* Wire-service dateline */}
-                  <div className="flex items-center gap-2 mb-3 pb-2 border-b border-dashed border-[#202a44]">
+                  <div className="flex items-center gap-2 mb-3 pb-2 border-b border-dashed border-[var(--border)]">
                     <span
                       className={`px-1.5 py-0.5 text-[10px] uppercase tracking-[2px] border ${colorClass}`}
                       style={{ fontFamily: '"JetBrains Mono", monospace' }}
@@ -250,7 +250,7 @@ export default function ContentCarousel({
                     </span>
                     {dateline && (
                       <time
-                        className="text-[10px] uppercase tracking-[2px] tabular-nums text-[#7ce896]"
+                        className="text-[10px] uppercase tracking-[2px] tabular-nums text-[var(--success)]"
                         style={{ fontFamily: '"JetBrains Mono", monospace' }}
                       >
                         {dateline}
@@ -258,14 +258,14 @@ export default function ContentCarousel({
                     )}
                   </div>
                   <h3
-                    className="text-[15px] leading-snug font-semibold text-[#f3f5fa] line-clamp-2"
+                    className="text-[15px] leading-snug font-semibold text-[var(--text-strong)] line-clamp-2"
                     style={{ fontFamily: '"JetBrains Mono", monospace', letterSpacing: '-0.01em' }}
                   >
                     {item.title}
                   </h3>
                   {item.subtitle && (
                     <p
-                      className="mt-2 text-[13px] leading-relaxed text-[#aab2c4] line-clamp-1"
+                      className="mt-2 text-[13px] leading-relaxed text-[var(--text-soft)] line-clamp-1"
                       style={{ fontFamily: 'Geist, system-ui, sans-serif' }}
                     >
                       {item.subtitle}
@@ -282,13 +282,13 @@ export default function ContentCarousel({
               <a
                 key={item.id}
                 href={href}
-                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[340px] md:w-[400px] lg:w-[calc(33.333%-12px)] max-w-[480px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
+                className="card-interactive flex-shrink-0 w-[78vw] sm:w-[340px] md:w-[400px] lg:w-[calc(33.333%-12px)] max-w-[480px] bg-[var(--panel)] border border-[var(--border)] overflow-hidden snap-start group block"
                 style={{ textDecoration: 'none' }}
                 aria-label={`${tr('field_note')}: ${item.title}`}
               >
                 <div className="flex gap-3 p-3">
                   {/* Left: cover, 40% */}
-                  <div className="relative w-[40%] aspect-[4/5] bg-[#0a0d16] overflow-hidden flex-shrink-0">
+                  <div className="relative w-[40%] aspect-[4/5] bg-[var(--code)] overflow-hidden flex-shrink-0">
                     {item.cover_image && item.cover_image !== '' ? (
                       <img
                         src={item.cover_image}
@@ -297,9 +297,9 @@ export default function ContentCarousel({
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-[#0a0d16]">
+                      <div className="w-full h-full flex items-center justify-center bg-[var(--code)]">
                         <span
-                          className="text-4xl text-[#f4b965]/30"
+                          className="text-4xl text-[var(--warning)]/30"
                           style={{ fontFamily: '"JetBrains Mono", monospace', fontWeight: 700 }}
                         >
                           {item.title.charAt(0).toUpperCase()}
@@ -317,7 +317,7 @@ export default function ContentCarousel({
                       {tr('field_note')}
                     </span>
                     <h3
-                      className="text-[17px] sm:text-[19px] leading-tight text-[#f3f5fa] line-clamp-3"
+                      className="text-[17px] sm:text-[19px] leading-tight text-[var(--text-strong)] line-clamp-3"
                       style={{
                         fontFamily: '"JetBrains Mono", monospace',
                         fontWeight: 700,
@@ -328,7 +328,7 @@ export default function ContentCarousel({
                     </h3>
                     {item.published_at && (
                       <time
-                        className="mt-auto pt-2 text-[10px] uppercase tracking-[2px] text-[#f4b965] tabular-nums"
+                        className="mt-auto pt-2 text-[10px] uppercase tracking-[2px] text-[var(--warning)] tabular-nums"
                         style={{ fontFamily: '"JetBrains Mono", monospace' }}
                       >
                         {item.published_at}
@@ -345,11 +345,11 @@ export default function ContentCarousel({
             <a
               key={item.id}
               href={href}
-              className="card-interactive flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[#121828] border border-[#202a44] overflow-hidden snap-start group block"
+              className="card-interactive flex-shrink-0 w-[78vw] sm:w-[280px] md:w-[300px] lg:w-[calc(25%-12px)] max-w-[320px] bg-[var(--panel)] border border-[var(--border)] overflow-hidden snap-start group block"
               style={{ textDecoration: 'none' }}
               aria-label={`${badge}: ${item.title}`}
             >
-              <div className="relative aspect-video bg-[#0b0f1a] overflow-hidden">
+              <div className="relative aspect-video bg-[var(--canvas)] overflow-hidden">
                 {item.cover_image && item.cover_image !== '' ? (
                   <img
                     src={item.cover_image}
@@ -358,7 +358,7 @@ export default function ContentCarousel({
                     loading="lazy"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center" style={{ color: '#6b7588' }}>
+                  <div className="w-full h-full flex items-center justify-center" style={{ color: 'var(--dim)' }}>
                     <span className="text-3xl opacity-30" style={{ fontFamily: '"JetBrains Mono", monospace' }}>
                       ?
                     </span>
@@ -375,16 +375,16 @@ export default function ContentCarousel({
                 {item.published_at && (
                   <time
                     className="block text-xs mb-1"
-                    style={{ fontFamily: '"JetBrains Mono", monospace', color: '#f4b965' }}
+                    style={{ fontFamily: '"JetBrains Mono", monospace', color: 'var(--warning)' }}
                   >
                     {item.published_at}
                   </time>
                 )}
-                <h3 className="text-sm font-semibold mb-1 line-clamp-2" style={{ color: '#e7ecf5' }}>
+                <h3 className="text-sm font-semibold mb-1 line-clamp-2" style={{ color: 'var(--text)' }}>
                   {item.title}
                 </h3>
                 {item.subtitle && (
-                  <p className="text-xs line-clamp-2" style={{ color: '#aab2c4' }}>
+                  <p className="text-xs line-clamp-2" style={{ color: 'var(--text-soft)' }}>
                     {item.subtitle}
                   </p>
                 )}
@@ -394,7 +394,7 @@ export default function ContentCarousel({
         })}
 
         {items.length === 0 && (
-          <div className="w-full py-12 text-center text-sm" style={{ color: '#8b94a8' }}>
+          <div className="w-full py-12 text-center text-sm" style={{ color: 'var(--muted)' }}>
             {isLoading ? tr('loading') : tr('empty')}
           </div>
         )}

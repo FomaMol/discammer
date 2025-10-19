@@ -28,18 +28,18 @@ interface LinkInspectorProps {
 
 // Meter color by level — mirrors the analyzer's semantic threat palette.
 function levelColor(level: number): string {
-  if (level <= 0) return 'rgba(101, 116, 136, 0.5)'; // neutral grey
-  if (level <= 1) return '#7ce896'; // green: soft
-  if (level === 2) return '#f4b965'; // amber
-  if (level === 3) return '#f29b6c'; // mid warn
-  return '#e76670'; // red: severe
+  if (level <= 0) return 'color-mix(in srgb,var(--muted) 50%,transparent)'; // neutral grey
+  if (level <= 1) return 'var(--success)'; // green: soft
+  if (level === 2) return 'var(--warning)'; // amber
+  if (level === 3) return 'var(--threat-mid)'; // mid warn
+  return 'var(--danger)'; // red: severe
 }
 
 // Per-severity accent for a fired-finding chip.
 function severityColor(severity: 1 | 2 | 3): string {
-  if (severity === 3) return '#e76670';
-  if (severity === 2) return '#f4b965';
-  return '#7ce896';
+  if (severity === 3) return 'var(--danger)';
+  if (severity === 2) return 'var(--warning)';
+  return 'var(--success)';
 }
 
 /** 5-slat risk meter — same shape + aria-label rule as ScamTypesGrid. */
@@ -59,7 +59,7 @@ function RiskMeter({ level, color, label }: { level: number; color: string; labe
           className="block w-[6px]"
           style={{
             height: `${10 + slot * 4}px`,
-            background: slot <= level ? color : 'rgba(101, 116, 136, 0.22)',
+            background: slot <= level ? color : 'color-mix(in srgb,var(--muted) 22%,transparent)',
           }}
           aria-hidden="true"
         />
@@ -113,7 +113,7 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
       <form ref={formRef} onSubmit={onSubmit}>
         <label
           htmlFor={inputId}
-          className="block text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] mb-2"
+          className="block text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2"
         >
           {tr('input_label')}
         </label>
@@ -128,12 +128,12 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
           autoCapitalize="off"
           autoCorrect="off"
           placeholder={tr('placeholder')}
-          className="w-full bg-[#0a0d16] border border-[#202a44] focus:border-[#3a8b9a] focus:outline-none rounded-[4px] px-3 py-3 text-[14px] leading-[1.5] text-[#e7ecf5] placeholder:text-[#8b94a8]"
+          className="w-full bg-[var(--code)] border border-[var(--border)] focus:border-[var(--brand-dim)] focus:outline-none rounded-[4px] px-3 py-3 text-[14px] leading-[1.5] text-[var(--text)] placeholder:text-[var(--muted)]"
         />
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="submit"
-            className="shrink-0 px-5 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[4px] cursor-pointer"
+            className="shrink-0 px-5 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition-colors rounded-[4px] cursor-pointer"
           >
             {tr('inspect')}
           </button>
@@ -142,12 +142,12 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
           <button
             type="button"
             onClick={onLoadExample}
-            className="shrink-0 px-5 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition-colors rounded-[4px] cursor-pointer focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:2px]"
+            className="shrink-0 px-5 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold border border-[var(--brand)] text-[var(--brand)] hover:bg-[var(--brand)]/10 transition-colors rounded-[4px] cursor-pointer focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:2px]"
           >
             {tr('load_example')}
           </button>
           {/* Privacy line — load-bearing: the link stays in the browser. */}
-          <p className="text-[11px] leading-[1.45] text-[#8b94a8] max-w-[46ch]">
+          <p className="text-[11px] leading-[1.45] text-[var(--muted)] max-w-[46ch]">
             {tr('privacy')}
           </p>
         </div>
@@ -156,7 +156,7 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
       {/* Results region — polite so the meter + findings are announced on submit. */}
       <div aria-live="polite" className="mt-8">
         {result === null && (
-          <p className="text-[12px] uppercase tracking-[0.14em] text-[#8b94a8]">
+          <p className="text-[12px] uppercase tracking-[0.14em] text-[var(--muted)]">
             {tr('empty_prompt')}
           </p>
         )}
@@ -168,7 +168,7 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
               <RiskMeter level={level} color={meterColor} label={tr('meter_label', { level })} />
               <div className="leading-tight">
                 <div
-                  className="text-[10px] uppercase tracking-[3px] text-[#8b94a8]"
+                  className="text-[10px] uppercase tracking-[3px] text-[var(--muted)]"
                   aria-hidden="true"
                 >
                   {tr('meter_caption')}
@@ -179,34 +179,34 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
                   aria-hidden="true"
                 >
                   {level}
-                  <span className="text-[#8b94a8] text-base">/5</span>
+                  <span className="text-[var(--muted)] text-base">/5</span>
                 </div>
               </div>
             </div>
 
             {/* Echo the host we judged, when one could be read. */}
             {result.parsed.host && (
-              <p className="text-[11px] leading-[1.45] text-[#8b94a8] mb-5 break-all">
+              <p className="text-[11px] leading-[1.45] text-[var(--muted)] mb-5 break-all">
                 {tr('judged_host', { host: result.parsed.host })}
               </p>
             )}
 
             {result.findings.length === 0 ? (
               /* Calm, honest "nothing fired" state — no false reassurance. */
-              <div className="border border-[#202a44] bg-[#0a0d16]/60 rounded-[4px] px-4 py-4">
-                <div className="text-[11px] uppercase tracking-[0.14em] text-[#7ce896] mb-2">
+              <div className="border border-[var(--border)] bg-[var(--code)]/60 rounded-[4px] px-4 py-4">
+                <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--success)] mb-2">
                   {tr('clean_heading')}
                 </div>
-                <p className="text-[13px] leading-[1.6] text-[#aab2c4] max-w-[64ch] font-sans">
+                <p className="text-[13px] leading-[1.6] text-[var(--text-soft)] max-w-[64ch] font-sans">
                   {tr('clean_body')}
                 </p>
               </div>
             ) : (
               <>
-                <div className="text-[10px] uppercase tracking-[3px] text-[#8b94a8] mb-1">
+                <div className="text-[10px] uppercase tracking-[3px] text-[var(--muted)] mb-1">
                   {tr('result_heading')}
                 </div>
-                <p className="text-[12px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums mb-4">
+                <p className="text-[12px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums mb-4">
                   {result.findings.length === 1
                     ? tr('finding_one', { count: result.findings.length })
                     : tr('findings_count', { count: result.findings.length })}
@@ -218,16 +218,16 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
                     return (
                       <li
                         key={finding.id}
-                        className="border bg-[#121828] rounded-[4px] px-4 py-3.5"
+                        className="border bg-[var(--panel)] rounded-[4px] px-4 py-3.5"
                         style={{
-                          borderColor: `${accent}40`,
+                          borderColor: `color-mix(in srgb,${accent} 25.10%,transparent)`,
                           borderLeftWidth: 3,
                           borderLeftColor: accent,
                         }}
                       >
                         <div className="flex items-start justify-between gap-3 mb-1.5">
                           <h3
-                            className="text-[14px] font-bold text-[#f3f5fa] leading-snug"
+                            className="text-[14px] font-bold text-[var(--text-strong)] leading-snug"
                             style={{ letterSpacing: '-0.01em' }}
                           >
                             {tr(`explain.${finding.explainKey}_label`)}
@@ -240,13 +240,13 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
                             {sevWord(finding.severity)}
                           </span>
                         </div>
-                        <p className="text-[13px] leading-[1.55] text-[#aab2c4] font-sans">
+                        <p className="text-[13px] leading-[1.55] text-[var(--text-soft)] font-sans">
                           {tr(`explain.${finding.explainKey}_body`)}
                         </p>
                         {finding.guideSlug && (
                           <a
                             href={`/${lang}/guide/${finding.guideSlug}`}
-                            className="inline-flex items-center gap-1 mt-2 text-[11px] uppercase tracking-[0.12em] text-[#65def0] hover:text-[#9eecf6] transition-colors"
+                            className="inline-flex items-center gap-1 mt-2 text-[11px] uppercase tracking-[0.12em] text-[var(--brand)] hover:text-[var(--brand-hover)] transition-colors"
                           >
                             {tr('guide_link')} <span aria-hidden="true">&#8594;</span>
                           </a>
@@ -260,7 +260,7 @@ export default function LinkInspector({ lang: langProp }: LinkInspectorProps) {
 
             {/* Heuristic-not-verdict line — always shown once inspected. */}
             <p
-              className="mt-6 text-[11px] leading-[1.5] text-[#8b94a8] max-w-[64ch] font-sans"
+              className="mt-6 text-[11px] leading-[1.5] text-[var(--muted)] max-w-[64ch] font-sans"
               style={reduce ? undefined : { transition: 'color 200ms' }}
             >
               {tr('disclaimer')}

@@ -32,8 +32,8 @@
    rebuilt in this task's scope. #}
 <style>
   .dcm-snippet mark {
-    background-color: rgba(101, 222, 240, 0.18);
-    color: #cdeefa;
+    background-color: color-mix(in srgb,var(--brand) 18%,transparent);
+    color: var(--text);
     border-radius: 2px;
     padding: 0 1px;
   }
@@ -44,10 +44,10 @@
 
 {% set _lang = lang %}
 
-  <nav class="font-mono text-[11px] text-[#8b94a8] flex flex-wrap items-center gap-2 max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-10 pt-6" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
-    <a href="/{{ _lang }}/" class="text-[#3a8b9a] hover:text-[#65def0] transition">{{ t(_lang, 'footer.home') }}</a>
-    <span class="text-[#6b7588]" aria-hidden="true">/</span>
-    <span class="text-[#e7ecf5]" aria-current="page">{{ t(_lang, 'nav.search') }}</span>
+  <nav class="font-mono text-[11px] text-[var(--muted)] flex flex-wrap items-center gap-2 max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-10 pt-6" aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
+    <a href="/{{ _lang }}/" class="text-[var(--brand-dim)] hover:text-[var(--brand)] transition">{{ t(_lang, 'footer.home') }}</a>
+    <span class="text-[var(--dim)]" aria-hidden="true">/</span>
+    <span class="text-[var(--text)]" aria-current="page">{{ t(_lang, 'nav.search') }}</span>
   </nav>
 
 
@@ -58,14 +58,14 @@
      Arrows rule: the decorative `>` is a separate aria-hidden span; the
      locale strings (searchpage.eyebrow / searchpage.headline) are PLAIN TEXT.
      ───────────────────────────────────────────────────────────────────── #}
-  <section class="border-b border-[#202a44] pt-9 sm:pt-12 lg:pt-16 pb-6 sm:pb-8">
+  <section class="border-b border-[var(--border)] pt-9 sm:pt-12 lg:pt-16 pb-6 sm:pb-8">
 
-    <div class="font-mono text-[11px] font-semibold tracking-[0.16em] text-[#65def0] mb-3.5 flex items-center gap-2">
-      <span class="text-[#3a8b9a]" aria-hidden="true">&gt;</span>
+    <div class="font-mono text-[11px] font-semibold tracking-[0.16em] text-[var(--brand)] mb-3.5 flex items-center gap-2">
+      <span class="text-[var(--brand-dim)]" aria-hidden="true">&gt;</span>
       {{ t(_lang, 'searchpage.eyebrow') }}
     </div>
 
-    <h1 class="font-mono font-extrabold uppercase text-[#f3f5fa] text-[1.9rem] sm:text-4xl lg:text-5xl leading-[1.02] mb-0"
+    <h1 class="font-mono font-extrabold uppercase text-[var(--text-strong)] text-[1.9rem] sm:text-4xl lg:text-5xl leading-[1.02] mb-0"
         style="letter-spacing: -0.04em; text-wrap: balance;">
       {{ t(_lang, 'searchpage.headline') }}
     </h1>
@@ -83,6 +83,7 @@
       "lang": _lang,
       "query": q,
       "apiPath": "/api/search",
+      "initialResults": results,
       "resultsLabel": t(_lang, "search.results_label"),
       "countLabel": t(_lang, "search.result_count"),
       "noResultsLabel": t(_lang, "search.no_results"),
@@ -101,9 +102,9 @@
         <input id="dcm-search-input" type="search" name="q" value="{{ q }}"
                autocomplete="off" spellcheck="false"
                placeholder="{{ t(_lang, 'search.placeholder') }}"
-               class="flex-1 min-w-0 bg-[#0a0d16] border border-[#2b3759] focus:border-[#3a8b9a] focus:outline-none rounded-[6px] px-3 py-3 font-mono text-[14px] sm:text-[16px] text-[#e7ecf5] placeholder:text-[#8b94a8]">
+               class="flex-1 min-w-0 bg-[var(--code)] border border-[var(--border-strong)] focus:border-[var(--brand-dim)] focus:outline-none rounded-[6px] px-3 py-3 font-mono text-[14px] sm:text-[16px] text-[var(--text)] placeholder:text-[var(--muted)]">
         <button type="submit"
-                class="shrink-0 px-4 sm:px-5 py-3 font-mono uppercase text-[12px] tracking-[0.14em] font-bold bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-colors rounded-[6px]">
+                class="shrink-0 px-4 sm:px-5 py-3 font-mono uppercase text-[12px] tracking-[0.14em] font-bold bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition-colors rounded-[6px]">
           {{ t(_lang, 'search.submit') }}
         </button>
       </form>
@@ -111,7 +112,7 @@
       {# SSR results / empty-state. #}
       {% if q %}
         {% if results %}
-          <p class="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+          <p class="mt-6 mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
             {{ t(_lang, 'search.result_count', count=result_count) }}
           </p>
           <ul class="space-y-3" role="list">
@@ -119,19 +120,19 @@
             {% set _href = ('/' ~ _lang ~ '/journal/' ~ r.slug) if r.kind == 'post' else ('/' ~ _lang ~ '/guide/' ~ r.slug) %}
             <li>
               <a href="{{ _href }}"
-                 class="block border border-[#202a44] bg-[#121828] hover:border-[#3a8b9a] hover:bg-[#1a2236] transition-colors rounded-[4px] px-4 py-3.5">
+                 class="block border border-[var(--border)] bg-[var(--panel)] hover:border-[var(--brand-dim)] hover:bg-[var(--raised)] transition-colors rounded-[4px] px-4 py-3.5">
                 <div class="flex items-center gap-2 mb-1.5">
                   {% if r.kind == 'guide' %}
-                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#0a0d16] text-[#e76670] border border-[#e76670]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_guide') }}</span>
+                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--code)] text-[var(--danger)] border border-[var(--danger)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_guide') }}</span>
                   {% else %}
-                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[#0a0d16] text-[#65def0] border border-[#65def0]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_post') }}</span>
+                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 bg-[var(--code)] text-[var(--brand)] border border-[var(--brand)]/40 rounded-sm" style="letter-spacing: 0.14em; font-weight: 600;">{{ t(_lang, 'search.badge_post') }}</span>
                   {% endif %}
                 </div>
-                <h2 class="font-mono font-bold text-[#e7ecf5] text-[15px]" style="letter-spacing: -0.01em;">{{ r.title }}</h2>
+                <h2 class="font-mono font-bold text-[var(--text)] text-[15px]" style="letter-spacing: -0.01em;">{{ r.title }}</h2>
                 {# r.snippet_html is Markup() — already HTML-escaped then marked
                    (control-char markers swapped for <mark> AFTER escaping). It is
                    the ONLY field rendered |safe on this page. #}
-                <p class="mt-1 font-sans text-[13px] leading-[1.55] text-[#aab2c4] dcm-snippet">{{ r.snippet_html }}</p>
+                <p class="mt-1 font-sans text-[13px] leading-[1.55] text-[var(--text-soft)] dcm-snippet">{{ r.snippet_html }}</p>
               </a>
             </li>
             {% endfor %}
@@ -139,16 +140,16 @@
         {% else %}
           {# Empty result — canvas "Nothing matches that yet." state. #}
           <div class="text-center py-12 px-5">
-            <p class="font-sans text-[16px] text-[#aab2c4] mt-3.5 mb-1">{{ t(_lang, 'searchpage.empty_title') }}</p>
-            <p class="font-mono text-[12px] text-[#8b94a8] m-0">{{ t(_lang, 'searchpage.empty_hint') }}</p>
+            <p class="font-sans text-[16px] text-[var(--text-soft)] mt-3.5 mb-1">{{ t(_lang, 'searchpage.empty_title') }}</p>
+            <p class="font-mono text-[12px] text-[var(--muted)] m-0">{{ t(_lang, 'searchpage.empty_hint') }}</p>
           </div>
         {% endif %}
       {% else %}
         {# No query yet — explainer + the same "try a scam type" hint. #}
-        <p class="mt-6 font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[52ch]">
+        <p class="mt-6 font-sans text-[14px] leading-[1.6] text-[var(--text-soft)] max-w-[52ch]">
           {{ t(_lang, 'search.empty_explainer') }}
         </p>
-        <p class="mt-2 font-mono text-[12px] text-[#8b94a8]">{{ t(_lang, 'searchpage.empty_hint') }}</p>
+        <p class="mt-2 font-mono text-[12px] text-[var(--muted)]">{{ t(_lang, 'searchpage.empty_hint') }}</p>
       {% endif %}
 
     </div>

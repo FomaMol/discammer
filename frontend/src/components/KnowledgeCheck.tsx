@@ -85,22 +85,22 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
 
   return (
     <section
-      className="relative bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]"
+      className="relative bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]"
       aria-labelledby={`${groupBase}-heading`}
     >
       <div className="flex items-center justify-between gap-3 mb-1.5">
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#8b94a8]">
+        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">
           {eyebrow}
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8] tabular-nums">
+        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
           {total} {tr('options_caption')}
         </div>
       </div>
       <h2
         id={`${groupBase}-heading`}
-        className="font-mono text-[16px] sm:text-[18px] font-bold uppercase tracking-[-0.01em] text-[#65def0] flex items-baseline gap-2"
+        className="font-mono text-[16px] sm:text-[18px] font-bold uppercase tracking-[-0.01em] text-[var(--brand)] flex items-baseline gap-2"
       >
-        <span className="text-[#65def0]" aria-hidden="true">&gt;</span>
+        <span className="text-[var(--brand)]" aria-hidden="true">&gt;</span>
         {heading}
       </h2>
 
@@ -114,10 +114,10 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
           return (
             <li key={q.id}>
               <div className="flex items-baseline gap-2.5">
-                <span className="shrink-0 font-mono text-[12px] text-[#8b94a8] tabular-nums pt-0.5">
+                <span className="shrink-0 font-mono text-[12px] text-[var(--muted)] tabular-nums pt-0.5">
                   {(qi + 1).toString().padStart(2, '0')}
                 </span>
-                <h3 className="font-sans text-[#e7ecf5] text-[16px] sm:text-[17px] font-semibold leading-snug max-w-[60ch]">
+                <h3 className="font-sans text-[var(--text)] text-[16px] sm:text-[17px] font-semibold leading-snug max-w-[60ch]">
                   {tr(`${base}.prompt`)}
                 </h3>
               </div>
@@ -134,16 +134,16 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
                   let stateClass: string;
                   let badge: { text: string; cls: string } | null = null;
                   if (showCorrect) {
-                    stateClass = 'border-[#7ce896] bg-[#7ce896]/10';
-                    badge = { text: correctLabel, cls: 'text-[#7ce896]' };
+                    stateClass = 'border-[var(--success)] bg-[var(--success)]/10';
+                    badge = { text: correctLabel, cls: 'text-[var(--success)]' };
                   } else if (showWrong) {
-                    stateClass = 'border-[#e76670] bg-[#e76670]/10';
-                    badge = { text: incorrectLabel, cls: 'text-[#e76670]' };
+                    stateClass = 'border-[var(--danger)] bg-[var(--danger)]/10';
+                    badge = { text: incorrectLabel, cls: 'text-[var(--danger)]' };
                   } else if (active) {
-                    stateClass = 'border-[#65def0] bg-[#65def0]/8';
+                    stateClass = 'border-[var(--brand)] bg-[var(--brand)]/8';
                   } else {
                     stateClass =
-                      'border-[#202a44] hover:border-[#65def0] hover:bg-[#65def0]/5';
+                      'border-[var(--border)] hover:border-[var(--brand)] hover:bg-[var(--brand)]/5';
                   }
 
                   return (
@@ -157,11 +157,11 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
                         value={oi}
                         checked={active}
                         onChange={() => pick(qi, oi)}
-                        className="mt-1 accent-[#65def0] shrink-0"
+                        className="mt-1 accent-[var(--brand)] shrink-0"
                       />
                       <span
                         className={`flex-1 font-sans text-[14px] sm:text-[15px] leading-relaxed ${
-                          active && !submitted ? 'text-[#65def0]' : 'text-[#cdd4e3]'
+                          active && !submitted ? 'text-[var(--brand)]' : 'text-[var(--text-medium)]'
                         }`}
                       >
                         {tr(`${base}.${optKey}`)}
@@ -181,17 +181,17 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
               {/* The tell — only for a MISSED question. Explains the signal,
                   never scolds, and links back to the guide section. */}
               {submitted && !qCorrect && (
-                <div className="mt-3 ml-7 p-3.5 border border-[#f4b965]/40 bg-[#f4b965]/5 rounded-[3px]">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#f4b965] mb-1.5">
+                <div className="mt-3 ml-7 p-3.5 border border-[var(--warning)]/40 bg-[var(--warning)]/5 rounded-[3px]">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--warning)] mb-1.5">
                     {tellLabel}
                   </div>
-                  <p className="font-sans text-[14px] text-[#cdd4e3] leading-relaxed max-w-[60ch]">
+                  <p className="font-sans text-[14px] text-[var(--text-medium)] leading-relaxed max-w-[60ch]">
                     {tr(`${base}.tell`)}
                   </p>
                   {guideUrl && (
                     <a
                       href={guideUrl}
-                      className="inline-flex items-center gap-1.5 mt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#3a8b9a] hover:text-[#65def0] transition"
+                      className="inline-flex items-center gap-1.5 mt-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--brand-dim)] hover:text-[var(--brand)] transition"
                     >
                       <span aria-hidden="true">↑</span> {reviewLinkLabel}
                     </a>
@@ -210,7 +210,7 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
             type="button"
             onClick={submit}
             disabled={!allAnswered}
-            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[#3a8b9a]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-[var(--brand-dim)]"
           >
             <span aria-hidden="true">▸</span> {submitLabel}
           </button>
@@ -219,8 +219,8 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
             <span
               className={`inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[12px] tracking-[0.14em] tabular-nums rounded-[4px] border ${
                 score === total
-                  ? 'border-[#7ce896] bg-[#7ce896]/10 text-[#7ce896]'
-                  : 'border-[#f4b965] bg-[#f4b965]/10 text-[#f4b965]'
+                  ? 'border-[var(--success)] bg-[var(--success)]/10 text-[var(--success)]'
+                  : 'border-[var(--warning)] bg-[var(--warning)]/10 text-[var(--warning)]'
               }`}
             >
               {scoreText}
@@ -228,7 +228,7 @@ export default function KnowledgeCheck({ slug, guideUrl }: Props) {
             <button
               type="button"
               onClick={retry}
-              className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[#aab2c4] hover:text-[#e7ecf5] transition"
+              className="inline-flex items-center gap-2 px-4 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] text-[var(--text-soft)] hover:text-[var(--text)] transition"
             >
               ↺ {retryLabel}
             </button>

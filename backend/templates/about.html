@@ -17,25 +17,25 @@
 <article class="max-w-[44rem] mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
 
   {# 1. Eyebrow — small mono operator's-note line above the heading. #}
-  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#8b94a8] mb-4">
+  <div class="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--muted)] mb-4">
     {{ t(_lang, 'about.eyebrow') }}
   </div>
 
   {# 2. Title — display-article scale, sentence-case (reading surface).
         Cyan only on the inline term that names the thing this site is. #}
-  <h1 class="font-mono font-bold text-[#e7ecf5] tracking-[-0.02em] leading-[1.15]"
+  <h1 class="font-mono font-bold text-[var(--text)] tracking-[-0.02em] leading-[1.15]"
       style="font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);">
     {{ t(_lang, 'about.title') }}
   </h1>
 
   {# 3. Lead paragraph — Geist 18-19px, max-width 60ch, plain-spoken. #}
-  <p class="mt-6 sm:mt-7 font-sans text-[17px] sm:text-[19px] leading-[1.6] text-[#e7ecf5] max-w-[60ch]">
+  <p class="mt-6 sm:mt-7 font-sans text-[17px] sm:text-[19px] leading-[1.6] text-[var(--text)] max-w-[60ch]">
     {{ t(_lang, 'about.lead') }}
   </p>
 
-  <p class="mt-5 font-sans text-[16px] leading-[1.7] text-[#cdd4e3] max-w-[62ch]">
+  <p class="mt-5 font-sans text-[16px] leading-[1.7] text-[var(--text-medium)] max-w-[62ch]">
     <a href="/{{ _lang }}/portfolio"
-       class="inline-flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#65def0] underline underline-offset-4 decoration-[#3a8b9a] decoration-1 transition-colors hover:text-[#9eecf6] hover:decoration-[#65def0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#65def0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0f1a]">
+       class="inline-flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[var(--brand)] underline underline-offset-4 decoration-[var(--brand-dim)] decoration-1 transition-colors hover:text-[var(--brand-hover)] hover:decoration-[var(--brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--canvas)]">
       {{ t(_lang, 'about.portfolio_link') }}
       <span aria-hidden="true">→</span>
     </a>
@@ -44,34 +44,34 @@
   {# 4. Three sections — h2 cyan mono, body Geist sentence-case. #}
   <section class="mt-10 sm:mt-12" aria-labelledby="believe-heading">
     <h2 id="believe-heading"
-        class="font-mono font-bold uppercase text-[#65def0] text-[18px] sm:text-[20px] tracking-[-0.01em] mb-3">
+        class="font-mono font-bold uppercase text-[var(--brand)] text-[18px] sm:text-[20px] tracking-[-0.01em] mb-3">
       {{ t(_lang, 'about.what_we_believe_heading') }}
     </h2>
-    <p class="font-sans text-[16px] leading-[1.7] text-[#cdd4e3] max-w-[62ch]">
+    <p class="font-sans text-[16px] leading-[1.7] text-[var(--text-medium)] max-w-[62ch]">
       {{ t(_lang, 'about.what_we_believe_body') }}
     </p>
   </section>
 
   <section class="mt-10 sm:mt-12" aria-labelledby="do-heading">
     <h2 id="do-heading"
-        class="font-mono font-bold uppercase text-[#65def0] text-[18px] sm:text-[20px] tracking-[-0.01em] mb-3">
+        class="font-mono font-bold uppercase text-[var(--brand)] text-[18px] sm:text-[20px] tracking-[-0.01em] mb-3">
       {{ t(_lang, 'about.what_we_do_heading') }}
     </h2>
-    <ul class="font-sans text-[16px] leading-[1.7] text-[#cdd4e3] space-y-2 max-w-[62ch]" role="list">
+    <ul class="font-sans text-[16px] leading-[1.7] text-[var(--text-medium)] space-y-2 max-w-[62ch]" role="list">
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] mt-0.5 font-mono">&#9656;</span>
+        <span aria-hidden="true" class="text-[var(--brand)] mt-0.5 font-mono">&#9656;</span>
         <span>{{ t(_lang, 'about.what_we_do_item_1') }}</span>
       </li>
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] mt-0.5 font-mono">&#9656;</span>
+        <span aria-hidden="true" class="text-[var(--brand)] mt-0.5 font-mono">&#9656;</span>
         <span>{{ t(_lang, 'about.what_we_do_item_2') }}</span>
       </li>
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] mt-0.5 font-mono">&#9656;</span>
+        <span aria-hidden="true" class="text-[var(--brand)] mt-0.5 font-mono">&#9656;</span>
         <span>{{ t(_lang, 'about.what_we_do_item_3') }}</span>
       </li>
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#65def0] mt-0.5 font-mono">&#9656;</span>
+        <span aria-hidden="true" class="text-[var(--brand)] mt-0.5 font-mono">&#9656;</span>
         <span>{{ t(_lang, 'about.what_we_do_item_4') }}</span>
       </li>
     </ul>
@@ -79,27 +79,27 @@
 
   <section class="mt-10 sm:mt-12" aria-labelledby="dont-heading">
     <h2 id="dont-heading"
-        class="font-mono font-bold uppercase text-[#65def0] text-[18px] sm:text-[20px] tracking-[-0.01em] mb-3">
+        class="font-mono font-bold uppercase text-[var(--brand)] text-[18px] sm:text-[20px] tracking-[-0.01em] mb-3">
       {{ t(_lang, 'about.what_we_dont_do_heading') }}
     </h2>
     {# Amber `×` markers — different from the cyan `▸` above, so the
        semantic flip from "what we do" to "what we don't" is visible at a
        glance, not just by reading the heading. #}
-    <ul class="font-sans text-[16px] leading-[1.7] text-[#cdd4e3] space-y-2 max-w-[62ch]" role="list">
+    <ul class="font-sans text-[16px] leading-[1.7] text-[var(--text-medium)] space-y-2 max-w-[62ch]" role="list">
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#f4b965] mt-0.5 font-mono">&times;</span>
+        <span aria-hidden="true" class="text-[var(--warning)] mt-0.5 font-mono">&times;</span>
         <span>{{ t(_lang, 'about.what_we_dont_do_item_1') }}</span>
       </li>
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#f4b965] mt-0.5 font-mono">&times;</span>
+        <span aria-hidden="true" class="text-[var(--warning)] mt-0.5 font-mono">&times;</span>
         <span>{{ t(_lang, 'about.what_we_dont_do_item_2') }}</span>
       </li>
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#f4b965] mt-0.5 font-mono">&times;</span>
+        <span aria-hidden="true" class="text-[var(--warning)] mt-0.5 font-mono">&times;</span>
         <span>{{ t(_lang, 'about.what_we_dont_do_item_3') }}</span>
       </li>
       <li class="flex items-start gap-3">
-        <span aria-hidden="true" class="text-[#f4b965] mt-0.5 font-mono">&times;</span>
+        <span aria-hidden="true" class="text-[var(--warning)] mt-0.5 font-mono">&times;</span>
         <span>{{ t(_lang, 'about.what_we_dont_do_item_4') }}</span>
       </li>
     </ul>
@@ -113,11 +113,11 @@
         card grid (DESIGN.md bans the icon-title-text repeat). #}
   <section class="mt-12 sm:mt-16" aria-labelledby="artifacts-heading">
     <h2 id="artifacts-heading"
-        class="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8b94a8] mb-4 sm:mb-5">
+        class="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)] mb-4 sm:mb-5">
       // {{ t(_lang, 'about.artifacts_heading') }}
     </h2>
-    {% set _link_classes = 'font-mono uppercase tracking-[0.08em] text-[#65def0] hover:text-[#9eecf6] underline underline-offset-2 decoration-[#3a8b9a] decoration-1 hover:decoration-[#65def0] transition-colors' %}
-    <p class="font-sans text-[16px] leading-[1.7] text-[#cdd4e3] max-w-[62ch]">
+    {% set _link_classes = 'font-mono uppercase tracking-[0.08em] text-[var(--brand)] hover:text-[var(--brand-hover)] underline underline-offset-2 decoration-[var(--brand-dim)] decoration-1 hover:decoration-[var(--brand)] transition-colors' %}
+    <p class="font-sans text-[16px] leading-[1.7] text-[var(--text-medium)] max-w-[62ch]">
       <a href="/{{ _lang }}/journal#threat-database" class="{{ _link_classes }}">{{ t(_lang, 'about.artifact_threats_label') }}</a>:
       {{ t(_lang, 'about.artifact_threats_desc') }}
       <a href="/{{ _lang }}/journal" class="{{ _link_classes }}">{{ t(_lang, 'about.artifact_journal_label') }}</a>:
@@ -130,19 +130,19 @@
   </section>
 
   {# 6. Contact + built-by — small, mono, sits at the bottom like a sign-off. #}
-  <section class="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-[#202a44]" aria-labelledby="contact-heading">
+  <section class="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-[var(--border)]" aria-labelledby="contact-heading">
     <h2 id="contact-heading"
-        class="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8b94a8] mb-3">
+        class="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)] mb-3">
       // {{ t(_lang, 'about.contact_heading') }}
     </h2>
-    <p class="font-sans text-[15px] leading-[1.65] text-[#cdd4e3]">
+    <p class="font-sans text-[15px] leading-[1.65] text-[var(--text-medium)]">
       {{ t(_lang, 'about.contact_email_label') }}
       <a href="mailto:hello@discammer.com"
-         class="font-mono text-[#65def0] hover:text-[#9eecf6] underline underline-offset-2 decoration-[#3a8b9a] decoration-1 hover:decoration-[#65def0] transition-colors">
+         class="font-mono text-[var(--brand)] hover:text-[var(--brand-hover)] underline underline-offset-2 decoration-[var(--brand-dim)] decoration-1 hover:decoration-[var(--brand)] transition-colors">
         hello@discammer.com
       </a>
     </p>
-    <p class="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[#8b94a8]">
+    <p class="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">
       {{ t(_lang, 'about.built_by') }}
     </p>
   </section>

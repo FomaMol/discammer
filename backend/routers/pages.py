@@ -1,4 +1,5 @@
 import re
+from html import unescape
 
 from fastapi import APIRouter, Depends, Path, Query, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -389,6 +390,10 @@ async def guide_detail(slug: str, request: Request, lang: str = LangPath, conn=D
             **_base_context(request, lang),
             "guide": guide,
             "related_guides": related,
+            "guide_toc": [
+                {"id": ident, "title": unescape(re.sub(r"<[^>]+>", "", re.sub(r'<a\b[^>]*class="[^"]*toc-anchor[^"]*"[^>]*>.*?</a>', "", title)))}
+                for ident, title in re.findall(r'<h2\b[^>]*id="([^"]+)"[^>]*>(.*?)</h2>', guide["content_html"], re.S)
+            ],
             "page_title": f"{guide['title']} · DiScammer",
             "page_description": guide.get("description") or None,
             # Per-content OG card if generated; else None → base.html default.

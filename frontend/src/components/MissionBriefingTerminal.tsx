@@ -40,21 +40,21 @@ interface Line {
 function toneClass(tone: Tone): string {
   switch (tone) {
     case 'cyan':
-      return 'text-[#65def0]';
+      return 'text-[var(--brand)]';
     case 'amber':
-      return 'text-[#f4b965]';
+      return 'text-[var(--warning)]';
     case 'green':
-      return 'text-[#7ce896]';
+      return 'text-[var(--success)]';
     case 'mute':
-      return 'text-[#8b94a8]';
+      return 'text-[var(--muted)]';
     default:
-      return 'text-[#cdd4e3]';
+      return 'text-[var(--text-medium)]';
   }
 }
 
 function caretClass(caret: string): string {
-  if (caret === '▸') return 'text-[#f4b965]';
-  return 'text-[#65def0]';
+  if (caret === '▸') return 'text-[var(--warning)]';
+  return 'text-[var(--brand)]';
 }
 
 export default function MissionBriefingTerminal({
@@ -141,17 +141,17 @@ export default function MissionBriefingTerminal({
   return (
     <section
       aria-label="Mission briefing"
-      className="relative bg-[#121828] border border-[#202a44] rounded-[4px] overflow-hidden"
+      className="relative bg-[var(--panel)] border border-[var(--border)] rounded-[4px] overflow-hidden"
     >
       {/* Header bar: 3 hairline dots + label */}
-      <header className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#202a44] bg-[#1a2236]/60">
-        <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-        <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-        <span className="block w-2 h-2 rounded-full border border-[#2b3759]" aria-hidden="true" />
-        <span className="ml-2 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#aab2c4] truncate">
+      <header className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[var(--border)] bg-[var(--raised)]/60">
+        <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+        <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+        <span className="block w-2 h-2 rounded-full border border-[var(--border-strong)]" aria-hidden="true" />
+        <span className="ml-2 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[var(--text-soft)] truncate">
           {shellLabel}
         </span>
-        <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">
+        <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--success)]">
           <span className="status-dot" aria-hidden="true" />
           <span aria-hidden="true">LIVE</span>
         </span>
@@ -190,7 +190,7 @@ export default function MissionBriefingTerminal({
           ))}
           {!allShown && (
             <span
-              className="inline-block ml-1 text-[#65def0] font-mono"
+              className="inline-block ml-1 text-[var(--brand)] font-mono"
               style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
               aria-hidden="true"
             >
@@ -199,9 +199,9 @@ export default function MissionBriefingTerminal({
           )}
           {allShown && (
             <div className="mt-1 inline-flex items-center gap-2">
-              <span className="text-[#65def0]" aria-hidden="true">{'>'}</span>
+              <span className="text-[var(--brand)]" aria-hidden="true">{'>'}</span>
               <span
-                className="inline-block text-[#65def0] font-mono"
+                className="inline-block text-[var(--brand)] font-mono"
                 style={{ animation: reduce ? undefined : 'blink 1s step-end infinite' }}
                 aria-hidden="true"
               >
@@ -213,23 +213,23 @@ export default function MissionBriefingTerminal({
       </div>
 
       {/* CTA strip */}
-      <div className="px-4 sm:px-6 pb-6 sm:pb-7 pt-1 border-t border-[#202a44] bg-[#0b0f1a]/40">
+      <div className="px-4 sm:px-6 pb-6 sm:pb-7 pt-1 border-t border-[var(--border)] bg-[var(--canvas)]/40">
         <div className="flex flex-wrap items-center gap-3 pt-5">
           <a
             href={firstModuleSlug ? `/${lang}/course/${firstModuleSlug}` : `/${lang}/course#modules`}
-            className="dcm-briefing-cta-primary inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] transition-transform rounded-[4px] font-bold focus-visible:outline-none focus-visible:[outline:2px_solid_#65def0] focus-visible:[outline-offset:3px]"
+            className="dcm-briefing-cta-primary inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition-transform rounded-[4px] font-bold focus-visible:outline-none focus-visible:[outline:2px_solid_var(--brand)] focus-visible:[outline-offset:3px]"
           >
             <span aria-hidden="true">▸</span> {ctaStart}
           </a>
           <a
             href="#modules"
-            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[#2b3759] text-[#e7ecf5] hover:border-[#3a8b9a] hover:bg-[#65def0]/5 hover:text-[#65def0] transition rounded-[4px]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[var(--border-strong)] text-[var(--text)] hover:border-[var(--brand-dim)] hover:bg-[var(--brand)]/5 hover:text-[var(--brand)] transition rounded-[4px]"
           >
             <span aria-hidden="true">▸</span> {ctaModules}
           </a>
           <a
             href="mailto:academy@discammer.com?subject=DiScammer%20Course%20Brief"
-            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[#2b3759] text-[#aab2c4] hover:border-[#3a8b9a] hover:bg-[#65def0]/5 hover:text-[#65def0] transition rounded-[4px]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border border-[var(--border-strong)] text-[var(--text-soft)] hover:border-[var(--brand-dim)] hover:bg-[var(--brand)]/5 hover:text-[var(--brand)] transition rounded-[4px]"
           >
             <span aria-hidden="true">▸</span> {ctaBrief}
           </a>

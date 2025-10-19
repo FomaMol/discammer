@@ -60,17 +60,17 @@ export default function LessonFooter({
         <button
           type="button"
           onClick={toggle}
-          className={`inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border transition rounded-[4px] ${
+          className={`min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] border transition rounded-[4px] ${
             done
-              ? 'border-[#7ce896] text-[#7ce896] bg-[#7ce896]/10 hover:bg-[#7ce896]/15'
-              : 'border-[#65def0] bg-[#65def0] text-[#0b0f1a] hover:bg-[#9eecf6] font-bold'
+              ? 'border-[var(--success)] text-[var(--success)] bg-[var(--success)]/10 hover:bg-[var(--success)]/15'
+              : 'border-[var(--brand)] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] font-bold'
           }`}
         >
           {done ? completedLabel : markCompleteLabel}
         </button>
         <a
           href={moduleHref}
-          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-soft)] hover:text-[var(--brand)] transition"
         >
           {backToModule}
         </a>
@@ -81,12 +81,12 @@ export default function LessonFooter({
         {prevHref ? (
           <a
             href={prevHref}
-            className="group flex flex-col gap-1 p-4 border border-[#202a44] bg-[#121828]/60 hover:border-[#65def0] hover:bg-[#1a2236] transition rounded-[4px]"
+            className="group flex flex-col gap-1 p-4 border border-[var(--border)] bg-[var(--panel)]/60 hover:border-[var(--brand)] hover:bg-[var(--raised)] transition rounded-[4px]"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8]">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">
               {prevLabel}
             </span>
-            <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">
+            <span className="font-mono font-medium text-[14px] text-[var(--text)] group-hover:text-[var(--brand)] transition break-words leading-relaxed">
               {prevTitle}
             </span>
           </a>
@@ -96,24 +96,24 @@ export default function LessonFooter({
         {nextHref ? (
           <a
             href={nextHref}
-            className="group flex flex-col gap-1 p-4 border border-[#65def0] bg-[#65def0]/5 hover:bg-[#65def0]/10 transition text-right rounded-[4px]"
+            className="group flex flex-col gap-1 p-4 border border-[var(--brand)] bg-[var(--brand)]/5 hover:bg-[var(--brand)]/10 transition text-right rounded-[4px]"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#65def0]">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--brand)]">
               {nextLabel}
             </span>
-            <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#65def0] transition truncate">
+            <span className="font-mono font-medium text-[14px] text-[var(--text)] group-hover:text-[var(--brand)] transition break-words leading-relaxed">
               {nextTitle}
             </span>
           </a>
         ) : (
           <a
             href={moduleHref}
-            className="group flex flex-col gap-1 p-4 border border-[#7ce896] bg-[#7ce896]/5 hover:bg-[#7ce896]/10 transition text-right rounded-[4px]"
+            className="group flex flex-col gap-1 p-4 border border-[var(--success)] bg-[var(--success)]/5 hover:bg-[var(--success)]/10 transition text-right rounded-[4px]"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#7ce896]">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--success)]">
               {finishLabel}
             </span>
-            <span className="font-mono font-medium text-[14px] text-[#e7ecf5] group-hover:text-[#7ce896] transition truncate">
+            <span className="font-mono font-medium text-[14px] text-[var(--text)] group-hover:text-[var(--success)] transition break-words leading-relaxed">
               {returnLabel}
             </span>
           </a>

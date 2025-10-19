@@ -62,8 +62,8 @@
 {% set _tl = guide.threat_level or 1 %}
 {% set _level_key_map = {1:'risk_word_contained', 2:'risk_word_contained', 3:'risk_word_elevated', 4:'risk_word_severe', 5:'risk_word_critical'} %}
 {% set _level_word = t(_lang, 'guide.' ~ _level_key_map.get(_tl, 'risk_word_unknown')) %}
-{% set _threat_colors = {5: '#e76670', 4: '#f29b6c', 3: '#f4b965', 2: '#7ce896', 1: '#7ce896'} %}
-{% set _tl_color = _threat_colors.get(_tl, '#7ce896') %}
+{% set _threat_colors = {5: 'var(--danger)', 4: 'var(--threat-mid)', 3: 'var(--warning)', 2: 'var(--success)', 1: 'var(--success)'} %}
+{% set _tl_color = _threat_colors.get(_tl, 'var(--success)') %}
 
 {# ─────────────────────────────────────────────────────────────────────
    Page-scoped CSS — § counter prefix on prose h2s (preserves the
@@ -76,7 +76,7 @@
   #guide-article h2::before {
     counter-increment: dossier-section;
     content: "\00a7\00a0\00a0" "01." counter(dossier-section, decimal-leading-zero) "\00a0\00a0\00a0";
-    color: #8b94a8;
+    color: var(--muted);
     font-weight: 500;
     letter-spacing: 0.02em;
     font-variant-numeric: tabular-nums;
@@ -86,12 +86,12 @@
     font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 11px;
     line-height: 1.7;
-    color: #2b3759;
+    color: var(--border-strong);
     font-variant-numeric: tabular-nums;
     user-select: none;
     text-align: right;
     padding-right: 12px;
-    border-right: 1px dashed #202a44;
+    border-right: 1px dashed var(--border);
     margin-right: 18px;
   }
   .dossier-gutter span { display: block; }
@@ -99,14 +99,14 @@
     display: inline-block;
     width: 8px;
     height: 14px;
-    background: #65def0;
+    background: var(--brand);
     vertical-align: text-bottom;
     margin-left: 4px;
     animation: dossier-blink 1.1s steps(2, start) infinite;
   }
   @keyframes dossier-blink { to { background: transparent; } }
   @media (prefers-reduced-motion: reduce) {
-    .dossier-cursor { animation: none; background: #65def0; }
+    .dossier-cursor { animation: none; background: var(--brand); }
   }
 </style>
 
@@ -115,40 +115,40 @@
    threat-coloured radial glow, the threat_database breadcrumb eyebrow,
    a SCAM GUIDE chip and stable guide reference, title, and lead.
    ──────────────────────────────────────────────────────────────────── #}
-<section class="relative overflow-hidden border-b border-[#202a44]" style="background-color: #0a0d16;">
+<section class="relative overflow-hidden border-b border-[var(--border)]" style="background-color: var(--code);">
   <div class="pointer-events-none absolute inset-0"
-       style="background: radial-gradient(90% 120% at 85% 0%, {{ _tl_color }}14, transparent 55%);"></div>
+       style="background: radial-gradient(90% 120% at 85% 0%, color-mix(in srgb,{{ _tl_color }} 7.84%,transparent), transparent 55%);"></div>
   <div class="relative mx-auto max-w-[820px] px-4 sm:px-6 lg:px-10"
        style="padding-top: clamp(36px, 5vw, 64px); padding-bottom: clamp(48px, 6vw, 72px);">
 
     <!-- Breadcrumb eyebrow -->
-    <nav class="font-mono text-[11px] text-[#8b94a8] mb-6 flex flex-wrap items-center gap-2"
+    <nav class="font-mono text-[11px] text-[var(--muted)] mb-6 flex flex-wrap items-center gap-2"
          aria-label="{{ t(_lang, 'a11y.breadcrumb') }}">
-      <a href="/{{ _lang }}/journal" class="text-[#3a8b9a] hover:text-[#65def0] transition">{{ t(_lang, 'guide.eyebrow_threat_database') }}</a>
-      <span class="text-[#6b7588]" aria-hidden="true">/</span>
-      <a href="/{{ _lang }}/journal" class="text-[#aab2c4] hover:text-[#65def0] transition uppercase tracking-[0.04em]">{{ guide.category or _cat_code }}</a>
-      <span class="text-[#6b7588]" aria-hidden="true">/</span>
-      <span class="text-[#e7ecf5] break-all" aria-current="page">{{ guide.slug }}</span>
+      <a href="/{{ _lang }}/journal" class="text-[var(--brand-dim)] hover:text-[var(--brand)] transition">{{ t(_lang, 'guide.eyebrow_threat_database') }}</a>
+      <span class="text-[var(--dim)]" aria-hidden="true">/</span>
+      <a href="/{{ _lang }}/journal" class="text-[var(--text-soft)] hover:text-[var(--brand)] transition uppercase tracking-[0.04em]">{{ guide.category or _cat_code }}</a>
+      <span class="text-[var(--dim)]" aria-hidden="true">/</span>
+      <span class="text-[var(--text)] break-all" aria-current="page">{{ guide.slug }}</span>
     </nav>
 
     <!-- Chip row: educational guide label + stable content reference. -->
     <div class="flex flex-wrap items-center gap-2.5 mb-4">
       <span class="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase"
-            style="color: #e76670; background: #0a0d16; border: 1px solid {{ '#e76670' if _tl >= 4 else _tl_color }}66; border-radius: 2px; padding: 4px 8px;">
+            style="color: var(--danger); background: var(--code); border: 1px solid {{ 'var(--danger)' if _tl >= 4 else _tl_color }}66; border-radius: 2px; padding: 4px 8px;">
         {{ t(_lang, 'guide.eyebrow_scam_guide') }}
       </span>
-      <span class="font-mono text-[11px] text-[#8b94a8] tabular-nums">{{ t(_lang, 'guide.reference_label') }}{{ guide.slug }}</span>
+      <span class="font-mono text-[11px] text-[var(--muted)] tabular-nums">{{ t(_lang, 'guide.reference_label') }}{{ guide.slug }}</span>
     </div>
 
     <!-- H1 -->
-    <h1 class="font-mono font-bold text-[#f3f5fa] leading-[1.08] tracking-[-0.025em] break-words"
+    <h1 class="font-mono font-bold text-[var(--text-strong)] leading-[1.08] tracking-[-0.025em] break-words"
         style="font-size: clamp(1.9rem, 1.3rem + 2.6vw, 3rem); text-wrap: balance; margin: 0 0 18px;">
       {{ guide.title }}
     </h1>
 
     <!-- Lead -->
     {% if guide.description %}
-    <p class="font-sans text-[#aab2c4] leading-[1.6] max-w-[62ch]"
+    <p class="font-sans text-[var(--text-soft)] leading-[1.6] max-w-[62ch]"
        style="font-size: clamp(16px, 1.1vw, 18px); text-wrap: pretty; margin: 0;">
       {{ guide.description }}
     </p>
@@ -163,17 +163,17 @@
    ──────────────────────────────────────────────────────────────────── #}
 <div class="relative z-[5] mx-auto max-w-[820px] px-4 sm:px-6 lg:px-10" style="margin-top: -32px;">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-       style="background-color: #1a2236; border: 1px solid {{ _tl_color }}73; border-radius: 6px; box-shadow: 0 16px 40px -16px rgba(6,10,22,0.66), 0 0 28px -10px {{ _tl_color }}1a;">
+       style="background-color: var(--raised); border: 1px solid color-mix(in srgb,{{ _tl_color }} 45.10%,transparent); border-radius: 6px; box-shadow: 0 16px 40px -16px color-mix(in srgb,var(--code) 66%,transparent), 0 0 28px -10px color-mix(in srgb,{{ _tl_color }} 10.20%,transparent);">
 
     <!-- THREAT LEVEL -->
-    <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[#202a44]"
+    <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[var(--border)]"
          role="meter" aria-valuenow="{{ _tl }}" aria-valuemin="1" aria-valuemax="5"
          aria-label="{{ t(_lang, 'guide.threat_level') }}: {{ _tl }}/5 — {{ _level_word | lower }}">
-      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.threat_level') }}</div>
+      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[var(--muted)] mb-2">{{ t(_lang, 'guide.threat_level') }}</div>
       <div class="flex items-center gap-2">
         <div class="flex items-end gap-[3px]" style="height: 22px;" aria-hidden="true">
           {% for i in range(1, 6) %}
-          <span class="rounded-[1px]" style="width: 6px; height: {{ 7 + (i-1)*3 }}px; background: {{ _tl_color if i <= _tl else '#2b3759' }};"></span>
+          <span class="rounded-[1px]" style="width: 6px; height: {{ 7 + (i-1)*3 }}px; background: {{ _tl_color if i <= _tl else 'var(--border-strong)' }};"></span>
           {% endfor %}
         </div>
         <span class="font-mono text-[13px] font-bold tabular-nums whitespace-nowrap" style="color: {{ _tl_color }};">{{ _tl }}/5 · {{ _level_word }}</span>
@@ -181,21 +181,21 @@
     </div>
 
     <!-- VECTOR (category) -->
-    <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[#202a44]">
-      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.strip_vector') }}</div>
-      <div class="font-mono text-[13px] text-[#e7ecf5] uppercase break-words">{{ guide.category or '—' }}</div>
+    <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[var(--border)]">
+      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[var(--muted)] mb-2">{{ t(_lang, 'guide.strip_vector') }}</div>
+      <div class="font-mono text-[13px] text-[var(--text)] uppercase break-words">{{ guide.category or '—' }}</div>
     </div>
 
     <!-- SOURCE COUNT -->
-    <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[#202a44]">
-      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.strip_sources') }}</div>
-      <div class="font-mono text-[13px] text-[#e7ecf5] tabular-nums">{{ guide.sources | length }} {{ t(_lang, 'guide.strip_sources_value') }}</div>
+    <div class="px-[18px] py-4 border-b sm:border-b-0 lg:border-r border-[var(--border)]">
+      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[var(--muted)] mb-2">{{ t(_lang, 'guide.strip_sources') }}</div>
+      <div class="font-mono text-[13px] text-[var(--text)] tabular-nums">{{ guide.sources | length }} {{ t(_lang, 'guide.strip_sources_value') }}</div>
     </div>
 
     <!-- CATALOGUE DATE -->
     <div class="px-[18px] py-4">
-      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[#8b94a8] mb-2">{{ t(_lang, 'guide.strip_catalogued') }}</div>
-      <div class="font-mono text-[13px] text-[#e7ecf5] tabular-nums">{{ guide.source_catalogued_at or '—' }}</div>
+      <div class="font-mono text-[10px] tracking-[0.12em] uppercase text-[var(--muted)] mb-2">{{ t(_lang, 'guide.strip_catalogued') }}</div>
+      <div class="font-mono text-[13px] text-[var(--text)] tabular-nums">{{ guide.source_catalogued_at or '—' }}</div>
     </div>
   </div>
 </div>
@@ -211,13 +211,15 @@
   <div class="lg:grid lg:grid-cols-12 lg:gap-10">
 
     <!-- Sticky ToC -->
-    <aside class="hidden lg:block lg:col-span-3 lg:order-2">
+    <aside class="mb-8 lg:mb-0 lg:col-span-3 lg:order-2">
       <div class="sticky top-24">
-        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[var(--brand)] mb-4">
           {{ t(_lang, 'guide.contents_label') }}
         </div>
-        <nav id="guide-toc" aria-label="{{ t(_lang, 'a11y.article_sections') }}" class="font-mono text-[12px] space-y-2 border-l border-[#202a44] pl-4">
-          <!-- populated by inline script below -->
+        <nav id="guide-toc" aria-label="{{ t(_lang, 'a11y.article_sections') }}" class="font-mono text-[12px] space-y-2 border-l border-[var(--border)] pl-4">
+          {% for section in guide_toc %}
+          <a href="#{{ section.id }}" class="block text-[var(--text-soft)] hover:text-[var(--brand)] py-2 leading-relaxed">{{ section.title }}</a>
+          {% endfor %}
         </nav>
       </div>
     </aside>
@@ -225,9 +227,6 @@
     <!-- Article column with line-number gutter -->
     <div class="lg:col-span-9 lg:order-1 min-w-0">
       <div class="flex">
-        <div class="hidden sm:block dossier-gutter" aria-hidden="true">
-          {% for n in range(1, 64) %}<span>{{ '%03d' | format(n) }}</span>{% endfor %}
-        </div>
         <article id="guide-article" class="prose max-w-3xl flex-1 min-w-0">
           {{ guide.content_html | safe }}
         </article>
@@ -236,15 +235,15 @@
       {# EDUCATIONAL PATTERN NOTES — terminal-window panel, per-slug notes
          from locales; no claim of a real-world investigation. #}
       <section class="mt-12 sm:mt-14">
-        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-3">
+        <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[var(--brand)] mb-3">
           {{ t(_lang, 'guide.pattern_notes_label') }}
         </div>
-        <div class="border border-[#202a44] ds-grain" style="background-color: #0a0d16;">
-          <div class="flex items-center gap-2 px-3 sm:px-4 py-2 border-b border-[#202a44]" style="background: linear-gradient(to right, #1a2236, #121828);">
-            <span class="w-2 h-2 rounded-full bg-[#2b3759]"></span>
-            <span class="w-2 h-2 rounded-full bg-[#8b94a8]"></span>
-            <span class="w-2 h-2 rounded-full bg-[#8b94a8]"></span>
-            <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[#8b94a8] truncate">
+        <div class="border border-[var(--border)] ds-grain" style="background-color: var(--code);">
+          <div class="flex items-center gap-2 px-3 sm:px-4 py-2 border-b border-[var(--border)]" style="background: linear-gradient(to right, var(--raised), var(--panel));">
+            <span class="w-2 h-2 rounded-full bg-[var(--border-strong)]"></span>
+            <span class="w-2 h-2 rounded-full bg-[var(--muted)]"></span>
+            <span class="w-2 h-2 rounded-full bg-[var(--muted)]"></span>
+            <span class="ml-2 font-mono text-[10px] sm:text-[11px] tracking-[0.06em] text-[var(--muted)] break-words">
               {{ t(_lang, 'guide.pattern_notes_command_prefix') }}{{ guide.slug }} {{ t(_lang, 'guide.pattern_notes_command_suffix') }}
             </span>
           </div>
@@ -256,37 +255,37 @@
           } %}
           {% set _notes_key = _slug_to_notes_key.get(guide.slug, 'investigator_notes_generic') %}
           {% set _notes_lines = t(_lang, 'guide.' ~ _notes_key).split('\n') %}
-          <pre class="font-mono text-[13px] sm:text-[14px] leading-[1.65] text-[#aab2c4] px-4 sm:px-6 py-5 whitespace-pre-wrap break-words m-0">{% for line in _notes_lines %}<span class="text-[#7ce896]">&gt;</span> {{ line }}{% if not loop.last %}
+          <pre class="font-mono text-[13px] sm:text-[14px] leading-[1.65] text-[var(--text-soft)] px-4 sm:px-6 py-5 whitespace-pre-wrap break-words m-0">{% for line in _notes_lines %}<span class="text-[var(--success)]">&gt;</span> {{ line }}{% if not loop.last %}
 {% endif %}{% endfor %}
-<span class="text-[#8b94a8]">&gt;</span> <span class="dossier-cursor"></span></pre>
+<span class="text-[var(--muted)]">&gt;</span> <span class="dossier-cursor"></span></pre>
         </div>
       </section>
 
       {# SOURCE CATALOGUE — cited, static editorial support for general advice.
          This deliberately sits beside the guide rather than pretending to
          validate a visitor's individual message or provide a live feed. #}
-      <section class="mt-12 sm:mt-14 border-t border-[#202a44] pt-8" aria-labelledby="guide-sources-heading">
-        <h2 id="guide-sources-heading" class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-4">
+      <section class="mt-12 sm:mt-14 border-t border-[var(--border)] pt-8" aria-labelledby="guide-sources-heading">
+        <h2 id="guide-sources-heading" class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[var(--brand)] mb-4">
           {{ t(_lang, 'guide.sources_heading') }}
         </h2>
-        <p class="font-sans text-[15px] leading-[1.65] text-[#cdd4e3] max-w-3xl">
+        <p class="font-sans text-[15px] leading-[1.65] text-[var(--text-medium)] max-w-3xl">
           {{ guide.source_scope or t(_lang, 'guide.sources_unavailable') }}
         </p>
-        <p class="font-sans text-[14px] leading-[1.6] text-[#8b94a8] max-w-3xl mt-3">
+        <p class="font-sans text-[14px] leading-[1.6] text-[var(--muted)] max-w-3xl mt-3">
           {{ t(_lang, 'guide.sources_limit') }}
         </p>
         {% if guide.sources %}
         <ol class="mt-6 space-y-3 list-none max-w-3xl">
           {% for source in guide.sources %}
-          <li class="border border-[#202a44] bg-[#0a0d16] px-4 py-4 sm:px-5">
+          <li class="border border-[var(--border)] bg-[var(--code)] px-4 py-4 sm:px-5">
             <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer"
-               class="font-mono text-[14px] leading-[1.45] text-[#9eecf6] hover:text-[#65def0] underline decoration-[#3a8b9a]/60 underline-offset-4 transition-colors">
+               class="font-mono text-[14px] leading-[1.45] text-[var(--brand-hover)] hover:text-[var(--brand)] underline decoration-[var(--brand-dim)]/60 underline-offset-4 transition-colors">
               {{ source.title }} <span aria-hidden="true">↗</span><span class="sr-only">{{ t(_lang, 'guide.opens_external') }}</span>
             </a>
-            <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-[#8b94a8] mt-2">{{ source.publisher }}</p>
-            <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-[#8b94a8] mt-1">{{ t(_lang, 'guide.source_recorded_label') }}{{ source.recorded_at }}</p>
+            <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-[var(--muted)] mt-2">{{ source.publisher }}</p>
+            <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-[var(--muted)] mt-1">{{ t(_lang, 'guide.source_recorded_label') }}{{ source.recorded_at }}</p>
             {% if source.scope_note %}
-            <p class="font-sans text-[14px] leading-[1.55] text-[#aab2c4] mt-2">{{ source.scope_note }}</p>
+            <p class="font-sans text-[14px] leading-[1.55] text-[var(--text-soft)] mt-2">{{ source.scope_note }}</p>
             {% endif %}
           </li>
           {% endfor %}
@@ -309,20 +308,20 @@
   </section>
 
   <noscript>
-    <section class="mt-12 sm:mt-14 border border-[#f4b965]/40 bg-[#f4b965]/[0.06] rounded-[6px] p-4 sm:p-6"
+    <section class="mt-12 sm:mt-14 border border-[var(--warning)]/40 bg-[var(--warning)]/[0.06] rounded-[6px] p-4 sm:p-6"
              aria-labelledby="guide-check-noscript-heading">
       <h2 id="guide-check-noscript-heading"
-          class="font-mono font-bold uppercase text-[#f4b965] text-[14px] sm:text-[16px] tracking-[-0.01em] mb-3 flex items-baseline gap-2">
-        <span class="text-[#f4b965]" aria-hidden="true">&gt;</span>
+          class="font-mono font-bold uppercase text-[var(--warning)] text-[14px] sm:text-[16px] tracking-[-0.01em] mb-3 flex items-baseline gap-2">
+        <span class="text-[var(--warning)]" aria-hidden="true">&gt;</span>
         {{ t(_lang, 'guide.check_heading') }}
       </h2>
-      <p class="font-sans text-[14px] leading-[1.6] text-[#aab2c4] max-w-[64ch] mb-4">
+      <p class="font-sans text-[14px] leading-[1.6] text-[var(--text-soft)] max-w-[64ch] mb-4">
         {{ t(_lang, 'guide.check_intro') }}
       </p>
       <ol class="space-y-2.5 list-none">
         {% for i in range(1, 4) %}
-        <li class="flex items-baseline gap-2.5 font-sans text-[14px] leading-[1.55] text-[#cdd4e3] max-w-[64ch]">
-          <span class="shrink-0 font-mono text-[#f4b965] tabular-nums text-[13px]">{{ i }}.</span>
+        <li class="flex items-baseline gap-2.5 font-sans text-[14px] leading-[1.55] text-[var(--text-medium)] max-w-[64ch]">
+          <span class="shrink-0 font-mono text-[var(--warning)] tabular-nums text-[13px]">{{ i }}.</span>
           <span>{{ t(_lang, 'guide.check_' ~ i) }}</span>
         </li>
         {% endfor %}
@@ -336,31 +335,31 @@
      the threat colour; a slat meter and the threat code sit alongside.
      ──────────────────────────────────────────────────────────────── #}
   {% if related_guides %}
-  <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
-    <div class="font-mono text-[11px] font-semibold tracking-[0.16em] uppercase text-[#8b94a8] mb-6">
-      <span aria-hidden="true" style="color: #3a8b9a;">&gt;&nbsp;</span>{{ t(_lang, 'guide.related_threats_label') }}
+  <section class="mt-16 sm:mt-20 pt-8 border-t border-[var(--border)]">
+    <div class="font-mono text-[11px] font-semibold tracking-[0.16em] uppercase text-[var(--muted)] mb-6">
+      <span aria-hidden="true" style="color: var(--brand-dim);">&gt;&nbsp;</span>{{ t(_lang, 'guide.related_threats_label') }}
     </div>
     <div class="grid gap-3.5" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));">
       {% for related in related_guides %}
-      {% set _rcolor = _threat_colors.get(related.threat_level or 2, '#7ce896') %}
+      {% set _rcolor = _threat_colors.get(related.threat_level or 2, 'var(--success)') %}
       {% set _rtl = related.threat_level or 1 %}
       {% set _letter = (related.title or '?')[0] | upper %}
       {% set _rseq = ((related.id or loop.index) * 47 + 113) % 1000 %}
       <a href="/{{ _lang }}/guide/{{ related.slug }}"
-         class="group flex items-center gap-3.5 bg-[#0b0f1a] border border-[#202a44] hover:border-[#3a8b9a] rounded-[6px] p-4 transition-colors duration-200 min-w-0">
+         class="group flex items-center gap-3.5 bg-[var(--canvas)] border border-[var(--border)] hover:border-[var(--brand-dim)] rounded-[6px] p-4 transition-colors duration-200 min-w-0">
         <span aria-hidden="true"
               class="inline-flex items-center justify-center w-9 h-9 border font-mono font-bold text-[18px] leading-none shrink-0"
-              style="color: {{ _rcolor }}; border-color: {{ _rcolor }}40; background: {{ _rcolor }}0d; border-radius: 4px; letter-spacing: -0.04em;">{{ _letter }}</span>
+              style="color: {{ _rcolor }}; border-color: color-mix(in srgb,{{ _rcolor }} 25.10%,transparent); background: color-mix(in srgb,{{ _rcolor }} 5.10%,transparent); border-radius: 4px; letter-spacing: -0.04em;">{{ _letter }}</span>
         <div class="min-w-0 flex-1">
-          <div class="font-mono text-[14px] font-bold text-[#e7ecf5] group-hover:text-[#65def0] tracking-[-0.01em] truncate">{{ related.title }}</div>
+          <div class="font-mono text-[14px] font-bold text-[var(--text)] group-hover:text-[var(--brand)] tracking-[-0.01em] break-words">{{ related.title }}</div>
           <div class="flex items-end gap-[2.5px] mt-1.5" style="height: 14px;"
                role="img" aria-label="{{ t(_lang, 'guide.threat_level') }} {{ _rtl }}/5">
             {% for i in range(1, 6) %}
-            <span class="rounded-[1px]" style="width: 4px; height: {{ 7 + (i-1)*2 }}px; background: {{ _rcolor if i <= _rtl else '#2b3759' }};"></span>
+            <span class="rounded-[1px]" style="width: 4px; height: {{ 7 + (i-1)*2 }}px; background: {{ _rcolor if i <= _rtl else 'var(--border-strong)' }};"></span>
             {% endfor %}
           </div>
         </div>
-        <span class="font-mono text-[10px] text-[#8b94a8] shrink-0 tabular-nums">{{ '%03d' | format(_rseq) }}</span>
+        <span class="font-mono text-[10px] text-[var(--muted)] shrink-0 tabular-nums">{{ '%03d' | format(_rseq) }}</span>
       </a>
       {% endfor %}
     </div>
@@ -370,8 +369,8 @@
   {# ─────────────────────────────────────────────────────────────────
      5) NEXT_STEPS — OPS-### routed actions into the live tools.
      ──────────────────────────────────────────────────────────────── #}
-  <section class="mt-16 sm:mt-20 pt-8 border-t border-[#202a44]">
-    <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[#65def0] mb-5">
+  <section class="mt-16 sm:mt-20 pt-8 border-t border-[var(--border)]">
+    <div class="font-mono text-[11px] font-semibold tracking-[0.14em] uppercase text-[var(--brand)] mb-5">
       {{ t(_lang, 'guide.next_steps_label') }}
     </div>
     <div class="space-y-2 max-w-3xl">
@@ -382,13 +381,13 @@
       ] %}
       {% for _code, _href, _key in _ops %}
       <a href="{{ _href }}"
-         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[rgba(101,222,240,0.04)] border border-[rgba(101,222,240,0.18)] hover:bg-[rgba(101,222,240,0.08)] hover:border-[#3a8b9a] transition-all duration-200">
+         class="group flex items-center justify-between gap-4 px-4 py-4 bg-[color-mix(in_srgb,var(--brand)_4%,transparent)] border border-[color-mix(in_srgb,var(--brand)_18%,transparent)] hover:bg-[color-mix(in_srgb,var(--brand)_8%,transparent)] hover:border-[var(--brand-dim)] transition-all duration-200">
         <span class="flex items-baseline gap-3 min-w-0">
-          <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[#65def0] tabular-nums shrink-0">{{ _code }}</span>
-          <span class="font-mono text-[#8b94a8] shrink-0" aria-hidden="true">&#9656;</span>
-          <span class="font-mono text-sm sm:text-base text-[#e7ecf5] group-hover:text-[#9eecf6] truncate">{{ t(_lang, _key) }}</span>
+          <span class="font-mono text-[11px] sm:text-[12px] font-semibold tracking-[0.14em] uppercase text-[var(--brand)] tabular-nums shrink-0">{{ _code }}</span>
+          <span class="font-mono text-[var(--muted)] shrink-0" aria-hidden="true">&#9656;</span>
+          <span class="font-mono text-sm sm:text-base text-[var(--text)] group-hover:text-[var(--brand-hover)] break-words">{{ t(_lang, _key) }}</span>
         </span>
-        <span class="font-mono text-[#65def0] shrink-0" aria-hidden="true">&rarr;</span>
+        <span class="font-mono text-[var(--brand)] shrink-0" aria-hidden="true">&rarr;</span>
       </a>
       {% endfor %}
     </div>
@@ -397,49 +396,21 @@
   {# ─────────────────────────────────────────────────────────────────
      6) EDITORIAL-SCOPE footer — provenance path without false review claims.
      ──────────────────────────────────────────────────────────────── #}
-  <div class="mt-12 border-t border-b border-[#202a44] py-5">
-    <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#8b94a8] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.editorial_scope_label') }}</span> {{ t(_lang, 'guide.editorial_scope_value') }}</span>
-      <span class="text-[#6b7588]" aria-hidden="true">·</span>
-      <span><span class="text-[#aab2c4]">{{ t(_lang, 'guide.catalogued_label') }}</span> {{ guide.source_catalogued_at or '—' }}</span>
+  <div class="mt-12 border-t border-b border-[var(--border)] py-5">
+    <p class="font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[var(--muted)] tabular-nums leading-relaxed flex flex-wrap items-center gap-x-3 gap-y-1">
+      <span><span class="text-[var(--text-soft)]">{{ t(_lang, 'guide.editorial_scope_label') }}</span> {{ t(_lang, 'guide.editorial_scope_value') }}</span>
+      <span class="text-[var(--dim)]" aria-hidden="true">·</span>
+      <span><span class="text-[var(--text-soft)]">{{ t(_lang, 'guide.catalogued_label') }}</span> {{ guide.source_catalogued_at or '—' }}</span>
     </p>
   </div>
 
   <!-- Back Link -->
   <div class="mt-8 pt-4">
-    <a href="/{{ _lang }}/journal" class="font-mono text-sm text-[#3a8b9a] hover:text-[#65def0] transition">
+    <a href="/{{ _lang }}/journal" class="font-mono text-sm text-[var(--brand-dim)] hover:text-[var(--brand)] transition">
       {{ t(_lang, 'guide.back') }}
     </a>
   </div>
 </div>
-
-<!-- Auto-populate the sticky ToC from rendered h2 headings -->
-<script nonce="{{ request.state.csp_nonce }}">
-  (function () {
-    const article = document.getElementById('guide-article');
-    const toc = document.getElementById('guide-toc');
-    if (!article || !toc) return;
-    const headings = article.querySelectorAll('h2[id]');
-    if (!headings.length) {
-      toc.parentElement && (toc.parentElement.style.display = 'none');
-      return;
-    }
-    const frag = document.createDocumentFragment();
-    headings.forEach((h, i) => {
-      const a = document.createElement('a');
-      a.href = '#' + h.id;
-      const num = String(i + 1).padStart(2, '0');
-      const clone = h.cloneNode(true);
-      const anchor = clone.querySelector('.toc-anchor');
-      if (anchor) anchor.remove();
-      const title = clone.textContent.trim();
-      a.textContent = '§ 01.' + num + '  ' + title;
-      a.className = 'block text-[#aab2c4] hover:text-[#65def0] transition-colors leading-snug tabular-nums';
-      frag.appendChild(a);
-    });
-    toc.appendChild(frag);
-  })();
-</script>
 
 {% from "_action_module.html" import action_module with context %}
 {{ action_module('action.guide_title', 'action.guide_body', 'action.guide_cta', '/' ~ _lang ~ '/check') }}
