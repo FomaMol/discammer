@@ -17,7 +17,7 @@ interface VideoPlayerProps {
  * Plyr-based HTML5 video player. Replaces the prior Wistia/Kinescope iframes
  * with a self-hosted MP4 surface served by nginx straight out of
  * /opt/discammer/media/. Cyberpunk accent comes from VideoPlayer.css
- * (--plyr-color-main → brand cyan #65def0).
+ * (--plyr-color-main → brand cyan var(--brand)).
  */
 export default function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -62,8 +62,8 @@ export default function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
     <>
       {failed && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-1.5 px-6 text-center">
-          <div className="font-mono text-[13px] text-[#aab2c4]">{tr('offline')}</div>
-          {title && <div className="font-mono text-[12px] text-[#8b94a8]">{title}</div>}
+          <div className="font-mono text-[13px] text-[var(--text-soft)]">{tr('offline')}</div>
+          {title && <div className="font-mono text-[12px] text-[var(--muted)]">{title}</div>}
         </div>
       )}
       <div ref={wrapRef} className="discammer-player" style={failed ? { display: 'none' } : undefined}>

@@ -13,13 +13,7 @@ export function setTheme(theme: Theme) {
   try { localStorage.setItem(THEME_KEY, theme); } catch { /* Keep the in-page choice. */ }
 }
 function subscribe(callback: () => void) {
-  const storage = (event: StorageEvent) => {
-    if (event.key === THEME_KEY || event.key === null) applyTheme(normalizeTheme(event.newValue));
-  };
   window.addEventListener('discammer:theme', callback);
-  window.addEventListener('storage', storage);
-  return () => { window.removeEventListener('discammer:theme', callback); window.removeEventListener('storage', storage); };
+  return () => { window.removeEventListener('discammer:theme', callback); };
 }
 export function useTheme() { return useSyncExternalStore(subscribe, currentTheme, () => 'soft-red' as Theme); }
-/** Canvas exports need resolved colors, CSS variable strings are not canvas colors. */
-export function themeColor(role: string) { return getComputedStyle(document.documentElement).getPropertyValue(`--${role}`).trim(); }

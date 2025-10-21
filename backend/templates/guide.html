@@ -134,7 +134,7 @@
     <!-- Chip row: educational guide label + stable content reference. -->
     <div class="flex flex-wrap items-center gap-2.5 mb-4">
       <span class="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase"
-            style="color: var(--danger); background: var(--code); border: 1px solid {{ 'var(--danger)' if _tl >= 4 else _tl_color }}66; border-radius: 2px; padding: 4px 8px;">
+            style="color: var(--danger); background: var(--code); border: 1px solid color-mix(in srgb, {{ 'var(--danger)' if _tl >= 4 else _tl_color }} 40%, transparent); border-radius: 2px; padding: 4px 8px;">
         {{ t(_lang, 'guide.eyebrow_scam_guide') }}
       </span>
       <span class="font-mono text-[11px] text-[var(--muted)] tabular-nums">{{ t(_lang, 'guide.reference_label') }}{{ guide.slug }}</span>

@@ -1,13 +1,14 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { makeTranslator } from '../utils/i18n';
 import { setTheme, useTheme, type Theme } from '../utils/theme';
-export default function ThemeSwitcher({ inline = false }: { inline?: boolean }) {
+export default function ThemeSwitcher({ inline = false, initialOpen = false, focusTrigger = false }: { inline?: boolean; initialOpen?: boolean; focusTrigger?: boolean }) {
   const theme = useTheme();
   const tr = makeTranslator('theme');
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(initialOpen);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  useEffect(() => { if (focusTrigger && !initialOpen) trigger.current?.focus(); }, []);
   useEffect(() => {
     if (!open) return;
     if (!inline) root.current?.querySelector<HTMLInputElement>('input:checked')?.focus();

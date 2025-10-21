@@ -67,7 +67,7 @@ The compatibility names `--color-cyan*`, `--color-ink*`, `--color-bg-*` and exis
 
 ## Type, layout and controls
 
-Keep self-hosted JetBrains Mono and Geist, including Cyrillic. Display uses mono 800 and the existing expressive scale; long-form uses Geist 17–18px / 1.7 and at most 68ch. Working inputs are at least 16px, helper copy 13–14px, metadata 12–13px. Preserve full lesson names by wrapping. Navigation controls target 44px; desktop navigation starts at 1280px so RU labels fit. Below that use the existing menu with inline appearance choices.
+Keep self-hosted JetBrains Mono and Geist, including Cyrillic. Display uses mono 800 and the existing expressive scale; long-form uses Geist 17–18px / 1.7 and at most 65ch. Working inputs are at least 16px, helper copy 13–14px, metadata 12–13px. Preserve full lesson names by wrapping. Navigation controls target 44px; desktop navigation starts at 1280px so RU labels fit. Below that use the existing menu with inline appearance choices.
 
 Appearance is a neutral 44px icon next to language, with a compact two-radio popover and focus tooltip. Escape returns focus; mobile Escape closes appearance before navigation. Store only allowlisted theme values in localStorage, separately from learning progress, tolerate denied storage, sync tabs, update theme-color. The nonce-bearing prepaint bootstrap applies selection before CSS. JS-off uses default soft-red with native navigation and readable SSR; failed chunks retain the same foundation.
 

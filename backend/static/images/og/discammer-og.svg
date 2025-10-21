@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="DiScammer — anti-fraud education">
-  <!-- Canvas: brand background, the same #0b0f1a everything else uses. -->
-  <rect width="1200" height="630" fill="#0b0f1a"/>
+  <!-- Canvas: brand background, the same #151314 everything else uses. -->
+  <rect width="1200" height="630" fill="#151314"/>
 
   <!-- Hairline grid pattern — 40px cells, ~12% opacity. Matches the hero chrome. -->
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2b3759" stroke-width="1" opacity="0.45"/>
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#6f5c60" stroke-width="1" opacity="0.45"/>
     </pattern>
     <!-- Subtle cyan vignette behind the wordmark for visual depth. -->
     <radialGradient id="glow" cx="50%" cy="50%" r="45%">
-      <stop offset="0%" stop-color="#65def0" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#65def0" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#f29587" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#f29587" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#grid)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
 
   <!-- Corner brackets — analyst HUD frame. -->
-  <g stroke="#3a8b9a" stroke-width="2" fill="none" opacity="0.7">
+  <g stroke="#c17f77" stroke-width="2" fill="none" opacity="0.7">
     <!-- top-left -->
     <path d="M 40 64 L 40 40 L 64 40"/>
     <!-- top-right -->
@@ -29,15 +29,15 @@
     <path d="M 1136 590 L 1160 590 L 1160 566"/>
   </g>
 
-  <!-- Top metadata strip — fake IP / op marker, mono uppercase. -->
-  <text x="60" y="76" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="13" font-weight="600" letter-spacing="3.2" fill="#6b7588" text-anchor="start">
-    OP-DCM-2026 // BRIEFING ROOM // STATUS: ACTIVE
+  <!-- Top metadata strip — educational purpose, mono uppercase. -->
+  <text x="60" y="76" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="13" font-weight="600" letter-spacing="3.2" fill="#b6a29d" text-anchor="start">
+    DISCAMMER // ANTI-FRAUD EDUCATION
   </text>
 
-  <!-- Top-right live indicator. -->
+  <!-- Top-right educational label. -->
   <circle cx="1130" cy="72" r="5" fill="#7ce896"/>
   <text x="1118" y="76" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="13" font-weight="600" letter-spacing="3.2" fill="#7ce896" text-anchor="end">
-    MONITORING
+    EDUCATION
   </text>
 
   <!-- Logomark (strike-through D) — top-left, 64×64 rendered.
@@ -46,7 +46,7 @@
   <g transform="translate(100 100) scale(2.6667)">
     <!-- Block D in cyan -->
     <path
-      fill="#65def0"
+      fill="#f29587"
       fill-rule="evenodd"
       d="M4 3 H16 a5 5 0 0 1 5 5 V16 a5 5 0 0 1 -5 5 H4 Z
          M8 7 H15 a1.5 1.5 0 0 1 1.5 1.5 V15.5 a1.5 1.5 0 0 1 -1.5 1.5 H8 Z"/>
@@ -55,25 +55,25 @@
   </g>
 
   <!-- Main wordmark — JetBrains Mono 800, uppercase, cyan, tracked tight. -->
-  <text x="600" y="335" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="148" font-weight="800" letter-spacing="-5.5" fill="#65def0" text-anchor="middle">
+  <text x="600" y="335" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="148" font-weight="800" letter-spacing="-5.5" fill="#f29587" text-anchor="middle">
     DISCAMMER
   </text>
 
   <!-- Caption — small mono, ink-soft, with prompt-style prefix. -->
-  <text x="600" y="395" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="22" font-weight="500" letter-spacing="6" fill="#aab2c4" text-anchor="middle">
+  <text x="600" y="395" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="22" font-weight="500" letter-spacing="6" fill="#b6a29d" text-anchor="middle">
     // ANTI-FRAUD EDUCATION
   </text>
 
   <!-- Sub-caption — sentence, ink-mute. -->
-  <text x="600" y="470" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="18" font-weight="500" letter-spacing="2" fill="#6b7588" text-anchor="middle">
+  <text x="600" y="470" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="18" font-weight="500" letter-spacing="2" fill="#b6a29d" text-anchor="middle">
     Threat database · Field briefings · Operator training
   </text>
 
-  <!-- Bottom strip — fake terminal prompt line. -->
-  <text x="60" y="588" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="14" font-weight="500" letter-spacing="2" fill="#475064" text-anchor="start">
-    &gt; tracking_threats: PHISHING / DEEPFAKE_VOICE / TRUST_BAIT
+  <!-- Bottom strip — practical reminder. -->
+  <text x="60" y="588" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="14" font-weight="500" letter-spacing="2" fill="#b6a29d" text-anchor="start">
+    Pause. Verify. Act safely.
   </text>
-  <text x="1140" y="588" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="14" font-weight="500" letter-spacing="2" fill="#475064" text-anchor="end">
+  <text x="1140" y="588" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="14" font-weight="500" letter-spacing="2" fill="#b6a29d" text-anchor="end">
     discammer.com
   </text>
 </svg>

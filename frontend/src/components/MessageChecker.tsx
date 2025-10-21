@@ -137,7 +137,7 @@ export default function MessageChecker({ lang: langProp }: MessageCheckerProps) 
                         className="block w-[5px]"
                         style={{
                           height: `${8 + s * 3}px`,
-                          background: s <= level ? color : 'rgba(101,116,136,0.22)',
+                          background: s <= level ? color : 'color-mix(in srgb,var(--muted) 22%,transparent)',
                         }}
                         aria-hidden="true"
                       />

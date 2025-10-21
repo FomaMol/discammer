@@ -1,3 +1,4 @@
+import './CertificateWidget.css';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import { getCompletedLessons, subscribe } from '../utils/progress';
@@ -129,11 +130,11 @@ export default function CertificateWidget({ config, locale }: Props) {
       />
 
       {!earned ? (
-        <div className="bg-[#121828] border border-[#202a44] p-5 sm:p-6 rounded-[4px]">
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#f4b965] mb-3">
+        <div className="bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
+          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--warning)] mb-3">
             {tr('locked_heading')}
           </div>
-          <p className="font-sans text-[15px] text-[#cdd4e3] leading-relaxed max-w-[62ch]">
+          <p className="font-sans text-[16px] text-[var(--text)] leading-relaxed max-w-[62ch]">
             {tr('locked_body')}
           </p>
 
@@ -141,7 +142,7 @@ export default function CertificateWidget({ config, locale }: Props) {
             <div className="mt-4">
               <label
                 htmlFor={nameInputId}
-                className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] mb-2"
+                className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] mb-2"
               >
                 {tr('name_label')}
               </label>
@@ -156,18 +157,18 @@ export default function CertificateWidget({ config, locale }: Props) {
                   }}
                   placeholder={tr('name_placeholder')}
                   aria-describedby={nameHintId}
-                  className="flex-1 min-w-[220px] max-w-md bg-[#1e2740] border border-[#202a44] focus:border-[#65def0] outline-none px-3 py-2 text-[#e7ecf5] font-sans text-[15px] rounded-[3px]"
+                  className="flex-1 min-w-[220px] max-w-md bg-[var(--input)] border border-[var(--border)] focus:border-[var(--brand)] outline-none px-3 py-2 text-[var(--text)] font-sans text-[16px] rounded-[3px]"
                 />
                 <button
                   type="button"
                   onClick={confirmName}
                   disabled={draft.trim().length < 2}
-                  className="px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#65def0]/5 border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition rounded-[4px] disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)]/5 border border-[var(--brand)] text-[var(--brand)] hover:bg-[var(--brand)]/10 transition rounded-[4px] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {tr('name_confirm')}
                 </button>
               </div>
-              <p id={nameHintId} className="mt-2 font-sans text-[13px] text-[#aab2c4]">
+              <p id={nameHintId} className="mt-2 font-sans text-[13px] text-[var(--muted)]">
                 {tr('name_hint')}
               </p>
             </div>
@@ -200,8 +201,8 @@ function PrerequisitesPanel({
 }) {
   const tr = makeTranslator('cert');
   return (
-    <div className="bg-[#121828] border border-[#202a44] p-5 rounded-[4px]">
-      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#65def0] mb-3">
+    <div className="bg-[var(--panel)] border border-[var(--border)] p-5 rounded-[4px]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)] mb-3">
         {tr('prereq_heading')}
       </div>
       <ul className="space-y-2">
@@ -210,32 +211,32 @@ function PrerequisitesPanel({
             <span
               className={`inline-flex items-center justify-center w-5 h-5 border font-mono text-[10px] shrink-0 ${
                 m.done
-                  ? 'border-[#7ce896] text-[#7ce896] bg-[#7ce896]/10'
-                  : 'border-[#202a44] text-[#aab2c4]'
+                  ? 'border-[var(--success)] text-[var(--success)] bg-[var(--success)]/10'
+                  : 'border-[var(--border)] text-[var(--muted)]'
               }`}
             >
               {m.done ? '✓' : '·'}
             </span>
-            <span className="flex-1 text-[#cdd4e3]">{m.module}</span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
+            <span className="flex-1 text-[var(--text)]">{m.module}</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
               {m.complete}/{m.total}
             </span>
           </li>
         ))}
-        <li className="flex items-center gap-3 font-sans text-[14px] pt-2 border-t border-[#202a44]">
+        <li className="flex items-center gap-3 font-sans text-[14px] pt-2 border-t border-[var(--border)]">
           <span
             className={`inline-flex items-center justify-center w-5 h-5 border font-mono text-[10px] shrink-0 ${
               examPassed
-                ? 'border-[#7ce896] text-[#7ce896] bg-[#7ce896]/10'
-                : 'border-[#202a44] text-[#aab2c4]'
+                ? 'border-[var(--success)] text-[var(--success)] bg-[var(--success)]/10'
+                : 'border-[var(--border)] text-[var(--muted)]'
             }`}
           >
             {examPassed ? '✓' : '·'}
           </span>
-          <span className="flex-1 text-[#cdd4e3]">
+          <span className="flex-1 text-[var(--text)]">
             {tr('prereq_exam')}
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
             {exam ? `${exam.score}/${exam.total}` : '—'}
           </span>
         </li>
@@ -280,35 +281,35 @@ function Certificate({
     <div className="space-y-4">
       <div
         id="discammer-certificate"
-        className="relative bg-[#0b0f1a] border-2 border-[#65def0] p-8 sm:p-12 overflow-hidden shadow-[0_0_0_1px_var(--color-cyan-dim),0_0_60px_-12px_var(--color-cyan-veil)]"
+        className="relative bg-[var(--canvas)] border-2 border-[var(--brand)] p-8 sm:p-12 overflow-hidden shadow-[0_0_0_1px_var(--brand-dim),0_0_60px_-12px_color-mix(in srgb,var(--brand) 10%,transparent)]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(101,222,240,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(101,222,240,0.04) 1px, transparent 1px)',
+            'linear-gradient(color-mix(in srgb,var(--brand) 4%,transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb,var(--brand) 4%,transparent) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
         }}
       >
         {/* Corner brackets — mono characters anchored in each corner */}
         <span
           aria-hidden="true"
-          className="absolute top-2 left-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+          className="absolute top-2 left-2 font-mono text-[var(--brand)] text-[18px] leading-none select-none"
         >
           ┌
         </span>
         <span
           aria-hidden="true"
-          className="absolute top-2 right-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+          className="absolute top-2 right-2 font-mono text-[var(--brand)] text-[18px] leading-none select-none"
         >
           ┐
         </span>
         <span
           aria-hidden="true"
-          className="absolute bottom-2 left-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+          className="absolute bottom-2 left-2 font-mono text-[var(--brand)] text-[18px] leading-none select-none"
         >
           └
         </span>
         <span
           aria-hidden="true"
-          className="absolute bottom-2 right-2 font-mono text-[#65def0] text-[18px] leading-none select-none"
+          className="absolute bottom-2 right-2 font-mono text-[var(--brand)] text-[18px] leading-none select-none"
         >
           ┘
         </span>
@@ -316,44 +317,44 @@ function Certificate({
         <div className="relative">
           {/* Top header strip */}
           <div className="text-center">
-            <div className="inline-block px-3 py-1 border border-[#65def0]/40 bg-[#65def0]/10 font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.32em] text-[#65def0]">
+            <div className="inline-block px-3 py-1 border border-[var(--brand)]/40 bg-[var(--brand)]/10 font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.32em] text-[var(--brand)]">
               {heading}
             </div>
           </div>
 
           <div className="mt-6 flex items-center justify-between gap-4 flex-wrap">
-            <span className="font-display-wordmark text-[#65def0] text-[13px] sm:text-[15px] glow-cyan">
+            <span className="font-display-wordmark text-[var(--brand)] text-[13px] sm:text-[16px] glow-cyan">
               DISCAMMER
             </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] tabular-nums">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted)] tabular-nums">
               {dateLabelText}: {dateLabel}
             </span>
           </div>
 
           <div className="mt-8 text-center">
-            <div className="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.4em] text-[#65def0]">
+            <div className="font-mono text-[11px] sm:text-[12px] uppercase tracking-[0.4em] text-[var(--brand)]">
               {title}
             </div>
-            <div className="mt-1 font-mono text-[14px] sm:text-[16px] uppercase tracking-[0.18em] text-[#7ce896]">
+            <div className="mt-1 font-mono text-[14px] sm:text-[16px] uppercase tracking-[0.18em] text-[var(--success)]">
               {programme}
             </div>
 
-            <div className="mt-10 font-sans text-[#aab2c4] text-[15px]">{presented}</div>
-            <div className="mt-3 font-mono font-bold text-[#f3f5fa] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)] break-words">
+            <div className="mt-10 font-sans text-[var(--muted)] text-[16px]">{presented}</div>
+            <div className="mt-3 font-mono font-bold text-[var(--text-strong)] leading-[1.15] tracking-[-0.02em] text-[clamp(1.75rem,1.3rem+1.8vw,2.5rem)] break-words">
               {name}
             </div>
 
-            <p className="mt-8 max-w-[62ch] mx-auto font-sans text-[#cdd4e3] text-[15px] sm:text-[16px] leading-[1.6]">
+            <p className="mt-8 max-w-[62ch] mx-auto font-sans text-[var(--text)] text-[16px] leading-[1.6]">
               {description}
             </p>
           </div>
 
           <div className="mt-10">
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8b94a8]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">
                 {scoreLabel}
               </div>
-              <div className="font-mono text-[#7ce896] text-[18px] mt-1 tabular-nums">
+              <div className="font-mono text-[var(--success)] text-[18px] mt-1 tabular-nums">
                 {score}/{total}
               </div>
             </div>
@@ -365,14 +366,14 @@ function Certificate({
         <button
           type="button"
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[#7ce896]/5 border border-[#7ce896] text-[#7ce896] hover:bg-[#7ce896]/10 transition rounded-[4px]"
+          className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--success)]/5 border border-[var(--success)] text-[var(--success)] hover:bg-[var(--success)]/10 transition rounded-[4px]"
         >
           {printLabel}
         </button>
         <button
           type="button"
           onClick={onRename}
-          className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#aab2c4] hover:text-[#65def0] transition"
+          className="min-h-11 font-mono text-[13px] uppercase tracking-[0.08em] text-[var(--muted)] hover:text-[var(--brand)] transition"
         >
           {renameLabel}
         </button>

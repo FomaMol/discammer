@@ -684,7 +684,7 @@ a.dcm-mission-card:active { transform: translateY(0) scale(0.99); }
 input:not([type=radio]):not([type=checkbox]), textarea, select { font-size: max(1rem, 16px); }
 input:not([type=radio]):not([type=checkbox]), textarea, select { border-color: var(--border-strong); }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
-.prose { font-size: 1.0625rem; line-height: 1.7; max-width: 68ch; }
+.prose { font-size: 1.0625rem; line-height: 1.7; max-width: 65ch; }
 .theme-switcher { position: relative; color: var(--text-soft); font-family: var(--font-sans); }
 .theme-trigger { display: flex; align-items: center; gap: .75rem; justify-content: center; min-width: 44px; min-height: 44px; cursor: pointer; border-radius: 4px; }
 .theme-trigger:hover { background: var(--raised); color: var(--text); }

@@ -31,7 +31,9 @@ if it insists on its own build run ``backend/.venv/bin/playwright install chromi
 """
 from __future__ import annotations
 
+import base64
 import html
+import os
 import sqlite3
 import sys
 import time
@@ -57,13 +59,13 @@ WIDTH, HEIGHT = 1200, 630
 
 # --- Badge colors, lifted verbatim from journal.html so the card matches the
 #     site's own badges exactly.
-KIND_CYAN = "#65def0"   # interview
+KIND_BRAND = "#f29587"   # interview
 KIND_GREEN = "#7ce896"  # newsletter
 KIND_AMBER = "#f4b965"  # article
-KIND_RED = "#e76670"    # scam guide
+KIND_RED = "#ff8995"    # scam guide
 
 POST_KIND = {
-    "interview": ("INTERVIEW", KIND_CYAN),
+    "interview": ("INTERVIEW", KIND_BRAND),
     "newsletter": ("NEWSLETTER", KIND_GREEN),
     "article": ("ARTICLE", KIND_AMBER),
 }
@@ -86,7 +88,7 @@ THREAT_FILL = {
     2: "#7ce896",
     3: "#f4b965",
     4: "#f29b6c",
-    5: "#e76670",
+    5: "#ff8995",
 }
 
 
@@ -94,8 +96,8 @@ def _title_size(title: str, lang: str) -> int:
     """Pick a title font-size (px) that keeps long titles inside the card.
 
     Cyrillic runs ~10-15% wider per glyph, so RU titles get a slightly tighter
-    budget. The CSS line-clamp (3 lines) is the hard safety net; this just keeps
-    typical titles from looking cramped or from clamping mid-word too early.
+    budget. The browser verifies the complete title and reduces its size if needed;
+    this starting estimate keeps typical titles from looking cramped.
     """
     n = len(title)
     # Effective length: pad RU to account for wider glyphs.
@@ -111,7 +113,7 @@ def _title_size(title: str, lang: str) -> int:
     return 40
 
 
-def _threat_block(level: int | None) -> str:
+def _threat_block(level: int | None, lang: str = "en") -> str:
     """Render the 5-slat threat meter HTML for a guide, or '' if no level."""
     if not level:
         return ""
@@ -124,7 +126,7 @@ def _threat_block(level: int | None) -> str:
         else:
             slats.append('<span class="slat off"></span>')
     slats_html = "".join(slats)
-    label = "THREAT LEVEL"
+    label = "УРОВЕНЬ УГРОЗЫ" if lang == "ru" else "THREAT LEVEL"
     return (
         '<div class="threat">'
         f'<span class="threat-label">{label}</span>'
@@ -134,12 +136,26 @@ def _threat_block(level: int | None) -> str:
     )
 
 
+def _font_css() -> str:
+    """Embed the checked-in fonts: no network or machine-font dependency."""
+    rules = []
+    for family, prefix in (("Geist", "geist"), ("JetBrains Mono", "jetbrains-mono")):
+        for subset in ("latin", "cyrillic"):
+            data = base64.b64encode((config.STATIC_DIR / "fonts" / f"{prefix}-{subset}.woff2").read_bytes()).decode("ascii")
+            unicode_range = "U+0000-00FF,U+2000-206F" if subset == "latin" else "U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116"
+            rules.append(f"@font-face{{font-family:'{family}';font-style:normal;font-weight:100 900;src:url(data:font/woff2;base64,{data}) format('woff2');unicode-range:{unicode_range};}}")
+    return "\n".join(rules)
+
+
 def _render_html(template: str, *, title: str, kind_label: str, kind_color: str,
-                 meta_line: str, threat_html: str, title_size: int) -> str:
+                 meta_line: str, threat_html: str, title_size: int, lang: str = "en") -> str:
     """Fill the template placeholders. ``title`` is HTML-escaped; the rest are
     trusted constants assembled above."""
     return (
         template
+        .replace("__LANG__", lang)
+        .replace("__EDUCATION_LABEL__", "ОБРАЗОВАНИЕ" if lang == "ru" else "EDUCATION")
+        .replace("__FONT_CSS__", _font_css())
         .replace("__KIND_LABEL__", html.escape(kind_label))
         .replace("__KIND_COLOR__", kind_color)
         .replace("__TITLE__", html.escape(title))
@@ -189,7 +205,9 @@ def main() -> int:
     for p in posts:
         lang = p["locale"]
         kind = p["type"]
-        label, color = POST_KIND.get(kind, (kind.upper(), "#aab2c4"))
+        label, color = POST_KIND.get(kind, (kind.upper(), "#b6a29d"))
+        if lang == "ru":
+            label = {"interview": "ИНТЕРВЬЮ", "newsletter": "РАССЫЛКА", "article": "СТАТЬЯ"}.get(kind, label)
         title = p["title"] or p["slug"]
         page_html = _render_html(
             template,
@@ -199,6 +217,7 @@ def main() -> int:
             meta_line=KIND_META.get(kind, {}).get(lang, "// DISCAMMER"),
             threat_html="",
             title_size=_title_size(title, lang),
+            lang=lang,
         )
         out = OG_ROOT / "posts" / f"{p['slug']}.{lang}.png"
         plan.append((out, page_html))
@@ -212,15 +231,16 @@ def main() -> int:
             kind_label=GUIDE_LABEL.get(lang, "SCAM GUIDE"),
             kind_color=KIND_RED,
             meta_line=KIND_META["guide"].get(lang, "// DISCAMMER"),
-            threat_html=_threat_block(g.get("threat_level")),
+            threat_html=_threat_block(g.get("threat_level"), lang),
             title_size=_title_size(title, lang),
+            lang=lang,
         )
         out = OG_ROOT / "guides" / f"{g['slug']}.{lang}.png"
         plan.append((out, page_html))
 
     started = time.time()
     with sync_playwright() as pw:
-        browser = pw.chromium.launch()
+        browser = pw.chromium.launch(executable_path=os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE") or None)
         page = browser.new_page(
             viewport={"width": WIDTH, "height": HEIGHT},
             device_scale_factor=1,
@@ -228,12 +248,31 @@ def main() -> int:
         # Hide any scrollbar gutter so the screenshot is a clean 1200×630.
         page.add_style_tag(content="::-webkit-scrollbar{display:none}")
         for out, page_html in plan:
-            page.set_content(page_html, wait_until="networkidle")
+            page.set_content(page_html, wait_until="load")
+            page.evaluate("document.fonts.ready")
+            # Fit the full authored title; never silently ellipsize shared cards.
+            fits = page.evaluate("""() => {
+                const title = document.querySelector('.title');
+                const middle = document.querySelector('.middle');
+                const last = middle.lastElementChild;
+                let size = parseFloat(getComputedStyle(title).fontSize);
+                while ((last.getBoundingClientRect().bottom > middle.getBoundingClientRect().bottom - 16 || title.scrollWidth > title.clientWidth) && size > 24) {
+                    title.style.fontSize = `${--size}px`;
+                }
+                return last.getBoundingClientRect().bottom <= middle.getBoundingClientRect().bottom - 16 && title.scrollWidth <= title.clientWidth;
+            }""")
+            if not fits:
+                raise RuntimeError(f"OG title does not fit: {out}")
             page.screenshot(
                 path=str(out),
                 type="png",
                 clip={"x": 0, "y": 0, "width": WIDTH, "height": HEIGHT},
             )
+        # The default card uses its checked-in SVG source and the same fonts.
+        default_svg = (OG_ROOT / "discammer-og.svg").read_text(encoding="utf-8")
+        page.set_content(f"<html><head><style>{_font_css()} body{{margin:0}}</style></head><body>{default_svg}</body></html>", wait_until="load")
+        page.evaluate("document.fonts.ready")
+        page.screenshot(path=str(OG_ROOT / "discammer-og.png"), type="png", clip={"x": 0, "y": 0, "width": WIDTH, "height": HEIGHT})
         browser.close()
 
     n_posts = sum(1 for o, _ in plan if o.parent.name == "posts")

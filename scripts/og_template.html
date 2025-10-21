@@ -7,24 +7,23 @@
   the result to a temp file, and screenshots it at exactly 1200×630.
 
   Brand chrome is lifted from backend/static/images/og/discammer-og.svg
-  (cyberpunk briefing-room): canvas #0b0f1a, cyan #65def0 wordmark in JetBrains
+  (cyberpunk briefing-room): canvas #151314, soft red #f29587 wordmark in JetBrains
   Mono, a 40px hairline grid, corner HUD brackets, amber/green/red semantic
   accents. The title uses Geist (same family base.html loads).
 
   Placeholders the generator fills (all are HTML-escaped by the script):
     __KIND_LABEL__   e.g. INTERVIEW / NEWSLETTER / ARTICLE / SCAM GUIDE
-    __KIND_COLOR__   hex accent for the badge (cyan/green/amber/red)
+    __KIND_COLOR__   hex accent for the badge (brand/success/warning/danger)
     __TITLE__        localized content title
     __META_LINE__    bottom-left terminal line (kind/locale specific)
     __THREAT_BLOCK__ guides only: a 5-slat risk meter; '' for posts
 -->
-<html lang="en">
+<html lang="__LANG__">
 <head>
 <meta charset="UTF-8">
 <style>
-  /* Fonts are loaded by the generator via add_init_script-injected <link>
-     when network is available; these stacks degrade to system mono/sans
-     so the card still renders legibly fully offline. */
+__FONT_CSS__
+  /* The generator embeds checked-in Latin/Cyrillic fonts above. */
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html, body {
@@ -35,21 +34,21 @@
 
   body {
     position: relative;
-    background-color: #0b0f1a;
+    background-color: #151314;
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: #e7ecf5;
+    color: #ede5e3;
     /* 40px hairline grid — matches the hero chrome / discammer-og.svg pattern. */
     background-image:
-      linear-gradient(to right, rgba(43, 55, 89, 0.45) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(43, 55, 89, 0.45) 1px, transparent 1px);
+      linear-gradient(to right, rgba(111, 92, 96, 0.30) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(111, 92, 96, 0.30) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
-  /* Subtle cyan vignette behind the content for depth (mirrors the SVG glow). */
+  /* Subtle brand vignette behind the content for depth (mirrors the SVG glow). */
   .glow {
     position: absolute;
     inset: 0;
-    background: radial-gradient(45% 45% at 30% 42%, rgba(101, 222, 240, 0.10), transparent 70%);
+    background: radial-gradient(45% 45% at 30% 42%, rgba(242, 149, 135, 0.08), transparent 70%);
     pointer-events: none;
   }
 
@@ -57,7 +56,7 @@
   .frame {
     position: absolute;
     inset: 32px;
-    border: 1px solid #202a44;
+    border: 1px solid #544447;
     pointer-events: none;
   }
 
@@ -66,7 +65,7 @@
     position: absolute;
     width: 26px;
     height: 26px;
-    border-color: #3a8b9a;
+    border-color: #c17f77;
     opacity: 0.75;
   }
   .bracket.tl { top: 32px; left: 32px; border-top: 2px solid; border-left: 2px solid; }
@@ -101,7 +100,7 @@
     font-weight: 800;
     font-size: 30px;
     letter-spacing: -1px;
-    color: #65def0;
+    color: #f29587;
   }
   .monitoring {
     display: flex;
@@ -152,12 +151,9 @@
     font-size: var(--title-size, 68px);
     line-height: 1.12;
     letter-spacing: -1.5px;
-    color: #f3f6fb;
-    /* Clamp to 3 lines max; ellipsis any overflow gracefully. */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: #faf1ee;
+    overflow-wrap: anywhere;
+    flex-shrink: 0;
     max-width: 1000px;
   }
 
@@ -174,7 +170,7 @@
     font-weight: 600;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: #6b7588;
+    color: #b6a29d;
     padding-bottom: 2px;
   }
   .slats { display: flex; gap: 7px; }
@@ -182,7 +178,7 @@
     width: 40px;
     height: 22px;
   }
-  .slat.off { border: 1px solid #2b3759; }
+  .slat.off { border: 1px solid #6f5c60; }
 
   /* ── Bottom: terminal meta line + domain ── */
   .bottom {
@@ -193,9 +189,9 @@
     font-size: 15px;
     font-weight: 500;
     letter-spacing: 1.5px;
-    color: #475064;
+    color: #b6a29d;
   }
-  .bottom .domain { color: #6b7588; }
+  .bottom .domain { color: #b6a29d; }
 </style>
 </head>
 <body>
@@ -210,7 +206,7 @@
     <div class="top">
       <div class="brand">
         <svg class="logomark" width="44" height="44" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path fill="#65def0" fill-rule="evenodd"
+          <path fill="#f29587" fill-rule="evenodd"
             d="M4 3 H16 a5 5 0 0 1 5 5 V16 a5 5 0 0 1 -5 5 H4 Z
                M8 7 H15 a1.5 1.5 0 0 1 1.5 1.5 V15.5 a1.5 1.5 0 0 1 -1.5 1.5 H8 Z"/>
           <rect x="2" y="10.75" width="21" height="2.5" fill="#f4b965"/>
@@ -219,7 +215,7 @@
       </div>
       <div class="monitoring">
         <span class="dot"></span>
-        <span>MONITORING</span>
+        <span>__EDUCATION_LABEL__</span>
       </div>
     </div>
 

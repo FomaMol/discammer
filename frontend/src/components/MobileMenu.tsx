@@ -1,5 +1,5 @@
-import { useEffect, useId, useRef, useState } from 'react';
-import ThemeSwitcher from './ThemeSwitcher';
+import { lazy, Suspense, useEffect, useId, useRef, useState } from 'react';
+const ThemeSwitcher = lazy(() => import('./ThemeSwitcher'));
 import { createPortal } from 'react-dom';
 import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
 
@@ -15,6 +15,8 @@ interface MobileMenuProps {
   /** Aria-label for the language switch row, sourced from `lang.switch_to`. */
   switchAriaLabel?: string;
   lang?: Locale;
+  initialOpen?: boolean;
+  focusTrigger?: boolean;
 }
 
 export default function MobileMenu({
@@ -25,6 +27,8 @@ export default function MobileMenu({
   otherLangShort,
   switchAriaLabel,
   lang,
+  initialOpen = false,
+  focusTrigger = false,
 }: MobileMenuProps) {
   const locale = currentLang(lang);
   const tr = makeTranslator('nav');
@@ -43,16 +47,18 @@ export default function MobileMenu({
 
   const path = typeof window !== 'undefined' ? window.location.pathname : '';
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(initialOpen);
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 1280px)');
     const closeOnDesktop = () => { if (desktop.matches) setIsOpen(false); };
+    closeOnDesktop();
     desktop.addEventListener('change', closeOnDesktop);
     return () => desktop.removeEventListener('change', closeOnDesktop);
   }, []);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
+  useEffect(() => { if (focusTrigger && !initialOpen) buttonRef.current?.focus(); }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -242,7 +248,7 @@ export default function MobileMenu({
                 </a>
               )}
 
-              {isOpen && <ThemeSwitcher inline />}
+              {isOpen && <Suspense fallback={null}><ThemeSwitcher inline /></Suspense>}
               {/* Decorative footer */}
               <div className="mt-auto pt-8 border-t border-border-default w-full">
                 <p

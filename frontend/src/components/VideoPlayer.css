@@ -4,18 +4,18 @@
  * the cyberpunk palette declared in styles/globals.css.
  */
 .discammer-player {
-  --plyr-color-main: #65def0;
+  --plyr-color-main: var(--brand);
   --plyr-video-control-color: #ffffff;
-  --plyr-video-control-color-hover: #0b0e17;
-  --plyr-video-control-background-hover: #65def0;
-  --plyr-range-fill-background: #65def0;
-  --plyr-audio-control-color: #65def0;
-  --plyr-focus-visible-color: #65def0;
-  --plyr-tab-focus-color: #65def0;
-  --plyr-menu-background: rgba(11, 14, 23, 0.95);
+  --plyr-video-control-color-hover: var(--code);
+  --plyr-video-control-background-hover: var(--brand);
+  --plyr-range-fill-background: var(--brand);
+  --plyr-audio-control-color: var(--brand);
+  --plyr-focus-visible-color: var(--brand);
+  --plyr-tab-focus-color: var(--brand);
+  --plyr-menu-background: color-mix(in srgb,var(--code) 95%,transparent);
   --plyr-menu-color: #ffffff;
   --plyr-menu-radius: 10px;
-  --plyr-tooltip-background: rgba(11, 14, 23, 0.95);
+  --plyr-tooltip-background: color-mix(in srgb,var(--code) 95%,transparent);
   --plyr-tooltip-color: #ffffff;
   --plyr-tooltip-radius: 6px;
   --plyr-video-background: #000000;
@@ -25,8 +25,8 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow:
-    0 0 0 1px rgba(0, 240, 255, 0.18),
-    0 12px 40px rgba(6, 10, 22, 0.6); /* tinted blue depth, never pure black */
+    0 0 0 1px color-mix(in srgb,var(--brand) 18%,transparent),
+    0 12px 40px color-mix(in srgb,var(--code) 60%,transparent); /* tinted blue depth, never pure black */
 }
 
 /* Round the poster image too so it doesn't peek past the container chrome. */
@@ -46,10 +46,10 @@
  * goes false, the button snaps back — and the cursor is over it again →
  * infinite jitter loop. */
 .discammer-player .plyr__control--overlaid {
-  background: rgba(0, 240, 255, 0.95);
-  color: #0b0e17;
+  background: var(--brand);
+  color: var(--code);
   padding: 22px;
-  box-shadow: 0 0 36px rgba(0, 240, 255, 0.55);
+  box-shadow: 0 0 36px color-mix(in srgb,var(--brand) 24%,transparent);
   transform: translate(-50%, -50%) scale(1);
   transition: transform 200ms ease, box-shadow 200ms ease,
     background-color 200ms ease;
@@ -57,7 +57,13 @@
 
 .discammer-player .plyr__control--overlaid:hover,
 .discammer-player .plyr__control--overlaid:focus-visible {
-  background: #65def0;
+  background: var(--brand);
   transform: translate(-50%, -50%) scale(1.08);
-  box-shadow: 0 0 48px rgba(0, 240, 255, 0.85);
+  box-shadow: 0 0 48px color-mix(in srgb,var(--brand) 35%,transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discammer-player .plyr__control--overlaid { transition: none; }
+  .discammer-player .plyr__control--overlaid:hover,
+  .discammer-player .plyr__control--overlaid:focus-visible { transform: translate(-50%, -50%); }
 }

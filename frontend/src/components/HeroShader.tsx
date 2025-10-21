@@ -1,4 +1,4 @@
-import { themeColor } from '../utils/theme';
+import { themeColor } from '../utils/theme-color';
 import { useEffect, useRef } from 'react';
 import { prefersReducedMotion } from '../utils/useReducedMotion';
 
@@ -44,6 +44,8 @@ out vec4 fragColor;
 
 uniform float u_time;
 uniform vec3 u_brand;
+uniform vec3 u_warning;
+uniform vec3 u_danger;
 uniform vec2  u_resolution;
 
 // Hash + value noise (small, cheap)
@@ -109,8 +111,8 @@ void main() {
 
   // Brand-tuned colors (match DESIGN.md tokens, not neon)
   vec3 cyanC = u_brand;
-  vec3 amberC = vec3(0.957, 0.725, 0.396);  // #f4b965
-  vec3 redC   = vec3(0.906, 0.400, 0.439);  // #e76670
+  vec3 amberC = u_warning;
+  vec3 redC = u_danger;
 
   vec3 col = cyanC * cyan * 0.55
            + amberC * amber * 0.40
@@ -199,10 +201,12 @@ export default function HeroShader() {
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-    const brandLoc = gl.getUniformLocation(program, 'u_brand');
+    const themeUniforms = ['brand', 'warning', 'danger'].map(role => ({role, location: gl.getUniformLocation(program, 'u_' + role)}));
     function updateTheme() {
-      const value = themeColor('brand').replace('#', '');
-      gl!.uniform3f(brandLoc, parseInt(value.slice(0,2),16)/255, parseInt(value.slice(2,4),16)/255, parseInt(value.slice(4,6),16)/255);
+      for (const {role, location} of themeUniforms) {
+        const value = themeColor(role).replace('#', '');
+        gl!.uniform3f(location, parseInt(value.slice(0,2),16)/255, parseInt(value.slice(2,4),16)/255, parseInt(value.slice(4,6),16)/255);
+      }
       if (stopped || reduce) renderFrame(lastTime);
     }
     const start = performance.now();

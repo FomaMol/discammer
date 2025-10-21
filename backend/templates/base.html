@@ -30,7 +30,7 @@
   {% set _alt_path = request.url.path[3:] if request and (request.url.path == '/' ~ _lang or request.url.path.startswith('/' ~ _lang ~ '/')) else '/' %}
   <meta name="description" content="{{ _meta_description }}">
   <meta name="theme-color" content="#151314">
-  <script nonce="{{ request.state.csp_nonce }}">(()=>{let t='soft-red';try{if(localStorage.getItem('discammer.theme.v1')==='graphite-silver')t='graphite-silver'}catch{}document.documentElement.dataset.theme=t;document.querySelector('meta[name="theme-color"]').content=t==='soft-red'?'#151314':'#101314'})();</script>
+  <script nonce="{{ request.state.csp_nonce }}">(()=>{const apply=t=>{document.documentElement.dataset.theme=t;document.querySelector('meta[name="theme-color"]').content=t==='soft-red'?'#151314':'#101314';window.dispatchEvent(new Event('discammer:theme'))};let t='soft-red';try{if(localStorage.getItem('discammer.theme.v1')==='graphite-silver')t='graphite-silver'}catch{}apply(t);window.addEventListener('storage',e=>{if(e.key==='discammer.theme.v1'||e.key===null)apply(e.newValue==='graphite-silver'?'graphite-silver':'soft-red')})})();</script>
   <meta name="generator" content="DiScammer">
   {% if _canonical_url %}<link rel="canonical" href="{{ _canonical_url }}">{% endif %}
   <link rel="manifest" href="/manifest.webmanifest">
@@ -315,10 +315,6 @@
         <p class="text-ink-faint font-mono text-[11px] tracking-[0.02em] tabular-nums">
           &copy; {{ now().year }} DISCAMMER · {{ t(_lang, 'footer.rights') }}
         </p>
-        <div class="flex items-center gap-2 font-mono text-[11px] tracking-[0.04em] text-ink-faint uppercase">
-          <span class="status-dot"></span>
-          <span>SYS · OK</span>
-        </div>
       </div>
     </div>
   </footer>

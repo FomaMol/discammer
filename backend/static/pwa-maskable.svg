@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="DiScammer">
+  <!-- Full-bleed canvas; the mark stays within the central mask safe zone. -->
+  <rect width="192" height="192" fill="#151314"/>
+  <g transform="translate(48 48) scale(4)">
+    <path fill="#f29587" fill-rule="evenodd" d="M4 3 H16 a5 5 0 0 1 5 5 V16 a5 5 0 0 1 -5 5 H4 Z M8 7 H15 a1.5 1.5 0 0 1 1.5 1.5 V15.5 a1.5 1.5 0 0 1 -1.5 1.5 H8 Z"/>
+    <rect x="2" y="10.75" width="21" height="2.5" fill="#f4b965"/>
+  </g>
+</svg>

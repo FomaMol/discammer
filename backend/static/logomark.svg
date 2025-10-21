@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="DiScammer">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f29587" role="img" aria-label="DiScammer">
   <!--
     DiScammer logomark — "strike-through D".
-    A block-mono D (cyan, currentColor) marked with an analyst's horizontal strike (amber):
+    A block-mono D (soft red) marked with an analyst's horizontal strike (amber):
     "scammer detected, struck from the record". The strike overshoots the D on both sides
     so the redaction reads as annotation, not as a serif. Reads at 16px (favicon),
     24px (nav), 32px (PWA), 64px (OG). Two paths total.

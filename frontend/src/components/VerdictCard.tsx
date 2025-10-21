@@ -1,3 +1,4 @@
+import { themeColor } from '../utils/theme-color';
 import { useCallback, useState } from 'react';
 import type { AnalysisResult } from '../data/redflags';
 import { makeTranslator } from '../utils/i18n';
@@ -141,29 +142,29 @@ export function buildCardData(result: AnalysisResult, now: Date = new Date()): C
 
 // A2 briefing-room palette — pulled from globals.css @theme. Canvas needs hex
 // literals, so these are the live token values, not neon.
-const PALETTE = {
-  canvas: '#0b0f1a',
-  canvasSoft: '#121828',
-  hairline: '#202a44',
-  ink: '#e7ecf5',
-  inkStrong: '#f3f5fa',
-  muted: '#8b94a8',
-  cyan: '#65def0',
-  amber: '#f4b965',
-  green: '#7ce896',
-  red: '#e76670',
-  threatMid: '#f29b6c',
-} as const;
+const palette = () => ({
+  canvas: themeColor('canvas'),
+  canvasSoft: themeColor('panel'),
+  hairline: themeColor('border-strong'),
+  ink: themeColor('text'),
+  inkStrong: themeColor('text-strong'),
+  muted: themeColor('muted'),
+  cyan: themeColor('brand'),
+  amber: themeColor('warning'),
+  green: themeColor('success'),
+  red: themeColor('danger'),
+  threatMid: themeColor('threat-mid'),
+});
 
 const CARD_W = 1200;
 const CARD_H = 630; // OG-card 1.91:1 share aspect
 
 /** Accent color for the verdict, by max severity (calm green at 0). */
 function verdictColor(maxSeverity: number): string {
-  if (maxSeverity >= 3) return PALETTE.red;
-  if (maxSeverity === 2) return PALETTE.amber;
-  if (maxSeverity === 1) return PALETTE.green;
-  return PALETTE.green;
+  if (maxSeverity >= 3) return palette().red;
+  if (maxSeverity === 2) return palette().amber;
+  if (maxSeverity === 1) return palette().green;
+  return palette().green;
 }
 
 /**
@@ -175,6 +176,7 @@ function drawCard(
   data: CardData,
   strings: { title: string; verdict: string; calm: string; legend: string; noText: string; categoryLabels: string[] },
 ): void {
+  const PALETTE = palette();
   const mono = "700 28px 'JetBrains Mono', ui-monospace, monospace";
   const accent = verdictColor(data.maxSeverity);
 
@@ -354,34 +356,34 @@ export default function VerdictCard({ result }: VerdictCardProps) {
   }, [result, tr, categoryLabelFor]);
 
   return (
-    <div className="mt-7 border border-[#202a44] bg-[#0a0d16]/60 rounded-[4px] px-4 py-4">
+    <div className="mt-7 border border-[var(--border)] bg-[var(--code)]/60 rounded-[4px] px-4 py-4">
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={render}
           disabled={busy}
-          className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold border border-[#65def0] text-[#65def0] hover:bg-[#65def0]/10 transition-colors rounded-[4px] cursor-pointer disabled:opacity-60 disabled:cursor-default"
+          className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 uppercase text-[12px] tracking-[0.14em] font-bold border border-[var(--brand)] text-[var(--brand)] hover:bg-[var(--brand)]/10 transition-colors rounded-[4px] cursor-pointer disabled:opacity-60 disabled:cursor-default"
         >
           <span aria-hidden="true">[</span>
           {busy ? tr('card.button_busy') : tr('card.button')}
           <span aria-hidden="true">]</span>
         </button>
         {/* Reassurance — load-bearing: the card carries no message text. */}
-        <p className="text-[11px] leading-[1.45] text-[#8b94a8] max-w-[52ch] font-sans">
+        <p className="text-[11px] leading-[1.45] text-[var(--muted)] max-w-[52ch] font-sans">
           {tr('card.no_text_note')}
         </p>
       </div>
       <div aria-live="polite" className="mt-2 min-h-[1.1em]">
         {done === 'shared' && (
-          <p className="text-[11px] uppercase tracking-[0.12em] text-[#7ce896]">{tr('card.shared')}</p>
+          <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--success)]">{tr('card.shared')}</p>
         )}
         {done === 'downloaded' && (
-          <p className="text-[11px] uppercase tracking-[0.12em] text-[#7ce896]">
+          <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--success)]">
             {tr('card.downloaded')}
           </p>
         )}
         {error && (
-          <p className="text-[11px] uppercase tracking-[0.12em] text-[#e76670]">{tr('card.error')}</p>
+          <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--danger)]">{tr('card.error')}</p>
         )}
       </div>
     </div>

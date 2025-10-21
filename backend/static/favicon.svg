@@ -5,10 +5,10 @@
     Slight strike thickening (3.2u vs 2.5u at 24u grid) for crispness at 16px.
   -->
   <!-- Canvas plaque — same brand background as the site. -->
-  <rect width="32" height="32" rx="5" fill="#0b0f1a"/>
+  <rect width="32" height="32" rx="5" fill="#151314"/>
   <!-- Block D — cyan, evenodd hole for the counter. -->
   <path
-    fill="#65def0"
+    fill="#f29587"
     fill-rule="evenodd"
     d="M6 4 H21 a6 6 0 0 1 6 6 V22 a6 6 0 0 1 -6 6 H6 Z
        M10.5 9 H20 a1.75 1.75 0 0 1 1.75 1.75 V21.25 a1.75 1.75 0 0 1 -1.75 1.75 H10.5 Z"/>

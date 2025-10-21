@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 /**
  * T1.4 — global focus + skip link. The skip-to-content link is the first tab stop
- * (hidden until focused), and the global *:focus-visible rule paints a 2px cyan
+ * (hidden until focused), and the global *:focus-visible rule paints a 2px brand
  * (#65def0 = rgb(101,222,240)) ring on keyboard focus.
  */
 
@@ -22,7 +22,7 @@ test('skip link is the first tab stop and reveals on focus', async ({ page }) =>
   expect(shown!.width).toBeGreaterThan(40);
 });
 
-test('keyboard focus paints the 2px cyan focus-visible ring', async ({ page }) => {
+test('keyboard focus paints the 2px brand focus-visible ring', async ({ page }) => {
   await page.goto('/en/');
   await page.keyboard.press('Tab'); // focus skip link via keyboard -> :focus-visible
   const skip = page.locator('a[href="#main-content"]');
@@ -34,5 +34,5 @@ test('keyboard focus paints the 2px cyan focus-visible ring', async ({ page }) =
   });
   expect(ring.width).toBe('2px');
   expect(ring.style).toBe('solid');
-  expect(ring.color).toBe('rgb(101, 222, 240)');
+  expect(ring.color).toBe('rgb(242, 149, 135)');
 });

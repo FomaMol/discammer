@@ -1,0 +1,39 @@
+/* The completion record is local to this browser. Printing changes only its
+   presentation; it does not add an issuer or a verification claim. */
+@media print {
+  @page { size: A4; margin: 18mm; }
+  html:has(#discammer-certificate) { background: white !important; color-scheme: light; }
+  body:has(#discammer-certificate) *:not(:has(#discammer-certificate)):not(#discammer-certificate):not(#discammer-certificate *) {
+    display: none !important;
+  }
+  body:has(#discammer-certificate),
+  body:has(#discammer-certificate) *:has(#discammer-certificate) {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    background: white !important;
+    border: 0 !important;
+  }
+  #discammer-certificate {
+    color: #222 !important;
+    background: white !important;
+    background-image: none !important;
+    border: 2px solid #555 !important;
+    box-shadow: none !important;
+    padding: 12mm !important;
+    break-inside: avoid;
+    overflow: visible !important;
+  }
+  #discammer-certificate * {
+    color: #222 !important;
+    border-color: #777 !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    overflow-wrap: anywhere;
+  }
+}
