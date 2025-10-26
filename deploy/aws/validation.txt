@@ -1,0 +1,9 @@
+Success! The configuration is valid.
+
+safety.tftest.hcl... in progress
+  run "retention_and_network_boundaries"... pass
+safety.tftest.hcl... tearing down
+safety.tftest.hcl... pass
+
+Success! 1 passed, 0 failed.
+{"test": "synthetic SQLite WAL forward and reverse latest-state restore", "passed": true, "row_count": 1, "latest_payload_sha256": "58a47436db3cd91456e9b3160e433aeef32c4fd8a93740f617c1fdd85a3d7cb0", "duration_seconds": 0.017, "production_data_used": false}

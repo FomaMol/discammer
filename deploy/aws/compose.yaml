@@ -1,0 +1,30 @@
+# Standalone runtime candidate; do not merge with build-oriented root Compose.
+services:
+  web:
+    image: ${DISCAMMER_IMAGE:?Set an immutable private ECR image digest}
+    pull_policy: never
+    restart: "no"
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - type: bind
+        source: /opt/discammer/data
+        target: /app/data
+        bind:
+          create_host_path: false
+    env_file:
+      - /etc/discammer/runtime.env
+    environment:
+      SITE_ORIGIN: https://discammer.com
+      PYTHONUNBUFFERED: "1"
+      WEB_CONCURRENCY: "2"
+      FORWARDED_ALLOW_IPS: "172.30.87.1"
+    networks:
+      web:
+        ipv4_address: 172.30.87.2
+networks:
+  web:
+    ipam:
+      config:
+        - subnet: 172.30.87.0/29
+          gateway: 172.30.87.1

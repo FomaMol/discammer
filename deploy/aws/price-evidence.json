@@ -1,0 +1,210 @@
+{
+  "checked": "2026-09-10",
+  "region_assumption": "eu-central-1; not owner-selected",
+  "ec2_source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/eu-central-1/index.json",
+  "ec2_publication": "2026-09-09T16:49:38Z",
+  "ec2_prices": [
+    {
+      "sku": "42HPMPRPNWRJYGZM",
+      "description": "$0.054 per GB-Month of snapshot data stored - EU (Frankfurt)",
+      "usd": "0.0540000000",
+      "unit": "GB-Mo"
+    },
+    {
+      "sku": "43AUDFP7M3XV6YHQ",
+      "description": "$0.0952 per GB-month of General Purpose (gp3) provisioned storage - EU (Frankfurt)",
+      "usd": "0.0952000000",
+      "unit": "GB-Mo"
+    },
+    {
+      "sku": "XGAATXHUHNWXTMMR",
+      "description": "$0.024 per On Demand Linux t3.small Instance Hour",
+      "usd": "0.0240000000",
+      "unit": "Hrs"
+    }
+  ],
+  "other_official_feeds": {
+    "AmazonS3": {
+      "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-central-1/index.json",
+      "published": "2026-08-31T09:22:25Z",
+      "prices": [
+        {
+          "sku": "F5832W93RMW27RD7",
+          "usage": "EUC1-Requests-Tier1",
+          "description": "$0.0054 per 1,000 PUT, COPY, POST, or LIST requests",
+          "USD": "0.0000054000",
+          "unit": "Requests"
+        },
+        {
+          "sku": "SVRB9G95Z6KTZVDY",
+          "usage": "EUC1-DataTransfer-Out-Bytes",
+          "description": "$0.0 per GB for S3-DT-AWS Outbound",
+          "USD": "0.0000000000",
+          "unit": "GB"
+        },
+        {
+          "sku": "SCWWKN24H2KRY3RB",
+          "usage": "EUC1-DataTransfer-Out-Bytes",
+          "description": "$0.0033 per GB - AWS Outbound Base Data Transfer for MRAP from EU (Frankfurt)",
+          "USD": "0.0033000000",
+          "unit": "GB"
+        },
+        {
+          "sku": "YMH335D2SCP9S7HF",
+          "usage": "EUC1-Annotation-TimedStorage-ByteHrs",
+          "description": "$0.0245 per GB-Mo of Storage in Annotations ",
+          "USD": "0.0245000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "7Q3PARZ8SP8WS2Z8",
+          "usage": "EUC1-Tables-Requests-Tier2",
+          "description": "$0.00043 per 1,000 GET and All Other Requests to S3 Table Buckets in EU (Frankfurt)",
+          "USD": "0.0000004300",
+          "unit": "Requests"
+        },
+        {
+          "sku": "AWN8J2FZTTWGXT9J",
+          "usage": "EUC1-Tables-Requests-Tier1",
+          "description": "$0.0054 per 1,000 PUT Requests/COPY/POST or LIST Requests to S3 Table Buckets in EU (Frankfurt)",
+          "USD": "0.0000054000",
+          "unit": "Requests"
+        },
+        {
+          "sku": "NPN725YSWYPAU9F8",
+          "usage": "EUC1-Vectors-TimedStorage-ByteHrs",
+          "description": "$0.064 per GB-Mo of Storage in Vectors ",
+          "USD": "0.0640000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "NRYRNCXF5TWHB476",
+          "usage": "EUC1-TimedStorage-ByteHrs",
+          "description": "$0.0245 per GB - first 50 TB / month of storage used",
+          "USD": "0.0245000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "VXXVU5HK2RUDE4FE",
+          "usage": "EUC1-Tables-TimedStorage-ByteHrs",
+          "description": "$0.0282 per GB-Mo for First 50 TB of Storage in S3 Table Buckets in EU (Frankfurt)",
+          "USD": "0.0282000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "3U8WAKNUBVZV9CA2",
+          "usage": "EUC1-Files-TimedStorage-ByteHrs",
+          "description": "$0.36 per GB-Mo of Storage in Files ",
+          "USD": "0.3600000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "TUSXZSTYY6YJH244",
+          "usage": "EUC1-Requests-Tier2",
+          "description": "$0.0043 per 10,000 GET and all other requests",
+          "USD": "0.0000004300",
+          "unit": "Requests"
+        }
+      ]
+    },
+    "AmazonEC2ContainerRegistry": {
+      "error": "HTTP Error 404: Not Found"
+    },
+    "AmazonCloudWatch": {
+      "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/eu-central-1/index.json",
+      "published": "2026-08-31T09:21:48Z",
+      "prices": [
+        {
+          "sku": "HCS2CB4V5UZSY78D",
+          "usage": "EUC1-CW:LogAlarmMonitorUsage",
+          "description": "$0.10 per Alarm in EU (Frankfurt)",
+          "USD": "0.1000000000",
+          "unit": "Alarms"
+        },
+        {
+          "sku": "8C26KWSF67UY2336",
+          "usage": "EUC1-CW:HighResAlarmMonitorUsage",
+          "description": "$0.30 per alarm metric month (high resolution) - EU (Frankfurt)",
+          "USD": "0.3000000000",
+          "unit": "Alarms"
+        },
+        {
+          "sku": "H7BQPA3ZA2KY9TC9",
+          "usage": "EUC1-CW:CompositeAlarmMonitorUsage",
+          "description": "$0.50 per composite alarm month - EU (Frankfurt)",
+          "USD": "0.5000000000",
+          "unit": "Alarms"
+        },
+        {
+          "sku": "4V9YKJHUP3C55Q2R",
+          "usage": "EUC1-TimedStorage-ByteHrs",
+          "description": "$0.0324 per GB-mo of log storage - EU (Frankfurt)",
+          "USD": "0.0324000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "XAE7GPNAZR6AWCQK",
+          "usage": "EUC1-DataProcessing-Bytes",
+          "description": "$0.63 per GB custom log data ingested in Standard log class - EU (Frankfurt)",
+          "USD": "0.6300000000",
+          "unit": "GB"
+        },
+        {
+          "sku": "FCH8WPMWVXA4B6VM",
+          "usage": "Global-CW:AlarmMonitorUsage",
+          "description": "Global",
+          "USD": "0.0000000000",
+          "unit": "Alarms"
+        },
+        {
+          "sku": "SSNSJENVU973ECHE",
+          "usage": "Global-DataProcessing-Bytes",
+          "description": "Global",
+          "USD": "0.0000000000",
+          "unit": "GB"
+        },
+        {
+          "sku": "SH5YX249TQ85UCP9",
+          "usage": "EUC1-CW:PromQLAlarmMonitorUsage",
+          "description": "$0.10 per Alarm in EU (Frankfurt)",
+          "USD": "0.1000000000",
+          "unit": "Alarms"
+        },
+        {
+          "sku": "6XTVPDAM3VF25UTA",
+          "usage": "Global-TimedStorage-ByteHrs",
+          "description": "Global",
+          "USD": "0.0000000000",
+          "unit": "GB-Mo"
+        },
+        {
+          "sku": "VJ934U28PCG8EKRA",
+          "usage": "EUC1-CW:AlarmMonitorUsage",
+          "description": "$0.10 per alarm metric month (standard resolution) - EU (Frankfurt)",
+          "USD": "0.1000000000",
+          "unit": "Alarms"
+        }
+      ]
+    },
+    "AWSDataTransfer": {
+      "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSDataTransfer/current/eu-central-1/index.json",
+      "published": "2026-08-31T12:14:48Z",
+      "prices": [
+        {
+          "sku": "PB257JUQ8U6E6UPM",
+          "usage": "Global-DataTransfer-Out-Bytes",
+          "description": "$0 for 100GB of data transfer out to the internet, aggregated globally, each month",
+          "USD": "0.0000000000",
+          "unit": "GB"
+        },
+        {
+          "sku": "F62Y6TKR8NC6Q2ZB",
+          "usage": "EUC1-DataTransfer-Out-Bytes",
+          "description": "$0.090 per GB - first 10 TB / month data transfer out beyond the global free tier",
+          "USD": "0.0900000000",
+          "unit": "GB"
+        }
+      ]
+    }
+  }
+}
