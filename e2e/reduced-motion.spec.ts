@@ -2,22 +2,18 @@ import { test, expect } from '@playwright/test';
 
 /**
  * T3.1 — reduced-motion contract. With prefers-reduced-motion: reduce, no CSS
- * animation runs infinitely, the status-dot pulse is suppressed, and the hero
+ * animation runs infinitely, and the hero
  * canvas renders (a single static frame, not a loop). Decorative reveals snap to
  * their final state (content is present immediately).
  */
 
-test('home honors reduced motion: no infinite animations, static status dot', async ({ page }) => {
+test('home honors reduced motion: no infinite animations, static hero', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/en/', { waitUntil: 'load' });
   await page.waitForTimeout(500);
 
-  // The status-dot pulse animation is suppressed.
-  const dotAnim = await page
-    .locator('.status-dot')
-    .first()
-    .evaluate((el) => getComputedStyle(el).animationName);
-  expect(dotAnim).toBe('none');
+  // The decorative system-status label was removed from the public footer.
+  await expect(page.locator('footer .status-dot')).toHaveCount(0);
 
   // No CSS/Web animation is running with infinite iterations.
   const infinite = await page.evaluate(

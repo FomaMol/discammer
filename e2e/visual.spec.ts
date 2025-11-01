@@ -95,6 +95,8 @@ for (const surface of SURFACES) {
 
       // Let islands hydrate + lazy chunks settle so the captured DOM is final.
       await page.waitForTimeout(800);
+      // Never approve an unstyled response as a new visual baseline.
+      await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(21, 19, 20)');
 
       await expect(page).toHaveScreenshot(`${surface.slug}-${lang}.png`, {
         fullPage: true,

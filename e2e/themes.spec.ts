@@ -65,3 +65,25 @@ test('both themes pass role contrast on all text surfaces',async({page})=>{
   for(const p of pairs)expect(p.ratio,`${theme} ${p.fg} on ${p.bg}`).toBeGreaterThanOrEqual(4.5);
  }
 });
+
+test('mobile menu opened before enhancement releases scroll when resized to desktop', async ({ page }) => {
+  let releaseImport!: () => void;
+  let markRequested!: () => void;
+  const importGate = new Promise<void>((resolve) => { releaseImport = resolve; });
+  const requested = new Promise<void>((resolve) => { markRequested = resolve; });
+  await page.route('**/static/js/chunks/MobileMenu-*.js', async (route) => {
+    markRequested();
+    await importGate;
+    await route.continue();
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/en/about', { waitUntil: 'domcontentloaded' });
+  await requested;
+  await page.locator('.ssr-menu summary').click();
+  await expect(page.locator('.ssr-menu')).toHaveAttribute('open', '');
+  await page.setViewportSize({ width: 1440, height: 900 });
+  releaseImport();
+  await expect(page.locator('[data-component="MobileMenu"] button')).toHaveAttribute('aria-expanded', 'false');
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).not.toBe('hidden');
+  await expect(page.locator('nav').first().locator('a[href="/en/course"]').first()).toBeVisible();
+});
