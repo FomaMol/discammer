@@ -1,0 +1,76 @@
+{
+  "lcp": 172,
+  "cls": 0.024055132253587436,
+  "resources": [
+    {
+      "name": "http://127.0.0.1:8791/static/fonts/geist-cyrillic.woff2",
+      "bytes": 15384,
+      "decoded": 15084
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/fonts/geist-latin.woff2",
+      "bytes": 29700,
+      "decoded": 29400
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/fonts/jetbrains-mono-cyrillic.woff2",
+      "bytes": 9172,
+      "decoded": 8872
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/fonts/jetbrains-mono-latin.woff2",
+      "bytes": 31732,
+      "decoded": 31432
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/css/main-DHKY3Tx_.css",
+      "bytes": 73571,
+      "decoded": 73271
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/logomark.svg?v=1783787217",
+      "bytes": 1214,
+      "decoded": 914
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/main-DBcqZFDn.js",
+      "bytes": 150522,
+      "decoded": 150222
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/MobileMenu-DVDbDs6t.js",
+      "bytes": 5210,
+      "decoded": 4910
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/i18n-gVZb7XXq.js",
+      "bytes": 1056,
+      "decoded": 756
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/HeroShader-DFiIhXMd.js",
+      "bytes": 5517,
+      "decoded": 5217
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/useReducedMotion-CcLiikdR.js",
+      "bytes": 884,
+      "decoded": 584
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/MessageChecker-CFDxKLAx.js",
+      "bytes": 0,
+      "decoded": 4415
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/threat_feed-BciEgeoR.js",
+      "bytes": 1415,
+      "decoded": 1115
+    },
+    {
+      "name": "http://127.0.0.1:8791/static/js/chunks/redflags-Dfk9x4ad.js",
+      "bytes": 10077,
+      "decoded": 9777
+    }
+  ]
+}

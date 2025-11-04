@@ -1,0 +1,87 @@
+{
+  "lcp": 132,
+  "cls": 0.0171128493565332,
+  "interactions": [],
+  "resources": [
+    {
+      "name": "http://127.0.0.1:8898/static/fonts/geist-cyrillic.woff2",
+      "bytes": 15384,
+      "decoded": 15084
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/fonts/jetbrains-mono-cyrillic.woff2",
+      "bytes": 9172,
+      "decoded": 8872
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/css/main-tgafceHL.css",
+      "bytes": 86963,
+      "decoded": 86663
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/fonts/geist-latin.woff2",
+      "bytes": 29700,
+      "decoded": 29400
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/fonts/jetbrains-mono-latin.woff2",
+      "bytes": 31732,
+      "decoded": 31432
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/logomark.svg?v=1789049835",
+      "bytes": 1199,
+      "decoded": 899
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/main-D3IuSeRv.js",
+      "bytes": 151799,
+      "decoded": 151499
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/MobileMenu-BTW5vsUo.js",
+      "bytes": 5922,
+      "decoded": 5622
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/i18n-gVZb7XXq.js",
+      "bytes": 1056,
+      "decoded": 756
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/index-BEXp3FsO.js",
+      "bytes": 366,
+      "decoded": 66
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/HeroShader-0I4FwfIc.js",
+      "bytes": 5928,
+      "decoded": 5628
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/theme-color-CltKEOde.js",
+      "bytes": 409,
+      "decoded": 109
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/useReducedMotion-VU5ztL5K.js",
+      "bytes": 884,
+      "decoded": 584
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/threat_feed-BciEgeoR.js",
+      "bytes": 1415,
+      "decoded": 1115
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/redflags-Dfk9x4ad.js",
+      "bytes": 10077,
+      "decoded": 9777
+    },
+    {
+      "name": "http://127.0.0.1:8898/static/js/chunks/MessageChecker-Sll_j2nK.js",
+      "bytes": 4945,
+      "decoded": 4645
+    }
+  ]
+}
