@@ -1,0 +1,50 @@
+[
+  {
+    "url": "http://127.0.0.1:8898/en/",
+    "runs": 3,
+    "categories": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "TBT_ms": 0,
+    "CLS": 0.006714424634445319
+  },
+  {
+    "url": "http://127.0.0.1:8898/en/guide/phishing",
+    "runs": 3,
+    "categories": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "TBT_ms": 0,
+    "CLS": 0.0006456877681463969
+  },
+  {
+    "url": "http://127.0.0.1:8898/en/check",
+    "runs": 3,
+    "categories": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "TBT_ms": 0,
+    "CLS": 0.007775531914893617
+  },
+  {
+    "url": "http://127.0.0.1:8898/en/inspect",
+    "runs": 3,
+    "categories": {
+      "performance": 1,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "TBT_ms": 0,
+    "CLS": 0.02757561742988063
+  }
+]

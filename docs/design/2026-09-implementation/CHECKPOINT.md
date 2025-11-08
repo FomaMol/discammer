@@ -29,3 +29,9 @@ Remote main was rechecked at `7167c9d7741e5926faf15752125c8d08cf9201ff`; candida
 Current public production was observed at `8e8036e`, behind main. Existing CI deploy target requires reconciliation with the verified serving host; that host also lacks Git LFS. Concrete separate owner approval requested for correcting existing DEPLOY_HOST and installing only Ubuntu's git-lfs package. Neither action is authorized by the code-deploy grant alone. No new secrets, DNS, infrastructure, payment or production-data action performed.
 
 P6 candidate: `../../ops/aws-migration-2026-09.md` and `../../../deploy/aws/`. Official price evidence, Terraform validate/mock safety test, synthetic SQLite WAL forward/reverse restore passed. Illustrative Frankfurt minimum $34.06/month excluding egress/tax; no authenticated AWS plan/apply. Account/access, region, budget and RPO/RTO remain unconfirmed. Real backup/media restore, final single-writer switch and reverse current-data recovery require approved execution. Beget paid-through date observed as 2026-09-11; media about 15 GiB are outside Git and the dated rescue ZIP.
+
+## Final local Lighthouse and remote review
+
+Lighthouse completed 12 runs (three per surface); all existing assertions passed. Median accessibility, best-practices and SEO are 100 for all four routes; performance 99/99/100/99 for home/check/inspect/guide. Median TBT is zero; CLS below .028. See `evidence/lighthouse-summary.json`. Local laboratory scores are not production measurements.
+
+Draft PR: https://github.com/FomaMol/discammer/pull/6. Code and evidence pushed on `codex/september-redesign`. Main has not been updated and no release has been deployed. Current CI runs are visible on that PR; do not infer success from this checkpoint.
