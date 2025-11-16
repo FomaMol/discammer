@@ -216,31 +216,10 @@ export default function MobileMenu({
                   >
                     {String(links.length + 1).padStart(2, '0')}
                   </span>
-                  <span className="inline-flex items-center gap-2">
-                    <span
-                      className="inline-flex items-center justify-center h-7 px-2 text-accent-cyan font-mono text-xs font-bold tracking-[0.14em] rounded-sm tabular-nums border"
-                      style={{
-                        backgroundColor: 'color-mix(in srgb,var(--brand) 8%,transparent)',
-                        borderColor: 'var(--brand-dim)',
-                        minWidth: '1.875rem',
-                        fontFamily: '"JetBrains Mono", monospace',
-                      }}
-                    >
-                      {chipCurrent}
-                    </span>
-                    <span
-                      className="font-mono text-text-faint text-sm"
-                      aria-hidden="true"
-                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
-                    >
-                      &rarr;
-                    </span>
-                    <span
-                      className="font-mono text-text-muted text-xs font-semibold tracking-[0.14em] group-hover:text-accent-cyan transition-colors"
-                      style={{ fontFamily: '"JetBrains Mono", monospace' }}
-                    >
-                      {chipOther}
-                    </span>
+                  <span className="language-switch inline-flex">
+                    <span className={locale === 'en' ? 'language-current' : 'language-target'}>EN</span>
+                    <span className="language-divider" aria-hidden="true">/</span>
+                    <span className={locale === 'ru' ? 'language-current' : 'language-target'}>RU</span>
                   </span>
                   <span className="text-accent-cyan text-xs opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
                     [ENTER]

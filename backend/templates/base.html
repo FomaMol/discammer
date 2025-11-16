@@ -180,19 +180,19 @@
       {% set _search_href = '/' ~ _lang ~ '/search' %}
       <a href="{{ _search_href }}" aria-label="{{ t(_lang, 'nav.search') }}"
          {% if _nav_path.rstrip('/') == _search_href %}aria-current="page"{% endif %}
-         class="hidden xl:inline-flex items-center justify-center w-11 h-11 rounded-sm border border-[var(--border-strong)] text-[var(--text-soft)] hover:text-[var(--brand-hover)] hover:border-[var(--brand-dim)] transition-colors">
+         class="hidden xl:inline-flex items-center justify-center w-11 h-11 rounded-sm text-[var(--text-soft)] hover:bg-[var(--raised)] hover:text-[var(--brand-hover)] transition-colors">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16.5" y2="16.5"></line></svg>
       </a>
 
-      <span class="hidden xl:block w-px h-5 bg-[var(--border-strong)] mx-1"></span>
+      <span class="hidden xl:block w-px h-4 bg-[var(--border)]"></span>
 
-      {# Language toggle — inline route to the other language (never a modal). Current lang is the
-         cyan chip; the other lang is muted and lights to cyan on hover. #}
+      {# A single route action, with a stable locale order and explicit active state. #}
       <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
-         class="hidden xl:inline-flex min-h-11 items-center font-mono text-[13px] font-semibold tracking-[0.06em] rounded-sm overflow-hidden border border-[var(--border-strong)]"
+         class="language-switch hidden xl:inline-flex"
          aria-label="{{ t(_lang, 'lang.switch_to') }}" rel="alternate" hreflang="{{ _other }}">
-        <span class="px-2 py-1 text-[var(--brand)]" style="background-color: color-mix(in srgb,var(--brand) 8%,transparent);">{{ t(_lang, 'lang.short') }}</span>
-        <span class="px-2 py-1 text-[var(--muted)] hover:text-[var(--brand)] transition-colors">{{ t(_lang, 'lang.other_short') }}</span>
+        <span class="{{ 'language-current' if _lang == 'en' else 'language-target' }}">EN</span>
+        <span class="language-divider" aria-hidden="true">/</span>
+        <span class="{{ 'language-current' if _lang == 'ru' else 'language-target' }}">RU</span>
       </a>
 
       <div class="hidden xl:block" data-component="ThemeSwitcher" data-props='{}'></div>
@@ -224,7 +224,7 @@
       <div data-component="MobileMenu" data-props='{{ _mobile_menu_props | tojson | forceescape }}'>
         <details class="xl:hidden relative ssr-menu">
           <summary class="min-h-11 flex items-center cursor-pointer font-mono text-sm">{{ t(_lang, 'client.nav.open_menu') }}</summary>
-          <div class="absolute right-0 top-full w-64 p-4 bg-panel border border-border shadow-pop">
+          <div class="absolute right-0 top-full w-64 p-4 bg-panel border border-border shadow-pop font-mono text-sm">
             {% for link in _mobile_menu_props.links %}<a class="block py-3 text-brand" href="{{ link.href }}">{{ link.label }}</a>{% endfor %}
             <a class="block py-3" href="{{ _mobile_menu_props.switchHref }}">{{ _mobile_menu_props.switchLabel }}</a>
           </div>
@@ -255,21 +255,12 @@
             {{ t(_lang, 'footer.tagline') }}
           </p>
 
-          <!-- Language switch — current is the bordered cyan chip; target is muted with arrow. -->
           <div class="mt-6">
-            <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}"
-               class="inline-flex items-center px-2 py-1 rounded-sm hover:bg-canvas-soft transition-colors"
-               aria-label="{{ t(_lang, 'lang.switch_to') }}"
-               rel="alternate"
-               hreflang="{{ _other }}">
-              <span class="inline-flex items-center justify-center h-6 px-1.5 text-cyan font-mono text-[10px] font-bold tracking-[0.14em] rounded-sm tabular-nums border"
-                    style="background-color: color-mix(in srgb,var(--brand) 8%,transparent); border-color: var(--brand-dim); min-width: 1.625rem;">
-                {{ t(_lang, 'lang.short') }}
-              </span>
-              <span class="font-mono text-ink-faint text-[11px] mx-1.5" aria-hidden="true">&rarr;</span>
-              <span class="font-mono text-ink-mute text-[10px] font-semibold tracking-[0.14em] hover:text-cyan transition-colors">
-                {{ t(_lang, 'lang.other_short') }}
-              </span>
+            <a href="/lang/{{ _other }}?next={{ _switch_url | urlencode }}" class="language-switch inline-flex"
+               aria-label="{{ t(_lang, 'lang.switch_to') }}" rel="alternate" hreflang="{{ _other }}">
+              <span class="{{ 'language-current' if _lang == 'en' else 'language-target' }}">EN</span>
+              <span class="language-divider" aria-hidden="true">/</span>
+              <span class="{{ 'language-current' if _lang == 'ru' else 'language-target' }}">RU</span>
             </a>
           </div>
         </div>
