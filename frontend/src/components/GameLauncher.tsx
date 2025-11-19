@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { makeTranslator, type Locale } from '../utils/i18n';
+import { trackEvent } from '../utils/analytics';
 
 interface GameLauncherProps {
   src?: string;
@@ -121,7 +122,7 @@ export default function GameLauncher({
       <button
         ref={triggerRef}
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => { setOpen(true); trackEvent('game_launch'); }}
         className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-mono uppercase text-[13px] tracking-[0.14em] font-bold bg-[var(--brand)] text-[var(--canvas)] rounded-[4px] hover:bg-[var(--brand-hover)] hover:-translate-y-px active:translate-y-0 active:bg-[var(--brand-dim)] focus:outline-none focus-visible:shadow-[0_0_0_2px_var(--canvas),0_0_0_4px_var(--brand)] transition-all duration-200 cursor-pointer"
       >
         {resolvedLabel}

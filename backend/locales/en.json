@@ -1226,5 +1226,12 @@
     "course_title": "Put it into practice",
     "course_body": "Antifraud Hero puts training scam scenarios on your console. Triage them against the clock and practice the pause.",
     "course_cta": "Play Antifraud Hero"
+  },
+  "analytics": {
+    "heading": "Visit analytics",
+    "notice": "We use Umami to measure public page views and a few actions, such as opening the game or marking a lesson complete. Pasted messages, inspected links, search text and form values are not sent. We do not use analytics cookies or session recordings.",
+    "network": "Umami receives normal network information (including your IP address and browser information) to estimate location and group visits. We send only the referring website’s origin. We respect Do Not Track and Global Privacy Control.",
+    "opt_out": "Exclude this browser from analytics",
+    "disabled": "Analytics is disabled in this browser."
   }
 }

@@ -26,6 +26,7 @@ from database import init_db, sync_delete, sync_get, sync_put, sync_sweep
 from ratelimit import RateLimiter
 from security import apply_security_headers, generate_nonce
 from seed_data import seed_database
+from analytics_config import analytics_config
 
 # Ensure the backend package is on sys.path so sibling imports work when
 # running with ``uvicorn main:app`` from the backend directory.
@@ -531,6 +532,7 @@ def client_runtime_config() -> dict:
 
 
 _env.globals["client_runtime_config"] = client_runtime_config
+_env.globals["analytics_config"] = analytics_config
 # Wired into base.html's window.__DISCAMMER_I18N__ <script> as
 #     window.__DISCAMMER_CONFIG__ = {{ client_runtime_config() | tojson }};
 # (tojson only, never forceescape inside <script>). beacon.ts reads

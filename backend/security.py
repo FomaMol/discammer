@@ -28,6 +28,7 @@ X-Content-Type-Options (single source = the app); HSTS stays at the TLS edge
 from __future__ import annotations
 
 import secrets
+import analytics_config
 
 from config import (
     CSP_CONNECT_EXTRA,
@@ -70,6 +71,8 @@ def _frame_src_hosts() -> list[str]:
 def build_csp(nonce: str) -> str:
     """Assemble the Content-Security-Policy string for one request."""
     connect = ["'self'"]
+    if analytics_config.WEBSITE_ID:
+        connect.append("https://cloud.umami.is")
     if CSP_CONNECT_EXTRA:
         connect.extend(CSP_CONNECT_EXTRA.split())
 

@@ -307,6 +307,15 @@
           &copy; {{ now().year }} DISCAMMER · {{ t(_lang, 'footer.rights') }}
         </p>
       </div>
+      {% if analytics_config is defined and analytics_config() %}
+      <details class="mt-6 text-sm text-ink-soft max-w-prose">
+        <summary class="cursor-pointer py-3 focus-visible:outline focus-visible:outline-2">{{ t(_lang, 'analytics.heading') }}</summary>
+        <p class="mt-2">{{ t(_lang, 'analytics.notice') }}</p>
+        <p class="mt-2">{{ t(_lang, 'analytics.network') }}</p>
+        <a href="?analytics=off" class="inline-block py-3 underline" data-analytics-opt-out>{{ t(_lang, 'analytics.opt_out') }}</a>
+        <span class="block" data-analytics-status data-disabled-message="{{ t(_lang, 'analytics.disabled') }}" role="status" aria-live="polite"></span>
+      </details>
+      {% endif %}
     </div>
   </footer>
 
@@ -327,6 +336,7 @@
     {# O1: surface the client-error beacon sample rate (window.__DISCAMMER_CONFIG__).
        tojson only — never forceescape inside <script> (it would HTML-escape the JSON). #}
     window.__DISCAMMER_CONFIG__ = {{ (client_runtime_config() if client_runtime_config is defined else {}) | tojson }};
+    window.__DISCAMMER_CONFIG__.analytics = {{ (analytics_config() if analytics_config is defined else none) | tojson }};
   </script>
 
   <!-- App Script — hashed entry module from the Vite manifest (no ?v=). -->

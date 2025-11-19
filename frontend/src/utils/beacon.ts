@@ -23,6 +23,7 @@ declare global {
   interface Window {
     __DISCAMMER_CONFIG__?: {
       clientErrorSampleRate?: number;
+      analytics?: import('./analytics').AnalyticsConfig | null;
     };
   }
 }

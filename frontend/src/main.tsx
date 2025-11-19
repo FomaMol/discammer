@@ -1,4 +1,5 @@
 import React from 'react';
+import { initAnalytics } from './utils/analytics';
 import { createRoot } from 'react-dom/client';
 import './styles/globals.css';
 import { reportClientError } from './utils/beacon';
@@ -70,6 +71,7 @@ class IslandErrorBoundary extends React.Component<
 }
 
 function hydrateIslands() {
+  initAnalytics();
   const islands = document.querySelectorAll<HTMLElement>('[data-component]');
   islands.forEach(async (el) => {
     const name = el.dataset.component;

@@ -6,6 +6,7 @@ import {
   subscribe,
 } from '../utils/progress';
 import { Locale, makeTranslator } from '../utils/i18n';
+import { trackEvent } from '../utils/analytics';
 
 interface Props {
   moduleSlug: string;
@@ -42,6 +43,7 @@ export default function LessonFooter({
       markLessonIncomplete(moduleSlug, lessonSlug);
     } else {
       markLessonComplete(moduleSlug, lessonSlug);
+      trackEvent('lesson_complete');
     }
   }
 
