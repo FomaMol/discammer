@@ -32,8 +32,11 @@ identified; cookieless identifiers are approximate and rotate.
    To re-enable deliberately, remove `discammer.analytics.disabled` from that
    site's local storage. Browser profile / device changes require fresh exclusion.
 
-No paid subscription or account has been created by the code change. While the
-website ID is empty, analytics is prepared but **not collecting**.
+The owner registered the Umami Cloud account on 2026-09-29. The private
+DiScammer website is configured with public ID
+`3980b9ef-df17-4059-8b04-cae95b30ed31` in the EU workspace. No paid subscription
+was purchased. Collection starts when this configuration is deployed; receipt
+and saved reports must be verified in the dashboard after deployment.
 
 ## Measurements and saved reports
 
