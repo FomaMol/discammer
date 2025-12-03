@@ -188,17 +188,43 @@ jobs:
     name: Docker image build
     runs-on: ubuntu-latest
     needs: [backend-tests, frontend-build]
+    # OIDC: only the main push may assume the ECR push role (trust is limited to
+    # refs/heads/main in IAM). PRs and forks build without credentials and without push.
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image_registry: ${{ steps.ecr.outputs.registry }}
+      image_digest: ${{ steps.build.outputs.digest }}
+      short_sha: ${{ steps.meta.outputs.short }}
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Short SHA
+        id: meta
+        run: echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+      - name: AWS credentials (main push only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/github-discammer-deploy
+          aws-region: eu-central-1
+      - name: ECR login (main push only)
+        id: ecr
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: aws-actions/amazon-ecr-login@v2
       - uses: docker/setup-buildx-action@v3
-      - name: Build image (no push)
+      - name: Build image (push to ECR on main)
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
-          push: false
+          build-args: |
+            GIT_SHA=${{ steps.meta.outputs.short }}
+          push: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
           load: false
+          tags: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push') && format('{0}/discammer-web:sha-{1}', steps.ecr.outputs.registry, github.sha) || format('discammer-web:ci-{0}', github.sha) }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -433,21 +459,60 @@ jobs:
         # key, and a moved tag must not be able to swap the code under it.
         uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17 # v1.2.0
         env:
-          # deploy.sh invokes the repository's fail-safe Cloudflare purge after
-          # the new container is healthy. Forward the scoped secrets to the
-          # remote shell without writing them to the repository or logs.
+          # The image is pulled by digest from ECR (pushed by docker-build on main),
+          # never built on the host. Cloudflare purge is non-fatal, as before.
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          IMAGE_REGISTRY: ${{ needs.docker-build.outputs.image_registry }}
+          IMAGE_DIGEST: ${{ needs.docker-build.outputs.image_digest }}
+          GIT_SHORT: ${{ needs.docker-build.outputs.short_sha }}
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           port: 22
-          envs: CF_API_TOKEN,CF_ZONE_ID
-          # deploy.sh now builds with --pull and runs a health probe with
-          # rollback; 10m could kill it between `up -d` and the probe.
+          envs: CF_API_TOKEN,CF_ZONE_ID,IMAGE_REGISTRY,IMAGE_DIGEST,GIT_SHORT
           command_timeout: 18m
-          script: bash /opt/discammer/scripts/deploy.sh
+          script: |
+            set -euo pipefail
+            ENV_FILE=/etc/discammer/deployment.env
+            COMPOSE=/etc/discammer/compose.yaml
+            NEW="${IMAGE_REGISTRY}/discammer-web@${IMAGE_DIGEST}"
+            [[ "$NEW" =~ ^[0-9]{12}\.dkr\.ecr\.eu-central-1\.amazonaws\.com/discammer-web@sha256:[a-f0-9]{64}$ ]]
+            [[ "$GIT_SHORT" =~ ^[0-9a-f]{7}$ ]]
+            apply() {
+              set -a; . "$ENV_FILE"; set +a
+              sudo -E docker compose -p discammer-staging -f "$COMPOSE" up -d --no-build --pull never
+            }
+            health_ok() {
+              local v=""
+              for _ in $(seq 1 40); do
+                v=$(curl -fsS --max-time 5 http://127.0.0.1:8000/api/health 2>/dev/null | sed -n 's/.*"version":"\([^"]*\)".*/\1/p' || true)
+                [ "$v" = "$1" ] && return 0
+                sleep 3
+              done
+              echo "health version is '${v}', expected '$1'"
+              return 1
+            }
+            PREV=$(sudo grep -E '^DISCAMMER_IMAGE=' "$ENV_FILE" | cut -d= -f2-)
+            echo "previous image: ${PREV}"
+            echo "new image:      ${NEW}"
+            aws ecr get-login-password --region eu-central-1 | sudo docker login --username AWS --password-stdin "$IMAGE_REGISTRY" >/dev/null
+            sudo docker pull "$NEW" >/dev/null
+            sudo cp -p "$ENV_FILE" "$ENV_FILE.prev"
+            sudo sed -i "s|^DISCAMMER_IMAGE=.*|DISCAMMER_IMAGE=${NEW}|" "$ENV_FILE"
+            if ! apply || ! health_ok "$GIT_SHORT"; then
+              echo "::error::deploy failed; rolling back to ${PREV}"
+              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
+              apply || true
+              exit 1
+            fi
+            echo "health ok: version ${GIT_SHORT}"
+            if [ -n "${CF_API_TOKEN:-}" ] && [ -n "${CF_ZONE_ID:-}" ]; then
+              curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+                -H "Authorization: Bearer ${CF_API_TOKEN}" -H "Content-Type: application/json" \
+                --data '{"purge_everything":true}' >/dev/null || echo "::warning::Cloudflare purge failed (non-fatal)"
+            fi
 
       - name: Health check
         run: |
