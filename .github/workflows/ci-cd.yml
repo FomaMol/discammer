@@ -480,9 +480,10 @@ jobs:
             NEW="${IMAGE_REGISTRY}/discammer-web@${IMAGE_DIGEST}"
             [[ "$NEW" =~ ^[0-9]{12}\.dkr\.ecr\.eu-central-1\.amazonaws\.com/discammer-web@sha256:[a-f0-9]{64}$ ]]
             [[ "$GIT_SHORT" =~ ^[0-9a-f]{7}$ ]]
+            # /etc/discammer is root-only (700): compose reads the env file as root via
+            # --env-file, the ssh user never sources it.
             apply() {
-              set -a; . "$ENV_FILE"; set +a
-              sudo -E docker compose -p discammer-staging -f "$COMPOSE" up -d --no-build --pull never
+              sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" up -d --no-build --pull never
             }
             health_ok() {
               local v=""
