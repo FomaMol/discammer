@@ -17,15 +17,26 @@ copy of the app that **cannot touch prod data**.
 `docker-compose.staging.yml` is an OVERRIDE run under its own project name:
 
 ```bash
+# bring up (does not touch volumes)
 docker compose -f docker-compose.yml -f docker-compose.staging.yml \
   -p discammer-staging up -d --build
-# tear down (also removes the staging volume):
+# tear down, KEEPING volumes (the default)
 docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-  -p discammer-staging down -v
+  -p discammer-staging down
 ```
 
-- **Separate project** (`discammer-staging`) → its own network + container names,
-  never colliding with the prod stack (project `discammer`).
+> **Check `-p` before any `down`.** `down -v` also deletes the project's named
+> volumes. Run it only by hand, deliberately, after confirming on the host which
+> project is running: `docker compose ls`, then `docker compose -p <project> ps`.
+>
+> **Known collision (owner action).** The production `deploy` job in
+> `.github/workflows/ci-cd.yml` currently runs compose with `-p discammer-staging`,
+> the same project name as staging. Until that is resolved, never run `down`
+> with `-p discammer-staging` on the production host, with or without `-v`.
+
+- **Separate project** (`discammer-staging`) → its own network + container names.
+  This is the intent: the prod stack is meant to be project `discammer`, but
+  `ci-cd.yml` currently deploys prod as `discammer-staging`. See the warning above.
 - **Separate data dir** (`./data-staging`, gitignored) → its own SQLite db, so a
   staging reseed/migration can never erase prod's `./data`.
 - **Loopback + distinct port** (`127.0.0.1:8001`) → not public. Front it with
