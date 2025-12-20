@@ -29,14 +29,14 @@ docker compose -f docker-compose.yml -f docker-compose.staging.yml \
 > volumes. Run it only by hand, deliberately, after confirming on the host which
 > project is running: `docker compose ls`, then `docker compose -p <project> ps`.
 >
-> **Known collision (owner action).** The production `deploy` job in
-> `.github/workflows/ci-cd.yml` currently runs compose with `-p discammer-staging`,
-> the same project name as staging. Until that is resolved, never run `down`
-> with `-p discammer-staging` on the production host, with or without `-v`.
+> **Production uses this project name (owner decision, 2026-10-11).** The production
+> stack on the EC2 host runs as compose project `discammer-staging`, the name that
+> `.github/workflows/ci-cd.yml` uses for the production deploy. The owner keeps it.
+> Renaming is a migration (new project, data move), not a one-line change. On the
+> production host, never run `down` with `-p discammer-staging`, with or without `-v`.
 
-- **Separate project** (`discammer-staging`) → its own network + container names.
-  This is the intent: the prod stack is meant to be project `discammer`, but
-  `ci-cd.yml` currently deploys prod as `discammer-staging`. See the warning above.
+- **Project name** (`discammer-staging`) → the network and container names of this stack.
+  On the production host this name belongs to production (see the warning above).
 - **Separate data dir** (`./data-staging`, gitignored) → its own SQLite db, so a
   staging reseed/migration can never erase prod's `./data`.
 - **Loopback + distinct port** (`127.0.0.1:8001`) → not public. Front it with
