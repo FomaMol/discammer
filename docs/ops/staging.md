@@ -19,10 +19,10 @@ copy of the app that **cannot touch prod data**.
 ```bash
 # bring up (does not touch volumes)
 docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-  -p discammer-staging up -d --build
+  -p discammer-stg up -d --build
 # tear down, KEEPING volumes (the default)
 docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-  -p discammer-staging down
+  -p discammer-stg down
 ```
 
 > **Check `-p` before any `down`.** `down -v` also deletes the project's named
@@ -35,8 +35,8 @@ docker compose -f docker-compose.yml -f docker-compose.staging.yml \
 > Renaming is a migration (new project, data move), not a one-line change. On the
 > production host, never run `down` with `-p discammer-staging`, with or without `-v`.
 
-- **Project name** (`discammer-staging`) → the network and container names of this stack.
-  On the production host this name belongs to production (see the warning above).
+- **Project name** (`discammer-stg`) → the network and container names of this stack.
+  Never use `discammer-staging` for staging: it is production's project name (see the warning above).
 - **Separate data dir** (`./data-staging`, gitignored) → its own SQLite db, so a
   staging reseed/migration can never erase prod's `./data`.
 - **Loopback + distinct port** (`127.0.0.1:8001`) → not public. Front it with
@@ -53,8 +53,8 @@ real host.
 ## Owner steps (not done here)
 
 1. **DNS/subdomain**: add `staging.discammer.com` in Cloudflare, proxied,
-   pointing at the staging origin (same VPS on :8001 behind nginx, or a cheap
-   second VPS).
+   pointing at the staging origin (a separate host, not the production EC2 host;
+   port 8001 behind nginx).
 2. **Cloudflare Access (Zero Trust, free ≤ 50 users)**: lock the whole subdomain
    behind email-OTP so staging is never publicly reachable or indexable.
 3. **Auto-deploy** (optional): add a gated staging-deploy job mirroring the prod

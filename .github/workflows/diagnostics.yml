@@ -4,8 +4,9 @@ name: Prod diagnostics (read-only)
 # intermittent flapping without giving the agent direct SSH. Every command
 # below only reads state (free/df/ps/logs/inspect/dmesg) — nothing writes,
 # restarts, or deploys. Runs in the `production` environment to reach the
-# DEPLOY_* secrets; dispatch with:
-#   gh workflow run diagnostics.yml --ref ops/prod-hardening
+# DEPLOY_* secrets. Runs ONLY from main (job-level `if` below), so these secrets
+# never reach another branch; dispatch with:
+#   gh workflow run diagnostics.yml --ref main
 on:
   workflow_dispatch:
 
@@ -13,6 +14,7 @@ jobs:
   diag:
     name: SSH read-only host snapshot
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     environment: production
     timeout-minutes: 8
     steps:

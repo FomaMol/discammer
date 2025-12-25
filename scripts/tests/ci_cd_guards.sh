@@ -49,7 +49,7 @@ oidc = []
 wf.fetch("jobs").each do |name, job|
   next unless (job["permissions"] || {})["id-token"] == "write"
   cond = job["if"].to_s
-  unless cond.include?("refs/heads/main") && cond.include?("github.event_name == 'push'")
+  unless cond == "github.ref == 'refs/heads/main' && github.event_name == 'push'"
     abort "job #{name} grants id-token: write without a main-push gate"
   end
   oidc << name

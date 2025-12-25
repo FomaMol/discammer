@@ -22,7 +22,7 @@ jobs:
       - name: Bring up the staging stack (own project + data dir)
         run: |
           docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-            -p discammer-staging up -d --build
+            -p discammer-stg up -d --build
 
       - name: Wait for health, then smoke a few routes
         run: |
@@ -45,10 +45,10 @@ jobs:
         if: failure()
         run: |
           docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-            -p discammer-staging logs --tail=200 || true
+            -p discammer-stg logs --tail=200 || true
 
       - name: Tear down
         if: always()
         run: |
           docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-            -p discammer-staging down -v || true
+            -p discammer-stg down -v || true
