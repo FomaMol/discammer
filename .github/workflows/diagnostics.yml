@@ -4,8 +4,11 @@ name: Prod diagnostics (read-only)
 # intermittent flapping without giving the agent direct SSH. Every command
 # below only reads state (free/df/ps/logs/inspect/dmesg) — nothing writes,
 # restarts, or deploys. Runs in the `production` environment to reach the
-# DEPLOY_* secrets. Runs ONLY from main (job-level `if` below), so these secrets
-# never reach another branch; dispatch with:
+# DEPLOY_* secrets come from the `production` environment. The job-level `if` below
+# blocks a dispatch from other refs only if the file on that ref carries the same
+# guard, so it is a speed bump, not a boundary. The real boundary is the environment's
+# deployment-branch policy, which is not set (open owner decision, see the ops log).
+# Dispatch with:
 #   gh workflow run diagnostics.yml --ref main
 on:
   workflow_dispatch:
