@@ -3,16 +3,16 @@
 # =============================================================================
 # A pre-prod copy that CANNOT touch prod data. Used AS AN OVERRIDE on top of the
 # base file, under its own project name so containers/volumes never collide with
-# the prod stack (docker-compose.yml + docker-compose.prod.yml, project
-# "discammer"):
+# the prod stack (docker-compose.yml + docker-compose.prod.yml; on the production
+# host it runs as project "discammer-staging", see docs/ops/staging.md):
 #
 #   docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-#     -p discammer-staging up -d --build
+#     -p discammer-stg up -d --build
 #   docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-#     -p discammer-staging down
+#     -p discammer-stg down
 #
 # Isolation from prod:
-#   * separate project name (discammer-staging) → separate network + container
+#   * separate project name (discammer-stg; never discammer-staging, which is production) → separate network + container
 #     names;
 #   * separate data dir (./data-staging, gitignored) → its own SQLite db, so a
 #     staging reseed/migration never touches prod's ./data;
@@ -23,11 +23,11 @@
 # (FEATURE_PLAN REL-4). Status: configured — bring-up + the staging.discammer.com
 # subdomain + CF Access are owner steps; not production-verified here.
 # =============================================================================
-name: discammer-staging
+name: discammer-stg
 
 services:
   web:
-    container_name: discammer-staging-web
+    container_name: discammer-stg-web
     # Loopback-only and a distinct port so staging never clashes with prod (8000)
     # and isn't exposed to the internet directly.
     ports: !override

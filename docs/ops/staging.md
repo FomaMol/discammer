@@ -17,15 +17,26 @@ copy of the app that **cannot touch prod data**.
 `docker-compose.staging.yml` is an OVERRIDE run under its own project name:
 
 ```bash
+# bring up (does not touch volumes)
 docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-  -p discammer-staging up -d --build
-# tear down (also removes the staging volume):
+  -p discammer-stg up -d --build
+# tear down, KEEPING volumes (the default)
 docker compose -f docker-compose.yml -f docker-compose.staging.yml \
-  -p discammer-staging down -v
+  -p discammer-stg down
 ```
 
-- **Separate project** (`discammer-staging`) → its own network + container names,
-  never colliding with the prod stack (project `discammer`).
+> **Check `-p` before any `down`.** `down -v` also deletes the project's named
+> volumes. Run it only by hand, deliberately, after confirming on the host which
+> project is running: `docker compose ls`, then `docker compose -p <project> ps`.
+>
+> **Production uses this project name (owner decision, 2026-10-11).** The production
+> stack on the EC2 host runs as compose project `discammer-staging`, the name that
+> `.github/workflows/ci-cd.yml` uses for the production deploy. The owner keeps it.
+> Renaming is a migration (new project, data move), not a one-line change. On the
+> production host, never run `down` with `-p discammer-staging`, with or without `-v`.
+
+- **Project name** (`discammer-stg`) → the network and container names of this stack.
+  Never use `discammer-staging` for staging: it is production's project name (see the warning above).
 - **Separate data dir** (`./data-staging`, gitignored) → its own SQLite db, so a
   staging reseed/migration can never erase prod's `./data`.
 - **Loopback + distinct port** (`127.0.0.1:8001`) → not public. Front it with
@@ -42,8 +53,8 @@ real host.
 ## Owner steps (not done here)
 
 1. **DNS/subdomain**: add `staging.discammer.com` in Cloudflare, proxied,
-   pointing at the staging origin (same VPS on :8001 behind nginx, or a cheap
-   second VPS).
+   pointing at the staging origin (a separate host, not the production EC2 host;
+   port 8001 behind nginx).
 2. **Cloudflare Access (Zero Trust, free ≤ 50 users)**: lock the whole subdomain
    behind email-OTP so staging is never publicly reachable or indexable.
 3. **Auto-deploy** (optional): add a gated staging-deploy job mirroring the prod

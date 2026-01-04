@@ -15,6 +15,11 @@ on:
         type: boolean
         default: false
 
+# Least privilege by default: every job gets a read-only GITHUB_TOKEN. Only the
+# docker-build job raises it, for OIDC (id-token: write) on the main push.
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
@@ -157,6 +162,12 @@ jobs:
       - name: Run pytest
         run: pytest -q
 
+      - name: CI/CD guard tests (bash, run against this workflow's own YAML)
+        # Covers the production health-check SHA gate, the rollback path of the
+        # SSH deploy script and the OIDC gating above. Needs ruby (preinstalled
+        # on ubuntu-latest). See scripts/tests/ci_cd_guards.sh.
+        run: bash scripts/tests/ci_cd_guards.sh
+
   frontend-build:
     name: Frontend typecheck + build
     runs-on: ubuntu-latest
@@ -188,8 +199,12 @@ jobs:
     name: Docker image build
     runs-on: ubuntu-latest
     needs: [backend-tests, frontend-build]
-    # OIDC: only the main push may assume the ECR push role (trust is limited to
-    # refs/heads/main in IAM). PRs and forks build without credentials and without push.
+    # Runs ONLY on the main push. This job holds `id-token: write` (OIDC for the
+    # ECR push role). A job-level `permissions` block cannot be conditional, so the
+    # gate is the job-level `if`: on pull_request the job is skipped and never gets
+    # an OIDC token. PR image builds are still exercised by the e2e job
+    # (`docker compose up --build`). IAM trust is also limited to refs/heads/main.
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
       contents: read
       id-token: write
@@ -206,18 +221,18 @@ jobs:
         run: echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
       - name: AWS credentials (main push only)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
         with:
           role-to-assume: arn:aws:iam::123456789012:role/github-discammer-deploy
           aws-region: eu-central-1
       - name: ECR login (main push only)
         id: ecr
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: aws-actions/amazon-ecr-login@v2
-      - uses: docker/setup-buildx-action@v3
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
       - name: Build image (push to ECR on main)
         id: build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           context: .
           build-args: |
@@ -495,6 +510,16 @@ jobs:
               echo "health version is '${v}', expected '$1'"
               return 1
             }
+            # After a rollback there is no expected version to compare (the env file
+            # keeps only the image digest), so require HTTP 200 on the restored image.
+            health_up() {
+              local _
+              for _ in $(seq 1 40); do
+                curl -fsS --max-time 5 http://127.0.0.1:8000/api/health >/dev/null 2>&1 && return 0
+                sleep 3
+              done
+              return 1
+            }
             PREV=$(sudo grep -E '^DISCAMMER_IMAGE=' "$ENV_FILE" | cut -d= -f2-)
             echo "previous image: ${PREV}"
             echo "new image:      ${NEW}"
@@ -505,7 +530,13 @@ jobs:
             if ! apply || ! health_ok "$GIT_SHORT"; then
               echo "::error::deploy failed; rolling back to ${PREV}"
               sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
-              apply || true
+              # A failed rollback must not be swallowed (this used to be `apply || true`).
+              # Re-apply the restored image and probe it; say loudly if the host is not back.
+              if apply && health_up; then
+                echo "::warning::rolled back to ${PREV}; /api/health answers 200 on this host"
+              else
+                echo "::error::ROLLBACK FAILED on this host: ${PREV} did not come up healthy. Manual action is required before any further deploy."
+              fi
               exit 1
             fi
             echo "health ok: version ${GIT_SHORT}"
@@ -554,16 +585,18 @@ jobs:
           deployed=$(curl -sL --max-time 15 https://discammer.com/api/health \
             | sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
           echo "expected SHA: ${expected} | domain reports: ${deployed:-<none>}"
-          case "$expected" in
-            "$deployed"*) ;;
-            *)
-              echo "::error::Deploy did NOT reach the server behind discammer.com."
-              echo "::error::Shipped ${expected}, but the domain still reports '${deployed:-<none>}'."
-              echo "::error::Most likely the DEPLOY_HOST secret points at a machine that no"
-              echo "::error::longer serves the domain. Check it against the Cloudflare A record."
-              exit 1
-              ;;
-          esac
+          # Fail closed. An answer without a "version" field (e.g. an HTML page with
+          # HTTP 200) leaves $deployed empty, and an empty value must NOT pass: in a
+          # case pattern "$deployed"* turns into "*" and matches any SHA. So the
+          # check is an explicit prefix match on a non-empty, >=7-char value (the
+          # empty value is caught by the length test).
+          if [ "${#deployed}" -lt 7 ] || [[ "$expected" != "$deployed"* ]]; then
+            echo "::error::Deploy did NOT reach the server behind discammer.com."
+            echo "::error::Shipped ${expected}, but the domain still reports '${deployed:-<none>}'."
+            echo "::error::Most likely the DEPLOY_HOST secret points at a machine that no"
+            echo "::error::longer serves the domain. Check it against the Cloudflare A record."
+            exit 1
+          fi
 
   smoke-prod:
     name: Post-deploy production smoke (O3)
