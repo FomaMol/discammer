@@ -6,8 +6,8 @@ import { currentLang, makeTranslator, type Locale } from '../utils/i18n';
  * JournalBroadsheet — single React island that owns the entire post grid for
  * the journal page. Renders, in order:
  *
- *   1. Featured story (first post, 60/40 split image+text)
- *   2. Section index (numbered tab strip with active-section eyebrow)
+ *   1. Section index (numbered tab strip with active-section eyebrow)
+ *   2. Featured story (two selected stories in Interviews, 60/40 split image+text)
  *   3. Zigzag pair grid (next 6 entries, alternating image-left/right)
  *   4. Compact list (everything remaining, no images)
  *
@@ -29,6 +29,10 @@ interface Item {
 type FilterKey = 'ALL' | 'INTERVIEW' | 'NEWSLETTER' | 'ARTICLE' | 'GUIDE';
 
 const FILTER_KEYS: FilterKey[] = ['ALL', 'INTERVIEW', 'NEWSLETTER', 'ARTICLE', 'GUIDE'];
+const FEATURED_INTERVIEW_SLUGS = [
+  'interview-with-guest-mike-gibson',
+  'interview-with-guest-guy-eames',
+];
 
 /** Translator key type for the `client.journal` namespace — kept as a literal
  *  union so the sub-components' `tr` prop stays narrowly typed. */
@@ -139,7 +143,13 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
     };
     const target = tabToType[activeTab];
     if (!target) return items;
-    return items.filter((i) => i.type.toLowerCase() === target);
+    const matches = items.filter((i) => i.type.toLowerCase() === target);
+    if (activeTab !== 'INTERVIEW') return matches;
+    const priority = (item: Item) => {
+      const index = FEATURED_INTERVIEW_SLUGS.indexOf(item.slug);
+      return index < 0 ? FEATURED_INTERVIEW_SLUGS.length : index;
+    };
+    return matches.sort((a, b) => priority(a) - priority(b));
   }, [items, activeTab]);
 
   function localizedBadge(type: string): string {
@@ -158,9 +168,10 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
       : `/${locale}/journal/${item.slug}`;
   }
 
-  const featured = filtered[0];
-  const zigzag = filtered.slice(1, 7);
-  const compact = filtered.slice(7);
+  const featuredCount = activeTab === 'INTERVIEW' ? 2 : 1;
+  const featured = filtered.slice(0, featuredCount);
+  const zigzag = filtered.slice(featuredCount, featuredCount + 6);
+  const compact = filtered.slice(featuredCount + 6);
 
   // Active section number for the eyebrow
   const activeIdx = FILTER_KEYS.indexOf(activeTab);
@@ -256,15 +267,16 @@ export default function JournalBroadsheet({ lang }: JournalBroadsheetProps) {
       ) : (
         <>
           {/* ───────────── FEATURED STORY (60/40, drop-cap on headline) ───────────── */}
-          {featured && (
+          {featured.map((item) => (
             <FeaturedCard
-              item={featured}
+              key={`featured-${item.type}-${item.id}`}
+              item={item}
               locale={locale}
               tr={tr}
               hrefFor={hrefFor}
               localizedBadge={localizedBadge}
             />
-          )}
+          ))}
 
           {/* ───────────── ZIGZAG (next 6) ───────────── */}
           {zigzag.length > 0 && (
