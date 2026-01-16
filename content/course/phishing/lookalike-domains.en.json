@@ -1,33 +1,224 @@
 {
   "order": 2,
-  "title": "Lookalike domains and homoglyph tricks",
-  "est_minutes": 7,
-  "body_md": "## Reading URLs like a defender\n\nA convincing phishing campaign is mostly about a convincing domain name. Attackers have three reliable patterns to make a fake domain look almost identical to a real one. Once you can name them, you can spot them on first glance.\n\n### 1. Character substitution\n\nReplace one letter with a visually similar one. The most common pairs:\n\n- `paypal.com` → `paypa1.com` (lowercase L replaced by digit 1)\n- `google.com` → `g00gle.com` (letter o replaced by digit 0)\n- `microsoft.com` → `rnicrosoft.com` (letter m replaced by rn)\n\nIn most fonts at small sizes, a casual reader sees the brand name and stops there.\n\n### 2. Punycode and homoglyphs\n\nThe Internet supports international characters in domain names. Cyrillic letters `а`, `е`, `о`, `р`, `с`, `у`, `х` look identical to Latin `a, e, o, p, c, y, x` in many fonts. A domain registered as `аpple.com` (where the first `а` is Cyrillic) is visually identical to `apple.com` but goes to a completely different place.\n\nModern browsers usually display these as their Punycode form (`xn--pple-43d.com`) to expose the trick — but not always, and not in every interface.\n\n### 3. Subdomain framing\n\nThe trick relies on the fact that humans read left to right. The attacker buys a generic-looking domain like `verify-account.io` and constructs subdomains under it:\n\n- `paypal.com.verify-account.io`\n- `appleid.apple.com.security-check.net`\n- `myaccount.google.com.login-flow.cc`\n\nThe registered domain is always the *last* two labels before the slash — `verify-account.io`, `security-check.net`, `login-flow.cc`. Everything before that is just labels the attacker invented.\n\n## The reading rule\n\nFor any URL, *read right-to-left from the first slash until you hit the first dot, then one more dot back*. That's the registered domain. Everything else is decoration.\n\n```\nhttps://login.paypal.com.security-check.net/verify\n                                  ^^^^^^^^^^^^^^^^\n                                  registered domain\n```\n\nWith practice this becomes automatic. Tap or hover the link, read the registered domain, decide. The whole motion takes a second.",
-  "widget_type": "quiz",
+  "title": "Lookalike domains and deceptive addresses",
+  "est_minutes": 14,
+  "body_md": "## Read the address, then verify the request\n\nA link can contain a familiar name without belonging to that organisation. Your goal is to find the **host** of a complete URL and decide whether the request deserves an independent check. This is a way to slow down a rushed decision, not a guarantee that a page is safe.\n\nA URL has a scheme (`https://`), an authority containing a host, and then a path. In `https://accounts.harborbank.co.uk.case-review.example.net/verify`, the host ends at the next `/`: `accounts.harborbank.co.uk.case-review.example.net`. The familiar bank-shaped text at the left is a subdomain under `example.net` in this synthetic address. A name in the path, query, or page logo gives even less evidence of ownership. A URL can also put a name before an `@` sign in the authority: text before `@` is user information, not the host. Do not parse a long or shortened link by intuition.\n\n## Why “last two labels” fails\n\nFor `login.harborbank.co.uk`, the public suffix is `co.uk`, so the registrable part is `harborbank.co.uk`: **three** labels. For a typical `.com` name, it is usually two. Some suffixes have still more labels, and private hosting services can have their own boundaries. The [Public Suffix List](https://publicsuffix.org/learn/) records these rules; there is no universal count-the-dots shortcut. Even a correctly parsed registrable domain only answers who may control that address. It does not prove the request is authorized, the account is secure, or the page has not been compromised.\n\n## A useful checking routine\n\n1. Pause before opening the link. If it matters, open the service from a bookmark, its installed app, or an address you already know. Do not copy the suspect link into the address bar as a “check.”\n2. If you do inspect the URL, separate the host from the path and any `@` user-info. Check its full spelling. A padlock/HTTPS means the connection can be encrypted; it is not an endorsement of the operator.\n3. Treat a short link, QR code, mobile preview, or tiny address bar as incomplete evidence. Ask for the full destination or use the independent route. Do not infer safety from a brand logo or an apparently familiar subdomain.\n4. A legitimate organisation may use an unfamiliar contractor or regional domain. That uncertainty calls for confirmation through its known app, website or published support channel, not an automatic “scam” verdict or a click to test it.\n\nIf you already entered credentials or a one-time code, leave the suspect page, use the genuine service through an independent route, change the affected password, review active sessions and MFA, and contact the provider through its established support channel. A URL inspection is prevention, not a substitute for incident response.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "Which of these URLs would safely take you to a real Microsoft login page?",
-    "choices": [
+    "version": 2,
+    "goal": "Given a suspicious link, identify what the address does and choose an independent verification route before entering anything.",
+    "blocks": [
       {
-        "text": "https://login.microsoftonline.com/signin",
-        "correct": true,
-        "explanation": "Correct. The registered domain is `microsoftonline.com`, which is Microsoft's legitimate login domain. Subdomains like `login.` are fine — what matters is the registered domain at the rightmost-but-one position."
+        "type": "case",
+        "title": "A brand name placed inside an attacker-controlled host",
+        "situation": "Synthetic: an SMS says Harbor Bank has frozen a card and points to https://harborbank.co.uk.case-review.example.net/unlock. The sender name looks familiar.",
+        "analysis": "The host is harborbank.co.uk.case-review.example.net. With example.net as the registrable part in this example, the bank-shaped prefix does not establish bank ownership. The safe action is to open the bank app independently and inspect the card status there; do not enter details into this link.",
+        "legitimate": false
       },
       {
-        "text": "https://account.microsoft.com.login-secure.cc/auth",
-        "correct": false,
-        "explanation": "The registered domain here is `login-secure.cc`. The `account.microsoft.com.` part is just a deceptive subdomain. Classic subdomain-framing trick."
+        "type": "case",
+        "title": "An unfamiliar partner can still be genuine",
+        "situation": "Synthetic: your bank app, opened from your phone home screen, lists a card-delivery partner at tracking.harbor-delivery.co.uk. A separate SMS also mentions that address.",
+        "analysis": "The spelling alone cannot prove the partner is genuine or fake. Here the independently opened bank app supplies a trusted cross-check. Use its in-app handoff or support route; do not treat the SMS link as verified merely because it looks similar. Under the public suffix co.uk, harbor-delivery.co.uk is the registrable part, not delivery.co.uk.",
+        "legitimate": true
       },
       {
-        "text": "https://login.microsoft-online.com/signin",
-        "correct": false,
-        "explanation": "The registered domain is `microsoft-online.com`, which is **not** Microsoft. Attackers register hyphenated lookalikes precisely because they read fast. Microsoft's real one is `microsoftonline.com` without the hyphen."
+        "type": "practice",
+        "title": "A delivery alert with a bank sign-in demand",
+        "setup": "Synthetic scenario: a message says your new card delivery is held. It shows a link with a bank name and asks you to confirm your login before 18:00. Work through the decisions in order.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "The message displays https://harborbank.co.uk.card-status.example.net/confirm. What do you conclude from the address?",
+            "choices": [
+              {
+                "text": "The visible bank words prove the link belongs to the bank.",
+                "consequence": "You are ready to submit credentials on an unverified site.",
+                "explanation": "Those words are a prefix of a host ending in example.net.",
+                "recommended": false
+              },
+              {
+                "text": "The host ends in example.net; the bank words alone prove nothing.",
+                "consequence": "You pause before opening the sign-in form.",
+                "explanation": "For this synthetic .net URL, example.net is the registrable part; the bank-shaped prefix is under it.",
+                "recommended": true
+              },
+              {
+                "text": "HTTPS and the padlock prove this is the bank.",
+                "consequence": "You may trust an encrypted connection to the wrong operator.",
+                "explanation": "HTTPS protects the connection to the host; it does not identify the operator.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A second link is https://login.harborbank.co.uk/account. Which domain-reading claim is sound?",
+            "choices": [
+              {
+                "text": "The registrable part is bank.co.uk because it is always the last two labels.",
+                "consequence": "You misidentify the boundary in a co.uk name.",
+                "explanation": "co.uk is the public suffix; the registrable part here is harborbank.co.uk.",
+                "recommended": false
+              },
+              {
+                "text": "The registrable part is harborbank.co.uk, but that alone does not validate the request.",
+                "consequence": "You keep the ownership clue separate from trust in this particular message.",
+                "explanation": "The Public Suffix List recognizes co.uk as a suffix; independent verification is still needed.",
+                "recommended": true
+              },
+              {
+                "text": "Any co.uk link is safe because UK domains are regulated.",
+                "consequence": "You skip verification on a false assumption.",
+                "explanation": "A suffix does not certify the sender or purpose of a link.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The SMS shortens a third link, and the mobile preview hides most of its address. What is your next action?",
+            "choices": [
+              {
+                "text": "Open the short link and inspect the page logo.",
+                "consequence": "A convincing page could collect your login before you establish the destination.",
+                "explanation": "A logo and short link do not reveal control of the host.",
+                "recommended": false
+              },
+              {
+                "text": "Open the bank app from your home screen and check delivery or contact support there.",
+                "consequence": "You can confirm the real account status without following the message.",
+                "explanation": "An independent route breaks the message-to-login chain.",
+                "recommended": true
+              },
+              {
+                "text": "Forward the SMS to a friend and ask whether it looks real.",
+                "consequence": "You may spread the link and still lack an authoritative check.",
+                "explanation": "A friend can help think, but the bank app or published support channel can verify account status.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Suppose you already entered a password before noticing the address. What should happen now?",
+            "choices": [
+              {
+                "text": "Ignore it because the page used HTTPS.",
+                "consequence": "The account may remain exposed.",
+                "explanation": "HTTPS does not prevent credential theft by the site operator.",
+                "recommended": false
+              },
+              {
+                "text": "Use the real app or known website to change the password, review sessions/MFA, and contact support.",
+                "consequence": "You begin containing possible account access through a trusted channel.",
+                "explanation": "Changing the affected credential and checking account activity addresses the exposure.",
+                "recommended": true
+              },
+              {
+                "text": "Reply to the SMS to ask the sender to delete your password.",
+                "consequence": "You continue relying on the same unverified contact.",
+                "explanation": "The sender cannot be trusted to remediate an exposure.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The safe pattern is pause → identify the host when visible → verify through a known route → respond promptly if you already shared credentials. Reading a registrable domain is one clue, not a verdict. Do not test a suspect link by submitting information."
       },
       {
-        "text": "https://signin.rnicrosoft.com/auth",
-        "correct": false,
-        "explanation": "Look at the second character of the registered domain: `rn` (r + n), not `m`. At small sizes the two are visually identical. This is the character-substitution trick."
+        "type": "check",
+        "title": "Transfer check: new addresses and requests",
+        "questions": [
+          {
+            "prompt": "In https://help.example.co.uk/login, what does the co.uk example show?",
+            "choices": [
+              {
+                "text": "The registrable part can be example.co.uk; a fixed last-two-label rule fails.",
+                "explanation": "Correct. co.uk is a public suffix, so the label before it is part of the registrable name.",
+                "correct": true
+              },
+              {
+                "text": "The registrable part must be co.uk.",
+                "explanation": "co.uk is the public suffix, not a name registered by this example site.",
+                "correct": false
+              },
+              {
+                "text": "Every address with three or more labels is malicious.",
+                "explanation": "Legitimate sites commonly use subdomains and multi-label suffixes.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "What does HTTPS establish about a login page?",
+            "choices": [
+              {
+                "text": "It proves the login request came from the service named in the message.",
+                "explanation": "Encryption does not authenticate the message sender.",
+                "correct": false
+              },
+              {
+                "text": "It can protect the connection to that host, but cannot prove the operator is trustworthy.",
+                "explanation": "Correct. Verify the request through a known route.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "An unfamiliar delivery partner appears inside an app you opened independently. What should you do?",
+            "choices": [
+              {
+                "text": "Treat the partner as automatically fake because the domain is unfamiliar.",
+                "explanation": "Legitimate services may use partners; confirm the handoff within the trusted app.",
+                "correct": false
+              },
+              {
+                "text": "Use the in-app handoff or support channel to confirm, then proceed only if it matches.",
+                "explanation": "Correct. The independently opened app gives better context than the SMS.",
+                "correct": true
+              },
+              {
+                "text": "Use the SMS link because it names the same partner.",
+                "explanation": "The SMS link remains unverified even if it repeats a real partner name.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A URL contains bank.example.com@signin.example.net. What is the host?",
+            "choices": [
+              {
+                "text": "bank.example.com",
+                "explanation": "Text before @ is user information in the authority, not the host.",
+                "correct": false
+              },
+              {
+                "text": "signin.example.net",
+                "explanation": "Correct. The host is after @ and before the next slash.",
+                "correct": true
+              }
+            ]
+          }
+        ]
       }
     ],
-    "hint": "For each URL, find the registered domain by reading right-to-left until you've passed exactly one dot."
+    "today_action": "Save the bank or other high-value service in a trusted bookmark or verify its installed app. Next time a message pushes a link, open that route independently and check the request there.",
+    "checked_at": "2026-10-20",
+    "scope": "General URL-reading guidance. Public suffix rules depend on the current list; account response steps vary by service and jurisdiction.",
+    "sources": [
+      {
+        "title": "Public Suffix List — Learn",
+        "url": "https://publicsuffix.org/learn/",
+        "scope": "Explains why co.uk and other public suffixes defeat a fixed label count."
+      },
+      {
+        "title": "MDN — URI authority",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Authority",
+        "scope": "Defines host and user information in a URL authority."
+      },
+      {
+        "title": "UK NCSC — Phishing scams",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams",
+        "scope": "General advice to verify suspicious messages using established channels; UK reporting routes are jurisdiction-specific."
+      }
+    ]
   }
 }

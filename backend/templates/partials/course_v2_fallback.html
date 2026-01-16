@@ -1,0 +1,77 @@
+{% set cfg = lesson.widget_config or {} %}
+{% set ru = _lang == 'ru' %}
+<div class="space-y-6" data-course-fallback="2">
+  <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+    <h2 class="text-lg font-semibold text-[var(--text-strong)]">{{ 'Цель урока' if ru else 'Skill goal' }}</h2>
+    <p class="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ cfg.goal }}</p>
+  </section>
+  {% for block in cfg.blocks or [] %}
+    {% if block.type == 'case' %}
+      <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+        <p class="font-mono text-[12px] text-[var(--brand)]">{% if block.legitimate %}{{ 'Законная, но неоднозначная ситуация' if ru else 'Legitimate but confusing' }}{% else %}{{ 'Учебный вымышленный пример' if ru else 'Synthetic training example' }}{% endif %}</p>
+        <h2 class="mt-2 text-xl font-semibold text-[var(--text-strong)]">{{ block.title }}</h2>
+        <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.situation }}</p>
+        <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.analysis }}</p>
+      </section>
+    {% elif block.type == 'practice' %}
+      <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+        <p class="font-mono text-[12px] text-[var(--brand)]">{{ 'Учебный вымышленный сценарий' if ru else 'Synthetic training scenario' }}</p>
+        <h2 class="mt-2 text-xl font-semibold text-[var(--text-strong)]">{{ block.title }}</h2>
+        <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.setup }}</p>
+        <p class="mt-3 text-[14px] text-[var(--text-soft)]">{{ 'Без JavaScript можно раскрыть последствия каждого решения и пройти разбор по порядку.' if ru else 'Without JavaScript, open each decision to read its consequences and work through the debrief in order.' }}</p>
+        <ol class="mt-5 space-y-5 list-decimal pl-6">
+          {% for step in block.steps %}
+            <li class="text-[16px] leading-relaxed text-[var(--text-medium)]">
+              <h3 class="font-semibold text-[var(--text-strong)]">{{ step.prompt }}</h3>
+              <ul class="mt-2 space-y-2 list-none pl-0">
+                {% for choice in step.choices %}
+                  <li><details class="rounded-[3px] border border-[var(--border-strong)] p-3">
+                    <summary class="min-h-11 cursor-pointer text-[16px] text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]">{{ choice.text }}</summary>
+                    <p class="mt-2"><strong>{{ 'Последствие' if ru else 'Consequence' }}:</strong> {{ choice.consequence }}</p>
+                    <p class="mt-2"><strong>{{ 'Почему' if ru else 'Why' }}:</strong> {{ choice.explanation }}</p>
+                    <p class="mt-2 font-semibold">{{ ('Более безопасный выбор' if ru else 'Safer choice') if choice.recommended else ('Учитывайте риск' if ru else 'Risk to consider') }}</p>
+                  </details></li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ol>
+        <h3 class="mt-5 text-lg font-semibold text-[var(--text-strong)]">{{ 'Разбор' if ru else 'Debrief' }}</h3>
+        <p class="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.debrief }}</p>
+      </section>
+    {% elif block.type == 'check' %}
+      <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+        <h2 class="text-xl font-semibold text-[var(--text-strong)]">{{ block.title }}</h2>
+        <ol class="mt-4 space-y-5 list-decimal pl-6">
+          {% for question in block.questions %}
+            <li class="text-[16px] text-[var(--text-medium)]">
+              <h3 class="font-semibold text-[var(--text-strong)]">{{ question.prompt }}</h3>
+              <ul class="mt-2 space-y-2 list-none pl-0">
+                {% for choice in question.choices %}
+                  <li><details class="rounded-[3px] border border-[var(--border-strong)] p-3">
+                    <summary class="min-h-11 cursor-pointer text-[16px] text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]">{{ choice.text }}</summary>
+                    <p class="mt-2">{{ choice.explanation }}</p>
+                    <p class="mt-2 font-semibold">{{ ('Подходит' if ru else 'Recommended') if choice.correct else ('Не лучший выбор' if ru else 'Not the best choice') }}</p>
+                  </details></li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ol>
+      </section>
+    {% endif %}
+  {% endfor %}
+  <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+    <h2 class="text-lg font-semibold text-[var(--text-strong)]">{{ 'Что сделать сегодня' if ru else 'Do this today' }}</h2>
+    <p class="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ cfg.today_action }}</p>
+  </section>
+  <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+    <h2 class="text-lg font-semibold text-[var(--text-strong)]">{{ 'Источники и ограничения' if ru else 'Sources and limits' }}</h2>
+    <p class="mt-2 text-[14px] text-[var(--text-soft)]">{{ 'Проверено' if ru else 'Checked' }}: {{ cfg.checked_at }}. {{ cfg.scope }}</p>
+    <ul class="mt-3 list-disc space-y-2 pl-5 text-[15px] text-[var(--text-medium)]">
+      {% for source in cfg.sources or [] %}
+        <li><a class="underline underline-offset-2 hover:text-[var(--brand)]" href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.title }}</a> — {{ source.scope }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>

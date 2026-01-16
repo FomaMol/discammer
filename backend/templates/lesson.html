@@ -109,7 +109,9 @@
         'lessonSlug': lesson.slug,
         'locale': _lang,
       } | tojson | forceescape }}"
-    ></div>
+    >{% if lesson.widget_type == 'course_v2' %}
+      {% include 'partials/course_v2_fallback.html' %}
+      {% endif %}</div>
   </div>
   {% endif %}
 

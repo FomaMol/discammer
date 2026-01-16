@@ -4,6 +4,7 @@ import ScenarioWidget, { ScenarioConfig } from './ScenarioWidget';
 import RedFlagsWidget, { RedFlagsConfig } from './RedFlagsWidget';
 import ExamWidget, { ExamConfig } from './ExamWidget';
 import CertificateWidget, { CertificateConfig } from './CertificateWidget';
+import CourseV2Widget, { CourseV2Config } from './CourseV2Widget';
 
 interface Props {
   type: string;
@@ -22,6 +23,8 @@ export default function LessonWidget({ type, config, locale }: Props) {
   const tr = makeTranslator('lessonWidget');
 
   switch (type) {
+    case 'course_v2':
+      return <CourseV2Widget config={config as unknown as CourseV2Config} locale={lang} />;
     case 'quiz':
       return <QuizWidget config={config as unknown as QuizConfig} locale={lang} />;
     case 'scenario':

@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 import aiosqlite
 
 import config
+from course_contract import validate_v2
 from config import CONTENT_DIR
 from database import _apply_pragmas
 
@@ -911,6 +912,9 @@ def load_lessons() -> list[dict]:
                         stem = stem[: -len(suffix)]
                         break
                 data["slug"] = stem
+
+            if data.get("widget_type") == "course_v2":
+                validate_v2(data.get("widget_config"), str(lesson_file))
 
             lessons.append(data)
 
