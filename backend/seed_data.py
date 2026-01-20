@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 import aiosqlite
 
 import config
-from course_contract import validate_v2
+from course_contract import validate_pair, validate_v2
 from config import CONTENT_DIR
 from database import _apply_pragmas
 
@@ -918,6 +918,14 @@ def load_lessons() -> list[dict]:
 
             lessons.append(data)
 
+    pairs: dict[tuple[str, str], dict[str, dict]] = {}
+    for lesson in lessons:
+        pairs.setdefault((lesson['module_slug'], lesson['slug']), {})[lesson['locale']] = lesson
+    for key, translations in pairs.items():
+        if any(item.get('widget_type') == 'course_v2' for item in translations.values()):
+            if set(translations) != set(SUPPORTED_LOCALES):
+                raise ValueError(f'course_v2 {key} needs EN/RU pair')
+            validate_pair(translations['en'], translations['ru'], str(key))
     return lessons
 
 

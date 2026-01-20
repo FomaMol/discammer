@@ -236,6 +236,7 @@ describe('transport', () => {
       'exams',
       'exportedAt',
       'guideChecks',
+      'lessonRevisions',
       'lessons',
       'v',
     ]);

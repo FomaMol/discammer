@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
   isLessonComplete,
+  isLessonRevisionComplete,
   markLessonComplete,
   markLessonIncomplete,
+  markLessonRevisionComplete,
+  markLessonRevisionIncomplete,
   subscribe,
 } from '../utils/progress';
 import { Locale, makeTranslator } from '../utils/i18n';
@@ -17,11 +20,14 @@ interface Props {
   nextHref: string | null;
   nextTitle: string | null;
   moduleHref: string;
+  contentRevision?: string | null;
 }
 
 export default function LessonFooter({
   moduleSlug,
   lessonSlug,
+  locale,
+  contentRevision,
   prevHref,
   prevTitle,
   nextHref,
@@ -29,16 +35,31 @@ export default function LessonFooter({
   moduleHref,
 }: Props) {
   const tr = makeTranslator('lessonFooter');
-  const [done, setDone] = useState(false);
+  const [legacyDone, setLegacyDone] = useState(false);
+  const [revisionDone, setRevisionDone] = useState(false);
 
   // Hydrate from localStorage on mount and subscribe to cross-tab updates.
   useEffect(() => {
-    const sync = () => setDone(isLessonComplete(moduleSlug, lessonSlug));
+    const sync = () => {
+      setLegacyDone(isLessonComplete(moduleSlug, lessonSlug));
+      setRevisionDone(contentRevision ? isLessonRevisionComplete(moduleSlug, lessonSlug, contentRevision) : false);
+    };
     sync();
     return subscribe(sync);
-  }, [moduleSlug, lessonSlug]);
+  }, [moduleSlug, lessonSlug, contentRevision]);
+
+  const done = contentRevision ? revisionDone : legacyDone;
 
   function toggle() {
+    if (contentRevision) {
+      if (revisionDone) markLessonRevisionIncomplete(moduleSlug, lessonSlug, contentRevision);
+      else {
+        markLessonRevisionComplete(moduleSlug, lessonSlug, contentRevision);
+        if (!legacyDone) markLessonComplete(moduleSlug, lessonSlug);
+        trackEvent('lesson_complete');
+      }
+      return;
+    }
     if (done) {
       markLessonIncomplete(moduleSlug, lessonSlug);
     } else {
@@ -47,8 +68,12 @@ export default function LessonFooter({
     }
   }
 
-  const markCompleteLabel = tr('mark_debrief_complete');
-  const completedLabel = tr('completed');
+  const markCompleteLabel = contentRevision
+    ? (locale === 'ru' ? 'Отметить обновлённый урок' : 'Mark updated lesson complete')
+    : tr('mark_debrief_complete');
+  const completedLabel = contentRevision
+    ? (locale === 'ru' ? 'Обновлённый урок пройден' : 'Updated lesson complete')
+    : tr('completed');
   const backToModule = tr('back_to_module');
   const prevLabel = tr('prev_briefing');
   const nextLabel = tr('next_briefing');
@@ -77,6 +102,11 @@ export default function LessonFooter({
           {backToModule}
         </a>
       </div>
+      {contentRevision && legacyDone && !revisionDone && <p className="text-[14px] leading-relaxed text-[var(--text-soft)]">
+        {locale === 'ru'
+          ? 'У вас сохранено завершение прежней версии урока. Обновлённая практика ещё не отмечена как пройденная.'
+          : 'Your earlier lesson completion is preserved. The updated practice is not yet marked complete.'}
+      </p>}
 
       {/* Prev / Next nav */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

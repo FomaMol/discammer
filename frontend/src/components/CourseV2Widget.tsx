@@ -7,11 +7,12 @@ export type CaseBlock = {
 };
 export type DecisionChoice = {
   text: string; consequence: string; explanation: string; recommended: boolean;
+  next?: string;
 };
-export type DecisionStep = { prompt: string; choices: DecisionChoice[] };
+export type DecisionStep = { id?: string; prompt: string; choices: DecisionChoice[] };
 export type PracticeBlock = {
   type: 'practice'; title: string; setup: string; synthetic: true;
-  steps: DecisionStep[]; debrief: string;
+  mode?: 'sequence' | 'graph'; steps: DecisionStep[]; debrief: string;
 };
 export type CheckBlock = {
   type: 'check'; title: string;
@@ -19,7 +20,7 @@ export type CheckBlock = {
 };
 export type CourseBlock = CaseBlock | PracticeBlock | CheckBlock;
 export type CourseV2Config = {
-  version: 2; goal: string; blocks: CourseBlock[]; today_action: string;
+  version: 2; revision: string; goal: string; blocks: CourseBlock[]; today_action: string;
   checked_at: string; scope: string;
   sources: { title: string; url: string; scope: string }[];
 };
@@ -54,6 +55,16 @@ const panel = 'rounded-[4px] border border-[var(--border-strong)] bg-[var(--pane
 const button = 'min-h-11 w-full rounded-[3px] border border-[var(--border-strong)] px-4 py-3 text-left text-[16px] leading-relaxed text-[var(--text)] hover:border-[var(--brand)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]';
 const action = 'min-h-11 rounded-[3px] border border-[var(--brand)] px-4 py-2 text-[15px] text-[var(--brand)] hover:bg-[var(--brand)]/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]';
 
+export function resolveNextStep(block: PracticeBlock, step: number, choice: number): number | null {
+  if (block.mode === 'graph') {
+    const next = block.steps[step]?.choices[choice]?.next;
+    if (!next || next === 'end') return null;
+    const index = block.steps.findIndex(candidate => candidate.id === next);
+    return index < 0 ? null : index;
+  }
+  return step + 1 < block.steps.length ? step + 1 : null;
+}
+
 function Practice({ block, ui }: { block: PracticeBlock; ui: Ui }) {
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -61,24 +72,33 @@ function Practice({ block, ui }: { block: PracticeBlock; ui: Ui }) {
   const [history, setHistory] = useState<{ step: number; choice: number }[]>([]);
   const feedback = useRef<HTMLDivElement>(null);
   const prompt = useRef<HTMLHeadingElement>(null);
+  const debriefHeading = useRef<HTMLHeadingElement>(null);
+  const transition = useRef(false);
   useEffect(() => { if (picked !== null) feedback.current?.focus(); }, [picked]);
-  useEffect(() => { if (step > 0 || finished) prompt.current?.focus(); }, [step, finished]);
+  useEffect(() => {
+    if (!transition.current) return;
+    if (finished) debriefHeading.current?.focus();
+    else prompt.current?.focus();
+    transition.current = false;
+  }, [step, finished]);
   const current = block.steps[step];
   const chosen = picked === null ? null : current?.choices[picked];
   function advance() {
     if (picked === null) return;
     setHistory([...history, { step, choice: picked }]);
     setPicked(null);
-    if (step + 1 < block.steps.length) setStep(step + 1);
-    else setFinished(true);
+    const next = resolveNextStep(block, step, picked);
+    transition.current = true;
+    if (next === null) setFinished(true);
+    else setStep(next);
   }
-  function restart() { setStep(0); setPicked(null); setHistory([]); setFinished(false); prompt.current?.focus(); }
+  function restart() { transition.current = true; setStep(0); setPicked(null); setHistory([]); setFinished(false); }
   return <section className={panel} aria-label={block.title}>
     <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--brand)]">{ui.synthetic}</p>
-    <h2 ref={prompt} tabIndex={-1} className="mt-2 text-xl font-semibold text-[var(--text-strong)] outline-none">{block.title}</h2>
+    <h2 className="mt-2 text-xl font-semibold text-[var(--text-strong)]">{block.title}</h2>
     <p className="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{block.setup}</p>
     {finished ? <div className="mt-5" aria-live="polite">
-      <h3 className="text-lg font-semibold text-[var(--text-strong)]">{ui.debrief}</h3>
+      <h3 ref={debriefHeading} tabIndex={-1} className="text-lg font-semibold text-[var(--text-strong)] outline-none">{ui.debrief}</h3>
       <ol className="mt-3 space-y-3 list-decimal pl-6">
         {history.map(({ step: i, choice }) => <li key={i} className="text-[16px] text-[var(--text-medium)]">
           <strong>{block.steps[i].prompt}</strong> {block.steps[i].choices[choice].consequence}
@@ -87,8 +107,8 @@ function Practice({ block, ui }: { block: PracticeBlock; ui: Ui }) {
       <p className="mt-4 text-[16px] leading-relaxed text-[var(--text-medium)]">{block.debrief}</p>
       <button className={`${action} mt-5`} onClick={restart} type="button">{ui.retryAll}</button>
     </div> : current ? <div className="mt-5">
-      <p className="font-mono text-[12px] text-[var(--text-soft)]">{ui.step} {step + 1} {ui.of} {block.steps.length}</p>
-      <h3 className="mt-2 text-lg font-semibold text-[var(--text-strong)]">{current.prompt}</h3>
+      <p className="font-mono text-[12px] text-[var(--text-soft)]">{ui.step} {block.mode === 'graph' ? history.length + 1 : step + 1}{block.mode === 'graph' ? '' : ` ${ui.of} ${block.steps.length}`}</p>
+      <h3 ref={prompt} tabIndex={-1} className="mt-2 text-lg font-semibold text-[var(--text-strong)] outline-none">{current.prompt}</h3>
       <div className="mt-4 space-y-2" role="group" aria-label={current.prompt}>
         {current.choices.map((choice, i) => <button key={i} className={button} type="button"
           onClick={() => { if (picked === null) setPicked(i); }} disabled={picked !== null}
@@ -99,8 +119,8 @@ function Practice({ block, ui }: { block: PracticeBlock; ui: Ui }) {
         <p className="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]"><strong>{ui.consequence}:</strong> {chosen.consequence}</p>
         <p className="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]"><strong>{ui.why}:</strong> {chosen.explanation}</p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button className={action} type="button" onClick={() => { setPicked(null); prompt.current?.focus(); }}>{ui.retryStep}</button>
-          <button className={action} type="button" onClick={advance}>{step + 1 < block.steps.length ? ui.next : ui.finish}</button>
+          <button className={action} type="button" onClick={() => { prompt.current?.focus(); setPicked(null); }}>{ui.retryStep}</button>
+          <button className={action} type="button" onClick={advance}>{resolveNextStep(block, step, picked!) !== null ? ui.next : ui.finish}</button>
         </div>
       </div>}
     </div> : null}
@@ -110,10 +130,11 @@ function Practice({ block, ui }: { block: PracticeBlock; ui: Ui }) {
 function Question({ question, ui, index }: { question: CheckBlock['questions'][number]; ui: Ui; index: number }) {
   const [picked, setPicked] = useState<number | null>(null);
   const feedback = useRef<HTMLDivElement>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => { if (picked !== null) feedback.current?.focus(); }, [picked]);
   const chosen = picked === null ? null : question.choices[picked];
   return <li className="border-t border-[var(--border)] pt-4 first:border-t-0 first:pt-0">
-    <h3 className="text-[17px] font-semibold text-[var(--text-strong)]">{index + 1}. {question.prompt}</h3>
+    <h3 ref={heading} tabIndex={-1} className="text-[17px] font-semibold text-[var(--text-strong)] outline-none">{index + 1}. {question.prompt}</h3>
     <div role="group" aria-label={question.prompt} className="mt-3 space-y-2">
       {question.choices.map((choice, i) => <button className={button} type="button" key={i}
         onClick={() => setPicked(i)} disabled={picked !== null} aria-pressed={picked === i}>{choice.text}</button>)}
@@ -121,7 +142,7 @@ function Question({ question, ui, index }: { question: CheckBlock['questions'][n
     {chosen && <div ref={feedback} tabIndex={-1} role="status" className="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)] outline-none">
       <strong>{chosen.correct ? ui.recommended : ui.other}.</strong> {chosen.explanation}
       {!chosen.correct && <p className="mt-2">{question.choices.find(c => c.correct)?.text}</p>}
-      <button className={`${action} mt-3`} type="button" onClick={() => setPicked(null)}>{ui.retryQuestion}</button>
+      <button className={`${action} mt-3`} type="button" onClick={() => { heading.current?.focus(); setPicked(null); }}>{ui.retryQuestion}</button>
     </div>}
   </li>;
 }

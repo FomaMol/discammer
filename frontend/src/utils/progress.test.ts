@@ -96,6 +96,34 @@ function seedGuideChecks(checks: Record<string, { score: number; bestOf: number;
 }
 
 describe('exportProgress / importProgress', () => {
+  it('keeps old lesson completion separate from revised completion through export, import and merge', async () => {
+    const mod = await loadModule();
+    mod.markLessonComplete('phishing', 'lookalike-domains');
+    expect(mod.isLessonComplete('phishing', 'lookalike-domains')).toBe(true);
+    expect(mod.isLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20')).toBe(false);
+    mod.markLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20');
+    const dossier = mod.exportProgress();
+    expect(dossier.lessonRevisions?.['phishing/lookalike-domains@2026-10-20']).toBe(true);
+    storage.clear();
+    expect(mod.importProgress(dossier).ok).toBe(true);
+    expect(mod.isLessonComplete('phishing', 'lookalike-domains')).toBe(true);
+    expect(mod.isLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20')).toBe(true);
+    mod.markLessonRevisionIncomplete('phishing', 'lookalike-domains', '2026-10-20');
+    expect(mod.isLessonComplete('phishing', 'lookalike-domains')).toBe(true);
+    expect(mod.isLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20')).toBe(false);
+    expect(mod.importProgress(dossier).ok).toBe(true);
+    expect(mod.isLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20')).toBe(true);
+  });
+
+  it('rejects malformed revised-completion imports before mutating state', async () => {
+    const mod = await loadModule();
+    mod.markLessonComplete('phishing', 'lookalike-domains');
+    const original = storage.getItem(PROGRESS_KEY);
+    const bad = { ...mod.exportProgress(), lessonRevisions: { 'phishing/lookalike-domains@2026-10-20': 'true' } };
+    expect(mod.importProgress(bad)).toEqual({ ok: false, error: 'bad-lesson-revisions' });
+    expect(storage.getItem(PROGRESS_KEY)).toBe(original);
+  });
+
   it('round-trips lessons, exam, cert name, and guide checks through export → clear → import', async () => {
     const mod = await loadModule();
     seedLessons({ 'module-1': ['intro', 'recap'] });

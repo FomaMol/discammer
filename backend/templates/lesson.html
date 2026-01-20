@@ -152,6 +152,7 @@
       'moduleSlug': module.slug,
       'lessonSlug': lesson.slug,
       'locale': _lang,
+      'contentRevision': (lesson.widget_config.revision if lesson.widget_type == 'course_v2' else None),
       'prevHref': ('/' ~ _lang ~ '/course/' ~ module.slug ~ '/' ~ prev_lesson.slug) if prev_lesson else None,
       'prevTitle': prev_lesson.title if prev_lesson else None,
       'nextHref': ('/' ~ _lang ~ '/course/' ~ module.slug ~ '/' ~ next_lesson.slug) if next_lesson else None,

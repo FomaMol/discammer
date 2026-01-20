@@ -15,6 +15,46 @@
  */
 
 const STORAGE_KEY = 'discammer:progress:v1';
+const LESSON_REVISIONS_KEY = 'discammer:lesson-revisions:v1';
+type LessonRevisions = Record<string, true>;
+
+function revisionKey(moduleSlug: string, lessonSlug: string, revision: string): string {
+  return `${moduleSlug}/${lessonSlug}@${revision}`;
+}
+
+function readLessonRevisions(): LessonRevisions {
+  if (typeof window === 'undefined') return {};
+  try {
+    const parsed: unknown = JSON.parse(window.localStorage.getItem(LESSON_REVISIONS_KEY) || '{}');
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    return Object.fromEntries(Object.entries(parsed).filter(([key, value]) =>
+      /^[a-z0-9-]+\/[a-z0-9-]+@[a-z0-9-]+$/.test(key) && value === true)) as LessonRevisions;
+  } catch { return {}; }
+}
+
+function writeLessonRevisions(rows: LessonRevisions): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(LESSON_REVISIONS_KEY, JSON.stringify(rows));
+    window.dispatchEvent(new CustomEvent('discammer:progress'));
+  } catch { /* Storage may be denied. */ }
+}
+
+export function isLessonRevisionComplete(moduleSlug: string, lessonSlug: string, revision: string): boolean {
+  return readLessonRevisions()[revisionKey(moduleSlug, lessonSlug, revision)] === true;
+}
+
+export function markLessonRevisionComplete(moduleSlug: string, lessonSlug: string, revision: string): void {
+  const rows = readLessonRevisions();
+  rows[revisionKey(moduleSlug, lessonSlug, revision)] = true;
+  writeLessonRevisions(rows);
+}
+
+export function markLessonRevisionIncomplete(moduleSlug: string, lessonSlug: string, revision: string): void {
+  const rows = readLessonRevisions();
+  delete rows[revisionKey(moduleSlug, lessonSlug, revision)];
+  writeLessonRevisions(rows);
+}
 
 type ProgressShape = {
   modules: Record<string, { lessons: Record<string, true> }>;
@@ -133,6 +173,7 @@ export interface Dossier {
   exams: ExamRecord | null;
   certName: string | null;
   guideChecks: GuideChecks;
+  lessonRevisions?: LessonRevisions;
 }
 
 export interface ImportOk {
@@ -270,6 +311,7 @@ export function exportProgress(): Dossier {
     exams: readExamRecord(),
     certName: readCertName(),
     guideChecks: readGuideChecks(),
+    lessonRevisions: readLessonRevisions(),
   };
 }
 
@@ -332,6 +374,11 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
   ) {
     return { ok: false, error: 'bad-guidechecks' };
   }
+  if (d.lessonRevisions !== undefined && (
+    !d.lessonRevisions || typeof d.lessonRevisions !== 'object' || Array.isArray(d.lessonRevisions) ||
+    Object.entries(d.lessonRevisions).some(([key, value]) =>
+      !/^[a-z0-9-]+\/[a-z0-9-]+@[a-z0-9-]+$/.test(key) || value !== true)
+  )) return { ok: false, error: 'bad-lesson-revisions' };
 
   const importedModules = d.lessons as ProgressShape['modules'];
 
@@ -412,6 +459,10 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
   }
 
   // Persist merged lesson state and notify the UI (exam writes already fired).
+  const incomingRevisions = (d.lessonRevisions || {}) as LessonRevisions;
+  if (Object.keys(incomingRevisions).length) {
+    writeLessonRevisions({ ...readLessonRevisions(), ...incomingRevisions });
+  }
   write(current);
 
   return { ok: true, addedLessons, improvedExams, improvedGuideChecks };
