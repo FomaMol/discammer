@@ -1,4 +1,4 @@
-import{r as _,j as b}from"../main-D8x6MUUW.js";import{t as L}from"./theme-color-CltKEOde.js";import{p as R}from"./useReducedMotion-DovjHwBD.js";const E=`#version 300 es
+import{r as _,j as b}from"../main-DGL0H84p.js";import{t as L}from"./theme-color-CltKEOde.js";import{p as R}from"./useReducedMotion-kZQlUJM2.js";const E=`#version 300 es
 in vec2 a_position;
 out vec2 v_uv;
 void main() {

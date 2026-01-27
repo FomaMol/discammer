@@ -53,3 +53,16 @@ def test_missing_db_lesson_aborts_without_snapshot(tmp_path):
     with pytest.raises(ValueError, match='mismatch'):
         apply(db, content, snapshot, expected_count=2)
     assert not snapshot.exists()
+
+
+def test_restore_refuses_to_overwrite_later_editorial_change(tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        conn.execute("UPDATE lesson SET title='Later editorial change' WHERE locale='en'")
+    with pytest.raises(ValueError, match='changed since apply'):
+        restore(db, snapshot)
+    with sqlite3.connect(db) as conn:
+        assert conn.execute("SELECT title FROM lesson WHERE locale='en'").fetchone()[0] == 'Later editorial change'
+        assert conn.execute("SELECT ciphertext FROM sync_blob").fetchone()[0] == b'opaque-user-data'

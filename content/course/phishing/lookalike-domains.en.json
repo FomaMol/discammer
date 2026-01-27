@@ -236,7 +236,7 @@
               },
               {
                 "text": "signin.example.net",
-                "explanation": "Correct. The host is after @ and before the next slash.",
+                "explanation": "Correct. The host is after @ and ends at a path slash, query, fragment, or the end of the URL.",
                 "correct": true
               }
             ]

@@ -112,6 +112,17 @@ export function getCompletedLessons(moduleSlug: string): string[] {
   return Object.keys(state.modules[moduleSlug]?.lessons ?? {});
 }
 
+export type CurrentLessonSummary = { slug: string; content_revision?: string | null };
+
+/** Counts the revision taught now while preserving earlier slug progress separately. */
+export function getCurrentCompletedLessons(moduleSlug: string, lessons: CurrentLessonSummary[]): string[] {
+  const legacy = read().modules[moduleSlug]?.lessons ?? {};
+  const revisions = readLessonRevisions();
+  return lessons.filter((lesson) => lesson.content_revision
+    ? revisions[revisionKey(moduleSlug, lesson.slug, lesson.content_revision)] === true
+    : legacy[lesson.slug] === true).map((lesson) => lesson.slug);
+}
+
 export function subscribe(listener: () => void): () => void {
   if (typeof window === 'undefined') return () => undefined;
   const handler = () => listener();

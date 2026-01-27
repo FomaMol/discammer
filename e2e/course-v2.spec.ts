@@ -66,3 +66,17 @@ test('earlier completion remains separate from the revised lesson', async ({ pag
   expect(state.old.modules.phishing.lessons['lookalike-domains']).toBe(true);
   expect(state.revised['phishing/lookalike-domains@2026-10-20']).toBe(true);
 });
+
+test('old completion does not mark the revised lesson or course overview complete', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('discammer:progress:v1', JSON.stringify({
+      modules: { phishing: { lessons: { 'lookalike-domains': true } } },
+    }));
+  });
+  await page.goto('/en/course/phishing');
+  const lesson = page.locator('a[href="/en/course/phishing/lookalike-domains"]').first();
+  await expect(lesson).toBeVisible();
+  await expect(lesson).toContainText('[ ]');
+  await page.goto('/en/course');
+  await expect(page.getByText('0/55')).toBeVisible();
+});

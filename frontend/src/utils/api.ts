@@ -41,3 +41,7 @@ export async function fetchGuides(lang?: Locale) {
 export async function fetchCourseModules(lang?: Locale) {
   return fetchJson(withLang(`${API_BASE}/course/modules`, lang));
 }
+
+export async function fetchCourseLessonManifest(lang?: Locale) {
+  return fetchJson(withLang(`${API_BASE}/course/lesson-manifest`, lang));
+}

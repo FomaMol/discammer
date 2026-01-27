@@ -85,7 +85,8 @@ def apply(db: Path, course_dir: Path, snapshot: Path, expected_count: int = 110)
             conn.rollback()
             return {'changed': 0, 'snapshot': None}
         payload = {'kind': 'course-editorial-before', 'created_at': datetime.now(timezone.utc).isoformat(),
-                   'rows': [before[key] for key in changed]}
+                   'rows': [before[key] for key in changed],
+                   'applied_rows': [{**{k: before[key][k] for k in ('id',) + KEYS}, **authored[key]} for key in changed]}
         snapshot_atomically(snapshot, payload)
         try:
             for key in changed:
@@ -101,15 +102,25 @@ def apply(db: Path, course_dir: Path, snapshot: Path, expected_count: int = 110)
 
 def restore(db: Path, snapshot: Path) -> dict:
     payload = json.loads(snapshot.read_text(encoding='utf-8'))
-    if payload.get('kind') != 'course-editorial-before' or not isinstance(payload.get('rows'), list):
+    if (payload.get('kind') != 'course-editorial-before'
+            or not isinstance(payload.get('rows'), list)
+            or not isinstance(payload.get('applied_rows'), list)
+            or len(payload['rows']) != len(payload['applied_rows'])):
         raise ValueError('Not a course editorial snapshot')
     with sqlite3.connect(db, timeout=15) as conn:
         conn.execute('BEGIN IMMEDIATE')
         current = db_rows(conn)
+        applied_by_key = {tuple(row[k] for k in KEYS): row for row in payload['applied_rows']}
+        if len(applied_by_key) != len(payload['rows']):
+            raise ValueError('Snapshot has duplicate or missing applied rows')
         for row in payload['rows']:
             key = tuple(row[k] for k in KEYS)
             if key not in current or current[key]['id'] != row['id']:
                 raise ValueError(f'Snapshot row no longer matches DB identity: {key}')
+            applied = applied_by_key.get(key)
+            if (not applied or applied['id'] != row['id']
+                    or any(current[key][field] != applied[field] for field in FIELDS)):
+                raise ValueError(f'Editorial row changed since apply; restore refused: {key}')
         for row in payload['rows']:
             key = tuple(row[k] for k in KEYS)
             conn.execute('UPDATE lesson SET "order"=?, title=?, body_md=?, widget_type=?, widget_config_json=?, est_minutes=? WHERE id=? AND module_slug=? AND slug=? AND locale=?',

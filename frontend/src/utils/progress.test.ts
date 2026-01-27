@@ -96,6 +96,21 @@ function seedGuideChecks(checks: Record<string, { score: number; bestOf: number;
 }
 
 describe('exportProgress / importProgress', () => {
+  it('counts only current revised lessons in a course overview', async () => {
+    const mod = await loadModule();
+    seedLessons({ phishing: ['lookalike-domains', 'email-anatomy'] });
+    const current = [
+      { slug: 'lookalike-domains', content_revision: '2026-10-20' },
+      { slug: 'email-anatomy', content_revision: null },
+    ];
+    expect(mod.getCurrentCompletedLessons('phishing', current)).toEqual(['email-anatomy']);
+    mod.markLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20');
+    expect(mod.getCurrentCompletedLessons('phishing', current)).toEqual(['lookalike-domains', 'email-anatomy']);
+    mod.markLessonRevisionIncomplete('phishing', 'lookalike-domains', '2026-10-20');
+    expect(mod.getCurrentCompletedLessons('phishing', current)).toEqual(['email-anatomy']);
+    expect(mod.getCompletedLessons('phishing')).toContain('lookalike-domains');
+  });
+
   it('keeps old lesson completion separate from revised completion through export, import and merge', async () => {
     const mod = await loadModule();
     mod.markLessonComplete('phishing', 'lookalike-domains');

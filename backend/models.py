@@ -61,6 +61,13 @@ class LessonSummary(BaseModel):
     title: str
     est_minutes: int = 5
     widget_type: Optional[str] = None
+    content_revision: Optional[str] = None
+
+
+class LessonProgressSummary(BaseModel):
+    module_slug: str
+    slug: str
+    content_revision: Optional[str] = None
 
 
 class LessonResponse(BaseModel):

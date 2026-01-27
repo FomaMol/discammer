@@ -69,6 +69,8 @@ def test_rejects_non_boolean_answer_flags(bad):
 
 @pytest.mark.parametrize('url', ['https://127.0.0.1/private', 'https://bad host.example/path',
                                   'https://localhost/private', 'https://user@official.example/path',
+                                  'https://@publicsuffix.org/learn/', 'https://printer.local/private',
+                                  'https://site.test/path', 'https://example.com/source',
                                   'https://official.example\\@evil.example/path'])
 def test_rejects_non_public_or_malformed_source_url(url):
     cfg = copy.deepcopy(pilot('en')['widget_config'])
@@ -94,3 +96,16 @@ def test_rejects_bad_graph_and_locale_answer_drift():
     ru['widget_config']['blocks'][-1]['questions'][0]['choices'][1]['correct'] = True
     with pytest.raises(ValueError, match='differ'):
         validate_pair(en, ru, 'pilot')
+
+
+@pytest.mark.parametrize('lang', ['en', 'ru'])
+def test_revision_manifest_matches_lesson_summary(client, lang):
+    manifest = client.get(f'/api/course/lesson-manifest?lang={lang}')
+    assert manifest.status_code == 200
+    rows = manifest.json()
+    assert len(rows) == 55
+    pilot_row = next(r for r in rows if r['module_slug'] == 'phishing' and r['slug'] == 'lookalike-domains')
+    assert pilot_row['content_revision'] == '2026-10-20'
+    summary = client.get(f'/api/course/phishing/lessons?lang={lang}')
+    assert summary.status_code == 200
+    assert next(r for r in summary.json() if r['slug'] == 'lookalike-domains')['content_revision'] == pilot_row['content_revision']

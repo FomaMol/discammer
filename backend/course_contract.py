@@ -15,7 +15,7 @@ def _public_https(url: str) -> bool:
         parsed.port
     except ValueError:
         return False
-    if parsed.scheme != 'https' or not host or parsed.username or parsed.password:
+    if parsed.scheme != 'https' or not host or '@' in parsed.netloc:
         return False
     try:
         ipaddress.ip_address(host)
@@ -26,7 +26,12 @@ def _public_https(url: str) -> bool:
         labels = host.rstrip('.').encode('idna').decode('ascii').split('.')
     except UnicodeError:
         return False
-    return len(labels) >= 2 and all(re.fullmatch(r'[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?', label) for label in labels)
+    if len(labels) < 2 or not all(re.fullmatch(r'[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?', label) for label in labels):
+        return False
+    normalized = '.'.join(labels).lower()
+    special_tlds = {'local', 'test', 'example', 'invalid', 'localhost', 'internal', 'onion', 'arpa'}
+    reserved_examples = {'example.com', 'example.net', 'example.org'}
+    return labels[-1].lower() not in special_tlds and normalized not in reserved_examples
 
 
 def validate_v2(config: object, location: str) -> None:

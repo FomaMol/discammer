@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { fetchCourseModules } from '../utils/api';
+import { fetchCourseLessonManifest, fetchCourseModules } from '../utils/api';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
 import {
   exportProgress,
-  getCompletedLessons,
+  getCurrentCompletedLessons,
   importProgress,
   subscribe,
 } from '../utils/progress';
@@ -47,6 +47,8 @@ interface ApiModule {
 interface Props {
   locale?: Locale;
 }
+
+type ManifestLesson = { module_slug: string; slug: string; content_revision?: string | null };
 
 function normalize(api: ApiModule, idx: number): Module {
   const order = api.order ?? api.number ?? idx + 1;
@@ -99,6 +101,7 @@ export default function CourseProgress({ locale }: Props) {
   const lang = normalizeLocale(locale);
   const tr = makeTranslator('courseProgress');
   const [modules, setModules] = useState<Module[]>([]);
+  const [manifest, setManifest] = useState<ManifestLesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState<Map<string, number>>(new Map());
@@ -107,11 +110,12 @@ export default function CourseProgress({ locale }: Props) {
     let cancelled = false;
     setLoading(true);
     setError(false);
-    fetchCourseModules(lang)
-      .then((data) => {
+    Promise.all([fetchCourseModules(lang), fetchCourseLessonManifest(lang)])
+      .then(([data, lessonData]) => {
         const list: ApiModule[] = Array.isArray(data) ? data : data?.modules ?? [];
         const normalized = list.map(normalize);
-        if (!cancelled) setModules(normalized);
+        if (!Array.isArray(lessonData)) throw new Error('Invalid course manifest');
+        if (!cancelled) { setModules(normalized); setManifest(lessonData); }
       })
       .catch(() => {
         if (!cancelled) setError(true);
@@ -134,12 +138,13 @@ export default function CourseProgress({ locale }: Props) {
   useEffect(() => {
     const sync = () => {
       const map = new Map<string, number>();
-      modules.forEach((m) => map.set(m.slug, getCompletedLessons(m.slug).length));
+      modules.forEach((m) => map.set(m.slug, getCurrentCompletedLessons(m.slug,
+        manifest.filter((lesson) => lesson.module_slug === m.slug)).length));
       setCompleted(map);
     };
     sync();
     return subscribe(sync);
-  }, [modules]);
+  }, [modules, manifest]);
 
   const liveModules = useMemo(
     () => applyProgressiveUnlock(modules, completed),

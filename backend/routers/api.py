@@ -25,6 +25,7 @@ from models import (
     CourseModuleResponse,
     LessonResponse,
     LessonSummary,
+    LessonProgressSummary,
     PostResponse,
     ScamGuideResponse,
 )
@@ -108,6 +109,32 @@ async def list_course_modules(lang: Locale = "en", conn=Depends(get_conn)):
     return rows
 
 
+def _content_revision(row: dict) -> str | None:
+    config = row.get('widget_config')
+    if row.get('widget_type') == 'course_v2' and isinstance(config, dict):
+        revision = config.get('revision')
+        return revision if isinstance(revision, str) else None
+    return None
+
+
+@router.get('/course/lesson-manifest', response_model=List[LessonProgressSummary])
+async def course_lesson_manifest(lang: Locale = 'en', conn=Depends(get_conn)):
+    """One small response for revision-aware, local-only progress summaries."""
+    cursor = await conn.execute(
+        'SELECT module_slug, slug, widget_type, widget_config_json FROM lesson WHERE locale = ? ORDER BY module_slug, "order"',
+        (lang,),
+    )
+    rows = await cursor.fetchall()
+    manifest = []
+    for row in rows:
+        item = dict(row)
+        if item['widget_type'] == 'course_v2':
+            item['widget_config'] = json.loads(item['widget_config_json'] or '{}')
+        manifest.append({'module_slug': item['module_slug'], 'slug': item['slug'],
+                         'content_revision': _content_revision(item)})
+    return manifest
+
+
 @router.get("/course/{module_slug}", response_model=CourseModuleResponse)
 async def get_course_module(module_slug: str, lang: Locale = "en", conn=Depends(get_conn)):
     row = await get_module_by_slug(conn, slug=module_slug, locale=lang)
@@ -121,7 +148,7 @@ async def get_course_module(module_slug: str, lang: Locale = "en", conn=Depends(
 )
 async def list_module_lessons(module_slug: str, lang: Locale = "en", conn=Depends(get_conn)):
     rows = await get_lessons_for_module(conn, module_slug=module_slug, locale=lang)
-    return rows
+    return [{**row, 'content_revision': _content_revision(row)} for row in rows]
 
 
 @router.get(

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-import { getCompletedLessons, subscribe } from '../utils/progress';
+import { getCurrentCompletedLessons, subscribe } from '../utils/progress';
 
 interface Lesson {
   slug: string;
@@ -8,6 +8,7 @@ interface Lesson {
   title: string;
   est_minutes: number;
   widget_type: string | null;
+  content_revision?: string | null;
 }
 
 interface Props {
@@ -61,10 +62,10 @@ export default function ModuleLessons({ moduleSlug, locale }: Props) {
 
   // Subscribe to progress so completion ticks update without reload.
   useEffect(() => {
-    const sync = () => setCompleted(new Set(getCompletedLessons(moduleSlug)));
+    const sync = () => setCompleted(new Set(getCurrentCompletedLessons(moduleSlug, lessons)));
     sync();
     return subscribe(sync);
-  }, [moduleSlug]);
+  }, [moduleSlug, lessons]);
 
   const loadingLabel = tr('loading');
   const errorLabel = tr('error');
