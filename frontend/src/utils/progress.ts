@@ -147,6 +147,7 @@ export function subscribe(listener: () => void): () => void {
  * ------------------------------------------------------------------------- */
 
 const EXAM_KEY = 'discammer:exam:v1';
+const EXAM_REVISIONS_KEY = 'discammer:exam-revisions:v1';
 const CERT_NAME_KEY = 'discammer:certificate:name';
 const GUIDE_CHECKS_KEY = 'discammer:guidechecks:v1';
 
@@ -160,11 +161,53 @@ const GUIDE_CHECKS_KEY = 'discammer:guidechecks:v1';
 const DOSSIER_VERSION = 2;
 
 /** Shape of discammer:exam:v1 as written by ExamWidget. */
-interface ExamRecord {
+export interface ExamRecord {
   passed: boolean;
   score: number;
   total: number;
   passedAt: string;
+}
+type ExamRevisions = Record<string, ExamRecord>;
+
+function validExamRecord(rec: unknown): rec is ExamRecord {
+  if (!rec || typeof rec !== 'object' || Array.isArray(rec)) return false;
+  const value = rec as Partial<ExamRecord>;
+  return typeof value.passed === 'boolean'
+    && typeof value.score === 'number' && Number.isFinite(value.score)
+    && typeof value.total === 'number' && Number.isFinite(value.total)
+    && value.total > 0 && value.score >= 0 && value.score <= value.total
+    && typeof value.passedAt === 'string' && !Number.isNaN(Date.parse(value.passedAt));
+}
+
+function readExamRevisions(): ExamRevisions {
+  if (typeof window === 'undefined') return {};
+  try {
+    const parsed: unknown = JSON.parse(window.localStorage.getItem(EXAM_REVISIONS_KEY) || '{}');
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    return Object.fromEntries(Object.entries(parsed).filter(([key, value]) =>
+      /^[a-z0-9][a-z0-9-]{2,40}$/.test(key) && validExamRecord(value))) as ExamRevisions;
+  } catch { return {}; }
+}
+
+function writeExamRevisions(rows: ExamRevisions): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(EXAM_REVISIONS_KEY, JSON.stringify(rows));
+    window.dispatchEvent(new CustomEvent('discammer:exam'));
+  } catch { /* Storage may be denied. */ }
+}
+
+export function getExamRevisionRecord(revision: string): ExamRecord | null {
+  return readExamRevisions()[revision] ?? null;
+}
+
+export function recordExamRevisionResult(revision: string, result: ExamRecord): void {
+  if (!/^[a-z0-9][a-z0-9-]{2,40}$/.test(revision) || !validExamRecord(result)) return;
+  const rows = readExamRevisions();
+  const old = rows[revision];
+  if (old?.passed && (!result.passed || examRatio(old) > examRatio(result))) return;
+  rows[revision] = result;
+  writeExamRevisions(rows);
 }
 
 /** One per-guide knowledge-check result (best-of), as written by KnowledgeCheck. */
@@ -185,6 +228,7 @@ export interface Dossier {
   certName: string | null;
   guideChecks: GuideChecks;
   lessonRevisions?: LessonRevisions;
+  revisedExams?: ExamRevisions;
 }
 
 export interface ImportOk {
@@ -323,6 +367,7 @@ export function exportProgress(): Dossier {
     certName: readCertName(),
     guideChecks: readGuideChecks(),
     lessonRevisions: readLessonRevisions(),
+    revisedExams: readExamRevisions(),
   };
 }
 
@@ -390,6 +435,11 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
     Object.entries(d.lessonRevisions).some(([key, value]) =>
       !/^[a-z0-9-]+\/[a-z0-9-]+@[a-z0-9-]+$/.test(key) || value !== true)
   )) return { ok: false, error: 'bad-lesson-revisions' };
+  if (d.revisedExams !== undefined && (
+    !d.revisedExams || typeof d.revisedExams !== 'object' || Array.isArray(d.revisedExams) ||
+    Object.entries(d.revisedExams).some(([key, value]) =>
+      !/^[a-z0-9][a-z0-9-]{2,40}$/.test(key) || !validExamRecord(value))
+  )) return { ok: false, error: 'bad-revised-exams' };
 
   const importedModules = d.lessons as ProgressShape['modules'];
 
@@ -434,6 +484,16 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
     } else if (importedExam.passed && currentExam && !currentExam.passed) {
       // Score didn't improve, but the import proves a pass — OR it in.
       writeExamRecord({ ...currentExam, passed: true });
+    }
+  }
+  const revisedExams = (d.revisedExams || {}) as ExamRevisions;
+  for (const [revision, result] of Object.entries(revisedExams)) {
+    const old = getExamRevisionRecord(revision);
+    if (!old || examRatio(result) > examRatio(old)) {
+      recordExamRevisionResult(revision, { ...result, passed: result.passed || old?.passed === true });
+      improvedExams += 1;
+    } else if (result.passed && !old.passed) {
+      recordExamRevisionResult(revision, { ...old, passed: true });
     }
   }
 

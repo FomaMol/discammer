@@ -1,5 +1,6 @@
 import { useId, useMemo, useState } from 'react';
 import { Locale, makeTranslator } from '../utils/i18n';
+import { getExamRevisionRecord, recordExamRevisionResult } from '../utils/progress';
 
 export interface ExamQuestion {
   module?: string;
@@ -8,6 +9,7 @@ export interface ExamQuestion {
 }
 
 export interface ExamConfig {
+  revision?: string;
   passThreshold?: number; // 0..1, default 0.8
   shuffle?: boolean;
   questions: ExamQuestion[];
@@ -100,17 +102,19 @@ export default function ExamWidget({ config }: Props) {
     const passed = total > 0 && score / total >= threshold;
     // Best-of persistence: a failed or weaker retake must not revoke a stored
     // pass — certificate eligibility hangs off this record.
-    const stored = readStoredResult();
+    const stored = config.revision ? getExamRevisionRecord(config.revision) : readStoredResult();
     const storedRatio = stored && stored.total > 0 ? stored.score / stored.total : 0;
     const keepStored =
       stored?.passed === true && (!passed || score / total < storedRatio);
     if (!keepStored) {
-      persistResult({
+      const result = {
         passed,
         score,
         total,
         passedAt: new Date().toISOString(),
-      });
+      };
+      if (config.revision) recordExamRevisionResult(config.revision, result);
+      else persistResult(result);
     }
     setFinished(true);
   }
@@ -335,17 +339,18 @@ export default function ExamWidget({ config }: Props) {
             })}
           </fieldset>
 
-          {answeredThis && current.choices[answers[index]]?.explanation && (
-            <div
-              className={`mt-4 p-3 border rounded-[3px] ${
-                current.choices[answers[index]]?.correct
-                  ? 'border-[var(--success)]/40 bg-[var(--success)]/5'
-                  : 'border-[var(--warning)]/40 bg-[var(--warning)]/5'
-              }`}
-            >
-              <p className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
-                {current.choices[answers[index]]?.explanation}
-              </p>
+          {answeredThis && current.choices.some((choice) => choice.explanation) && (
+            <div role="group" aria-label={reviewLabel} className="mt-4 p-3 border border-[var(--border-strong)] rounded-[3px]">
+              <ul className="space-y-3">
+                {current.choices.map((choice, i) => choice.explanation && (
+                  <li key={i} className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
+                    <strong className={choice.correct ? 'text-[var(--success)]' : 'text-[var(--text-strong)]'}>
+                      {choice.text} {choice.correct ? `— ${correctLabel}` : ''}
+                    </strong>
+                    <p>{choice.explanation}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 

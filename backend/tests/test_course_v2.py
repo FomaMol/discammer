@@ -71,6 +71,8 @@ def test_rejects_non_boolean_answer_flags(bad):
                                   'https://localhost/private', 'https://user@official.example/path',
                                   'https://@publicsuffix.org/learn/', 'https://printer.local/private',
                                   'https://site.test/path', 'https://example.com/source',
+                                  'https://node.alt/private', 'https://docs.example.com/source',
+                                  'https://sub.example.net/source',
                                   'https://official.example\\@evil.example/path'])
 def test_rejects_non_public_or_malformed_source_url(url):
     cfg = copy.deepcopy(pilot('en')['widget_config'])

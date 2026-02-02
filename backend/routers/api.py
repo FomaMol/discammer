@@ -111,7 +111,7 @@ async def list_course_modules(lang: Locale = "en", conn=Depends(get_conn)):
 
 def _content_revision(row: dict) -> str | None:
     config = row.get('widget_config')
-    if row.get('widget_type') == 'course_v2' and isinstance(config, dict):
+    if isinstance(config, dict):
         revision = config.get('revision')
         return revision if isinstance(revision, str) else None
     return None
@@ -128,7 +128,7 @@ async def course_lesson_manifest(lang: Locale = 'en', conn=Depends(get_conn)):
     manifest = []
     for row in rows:
         item = dict(row)
-        if item['widget_type'] == 'course_v2':
+        if item['widget_config_json']:
             item['widget_config'] = json.loads(item['widget_config_json'] or '{}')
         manifest.append({'module_slug': item['module_slug'], 'slug': item['slug'],
                          'content_revision': _content_revision(item)})

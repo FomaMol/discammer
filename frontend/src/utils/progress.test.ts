@@ -96,6 +96,25 @@ function seedGuideChecks(checks: Record<string, { score: number; bestOf: number;
 }
 
 describe('exportProgress / importProgress', () => {
+  it('preserves an earlier exam while syncing the revised exam separately', async () => {
+    const mod = await loadModule();
+    seedExam({ passed: true, score: 9, total: 10 });
+    expect(mod.getExamRevisionRecord('2026-10-20')).toBeNull();
+    mod.recordExamRevisionResult('2026-10-20', { passed: true, score: 34, total: 40, passedAt: '2026-10-20T00:00:00Z' });
+    expect(mod.getExamRevisionRecord('2026-10-20')?.score).toBe(34);
+    expect(JSON.parse(storage.getItem(EXAM_KEY) as string).score).toBe(9);
+    const dossier = mod.exportProgress();
+    expect(dossier.revisedExams?.['2026-10-20']?.score).toBe(34);
+    storage.clear();
+    expect(mod.importProgress(dossier).ok).toBe(true);
+    expect(mod.getExamRevisionRecord('2026-10-20')?.passed).toBe(true);
+    expect(JSON.parse(storage.getItem(EXAM_KEY) as string).score).toBe(9);
+    const bad = { ...dossier, revisedExams: { '2026-10-20': { passed: 'true' } } };
+    const before = mod.exportProgress();
+    expect(mod.importProgress(bad)).toEqual({ ok: false, error: 'bad-revised-exams' });
+    expect(mod.exportProgress().revisedExams).toEqual(before.revisedExams);
+  });
+
   it('counts only current revised lessons in a course overview', async () => {
     const mod = await loadModule();
     seedLessons({ phishing: ['lookalike-domains', 'email-anatomy'] });

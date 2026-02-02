@@ -80,3 +80,23 @@ test('old completion does not mark the revised lesson or course overview complet
   await page.goto('/en/course');
   await expect(page.getByText('0/55')).toBeVisible();
 });
+
+test('earlier lesson and exam records cannot issue the current completion record', async ({ page, request }) => {
+  const manifestResponse = await request.get('/api/course/lesson-manifest?lang=en');
+  expect(manifestResponse.ok()).toBe(true);
+  const manifest = await manifestResponse.json() as { module_slug: string; slug: string }[];
+  const modules: Record<string, { lessons: Record<string, true> }> = {};
+  for (const lesson of manifest) {
+    modules[lesson.module_slug] ??= { lessons: {} };
+    modules[lesson.module_slug].lessons[lesson.slug] = true;
+  }
+  await page.addInitScript((legacy) => {
+    localStorage.setItem('discammer:progress:v1', JSON.stringify({ modules: legacy }));
+    localStorage.setItem('discammer:exam:v1', JSON.stringify({
+      passed: true, score: 36, total: 40, passedAt: '2026-01-01T00:00:00Z',
+    }));
+    localStorage.setItem('discammer:certificate:name', 'Old local name');
+  }, modules);
+  await page.goto('/en/course/final-assessment/defender-certificate');
+  await expect(page.locator('#discammer-certificate')).toHaveCount(0);
+});

@@ -1,13 +1,16 @@
 import './CertificateWidget.css';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { Locale, makeTranslator, normalizeLocale } from '../utils/i18n';
-import { getCompletedLessons, subscribe } from '../utils/progress';
+import { fetchCourseLessonManifest } from '../utils/api';
+import { getCurrentCompletedLessons, getExamRevisionRecord, subscribe } from '../utils/progress';
 
 export interface CertificateConfig {
   /** Modules required for the certificate, with the lesson slugs that count. */
   requirements: { module: string; lessons: string[] }[];
   /** Exam pass key in localStorage (default: discammer:exam:v1). */
   examKey?: string;
+  /** Current exam revision; older exam records remain stored but do not unlock this record. */
+  examRevision?: string;
 }
 
 interface Props {
@@ -53,17 +56,29 @@ export default function CertificateWidget({ config, locale }: Props) {
 
   const [exam, setExam] = useState<ExamRecord | null>(null);
   const [completed, setCompleted] = useState<Record<string, Set<string>>>({});
+  const [manifest, setManifest] = useState<{ module_slug: string; slug: string; content_revision?: string | null }[] | null>(null);
+  const [manifestError, setManifestError] = useState(false);
   const [name, setName] = useState<string>('');
   const [draft, setDraft] = useState<string>('');
   const [editing, setEditing] = useState(false);
 
+  useEffect(() => {
+    let cancelled = false;
+    fetchCourseLessonManifest(lang).then((rows) => {
+      if (!Array.isArray(rows)) throw new Error('Invalid course manifest');
+      if (!cancelled) setManifest(rows);
+    }).catch(() => { if (!cancelled) setManifestError(true); });
+    return () => { cancelled = true; };
+  }, [lang]);
+
   // Hydrate from localStorage on mount and subscribe to progress + exam changes.
   useEffect(() => {
     const sync = () => {
-      setExam(readExam(examKey));
+      setExam(config.examRevision ? getExamRevisionRecord(config.examRevision) : readExam(examKey));
       const next: Record<string, Set<string>> = {};
       config.requirements.forEach((req) => {
-        next[req.module] = new Set(getCompletedLessons(req.module));
+        next[req.module] = new Set(manifest ? getCurrentCompletedLessons(req.module,
+          manifest.filter((lesson) => lesson.module_slug === req.module)) : []);
       });
       setCompleted(next);
     };
@@ -82,7 +97,7 @@ export default function CertificateWidget({ config, locale }: Props) {
       off1();
       window.removeEventListener('discammer:exam', onExam);
     };
-  }, [config.requirements, examKey]);
+  }, [config.requirements, config.examRevision, examKey, manifest]);
 
   // Commit the draft as the confirmed name and persist it so the certificate
   // survives reload. The certificate is only earned after this explicit
@@ -123,6 +138,9 @@ export default function CertificateWidget({ config, locale }: Props) {
 
   return (
     <div className="space-y-6">
+      {manifestError && <p role="status" className="text-[14px] text-[var(--warning)]">
+        {lang === 'ru' ? 'Список текущих уроков недоступен. Обновите страницу, чтобы проверить локальный прогресс.' : 'The current lesson list is unavailable. Reload to check local progress.'}
+      </p>}
       <PrerequisitesPanel
         moduleStatus={moduleStatus}
         examPassed={examPassed}

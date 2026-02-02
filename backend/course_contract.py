@@ -29,9 +29,12 @@ def _public_https(url: str) -> bool:
     if len(labels) < 2 or not all(re.fullmatch(r'[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?', label) for label in labels):
         return False
     normalized = '.'.join(labels).lower()
-    special_tlds = {'local', 'test', 'example', 'invalid', 'localhost', 'internal', 'onion', 'arpa'}
+    special_tlds = {'local', 'test', 'example', 'invalid', 'localhost', 'internal', 'onion', 'arpa', 'alt'}
     reserved_examples = {'example.com', 'example.net', 'example.org'}
-    return labels[-1].lower() not in special_tlds and normalized not in reserved_examples
+    return labels[-1].lower() not in special_tlds and not any(
+        normalized == domain or normalized.endswith('.' + domain)
+        for domain in reserved_examples
+    )
 
 
 def validate_v2(config: object, location: str) -> None:

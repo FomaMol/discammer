@@ -238,6 +238,7 @@ describe('transport', () => {
       'guideChecks',
       'lessonRevisions',
       'lessons',
+      'revisedExams',
       'v',
     ]);
   });
