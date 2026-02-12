@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Locale, makeTranslator } from '../utils/i18n';
 import { getExamRevisionRecord, recordExamRevisionResult } from '../utils/progress';
 
@@ -52,6 +52,11 @@ function readStoredResult(): PersistedExam | null {
 export default function ExamWidget({ config }: Props) {
   const tr = makeTranslator('exam');
   const radioGroup = useId();
+  const questionHeading = useRef<HTMLHeadingElement>(null);
+  const explanationGroup = useRef<HTMLDivElement>(null);
+  const continueButton = useRef<HTMLButtonElement>(null);
+  const resultHeading = useRef<HTMLHeadingElement>(null);
+  const focusTarget = useRef<'question' | 'explanations' | 'result' | null>(null);
 
   // Bumped on restart so a retake gets a fresh shuffle, not the mount-time order.
   const [shuffleSeed, setShuffleSeed] = useState(0);
@@ -74,6 +79,19 @@ export default function ExamWidget({ config }: Props) {
   const [answers, setAnswers] = useState<number[]>([]);
   const [finished, setFinished] = useState(false);
 
+  useEffect(() => {
+    if (focusTarget.current === 'explanations' && answers.length > index) {
+      (explanationGroup.current || continueButton.current)?.focus();
+      focusTarget.current = null;
+    } else if (focusTarget.current === 'result' && finished) {
+      resultHeading.current?.focus();
+      focusTarget.current = null;
+    } else if (focusTarget.current === 'question' && !finished) {
+      questionHeading.current?.focus();
+      focusTarget.current = null;
+    }
+  }, [answers.length, index, finished, shuffleSeed]);
+
   const total = questions.length;
   const current = questions[index];
 
@@ -89,10 +107,12 @@ export default function ExamWidget({ config }: Props) {
 
   function submit() {
     if (picked === null) return;
+    focusTarget.current = 'explanations';
     setAnswers((prev) => [...prev, picked]);
   }
 
   function next() {
+    focusTarget.current = 'question';
     setPicked(null);
     setIndex((i) => i + 1);
   }
@@ -116,10 +136,12 @@ export default function ExamWidget({ config }: Props) {
       if (config.revision) recordExamRevisionResult(config.revision, result);
       else persistResult(result);
     }
+    focusTarget.current = 'result';
     setFinished(true);
   }
 
   function restart() {
+    focusTarget.current = 'question';
     setIndex(0);
     setPicked(null);
     setAnswers([]);
@@ -148,11 +170,11 @@ export default function ExamWidget({ config }: Props) {
 
     return (
       <section className="bg-[var(--panel)] border border-[var(--border)] p-5 sm:p-6 rounded-[4px]">
-        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)] mb-3">
+        <h2 ref={resultHeading} tabIndex={-1} className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--brand)] mb-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]">
           {heading}
           {' // '}
           {tr('result_suffix')}
-        </div>
+        </h2>
 
         {/* Clearance verdict */}
         <div
@@ -281,8 +303,10 @@ export default function ExamWidget({ config }: Props) {
             </div>
           )}
           <h3
+            ref={questionHeading}
+            tabIndex={-1}
             id={`${radioGroup}-question-${index}`}
-            className="font-sans text-[var(--text)] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch]"
+            className="font-sans text-[var(--text)] text-[17px] sm:text-[18px] font-semibold leading-snug max-w-[62ch] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]"
           >
             {current.question}
           </h3>
@@ -340,7 +364,7 @@ export default function ExamWidget({ config }: Props) {
           </fieldset>
 
           {answeredThis && current.choices.some((choice) => choice.explanation) && (
-            <div role="group" aria-label={reviewLabel} className="mt-4 p-3 border border-[var(--border-strong)] rounded-[3px]">
+            <div ref={explanationGroup} tabIndex={-1} role="group" aria-label={reviewLabel} className="mt-4 p-3 border border-[var(--border-strong)] rounded-[3px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]">
               <ul className="space-y-3">
                 {current.choices.map((choice, i) => choice.explanation && (
                   <li key={i} className="font-sans text-[16px] text-[var(--text-medium)] leading-relaxed">
@@ -366,6 +390,7 @@ export default function ExamWidget({ config }: Props) {
               </button>
             ) : isLast ? (
               <button
+                ref={continueButton}
                 type="button"
                 onClick={finish}
                 className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--success)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold"
@@ -374,6 +399,7 @@ export default function ExamWidget({ config }: Props) {
               </button>
             ) : (
               <button
+                ref={continueButton}
                 type="button"
                 onClick={next}
                 className="min-h-11 inline-flex items-center gap-2 px-5 py-2.5 font-mono uppercase text-[11px] tracking-[0.14em] bg-[var(--brand)] text-[var(--canvas)] hover:bg-[var(--brand-hover)] transition rounded-[4px] font-bold"

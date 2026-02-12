@@ -111,6 +111,8 @@
       } | tojson | forceescape }}"
     >{% if lesson.widget_type == 'course_v2' %}
       {% include 'partials/course_v2_fallback.html' %}
+      {% elif lesson.widget_type == 'exam' %}
+      {% include 'partials/course_exam_fallback.html' %}
       {% endif %}</div>
   </div>
   {% endif %}

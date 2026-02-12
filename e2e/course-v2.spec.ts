@@ -100,3 +100,37 @@ test('earlier lesson and exam records cannot issue the current completion record
   await page.goto('/en/course/final-assessment/defender-certificate');
   await expect(page.locator('#discammer-certificate')).toHaveCount(0);
 });
+
+for (const [lang, transmit, next] of [
+  ['en', 'TRANSMIT', 'NEXT QUESTION'],
+  ['ru', 'ОТПРАВИТЬ', 'СЛЕДУЮЩИЙ'],
+] as const) {
+  test(`${lang} exam keeps keyboard focus through answer and next question`, async ({ page }) => {
+    await page.goto(`/${lang}/course/final-assessment/final-exam`);
+    const widget = page.locator('[data-component="LessonWidget"]');
+    await expect(widget.locator('input[type="radio"]')).toHaveCount(4);
+    await widget.locator('input[type="radio"]').first().check();
+    await widget.getByRole('button', { name: new RegExp(transmit) }).click();
+    const explanation = widget.getByRole('group', { name: lang === 'en' ? 'Inspect transmission log' : 'Открыть лог передачи' });
+    if (await explanation.count()) {
+      await expect(explanation).toBeFocused();
+    } else {
+      await expect(widget.getByRole('button', { name: new RegExp(next) })).toBeFocused();
+    }
+    await widget.getByRole('button', { name: new RegExp(next) }).click();
+    await expect(widget.locator('h3[tabindex="-1"]')).toBeFocused();
+  });
+}
+
+test('exam no-JS fallback exposes question explanations on a phone', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await page.goto('/en/course/final-assessment/final-exam');
+  const fallback = page.locator('[data-exam-fallback]');
+  await expect(fallback).toBeVisible();
+  await expect(fallback.locator('ol > li')).toHaveCount(40);
+  await fallback.locator('summary').first().click();
+  await expect(fallback.locator('details').first()).toContainText(/Correct|Incorrect/);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+  await context.close();
+});

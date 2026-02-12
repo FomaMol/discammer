@@ -111,3 +111,18 @@ def test_revision_manifest_matches_lesson_summary(client, lang):
     summary = client.get(f'/api/course/phishing/lessons?lang={lang}')
     assert summary.status_code == 200
     assert next(r for r in summary.json() if r['slug'] == 'lookalike-domains')['content_revision'] == pilot_row['content_revision']
+
+
+@pytest.mark.parametrize('lang', ['en', 'ru'])
+def test_exam_has_static_study_fallback(client, lang):
+    response = client.get(f'/{lang}/course/final-assessment/final-exam')
+    assert response.status_code == 200
+    lesson = json.loads((ROOT / 'content/course/final-assessment' / f'final-exam.{lang}.json').read_text())
+    html = unescape(response.text)
+    assert 'data-exam-fallback' in html
+    for question in lesson['widget_config']['questions']:
+        assert question['question'] in html
+        for choice in question['choices']:
+            assert choice['text'] in html
+            if choice.get('explanation'):
+                assert choice['explanation'] in html

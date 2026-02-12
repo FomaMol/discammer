@@ -1,0 +1,22 @@
+{% set cfg = lesson.widget_config or {} %}
+{% set ru = _lang == 'ru' %}
+<section data-exam-fallback class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
+  <h2 class="text-xl font-semibold text-[var(--text-strong)]">{{ 'Вопросы для самостоятельной проверки' if ru else 'Self-study questions' }}</h2>
+  <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ 'Без JavaScript вы можете раскрыть каждый вариант и прочитать объяснение. Балл и локальная запись о завершении доступны при включённом JavaScript.' if ru else 'Without JavaScript, open each option to read its explanation. Scoring and the local completion record require JavaScript.' }}</p>
+  <ol class="mt-5 list-decimal space-y-6 pl-6">
+    {% for question in cfg.questions or [] %}
+      <li>
+        <h3 class="font-semibold text-[var(--text-strong)]">{{ question.question }}</h3>
+        <ul class="mt-2 list-none space-y-2 pl-0">
+          {% for choice in question.choices or [] %}
+            <li><details class="rounded-[3px] border border-[var(--border-strong)] p-3">
+              <summary class="min-h-11 cursor-pointer text-[16px] text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]">{{ choice.text }}</summary>
+              <p class="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ choice.explanation or ('Объяснение не предоставлено.' if ru else 'No explanation provided.') }}</p>
+              <p class="mt-2 font-semibold text-[var(--text-strong)]">{{ ('Верно' if ru else 'Correct') if choice.correct else ('Неверно' if ru else 'Incorrect') }}</p>
+            </details></li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
