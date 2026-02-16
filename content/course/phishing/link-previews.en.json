@@ -1,33 +1,192 @@
 {
   "order": 3,
   "title": "Reading link previews before you click",
-  "est_minutes": 6,
-  "body_md": "## Hover. Read. Then decide.\n\nThe single highest-leverage habit in this entire course is also the simplest: before you click any link, see where it actually goes. Five seconds, every time, and you avoid the majority of credential-harvest attacks.\n\nThe mechanics are slightly different on each platform, but the move is always the same.\n\n### Desktop browser\n\nHover the link without clicking. Look at the bottom-left corner of the browser window. Almost every browser displays the destination URL there. Read the registered domain.\n\n### Email client (desktop)\n\nSame trick — hover the link in the message, the destination appears in a tooltip or status bar. If you don't see it, your client is hiding it. Most clients let you toggle that on.\n\n### Mobile (iOS / Android)\n\nLong-press the link instead of tapping. A preview card appears showing the actual URL. On iOS, the preview includes a thumbnail and the full destination. On Android, the preview shows the URL plus options.\n\n### Shortened links (bit.ly, t.co, tinyurl.com)\n\nShort URLs deliberately hide their destination. They are unsafe to click without an unshortener. Useful free tools include:\n\n- **unshorten.it** — paste the short URL, see the real destination.\n- **checkshorturl.com** — same idea, slightly different ecosystem.\n\nIn 2024 onward, any unexpected short URL from a brand you trust should be treated as untrusted until you've unshortened it.\n\n### QR codes\n\nA QR code is just a URL in barcode form. When you scan a QR code with a modern phone, it shows you the URL *before* opening it. **Read the preview**. If the destination doesn't match the brand, don't open.\n\n## Two patterns to learn by heart\n\n1. **The phishing redirect.** A link that looks like `https://secure-paypal.com/verify` may actually redirect through three intermediate hops before landing on the credential-harvest page. Modern browsers show the *final* URL in the address bar after redirects — so always re-check the address bar after the page loads, not just the link you clicked.\n2. **The genuine-looking host with attacker-controlled path.** A URL like `https://docs.google.com/forms/abc123` is hosted by Google, but the *form content* is anything the attacker wanted. Brand-name hosts don't make their content safe. The host tells you who's hosting; it doesn't tell you who wrote what's on the page.",
-  "widget_type": "quiz",
+  "est_minutes": 13,
+  "body_md": "## A preview is a clue, not a permission slip\n\nThe label “View document” is text chosen by the sender. The link target is a separate address. Previewing it helps you notice a mismatch **before** navigation. It does not promise that the final destination or the content is safe. Some links redirect; a legitimate hosting service can contain a stranger's form; a mobile app may show only part of the address.\n\nOn a desktop, hovering may reveal the target in a status bar or tooltip. Read the entire visible host, not just a brand word on the left. On an iPhone in Safari, touching and holding a link opens a preview; other apps and phones behave differently. A preview may load page content, so for a truly untrusted link it can be better to leave the message and navigate independently. If an app hides or truncates the address, that is a reason to use another route, not to guess.\n\n### Three things the preview can conceal\n\n- **A shortener or tracking link** shows its intermediary domain. You cannot infer the eventual destination from its random code. Some legitimate newsletters use such links. For an important account action, open the service directly rather than submitting a sensitive URL to a third-party “unshortener.”\n- **A redirect** can send you elsewhere after the first address. If you chose to browse independently and reach a sign-in or payment form, check the address bar at the moment you act. Do not enter data just because the first hop looked familiar.\n- **Hosted content** lives on a real platform but may be authored by anyone with access. A real forms or document host confirms the host, not the person requesting credentials or payment. Verify the request with the supposed sender through another channel.\n\nThis is a triage tool. A clearly wrong domain is a stop signal. A plausible destination is still only one piece of evidence. A link in a message can be skipped entirely when a known app, bookmark or official contact route answers the underlying question.\n\n### Try it safely\n\nIn a message you already trust, compare the button label to the displayed target without opening it. Notice whether your device shows the host, a shortener, or no usable address. The goal is to learn your interface, not to test a suspicious link by visiting it.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You hover over a link in an email from your bank. The destination URL shown at the bottom of your browser is `https://bit.ly/3KhPq2X`. What is the correct next move?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Use a link preview to identify uncertainty, then choose a separate route for sensitive actions.",
+    "today_action": "On a message you already trust, inspect one link without opening it and note whether your device reveals the full host.",
+    "checked_at": "2026-10-20",
+    "scope": "General link-reading habit; interface examples are Safari on iPhone and desktop Gmail. Other apps vary. All exercise addresses are synthetic.",
+    "sources": [
       {
-        "text": "Click the link — your bank uses URL shorteners for security.",
-        "correct": false,
-        "explanation": "Major banks generally do not use bit.ly-style shorteners for transactional emails — both because it makes phishing detection harder and because it would damage their own trust. A shortener in a bank email is itself a yellow flag."
+        "title": "Gmail Help: avoid and report phishing",
+        "url": "https://support.google.com/mail/answer/8253?hl=en",
+        "scope": "Desktop Gmail's hover-link check and independent account access."
       },
       {
-        "text": "Open the bank's app or website by typing the address yourself; ignore the link.",
-        "correct": true,
-        "explanation": "Correct, and this is the safest move regardless of how the URL looks. You have a known good path to your bank already — use it. The link in the email is suspect until proven otherwise, and proving it requires unshortening *and* a domain check."
+        "title": "Apple Support: preview website links in Safari on iPhone",
+        "url": "https://support.apple.com/en-euro/guide/iphone/iph1fbef4daa/26/ios/26",
+        "scope": "Safari on iPhone, iOS 26; other apps may behave differently."
       },
       {
-        "text": "Forward the email to a colleague and ask their opinion.",
-        "correct": false,
-        "explanation": "Better than clicking, but you've increased the chance that *they* click the link by accident. Always include 'don't click — just look' in any forward like this. The cleaner action is still to verify through your own known channel."
-      },
-      {
-        "text": "Use an unshortener tool to see the real URL, then decide.",
-        "correct": false,
-        "explanation": "Acceptable, but more work than necessary when you already have a trusted path to the bank. Save the unshortener for cases where there's no easier verification route."
+        "title": "UK NCSC: spot scam messages",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "Use independently found contact details for doubtful requests."
       }
     ],
-    "hint": "What's the cheapest correct action? You already have a verified path to your bank."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Synthetic case: a shortened payroll notice",
+        "situation": "An email says a payslip is ready. The button preview shows https://go-payroll.example/r/7Q4 rather than the payroll service you normally use.",
+        "analysis": "The short link hides what follows. It could be a legitimate notification service, but the email cannot establish that. Open your normal payroll portal or ask payroll through the known internal directory; do not submit the link to a public expansion tool.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "Synthetic case: an ordinary tracking redirect",
+        "situation": "A newsletter you requested links through https://mail-news.example/c/42 to an article on its own site. The label and tracking host differ.",
+        "analysis": "Marketing redirects are common and this mismatch alone is not fraud. If the article is worth reading, visit the publisher from a saved bookmark or its independently found homepage. Never reuse the newsletter route for an unexpected account or payment request.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The scholarship form",
+        "setup": "Synthetic exercise. A student receives a message about a scholarship application; no real form is opened.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "The text says “Application status.” The preview shows a short link. What can you conclude?",
+            "choices": [
+              {
+                "text": "The university owns the final page because the message says so.",
+                "consequence": "You accept a claim the preview does not establish.",
+                "explanation": "A label and a short code do not reveal the owner of the final page.",
+                "recommended": false
+              },
+              {
+                "text": "The final destination is unknown; use the university portal separately.",
+                "consequence": "You keep the link out of the decision.",
+                "explanation": "An independent portal can confirm the application status.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "You later check the portal; it has no alert. The message claims you must pay a processing charge. Next?",
+            "choices": [
+              {
+                "text": "Pay through the message before the deadline.",
+                "consequence": "You may send money based only on the unverified demand.",
+                "explanation": "A new financial demand needs independent confirmation.",
+                "recommended": false
+              },
+              {
+                "text": "Contact the admissions office using the directory on the university site.",
+                "consequence": "The office can confirm the procedure.",
+                "explanation": "Use contact details found outside the message.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "Later, the office confirms a legitimate application form on a hosted platform. What does the host prove?",
+            "choices": [
+              {
+                "text": "The platform alone proves every field and payment instruction is authorized.",
+                "consequence": "You rely on hosting instead of the confirmed procedure.",
+                "explanation": "Hosted pages can be created by different people.",
+                "recommended": false
+              },
+              {
+                "text": "Only where the page is hosted; compare its exact instructions with the office's guidance.",
+                "consequence": "You separate platform identity from form authorship.",
+                "explanation": "A real host is not a substitute for verifying the request.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The form redirects to another site before a sign-in. Your move?",
+            "choices": [
+              {
+                "text": "Enter credentials because the first page was confirmed.",
+                "consequence": "The final sign-in destination remains unchecked.",
+                "explanation": "A redirect changes the page that receives your details.",
+                "recommended": false
+              },
+              {
+                "text": "Stop and check the final address and expected sign-in method with the office.",
+                "consequence": "You verify the action at the moment it matters.",
+                "explanation": "A confirmed first hop does not authenticate later pages.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "The preview showed uncertainty; the independent portal and office resolved it. Retry the choices that treated an intermediary or host as proof of the final request."
+      },
+      {
+        "type": "check",
+        "title": "Check a new link situation",
+        "questions": [
+          {
+            "prompt": "A button says “Bank statement,” but the preview is a short URL. What is known?",
+            "choices": [
+              {
+                "text": "Only the first link's shortener host is visible; use your bank app for the statement.",
+                "explanation": "The code does not tell you the final destination.",
+                "correct": true
+              },
+              {
+                "text": "The bank is the final host because the label names it.",
+                "explanation": "The sender controls the label.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A link opens a real document-hosting service and asks for a password. What does the host prove?",
+            "choices": [
+              {
+                "text": "That the document was authorized by the claimed sender.",
+                "explanation": "Hosting services can contain user-created material.",
+                "correct": false
+              },
+              {
+                "text": "Only the host; verify the request with the sender independently.",
+                "explanation": "The author and request still need checking.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "On your phone, a preview truncates the host. What should you do for an account change?",
+            "choices": [
+              {
+                "text": "Tap to see the rest, then decide.",
+                "explanation": "Following an untrusted link is unnecessary when a known route exists.",
+                "correct": false
+              },
+              {
+                "text": "Open the service through your saved app or bookmark.",
+                "explanation": "You can reach the task without guessing the hidden address.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "A requested newsletter uses a tracking redirect. Is that automatically phishing?",
+            "choices": [
+              {
+                "text": "No. Redirects can be legitimate; sensitive actions still need separate verification.",
+                "explanation": "A mismatch is a clue, not a complete diagnosis.",
+                "correct": true
+              },
+              {
+                "text": "Yes. Every redirected link is fraudulent.",
+                "explanation": "Legitimate mail also uses redirects.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
