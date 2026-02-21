@@ -1,33 +1,177 @@
 {
   "order": 4,
   "title": "Passkeys and the post-password world",
-  "est_minutes": 7,
-  "body_md": "## What passkeys actually are\n\nA passkey is a cryptographic credential — a public-key keypair — stored in your device's secure enclave, synchronized through your platform account (iCloud Keychain, Google account, or a password manager that supports them).\n\nYou never see the key. You authenticate with whatever your device already trusts: Face ID, Touch ID, Windows Hello, or your device PIN. The site receives a cryptographic signature it can verify, and lets you in.\n\nThe word \"passkey\" is a friendly label on the FIDO2 / WebAuthn protocol. Under the hood, it's the same standard that hardware keys use — just synced rather than physical.\n\n### Why this matters\n\nThree properties make passkeys a meaningful upgrade over passwords:\n\n1. **No shared secret leaves your device.** The site receives only a public key during signup, and signatures at login. There's nothing to steal in a server breach.\n2. **Origin-bound.** The protocol binds the signature to the exact URL. A fake login page literally *cannot* produce a valid signature for the real site, even if you fall for it.\n3. **Sync is end-to-end encrypted.** When your platform account syncs the passkey across devices, it can't be read by the platform vendor.\n\n### What passkeys replace\n\nThe ambition is to retire **both** the password *and* most second factors. A single passkey is treated as both \"something you have\" (the device) and \"something you are\" (the biometric to unlock it). The site can accept it as full MFA.\n\nFor consumer sites, this is already happening. Google, Apple, Microsoft, GitHub, Amazon, PayPal, and most banks now accept passkeys for primary login.\n\n### What's still messy\n\n- **Cross-platform.** A passkey created in iCloud Keychain doesn't move to a Windows PC automatically. You can use the QR-code fallback on the laptop, scanned by your phone, but it's an extra step.\n- **Account recovery.** If you lose access to your platform account (Apple ID, Google), you lose your passkeys with it. Treat your platform account itself as the new high-value target — secure it accordingly.\n- **Coverage.** Many smaller sites still don't offer passkeys. Some do but bury the option.\n\n### When to use them today\n\n- **Always** for big-tech accounts (Google, Apple, Microsoft) — these are the ones that *gate* all your other passkeys.\n- **When offered** on any high-value account (bank, brokerage, email).\n- **As an additional MFA** rather than a replacement on accounts that still require a password — passkeys can coexist with passwords during the transition.\n\nThe direction of travel is clear. Within a few years, typing a password into a high-value site will feel as quaint as faxing a contract.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## Understand the key and the remaining doors\n\nA passkey is a WebAuthn credential for a particular service, based on a public and private key. At registration the service stores a public key; at sign-in an authenticator uses the private key to answer a fresh challenge. The private key is not typed into the page. The credential is tied to the service identifier, so a lookalike site cannot obtain a valid sign-in response for the real service when WebAuthn is implemented correctly. This protects the authentication exchange, not every action you might take after login.\n\nThe word “passkey” does not guarantee one storage model. Some credentials remain on a physical key or one device; others sync through a platform or credential manager. The provider controls how the synced copy is protected and recovered. Your face or fingerprint usually unlocks the local authenticator; the site receives proof of authentication, not your biometric image. A device PIN can also unlock it, so a weak device lock or shared device matters. Some deployments use a passkey for passwordless sign-in, while others use it as an additional factor. Check what the specific service actually does.\n\n### Registration and cross-device use\n\nCreate a passkey only while signed in through the service's independently opened settings and only on a device you control. Name or identify the device if the service permits, then test a fresh sign-in. A phone can sometimes approve sign-in on another computer through a QR-based cross-device flow; this is not the same as copying the key into that computer. If a passkey prompt appears unexpectedly, cancel it and open the service yourself. A QR code is a route into a protocol, not proof that the surrounding page is trustworthy.\n\n### Lockout and fallback\n\nList where each passkey lives, whether it syncs, and what happens if that device or its sync account is unavailable. Protect the sync account and device; keep a supported backup method. If you lose a device, revoke its passkey or session in the real service and follow the platform's device-loss procedure. Do not assume every passkey becomes inaccessible when one platform account is lost: a separate hardware key or another synced provider may remain. Conversely, a passkey does not necessarily remove an old password, SMS recovery or a help-desk reset path. Review those paths as part of the upgrade.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You just enrolled a passkey for your Google account, stored in iCloud Keychain on your iPhone. What's the most important next step to avoid lockout?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Enroll and test a passkey while identifying its storage, device-risk and account-recovery paths.",
+    "today_action": "For one service that offers passkeys, read its own sign-in settings, create a passkey on a personal device, test sign-in, and record the supported backup and removal path.",
+    "checked_at": "2026-10-20",
+    "scope": "General WebAuthn explanation; Google procedures are Google-account-specific. Storage, sync and fallback vary by service and provider. Checked 2026-10-20.",
+    "sources": [
       {
-        "text": "Print the passkey on paper as a backup.",
-        "correct": false,
-        "explanation": "Passkeys are private keys in secure enclaves. They cannot be exported or printed by design. There's no human-readable copy."
+        "title": "NIST SP 800-63B-4: Authenticators",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
+        "scope": "US federal digital identity technical standard; phishing resistance and authenticator types."
       },
       {
-        "text": "Make sure your Apple ID (the account that syncs the passkey) is itself secured with strong MFA and account-recovery contacts.",
-        "correct": true,
-        "explanation": "Yes. The passkey now lives inside your Apple ID's sync. If you lose access to that account, you lose every passkey synced through it. Your Apple ID becomes the new master key — secure it as such (hardware key on the Apple ID, trusted recovery contacts, strong device passcode)."
+        "title": "NIST SP 800-63B-4: Syncable Authenticators",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html#syncable-authenticators",
+        "scope": "US federal standard; properties and limits of correctly configured synced authenticators."
       },
       {
-        "text": "Disable the Google password since you have a passkey.",
-        "correct": false,
-        "explanation": "Reasonable eventually, but premature. Until you're confident about recovery paths and your other devices, keep the password as a fallback alongside the passkey."
-      },
-      {
-        "text": "Enrol a second passkey on a different platform (Android, Windows).",
-        "correct": false,
-        "explanation": "Useful for cross-platform resilience, but the *most important* immediate step is securing the platform account itself — losing it eclipses every other concern."
+        "title": "Google Account Help: Sign in with a passkey",
+        "url": "https://support.google.com/accounts/answer/13548313?hl=en",
+        "scope": "Google-account-specific passkey setup, device ownership and removal."
       }
     ],
-    "hint": "Where does the passkey actually live, and what happens if you lose access to that container?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Passkey offered on a borrowed laptop",
+        "situation": "A synthetic travel site shows “Create a passkey” while you are signed in on a library computer. The browser suggests saving it on this computer.",
+        "analysis": "Do not register a credential on a device you do not control. Use your own phone through a supported cross-device flow or wait for your own device; sign out of the borrowed machine.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A legitimate cross-device QR prompt",
+        "situation": "A synthetic account opened from your own bookmark offers a QR prompt on your laptop so your nearby phone can approve login. You initiated the sign-in and the account page is verified.",
+        "analysis": "This may be a legitimate WebAuthn cross-device flow. Confirm the initiating page and phone prompt, then approve on your phone. The QR itself is not the trust anchor; your independently opened service and expected action are.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Add a passkey without losing access",
+        "setup": "Synthetic learning-platform account supports passkeys, still allows a password, and lists devices in security settings.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "Where do you begin enrollment?",
+            "choices": [
+              {
+                "text": "Open the platform independently, sign in and use its account security settings.",
+                "consequence": "The passkey is created for the intended service.",
+                "explanation": "An invitation link is unnecessary for sensitive enrollment.",
+                "recommended": true
+              },
+              {
+                "text": "Scan a passkey setup QR from an unsolicited message.",
+                "consequence": "An unknown page can start a different flow.",
+                "explanation": "A QR code does not certify the service behind it.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The browser asks where to save the passkey. What matters?",
+            "choices": [
+              {
+                "text": "Choose a personal authenticator and note whether it syncs or stays device-bound.",
+                "consequence": "You know which account or device must survive for later sign-in.",
+                "explanation": "Passkey storage and backup are provider-dependent.",
+                "recommended": true
+              },
+              {
+                "text": "Choose a shared family laptop because it is nearby.",
+                "consequence": "Other people who unlock it may be able to sign in.",
+                "explanation": "Passkeys should be registered only on controlled devices.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The new passkey works. What is the next security check?",
+            "choices": [
+              {
+                "text": "Inspect existing password, MFA and recovery methods still accepted by the service.",
+                "consequence": "You see the remaining access paths.",
+                "explanation": "A passkey enrollment does not automatically close older routes.",
+                "recommended": true
+              },
+              {
+                "text": "Assume the service disabled its password and SMS recovery.",
+                "consequence": "A weaker path may remain.",
+                "explanation": "Check the actual settings rather than assuming migration is complete.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Your phone with the passkey is lost. What now?",
+            "choices": [
+              {
+                "text": "Use a supported backup to enter the verified service, revoke the lost device’s credential and review sessions.",
+                "consequence": "The lost credential is addressed without trusting a stranger’s link.",
+                "explanation": "Revocation and device controls are service-specific; a backup plan makes them reachable.",
+                "recommended": true
+              },
+              {
+                "text": "Wait: biometrics make a lost phone impossible to misuse.",
+                "consequence": "Access and recovery risks remain.",
+                "explanation": "A device may be unlocked by PIN, and loss also creates lockout risk.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Passkeys protect a particular authentication exchange. Safe use still includes device ownership, fallback inventory and loss response. Retry any uncertain decision."
+      },
+      {
+        "type": "check",
+        "title": "Reason beyond the login screen",
+        "questions": [
+          {
+            "prompt": "What does a correctly implemented passkey stop?",
+            "choices": [
+              {
+                "text": "A lookalike origin obtaining a valid authentication response for the real service.",
+                "explanation": "WebAuthn binds the credential to the service identifier.",
+                "correct": true
+              },
+              {
+                "text": "Every scam after the account is open.",
+                "explanation": "A passkey does not judge payments, messages or actions after login.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Does “passkey” always mean cloud-synced?",
+            "choices": [
+              {
+                "text": "No; it can be synced or device-bound depending on the authenticator.",
+                "explanation": "Storage and backup models differ.",
+                "correct": true
+              },
+              {
+                "text": "Yes; all passkeys live in one platform cloud.",
+                "explanation": "Physical and device-bound credentials also exist.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "After adding a passkey, what should you verify?",
+            "choices": [
+              {
+                "text": "The old password and recovery routes the service still accepts.",
+                "explanation": "A weaker fallback can remain.",
+                "correct": true
+              },
+              {
+                "text": "Only whether facial recognition works.",
+                "explanation": "Local unlock is one part of the account’s access design.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1,33 +1,177 @@
 {
   "order": 3,
   "title": "MFA tiers: SMS, TOTP, hardware keys",
-  "est_minutes": 8,
-  "body_md": "## Not all second factors are equal\n\nMulti-factor authentication (MFA) adds a *second* check beyond your password, usually something the attacker can't replicate even if they have your credentials. But MFA is not a single thing — it's a tier of methods, each with very different security properties.\n\nKnowing the tiers means you can pick the strongest available for the accounts you care about most.\n\n### Tier 1 — SMS codes\n\nA one-time 6-digit code sent to your phone via text message.\n\n- **Strength:** Better than no MFA. Defeats simple credential stuffing.\n- **Weakness:** Vulnerable to **SIM swap** (attacker convinces your carrier to port your number to their SIM), to interception on compromised carriers, and to user-side phishing (\"please confirm the 6-digit code I just sent you\").\n- **Verdict:** Acceptable last resort. Never the *only* MFA on a high-value account.\n\n### Tier 2 — TOTP authenticator apps\n\nApps like Google Authenticator, Authy, 1Password, Bitwarden Authenticator generate 6-digit codes that rotate every 30 seconds, based on a shared secret stored only on your device.\n\n- **Strength:** No phone number involved, so immune to SIM swap. Codes never travel over a network.\n- **Weakness:** Still phishable — a malicious page can ask for your code and forward it to the real site in real time (\"adversary-in-the-middle\" phishing).\n- **Verdict:** Strongly recommended for most accounts.\n\n### Tier 3 — Hardware keys (FIDO2 / WebAuthn)\n\nA physical USB or NFC device — YubiKey, Google Titan, SoloKey, or the built-in security chip in your phone. You tap the key to approve a login.\n\n- **Strength:** Phishing-resistant by design. The protocol cryptographically binds the login to the *origin* (the URL you're on). A fake login page literally cannot ask the key to sign for the real site.\n- **Weakness:** You have to own the physical device. If you lose it without a backup, you can lose access.\n- **Verdict:** Use for your email account, password manager, and any work-critical login. Always register at least *two* keys (one daily, one backup in a drawer or safety deposit box).\n\n### Tier 4 — Passkeys (the future, available now)\n\nA passkey is essentially a WebAuthn credential synced through your device's account (iCloud Keychain, Google account, password manager). You authenticate with biometrics or device PIN.\n\n- **Strength:** All of Tier 3's phishing-resistance, plus convenience of being synced — no separate hardware to carry.\n- **Weakness:** New ecosystem; cross-platform stories are still rough. Service support is uneven.\n- **Verdict:** Use where offered. The standard is moving here.\n\n### Where to spend your effort\n\nA realistic personal priority list:\n\n1. **Email account.** This is the master key — password resets for everything else flow through here. Hardware key or passkey, ideally both.\n2. **Password manager.** Hardware key.\n3. **Bank, brokerage, primary credit cards.** Hardware key or TOTP. *Move away from SMS.*\n4. **Work accounts.** Use whatever your company supports best — push back if it's still SMS-only.\n5. **Everything else.** TOTP minimum.\n\nThe rule of thumb: if losing this account would be expensive or embarrassing, it deserves Tier 3+.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## Choose MFA for the attack it must stop\n\nMFA asks for more than a password, but methods differ in what they stop. The useful question is not “do I have two steps?” It is “can an attacker who knows my password, controls my phone number, or operates a fake login still get in?” Use the strongest method your real service and recovery plan support; leaving an account with no MFA while waiting for a perfect option is usually worse.\n\n### The methods and their limits\n\n**SMS or voice codes** add a barrier against simple password reuse. A number can be reassigned or hijacked by a SIM swap, and a code can be talked out of you or entered into a fake login. If SMS is the only offered option, it is often better than none; ask your carrier about account PIN or number-transfer protection, where offered.\n\n**Authenticator-app codes (TOTP)** come from a shared secret enrolled with a service. The app may store or sync that seed depending on its settings, so “only on this phone” is not a universal property. TOTP avoids SMS-number takeover, but the code is still manually entered and can be relayed by a phishing site in real time. Store recovery codes securely and understand how to move to a replacement device before discarding the old one.\n\n**FIDO security keys and passkeys** use cryptographic credentials bound to the real service's domain. Properly implemented WebAuthn authentication prevents a lookalike site from obtaining a valid response for the target service. A physical key is generally bound to that device; a passkey can be synced or device-bound, depending on its provider. Both still depend on service configuration, a secure device, and recovery choices. A site might keep SMS as an alternate route even after you register a key. Review the complete sign-in and recovery settings rather than assuming the strongest enrolled factor is the only path.\n\nEmail, password manager and any account that resets others deserve early attention. Financial and work accounts may offer only a subset; use their strongest available option, ask the institution about alternatives, and do not bypass workplace policy. If a code arrives unexpectedly, do not approve or share it. Open the service independently and inspect recent activity. Never give a code to a person who called you, even if they claim to be support.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "Your email provider supports SMS codes, an authenticator app (TOTP), and hardware keys (FIDO2). You can pick *one* method to set up today. Which gives the best protection against modern phishing?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Select and configure an MFA method by its phishing and recovery limits, not by a simple ranking label.",
+    "today_action": "Inspect MFA and recovery on your primary email; enable the strongest supported method you can back up, save recovery codes safely, and note any weaker alternate sign-in routes.",
+    "checked_at": "2026-10-20",
+    "scope": "General comparison; actual options vary by service, carrier and jurisdiction. NIST is a US federal technical standard. Checked 2026-10-20.",
+    "sources": [
       {
-        "text": "SMS — easiest to set up and works on any device.",
-        "correct": false,
-        "explanation": "SMS is the weakest MFA tier. It's vulnerable to SIM swap and to social-engineered handovers (the user reads the code out loud over the phone)."
+        "title": "NIST SP 800-63B-4: Authenticators",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
+        "scope": "US federal digital identity technical standard; phishing resistance and authenticator types."
       },
       {
-        "text": "Authenticator app (TOTP) — codes never leave your phone.",
-        "correct": false,
-        "explanation": "TOTP is significantly better than SMS, but it's still phishable in real time: a fake login page can ask for the rolling code and replay it to the real site before the 30-second window expires."
+        "title": "FTC: Use Two-Factor Authentication To Protect Your Accounts",
+        "url": "https://consumer.ftc.gov/articles/use-two-factor-authentication-protect-your-accounts",
+        "scope": "US consumer guidance on SMS, apps and security keys."
       },
       {
-        "text": "Hardware key (FIDO2) — cryptographically tied to the real domain.",
-        "correct": true,
-        "explanation": "Yes. FIDO2/WebAuthn binds the authentication to the URL you're on. A fake page can't ask the key to sign for the real site, because the protocol won't produce a signature that the real site would accept. This is the only MFA tier that closes phishing at the protocol level."
-      },
-      {
-        "text": "Doesn't matter — any MFA is fine.",
-        "correct": false,
-        "explanation": "Any MFA is much better than none, but the tiers exist for a reason and the email account is high-value enough to justify the strongest available."
+        "title": "FTC: SIM Swap Scams: How to Protect Yourself",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
+        "scope": "US carrier and consumer context; carrier controls vary by country."
       }
     ],
-    "hint": "Which tier makes the attacker's *channel* unusable, not just inconvenient?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A live code request during a fake login",
+        "situation": "A synthetic “support agent” calls while you are on a login page and asks you to read a new app code to cancel an attempted sign-in.",
+        "analysis": "The code could complete an attacker’s live login; TOTP and SMS are not phishing-resistant. End the call, open the official service independently, and inspect activity. Never read the code to the caller.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A bank offers only SMS",
+        "situation": "A synthetic bank account has password plus SMS verification and no app, key or passkey option in its published settings.",
+        "analysis": "SMS still adds a barrier compared with password alone. Keep it, secure the carrier account if available, and ask the bank about stronger options. Do not disable the only second step merely because it is weaker than a key.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Harden a travel-critical mailbox",
+        "setup": "Synthetic mailbox settings offer SMS, authenticator codes and FIDO keys; a spare key is available.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "Which factor will you enroll first for phishing resistance?",
+            "choices": [
+              {
+                "text": "Register a FIDO key on the mailbox’s verified security page.",
+                "consequence": "A properly configured WebAuthn login is bound to the service domain.",
+                "explanation": "Manual codes can be relayed; WebAuthn protects this authentication step.",
+                "recommended": true
+              },
+              {
+                "text": "Keep only SMS because it is the easiest second step.",
+                "consequence": "Password theft is harder to exploit, but SIM takeover and code relay remain.",
+                "explanation": "SMS is useful when needed, but a stronger available factor addresses more threats.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The service offers a second key slot and recovery codes. How do you prepare?",
+            "choices": [
+              {
+                "text": "Register the spare key and store recovery codes separately in a protected place.",
+                "consequence": "Loss of the daily key need not mean account loss.",
+                "explanation": "Recovery must be planned while you still have access; protect backup routes.",
+                "recommended": true
+              },
+              {
+                "text": "Skip backups because FIDO can never fail.",
+                "consequence": "Losing or damaging the only key could lock you out.",
+                "explanation": "Phishing resistance does not solve loss of the authenticator.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "SMS remains enabled as an alternate sign-in route. What does that mean?",
+            "choices": [
+              {
+                "text": "Review whether it can be removed safely or is needed for recovery; document the residual risk.",
+                "consequence": "You understand the actual weakest supported route.",
+                "explanation": "Enrolling a key does not automatically retire every fallback.",
+                "recommended": true
+              },
+              {
+                "text": "The key makes all remaining routes phishing-resistant.",
+                "consequence": "A weaker fallback may still work.",
+                "explanation": "Security depends on all available sign-in and recovery paths.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "An unsolicited code arrives after setup. What do you do?",
+            "choices": [
+              {
+                "text": "Do not share or approve it; open the mailbox independently and review activity.",
+                "consequence": "No attacker receives the one-time credential.",
+                "explanation": "An unexpected code can mean a mistake or an attempted login; verify without using the message link.",
+                "recommended": true
+              },
+              {
+                "text": "Read it to the caller claiming to be support.",
+                "consequence": "The caller may finish a login.",
+                "explanation": "Real support should not need your one-time sign-in code.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The best available factor must be paired with a usable backup and a review of fallback routes. Revisit the decision you missed, then map the pattern to one real account."
+      },
+      {
+        "type": "check",
+        "title": "Compare different threats",
+        "questions": [
+          {
+            "prompt": "What threat does TOTP remove relative to SMS?",
+            "choices": [
+              {
+                "text": "Dependence on control of the mobile number for generating the code.",
+                "explanation": "An app-generated code does not require delivery to the phone number.",
+                "correct": true
+              },
+              {
+                "text": "All phishing in which a fake page asks for a code.",
+                "explanation": "A manually entered TOTP code can be relayed.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A site supports only SMS MFA. What is a practical choice?",
+            "choices": [
+              {
+                "text": "Enable it, protect the carrier account where possible, and monitor for stronger options.",
+                "explanation": "A weaker available factor can still reduce password-only risk.",
+                "correct": true
+              },
+              {
+                "text": "Use no MFA until hardware keys become available.",
+                "explanation": "That leaves the account exposed to password-only login.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "What property makes correctly configured FIDO login phishing-resistant?",
+            "choices": [
+              {
+                "text": "The authentication response is bound to the real service identifier.",
+                "explanation": "A lookalike origin cannot reuse a valid response for the target.",
+                "correct": true
+              },
+              {
+                "text": "The key sends a longer code that is harder to type.",
+                "explanation": "The protection is cryptographic binding, not code length.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
