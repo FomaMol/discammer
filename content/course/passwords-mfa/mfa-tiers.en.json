@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r1",
     "goal": "Select and configure an MFA method by its phishing and recovery limits, not by a simple ranking label.",
     "today_action": "Inspect MFA and recovery on your primary email; enable the strongest supported method you can back up, save recovery codes safely, and note any weaker alternate sign-in routes.",
     "checked_at": "2026-10-20",
@@ -46,29 +46,29 @@
       {
         "type": "practice",
         "title": "Harden a travel-critical mailbox",
-        "setup": "Synthetic mailbox settings offer SMS, authenticator codes and FIDO keys; a spare key is available.",
+        "setup": "Four independent snapshots of synthetic travel-critical mailboxes. Each prompt supplies its own starting facts; an earlier choice does not change a later snapshot.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Which factor will you enroll first for phishing resistance?",
+            "prompt": "Snapshot 1: A travel-critical mailbox offers SMS, authenticator codes and FIDO keys. You are signed in on its verified security page, with no key enrolled yet. Which factor will you enroll first for phishing resistance?",
             "choices": [
-              {
-                "text": "Register a FIDO key on the mailbox’s verified security page.",
-                "consequence": "A properly configured WebAuthn login is bound to the service domain.",
-                "explanation": "Manual codes can be relayed; WebAuthn protects this authentication step.",
-                "recommended": true
-              },
               {
                 "text": "Keep only SMS because it is the easiest second step.",
                 "consequence": "Password theft is harder to exploit, but SIM takeover and code relay remain.",
                 "explanation": "SMS is useful when needed, but a stronger available factor addresses more threats.",
                 "recommended": false
+              },
+              {
+                "text": "Register a FIDO key on the mailbox’s verified security page.",
+                "consequence": "A properly configured WebAuthn login is bound to the service domain.",
+                "explanation": "Manual codes can be relayed; WebAuthn protects this authentication step.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "The service offers a second key slot and recovery codes. How do you prepare?",
+            "prompt": "Snapshot 2: A mailbox already has one FIDO key enrolled, and you have a spare key. The service offers a second key slot and recovery codes. How do you prepare for loss of the first key?",
             "choices": [
               {
                 "text": "Register the spare key and store recovery codes separately in a protected place.",
@@ -85,7 +85,7 @@
             ]
           },
           {
-            "prompt": "SMS remains enabled as an alternate sign-in route. What does that mean?",
+            "prompt": "Snapshot 3: A mailbox has a FIDO key enrolled, but SMS remains enabled as an alternate sign-in route. What does that mean?",
             "choices": [
               {
                 "text": "Review whether it can be removed safely or is needed for recovery; document the residual risk.",
@@ -102,24 +102,24 @@
             ]
           },
           {
-            "prompt": "An unsolicited code arrives after setup. What do you do?",
+            "prompt": "Snapshot 4: MFA is active on a mailbox. An unsolicited sign-in code arrives. What do you do?",
             "choices": [
-              {
-                "text": "Do not share or approve it; open the mailbox independently and review activity.",
-                "consequence": "No attacker receives the one-time credential.",
-                "explanation": "An unexpected code can mean a mistake or an attempted login; verify without using the message link.",
-                "recommended": true
-              },
               {
                 "text": "Read it to the caller claiming to be support.",
                 "consequence": "The caller may finish a login.",
                 "explanation": "Real support should not need your one-time sign-in code.",
                 "recommended": false
+              },
+              {
+                "text": "Do not share or approve it; open the mailbox independently and review activity.",
+                "consequence": "No attacker receives the one-time credential.",
+                "explanation": "An unexpected code can mean a mistake or an attempted login; verify without using the message link.",
+                "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The best available factor must be paired with a usable backup and a review of fallback routes. Revisit the decision you missed, then map the pattern to one real account."
+        "debrief": "These are four independent MFA decisions. For each account, pair the strongest available factor with a usable backup and review every fallback route. Retry a missed decision before mapping the pattern to a real account."
       },
       {
         "type": "check",
@@ -144,14 +144,14 @@
             "prompt": "A site supports only SMS MFA. What is a practical choice?",
             "choices": [
               {
-                "text": "Enable it, protect the carrier account where possible, and monitor for stronger options.",
-                "explanation": "A weaker available factor can still reduce password-only risk.",
-                "correct": true
-              },
-              {
                 "text": "Use no MFA until hardware keys become available.",
                 "explanation": "That leaves the account exposed to password-only login.",
                 "correct": false
+              },
+              {
+                "text": "Enable it, protect the carrier account where possible, and monitor for stronger options.",
+                "explanation": "A weaker available factor can still reduce password-only risk.",
+                "correct": true
               }
             ]
           },
@@ -159,14 +159,14 @@
             "prompt": "What property makes correctly configured FIDO login phishing-resistant?",
             "choices": [
               {
-                "text": "The authentication response is bound to the real service identifier.",
-                "explanation": "A lookalike origin cannot reuse a valid response for the target.",
-                "correct": true
-              },
-              {
                 "text": "The key sends a longer code that is harder to type.",
                 "explanation": "The protection is cryptographic binding, not code length.",
                 "correct": false
+              },
+              {
+                "text": "The authentication response is bound to the real service identifier.",
+                "explanation": "A lookalike origin cannot reuse a valid response for the target.",
+                "correct": true
               }
             ]
           }

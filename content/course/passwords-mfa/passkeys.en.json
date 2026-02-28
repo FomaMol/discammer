@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r1",
     "goal": "Enroll and test a passkey while identifying its storage, device-risk and account-recovery paths.",
     "today_action": "For one service that offers passkeys, read its own sign-in settings, create a passkey on a personal device, test sign-in, and record the supported backup and removal path.",
     "checked_at": "2026-10-20",
@@ -46,12 +46,12 @@
       {
         "type": "practice",
         "title": "Add a passkey without losing access",
-        "setup": "Synthetic learning-platform account supports passkeys, still allows a password, and lists devices in security settings.",
+        "setup": "Four independent snapshots of a synthetic learning-platform account. Each prompt states what happened before it; a choice in one snapshot does not establish a passkey in the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Where do you begin enrollment?",
+            "prompt": "Snapshot 1: The platform supports passkeys, and an unsolicited setup QR arrives. Where do you begin enrollment?",
             "choices": [
               {
                 "text": "Open the platform independently, sign in and use its account security settings.",
@@ -68,24 +68,24 @@
             ]
           },
           {
-            "prompt": "The browser asks where to save the passkey. What matters?",
+            "prompt": "Snapshot 2: In the platform’s verified settings for your own account, the browser asks where to save a new passkey. What matters?",
             "choices": [
-              {
-                "text": "Choose a personal authenticator and note whether it syncs or stays device-bound.",
-                "consequence": "You know which account or device must survive for later sign-in.",
-                "explanation": "Passkey storage and backup are provider-dependent.",
-                "recommended": true
-              },
               {
                 "text": "Choose a shared family laptop because it is nearby.",
                 "consequence": "Other people who unlock it may be able to sign in.",
                 "explanation": "Passkeys should be registered only on controlled devices.",
                 "recommended": false
+              },
+              {
+                "text": "Choose a personal authenticator and note whether it syncs or stays device-bound.",
+                "consequence": "You know which account or device must survive for later sign-in.",
+                "explanation": "Passkey storage and backup are provider-dependent.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "The new passkey works. What is the next security check?",
+            "prompt": "Snapshot 3: A passkey has been created on your personally controlled device and tested on the legitimate platform. What is the next security check?",
             "choices": [
               {
                 "text": "Inspect existing password, MFA and recovery methods still accepted by the service.",
@@ -102,24 +102,24 @@
             ]
           },
           {
-            "prompt": "Your phone with the passkey is lost. What now?",
+            "prompt": "Snapshot 4: Your personally controlled phone holds a device-bound passkey for the platform and is lost. The service still offers a supported backup sign-in method. What now?",
             "choices": [
-              {
-                "text": "Use a supported backup to enter the verified service, revoke the lost device’s credential and review sessions.",
-                "consequence": "The lost credential is addressed without trusting a stranger’s link.",
-                "explanation": "Revocation and device controls are service-specific; a backup plan makes them reachable.",
-                "recommended": true
-              },
               {
                 "text": "Wait: biometrics make a lost phone impossible to misuse.",
                 "consequence": "Access and recovery risks remain.",
                 "explanation": "A device may be unlocked by PIN, and loss also creates lockout risk.",
                 "recommended": false
+              },
+              {
+                "text": "Use a supported backup to enter the verified service, revoke the lost device’s credential and review sessions.",
+                "consequence": "The lost credential is addressed without trusting a stranger’s link.",
+                "explanation": "Revocation and device controls are service-specific; a backup plan makes them reachable.",
+                "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Passkeys protect a particular authentication exchange. Safe use still includes device ownership, fallback inventory and loss response. Retry any uncertain decision."
+        "debrief": "These are independent passkey situations. Check the service before enrollment, control the storage device, inventory older sign-in routes and plan for device loss. Retry any uncertain decision."
       },
       {
         "type": "check",
@@ -129,14 +129,14 @@
             "prompt": "What does a correctly implemented passkey stop?",
             "choices": [
               {
-                "text": "A lookalike origin obtaining a valid authentication response for the real service.",
-                "explanation": "WebAuthn binds the credential to the service identifier.",
-                "correct": true
-              },
-              {
                 "text": "Every scam after the account is open.",
                 "explanation": "A passkey does not judge payments, messages or actions after login.",
                 "correct": false
+              },
+              {
+                "text": "A lookalike origin obtaining a valid authentication response for the real service.",
+                "explanation": "WebAuthn binds the credential to the service identifier.",
+                "correct": true
               }
             ]
           },
@@ -144,14 +144,14 @@
             "prompt": "Does “passkey” always mean cloud-synced?",
             "choices": [
               {
-                "text": "No; it can be synced or device-bound depending on the authenticator.",
-                "explanation": "Storage and backup models differ.",
-                "correct": true
-              },
-              {
                 "text": "Yes; all passkeys live in one platform cloud.",
                 "explanation": "Physical and device-bound credentials also exist.",
                 "correct": false
+              },
+              {
+                "text": "No; it can be synced or device-bound depending on the authenticator.",
+                "explanation": "Storage and backup models differ.",
+                "correct": true
               }
             ]
           },
