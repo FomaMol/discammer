@@ -1,33 +1,181 @@
 {
   "order": 7,
   "title": "First 24 hours after fraud",
-  "est_minutes": 8,
-  "body_md": "## The window that decides how much you recover\n\nWhen you realize money has been stolen, the next 24 hours matter more than every hour that follows combined. Most successful recoveries happen because the victim moved quickly and methodically — not because they hired a specialist later.\n\nThis lesson is a playbook. Save it somewhere you can find under stress.\n\n### Hour 0 — Stop the bleed\n\n- **Freeze every account that touched the transaction.** Card, bank account, brokerage, payment apps. Most banks let you freeze in their app instantly; if not, call the fraud line.\n- **Change the password on the affected account** plus every account that shares the same password or recovery email.\n- **Sign out of all sessions** on the affected accounts (the security settings page has a 'sign out everywhere' button).\n\n### Hour 0–1 — Document\n\nBefore evidence disappears, screenshot or save:\n\n- The fraudulent transaction details (amount, time, destination).\n- Any chat conversation, email thread, or call log connected to the incident.\n- The URLs and domains involved.\n- For crypto: wallet addresses, transaction hashes, blockchain explorer pages.\n- For wire fraud: the receiving IBAN, the SWIFT message if available, the executing bank.\n\nWrite down a brief timeline. You'll need it for every conversation that follows.\n\n### Hour 1–4 — Notify the right institutions\n\n- **Card transactions:** call the card issuer's fraud line. Ask them to dispute the charge under the relevant zero-liability scheme. Get a case number.\n- **Bank transfers:** call the bank. Ask for a *recall* request to the receiving bank. Speed matters — recalls are easier when the receiving account still holds the funds.\n- **Crypto:** notify the exchange the funds may pass through, if you can identify it. Major exchanges may freeze deposits that match an active fraud report.\n- **Workplace fraud (BEC):** notify your IT/security team *and* finance. They need to know simultaneously.\n\n### Hour 4–24 — File official reports\n\nDifferent countries, different agencies. Pick the right one and file completely.\n\n- **U.S.:** IC3.gov (FBI), and a complaint to the FTC at reportfraud.ftc.gov.\n- **EU:** your national cybercrime unit. Some countries also use Europol's EC3.\n- **UK:** Action Fraud (actionfraud.police.uk).\n- **Russia / CIS:** заявление в МВД (cybercrime unit / Отдел «К»).\n- Also file with the AML/financial-crimes regulator if your country has one (FinCEN in the US, etc.).\n\nThese reports often don't recover *your* money directly. They fuel aggregate investigations that catch the operators eventually. Submit anyway.\n\n### Hours 12–24 — Communicate\n\n- **Tell at least one trusted person** so the secrecy of the scam (especially in romance / pig-butchering) doesn't keep its grip on you.\n- **Inform anyone in your contact list** if the attacker may now be impersonating you. Phishing through compromised mailboxes often targets the victim's contacts next.\n- **Lock or freeze your credit** if any identity data was exposed. In the US, all three credit bureaus offer free freezes online.\n\n### What you should *not* do\n\n- **Don't engage with 'fund recovery' DMs.** Once you've reported publicly, recovery scammers will find you. Real recovery services don't cold-message victims.\n- **Don't pay any new 'fee' to release the funds.** Once a scam asks for an additional payment to refund the original loss, you are being slaughtered in a different costume.\n- **Don't blame yourself in writing on a public forum.** It feels cathartic but it advertises you as a follow-up target.",
-  "widget_type": "quiz",
+  "est_minutes": 16,
+  "body_md": "## Triage by exposure, not by a rigid clock\n“First 24 hours” is a useful prompt to act, not a universal legal deadline or guaranteed recovery window. Pause contact with the suspected scammer and stop any new payment. Then identify what happened: unauthorized card use, a transfer you were tricked into authorizing, cryptocurrency sent, account credentials disclosed, or remote device access. These require different responses. If someone is in immediate danger, contact local emergency services.\n\n**Money:** Use your bank, card issuer, transfer app or exchange's independently found channel immediately. Ask what can be blocked, disputed, recalled or reversed for *that payment type*. An authorized bank transfer is not the same as a card billing error; a recall can fail. For crypto, preserve the transaction hash, address, asset, amount and time; the blockchain transfer itself is generally irreversible, though a provider may have options. Get a case or reference number and record the next deadline.\n\n**Accounts and device:** If you disclosed a password, use the service's genuine recovery flow, change it and any reused password, review sessions and add stronger authentication where supported. If someone had remote access, disconnect the session and seek trusted device help; use a clean device for account recovery if you suspect compromise. If identity data was exposed, follow your country’s official identity-theft process rather than a generic credit-freeze instruction for every jurisdiction.\n\n**Evidence and reporting:** Preserve original messages, receipts, dates and screenshots in a private location. IC3's US FAQ asks for transaction details and original email headers where relevant; it does not accept attachments, so keep originals. File a report with the relevant local authority, but do not wait for a police number before telling the payment provider. Tell a trusted person if secrecy is keeping you in the scam. Beware people who contact you promising recovery for a fee. Being deceived is not a reason to delay asking for help.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You just realized that a $30,000 wire transfer you sent last night based on what turned out to be a BEC email is gone. The receiving bank is in another country. What is the *first* action that gives you the best recovery odds?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Choose the next safe action after a suspected fraud based on what was exposed and how money moved.",
+    "today_action": "Write down your bank’s fraud contact, card-freeze path and account-recovery links from official apps/sites and keep them somewhere private.",
+    "checked_at": "2026-10-20",
+    "scope": "Teaching sequence only, no universal 24-hour legal deadline. FTC/IC3 procedures are US-specific; Bank of Russia card steps are Russian; checked 2026-10-20.",
+    "sources": [
       {
-        "text": "Email your bank to request a wire recall.",
-        "correct": false,
-        "explanation": "Email moves at human-business-hours speed. Phone moves at minutes. For a wire recall, you must call."
+        "title": "FTC: What To Do if You Were Scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment-provider and account response; no recovery guarantee."
       },
       {
-        "text": "Call your bank's fraud line immediately and request an urgent SWIFT wire recall. Time matters more than completeness of evidence at this stage.",
-        "correct": true,
-        "explanation": "Yes. Wire recalls work much better when the receiving account still holds the funds. Every hour drops your recovery probability. Calling, even with incomplete information, kicks the recall request into motion while the funds may still be reachable."
+        "title": "FBI IC3: Complaint FAQ",
+        "url": "https://www.ic3.gov/Home/FAQ",
+        "scope": "US complaint intake and evidence retention; IC3 does not accept attachments."
       },
       {
-        "text": "File a police report first so you have an official case number to give the bank.",
-        "correct": false,
-        "explanation": "Police reports are essential, but in the first hour they take 30+ minutes to file and slow the recall. Banks accept fraud reports without an official police number; the police report can be filed in parallel or after."
+        "title": "FBI IC3: Cryptocurrency",
+        "url": "https://www.ic3.gov/CrimeInfo/Cryptocurrency",
+        "scope": "US reporting and transaction evidence; blockchain transfers generally cannot be reversed."
       },
       {
-        "text": "Contact a 'fund recovery' service that messages you on Telegram.",
-        "correct": false,
-        "explanation": "Recovery DMs at this stage are themselves scams. Don't engage."
+        "title": "Bank of Russia: Unauthorized Card Debits",
+        "url": "https://www.cbr.ru/Reception/TopicalMessage/Page/3402",
+        "scope": "Russian cardholder steps for an unauthorized debit; not an automatic refund rule."
       }
     ],
-    "hint": "What action is *time-decay-sensitive*? Do that first."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A paid “release fee” after a transfer",
+        "situation": "Synthetic: Noor sent a bank transfer to a supposed investment account yesterday. The site now demands a second payment to release the balance and threatens to close it tonight.",
+        "analysis": "Stop paying and contact the originating bank now to ask about recall options; preserve the transfer and chat. Do not wait to prove exactly who owns the site. A reported transfer may still be unrecoverable, but delay reduces options.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A legitimate duplicate authorization",
+        "situation": "Synthetic: a hotel deposit and the final room charge both appear in a card app, one marked pending. The hotel’s independently called desk explains its temporary authorization and gives a receipt.",
+        "analysis": "A pending authorization may disappear without being a second settled charge. Keep the receipt, monitor the final statement and contact the issuer if both settle or the amount is wrong. Investigation is appropriate; panic or a false fraud claim is not.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "One report, several exposures",
+        "setup": "Synthetic: a fake delivery page persuaded you to enter a reused password and authorize a small card payment. An hour later an unfamiliar charge appears.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "Which conversation ends immediately?",
+            "choices": [
+              {
+                "text": "Stop the page/chat and any further “verification” payments.",
+                "consequence": "The attacker loses an easy path to another payment.",
+                "explanation": "A new fee will not authenticate the old transaction.",
+                "recommended": true
+              },
+              {
+                "text": "Ask the page operator to reverse the charge after another payment.",
+                "consequence": "You may pay the same actor again.",
+                "explanation": "Use the real issuer, not the suspicious page.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Who handles the unfamiliar card charge?",
+            "choices": [
+              {
+                "text": "The issuer through its app or card number; describe authorized and unauthorized charges separately.",
+                "consequence": "The issuer can assess card controls and the correct dispute route.",
+                "explanation": "Accurate categories matter.",
+                "recommended": true
+              },
+              {
+                "text": "The phone number in the fake delivery page.",
+                "consequence": "The attacker may collect more card details.",
+                "explanation": "Reach the issuer independently.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "What about the reused password?",
+            "choices": [
+              {
+                "text": "From the real service, change it everywhere reused and review sessions/MFA.",
+                "consequence": "You close reuse routes beyond the delivery account.",
+                "explanation": "One exposed password threatens every place it was reused.",
+                "recommended": true
+              },
+              {
+                "text": "Only delete the fake page from history.",
+                "consequence": "The password remains usable to attackers.",
+                "explanation": "History cleanup does not rotate credentials.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "How do you preserve and report this?",
+            "choices": [
+              {
+                "text": "Privately keep original message, receipts, dates and bank case number; use local official route.",
+                "consequence": "You can give a coherent sequence without exposing details publicly.",
+                "explanation": "The payment provider should be contacted before waiting on a report.",
+                "recommended": true
+              },
+              {
+                "text": "Post full account and card screenshots to find help.",
+                "consequence": "Sensitive details can spread and attract recovery scammers.",
+                "explanation": "Evidence belongs in protected channels.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Triage each exposure separately: stop payment, notify the provider, secure the reused credential and retain evidence. A 24-hour label is a prompt, not an expiry date."
+      },
+      {
+        "type": "check",
+        "title": "Pick the next move",
+        "questions": [
+          {
+            "prompt": "You authorized a bank transfer after deception. Is it automatically a card chargeback?",
+            "choices": [
+              {
+                "text": "No; ask the sending bank promptly about recall and applicable options.",
+                "explanation": "Transfer and card-dispute processes differ.",
+                "correct": true
+              },
+              {
+                "text": "Yes; every payment has identical reversal rights.",
+                "explanation": "Rights depend on payment method and country.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "You have a crypto transaction hash. What does it help with?",
+            "choices": [
+              {
+                "text": "Documenting the transfer for provider and authority reports.",
+                "explanation": "A hash is evidence, not a reversal key.",
+                "correct": true
+              },
+              {
+                "text": "Instantly reversing the blockchain transaction.",
+                "explanation": "Confirmed blockchain transfers normally cannot be reversed.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A stranger offers paid recovery after a public post. What is prudent?",
+            "choices": [
+              {
+                "text": "Do not pay; use the real provider and official report channels.",
+                "explanation": "Unsolicited fee requests may create a second loss.",
+                "correct": true
+              },
+              {
+                "text": "Send a deposit because the stranger knows the case.",
+                "explanation": "Public facts can be copied by anyone.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

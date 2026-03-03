@@ -1,33 +1,171 @@
 {
   "order": 4,
   "title": "Invoice fraud and wire-redirection",
-  "est_minutes": 7,
-  "body_md": "## The most expensive class of email scam\n\nBusiness Email Compromise (BEC) and its retail cousin — vendor / invoice fraud — together cost businesses more than $50 billion globally between 2013 and 2023. Per the FBI, it remains the highest-impact category of cybercrime by dollar value, eclipsing ransomware.\n\nThe attack is plain and the defence is plain. Most of the difficulty is organizational, not technical.\n\n### The standard scheme\n\n1. **Reconnaissance.** Attacker identifies an active vendor relationship between two companies — often visible through LinkedIn, public press releases, or a forwarded email captured in a prior breach.\n\n2. **Mailbox access (optional but common).** The attacker compromises either the vendor's or the buyer's email account — usually via a credential-stuffing attack against a SMS-only MFA, or via phishing for the password.\n\n3. **The redirect.** A message appears to come from the vendor's finance department: *\"Please update our payment details — our bank has changed. New IBAN: ...\"*. The message either comes from the genuinely compromised mailbox, or from a lookalike domain (`vendor-finance.com` instead of `vendor.com`).\n\n4. **The payment.** The buyer's accounts-payable team updates the vendor record and pays the next invoice to the new IBAN. Often six or seven figures.\n\n5. **The drain.** Funds move through a money-laundering chain within hours.\n\n### Why it works\n\n- The relationship is *real* — there's a live vendor with a current invoice to pay.\n- The request is *routine* — companies update banking details all the time.\n- The pressure is *gentle* — \"please update for the next invoice\" is not urgent enough to trigger suspicion.\n- The verification path is *broken by default* — most AP teams update vendor records based on a single email, with no callback.\n\n### The defensive controls that actually work\n\n1. **Callback rule.** Any change to vendor banking details requires a phone-call confirmation to a known number — *not* a number provided in the email requesting the change. This single rule blocks virtually all invoice fraud.\n\n2. **Two-person approval over a threshold.** Payments above $X require a second authorizer who can see the change history.\n\n3. **Vendor-onboarding lock.** New vendors require multi-step verification before they can receive any payment. This makes the path *change existing vendor to new IBAN* much narrower than *create new vendor*.\n\n4. **Awareness training, refreshed.** Every employee with payment authority should run a BEC-recognition exercise at least once a year. Reading about it isn't enough — they need to have practiced spotting one.\n\n### As an individual employee\n\nIf you're the person who actually processes payments:\n\n- **Never** update banking details from an emailed request alone. Always pick up the phone using a number you already had.\n- **Treat urgency as a signal**, not a justification. Real changes can wait an extra 24 hours.\n- **Trust no email signature.** Display names and signature blocks are trivial to forge.",
-  "widget_type": "quiz",
+  "est_minutes": 15,
+  "body_md": "## A real invoice can carry a false destination\nBusiness email compromise can begin with a spoofed address or a genuinely compromised mailbox. An attacker sees a genuine supplier relationship, sends an apparently routine bank-detail change and waits for the next payment. A familiar display name, signature, domain and even an existing thread may all look normal if the mailbox is controlled. A valid IBAN format proves only format, not account ownership. The exact size, timing and technique vary; the defensible rule is to verify the **change** through a channel you already trusted.\n\nBefore changing a vendor record, compare the invoice with the original contract and approved payee. Call a number in the pre-existing supplier record, not the new email or its attachment. Ask the known contact to confirm the legal payee and new details via the organization's established procedure. If no reliable number exists, escalate to the person who onboarded the supplier; do not improvise with a search result. Record who verified, when and what was confirmed. A second approver should see the account-change history, not merely the same forwarded email.\n\nA genuine supplier may really change banks. Independent confirmation lets business continue safely; it does not require accusing them. Conversely, a callback itself can fail if the stored number was replaced by an attacker, so protect the supplier master record and use a known, previously validated contact. Payment deadlines should trigger escalation, not bypass. If money has already moved, contact the originating bank immediately to request recall/reversal; notify finance and security, preserve the original message and payment record, and report through local channels. The FBI's IC3 complaint and bank-recall details are US-specific. A recall is a request, not a guarantee.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You manage accounts payable. You receive an email from a long-standing vendor's CFO (real domain, signature block looks identical to past emails) saying their bank changed and giving a new IBAN for the next invoice, due in two days. Which single control catches this if it's BEC?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Verify a changed payment instruction without trusting the email thread that carries it.",
+    "today_action": "Find your organization’s approved vendor contact record and payment-change procedure; if either is missing, ask the owner to establish it before the next changed invoice.",
+    "checked_at": "2026-10-20",
+    "scope": "Organizational control is general; FBI IC3 reporting and recall description concern US banking. Bank procedures and liability vary; checked 2026-10-20.",
+    "sources": [
       {
-        "text": "Check that the domain in the From address matches the vendor's real domain exactly.",
-        "correct": false,
-        "explanation": "Useful — would catch lookalike-domain attacks. But BEC often runs from a *genuinely compromised* mailbox, so the domain check passes. The control has to be at a different layer."
+        "title": "FBI IC3: Business Email Compromise",
+        "url": "https://www.ic3.gov/CrimeInfo/BEC",
+        "scope": "US complaint/recall route; cross-channel verification principle is broadly useful."
       },
       {
-        "text": "Call the vendor's CFO on the phone number you already had in your records and verify the IBAN change verbally.",
-        "correct": true,
-        "explanation": "Yes. The callback rule against a known number is the universal control for BEC. It works whether the email came from a spoofed domain or a genuinely compromised mailbox — both attack variants live inside the email channel, and a separate channel breaks them."
-      },
-      {
-        "text": "Forward the email to your IT security team for analysis.",
-        "correct": false,
-        "explanation": "Useful as a secondary action — IT may be able to confirm the mailbox is compromised — but it doesn't stop the payment. The decisive step is the callback before the funds move."
-      },
-      {
-        "text": "Compare the IBAN against country code rules to make sure it's a valid format.",
-        "correct": false,
-        "explanation": "Real attackers use validly-formatted IBANs. Format validation tells you nothing about whether the account belongs to your vendor."
+        "title": "FBI IC3: Complaint FAQ",
+        "url": "https://www.ic3.gov/Home/FAQ",
+        "scope": "US complaint intake and evidence retention; IC3 does not accept attachments."
       }
     ],
-    "hint": "The attack lives inside the email channel. Which control happens outside it?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "The right vendor, the wrong account",
+        "situation": "Synthetic: an agency invoice arrives inside an existing mail thread, with the normal logo and amount. A later reply changes only the beneficiary account, claiming a bank migration.",
+        "analysis": "Thread continuity does not establish control of the mailbox. Freeze the payee change, call the prior verified supplier contact and document their confirmation under the company procedure. If the contact cannot confirm, escalate before payment.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A documented bank migration",
+        "situation": "Synthetic: the vendor told procurement at the last meeting that its account would change. The formal notice arrives by email; procurement calls its known finance contact and the organization updates its master record with two approvers.",
+        "analysis": "A bank change is not inherently fraudulent. Independent confirmation and a protected change record resolve the uncertainty. Keep the original invoice and approval trail; do not demand that the supplier never changes details.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The changed payee",
+        "setup": "Synthetic: you process an invoice for `Blue Harbor Studio`. The payment is due soon. A reply in a familiar thread supplies a new account.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "What do you treat as unverified?",
+            "choices": [
+              {
+                "text": "The new beneficiary, even though the invoice and thread are familiar.",
+                "consequence": "The payment is held at the exact risk point.",
+                "explanation": "A compromised real mailbox can carry the instruction.",
+                "recommended": true
+              },
+              {
+                "text": "Nothing; the domain matches.",
+                "consequence": "The attacker may have access to that domain’s mailbox.",
+                "explanation": "Domain matching alone does not validate changed banking details.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The email includes a new finance phone number. Which contact?",
+            "choices": [
+              {
+                "text": "Use the number recorded before this request and ask the known contact.",
+                "consequence": "You separate the verification channel from the request.",
+                "explanation": "The request must not supply its own verifier.",
+                "recommended": true
+              },
+              {
+                "text": "Call the number in the change notice.",
+                "consequence": "An accomplice can answer and confirm the false account.",
+                "explanation": "That channel is controlled by the unverified message.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The saved number goes unanswered and the due date is today. Next?",
+            "choices": [
+              {
+                "text": "Escalate to the existing supplier owner; hold the change until confirmed.",
+                "consequence": "The deadline remains visible without bypassing the control.",
+                "explanation": "A process exception must be handled by an authorized approver.",
+                "recommended": true
+              },
+              {
+                "text": "Use the new account to avoid a late fee.",
+                "consequence": "The possibly false recipient gets funds.",
+                "explanation": "An invoice deadline does not prove destination.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A colleague already paid the changed account. First response?",
+            "choices": [
+              {
+                "text": "Contact the originating bank at once; alert finance/security and retain records.",
+                "consequence": "The bank can assess recall options while the organization limits further loss.",
+                "explanation": "Speed helps, but reversal is not guaranteed.",
+                "recommended": true
+              },
+              {
+                "text": "Wait for the vendor to notice missing payment.",
+                "consequence": "Time for a possible recall is lost.",
+                "explanation": "Waiting can reduce the bank’s chance to request a recall.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The independent callback applies to a changed destination, even in a genuine thread. Protect old contact data and keep an approval trail."
+      },
+      {
+        "type": "check",
+        "title": "Choose the control",
+        "questions": [
+          {
+            "prompt": "A correct IBAN passes validation. What does that establish?",
+            "choices": [
+              {
+                "text": "Only a valid structure, not the account owner.",
+                "explanation": "Format checks cannot confirm the intended beneficiary.",
+                "correct": true
+              },
+              {
+                "text": "The named supplier owns it.",
+                "explanation": "Ownership needs independent verification.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "The supplier truly changed banks. Is callback still appropriate?",
+            "choices": [
+              {
+                "text": "Yes; it confirms a legitimate change without blocking it.",
+                "explanation": "Controls should handle genuine changes as well as fraud.",
+                "correct": true
+              },
+              {
+                "text": "No; callbacks accuse honest suppliers.",
+                "explanation": "Verification is routine, not an accusation.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A payment already left. What is time-sensitive?",
+            "choices": [
+              {
+                "text": "Ask the originating bank about recall/reversal and alert internal teams.",
+                "explanation": "The bank controls payment options; internal teams can stop repeats.",
+                "correct": true
+              },
+              {
+                "text": "Only inspect the email signature more carefully.",
+                "explanation": "That cannot retrieve funds or stop additional payments.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

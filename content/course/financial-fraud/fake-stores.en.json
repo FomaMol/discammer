@@ -1,62 +1,170 @@
 {
   "order": 1,
   "title": "Anatomy of a fake online store",
-  "est_minutes": 8,
-  "body_md": "## When the shop itself is the scam\n\nFake online stores are a category of fraud that has grown enormously since 2020. The format is consistent: a polished-looking e-commerce site, attractive prices, a brand-adjacent name. You enter card details. The order confirmation arrives. Nothing ever ships. The site disappears within weeks.\n\nThe modern variants are sophisticated enough that visual inspection alone isn't reliable. You need a structural checklist.\n\n### Six signals to check before you check out\n\n1. **Domain age.** Almost every fake store is less than three months old. Use `whois.com` or any domain-age lookup. If the domain was registered last month, default to skeptical.\n\n2. **Pricing that doesn't fit the brand.** A site claiming to be an authorized Sony retailer selling new PS5 consoles for 30% off MSRP is almost certainly fake. Authorized retailers don't discount that aggressively; counterfeit and fraud retailers do.\n\n3. **Payment options.** Real stores accept major cards (Visa, Mastercard) with proper checkout flows. Fake stores often funnel you to wire transfer, crypto, gift cards, or a generic Stripe-style page that doesn't actually go through Stripe. Bank wire and crypto are *not* recoverable; cards are. If a 'store' insists on a non-card payment, walk away.\n\n4. **Customer reviews.** Fakes have either no reviews, a handful of obviously identical 5-star reviews posted the same week, or reviews scraped wholesale from a different store. Check third-party review sites (Trustpilot) — and search for `[storename] scam` on a search engine you trust.\n\n5. **Contact information.** Real stores publish a postal address, a phone number that picks up, an actual support email, registered company details. Fake stores have a contact form, maybe a Gmail address, and nothing verifiable. Look for the registration company name and search it.\n\n6. **Site polish at the seams.** Even good fakes leave threads loose: a 'Privacy Policy' that's plain Lorem Ipsum, broken images in the footer, mixing of currencies, inconsistent product photography. The front page is usually clean; the deep pages aren't.\n\n### A 90-second pre-purchase routine\n\n1. Check domain age.\n2. Look at the price-vs-MSRP gap.\n3. Confirm the payment flow accepts a major card.\n4. Search `[store name] scam` and `[store name] reviews`.\n5. Look at one deep page (Returns policy, FAQ) for obvious copy-paste junk.\n\nIf two or more of these flag, the answer is no. Buy the item from a retailer you already know.",
-  "widget_type": "redflags",
+  "est_minutes": 14,
+  "body_md": "## Trace the seller, not the padlock\nA fake shop can copy product photos, display reviews, buy ads and use HTTPS. Encryption protects the connection; it says nothing about who receives the money. A very new domain, a `.shop` ending or a discount is a clue to investigate, never a verdict by itself. Legitimate small shops also start with no review history; scammers can buy old domains and fake glowing reviews.\n\n### A five-minute purchase check\n1. **Identify the merchant.** Read the legal seller name, return terms, delivery date and total price. Search that exact name and domain independently with words such as “complaint” and “scam”; compare more than one source and dates. A polished onsite testimonial is weak evidence.\n2. **Verify the offer.** Compare the exact model, condition, taxes and shipping against several sellers. A refurbished item may explain a lower price; a hidden subscription or impossible delivery promise changes the deal.\n3. **Inspect the destination.** Reach a known retailer by a saved bookmark or manually entered address, not a sponsored result or social link. A brand name in a web address does not make it a brand-run store.\n4. **Choose a recoverable payment route.** If a seller insists on a gift card, wire, payment app or crypto, leave. A credit card generally offers stronger US dispute rights; rights elsewhere and for debit cards differ. Keep a copy of the offer, terms, order confirmation and seller contact.\n\nIf you already paid, contact the seller through independently found details and your payment provider promptly. Describe what happened accurately: “item not delivered” is different from “unauthorized charge.” A dispute is an investigation, not a guaranteed refund.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "You search for 'PlayStation 5 deal' and land on this listing.",
-    "messageBlocks": [
-      { "label": "Store:", "value": "sonyplay-direct-eu.shop" },
-      { "label": "Product:", "value": "PlayStation 5 Slim — 90% off MSRP, only €49.99" },
-      { "label": "Stock:", "value": "Only 3 left! Sale ends in 12 minutes." },
-      { "label": "Payment:", "value": "Bank wire transfer, Bitcoin, or Apple gift card" },
-      { "label": "Domain age:", "value": "Registered 14 days ago" },
-      { "label": "Reviews:", "value": "No reviews on Trustpilot. Search for '[store] scam' returns 200 results." }
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Decide whether an unfamiliar shop is worth paying before entering card details.",
+    "today_action": "Choose one unfamiliar shop you planned to use; write down its legal seller, full cost, return terms and independently found contact before checkout.",
+    "checked_at": "2026-10-20",
+    "scope": "General shopping method; payment and dispute rights depend on country, card type and provider. Sources describe US rules, checked 2026-10-20.",
+    "sources": [
+      {
+        "title": "FTC: Online Shopping",
+        "url": "https://consumer.ftc.gov/articles/online-shopping",
+        "scope": "US consumer shopping, records, payment and dispute guidance; HTTPS is not proof of a seller."
+      },
+      {
+        "title": "FTC: What To Do if You Were Scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment-provider and account response; no recovery guarantee."
+      }
     ],
-    "prompt": "Pick every signal that is a real red flag.",
-    "items": [
+    "blocks": [
       {
-        "id": "price",
-        "label": "Price is 90% below MSRP for a current-generation product.",
-        "flag": true,
-        "explanation": "No legitimate retailer takes that kind of margin on a flagship console. Discounts beyond ~15-20% on current-gen hardware are vanishingly rare in legitimate channels."
+        "type": "case",
+        "title": "A familiar logo at a strange checkout",
+        "situation": "A sponsored result for a game console opens `console-clearance.example`. It has a brand logo and a countdown. At checkout it offers only a transfer to a personal recipient. This is a synthetic example.",
+        "analysis": "The logo, ad and HTTPS are cheap to obtain; the seller identity and payment destination do not match an independently confirmed retailer. Do not pay. Find the brand’s authorized-seller list through its official site, then compare the actual offer.",
+        "legitimate": false
       },
       {
-        "id": "payment",
-        "label": "Payment options are wire transfer, Bitcoin, and gift cards — no major cards.",
-        "flag": true,
-        "explanation": "None of these are reversible. A real retailer almost always accepts Visa/Mastercard with consumer protections. The absence is the entire point of the scam — recoverable payments would let victims claw back their money."
+        "type": "case",
+        "title": "A new repair shop with a limited history",
+        "situation": "A local repair shop opened last month and sells refurbished phones through its new site. It lists a verifiable company, a physical collection option, clear grading and card checkout. There are few reviews. Synthetic example.",
+        "analysis": "Newness and low price are explainable, not proof either way. Independently call the published business number, verify address and company identity, read warranty/return terms and pay through a route you understand. If the facts check out, buying may be reasonable.",
+        "legitimate": true
       },
       {
-        "id": "domain-age",
-        "label": "The domain was registered 14 days ago.",
-        "flag": true,
-        "explanation": "Almost every fake store is a fresh domain. Real merchants don't appear out of nowhere with full inventory and active discounts."
+        "type": "practice",
+        "title": "The headset checkout",
+        "setup": "Synthetic: a social post offers the exact headset you wanted from `sound-deals.example`. Decide before paying. No site or payment is opened.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "The page has HTTPS and a familiar brand photo. What do you check first?",
+            "choices": [
+              {
+                "text": "Identify the actual seller and independently search its name/domain.",
+                "consequence": "You discover who would take the payment and can compare independent reports.",
+                "explanation": "The lock only protects transit; seller identity is the useful question.",
+                "recommended": true
+              },
+              {
+                "text": "Trust the padlock and proceed to card entry.",
+                "consequence": "The payment page could still belong to a fake merchant.",
+                "explanation": "HTTPS is not a merchant license. Retry before entering details.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The price is lower than elsewhere. What comparison matters?",
+            "choices": [
+              {
+                "text": "Compare exact model, condition, shipping, tax and return terms.",
+                "consequence": "You find the headline price excluded delivery and describes a refurbished unit.",
+                "explanation": "A difference may be legitimate, but only the full offer can be judged.",
+                "recommended": true
+              },
+              {
+                "text": "Assume every discount is fraud.",
+                "consequence": "You avoid this purchase but learn nothing about whether the offer is genuine.",
+                "explanation": "A refurbished or clearance item can legitimately cost less. Retry with the exact offer.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Checkout requests a payment-app transfer to a person. What now?",
+            "choices": [
+              {
+                "text": "Stop and use a verified seller with suitable card protection.",
+                "consequence": "You avoid a hard-to-reverse route and keep control of the purchase.",
+                "explanation": "Insisting on a personal transfer is a strong reason to leave.",
+                "recommended": true
+              },
+              {
+                "text": "Send a small transfer as a test.",
+                "consequence": "The seller gets money; a small successful exchange would not prove a larger order safe.",
+                "explanation": "Do not use real money as a diagnostic test.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "You later see a card charge for an undelivered order at another shop. What record helps?",
+            "choices": [
+              {
+                "text": "Save order, promised date, terms, contacts and contact the issuer promptly.",
+                "consequence": "You can describe a specific non-delivery claim with evidence.",
+                "explanation": "The issuer decides under applicable rules; evidence and timing help.",
+                "recommended": true
+              },
+              {
+                "text": "Call it an unauthorized charge although you placed the order.",
+                "consequence": "Your statement conflicts with the order record.",
+                "explanation": "Use the truthful dispute category.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "A safe purchase decision rests on seller identity, complete terms and payment route. A single visual cue cannot certify a shop. Replay with a different seller."
       },
       {
-        "id": "urgency",
-        "label": "'Only 3 left, sale ends in 12 minutes' urgency.",
-        "flag": true,
-        "explanation": "Scarcity + countdown is classic pressure to skip diligence. Real retailers don't run 12-minute checkout-or-lose flash sales on flagship products."
-      },
-      {
-        "id": "no-reviews",
-        "label": "Zero reviews on Trustpilot, but 200 results for '[store] scam'.",
-        "flag": true,
-        "explanation": "A clean review search itself wouldn't prove safety, but the *combination* of no reviews + many scam reports is essentially confirmation."
-      },
-      {
-        "id": "store-name",
-        "label": "The store name 'sonyplay-direct-eu.shop' contains 'Sony'.",
-        "flag": true,
-        "explanation": "Using the brand name in the domain is a knockoff signal. Sony's authorised retailers do not register domains containing 'sonyplay' as a marketing label."
-      },
-      {
-        "id": "eu-tld",
-        "label": "It uses the `.shop` TLD instead of `.com`.",
-        "flag": false,
-        "explanation": "TLDs like `.shop` are perfectly legitimate. Real and fake stores both use them. Use other signals; the TLD alone isn't diagnostic."
+        "type": "check",
+        "title": "Apply the check elsewhere",
+        "questions": [
+          {
+            "prompt": "A site has a valid HTTPS certificate and a `.com` address. What has that proved?",
+            "choices": [
+              {
+                "text": "The connection is encrypted, not that the seller is honest.",
+                "explanation": "HTTPS protects transmission; either TLD can host a scam.",
+                "correct": true
+              },
+              {
+                "text": "The retailer is authorized by the brand.",
+                "explanation": "Certificates do not verify authorization.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A new local shop has no reviews. Best next step?",
+            "choices": [
+              {
+                "text": "Verify company, contact, collection and terms independently.",
+                "explanation": "A new honest seller can lack reviews; several independent facts matter.",
+                "correct": true
+              },
+              {
+                "text": "Declare it fraudulent from age alone.",
+                "explanation": "Domain age is not a verdict.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A merchant accepts only gift cards for a scarce product. Which response is sound?",
+            "choices": [
+              {
+                "text": "Leave and buy through a seller with a suitable protected payment route.",
+                "explanation": "Gift cards are difficult to recover and the forced method is a strong warning.",
+                "correct": true
+              },
+              {
+                "text": "Pay one card first to test delivery.",
+                "explanation": "The test itself loses money and cannot validate future delivery.",
+                "correct": false
+              }
+            ]
+          }
+        ]
       }
     ]
   }

@@ -1,33 +1,186 @@
 {
   "order": 2,
   "title": "Crypto and ICO investment fraud",
-  "est_minutes": 8,
-  "body_md": "## Why crypto attracts the worst investment scams\n\nCryptocurrency provides several conditions that benefit scammers and disadvantage victims:\n\n- **Pseudonymous wallets.** Money moves to addresses, not bank accounts. Tracing is possible but slow and expensive.\n- **Irreversible transactions.** Once a transfer is confirmed, no central authority can claw it back.\n- **Genuine technical complexity.** Most newcomers can't tell a real protocol from a polished fake.\n- **Genuine winners.** Some people did make life-changing returns. That data point makes the unrealistic promises feel plausible.\n\nThe result: crypto investment scams stole an estimated $4–8 billion per year from retail investors in 2023–2024. Most weren't sophisticated technical hacks. They were old-fashioned investment fraud wearing crypto clothes.\n\n### The four most common patterns\n\n#### 1. Rug pulls\n\nThe developers of a new token promote it, drive the price up, then liquidate their own holdings (the 'rug') and disappear. The token instantly drops to zero. Variants: developers code in a function that lets only them sell.\n\n**Tell:** Anonymous teams, no real product, hype-driven marketing, sudden launch with no real audit history.\n\n#### 2. Pump-and-dump groups\n\nA private Telegram or Discord coordinates a coordinated buy of a low-volume token. Outside investors see the price rise and rush in. The coordinators sell into that wave at the top. The price crashes.\n\n**Tell:** \"Join my private group for the next pump\" — the message itself is the scam. If a group's strategy *depends on outsiders losing*, that's a pump-and-dump.\n\n#### 3. Fake exchanges and 'investment platforms'\n\nA polished website that looks like a trading platform, often introduced through a romance/pig-butchering pipeline. Deposits work; small withdrawals work; large withdrawals require 'tax' or 'verification' payments that never end.\n\n**Tell:** Any platform you'd never heard of before a stranger introduced it. Real platforms (Coinbase, Kraken, Binance, regulated exchanges) are well-known and aren't introduced by your new WhatsApp friend.\n\n#### 4. 'Recovery' scams targeting prior victims\n\nThe most cynical variant. Once you've been scammed and reported it publicly, scammers find you and offer to recover your funds — for a fee. They take the fee and disappear.\n\n**Tell:** Anyone reaching out to *you* offering to recover stolen crypto is a scammer. Legitimate recovery services don't cold-message victims; victims approach law enforcement or specialized firms themselves.\n\n### The defensive frame\n\nApply two filters to every crypto opportunity that crosses your path:\n\n1. **How did this opportunity reach me?** If through advertising in trusted financial press, that's at least a real category. If through a stranger in a DM or a private chat group, treat as adversarial by default.\n\n2. **What is the *real* mechanism by which I'd make money?** If the answer is 'more people will pay more later' (without a specified product or revenue source), that's a Ponzi structure regardless of how the marketing dresses it up.\n\nApply both filters and almost no crypto scam survives.",
-  "widget_type": "quiz",
+  "est_minutes": 16,
+  "body_md": "## The investment claim comes before the token\nA blockchain transaction may be traceable, yet a confirmed transfer normally cannot be reversed by a bank. A dashboard balance is just a number the site displays; it is not proof that assets exist. Scams may use a fake exchange, a token whose insiders control supply or sale rules, a coordinated price pump, or an upfront “recovery” offer. These are different mechanisms; avoid diagnosing all crypto as fraud.\n\nAsk **who controls your funds, what legal entity offers the service, what creates the return, and what you can independently verify**. Read withdrawal terms before any deposit. If an online acquaintance chooses the platform, promises stable high returns or asks you to send to a personal wallet, stop. Ads in respected media and celebrity photos are distribution and marketing, not due diligence. A tiny successful withdrawal may be deliberately permitted to build trust.\n\nFor a token presale or initial coin offering (ICO), inspect the documented project, token allocation, contract privileges and independent technical review if available. Even an audit cannot guarantee price or honesty. For a claimed financial firm, check the relevant regulator's register for its *actual activity*, not just a matching name. The Bank of Russia register covers specified Russian financial activities; it neither validates an overseas platform nor promises return.\n\nA genuine volatile investment can lose money without being a scam. A legitimate exchange can also ask for identity checks under its own rules, but an unexpected demand to pay a separate “tax” to an unfamiliar wallet to unlock a balance is a strong fraud signal. Do not send extra money to test it. If harmed, preserve dates, transaction hashes and addresses privately, contact the exchange/payment provider promptly and report through the appropriate authority. Ignore unsolicited recovery agents.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "Six weeks after your wallet was drained in a 'token presale' scam you reported on Reddit, a stranger DMs you on Telegram saying they're a 'blockchain forensics specialist' who can trace and recover your funds for a 20% finder's fee, paid upfront in USDT. They show a screenshot of similar successful recoveries. What's the *highest-leverage* tell that this is a follow-up scam?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Separate a verifiable investment proposition from a fake crypto platform or token pitch before sending funds.",
+    "today_action": "Before following any investment link, write down the exact legal entity, asset custody, return mechanism and applicable regulator; if any is unanswered, do not fund it.",
+    "checked_at": "2026-10-20",
+    "scope": "Educational risk checks, not investment advice. US FBI/FTC examples and Russian register have distinct jurisdictions; checked 2026-10-20.",
+    "sources": [
       {
-        "text": "The 20% fee is too high — real recovery firms charge less.",
-        "correct": false,
-        "explanation": "Fee size varies and isn't diagnostic. The structural problem is upstream of the price."
+        "title": "FBI IC3: Cryptocurrency",
+        "url": "https://www.ic3.gov/CrimeInfo/Cryptocurrency",
+        "scope": "US reporting and transaction evidence; blockchain transfers generally cannot be reversed."
       },
       {
-        "text": "They reached out to *you* via DM after seeing your public scam report.",
-        "correct": true,
-        "explanation": "Exactly. This is the universal pattern of recovery scams: the perpetrators or their associates monitor public reports of fraud and contact victims directly. Legitimate forensics firms do not cold-message victims; victims go *to* them, often via law enforcement referrals. The unsolicited contact is the diagnostic tell."
+        "title": "FBI IC3: Investment Fraud",
+        "url": "https://www.ic3.gov/CrimeInfo/Investment",
+        "scope": "US law-enforcement descriptions of confidence-based fake investment platforms."
       },
       {
-        "text": "Asking for the fee in USDT instead of fiat.",
-        "correct": false,
-        "explanation": "Suspicious, but the more decisive issue is the source of contact. A scammer charging in fiat would still be a scammer."
+        "title": "FTC: What To Know About Cryptocurrency and Scams",
+        "url": "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-scams",
+        "scope": "US consumer guidance on false guarantees, fake platforms and crypto payments."
       },
       {
-        "text": "The screenshots of past successes look photoshopped.",
-        "correct": false,
-        "explanation": "Many scams produce convincing screenshots; many real firms produce sloppy ones. Don't outsource the diagnosis to the quality of marketing assets."
+        "title": "SEC Investor.gov: Initial Coin Offerings (2017 bulletin)",
+        "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-16",
+        "scope": "Dated 2017 US investor bulletin on ICO research, token rights, code and audit questions; not current legal classification."
+      },
+      {
+        "title": "Bank of Russia: Financial Market Participants",
+        "url": "https://www.cbr.ru/finorg/",
+        "scope": "Russian register of rights to perform specified financial activities; listing is no return guarantee."
       }
     ],
-    "hint": "Compare the *direction* of contact. Who approached whom?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A presale with a locked exit",
+        "situation": "Synthetic: a group promotes `orbit-seed.example`, promising a fixed monthly return. A token chart rises, but the terms omit who holds deposits and the contract gives its creator power to block sales.",
+        "analysis": "The displayed chart does not establish trades or a real market. Missing custody and privileged contract controls mean you cannot price the risk; a fixed return promise compounds it. Do not deposit. Search independently for the entity, contract and applicable regulatory status.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A real platform with an awkward identity check",
+        "situation": "Synthetic: you reach a licensed provider through a bookmark you set earlier. Its published terms say withdrawal after a large transaction may require an in-app identity review; it asks for no outside payment.",
+        "analysis": "An identity review is not automatically a scam. Verify the exact legal entity and licensed activity with the relevant regulator, contact support from the independently reached site, and never send documents through a DM. A license reduces one uncertainty but does not remove market risk.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The token invitation",
+        "setup": "Synthetic: a stranger in a hobby chat offers access to a new token and an “expert” trading site. You have not sent money.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "They show a rising balance screenshot. What question comes first?",
+            "choices": [
+              {
+                "text": "Who controls funds and what independently verifies the trading entity?",
+                "consequence": "You uncover that only the promoter supplies evidence.",
+                "explanation": "A screenshot is easy to fabricate; check ownership and authority.",
+                "recommended": true
+              },
+              {
+                "text": "Assume a rising chart proves profit.",
+                "consequence": "You may mistake a controlled display for real assets.",
+                "explanation": "Displayed profit is not withdrawable value.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A search finds a similarly named registered company. Next?",
+            "choices": [
+              {
+                "text": "Match exact legal entity, domain and licensed activity in the relevant register.",
+                "consequence": "A name match alone no longer carries the decision.",
+                "explanation": "A real company can be impersonated; a license has a defined scope.",
+                "recommended": true
+              },
+              {
+                "text": "Transfer because any register match guarantees safety.",
+                "consequence": "The recipient may be an impersonator or offer an unlicensed product.",
+                "explanation": "Match the entity and activity, not just the brand.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The promoter says a tiny withdrawal proved the site. What do you infer?",
+            "choices": [
+              {
+                "text": "Small withdrawals can be bait; pause without sending a test deposit.",
+                "consequence": "You keep your money while checking the claim.",
+                "explanation": "A controlled platform can return a little to obtain much more.",
+                "recommended": true
+              },
+              {
+                "text": "Send a larger amount to see whether it also comes back.",
+                "consequence": "The test creates the very loss you are trying to avoid.",
+                "explanation": "Never use a larger deposit as proof.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Later an unknown “recovery specialist” DMs a fee offer. Response?",
+            "choices": [
+              {
+                "text": "Do not pay; preserve evidence and use official reporting/provider routes.",
+                "consequence": "You avoid a second loss and retain useful records.",
+                "explanation": "IC3 warns specifically about upfront recovery offers.",
+                "recommended": true
+              },
+              {
+                "text": "Pay because the specialist knows your transaction hash.",
+                "consequence": "Public ledger data can be copied by anyone.",
+                "explanation": "Knowing a hash proves no recovery authority.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The decisive checks are recipient, control, regulated activity and actual withdrawal terms. Risk remains even after a genuine firm is identified."
+      },
+      {
+        "type": "check",
+        "title": "Transfer questions",
+        "questions": [
+          {
+            "prompt": "A token contract has an audit badge. What follows?",
+            "choices": [
+              {
+                "text": "Review the audit scope; it cannot guarantee price or honesty.",
+                "explanation": "An audit examines defined code, not every business or market risk.",
+                "correct": true
+              },
+              {
+                "text": "The investment cannot lose value.",
+                "explanation": "An audit does not remove market or liquidity risk.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A Russian register lists a similar firm name. Best interpretation?",
+            "choices": [
+              {
+                "text": "Check exact identity and authorized activity; do not infer returns.",
+                "explanation": "The register has a defined jurisdiction and activity scope.",
+                "correct": true
+              },
+              {
+                "text": "Any crypto product worldwide is certified.",
+                "explanation": "The Russian register cannot certify the world.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A platform demands a separate wallet transfer to release profits. What now?",
+            "choices": [
+              {
+                "text": "Stop payments, retain records and contact provider/authorities.",
+                "explanation": "Extra “unlock” payments are a known fraud pattern.",
+                "correct": true
+              },
+              {
+                "text": "Pay once because a displayed balance exceeds the fee.",
+                "explanation": "The displayed balance may be fiction; fees can recur.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
