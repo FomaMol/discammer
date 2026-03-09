@@ -48,16 +48,16 @@
             "prompt": "The post names a known charity. How do you reach it?",
             "choices": [
               {
-                "text": "Find its official site or registry independently.",
-                "consequence": "You separate the charity from the forwarded URL.",
-                "explanation": "A genuine name can be used by an imitator.",
-                "recommended": true
-              },
-              {
                 "text": "Click because your friend shared it.",
                 "consequence": "Your friend may have shared an unchecked link.",
                 "explanation": "Reposts are not verification.",
                 "recommended": false
+              },
+              {
+                "text": "Find its official site or registry independently.",
+                "consequence": "You separate the charity from the forwarded URL.",
+                "explanation": "A genuine name can be used by an imitator.",
+                "recommended": true
               }
             ]
           },
@@ -82,32 +82,32 @@
             "prompt": "A caller says only gift cards will arrive in time. Next?",
             "choices": [
               {
-                "text": "Decline and use the independently verified donation route.",
-                "consequence": "You can support the cause without the forced payment method.",
-                "explanation": "A gift-card-only demand is a strong warning.",
-                "recommended": true
-              },
-              {
                 "text": "Read gift-card codes over the phone.",
                 "consequence": "The codes may be spent immediately.",
                 "explanation": "This bypasses the charity entirely.",
                 "recommended": false
+              },
+              {
+                "text": "Decline and use the independently verified donation route.",
+                "consequence": "You can support the cause without the forced payment method.",
+                "explanation": "A gift-card-only demand is a strong warning.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "After a legitimate donation, what follow-up catches a mistake?",
+            "prompt": "Final checkpoint: whether you used a verified donation route, gave out gift-card codes or paid nothing, what follow-up helps?",
             "choices": [
               {
-                "text": "Save the receipt and inspect statement and recurring-payment setting.",
-                "consequence": "You can catch an amount or subscription you did not intend.",
-                "explanation": "FTC advises keeping records and checking what was charged.",
+                "text": "Keep any receipts, gift cards and contact records; inspect charges and recurring settings; if codes were exposed, contact the gift-card issuer now.",
+                "consequence": "You can spot an unintended charge and explain any payment or code loss. The issuer can advise on options, but recovery is uncertain.",
+                "explanation": "Records help even when a cause is real; the FTC advises contacting the gift-card company quickly if codes were given to a scammer.",
                 "recommended": true
               },
               {
-                "text": "Delete the receipt because the charity is real.",
-                "consequence": "You lose a useful record if the charge differs.",
-                "explanation": "Legitimate payments can still need correction.",
+                "text": "Delete any records and ignore later account activity.",
+                "consequence": "You may miss another charge or lose evidence of a payment or exposed code.",
+                "explanation": "A legitimate donation can need correction, and gift-card loss needs prompt action.",
                 "recommended": false
               }
             ]
@@ -123,14 +123,14 @@
             "prompt": "A friend shares a photo of real damage with a wallet address. What does the photo prove?",
             "choices": [
               {
-                "text": "The event may be real; it does not link the wallet to aid.",
-                "explanation": "Content provenance and payment destination are separate.",
-                "correct": true
-              },
-              {
                 "text": "The wallet belongs to the victims.",
                 "explanation": "A photo cannot establish wallet ownership.",
                 "correct": false
+              },
+              {
+                "text": "The event may be real; it does not link the wallet to aid.",
+                "explanation": "Content provenance and payment destination are separate.",
+                "correct": true
               }
             ]
           },
@@ -153,14 +153,14 @@
             "prompt": "A US charity is on a tax-exempt list. What remains to check?",
             "choices": [
               {
-                "text": "That the particular campaign and payment destination are its own.",
-                "explanation": "Imitators can borrow a real charity’s name.",
-                "correct": true
-              },
-              {
                 "text": "Nothing; every link with its name is safe.",
                 "explanation": "A listing does not authenticate a social link.",
                 "correct": false
+              },
+              {
+                "text": "That the particular campaign and payment destination are its own.",
+                "explanation": "Imitators can borrow a real charity’s name.",
+                "correct": true
               }
             ]
           }

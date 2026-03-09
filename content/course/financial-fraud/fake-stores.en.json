@@ -48,16 +48,16 @@
             "prompt": "The page has HTTPS and a familiar brand photo. What do you check first?",
             "choices": [
               {
-                "text": "Identify the actual seller and independently search its name/domain.",
-                "consequence": "You discover who would take the payment and can compare independent reports.",
-                "explanation": "The lock only protects transit; seller identity is the useful question.",
-                "recommended": true
-              },
-              {
                 "text": "Trust the padlock and proceed to card entry.",
                 "consequence": "The payment page could still belong to a fake merchant.",
                 "explanation": "HTTPS is not a merchant license. Retry before entering details.",
                 "recommended": false
+              },
+              {
+                "text": "Identify the actual seller and independently search its name/domain.",
+                "consequence": "You discover who would take the payment and can compare independent reports.",
+                "explanation": "The lock only protects transit; seller identity is the useful question.",
+                "recommended": true
               }
             ]
           },
@@ -82,16 +82,16 @@
             "prompt": "Checkout requests a payment-app transfer to a person. What now?",
             "choices": [
               {
-                "text": "Stop and use a verified seller with suitable card protection.",
-                "consequence": "You avoid a hard-to-reverse route and keep control of the purchase.",
-                "explanation": "Insisting on a personal transfer is a strong reason to leave.",
-                "recommended": true
-              },
-              {
                 "text": "Send a small transfer as a test.",
                 "consequence": "The seller gets money; a small successful exchange would not prove a larger order safe.",
                 "explanation": "Do not use real money as a diagnostic test.",
                 "recommended": false
+              },
+              {
+                "text": "Stop and use a verified seller with suitable card protection.",
+                "consequence": "You avoid a hard-to-reverse route and keep control of the purchase.",
+                "explanation": "Insisting on a personal transfer is a strong reason to leave.",
+                "recommended": true
               }
             ]
           },
@@ -99,16 +99,16 @@
             "prompt": "You later see a card charge for an undelivered order at another shop. What record helps?",
             "choices": [
               {
-                "text": "Save order, promised date, terms, contacts and contact the issuer promptly.",
-                "consequence": "You can describe a specific non-delivery claim with evidence.",
-                "explanation": "The issuer decides under applicable rules; evidence and timing help.",
-                "recommended": true
-              },
-              {
                 "text": "Call it an unauthorized charge although you placed the order.",
                 "consequence": "Your statement conflicts with the order record.",
                 "explanation": "Use the truthful dispute category.",
                 "recommended": false
+              },
+              {
+                "text": "Save order, promised date, terms, contacts and contact the issuer promptly.",
+                "consequence": "You can describe a specific non-delivery claim with evidence.",
+                "explanation": "The issuer decides under applicable rules; evidence and timing help.",
+                "recommended": true
               }
             ]
           }
@@ -138,14 +138,14 @@
             "prompt": "A new local shop has no reviews. Best next step?",
             "choices": [
               {
-                "text": "Verify company, contact, collection and terms independently.",
-                "explanation": "A new honest seller can lack reviews; several independent facts matter.",
-                "correct": true
-              },
-              {
                 "text": "Declare it fraudulent from age alone.",
                 "explanation": "Domain age is not a verdict.",
                 "correct": false
+              },
+              {
+                "text": "Verify company, contact, collection and terms independently.",
+                "explanation": "A new honest seller can lack reviews; several independent facts matter.",
+                "correct": true
               }
             ]
           },
@@ -153,14 +153,14 @@
             "prompt": "A merchant accepts only gift cards for a scarce product. Which response is sound?",
             "choices": [
               {
-                "text": "Leave and buy through a seller with a suitable protected payment route.",
-                "explanation": "Gift cards are difficult to recover and the forced method is a strong warning.",
-                "correct": true
-              },
-              {
                 "text": "Pay one card first to test delivery.",
                 "explanation": "The test itself loses money and cannot validate future delivery.",
                 "correct": false
+              },
+              {
+                "text": "Leave and buy through a seller with a suitable protected payment route.",
+                "explanation": "Gift cards are difficult to recover and the forced method is a strong warning.",
+                "correct": true
               }
             ]
           }

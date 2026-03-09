@@ -65,21 +65,21 @@
             "prompt": "The email includes a new finance phone number. Which contact?",
             "choices": [
               {
-                "text": "Use the number recorded before this request and ask the known contact.",
-                "consequence": "You separate the verification channel from the request.",
-                "explanation": "The request must not supply its own verifier.",
-                "recommended": true
-              },
-              {
                 "text": "Call the number in the change notice.",
                 "consequence": "An accomplice can answer and confirm the false account.",
                 "explanation": "That channel is controlled by the unverified message.",
                 "recommended": false
+              },
+              {
+                "text": "Use the number recorded before this request and ask the known contact.",
+                "consequence": "You separate the verification channel from the request.",
+                "explanation": "The request must not supply its own verifier.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "The saved number goes unanswered and the due date is today. Next?",
+            "prompt": "Checkpoint before payment: the number recorded before this email is called and goes unanswered. The bank change remains unverified, and payment is due today. What next?",
             "choices": [
               {
                 "text": "Escalate to the existing supplier owner; hold the change until confirmed.",
@@ -96,19 +96,19 @@
             ]
           },
           {
-            "prompt": "A colleague already paid the changed account. First response?",
+            "prompt": "Separate response checkpoint: a colleague has already paid the changed account. What is the first response?",
             "choices": [
-              {
-                "text": "Contact the originating bank at once; alert finance/security and retain records.",
-                "consequence": "The bank can assess recall options while the organization limits further loss.",
-                "explanation": "Speed helps, but reversal is not guaranteed.",
-                "recommended": true
-              },
               {
                 "text": "Wait for the vendor to notice missing payment.",
                 "consequence": "Time for a possible recall is lost.",
                 "explanation": "Waiting can reduce the bank’s chance to request a recall.",
                 "recommended": false
+              },
+              {
+                "text": "Contact the originating bank at once; alert finance/security and retain records.",
+                "consequence": "The bank can assess recall options while the organization limits further loss.",
+                "explanation": "Speed helps, but reversal is not guaranteed.",
+                "recommended": true
               }
             ]
           }
@@ -123,14 +123,14 @@
             "prompt": "A correct IBAN passes validation. What does that establish?",
             "choices": [
               {
-                "text": "Only a valid structure, not the account owner.",
-                "explanation": "Format checks cannot confirm the intended beneficiary.",
-                "correct": true
-              },
-              {
                 "text": "The named supplier owns it.",
                 "explanation": "Ownership needs independent verification.",
                 "correct": false
+              },
+              {
+                "text": "Only a valid structure, not the account owner.",
+                "explanation": "Format checks cannot confirm the intended beneficiary.",
+                "correct": true
               }
             ]
           },
@@ -138,14 +138,14 @@
             "prompt": "The supplier truly changed banks. Is callback still appropriate?",
             "choices": [
               {
-                "text": "Yes; it confirms a legitimate change without blocking it.",
-                "explanation": "Controls should handle genuine changes as well as fraud.",
-                "correct": true
-              },
-              {
                 "text": "No; callbacks accuse honest suppliers.",
                 "explanation": "Verification is routine, not an accusation.",
                 "correct": false
+              },
+              {
+                "text": "Yes; it confirms a legitimate change without blocking it.",
+                "explanation": "Controls should handle genuine changes as well as fraud.",
+                "correct": true
               }
             ]
           },

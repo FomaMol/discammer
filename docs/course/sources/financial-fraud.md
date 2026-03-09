@@ -7,7 +7,7 @@ Checked against the linked official pages on **2026-10-20**. The US Secret Servi
 | FTC: Online Shopping | https://consumer.ftc.gov/articles/online-shopping | fake-stores, winning-disputes | US consumer shopping, records, payment and dispute guidance; HTTPS is not proof of a seller. |
 | FBI IC3: Business Email Compromise | https://www.ic3.gov/CrimeInfo/BEC | invoice-fraud | US complaint/recall route; cross-channel verification principle is broadly useful. |
 | FTC: Before Giving to a Charity | https://consumer.ftc.gov/articles/giving-charity | charity-fraud | US charity, fundraising and payment guidance; registration rules vary elsewhere. |
-| FTC: What To Do if You Were Scammed | https://consumer.ftc.gov/articles/what-do-if-you-were-scammed | fake-stores, pig-butchering-pipeline, charity-fraud, first-24-hours, winning-disputes | US payment-provider and account response; no recovery guarantee. |
+| FTC: What To Do if You Were Scammed | https://consumer.ftc.gov/articles/what-do-if-you-were-scammed | fake-stores, pig-butchering-pipeline, charity-fraud, first-24-hours, winning-disputes | US payment-provider and account response, including prompt contact with a gift-card issuer after code disclosure and retention of the card/receipt; no recovery guarantee. |
 | FBI IC3: Cryptocurrency | https://www.ic3.gov/CrimeInfo/Cryptocurrency | crypto-investment-scams, pig-butchering-pipeline, first-24-hours | US reporting and transaction evidence; blockchain transfers generally cannot be reversed. |
 | FBI IC3: Investment Fraud | https://www.ic3.gov/CrimeInfo/Investment | crypto-investment-scams, pig-butchering-pipeline | US law-enforcement descriptions of confidence-based fake investment platforms. |
 | FTC: What To Know About Cryptocurrency and Scams | https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-scams | crypto-investment-scams | US consumer guidance on false guarantees, fake platforms and crypto payments. |
@@ -28,3 +28,4 @@ Checked against the linked official pages on **2026-10-20**. The US Secret Servi
 - The US FCBA written 60-day billing-error notice is anchored to the first statement and is not generalized to other countries or payment types. Temporary issuer credits remain provisional.
 - `.example` domains and all lesson cases and practices are synthetic. No real payment details, passwords or incident evidence are requested by the lessons.
 - A small investment withdrawal is described as potential bait. Learners are never advised to fund a larger transfer or pay a withdrawal fee as a test.
+- Practice outcomes distinguish money already sent from further transfers. The charity follow-up covers a verified donation, disclosed gift-card codes, or no payment without presuming that any one route occurred.

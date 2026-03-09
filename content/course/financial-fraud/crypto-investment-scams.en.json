@@ -80,48 +80,48 @@
             "prompt": "A search finds a similarly named registered company. Next?",
             "choices": [
               {
-                "text": "Match exact legal entity, domain and licensed activity in the relevant register.",
-                "consequence": "A name match alone no longer carries the decision.",
-                "explanation": "A real company can be impersonated; a license has a defined scope.",
-                "recommended": true
-              },
-              {
                 "text": "Transfer because any register match guarantees safety.",
                 "consequence": "The recipient may be an impersonator or offer an unlicensed product.",
                 "explanation": "Match the entity and activity, not just the brand.",
                 "recommended": false
-              }
-            ]
-          },
-          {
-            "prompt": "The promoter says a tiny withdrawal proved the site. What do you infer?",
-            "choices": [
-              {
-                "text": "Small withdrawals can be bait; pause without sending a test deposit.",
-                "consequence": "You keep your money while checking the claim.",
-                "explanation": "A controlled platform can return a little to obtain much more.",
-                "recommended": true
               },
               {
-                "text": "Send a larger amount to see whether it also comes back.",
-                "consequence": "The test creates the very loss you are trying to avoid.",
-                "explanation": "Never use a larger deposit as proof.",
-                "recommended": false
+                "text": "Match exact legal entity, domain and licensed activity in the relevant register.",
+                "consequence": "A name match alone no longer carries the decision.",
+                "explanation": "A real company can be impersonated; a license has a defined scope.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "Later an unknown “recovery specialist” DMs a fee offer. Response?",
+            "prompt": "Whether or not you transferred at the previous step, the promoter claims a tiny withdrawal proves the site. What about any further transfer?",
+            "choices": [
+              {
+                "text": "Send a larger amount to see whether it also comes back.",
+                "consequence": "You expose another payment, whether or not money was already sent.",
+                "explanation": "Never use a larger deposit as proof.",
+                "recommended": false
+              },
+              {
+                "text": "Stop further deposits; if you already paid, contact the provider promptly.",
+                "consequence": "You avoid another transfer. Any money already sent remains exposed; a provider can assess available options, not promise recovery.",
+                "explanation": "A controlled platform can return a little to draw in much more. Stopping now does not undo an earlier transfer.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "Independent checkpoint: someone who sent money to this platform receives an unsolicited recovery DM demanding a fee. What should they do?",
             "choices": [
               {
                 "text": "Do not pay; preserve evidence and use official reporting/provider routes.",
-                "consequence": "You avoid a second loss and retain useful records.",
+                "consequence": "They avoid a further loss and retain useful records.",
                 "explanation": "IC3 warns specifically about upfront recovery offers.",
                 "recommended": true
               },
               {
                 "text": "Pay because the specialist knows your transaction hash.",
-                "consequence": "Public ledger data can be copied by anyone.",
+                "consequence": "Public ledger data can be copied by anyone; paying can add another loss.",
                 "explanation": "Knowing a hash proves no recovery authority.",
                 "recommended": false
               }
@@ -138,14 +138,14 @@
             "prompt": "A token contract has an audit badge. What follows?",
             "choices": [
               {
-                "text": "Review the audit scope; it cannot guarantee price or honesty.",
-                "explanation": "An audit examines defined code, not every business or market risk.",
-                "correct": true
-              },
-              {
                 "text": "The investment cannot lose value.",
                 "explanation": "An audit does not remove market or liquidity risk.",
                 "correct": false
+              },
+              {
+                "text": "Review the audit scope; it cannot guarantee price or honesty.",
+                "explanation": "An audit examines defined code, not every business or market risk.",
+                "correct": true
               }
             ]
           },
@@ -168,14 +168,14 @@
             "prompt": "A platform demands a separate wallet transfer to release profits. What now?",
             "choices": [
               {
-                "text": "Stop payments, retain records and contact provider/authorities.",
-                "explanation": "Extra “unlock” payments are a known fraud pattern.",
-                "correct": true
-              },
-              {
                 "text": "Pay once because a displayed balance exceeds the fee.",
                 "explanation": "The displayed balance may be fiction; fees can recur.",
                 "correct": false
+              },
+              {
+                "text": "Stop payments, retain records and contact provider/authorities.",
+                "explanation": "Extra “unlock” payments are a known fraud pattern.",
+                "correct": true
               }
             ]
           }

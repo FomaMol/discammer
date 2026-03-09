@@ -75,16 +75,16 @@
             "prompt": "Who handles the unfamiliar card charge?",
             "choices": [
               {
-                "text": "The issuer through its app or card number; describe authorized and unauthorized charges separately.",
-                "consequence": "The issuer can assess card controls and the correct dispute route.",
-                "explanation": "Accurate categories matter.",
-                "recommended": true
-              },
-              {
                 "text": "The phone number in the fake delivery page.",
                 "consequence": "The attacker may collect more card details.",
                 "explanation": "Reach the issuer independently.",
                 "recommended": false
+              },
+              {
+                "text": "The issuer through its app or card number; describe authorized and unauthorized charges separately.",
+                "consequence": "The issuer can assess card controls and the correct dispute route.",
+                "explanation": "Accurate categories matter.",
+                "recommended": true
               }
             ]
           },
@@ -92,16 +92,16 @@
             "prompt": "What about the reused password?",
             "choices": [
               {
-                "text": "From the real service, change it everywhere reused and review sessions/MFA.",
-                "consequence": "You close reuse routes beyond the delivery account.",
-                "explanation": "One exposed password threatens every place it was reused.",
-                "recommended": true
-              },
-              {
                 "text": "Only delete the fake page from history.",
                 "consequence": "The password remains usable to attackers.",
                 "explanation": "History cleanup does not rotate credentials.",
                 "recommended": false
+              },
+              {
+                "text": "From the real service, change it everywhere reused and review sessions/MFA.",
+                "consequence": "You close reuse routes beyond the delivery account.",
+                "explanation": "One exposed password threatens every place it was reused.",
+                "recommended": true
               }
             ]
           },
@@ -148,14 +148,14 @@
             "prompt": "You have a crypto transaction hash. What does it help with?",
             "choices": [
               {
-                "text": "Documenting the transfer for provider and authority reports.",
-                "explanation": "A hash is evidence, not a reversal key.",
-                "correct": true
-              },
-              {
                 "text": "Instantly reversing the blockchain transaction.",
                 "explanation": "Confirmed blockchain transfers normally cannot be reversed.",
                 "correct": false
+              },
+              {
+                "text": "Documenting the transfer for provider and authority reports.",
+                "explanation": "A hash is evidence, not a reversal key.",
+                "correct": true
               }
             ]
           },
@@ -163,14 +163,14 @@
             "prompt": "A stranger offers paid recovery after a public post. What is prudent?",
             "choices": [
               {
-                "text": "Do not pay; use the real provider and official report channels.",
-                "explanation": "Unsolicited fee requests may create a second loss.",
-                "correct": true
-              },
-              {
                 "text": "Send a deposit because the stranger knows the case.",
                 "explanation": "Public facts can be copied by anyone.",
                 "correct": false
+              },
+              {
+                "text": "Do not pay; use the real provider and official report channels.",
+                "explanation": "Unsolicited fee requests may create a second loss.",
+                "correct": true
               }
             ]
           }

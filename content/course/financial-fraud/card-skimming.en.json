@@ -63,16 +63,16 @@
             "prompt": "The station ATM reader is loose. What do you do?",
             "choices": [
               {
-                "text": "Leave it, notify the operator and use a supervised alternative.",
-                "consequence": "You avoid a visible anomaly without touching evidence.",
-                "explanation": "A visible problem justifies changing machines.",
-                "recommended": true
-              },
-              {
                 "text": "Insert the card to see if it works.",
                 "consequence": "The test may expose card data.",
                 "explanation": "Do not test suspected skimmers with your card.",
                 "recommended": false
+              },
+              {
+                "text": "Leave it, notify the operator and use a supervised alternative.",
+                "consequence": "You avoid a visible anomaly without touching evidence.",
+                "explanation": "A visible problem justifies changing machines.",
+                "recommended": true
               }
             ]
           },
@@ -97,16 +97,16 @@
             "prompt": "An online checkout has HTTPS. What does it tell you?",
             "choices": [
               {
-                "text": "Traffic is encrypted; still verify seller and use suitable payment protection.",
-                "consequence": "You account for both transport and merchant risk.",
-                "explanation": "Payment-page code can be compromised despite HTTPS.",
-                "recommended": true
-              },
-              {
                 "text": "No e-skimmer can exist on this page.",
                 "consequence": "Malicious scripts may run on encrypted pages.",
                 "explanation": "Encryption does not validate page code.",
                 "recommended": false
+              },
+              {
+                "text": "Traffic is encrypted; still verify seller and use suitable payment protection.",
+                "consequence": "You account for both transport and merchant risk.",
+                "explanation": "Payment-page code can be compromised despite HTTPS.",
+                "recommended": true
               }
             ]
           },
@@ -153,14 +153,14 @@
             "prompt": "A tokenized wallet payment was made at a dishonest store. What remains?",
             "choices": [
               {
-                "text": "The seller can still fail to deliver; use normal dispute channels.",
-                "explanation": "Tokenization protects a credential, not the merchant promise.",
-                "correct": true
-              },
-              {
                 "text": "The wallet guarantees delivery.",
                 "explanation": "No payment token can force delivery.",
                 "correct": false
+              },
+              {
+                "text": "The seller can still fail to deliver; use normal dispute channels.",
+                "explanation": "Tokenization protects a credential, not the merchant promise.",
+                "correct": true
               }
             ]
           },

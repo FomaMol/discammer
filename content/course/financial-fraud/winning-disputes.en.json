@@ -53,16 +53,16 @@
             "prompt": "Which claim describes the problem?",
             "choices": [
               {
-                "text": "I authorized the purchase, but the item was not delivered as agreed.",
-                "consequence": "The claim matches the order and missing delivery.",
-                "explanation": "Accurate classification makes evidence relevant.",
-                "recommended": true
-              },
-              {
                 "text": "I never authorized the card charge.",
                 "consequence": "Your own order contradicts the claim.",
                 "explanation": "Do not relabel buyer-merchant disputes as stolen-card use.",
                 "recommended": false
+              },
+              {
+                "text": "I authorized the purchase, but the item was not delivered as agreed.",
+                "consequence": "The claim matches the order and missing delivery.",
+                "explanation": "Accurate classification makes evidence relevant.",
+                "recommended": true
               }
             ]
           },
@@ -70,16 +70,16 @@
             "prompt": "Which evidence packet is strongest?",
             "choices": [
               {
-                "text": "Order, stated date, tracking, statement and dated support messages.",
-                "consequence": "The timeline shows payment, promise and failure to deliver.",
-                "explanation": "Match records to the exact claim.",
-                "recommended": true
-              },
-              {
                 "text": "Only an angry social-media post.",
                 "consequence": "It does not establish purchase or non-delivery.",
                 "explanation": "A public complaint is not an evidence packet.",
                 "recommended": false
+              },
+              {
+                "text": "Order, stated date, tracking, statement and dated support messages.",
+                "consequence": "The timeline shows payment, promise and failure to deliver.",
+                "explanation": "Match records to the exact claim.",
+                "recommended": true
               }
             ]
           },
@@ -101,7 +101,7 @@
             ]
           },
           {
-            "prompt": "Issuer grants a temporary credit and asks for more records. What now?",
+            "prompt": "Separate checkpoint: after a truthful dispute is filed, the issuer grants a temporary credit and asks for more records. What now?",
             "choices": [
               {
                 "text": "Send requested evidence by its deadline and retain a copy.",
@@ -128,14 +128,14 @@
             "prompt": "You paid for a product that never arrived. Is this automatically an unauthorized charge?",
             "choices": [
               {
-                "text": "No; describe an authorized purchase with non-delivery.",
-                "explanation": "The payment and the seller’s performance are separate facts.",
-                "correct": true
-              },
-              {
                 "text": "Yes; “fraud” always wins faster.",
                 "explanation": "A false category can undermine the claim.",
                 "correct": false
+              },
+              {
+                "text": "No; describe an authorized purchase with non-delivery.",
+                "explanation": "The payment and the seller’s performance are separate facts.",
+                "correct": true
               }
             ]
           },

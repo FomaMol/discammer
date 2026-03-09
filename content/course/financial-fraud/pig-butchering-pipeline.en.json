@@ -53,16 +53,16 @@
             "prompt": "Leon says the successful withdrawal proves safety. Your response?",
             "choices": [
               {
-                "text": "Explain calmly that controlled sites can pay a small amount to build trust.",
-                "consequence": "Leon has a concrete reason to pause without feeling attacked.",
-                "explanation": "Avoid shame; explain the mechanism rather than labeling him gullible.",
-                "recommended": true
-              },
-              {
                 "text": "Tell him he is foolish and must admit it.",
                 "consequence": "He may withdraw from you while the scammer remains persuasive.",
                 "explanation": "Preserve a supportive channel.",
                 "recommended": false
+              },
+              {
+                "text": "Explain calmly that controlled sites can pay a small amount to build trust.",
+                "consequence": "Leon has a concrete reason to pause without feeling attacked.",
+                "explanation": "Avoid shame; explain the mechanism rather than labeling him gullible.",
+                "recommended": true
               }
             ]
           },
@@ -70,16 +70,16 @@
             "prompt": "Leon plans to borrow for another deposit. Best immediate boundary?",
             "choices": [
               {
-                "text": "Pause all new payments and borrowing while verifying the operator.",
-                "consequence": "Potential exposure stops growing.",
-                "explanation": "A pause is reversible; new transfers may not be.",
-                "recommended": true
-              },
-              {
                 "text": "Deposit only half to reduce risk.",
                 "consequence": "More money reaches the unverified destination.",
                 "explanation": "Smaller exposure is still exposure.",
                 "recommended": false
+              },
+              {
+                "text": "Pause all new payments and borrowing while verifying the operator.",
+                "consequence": "Potential exposure stops growing.",
+                "explanation": "A pause is reversible; new transfers may not be.",
+                "recommended": true
               }
             ]
           },
@@ -104,16 +104,16 @@
             "prompt": "Which record goes to the report, and how?",
             "choices": [
               {
-                "text": "Privately keep site URL, chats, dates, provider receipts, wallet addresses/hashes.",
-                "consequence": "A payment provider or investigator can trace the sequence.",
-                "explanation": "Provide sensitive evidence only through the real institution’s channel.",
-                "recommended": true
-              },
-              {
                 "text": "Post account screenshots with personal details in public.",
                 "consequence": "Private details may reach new scammers.",
                 "explanation": "Public posting is not an evidence-preservation method.",
                 "recommended": false
+              },
+              {
+                "text": "Privately keep site URL, chats, dates, provider receipts, wallet addresses/hashes.",
+                "consequence": "A payment provider or investigator can trace the sequence.",
+                "explanation": "Provide sensitive evidence only through the real institution’s channel.",
+                "recommended": true
               }
             ]
           }
@@ -128,14 +128,14 @@
             "prompt": "A real exchange sold coins later sent to a stranger’s platform. What did the exchange validate?",
             "choices": [
               {
-                "text": "Its own purchase service, not the outside recipient.",
-                "explanation": "The final wallet is a separate trust decision.",
-                "correct": true
-              },
-              {
                 "text": "Every destination recommended by the contact.",
                 "explanation": "The exchange does not endorse outside wallets by processing a purchase.",
                 "correct": false
+              },
+              {
+                "text": "Its own purchase service, not the outside recipient.",
+                "explanation": "The final wallet is a separate trust decision.",
+                "correct": true
               }
             ]
           },
