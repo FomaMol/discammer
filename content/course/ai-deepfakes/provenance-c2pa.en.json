@@ -1,33 +1,155 @@
 {
   "order": 5,
   "title": "Provenance signals: C2PA, watermarks, metadata",
-  "est_minutes": 6,
-  "body_md": "## Verifying where media came from\n\nIf 'looks real' is no longer a useful test, the next-best approach is verifying the *provenance* of a piece of media: where did this image / video / audio actually come from, and has it been modified since?\n\nProvenance defences are emerging but not yet universal. Knowing what's available — and what's still missing — sets your expectations correctly.\n\n### C2PA — Content Credentials\n\nThe Coalition for Content Provenance and Authenticity (C2PA) is an industry standard backed by Adobe, Microsoft, Sony, BBC, Reuters, and others. It embeds a cryptographically signed manifest into media files describing:\n\n- The capturing device or generating tool.\n- The editing history (who modified, with what software, when).\n- The signing certificate's chain of trust.\n\nWhen present, you can inspect a 'Content Credentials' badge — small *cr* logo — to see the chain. Adobe's site (contentcredentials.org/verify) lets you upload and inspect a file.\n\n**Limitations.** Only present if the camera, capture software, or editing tool supports C2PA. Most consumer cameras and phones don't yet. The chain proves authenticity only as far back as the first C2PA-aware tool touched it.\n\n### Visible and invisible watermarks\n\nGenerative tools increasingly include watermarks in their output:\n\n- **Visible watermarks** — labels in a corner, sometimes intentionally subtle. Easy to crop, less reliable.\n- **Invisible / perceptual watermarks** — patterns embedded in the pixels or audio waveform, designed to survive cropping, compression, and minor edits. Tools like Google's SynthID add these.\n\n**Limitations.** Adversarial edits can still degrade or remove watermarks. The watermark says 'this came from tool X' but not 'this is true'.\n\n### Metadata (EXIF, etc.)\n\nPhotographs have always carried EXIF metadata — camera model, date, GPS location, exposure settings. Mismatches between metadata and content (a photo claiming to be from 2024 but with EXIF dated 2019, or GPS coordinates in the wrong city) are often diagnostic.\n\n**Limitations.** Metadata is trivially editable. Absence of metadata means nothing — most social platforms strip EXIF on upload, so a real photo from Twitter has no EXIF either.\n\n### Reverse image / video search\n\nThe oldest and still one of the most useful tools. Google Images, TinEye, Yandex (especially strong on faces) can show you where else an image has appeared. A 'photo from yesterday's event' that has been online for three years is dispositive.\n\n### What this means for you\n\n- Treat provenance as *one* evidence channel, not as a verdict.\n- When you have multiple signals — domain of the source, C2PA chain, reverse-image-search result, content metadata — they combine into a confidence judgement. No single signal closes the case.\n- For media you don't have time to investigate, fall back to the rule from the rest of this module: *the channel that delivered the media* needs to be trusted before the media is.",
-  "widget_type": "quiz",
+  "est_minutes": 15,
+  "body_md": "## Provenance is a record of a file, not a verdict on events\n\nA media file can look authentic and still carry a false claim; a genuine photo may lose its metadata when shared. Provenance asks about a file's origin and edits. It does not, by itself, answer whether the scene is true, whether the caption is accurate, or whether a person authorises a payment.\n\n**C2PA Content Credentials** are signed manifests associated with media. A compatible viewer can validate that the signed assertions are bound to the file and inspect declared tools or edits. The C2PA v2.4 explainer stresses that validation is about well-formed, untampered provenance under a trust model, not factual truth. A creator can sign a staged scene; a file can be edited in an unsupported tool; a screenshot or platform re-encode may not preserve the original manifest. A missing credential is not evidence of a fake. Check who signed, what is asserted, whether the chain has gaps, and whether the file is the original you intended to inspect.\n\n**Watermarks** are a different signal. A visible mark can be cropped. An invisible watermark such as Google SynthID is designed for supported generated outputs and its own detection tools. A positive match to a particular system supports a narrow origin claim; a negative result cannot rule out every other generator, removal or unsupported workflow. Avoid uploading private family media to an outside checker merely to resolve curiosity.\n\n**Ordinary metadata** such as timestamps or camera fields can be edited or stripped. A mismatch can guide further checking, while absence is inconclusive. A reverse search can reveal an older appearance of the same image, but an old image may be legitimately reused as illustration. Search results also do not tell you whether a new caption is true. Compare with a source you independently trust, especially before forwarding a crisis claim or following a financial instruction.\n\nUse a small evidence ladder: preserve the original file if possible; inspect any credentials in a trusted viewer; look for earlier publication and context; confirm the claim with the alleged publisher through its known channel. Stop at “unverified” when evidence is insufficient. Do not turn a badge or watermark into a guarantee about the world.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "A news-style video shared on social media shows a politician saying something inflammatory. Which combination of checks gives you the *most reliable* assessment of whether this is genuine?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Interpret credentials, watermarks and metadata as limited provenance signals rather than truth or identity guarantees.",
+    "today_action": "For one non-private public image, compare its original publisher page with the version shared to you; note what context changed.",
+    "checked_at": "2026-10-20",
+    "scope": "C2PA v2.4 and a product-specific watermark example, checked 20 October 2026; support, viewer trust lists and media handling vary.",
+    "sources": [
       {
-        "text": "Inspect the politician's facial movements for deepfake artifacts.",
-        "correct": false,
-        "explanation": "Visual-artifact detection is now unreliable; perfect-looking video can still be fake. Don't lean here."
+        "title": "C2PA v2.4: Content Credentials explainer",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/explainer/Explainer.html",
+        "scope": "Version 2.4 explainer viewed 20 October 2026; signed provenance can be checked, but does not establish factual truth, complete history, or identity beyond its trust model."
       },
       {
-        "text": "Check whether the original video appears on the politician's verified channels or established news outlets; cross-reference with reverse video search; if available, inspect Content Credentials.",
-        "correct": true,
-        "explanation": "Yes. The robust approach is multiple provenance signals combined. A genuine clip from a press event will appear on the politician's verified accounts and from established outlets within hours. Reverse-search and C2PA (where available) reinforce. A clip that exists only in viral social shares with no primary source is suspect."
-      },
-      {
-        "text": "Trust the video if the source account has many followers.",
-        "correct": false,
-        "explanation": "Follower count is gamed by every direction. The signal you want is *primary source*, not aggregator account size."
-      },
-      {
-        "text": "Run the video through an AI deepfake detector.",
-        "correct": false,
-        "explanation": "Detectors give mixed results on individual videos. They're inputs into your judgement, not the verdict. Provenance signals are usually more decisive for breaking news."
+        "title": "Google DeepMind: SynthID",
+        "url": "https://deepmind.google/models/synthid/",
+        "scope": "Product-specific description viewed 20 October 2026; describes watermarking of supported Google and partner outputs, not universal detection of AI media."
       }
     ],
-    "hint": "What evidence chain leads back to a *primary source* you can trust?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A signed image carries a false caption",
+        "situation": "A synthetic post shares a signed photo of a real building and claims it shows a fire today. The credential says the photo was created years earlier.",
+        "analysis": "A valid provenance record can expose the date mismatch, but it does not fact-check the current fire claim. Look for independent current reporting. The signed building photo remains genuine media used in a misleading context.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A real witness photo has no credential",
+        "situation": "Synthetic example: A friend sends a screenshot of a photo they took on an older phone. No Content Credential or EXIF data survives the chat app.",
+        "analysis": "The absence is expected for many workflows and does not prove manipulation. Ask for the original if needed, check the context through the friend’s known contact, and avoid uploading private material to public tools without consent.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The breaking-news clip",
+        "setup": "Synthetic scenario: a short public clip claims a local official announced an immediate fee. You can inspect the file and publisher, but must decide whether to share or pay.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "The repost has no credential. What does that mean?",
+            "choices": [
+              {
+                "text": "It remains unverified; look for an original publication",
+                "consequence": "You avoid turning absence into a verdict.",
+                "explanation": "Reposting or re-encoding can remove provenance information.",
+                "recommended": true
+              },
+              {
+                "text": "It is certainly a deepfake",
+                "consequence": "A genuine clip may be wrongly dismissed.",
+                "explanation": "No credential is not proof of fabrication.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "An original file has a valid signer and an editing record.",
+            "choices": [
+              {
+                "text": "Read the signer and claims, then check the fee elsewhere",
+                "consequence": "You learn the file history without equating it with law or policy.",
+                "explanation": "Credentials describe provenance, not whether the spoken claim is true.",
+                "recommended": true
+              },
+              {
+                "text": "Pay because the signature validates the fee",
+                "consequence": "The fee could still be invented or miscaptioned.",
+                "explanation": "A signed file can carry false or irrelevant claims.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A watermark checker returns no match. What next?",
+            "choices": [
+              {
+                "text": "Treat it as narrow negative evidence and confirm with the official channel",
+                "consequence": "You avoid a universal conclusion from one tool.",
+                "explanation": "The tool checks supported marks, not all generators or every edited copy.",
+                "recommended": true
+              },
+              {
+                "text": "Share and pay because the clip is proven human-made",
+                "consequence": "An unsupported synthetic or miscaptioned clip can spread.",
+                "explanation": "No match is not a certificate of authenticity.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The safest conclusion can be “not yet verified.” Credentials, marks and metadata each answer a narrower question than “is this true?” Retry to see where an unsupported leap appears."
+      },
+      {
+        "type": "check",
+        "title": "Interpret the signal",
+        "questions": [
+          {
+            "prompt": "A C2PA credential validates for a staged scene. What is established?",
+            "choices": [
+              {
+                "text": "The signed provenance claims are associated with the file under the viewer’s trust model",
+                "explanation": "Validation does not turn a staged scene into a real event.",
+                "correct": true
+              },
+              {
+                "text": "The depicted event happened exactly as claimed",
+                "explanation": "Provenance does not verify factual truth.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A chat screenshot has no metadata. Which conclusion is justified?",
+            "choices": [
+              {
+                "text": "The metadata is unavailable; seek the original or other context",
+                "explanation": "Sharing workflows often discard file metadata.",
+                "correct": true
+              },
+              {
+                "text": "The image must be generated",
+                "explanation": "Missing metadata does not identify the creation method.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A supported watermark is found in a clip. What can it support?",
+            "choices": [
+              {
+                "text": "A narrow association with the marking system, not the truth of its caption",
+                "explanation": "Origin signals and contextual claims are separate.",
+                "correct": true
+              },
+              {
+                "text": "Every statement in the clip is false",
+                "explanation": "A marked clip can still contain accurate statements or legitimate illustration.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

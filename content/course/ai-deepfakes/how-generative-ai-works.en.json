@@ -1,33 +1,160 @@
 {
   "order": 1,
   "title": "How generative AI works — a useful mental model",
-  "est_minutes": 7,
-  "body_md": "## You don't need the maths to defend yourself\n\nGenerative AI — text models like GPT, image models like Midjourney, voice models like ElevenLabs, video models like Sora — has become a fraud tool. To defend yourself, you don't need to understand the architecture. You need a working mental model of *what the technology can and cannot do*.\n\nHere's that model in three claims.\n\n### Claim 1 — These systems are pattern reproducers, not understanders\n\nGenerative models are trained on enormous datasets and learn statistical patterns of how text, images, voice, or video go together. At runtime, they sample new instances that resemble the training distribution.\n\nThis matters because:\n\n- They can produce highly plausible *imitation* without understanding what they're producing.\n- They are very good at imitating styles you've seen many examples of (English writing, a celebrity's voice from a podcast, a specific generic photo style).\n- They are noticeably worse at things rare in their training data — niche dialects, internal company jargon, unusual lighting in a video.\n\n### Claim 2 — The cost of personalization collapsed to near zero\n\nFive years ago, a custom phishing email took a human attacker minutes to write. A voice clone took weeks of skilled work. A convincing fake video required a Hollywood team.\n\nToday, each of those takes seconds to generate from a stock model. Personalization at scale is now cheaper than spam used to be.\n\nDefensive consequence: assumptions that 'this email is too well-written to be a scam' or 'I would recognize my mother's voice' are no longer reliable.\n\n### Claim 3 — Generative systems still leak in detectable ways — but the leaks shrink\n\nIn 2023 you could spot a deepfake video by its weird hands, blurred ear edges, or inconsistent earrings. In 2024 most of those tells were patched. In 2025 the few remaining tells are subtle and inconsistent.\n\nDefensive consequence: do not pin your defence to today's visual artifacts. They will be gone in 12 months. Pin your defence to *process*: verification through channels the attacker can't control.\n\n### What changed for defenders\n\nThe net effect of generative AI on the threat landscape is:\n\n- **Volume up.** Mass-produced personalized attacks against everyone.\n- **Quality up.** No more 'badly translated' or 'awkward grammar' tells.\n- **Specific defences down.** Visual-artifact training is a losing battle.\n- **Process defences unchanged.** Verification-through-separate-channel works against AI exactly as well as it worked before AI.\n\nThe whole rest of this module is about building the process defences that survive the next iteration of the technology.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## A useful model: plausible output is not evidence\n\nA generative model learns patterns from examples and uses a prompt to produce new text, sound, images or video. A language model predicts successive pieces of text; image and audio systems use different methods to synthesize media. You need not know their internals to handle a suspicious request. The important separation is **appearance versus authority**: a convincing sentence or familiar face says little about who controls the account, call or payment instruction.\n\nA fraudster can combine public details with generated wording or media. The detail may be accurate and the request fraudulent. Conversely, an honest person may use an AI writing tool, translation, a noisy connection or a video filter. Do not classify people from grammar, accent, fingers or lip movement. Those cues can prompt a closer look, but they cannot authenticate a person. There is no stable minimum audio clip length that guarantees either a successful or impossible voice clone; quality depends on the tool and recording.\n\n**Work backward from the action.** Identify what the message asks you to change: send money, reveal a code, change bank details, open a link, keep a secret. Then ask what independent route would confirm that action. Open a contact or app you already know, not a callback link or number supplied by the request. If the request concerns company funds, follow the documented approval route even when the person appears on video. A compromised real account can send a fraudulent request too.\n\nThis model has limits. Verification can fail if you choose a number from the suspicious message, an attacker controls multiple channels, or the real person is unreachable. In that case pause the irreversible action and use another trusted contact or your organisation's escalation procedure. Verification is a decision process, not a verdict on whether a file was generated.\n\n### A one-minute routine\n\nName the requested action; stop before money or credentials move; leave the incoming channel; confirm through an independently found route; document the outcome if work policy requires it. The routine works for an ordinary impersonator as well as AI-assisted fraud.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "Which defensive strategy is *most robust* against improving generative-AI capabilities over the next few years?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Separate convincing AI-generated appearance from verified authority before acting on a request.",
+    "today_action": "Write down one trusted callback route for a person or team whose urgent request you might receive.",
+    "checked_at": "2026-10-20",
+    "scope": "General educational guidance for personal and workplace requests, checked 20 October 2026; specific approval and emergency procedures vary.",
+    "sources": [
       {
-        "text": "Train yourself to spot subtle visual artifacts in deepfake videos.",
-        "correct": false,
-        "explanation": "Visual artifacts are exactly what model developers focus on eliminating. Any specific tell that exists today will likely be gone in 12 months. Defence pinned to artifacts is on a treadmill it can't win."
+        "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
+        "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
+        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
       },
       {
-        "text": "Establish out-of-channel verification protocols (callback to known numbers, family code words, written confirmations through trusted apps).",
-        "correct": true,
-        "explanation": "Yes. Process defences are independent of model capability. Better AI doesn't help an attacker bypass a callback to a number you already had, or a code word you agreed on in advance. These hold up across generations of the technology."
+        "title": "FBI IC3: Business Email Compromise",
+        "url": "https://www.ic3.gov/CrimeInfo/BEC",
+        "scope": "US guidance for transfer and account-change requests; secondary-channel verification and urgent bank contact after a suspected transfer. Organisational and national procedures vary."
       },
       {
-        "text": "Avoid all AI-generated content by refusing to interact with anything you suspect was generated.",
-        "correct": false,
-        "explanation": "Impractical and not protective. Much of normal communication will involve AI assistance. The goal is to make the channel itself untrustworthy by default, not the content."
-      },
-      {
-        "text": "Use AI-detection tools to verify whether messages are human or machine.",
-        "correct": false,
-        "explanation": "Current AI detectors have poor accuracy and false positives. They're better than nothing on bulk text, but unreliable as defensive primitives for individual messages."
+        "title": "NIST: 2024 GenAI text-to-text pilot",
+        "url": "https://www.nist.gov/publications/2024-nist-genai-pilot-study-text-text-evaluation-overview-and-results",
+        "scope": "Published June 2025; benchmark on generated and human summaries, with detector performance varying by systems. It does not validate a detector for an individual message."
       }
     ],
-    "hint": "Which defence depends on what the model is *capable of*, and which depends on what the *channel* can carry?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A perfect voice asks for a transfer",
+        "situation": "A synthetic call sounds like the treasurer and asks you to send a supplier payment to a new account while the office is closed.",
+        "analysis": "Voice resemblance and knowledge of the supplier can come from public or stolen material. The account change is the decision point. Hold it and call the treasurer or supplier on a number already on file, then use the normal approval path.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A translated, awkward message is real",
+        "situation": "Synthetic example: A colleague uses translation software to report a delayed shipment. The phrasing is oddly formal, but the message only asks you to read a ticket already present in your work system.",
+        "analysis": "Awkward wording does not make the message fraudulent. Open the work system independently and inspect the existing ticket; do not accuse the colleague or use an AI-text score as identity proof.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The convincing video request",
+        "setup": "Synthetic scenario: a project manager appears on a video call about a rush vendor payment. The same request arrived in chat. No real accounts or payments are involved.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "The face and voice match. What do you evaluate first?",
+            "choices": [
+              {
+                "text": "The requested change to payment details",
+                "consequence": "You identify the irreversible step before trusting the presentation.",
+                "explanation": "The risk lies in approving a new destination for funds; the media only delivers the request.",
+                "recommended": true
+              },
+              {
+                "text": "Whether the video has a lip-sync error",
+                "consequence": "No artifact appears, so the transfer pressure remains.",
+                "explanation": "Clean video does not prove who controls the meeting.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The manager posts a callback number in chat. Which route?",
+            "choices": [
+              {
+                "text": "Use the manager number in the existing staff directory",
+                "consequence": "You leave the attacker-controlled thread.",
+                "explanation": "An independently stored contact is a separate check; the pasted number is part of the request.",
+                "recommended": true
+              },
+              {
+                "text": "Use the new number; it is faster",
+                "consequence": "The same actor can answer and repeat the story.",
+                "explanation": "A second medium is not independent when its address comes from the first.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The directory call is unanswered and the deadline is near.",
+            "choices": [
+              {
+                "text": "Pause payment and escalate through the usual approver",
+                "consequence": "The payment waits while an authorised person checks it.",
+                "explanation": "An unanswered callback is not approval; established controls still apply.",
+                "recommended": true
+              },
+              {
+                "text": "Approve because the video looked normal",
+                "consequence": "The unverified new account receives the funds in this simulation.",
+                "explanation": "Appearance cannot replace approval. Retry the decision using the existing route.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The key was the payment change. A model might be involved, but you do not need to prove that to protect the transaction. Retry any decision to see how the result changes."
+      },
+      {
+        "type": "check",
+        "title": "Transfer the habit",
+        "questions": [
+          {
+            "prompt": "A real account sends a strange request for a new beneficiary. What matters?",
+            "choices": [
+              {
+                "text": "Verify the account change through the established process",
+                "explanation": "A real account can be compromised; the high-risk action still needs independent approval.",
+                "correct": true
+              },
+              {
+                "text": "Trust it because the account is genuine",
+                "explanation": "Account ownership at one moment does not prove the current message is authorised.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "An odd accent appears on a call without a money request. What does it prove?",
+            "choices": [
+              {
+                "text": "Nothing decisive about identity",
+                "explanation": "Connection quality, translation and individual variation can all affect sound.",
+                "correct": true
+              },
+              {
+                "text": "The speaker is a clone",
+                "explanation": "Accent alone is not a reliable deepfake test.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "The caller gives you a second phone number to verify them. Is that independent?",
+            "choices": [
+              {
+                "text": "No; find a number already stored independently",
+                "explanation": "The attacker can control both the call and the newly supplied number.",
+                "correct": true
+              },
+              {
+                "text": "Yes; two phone numbers always establish identity",
+                "explanation": "Different numbers are not independent if both came from the same request.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

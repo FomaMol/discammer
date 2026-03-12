@@ -1,29 +1,150 @@
 {
   "order": 6,
   "title": "Building a family verification protocol",
-  "est_minutes": 6,
-  "body_md": "## A 15-minute family meeting that defeats voice cloning\n\nMost of the AI-powered impersonation attacks in this module fail against a simple thing: a code phrase that the family agreed on in advance. The AI cannot guess it. The attacker cannot research it. The defence is plain and the cost is zero.\n\nThe gap between knowing this exists and actually doing it is what this lesson is about.\n\n### Why a family-level protocol matters\n\n- **AI clones target people who love you.** The emotional weight that powers a 'grandchild emergency' scam doesn't exist between you and a stranger. The clones go where they can hurt people most.\n- **A family member won't have the script you have.** You've taken this course. Your mother, grandfather, or 13-year-old child probably hasn't. The protocol externalises your training so anyone in the family can use it under stress.\n- **Verification routines fail when only one person knows them.** If the scam targets the family member who *doesn't* know there's a code word, you've failed in advance.\n\n### A 4-step family setup\n\n#### 1. Decide who's in the circle\n\nList the people you would actually call in an emergency, or who would call you: spouse, children, parents, siblings, very close friends.\n\nKeep it small. The bigger the circle, the more likely the word leaks.\n\n#### 2. Pick a code phrase\n\nProperties of a good phrase:\n\n- **Not on your social media or in any email.** No anniversaries, no pet names, no kids' names.\n- **Short and memorable.** Something like 'blue elephant Wednesday' or 'green door 7'.\n- **Unique to this purpose.** Not your Wi-Fi password.\n\n#### 3. Define the trigger\n\nState clearly when the code is required:\n\n- Any phone or video call asking for money, transfers, or gift cards.\n- Any message asking the recipient to act urgently on something financial.\n- Any unfamiliar voice claiming to represent a family member in trouble.\n\nThe code is required *every time* — not just when something feels off. Asking is the default; if asking feels rude, that means the protocol is doing its job.\n\n#### 4. Practice it once\n\nRun through the protocol once at the family dinner. Have the parent ask the child to imagine they got a call. The child practices saying 'I need to ask you the code first.' This rehearsal is the difference between knowing the protocol and being able to use it under stress.\n\n### Update cadence\n\n- Refresh the code phrase every 2 years.\n- Refresh immediately if you ever suspect the phrase was overheard or shared accidentally.\n- After a refresh, do one practice round so the new phrase is anchored.\n\n### A complementary corporate version\n\nFor work, the analogue is a documented out-of-band verification policy for payment changes. Same idea: anybody asked to move money knows which channel they must use to confirm, before they act. The cultural goal is exactly the same: take the bravery out of asking.",
-  "widget_type": "scenario",
+  "est_minutes": 14,
+  "body_md": "## Make a family plan that survives panic\n\nA family verification plan is a short agreement made *before* an urgent call. Its purpose is not to identify every deepfake. It gives everyone permission to pause, disconnect and check through a route chosen in advance. The FTC describes fake emergency callers who exploit urgency, secrecy, personal details and sometimes a cloned voice. The same plan helps if the caller simply imitates a voice or uses a stolen phone.\n\nStart with two or three people likely to receive an emergency request. Agree on three rules: no money or account codes on an incoming call; call the person back on a saved number; if there is no answer, contact another relative or a real institution through its published number. Decide who can help a young or older relative make that second call. Rehearse a short sentence: “I want to help. I am hanging up and calling you on the number I already have.” A real emergency can still be handled promptly.\n\nAn optional shared phrase is a reminder, not proof. Choose one unrelated to public birthdays or pet names; do not reuse a password or one-time account code. Keep the circle small, explain when to use it, and replace it if exposed. A caller who knows the phrase still needs a callback; a real person who forgets it still deserves a welfare check. If no phrase is practical, the callback plan remains useful. Do not impose a fixed renewal date as if rotation alone made it safe.\n\nWrite down the route in a safe place: saved contact numbers, a second family contact, and locally relevant emergency numbers. Do not put secret phrases in a shared public post. During a call, one person can handle the independent callback while another stays ready to seek medical or police help. Afterward, tell the family what happened without shaming the person who received the call. If money was sent, promptly ask the bank or payment provider about available recovery and use local reporting channels.\n\nThe plan works only if the people who may receive a call know it and have practised it. Spend a few minutes rehearsing the disconnect-and-callback step rather than trying to make everyone an audio-forensics expert.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "You've sat down with your parents and your 19-year-old child for the family security conversation. You're explaining that you want to set up a code word for emergency calls. Your father says: 'But if you call me about something serious, you'd be too stressed to remember it — and I'd recognize your voice anyway.'",
-    "prompt": "How do you respond?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Agree and practise a family callback plan for urgent requests, with a safe fallback when someone is unreachable.",
+    "today_action": "Ask two close people to practise the sentence “I will call you back on your saved number,” and save a backup contact.",
+    "checked_at": "2026-10-20",
+    "scope": "General household education, checked 20 October 2026; adapt emergency contacts and payment recovery to your country. A shared phrase is optional, not an authentication guarantee.",
+    "sources": [
       {
-        "text": "Agree and abandon the plan. He has a point — under stress people forget things.",
-        "outcome": "disaster",
-        "explanation": "Reasonable-sounding but wrong. Stress-related memory issues affect *what* you say, not the protocol itself. The point of the code word isn't that you remember every detail; it's that you remember to *ask*. Voice recognition is exactly what AI clones beat — that's the whole reason the protocol exists."
-      },
-      {
-        "text": "Calmly explain that AI voice clones can now sound exactly like family members from a 30-second sample, and the code word is what survives even when the voice doesn't. Walk through one rehearsal so everyone has the muscle memory.",
-        "outcome": "good",
-        "explanation": "Yes. You're addressing both objections — voice recognition no longer being reliable, and stress-memory being mitigated by rehearsal. A single 30-second practice run is enough to anchor the protocol."
-      },
-      {
-        "text": "Argue forcefully that he's wrong and refuse to leave the table until everyone agrees.",
-        "outcome": "risky",
-        "explanation": "Right direction, wrong delivery. Making people defensive about a security topic is the fastest way to ensure they won't use the protocol when it matters. Explain calmly; practice; let the muscle memory build."
+        "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
+        "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
+        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
       }
     ],
-    "moral": "Code words don't fail because of stress — they fail because nobody practised them. Practise once, and the protocol survives the stress."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A “granddaughter” asks to hide a payment",
+        "situation": "A synthetic caller says she is your granddaughter, has been detained, and needs a payment through a new intermediary before anyone else hears.",
+        "analysis": "The secrecy rule is designed to disable the family network. End the call, use the saved number and the agreed backup person. If a real detention is possible, independently contact the relevant local authority; do not pay the caller’s intermediary.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A real relative forgets the phrase",
+        "situation": "Synthetic example: After an injury, your uncle calls from a clinic’s phone. He cannot remember the optional family phrase and wants someone to collect him, not transfer money.",
+        "analysis": "A missing phrase does not make him a fraudster. Call the clinic using its published number or another relative to check the location, then arrange help. The protocol should support care, not block it.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Build the family response",
+        "setup": "Synthetic scenario: three relatives are agreeing how to handle an urgent call; one uses an older phone and one travels often.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "What is the rule for an incoming money request?",
+            "choices": [
+              {
+                "text": "End the call and dial the saved number yourself",
+                "consequence": "Everyone has a simple first move.",
+                "explanation": "A saved contact exists outside the caller’s story.",
+                "recommended": true
+              },
+              {
+                "text": "Ask the caller to text a proof photo",
+                "consequence": "A convincing image arrives, but identity remains unverified.",
+                "explanation": "The caller controls the image as well as the call.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The traveller may be unreachable. Choose the fallback.",
+            "choices": [
+              {
+                "text": "Call a second agreed relative or published institution",
+                "consequence": "The plan still works without one phone.",
+                "explanation": "Independent welfare checks are possible without sending money to the caller.",
+                "recommended": true
+              },
+              {
+                "text": "Assume no answer confirms the emergency payment",
+                "consequence": "An unreachable phone turns into false “evidence.”",
+                "explanation": "No answer can have many ordinary causes.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A relative proposes a shared phrase. How should it be used?",
+            "choices": [
+              {
+                "text": "As an optional clue alongside independent callback",
+                "consequence": "The phrase helps memory without becoming a master key.",
+                "explanation": "It can leak or be forgotten; the saved route remains primary.",
+                "recommended": true
+              },
+              {
+                "text": "As sole proof, replacing the callback",
+                "consequence": "One overheard phrase can defeat the whole plan.",
+                "explanation": "A shared secret alone does not verify the current situation.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "The agreed action is a short, rehearsed callback with a fallback. A phrase can help but cannot override the callback. Revisit the choices together as a family."
+      },
+      {
+        "type": "check",
+        "title": "Can the plan travel?",
+        "questions": [
+          {
+            "prompt": "A real relative forgets the family phrase during an injury.",
+            "choices": [
+              {
+                "text": "Verify through a clinic or another saved contact, then help",
+                "explanation": "The plan supports a genuine emergency without treating memory failure as guilt.",
+                "correct": true
+              },
+              {
+                "text": "Refuse all help because the phrase is missing",
+                "explanation": "A phrase is optional and fallible.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Who should know the response plan?",
+            "choices": [
+              {
+                "text": "People likely to receive or verify an urgent request",
+                "explanation": "The callback fails if only one family member knows it.",
+                "correct": true
+              },
+              {
+                "text": "Only the person who designed it",
+                "explanation": "Others need to practise before panic.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A caller supplies a hospital phone number. What do you do?",
+            "choices": [
+              {
+                "text": "Find the institution’s number independently",
+                "explanation": "A number supplied by the caller can lead to an accomplice.",
+                "correct": true
+              },
+              {
+                "text": "Call it and treat the answer as independent proof",
+                "explanation": "The source of the number is still the unverified caller.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

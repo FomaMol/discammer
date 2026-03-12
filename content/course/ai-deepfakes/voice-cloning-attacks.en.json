@@ -1,29 +1,155 @@
 {
   "order": 2,
   "title": "Voice cloning attacks against family and finance",
-  "est_minutes": 7,
-  "body_md": "## Thirty seconds of audio is all it takes\n\nModern voice cloning tools can produce a convincing imitation of a specific person from less than thirty seconds of recorded audio. Many of them work in real time — the operator types, the cloned voice speaks. The required audio sample is trivial to obtain: a podcast appearance, a YouTube video, a voicemail, an old conference talk.\n\nThis collapsed two attacks from 'expensive' to 'cheap and routine':\n\n### Family emergency scams\n\nThe pattern: a target receives a frantic call that sounds exactly like a close family member (child, parent, sibling). The voice claims to be in trouble — arrested, in an accident, kidnapped — and needs money urgently, often via gift cards or wire transfer. The script always includes 'please don't tell anyone else' to keep the target from cross-checking.\n\nBefore voice cloning, this scam required a skilled impersonator and worked rarely. With a 30-second clip from the target's social media (a wedding speech, a podcast guest spot, a TikTok), the cost of producing the call dropped to zero.\n\n### Corporate CEO/CFO scams\n\nWe covered Arup in module 1 — the version where the whole *video* meeting was deepfaked. The audio-only version is more common because it's cheaper and harder to inspect.\n\nA 'CEO' calls accounting on a Friday afternoon, asks for an urgent wire transfer 'for a confidential deal', promises to explain Monday. The voice is the real CEO's — cloned from their recent earnings call.\n\n### What stays true even with perfect cloning\n\nThe model can imitate the *sound* of the person. It cannot imitate:\n\n- **Things they actually know** that are not in the training data. Your real mother knows the name of your first dog. The clone doesn't (unless the attacker has researched).\n- **What they would actually do.** Your real CEO does not skip controls. The clone, following a script, will press hard against your controls.\n- **A pre-arranged code word.** This is the simplest possible defence and the AI can't bridge it.\n\n### Setting up a family code word\n\nThis is a 30-second conversation that solves the entire problem at the family level:\n\n1. Agree on a word or short phrase with people you'd call in a real emergency. Something unrelated to your normal vocabulary.\n2. The agreement: *anyone* calling about a financial emergency must include the code word. No exceptions.\n3. Update it every couple of years or whenever you suspect it's been heard outside the family.\n\nIf the call doesn't have the code word, hang up. Call back on a known number.\n\n### Corporate equivalent\n\nFor work: any 'urgent transfer' demand from an executive triggers a callback to a known number, and a confirmation in writing through a trusted internal channel (Slack/Teams from the real account). This is just the verification routine from module 2, applied to the new attack surface.",
-  "widget_type": "scenario",
+  "est_minutes": 14,
+  "body_md": "## A familiar voice can carry an unfamiliar request\n\nVoice cloning can make a caller sound like somebody you know. The FTC warns that a short clip from online material can be enough for a scammer to attempt it. That does not mean every tool works with a fixed number of seconds, or that every convincing impersonation used AI. Caller ID can be spoofed, a real phone can be stolen, and a relative's distress can sound unusual without deception.\n\nThe family-emergency script joins a familiar voice to urgency, secrecy and a payment method that is difficult to recover. The caller may introduce a second voice as a lawyer or official. Staying on the same call to question that person is not an independent check. End the call, dial the relative on a number you saved earlier, and contact another close person if there is no answer. If there might be a genuine emergency, contact the relevant local emergency service through its established number. Do not delay care merely to finish a fraud test.\n\nAt work, a voice resembling an executive may request a confidential transfer or a change in supplier details. The voice is irrelevant to the normal approval boundary. Use the approved directory, payment-change procedure and second sign-off. A corporate chat account can also be compromised, so ask the exact person and amount through a known channel rather than treating a green online indicator as proof.\n\nA family phrase can be a useful extra prompt if everyone understands it, but it is **not a master key**. It may be overheard, phished, forgotten under stress or repeated by an attacker after one family member reveals it. Do not use a childhood fact that is searchable online as the sole test. If the phrase is missing or correct, still use the independent callback before sending money. Never tell a caller a one-time account code.\n\nIf money was already sent, contact the bank or payment provider promptly and ask what recovery is possible; success is not guaranteed. Follow local reporting routes. The strongest habit is to verify the *request* outside the call, whether or not the voice was synthesized.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "It's 11 p.m. Your phone rings. The voice on the line is your daughter's — crying, panicked. She says she was in a car accident, the other driver is hurt, the police are arresting her unless she posts $4,000 bail in gift cards within an hour. She begs you not to call anyone else because 'they said it'll make it worse'.",
-    "prompt": "What do you do?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Verify urgent family or finance calls without relying on a familiar voice.",
+    "today_action": "Save the independently verified number of one close person you would contact during a family emergency.",
+    "checked_at": "2026-10-20",
+    "scope": "General guidance; FTC examples and reporting routes apply to the US, checked 20 October 2026. Use local emergency and workplace procedures.",
+    "sources": [
       {
-        "text": "Drive to buy the gift cards immediately — every second counts.",
-        "outcome": "disaster",
-        "explanation": "The script is the classic family-emergency scam, now powered by voice cloning. Gift-card bail is not a real legal mechanism in any jurisdiction. The 'don't tell anyone' is the structural giveaway."
+        "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
+        "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
+        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
       },
       {
-        "text": "Tell the caller you need to ask the family code word before doing anything. If she can't say it, hang up and call her directly.",
-        "outcome": "good",
-        "explanation": "Yes. The code word is the AI-proof defence. A real daughter under stress will know it. A voice clone built from social-media audio will not. If the call goes silent or pivots, you've identified a scam. Then call her actual number to confirm she's fine."
-      },
-      {
-        "text": "Stay on the line, ask 'put me on with the officer' to verify the situation.",
-        "outcome": "risky",
-        "explanation": "A 'police officer' character is part of the script. The next voice you hear will sound authoritative and apply more pressure. Don't extend the conversation; switch channels."
+        "title": "FBI IC3: Business Email Compromise",
+        "url": "https://www.ic3.gov/CrimeInfo/BEC",
+        "scope": "US guidance for transfer and account-change requests; secondary-channel verification and urgent bank contact after a suspected transfer. Organisational and national procedures vary."
       }
     ],
-    "moral": "A 30-second audio clip can build the voice. A family code word kills the attack regardless of how good the clone is."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A distressed nephew asks for secrecy",
+        "situation": "A synthetic caller sounds like your nephew and says an intermediary will accept a payment immediately. He begs you not to contact his parents.",
+        "analysis": "Secrecy and urgent payment block checking. End the call, use the nephew’s previously saved number, then contact his parents if needed. A second voice introduced by the caller is still inside the same untrusted conversation.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A genuine emergency sounds unlike the person",
+        "situation": "Synthetic example: Your sister calls from a borrowed phone after a traffic accident; noise and panic make her voice hard to recognise. She asks you to come to a hospital, not to send money.",
+        "analysis": "A different voice is not proof of fraud. Ask for the hospital name, call its published switchboard or local emergency service if necessary, and act on verified welfare information. Avoid demanding a code phrase before offering real help.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Late-night call from a loved one",
+        "setup": "Synthetic scenario: a voice like your brother says he needs urgent financial help. The number is unfamiliar.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "He asks you to keep talking while a “lawyer” explains payment.",
+            "choices": [
+              {
+                "text": "End this call and use a saved contact",
+                "consequence": "You make room for an independent check.",
+                "explanation": "The “lawyer” is chosen by the caller and does not verify the caller.",
+                "recommended": true
+              },
+              {
+                "text": "Listen to the lawyer as verification",
+                "consequence": "The second actor adds pressure.",
+                "explanation": "Two voices on one controlled call are not two sources.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The saved number does not answer. What next?",
+            "choices": [
+              {
+                "text": "Contact another relative or a published institution number",
+                "consequence": "You seek independent welfare information.",
+                "explanation": "No answer does not mean the caller’s payment story is true.",
+                "recommended": true
+              },
+              {
+                "text": "Send a small test payment",
+                "consequence": "The attacker gets money and may ask for more.",
+                "explanation": "A test payment is still a payment to an unverified recipient.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The caller knows your family phrase. Do you pay?",
+            "choices": [
+              {
+                "text": "Wait for independent confirmation of the person and request",
+                "consequence": "The phrase becomes one clue, not permission to pay.",
+                "explanation": "A shared phrase can leak or be elicited; verify through a saved route.",
+                "recommended": true
+              },
+              {
+                "text": "Pay because only family knows the phrase",
+                "consequence": "The simulated payment goes to an unverified recipient.",
+                "explanation": "Knowledge of a phrase is not independent confirmation.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Urgency did not remove the duty to check. If a real emergency is plausible, seek help through known institutions while withholding unverified payments. Replay any step to practise."
+      },
+      {
+        "type": "check",
+        "title": "Apply the rule elsewhere",
+        "questions": [
+          {
+            "prompt": "A manager’s familiar voice asks to change supplier bank details. Best next step?",
+            "choices": [
+              {
+                "text": "Use the documented payment-change and callback process",
+                "explanation": "Financial controls apply regardless of voice quality.",
+                "correct": true
+              },
+              {
+                "text": "Approve because you recognise the voice",
+                "explanation": "Cloning and ordinary impersonation make voice alone insufficient.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A caller knows a private childhood detail. Does that settle identity?",
+            "choices": [
+              {
+                "text": "No; the detail may have leaked or been researched",
+                "explanation": "A knowledge question is weaker than a route you choose independently.",
+                "correct": true
+              },
+              {
+                "text": "Yes; a clone cannot know facts",
+                "explanation": "The human attacker can supply facts to a model or speak directly.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "The real person cannot be reached, but danger may be genuine.",
+            "choices": [
+              {
+                "text": "Contact another trusted person or local emergency service; do not make an unverified payment",
+                "explanation": "You can check welfare promptly without accepting the caller’s payment channel.",
+                "correct": true
+              },
+              {
+                "text": "Ignore every emergency until the person calls back",
+                "explanation": "A real emergency may require a prompt call to a reliable institution.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
