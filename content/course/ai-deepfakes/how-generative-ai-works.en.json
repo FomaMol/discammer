@@ -46,7 +46,7 @@
       {
         "type": "practice",
         "title": "The convincing video request",
-        "setup": "Synthetic scenario: a project manager appears on a video call about a rush vendor payment. The same request arrived in chat. No real accounts or payments are involved.",
+        "setup": "Synthetic scenario: a project manager appears on a video call about a rush vendor payment. The same request arrived in chat. Each decision is a separate snapshot; actions in one do not carry into the next. No real accounts or payments are involved.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -68,7 +68,7 @@
             ]
           },
           {
-            "prompt": "The manager posts a callback number in chat. Which route?",
+            "prompt": "Separate snapshot: the manager posts a callback number in chat. Which route do you use?",
             "choices": [
               {
                 "text": "Use the manager number in the existing staff directory",
@@ -85,7 +85,7 @@
             ]
           },
           {
-            "prompt": "The directory call is unanswered and the deadline is near.",
+            "prompt": "Separate snapshot: you call the manager using the existing staff directory, but nobody answers. The deadline for the new-account payment is near. What now?",
             "choices": [
               {
                 "text": "Pause payment and escalate through the usual approver",

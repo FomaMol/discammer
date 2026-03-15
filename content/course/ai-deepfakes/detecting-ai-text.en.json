@@ -46,7 +46,7 @@
       {
         "type": "practice",
         "title": "The too-perfect invitation",
-        "setup": "Synthetic scenario: a community organiser sends a polished message about an event and asks you to pay a new registration fee. You know the organiser but have not seen this fee before.",
+        "setup": "Synthetic scenario: a community organiser sends a polished message about an event and asks you to pay a new registration fee. You know the organiser but have not seen this fee before. Each decision is a separate snapshot; actions in one do not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -68,7 +68,7 @@
             ]
           },
           {
-            "prompt": "The message links to a fee page. Where do you check?",
+            "prompt": "Separate snapshot: the message links to a fee page. Where do you check?",
             "choices": [
               {
                 "text": "Open the organiser’s known site or saved contact independently",
@@ -85,7 +85,7 @@
             ]
           },
           {
-            "prompt": "The known channel has no fee announcement and the organiser is unavailable.",
+            "prompt": "Separate snapshot: you open the organiser's known site independently and find no fee announcement there. The organiser is unavailable. What do you do?",
             "choices": [
               {
                 "text": "Hold payment and ask later through the known route",

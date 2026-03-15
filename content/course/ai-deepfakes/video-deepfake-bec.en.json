@@ -41,7 +41,7 @@
       {
         "type": "practice",
         "title": "The acquisition meeting",
-        "setup": "Synthetic scenario: a fictional finance team receives an invitation to an urgent video meeting about a changed escrow recipient.",
+        "setup": "Synthetic scenario: a fictional finance team receives an invitation to an urgent video meeting about a changed escrow recipient. Each decision is a separate snapshot; actions in one do not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -63,7 +63,7 @@
             ]
           },
           {
-            "prompt": "The invitation includes a supplier callback number.",
+            "prompt": "Separate snapshot: the invitation includes a supplier callback number. Which number do you use?",
             "choices": [
               {
                 "text": "Call the supplier through the number already in vendor records",
@@ -80,7 +80,7 @@
             ]
           },
           {
-            "prompt": "The supplier is unreachable; the meeting says approval must happen now.",
+            "prompt": "Separate snapshot: you call the supplier using the number already in vendor records, but get no answer. The meeting demands approval now. What do you do?",
             "choices": [
               {
                 "text": "Hold the beneficiary change and use the escalation/sign-off route",

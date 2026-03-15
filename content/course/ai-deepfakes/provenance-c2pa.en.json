@@ -41,7 +41,7 @@
       {
         "type": "practice",
         "title": "The breaking-news clip",
-        "setup": "Synthetic scenario: a short public clip claims a local official announced an immediate fee. You can inspect the file and publisher, but must decide whether to share or pay.",
+        "setup": "Synthetic scenario: a short public clip claims a local official announced an immediate fee. You can inspect the file and publisher, but must decide whether to share or pay. Each decision is a separate snapshot; payments and shares in one do not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -63,7 +63,7 @@
             ]
           },
           {
-            "prompt": "An original file has a valid signer and an editing record.",
+            "prompt": "Separate snapshot: you have not paid or shared the clip. An original file has a valid signer and an editing record. What do you do?",
             "choices": [
               {
                 "text": "Read the signer and claims, then check the fee elsewhere",
@@ -73,14 +73,14 @@
               },
               {
                 "text": "Pay because the signature validates the fee",
-                "consequence": "The fee could still be invented or miscaptioned.",
+                "consequence": "You send money for a fee that could still be invented or miscaptioned.",
                 "explanation": "A signed file can carry false or irrelevant claims.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A watermark checker returns no match. What next?",
+            "prompt": "Separate snapshot: you have not paid or shared the clip. A watermark checker returns no match for a copy of it. What next?",
             "choices": [
               {
                 "text": "Treat it as narrow negative evidence and confirm with the official channel",
@@ -90,7 +90,7 @@
               },
               {
                 "text": "Share and pay because the clip is proven human-made",
-                "consequence": "An unsupported synthetic or miscaptioned clip can spread.",
+                "consequence": "You send money and spread a clip that may be synthetic or miscaptioned.",
                 "explanation": "No match is not a certificate of authenticity.",
                 "recommended": false
               }

@@ -41,7 +41,7 @@
       {
         "type": "practice",
         "title": "Late-night call from a loved one",
-        "setup": "Synthetic scenario: a voice like your brother says he needs urgent financial help. The number is unfamiliar.",
+        "setup": "Synthetic scenario: a voice like your brother says he needs urgent financial help. The number is unfamiliar. Each decision is a separate snapshot; actions and payments in one do not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -63,7 +63,7 @@
             ]
           },
           {
-            "prompt": "The saved number does not answer. What next?",
+            "prompt": "Separate snapshot: you end the incoming call and dial your brother's saved number, but nobody answers. What next?",
             "choices": [
               {
                 "text": "Contact another relative or a published institution number",
@@ -80,7 +80,7 @@
             ]
           },
           {
-            "prompt": "The caller knows your family phrase. Do you pay?",
+            "prompt": "Separate snapshot: no money has been sent. A caller with a voice like your brother knows your family phrase and asks for a transfer. Do you pay?",
             "choices": [
               {
                 "text": "Wait for independent confirmation of the person and request",
