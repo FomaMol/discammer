@@ -94,8 +94,8 @@
                 "recommended": true
               },
               {
-                "text": "Upload the message to an AI detector and pay if its score is low",
-                "consequence": "Private text leaves your control and the fee stays unverified.",
+                "text": "Upload the message to an AI detector and pay after it reports a low AI-likelihood score",
+                "consequence": "In this synthetic snapshot, the detector reports a low AI-likelihood score. You expose the private message to a third-party service and pay an unverified fee.",
                 "explanation": "An AI score does not decide whether the payment is authorised.",
                 "recommended": false
               }
