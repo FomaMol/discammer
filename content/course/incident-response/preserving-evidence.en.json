@@ -1,33 +1,176 @@
 {
   "order": 3,
   "title": "Preserving evidence without tipping off the attacker",
-  "est_minutes": 6,
-  "body_md": "## What you keep determines what gets investigated\n\nOnce you've contained the immediate damage, the next priority is preserving evidence. Without it, dispute claims fail, police reports go nowhere, and the same operator keeps targeting other people. With it, banks reverse transactions more often, law enforcement aggregates cases, and you have leverage to demand insurance payouts or company settlements.\n\nThe rules are simple but easy to violate under stress.\n\n### Capture before you clean\n\nBefore you delete anything, change anything, or sign out of anything — take screenshots. Many people, in their hurry to clean up, delete the very emails or messages that prove what happened. Once gone, they're gone.\n\nCapture:\n\n- **The full email** with headers visible. Most clients let you 'view source' or 'show original' — that's the version forensics teams need.\n- **The chat history** for any messaging platform involved. Many platforms have an export function (Telegram, WhatsApp, iMessage).\n- **Transaction details** from your bank: amount, time, destination, reference number.\n- **The URL bar** of any malicious site you visited, before you close the tab.\n- **The phone number** of any caller (your phone's recent calls log usually has it).\n- **Crypto specifics:** wallet addresses, transaction hashes, blockchain explorer pages.\n\nA dated screenshot is more credible than your testimony two weeks later.\n\n### Don't tip off the attacker\n\nIf you've discovered an active compromise — say, an attacker still has a session open on your account, or is mid-way through a fraud — you have a choice between two strategies:\n\n1. **Contain quickly**, accepting that the attacker will know they were caught.\n2. **Monitor briefly** while collecting evidence, accepting some additional risk.\n\nFor individuals, **almost always choose option 1.** The marginal evidence gained from monitoring is small; the marginal risk is high. For organizations with security teams, option 2 may be appropriate, but it's a deliberate, supervised decision — not a default.\n\nIn either case, don't *confront* the attacker. Don't reply to their messages. Don't 'try to keep them talking'. You are not a counter-intelligence agent; this is rarely useful and frequently provokes more aggressive attacks.\n\n### Sources of evidence you might miss\n\n- **Browser history** on the compromised account, even from the attacker's session, can be useful.\n- **Email-account activity log** typically shows IP addresses, devices, and times for the last 30+ days.\n- **Carrier records** of any SIM-swap or port-out request. Ask explicitly.\n- **Surveillance footage** if the attack was in person (skimmer installations at gas pumps, etc.).\n- **Witness accounts** from anyone else who saw the activity (e.g., your IT team if a work device was involved).\n\n### Where to keep your evidence\n\nNot on the compromised device. Save screenshots and documents to a folder on a clean device, named with the date of the incident. Consider also uploading a backup copy to cloud storage you trust — losing the evidence later is a real failure mode.\n\n### The timeline document\n\nIn parallel to collecting artifacts, keep a simple chronological note: 'On April 12 at 9:43pm I noticed X. Did Y. At 9:55pm noticed Z.' This timeline is the spine of every conversation that follows. Banks ask for it; police ask for it; insurance asks for it. It's far easier to keep it as you go than to reconstruct it later.",
-  "widget_type": "quiz",
+  "est_minutes": 13,
+  "body_md": "## Preserve the trail without delaying containment\n\nEvidence helps a bank understand a disputed payment, a provider investigate an account, and investigators connect reports. It cannot by itself make a refund or prosecution happen. For an individual facing an active takeover, removing access and reporting a live loss usually matter more than watching an attacker for a “better” screenshot. Take a quick copy when safe, then contain.\n\n### Build a small, private case file\n\nRecord the original message or email, not only a cropped screenshot. For email, preserve the full message with headers if the mail service allows export; a displayed sender name can be forged. Save transaction references, the bank's case number, account alerts, relevant security activity, and dates with timezone. Make a timeline that separates observation (“19:10: saw transfer in bank app”) from inference (“may have started after support call”). If an entry is uncertain, mark it uncertain rather than filling the gap.\n\nCapture the context around a screenshot so a reviewer can tell what application and date it came from; do not include passwords, recovery codes or unnecessary personal data in a shareable copy. Keep originals in a private location with a backup you control. Give a bank or investigator only the material requested through an authenticated channel. The US IC3 specifically asks complainants to retain originals securely and does not take attachments to its complaint form.\n\n### What can disappear\n\nProviders may rotate activity logs, messages can be deleted, and a device reset may erase local evidence. If a work device or serious malware investigation is involved, contact the response team before changing it; forensic handling is specialist work. Do not attempt to access the attacker's account, “test” suspicious links, contact the attacker, or leave them in your account to observe them. You can record an alert and then revoke sessions. Later, add confirmation letters and final outcomes to the same timeline.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You discover the attacker is still actively logged into your email and reading your inbox. You're not part of a corporate security team. What's the right move?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Preserve a usable, private timeline and original artifacts while containing an active incident promptly.",
+    "today_action": "Create an empty incident-note template with fields for date/time/timezone, observed fact, source, action, contact and case number; store it privately.",
+    "checked_at": "2026-10-20",
+    "scope": "General evidence organization; legal admissibility and provider retention differ; IC3 attachment rules apply to US complaints.",
+    "sources": [
       {
-        "text": "Wait quietly and screenshot what they're doing for evidence before they leave.",
-        "correct": false,
-        "explanation": "For an individual, the marginal evidence you'd collect this way is small compared to the active risk while the attacker is reading your inbox. Forensic logs from the email provider will reveal most of this after the fact."
+        "title": "FBI IC3: Complaint FAQ",
+        "url": "https://www.ic3.gov/Home/FAQ",
+        "scope": "US complaint process and evidence retention"
       },
       {
-        "text": "Sign out all sessions immediately, change the password, and capture the activity log from the security page right after.",
-        "correct": true,
-        "explanation": "Yes. Containment first. The email provider's activity / login history is preserved even after you kick the attacker out, so you can still capture that evidence in the next minute. The risk of leaving them in to gather marginal evidence outweighs the gain."
+        "title": "FTC: Recover a hacked email or social media account",
+        "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
+        "scope": "US consumer guidance; provider controls vary"
       },
       {
-        "text": "Reply to one of the attacker's emails to confirm their address for the police report.",
-        "correct": false,
-        "explanation": "Engaging with the attacker rarely helps an investigation (their replying address is often a throwaway anyway) and frequently escalates the situation. Don't confront; contain."
-      },
-      {
-        "text": "Try to remote-monitor the account with browser developer tools.",
-        "correct": false,
-        "explanation": "Overkill, ineffective in the consumer context, and time you should be spending on containment."
+        "title": "UK NCSC: Hacked accounts",
+        "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
+        "scope": "UK consumer recovery and reporting; account steps broadly useful"
       }
     ],
-    "hint": "Are you a security team with detection infrastructure, or an individual who needs the attacker out *now*?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "The disappearing login log",
+        "situation": "Synthetic: Ada finds a foreign device in her email settings and a forwarding rule. She writes down the time and captures the security page, then revokes sessions and removes the rule.",
+        "analysis": "A brief record preserves context without leaving access open. She keeps the original alert and any export privately; she does not send screenshots containing recovery details to friends.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A legitimate bank verification request",
+        "situation": "Synthetic: a bank fraud team reached through the number on a card asks Ben for a transaction reference and a copy of a receipt via its secure portal.",
+        "analysis": "A real investigator may need evidence. Ben verifies the channel independently, sends only the requested receipt, and records the case number. “Never share evidence” would block a legitimate dispute.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "An email takeover case file",
+        "setup": "Synthetic: a mailbox shows an unfamiliar forwarding rule and a bank notice. You need to preserve useful evidence while stopping access.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "What do you record first?",
+            "choices": [
+              {
+                "text": "A short timeline, the alert and visible rule, with dates and source.",
+                "consequence": "You retain context before settings change.",
+                "explanation": "Separate what the account shows from what you suspect.",
+                "recommended": true
+              },
+              {
+                "text": "Only a memory of what happened.",
+                "consequence": "Details may be forgotten or challenged.",
+                "explanation": "A contemporaneous record is more useful.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "An unfamiliar session remains active. What next?",
+            "choices": [
+              {
+                "text": "Keep it connected for several days to watch it.",
+                "consequence": "More mail may be exposed.",
+                "explanation": "A consumer should not trade containment for speculative evidence.",
+                "recommended": false
+              },
+              {
+                "text": "Revoke sessions through the provider and secure the account; capture later available logs.",
+                "consequence": "The attacker loses an access path while records remain organized.",
+                "explanation": "Containment takes priority over watching.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "An unsolicited 'investigator' asks you to upload the full mailbox. What do you do?",
+            "choices": [
+              {
+                "text": "Decline and use a verified bank/provider or authority channel with only required records.",
+                "consequence": "You avoid exposing other people's mail and secrets.",
+                "explanation": "Evidence transfer must be authenticated and minimal.",
+                "recommended": true
+              },
+              {
+                "text": "Upload everything to the supplied link.",
+                "consequence": "Sensitive material may go to another scammer.",
+                "explanation": "An unsolicited link is not an evidence channel.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "How do you describe a gap in the timeline?",
+            "choices": [
+              {
+                "text": "Mark the time as unknown and note what is confirmed.",
+                "consequence": "Later reviewers can distinguish fact from inference.",
+                "explanation": "A truthful gap is better than invented precision.",
+                "recommended": true
+              },
+              {
+                "text": "Choose a plausible time so the report looks complete.",
+                "consequence": "The report becomes misleading.",
+                "explanation": "Uncertainty should be explicit.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Keep originals and a factual timeline, contain active access, and transmit only necessary records through verified channels. Retry each decision and replay; no screenshot substitutes for stopping harm."
+      },
+      {
+        "type": "check",
+        "title": "Use evidence in a different case",
+        "questions": [
+          {
+            "prompt": "A payment-app receipt shows a transfer. What is the most useful record?",
+            "choices": [
+              {
+                "text": "Receipt plus reference, time, app account and your report number.",
+                "explanation": "These details let the provider identify the transaction.",
+                "correct": true
+              },
+              {
+                "text": "Only a cropped image of the logo.",
+                "explanation": "It cannot reliably identify the payment.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Does the US IC3 complaint form accept your evidence attachments?",
+            "choices": [
+              {
+                "text": "Yes, upload all files into the complaint.",
+                "explanation": "IC3 says it does not accept attachments.",
+                "correct": false
+              },
+              {
+                "text": "No; retain originals securely for an agency that may later ask.",
+                "explanation": "That is the IC3 FAQ's instruction.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "A work laptop may need forensic review. What should you do before wiping it?",
+            "choices": [
+              {
+                "text": "Ask the organization's response team and follow its procedure.",
+                "explanation": "Specialists can balance evidence with containment.",
+                "correct": true
+              },
+              {
+                "text": "Wipe immediately to hide the event.",
+                "explanation": "That can destroy evidence and violate procedure.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

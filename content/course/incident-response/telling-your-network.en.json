@@ -1,29 +1,176 @@
 {
   "order": 6,
   "title": "Telling your network without spreading panic",
-  "est_minutes": 5,
-  "body_md": "## You're contagious now — let people know calmly\n\nWhen your accounts get compromised, the attacker often uses them to attack the people who trust you. Your contacts, colleagues, family members are all reasonable next targets — they're used to getting messages from you, so a phishing message from your real address has a much higher success rate than a generic one.\n\nThis means warning your network is not optional. It's part of the response. The question is how to do it without inflaming the situation or making yourself a target for follow-up scams.\n\n### The audience tiers\n\n- **Immediate family / close colleagues.** Tell them now, individually, in a channel you trust. They need actionable information, not reassurance.\n- **Wider professional network.** A single thoughtful message — once you've contained the breach — telling them which channel was compromised and over what window.\n- **Public.** Generally don't post publicly until you've fully contained. Public posts mostly invite recovery scammers and follow-up attacks.\n\n### What to actually say\n\nA good warning message is short, factual, and gives them an action:\n\n*'My email account was compromised between Monday and Wednesday. I've now regained control. If you received any message from me during that window asking for money, gift cards, urgent help, or asking you to click a link — please ignore it. If you already responded, let me know so I can flag it.'*\n\nNotice what this message does:\n\n- **Specifies the window.** People can self-assess whether they got anything.\n- **Specifies the type of bad request.** People know what pattern to look for.\n- **Gives them an action.** 'Reply if you responded' creates feedback so you can scope the damage.\n- **Doesn't ask anything of them on the same channel that was compromised.** Send through a different channel — phone, Slack, in person — than the one that was breached.\n\n### Channel discipline\n\nWhen you send the warning, use a channel *other* than the one that was compromised. If your email was breached, don't send the warning *from email*. Sit down with the family in person, text them, call them, or use a messaging app whose identity isn't dependent on the email.\n\nIf the email *must* be the channel because that's the only way you reach some contacts, that's fine — but flag it: 'I'm sending this from email but my email was compromised; verify by calling me at [known number] before acting'.\n\n### What you don't need to share\n\n- **Specific account details.** 'My email was compromised' is enough; not 'attackers from IP 203.x got past my MFA via...'\n- **Your master-password or recovery details.** Obvious in principle, common to leak in panic emails.\n- **Personal information about other accounts.** Don't mass-broadcast that your bank was also touched, for instance — narrower disclosure to the specifically affected channel.\n\n### The follow-up scam to watch for\n\nWhen you publicly announce a compromise, scam 'recovery' artists notice and message you. Sometimes they pose as security professionals; sometimes as past acquaintances offering help. Both are scams. Don't engage. Trust your existing relationships and use the official agencies from the previous lesson.",
-  "widget_type": "scenario",
+  "est_minutes": 13,
+  "body_md": "## Warn the people who might act on your name\n\nIf someone used your account to send requests, the people who received them need a usable warning. You do not need to announce every technical detail or blame yourself. The useful facts are the affected channel, the approximate window, the type of request and the safe next action. If the scope is still uncertain, say so and update the warning when you know more.\n\n### Choose the audience from actual exposure\n\nStart with anyone who received a suspicious message, was asked to pay, shared information, or may open an attachment. Contact them directly and quickly, even while recovery continues if a harmful request is circulating. A wider message may be useful if you cannot identify recipients; a public notice is sometimes appropriate for a broadly used account, but may invite unrelated “recovery” pitches and expose more personal detail. There is no blanket rule to avoid public posts or email after an account is secured. Choose the route that reaches affected people reliably.\n\nWhere possible, verify yourself through a channel the recipient already knows: a saved phone number, in-person conversation, or a separate established work channel. If the formerly affected email is the only route, explain how recipients can verify your warning independently. Do not include the malicious link or forward the original message as an example. Ask recipients to keep it privately if they need to report it, not spread it.\n\nA concise template: “Messages from my [account/channel] between [approximate dates] may have included a payment or login request I did not send. Please do not use its links or pay. If you acted on it, contact your bank or the relevant account provider promptly, and reach me using the number you already have. I will update this if the affected window changes.” Adapt the action to what actually happened. Do not promise that all messages are safe now until you have regained control.\n\nIf coworkers' information or systems may be involved, coordinate the notice with the organization's security team; it may have required procedures. Keep a list of whom you warned and any reported exposure so you can follow up without making a mass address book available to an attacker.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "Your email was compromised for 36 hours. You've now locked it down. During the window, the attacker sent messages from your address to several colleagues asking for an 'urgent favour' that turned out to be a wire-transfer ask. One colleague almost sent the money before catching themselves.",
-    "prompt": "What's the right way to warn your contacts now?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Send a calm, targeted warning that states the uncertain facts, prevents action on a forged request, and gives a verified response route.",
+    "today_action": "Draft a two-sentence warning for a synthetic compromised account with an unknown time window; save it as a template, not as a message to send.",
+    "checked_at": "2026-10-20",
+    "scope": "General consumer communication; employers may have separate notification duties; local law may apply to data breaches.",
+    "sources": [
       {
-        "text": "Send a mass email to everyone in your address book, from your now-secured email, telling them everything.",
-        "outcome": "risky",
-        "explanation": "Mass-broadcast from the formerly-compromised channel is awkward — some contacts will be skeptical it's really you. Also 'telling them everything' opens you up to further attacks. Stay specific."
+        "title": "FTC: Recover a hacked email or social media account",
+        "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
+        "scope": "US consumer guidance; provider controls vary"
       },
       {
-        "text": "Send a brief, factual message through a different channel (Slack, SMS, in person) describing the compromise window, the type of bad request, and what to do.",
-        "outcome": "good",
-        "explanation": "Yes. Different channel signals you've thought about the trust problem; brevity keeps the message actionable; specifying the window lets people self-assess. Follow up with a phone call to anyone who actually got tricked into engaging."
+        "title": "UK NCSC: Hacked accounts",
+        "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
+        "scope": "UK consumer recovery and reporting; account steps broadly useful"
       },
       {
-        "text": "Post a public Facebook update so everyone in your social graph sees the warning at once.",
-        "outcome": "risky",
-        "explanation": "Public posts reach more people but also bring secondary scams. Better to use direct channels for warnings; reserve public posts for after the recovery is fully behind you and only if there's a useful pattern to share."
+        "title": "FTC: What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment and exposure response; refund rights vary"
       }
     ],
-    "moral": "Use a different channel to warn people about the compromised one. Make the message specific, brief, and actionable."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Requests from a real account",
+        "situation": "Synthetic: Ilya's email sent three coworkers a fake invoice while an intruder was signed in. One coworker says the payment is still pending.",
+        "analysis": "Ilya immediately calls that coworker through a known number, asks them to stop and contact their bank, then warns the others with the affected window and a safe verification route. He coordinates work contacts with IT.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A planned newsletter looks odd",
+        "situation": "Synthetic: Rosa receives a scheduled newsletter from her friend's account at the usual time, but the friend's account was recently compromised.",
+        "analysis": "The newsletter could be legitimate. Rosa asks through their usual separate channel; the friend confirms the scheduled send. The warning should describe suspicious requests, not label every ordinary message malicious.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "A warning that reaches the right people",
+        "setup": "Synthetic: your messaging account sent a fake donation request to four relatives. You have regained access but do not yet know when it began.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "Whom do you contact first?",
+            "choices": [
+              {
+                "text": "The four recipients directly, starting with anyone who may be about to pay.",
+                "consequence": "The actionable risk is addressed quickly.",
+                "explanation": "Do not wait for perfect scope before stopping a live payment.",
+                "recommended": true
+              },
+              {
+                "text": "Only people who read your public feed.",
+                "consequence": "The known recipients may miss it.",
+                "explanation": "Audience follows the observed exposure.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "What channel do you use?",
+            "choices": [
+              {
+                "text": "A known phone number or another established channel; explain verification if only the affected channel works.",
+                "consequence": "Recipients can authenticate the warning.",
+                "explanation": "Channel choice should fit their actual reachability.",
+                "recommended": true
+              },
+              {
+                "text": "Only the compromised chat, with no explanation.",
+                "consequence": "They may doubt or miss the warning.",
+                "explanation": "Give an independent way to verify.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "What should the message say about timing?",
+            "choices": [
+              {
+                "text": "State the known approximate window and say you will update it if needed.",
+                "consequence": "Uncertainty stays visible without delaying action.",
+                "explanation": "Do not invent exact start times.",
+                "recommended": true
+              },
+              {
+                "text": "Claim you know the exact first minute.",
+                "consequence": "Recipients may wrongly dismiss an earlier request.",
+                "explanation": "Unverified precision can be harmful.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A relative already paid. What instruction helps?",
+            "choices": [
+              {
+                "text": "Tell them to contact their bank/payment provider promptly and preserve the request privately.",
+                "consequence": "They can start their own recovery process.",
+                "explanation": "Do not promise reimbursement or ask them to send sensitive details to you.",
+                "recommended": true
+              },
+              {
+                "text": "Forward the scam link to the whole family as proof.",
+                "consequence": "More people may open it.",
+                "explanation": "Describe the pattern without spreading the payload.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Warn known recipients quickly and accurately; use a route they can trust and an action they can take. Retry individual decisions and replay the sequence."
+      },
+      {
+        "type": "check",
+        "title": "Write the next warning",
+        "questions": [
+          {
+            "prompt": "The account is still locked and messages are circulating. Must you wait until recovery is complete?",
+            "choices": [
+              {
+                "text": "Yes, warnings are useful only afterward.",
+                "explanation": "Recipients may act during the delay.",
+                "correct": false
+              },
+              {
+                "text": "No; warn affected people now through a separate trusted route.",
+                "explanation": "The immediate goal is to stop harmful action.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "Which detail belongs in a recipient warning?",
+            "choices": [
+              {
+                "text": "A description of the fake request and what to do if they acted.",
+                "explanation": "That helps recipients assess and respond.",
+                "correct": true
+              },
+              {
+                "text": "Your recovery codes and full account history.",
+                "explanation": "Those details add risk and do not help them.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A recipient asks whether a routine message was genuine. Best answer?",
+            "choices": [
+              {
+                "text": "Confirm from your records or mark it uncertain and verify separately.",
+                "explanation": "Do not overclaim a scope you have not established.",
+                "correct": true
+              },
+              {
+                "text": "Declare every message in the month fraudulent.",
+                "explanation": "That can mislead and cause needless disruption.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

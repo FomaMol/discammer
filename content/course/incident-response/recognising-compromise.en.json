@@ -1,56 +1,158 @@
 {
   "order": 1,
   "title": "Recognising you have been compromised",
-  "est_minutes": 7,
-  "body_md": "## The signals that you're under attack right now\n\nMost compromises don't announce themselves. By the time you notice 'something is wrong', the attacker has been inside for hours, days, or months. Recognising the early signals is the difference between a minor cleanup and a full identity-theft event.\n\nThis lesson is the diagnostic. The next lessons in this module are the response.\n\n### Signals on your email account\n\n- **Unexpected password-reset emails** for services you didn't ask to reset. Each one means an attacker tried to take over that account.\n- **Login notifications from unfamiliar locations or devices.** Most providers send these by default; don't dismiss them as noise.\n- **Sent items you didn't send.** Even one. Attackers often delete them, so spot-checking 'Sent' for things you don't remember is a useful audit.\n- **Forwarding or filtering rules you didn't create.** A common attacker move is to auto-forward incoming mail to themselves and then delete it before you see it.\n- **Recovery email or phone number you don't recognise.** Always check the security settings page once a quarter.\n\n### Signals on your phone\n\n- **Sudden 'No service' for more than a few minutes** while other devices on the same carrier work fine. Treat as a SIM-swap until proven otherwise.\n- **Unfamiliar profile or device-management certificates** installed (iOS: Settings → General → VPN & Device Management).\n- **Apps you don't remember installing.**\n- **Battery drain and warmth at idle.** Sometimes caused by spyware running in the background.\n- **Strange SMS messages received but mysteriously read.**\n\n### Signals on your computer\n\n- **New browser extensions** you didn't install.\n- **Unexpected pop-ups asking you to 'verify' something** after you arrive at a routine site.\n- **CPU at 100% when you're not doing anything heavy.** Could be a cryptominer.\n- **A 'support' window that appears out of nowhere with a phone number to call.** This is always a scam. Real OS-level support never works that way.\n\n### Signals on your bank or brokerage\n\n- **Logins you don't remember** in the activity log.\n- **Transactions you didn't make**, especially small 'test' charges of $1-$5 followed by larger ones.\n- **Mailing-address change confirmations** you didn't request.\n- **Statements that don't arrive** when they normally would (the attacker may have changed the address to suppress notifications).\n\n### A signal worth special attention: 'cleanup' messages\n\nA particularly chilling pattern: you receive a message *apparently from yourself* — your own email or social account — apologizing for sending malware or claiming to be hacked. Attackers send this from your account *after* compromising it, to discourage your contacts from believing real follow-up warnings from you. If you see one of these to or from yourself, treat it as confirmation that your account is compromised.\n\n### The integrative check\n\nOnce a quarter, spend 10 minutes:\n\n1. Open the security/activity page on your email, bank, primary social account, and password manager.\n2. Review login devices. Sign out anything you don't recognise.\n3. Check for unfamiliar recovery contacts or forwarding rules.\n4. Spot-check your Sent folder.\n\nA quarterly review is your tripwire. Anything caught early is much cheaper to clean up.",
-  "widget_type": "redflags",
+  "est_minutes": 13,
+  "body_md": "## Notice a signal, then test it\n\nA single alert is a reason to check, not proof that an attacker is inside. A sign-in from a new city may reflect travel, a VPN, a service's location estimate, or a genuine intruder. A password-reset email can be triggered by someone who knows only your address. The stronger evidence is activity you cannot account for inside an account: an unfamiliar signed-in device, changed recovery contact, new forwarding rule, sent messages, or an unauthorized payment.\n\n### Separate the alert from the account\n\nDo not use the alert's button or phone number to investigate it. Open the provider's app or a saved address yourself, then compare its security activity with what you did. An email saying “your password changed” is especially urgent if you cannot sign in, but a forged email can say the same thing. If the official account shows no matching event, keep the message as possible phishing evidence and report it through the provider's channel.\n\n### Read combinations, not folklore\n\nAn unfamiliar login plus a recovery-address change is stronger evidence than either alone. New mail-forwarding rules can silently copy messages, including password resets. Contacts reporting requests sent from your account are another strong signal. Battery drain, a warm phone, or a sluggish computer by themselves have many ordinary causes; do not diagnose spyware from them. “No service” can be an outage or a phone fault, but when it coincides with login-code or carrier notices, contact the carrier through its published route and protect affected accounts.\n\nIf money is missing, contact the bank promptly even while you investigate the login. If a work account is involved, tell your IT or security contact under its incident procedure. Keep a short timeline of what you observed and what you verified; distinguish an attempted sign-in from a successful one. You may not learn the full cause immediately. The next lesson turns a confirmed or strongly suspected exposure into a response order.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "You open your email and find these signals across the last 48 hours. Identify each one that is genuinely suspicious.",
-    "messageBlocks": [
-      { "label": "01.", "value": "Three password-reset emails from sites you've never used." },
-      { "label": "02.", "value": "Login notification: 'New device signed in from Lagos, Nigeria' (you live in Berlin)." },
-      { "label": "03.", "value": "A new 'Auto-forward' rule in your email settings sends everything to an unfamiliar @gmail address." },
-      { "label": "04.", "value": "Your monthly bank statement arrived in the inbox as usual." },
-      { "label": "05.", "value": "Three Sent emails to your contacts apologising 'I'm so sorry, my account was hacked yesterday.'" },
-      { "label": "06.", "value": "An email from your password manager noting you logged in from a new device this morning." }
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Given an alert, distinguish attempted access, confirmed account activity, and ordinary lookalikes, then verify through an independent route.",
+    "today_action": "Open the security activity page of your primary email through the saved app or typed address; note where devices, recovery contacts, and forwarding rules are shown.",
+    "checked_at": "2026-10-20",
+    "scope": "General consumer account triage; provider activity logs and carrier controls differ; financial reporting rules are local.",
+    "sources": [
+      {
+        "title": "FTC: Recover a hacked email or social media account",
+        "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
+        "scope": "US consumer guidance; provider controls vary"
+      },
+      {
+        "title": "UK NCSC: Hacked accounts",
+        "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
+        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+      },
+      {
+        "title": "FTC: What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment and exposure response; refund rights vary"
+      }
     ],
-    "prompt": "Mark every item that is a real red flag.",
-    "items": [
+    "blocks": [
       {
-        "id": "resets",
-        "label": "Three password-reset emails from sites you don't use.",
-        "flag": true,
-        "explanation": "Someone has your email and is trying to take over accounts attached to it. Every reset attempt is a probe."
+        "type": "case",
+        "title": "Reset notices and a hidden rule",
+        "situation": "Synthetic: Mara gets two reset notices she did not request. In the email account opened from her saved app, she finds a new forwarding rule and a recovery address she does not know.",
+        "analysis": "The notices alone show attempts. The account settings are direct evidence of unauthorized change. She records the timestamps, secures the account through its official recovery flow, and checks other accounts that use it for recovery.",
+        "legitimate": false
       },
       {
-        "id": "login-foreign",
-        "label": "Login from Lagos when you live in Berlin.",
-        "flag": true,
-        "explanation": "Unusual-geography logins are the canonical signal of account takeover. Don't dismiss it as 'maybe a VPN' — investigate immediately."
+        "type": "case",
+        "title": "A travel login that is hers",
+        "situation": "Synthetic: Pavel sees a login from another city. His own device and time match a train ride, and the provider marks the session as the same laptop he used.",
+        "analysis": "Geolocation is approximate. The matching device and activity make a benign explanation plausible; he still checks recovery settings instead of declaring every distant city a breach.",
+        "legitimate": true
       },
       {
-        "id": "auto-forward",
-        "label": "An auto-forward rule to an unfamiliar Gmail address.",
-        "flag": true,
-        "explanation": "Attackers create forwarding rules to silently siphon mail. This is one of the most diagnostic signs of email-account takeover. Remove it and rotate the password immediately."
+        "type": "practice",
+        "title": "A confusing mailbox alert",
+        "setup": "Synthetic: your email shows a new-location notice while you are traveling; a colleague then mentions a strange request from you. Make each decision in order.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "What do you do with the alert link?",
+            "choices": [
+              {
+                "text": "Open it and type your password to check.",
+                "consequence": "You may authenticate to a forged page.",
+                "explanation": "The alert itself is not a trusted route.",
+                "recommended": false
+              },
+              {
+                "text": "Open your provider app from the home screen and inspect activity.",
+                "consequence": "You compare the claim with first-party account data.",
+                "explanation": "An independent route breaks a phishing link's control.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The app shows a new device you cannot identify. What next?",
+            "choices": [
+              {
+                "text": "Record the device/time, secure the account and use provider recovery if needed.",
+                "consequence": "You preserve a useful timeline while limiting access.",
+                "explanation": "An unknown active session plus the colleague's report warrants containment.",
+                "recommended": true
+              },
+              {
+                "text": "Wait for a second alert so you can be certain.",
+                "consequence": "The session may remain active.",
+                "explanation": "You already have two independent signs.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Your colleague received a payment request from your account. What do you tell them?",
+            "choices": [
+              {
+                "text": "Ask them to forward the request to everyone.",
+                "consequence": "The malicious request spreads further.",
+                "explanation": "Warn directly without propagating the payload.",
+                "recommended": false
+              },
+              {
+                "text": "Tell them not to pay or use its links and to verify with you on a known channel.",
+                "consequence": "They can stop action and retain the message privately.",
+                "explanation": "A warning should give a concrete safe action.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "A location label alone is weak; verified account changes and messages sent from the account are stronger. If a choice failed, retry that decision, then review every step and replay the sequence."
       },
       {
-        "id": "statement",
-        "label": "Bank statement arrived normally.",
-        "flag": false,
-        "explanation": "Routine statement is not a red flag. (Watch for *missed* statements, which can indicate an address change.)"
-      },
-      {
-        "id": "fake-apology",
-        "label": "Sent items containing apologies for 'being hacked yesterday'.",
-        "flag": true,
-        "explanation": "Classic attacker cleanup move. They send a pre-emptive 'sorry, I was hacked' from your account so your contacts dismiss any genuine warning you send later. Confirms compromise."
-      },
-      {
-        "id": "manager-login",
-        "label": "Password-manager notification about a new-device login.",
-        "flag": true,
-        "explanation": "Critically diagnostic. If your password manager itself was accessed from a device you don't recognise, the attacker may now have *every* password. This is the most urgent signal in the list."
+        "type": "check",
+        "title": "Check the evidence",
+        "questions": [
+          {
+            "prompt": "A reset email arrives for an account you rarely use. What does it prove?",
+            "choices": [
+              {
+                "text": "Someone necessarily entered that account.",
+                "explanation": "A reset can be requested by anyone who knows the address.",
+                "correct": false
+              },
+              {
+                "text": "Only that a reset was requested; check the account through its official route.",
+                "explanation": "The request does not by itself establish access.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "Your phone is warm and loses charge quickly, with no account alerts. Best inference?",
+            "choices": [
+              {
+                "text": "Spyware is confirmed.",
+                "explanation": "Many normal processes can cause heat and battery drain.",
+                "correct": false
+              },
+              {
+                "text": "Investigate ordinary causes and security settings; do not treat heat as proof.",
+                "explanation": "A nonspecific symptom needs corroboration.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "A trusted app shows a new forwarding rule you did not set. Best response?",
+            "choices": [
+              {
+                "text": "Document it and secure the mailbox, including sessions and recovery methods.",
+                "explanation": "This is direct unauthorized account activity.",
+                "correct": true
+              },
+              {
+                "text": "Ignore it if you have not lost money.",
+                "explanation": "Forwarding can expose sensitive mail without an immediate charge.",
+                "correct": false
+              }
+            ]
+          }
+        ]
       }
     ]
   }

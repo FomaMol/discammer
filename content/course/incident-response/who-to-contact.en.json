@@ -1,33 +1,186 @@
 {
   "order": 4,
   "title": "Who to contact: banks, carriers, platforms, law enforcement",
-  "est_minutes": 7,
-  "body_md": "## A map of the right doors to knock on\n\nDifferent kinds of compromise need different escalation paths. Knowing the right institution for each piece of damage saves hours of being bounced between desks. This lesson is a reference map.\n\n### Money in or out of an account\n\n- **Bank or credit card.** The card issuer's fraud line is the first stop. Initiate a chargeback or dispute. Most issuers prioritise reports made within 24 hours.\n- **Wire transfer.** Call the bank — *call*, don't email. Request an urgent SWIFT recall. The faster the recall lands, the higher the chance of recovery.\n- **Crypto exchange.** Contact the exchange directly through their official support flow, plus law enforcement. If you know the receiving address may pass through a major exchange (Binance, Coinbase, Kraken), report there too — they sometimes freeze deposits matching reports.\n- **Peer-to-peer payment apps (Zelle, Venmo, Cash App, СБП).** These have limited fraud protection on authorized transfers; report anyway, file a police complaint to support the dispute.\n\n### Identity theft\n\n- **Credit-bureau freeze.** Equifax, Experian, TransUnion (US) — all free, all online, prevents new credit being opened. UK equivalents: Equifax, Experian, TransUnion UK. EU: varies by country. In Russia — БКИ через Госуслуги.\n- **Tax authority.** If your tax account was touched, contact the agency (IRS, HMRC, ФНС, etc.). They have fraud-specific processes.\n- **Driver's licence or passport authority.** If documents are involved, report immediately and request reissue.\n\n### Account takeover on a major platform\n\n- **Google / Apple / Microsoft.** Each has a dedicated account-recovery / hijacked-account flow. Search 'recover hacked [platform] account'. They usually require verification of identity and prior access markers.\n- **Social media (Facebook, Instagram, Twitter/X, LinkedIn, TikTok).** All have hijacked-account forms in their help centres. Response times vary — expect days, not hours.\n- **Banking, brokerage, exchange.** Account-recovery flow varies. Customer service phone first, follow up in writing.\n\n### Telecom\n\n- **Your mobile carrier.** Call for SIM-swap reversal, port-out freeze, and port-out PIN setup.\n- **Land-line carrier** (if you still have one). Similar protections for number porting.\n\n### Law enforcement (where to file)\n\n- **United States:** IC3.gov (FBI Internet Crime Complaint Center), plus the FTC at reportfraud.ftc.gov, plus local police for the official record.\n- **United Kingdom:** Action Fraud (actionfraud.police.uk).\n- **EU:** national cybercrime unit. Some countries route through Europol's EC3.\n- **Canada:** Canadian Anti-Fraud Centre.\n- **Russia / CIS:** заявление в МВД (отдел «К» / отдел киберпреступлений).\n- **Australia:** Scamwatch and ReportCyber.\n- **Globally — if cross-border:** Interpol may pick up aggregate cases. National police typically coordinate.\n\nPolice reports rarely result in your money returning *directly*. They feed aggregate investigations that catch operators eventually. File anyway. Many financial dispute processes also require a police report.\n\n### Specialised authorities\n\n- **Anti-Phishing Working Group:** reportphishing@apwg.org for forwarded phishing emails.\n- **Brand owner:** PayPal, Apple, Microsoft each accept phishing reports at dedicated addresses (covered in module 3).\n- **AML / FinCEN-style regulator:** for large or organised fraud, the financial-crime regulator in your country tracks aggregate patterns.\n\n### Your employer\n\nIf the compromise touched any work account or device, tell your employer's security or IT team *immediately*. Delay is the main reason corporate breaches escalate. They have tools, contracts, and contacts you don't.\n\n### A trusted person\n\nDon't try to handle this alone. Especially for romance/financial scams, the secrecy is part of the trap. Tell one trusted person — partner, sibling, close friend — before you finish hour 2. Their job is not to fix it, but to keep you grounded while you work the playbook.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## Route each problem to the team that can act\n\nA single “cybercrime report” does not freeze a card, recover an account, or reverse a transfer. Match the contact to the thing at risk. Use a phone number printed on a card, a bookmarked app, or the organization's own website; numbers in suspicious messages and search advertisements can lead to impersonators.\n\n**Money:** contact the sending bank, card issuer, or payment service immediately. State the payment method, time and whether you authorized it. Ask for a block, dispute, recall or recovery attempt appropriate to that method, plus a case number and written next steps. A transfer you approved under deception may be handled differently from an unauthorized withdrawal. Speed can matter, but no channel guarantees reimbursement. If the payment used a crypto exchange, report it to that exchange; do not send more crypto to a “recovery agent.”\n\n**Phone number:** if service disappears or you see a port/SIM change you did not request, contact your carrier through its official support route and ask it to investigate, restore service and secure the account. Ask what account PIN or number-transfer protection the carrier offers. A legitimate outage also happens; use the carrier to establish the cause.\n\n**Account:** use the provider's published hijacked-account flow. If a work account or device is involved, tell the employer's IT or security team promptly; their tools and reporting duties differ from a consumer's. Do not expect every platform to offer a live agent or instant restoration.\n\n**Identity and reporting:** contact the creditor and the relevant credit-report service if a new account appears in your name. In the US, IdentityTheft.gov creates a tailored recovery plan, and IC3 accepts internet-crime complaints; keep your original evidence. In the UK, NCSC directs lost-money victims to their bank and to Report Fraud, or Police Scotland in Scotland. In Russia, the Bank of Russia describes a card-dispute path involving the bank and police; different transfer types require bank-specific instructions. Check your local official route elsewhere. If anyone is in immediate physical danger, contact local emergency services.\n\nAn authority's complaint feeds a record or investigation; it usually cannot perform the bank's account action. Keep a contact log with channel, date, case number, what was promised and when you will follow up. That makes the next call shorter and exposes conflicting instructions.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You discover that someone has opened a new credit card in your name. You're in the United States. Which combination of actions is most useful in the first day?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Route a money, carrier, platform, identity or police issue to the actor able to act, and keep a follow-up record.",
+    "today_action": "Save your bank's fraud contact, carrier support route and main account-recovery page from their official apps or websites in a private note.",
+    "checked_at": "2026-10-20",
+    "scope": "Jurisdiction-specific reporting: US FTC/IC3, UK Report Fraud/Police Scotland, Russian Bank of Russia card route; other countries differ.",
+    "sources": [
       {
-        "text": "Call the issuer of the fraudulent card to close it.",
-        "correct": false,
-        "explanation": "Necessary, but alone it doesn't stop *more* fraudulent accounts being opened. You need to address the upstream cause."
+        "title": "FTC: What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment and exposure response; refund rights vary"
       },
       {
-        "text": "Freeze all three credit bureaus, file an IC3 / FTC complaint, file a local police report, and dispute the fraudulent card with its issuer.",
-        "correct": true,
-        "explanation": "Yes. Bureau freezes stop further accounts being opened in your name — the most leveraged single action. Federal reports (IC3, FTC) feed aggregate investigations. Local police gives you a case number that the bureaus, banks, and creditors will reference during disputes. The card-issuer dispute closes the specific fraud."
+        "title": "UK NCSC: Hacked accounts",
+        "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
+        "scope": "UK consumer recovery and reporting; account steps broadly useful"
       },
       {
-        "text": "Wait for the credit report to update so you can see all the fraudulent accounts before acting.",
-        "correct": false,
-        "explanation": "Days of delay = days of more accounts being opened. Freeze immediately; details can be reconciled afterwards."
+        "title": "FBI IC3: Complaint FAQ",
+        "url": "https://www.ic3.gov/Home/FAQ",
+        "scope": "US complaint process and evidence retention"
       },
       {
-        "text": "Post about it on social media to warn friends.",
-        "correct": false,
-        "explanation": "Increases your visibility as a victim and invites secondary scams (fake recovery offers). Friends can be warned privately."
+        "title": "Bank of Russia: Unauthorized card debit",
+        "url": "https://www.cbr.ru/Reception/TopicalMessage/Page/3402",
+        "scope": "Russian card debit procedure; not every transfer case"
+      },
+      {
+        "title": "CFPB: Unauthorized bank transaction",
+        "url": "https://www.consumerfinance.gov/ask-cfpb/how-do-i-get-my-money-back-after-i-discover-an-unauthorized-transaction-or-money-missing-from-my-bank-account-en-1017/",
+        "scope": "US electronic-transfer rights; not a universal deadline"
       }
     ],
-    "hint": "Which set of actions addresses both the *current* fraud and the *next* potential fraud through the same channel?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A fraudulent transfer and a fake hotline",
+        "situation": "Synthetic: Elena sees a transfer she did not make. The alert text gives a “fraud desk” number; her card has a different number.",
+        "analysis": "She uses the card or saved app, reports the transaction accurately, asks what can be stopped, and notes the case number. Calling the alert number could reveal more account data.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A real carrier outage",
+        "situation": "Synthetic: Sam's phone has no service during a published local network outage. His carrier app shows no SIM or port change, and account logins are normal.",
+        "analysis": "The symptoms resemble a SIM swap, but the carrier confirms a wider outage. Sam monitors the account rather than filing a false takeover claim or assuming the outage itself proves crime.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Who gets the first call?",
+        "setup": "Synthetic: your number loses service; a payment app shows a transfer you approved after a fake invoice, and a social account is locked.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "Where do you report the payment?",
+            "choices": [
+              {
+                "text": "The payment provider or sending bank via its official route, stating that you approved it after deception.",
+                "consequence": "They can assess any recall or dispute route.",
+                "explanation": "The payment service controls its own transaction process.",
+                "recommended": true
+              },
+              {
+                "text": "Only the police, because the bank cannot help an approved transfer.",
+                "consequence": "A possible recovery route is delayed.",
+                "explanation": "The bank/provider still needs the report; outcome is uncertain.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "What do you do about the phone number?",
+            "choices": [
+              {
+                "text": "Call the carrier through a known number and ask about outage, SIM/port activity and account protection.",
+                "consequence": "You establish whether the number was moved.",
+                "explanation": "No service alone has several causes.",
+                "recommended": true
+              },
+              {
+                "text": "Use the link in a new 'carrier security' SMS.",
+                "consequence": "The same number may be under attack.",
+                "explanation": "A text is not an independent route.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Which route handles the locked social account?",
+            "choices": [
+              {
+                "text": "Pay a recovery agent who promises access today.",
+                "consequence": "You may lose money and credentials again.",
+                "explanation": "Provider recovery is the authoritative route.",
+                "recommended": false
+              },
+              {
+                "text": "Use the platform's published account-recovery procedure.",
+                "consequence": "The provider can verify ownership under its own rules.",
+                "explanation": "Restoration may take time or fail; avoid guarantees.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "You file a US IC3 complaint. What should you expect?",
+            "choices": [
+              {
+                "text": "It directly reverses the transfer.",
+                "consequence": "IC3 collects complaints; it does not operate the bank.",
+                "explanation": "Continue the provider case.",
+                "recommended": false
+              },
+              {
+                "text": "Save a copy, retain originals, and keep following up with the bank/provider.",
+                "consequence": "The complaint supports reporting while account action stays with the service.",
+                "explanation": "IC3 does not promise status updates.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Different doors perform different actions. Recheck the route independently, state what happened accurately, and keep one log. Retry any missed step and replay."
+      },
+      {
+        "type": "check",
+        "title": "New incidents, new route",
+        "questions": [
+          {
+            "prompt": "A card was used without your permission in Russia. Which is the correct first institutional contact?",
+            "choices": [
+              {
+                "text": "The issuing bank through the number on the card or its app.",
+                "explanation": "The Bank of Russia's card guidance starts with prompt bank notification and blocking.",
+                "correct": true
+              },
+              {
+                "text": "Only a social-media post.",
+                "explanation": "It cannot block the card or start a dispute.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A UK consumer lost money after account takeover. Which reporting pair matches NCSC guidance?",
+            "choices": [
+              {
+                "text": "Bank promptly, then Report Fraud or Police Scotland as applicable.",
+                "explanation": "The bank handles money; the local reporting route handles the crime report.",
+                "correct": true
+              },
+              {
+                "text": "IC3 alone, regardless of location.",
+                "explanation": "IC3 is a US system and does not replace the bank.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A work mailbox is compromised. Who needs to know in addition to the provider?",
+            "choices": [
+              {
+                "text": "The organization's IT/security team via its incident procedure.",
+                "explanation": "They can contain connected systems and meet organizational duties.",
+                "correct": true
+              },
+              {
+                "text": "Only friends and followers.",
+                "explanation": "They cannot manage the work environment.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

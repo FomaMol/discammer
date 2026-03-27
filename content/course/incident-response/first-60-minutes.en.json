@@ -1,29 +1,181 @@
 {
   "order": 2,
   "title": "The first 60 minutes: triage and containment",
-  "est_minutes": 8,
-  "body_md": "## A printable playbook for the hour you can't afford to wing\n\nWhen you realise you've been compromised, your brain will try to do everything at once. The result of that is usually nothing useful. The point of a playbook is to take the thinking out of the first hour so you can act fast and in the right order.\n\nSave or print this. You'll thank yourself.\n\n### Minute 0–5 — Stop the bleed\n\n- **Disconnect the compromised device from the internet** if you suspect active malware on it. Wi-Fi off, ethernet unplugged. This denies the attacker their channel while you act.\n- **From a known-clean device** (a partner's phone, a different laptop), open a private/incognito browser window. You'll do the rest of the response from this device.\n- **Don't reboot the compromised device** if you suspect forensics will be needed. Some evidence lives in memory and is gone after a restart.\n\n### Minute 5–15 — Lock the master keys\n\n- **Change the password on your primary email account first.** Everything else recovers through email; if the attacker has email, they have everything.\n- **Sign out all sessions on the email account.** The 'sign out everywhere' button is on every major provider's security page.\n- **Confirm or re-enable strong MFA on the email account** (hardware key or TOTP, *not* SMS).\n- **Then change the password on your password manager.** Sign out all sessions.\n- **Check the password manager's vault** for unfamiliar entries — attackers sometimes add their own entries to the vault to maintain access.\n\n### Minute 15–30 — Lock the money\n\n- **Bank and brokerage:** sign in (from the clean device), check for unauthorized transactions, freeze cards in-app, call the fraud line for anything you don't recognise.\n- **Crypto exchanges:** sign in, withdraw funds to a separate hardware wallet if possible, rotate API keys.\n- **Payment apps (PayPal, Venmo, Cash App, etc.):** sign in, review recent activity, change password.\n- **Subscription services with payment on file** (Amazon, Apple, Google): less urgent but worth checking for unauthorized purchases.\n\n### Minute 30–45 — Lock the identity\n\n- **Carrier:** call to confirm no SIM-swap was triggered. While on the line, set or update the port-out PIN if you haven't already.\n- **Government / identity services:** check for changes (tax accounts, social security, residency portals).\n- **Credit-bureau freezes (US):** Equifax, Experian, TransUnion. Free, online, prevents new credit being opened in your name. Equivalent services exist in the UK, EU, and most other jurisdictions.\n\n### Minute 45–60 — Inventory and report\n\n- **Make a written inventory** of every account or device that may be involved, with timestamps of when you noticed each signal. This becomes the case file you'll reference for weeks.\n- **File initial reports** while details are fresh: bank fraud team (usually a case number on the spot), local police, the cybercrime unit of your country.\n- **Notify one or two trusted people** so the secrecy of the incident doesn't isolate you.\n\n### After the first hour\n\nThe acute phase is over. The cleanup will take days. You now know your master keys (email, password manager) and your money are locked down — that's the goal of hour 1. The next module covers the longer game: evidence preservation, who else to contact, how to dispute, and how to harden so this doesn't happen again.\n\n### What *not* to do\n\n- **Don't pay any 'recovery' fee** that someone offers in DMs. We covered this in module 5 — every unsolicited recovery offer is itself a scam.\n- **Don't post a public 'I was hacked' message** before you've locked the accounts. Doing so just signals to attackers that you're a vulnerable target for follow-up.\n- **Don't engage with the attacker** if you can identify them. It rarely gets you information; it usually gets you more attacks.",
-  "widget_type": "scenario",
+  "est_minutes": 14,
+  "body_md": "## First hour: contain what is actually exposed\n\n“60 minutes” is a rehearsal window, not a guarantee, deadline, or universal order. Start with immediate harm. An unauthorized bank transfer makes the bank's fraud channel urgent; an active email takeover makes account recovery urgent; suspected malware changes which device you trust. Write the time and signal, then act. You need not solve attribution first.\n\n### Three lanes you can run\n\n**Money:** use the number on your card or the bank app opened independently. Report the transaction and ask what can be blocked, disputed, or recalled. A card lock may stop card use but not necessarily a transfer from the account. Explain whether you authorized a payment or someone made it without permission; the processes can differ. Keep the case number and follow-up steps. Recovery is uncertain.\n\n**Accounts:** from a device you have reason to trust, use the provider's recovery page if locked out. If still inside, change the affected password, revoke other sessions where available, enable a stronger available second factor, and check recovery contacts, forwarding and connected apps. Start with email when it controls resets for other accounts, but do not delay a live bank report to follow an arbitrary email-first rule. Private browsing is not a cure for a compromised device.\n\n**Devices and phone number:** if you granted remote access or suspect active malware, stop using that device for recovery. Disconnect it from the network if safe and use another trusted device. For a workplace machine or a case requiring forensic evidence, follow your response team's instructions before wiping or rebooting. For a consumer device, reputable security software and manufacturer support can help; a scan cannot prove every threat is gone. If service disappears along with suspicious carrier/account notices, call the carrier's published support route.\n\nBefore the hour ends, note what you know, what is only suspected, and whom you contacted. Preserve alerts and reference numbers privately. Tell an affected colleague or contact only what they need to avoid acting on a fraudulent request. If you cannot complete a step in the hour, continue it; no clock makes the incident “over.”",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "It's 9 p.m. You see a 'login from Singapore' alert on your email. Two minutes later you can't sign in — the password has been changed. You see this on your phone, which is currently sitting on the kitchen counter charging.",
-    "prompt": "What's the right *first* action?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Choose the first containment action from the actual exposure, then stabilize money, accounts and devices without treating the clock as a guarantee.",
+    "today_action": "Write three headings—money, accounts, devices—and the official contact route you would use for each; keep this playbook somewhere you can reach without the affected device.",
+    "checked_at": "2026-10-20",
+    "scope": "Consumer triage across countries; bank rights, provider controls and workplace forensic procedures vary.",
+    "sources": [
       {
-        "text": "Try to reset the email password from your phone immediately.",
-        "outcome": "risky",
-        "explanation": "If your phone itself is the source of the compromise (and email password was just changed *while* you held it), resetting from the same device may not help — or may tip off attacker software watching. Switching to a clean device costs you 60 seconds and removes that uncertainty."
+        "title": "FTC: What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment and exposure response; refund rights vary"
       },
       {
-        "text": "Grab your partner's laptop (or another known-clean device), open an incognito window, and initiate the email password reset from there.",
-        "outcome": "good",
-        "explanation": "Yes. The clean-device rule keeps you out of any compromised software on your phone. Incognito mode prevents cookies or extensions from interfering. From here you reset the email, sign out all sessions, then move on to the password manager and bank, exactly the order in the playbook."
+        "title": "FTC: Recover a hacked email or social media account",
+        "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
+        "scope": "US consumer guidance; provider controls vary"
       },
       {
-        "text": "Call your email provider's customer support to lock the account.",
-        "outcome": "risky",
-        "explanation": "Major providers don't have meaningful real-time customer service, and the self-serve reset flow is faster than anything you'd get from a phone call. Save the call for cases where self-serve has actually failed."
+        "title": "UK NCSC: Hacked accounts",
+        "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
+        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+      },
+      {
+        "title": "CFPB: Unauthorized bank transaction",
+        "url": "https://www.consumerfinance.gov/ask-cfpb/how-do-i-get-my-money-back-after-i-discover-an-unauthorized-transaction-or-money-missing-from-my-bank-account-en-1017/",
+        "scope": "US electronic-transfer rights; not a universal deadline"
       }
     ],
-    "moral": "First minute: switch to a clean device. Every other action in the playbook works better from there."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Transfer while email is locked",
+        "situation": "Synthetic: Lina cannot sign into email and sees a bank-app transfer she did not authorize. She has another trusted phone.",
+        "analysis": "She calls the bank via its published number first to report the live money loss, then starts email recovery from the trusted phone. “Email always first” would delay the bank's time-sensitive process.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A genuine new-device alert",
+        "situation": "Synthetic: Noor receives a new-device alert after signing into her tablet. Official account activity matches the tablet, and no settings changed.",
+        "analysis": "She records the match and checks account security. She need not freeze every card or erase the tablet because a legitimate login happened.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "A payment and a login alert",
+        "setup": "Synthetic: a banking app shows an unfamiliar transfer at 19:10; an email alert says a new device signed in. Your laptop recently ran unknown remote-support software.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "Which action begins containment?",
+            "choices": [
+              {
+                "text": "Call the bank using the app/card's known number and report the transfer.",
+                "consequence": "The bank can start its fraud process while details are fresh.",
+                "explanation": "A live money movement takes priority; the alert link is not needed.",
+                "recommended": true
+              },
+              {
+                "text": "Spend the hour tracing the laptop's IP address.",
+                "consequence": "The transfer may continue unreported.",
+                "explanation": "Attribution can wait; stopping harm cannot.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Where do you recover email?",
+            "choices": [
+              {
+                "text": "On the same possibly controlled laptop in a private window.",
+                "consequence": "A private window does not remove remote software.",
+                "explanation": "It changes browser state, not device trust.",
+                "recommended": false
+              },
+              {
+                "text": "On a different trusted device through the provider's official recovery route.",
+                "consequence": "You reduce the chance that recovery details are watched.",
+                "explanation": "Use the provider's process rather than the alert link.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The laptop may still be remotely controlled. What do you do?",
+            "choices": [
+              {
+                "text": "Disconnect it if safe, stop using it for sensitive work, and seek trusted help; preserve workplace evidence under policy.",
+                "consequence": "You limit access without assuming a scan proves safety.",
+                "explanation": "Device treatment depends on whether it is personal or managed.",
+                "recommended": true
+              },
+              {
+                "text": "Immediately wipe it before noting what happened.",
+                "consequence": "Useful evidence and access to records may be lost.",
+                "explanation": "Containment and evidence need to be balanced.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The hour ends before the bank responds. What next?",
+            "choices": [
+              {
+                "text": "Assume the risk window is closed.",
+                "consequence": "An arbitrary hour does not resolve an incident.",
+                "explanation": "Continue the bank case and account checks.",
+                "recommended": false
+              },
+              {
+                "text": "Record the case number, pending actions and follow-up time.",
+                "consequence": "You can resume without losing the response trail.",
+                "explanation": "The playbook is a sequence, not a completion certificate.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Triage follows the harm: bank for an active transfer, provider for account control, another trusted device for recovery. Retry any decision and replay the sequence; the clock is a planning aid."
+      },
+      {
+        "type": "check",
+        "title": "Move the priority to a new situation",
+        "questions": [
+          {
+            "prompt": "A card charge is unfamiliar but email works normally. What is first?",
+            "choices": [
+              {
+                "text": "Report the charge to the issuer through a known route.",
+                "explanation": "The issuer can block or dispute according to the payment type.",
+                "correct": true
+              },
+              {
+                "text": "Change every social password before speaking to the issuer.",
+                "explanation": "That may delay the financial report without addressing the charge.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Does a private browser window make an infected laptop safe for password recovery?",
+            "choices": [
+              {
+                "text": "Yes, it removes spyware.",
+                "explanation": "Private browsing does not clean a device.",
+                "correct": false
+              },
+              {
+                "text": "No; use a trusted device or follow your organization's response team.",
+                "explanation": "The device, not just cookies, may be compromised.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "A transfer was made after you were tricked into approving it. How should you describe it to the bank?",
+            "choices": [
+              {
+                "text": "Say you never authorized it, regardless of the facts.",
+                "explanation": "A false description can derail the correct process.",
+                "correct": false
+              },
+              {
+                "text": "Describe exactly what you approved and ask about recall or dispute options.",
+                "explanation": "Authorized-scam and unauthorized-transfer routes may differ.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

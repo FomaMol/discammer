@@ -1,33 +1,181 @@
 {
   "order": 5,
   "title": "Identity-theft recovery and credit freezes",
-  "est_minutes": 7,
-  "body_md": "## When your identity is the target\n\nIdentity theft is what happens when an attacker collects enough of your personal data — name, date of birth, social security or national-ID number, address — to impersonate you to banks, credit issuers, government agencies, and merchants. They open new accounts in your name, take loans, file tax returns, claim benefits, sometimes commit crimes attributed to you.\n\nThe recovery is slow. The leverage is in stopping the attacker's *next* moves while you clean up the current ones.\n\n### The single most useful tool: credit freezes\n\nA credit freeze (sometimes called a security freeze) tells the major credit bureaus to refuse any new credit application in your name until you temporarily lift the freeze with a PIN. New cards, loans, mortgages — all blocked.\n\nIt does *not* affect existing accounts. You can still use your real cards and pay your bills.\n\nIt's free, online, and reversible.\n\n**Where to freeze:**\n\n- **U.S.:** Equifax, Experian, TransUnion — each has its own site and free freeze flow.\n- **U.K.:** Equifax UK, Experian UK, TransUnion UK.\n- **EU / others:** the local credit-bureau equivalent, varies by country. In Russia — Объединённое бюро, НБКИ, Эквифакс through Госуслуги.\n\nThe freeze should be your *first* identity-theft action. Many later steps depend on knowing what fraudulent accounts were opened; freezing prevents new ones from accumulating while you sort that out.\n\n### Fraud alerts (US, weaker than a freeze)\n\nThe US offers a 'fraud alert' as a softer alternative — it requires creditors to take additional steps to verify your identity, but doesn't outright block applications. Use a freeze unless there's a specific reason you can't (extremely rare — most freezes can be lifted in 60 seconds when you need credit).\n\n### Government accounts to check\n\n- **Tax / revenue.** An IRS-style account with a stolen identity allows the attacker to file a fraudulent return and claim your refund. Check your account; enable IP-PIN where offered.\n- **Social security / national-ID portal.** Confirm there are no changes to address, beneficiaries, or contact info.\n- **Driving licence / passport.** Report stolen identity documents to the issuing agency.\n- **Healthcare / insurance portals.** Medical-identity theft is real — attackers obtain prescription drugs or services billed to your insurance.\n\n### Specific paperwork that helps\n\n- **A police report.** Required by some creditors and insurers before they'll process disputes.\n- **An Identity Theft Affidavit** (FTC has a template; many countries' equivalents exist). Submit to creditors when disputing fraudulent accounts.\n- **Letters confirming dispute outcomes** from each creditor. Keep them — re-dispute requests sometimes happen years later and you want the paper trail.\n\n### Long-term hygiene after identity theft\n\n- **Sign up for free annual credit reports** in jurisdictions that offer them. Review them. Anything you don't recognise — dispute immediately.\n- **Leave freezes in place** between active credit applications. Lifting a freeze for a specific application takes a minute; the security benefit of leaving it on by default is large.\n- **Be alert to mail-stream attacks.** If physical mail is part of the problem, consider a P.O. box or 'informed delivery' to monitor what's being mailed in your name.\n\nIdentity-theft recovery commonly takes 6 to 12 months to fully resolve. The freezes are what stop the bleeding while the recovery runs.",
-  "widget_type": "quiz",
+  "est_minutes": 15,
+  "body_md": "## Identity recovery is a series of separate disputes\n\nAn exposed name or identity number is not the same as a fraudulent account. First establish what was exposed and what was used. A breach notice may justify protective steps even before misuse. An unfamiliar account, debt notice, tax filing or benefit claim needs a specific dispute with the organization involved. Keep records of each case and its outcome. A tax, benefits or medical-insurance misuse needs contact with that specific agency or insurer; a credit freeze does not repair it.\n\n### US: a freeze, report and disputes\n\nIn the US, a free security freeze at **each** of Equifax, Experian and TransUnion restricts access to the credit report for new credit. It does not stop use of existing accounts, all forms of identity misuse, or every lender outside that system. You can lift it for a legitimate application. A fraud alert asks lenders to verify identity but does not block report access; an initial alert at one bureau is shared with the others. The FTC's IdentityTheft.gov produces a tailored report and recovery plan when misuse occurs. Review your credit reports, contact the issuer of each account you did not open, and dispute incorrect entries with the bureau and furnishing business. Save written confirmations. A police report may be useful in a particular process, but it is not a universal prerequisite.\n\n### Do not export US rules\n\nThe UK, EU, UAE and other systems do not all have the US three-bureau freeze. Check local bureau, lender and identity-authority procedures. In Russia, the Bank of Russia documents a **self-ban on certain consumer loans**, available through Gosuslugi or MFC, with exclusions including mortgages and some secured or education loans. It is not identical to a US credit freeze and does not block use of an existing credit card. Use the official service to inspect its current status and terms.\n\nIf someone used your existing card or bank account, report that to the institution immediately; an identity measure cannot undo the transaction. A genuine credit application you made may be delayed by a freeze or ban, so plan a temporary lift through the official process. Avoid paid “identity repair” promises that claim a guaranteed result. Recovery ends when each fraudulent record is resolved and the protective controls you chose are documented, not after a fixed number of months.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You're in the US and have just discovered your social security number was leaked in a major breach. You haven't seen fraudulent activity yet. What's the *most leveraged single action* to take today?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Distinguish exposure from misuse and use the correct local protective and dispute process without treating a US freeze as universal.",
+    "today_action": "If in the US, locate the official freeze pages for all three bureaus; elsewhere, identify your local credit-report and lender-dispute routes without entering personal data into this lesson.",
+    "checked_at": "2026-10-20",
+    "scope": "US freeze/FTC procedures and Russian consumer-loan self-ban are jurisdiction-specific; other countries require local checks.",
+    "sources": [
       {
-        "text": "Sign up for an identity-theft monitoring service.",
-        "correct": false,
-        "explanation": "Monitoring services *detect* fraud after it happens. They don't *prevent* it. A freeze does, and it's free."
+        "title": "FTC: Credit freezes and fraud alerts",
+        "url": "https://consumer.ftc.gov/articles/credit-freezes-and-fraud-alerts",
+        "scope": "US credit-report system only"
       },
       {
-        "text": "Place a credit freeze with all three major bureaus.",
-        "correct": true,
-        "explanation": "Yes. The freeze prevents new credit accounts being opened in your name, which is the most expensive form of identity theft to recover from. It's free, fast, and reversible when you actually need credit. Do this first, before anything else."
+        "title": "FTC: What to know about identity theft",
+        "url": "https://consumer.ftc.gov/articles/what-know-about-identity-theft",
+        "scope": "US identity-theft reporting and recovery"
       },
       {
-        "text": "Change your social security number.",
-        "correct": false,
-        "explanation": "The SSA does not change SSNs except in extreme cases — your old number lives on in records and you create more problems than you solve. Freezing is the correct first move."
+        "title": "Bank of Russia: Consumer-loan self-ban",
+        "url": "https://www.cbr.ru/ckki/self-prohibition_credit/",
+        "scope": "Russian consumer-loan self-ban; exclusions apply"
       },
       {
-        "text": "Buy a credit-monitoring product.",
-        "correct": false,
-        "explanation": "Paid monitoring duplicates much of what a freeze already prevents, and many free monitoring services exist (banks, credit-card issuers, government agencies in some jurisdictions). Freeze first, monitor second if useful."
+        "title": "FTC: What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US payment and exposure response; refund rights vary"
       }
     ],
-    "hint": "Which action stops *future* unauthorized accounts being opened, not just detects them?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A new card after a data breach",
+        "situation": "Synthetic: an American reader receives a breach notice, then finds a credit card she never opened on her report.",
+        "analysis": "She freezes each US bureau to reduce new-credit risk, reports misuse at IdentityTheft.gov, contacts the issuer and disputes the report entry. The freeze does not remove the existing fraudulent account; that needs its own dispute.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A legitimate mortgage application",
+        "situation": "Synthetic: Omar froze his US reports months ago. A mortgage lender now says it cannot pull a report for his application.",
+        "analysis": "The freeze is working as designed, not evidence of new fraud. Omar verifies the lender through a known channel, learns which bureau it uses, temporarily lifts that freeze and restores it afterward.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "A report you did not expect",
+        "setup": "Synthetic: you live in the US. A credit report shows an unfamiliar store card; an email also advertises paid “instant identity repair.”",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "What limits new-credit applications?",
+            "choices": [
+              {
+                "text": "Place free freezes with all three US nationwide bureaus.",
+                "consequence": "Access to those reports for new credit is restricted.",
+                "explanation": "One bureau's freeze does not automatically freeze the other two.",
+                "recommended": true
+              },
+              {
+                "text": "Buy the advertised repair package.",
+                "consequence": "New applications may continue.",
+                "explanation": "A paid promise is not the protective control.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "How do you address the card already opened?",
+            "choices": [
+              {
+                "text": "Dispute it with the issuer and relevant bureau, using the FTC recovery plan if appropriate.",
+                "consequence": "The existing record gets a specific challenge.",
+                "explanation": "A freeze alone does not delete old entries.",
+                "recommended": true
+              },
+              {
+                "text": "Assume the freeze erases it.",
+                "consequence": "The fraudulent account remains.",
+                "explanation": "Prevention and correction are separate.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The issuer asks for a case reference. What do you provide?",
+            "choices": [
+              {
+                "text": "A verified report/reference through the issuer's official process, retaining copies.",
+                "consequence": "The dispute has a traceable record.",
+                "explanation": "Share only requested information on a confirmed channel.",
+                "recommended": true
+              },
+              {
+                "text": "Your full identity file through the repair ad's upload link.",
+                "consequence": "More sensitive data may be exposed.",
+                "explanation": "A third-party ad does not verify the issuer.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A genuine loan application is due next month. What now?",
+            "choices": [
+              {
+                "text": "Plan a temporary lift at the bureau the lender uses, then restore the freeze.",
+                "consequence": "The legitimate check can proceed while protection resumes.",
+                "explanation": "A freeze is reversible; confirm the lender independently.",
+                "recommended": true
+              },
+              {
+                "text": "Remove all freezes permanently because applications are impossible otherwise.",
+                "consequence": "Protection is lost unnecessarily.",
+                "explanation": "Temporary lifts are supported.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "US freezes limit some new credit; disputes repair existing records. Local alternatives differ. Retry any choice and replay; do not enter real identity details into this exercise."
+      },
+      {
+        "type": "check",
+        "title": "Transfer across jurisdictions",
+        "questions": [
+          {
+            "prompt": "Does a US credit freeze stop fraudulent use of an existing card?",
+            "choices": [
+              {
+                "text": "Yes, it blocks every transaction.",
+                "explanation": "The freeze limits access to reports for new credit, not existing-card use.",
+                "correct": false
+              },
+              {
+                "text": "No; report existing-card misuse to the issuer separately.",
+                "explanation": "Different controls address different risks.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "A Russian resident considers a consumer-loan self-ban. What limitation matters?",
+            "choices": [
+              {
+                "text": "It does not cover every credit product or existing card use.",
+                "explanation": "Bank of Russia lists exclusions and existing-card limits.",
+                "correct": true
+              },
+              {
+                "text": "It is identical to a US three-bureau freeze.",
+                "explanation": "The mechanisms and scope differ.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Your own US mortgage lender cannot pull a report. What should you do?",
+            "choices": [
+              {
+                "text": "Verify the lender and temporarily lift the relevant freeze.",
+                "explanation": "The legitimate application can proceed without abandoning protection.",
+                "correct": true
+              },
+              {
+                "text": "Treat every failed pull as proof of identity theft.",
+                "explanation": "Your own freeze can explain it.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
