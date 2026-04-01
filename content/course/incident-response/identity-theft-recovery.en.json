@@ -2,7 +2,7 @@
   "order": 5,
   "title": "Identity-theft recovery and credit freezes",
   "est_minutes": 15,
-  "body_md": "## Identity recovery is a series of separate disputes\n\nAn exposed name or identity number is not the same as a fraudulent account. First establish what was exposed and what was used. A breach notice may justify protective steps even before misuse. An unfamiliar account, debt notice, tax filing or benefit claim needs a specific dispute with the organization involved. Keep records of each case and its outcome. A tax, benefits or medical-insurance misuse needs contact with that specific agency or insurer; a credit freeze does not repair it.\n\n### US: a freeze, report and disputes\n\nIn the US, a free security freeze at **each** of Equifax, Experian and TransUnion restricts access to the credit report for new credit. It does not stop use of existing accounts, all forms of identity misuse, or every lender outside that system. You can lift it for a legitimate application. A fraud alert asks lenders to verify identity but does not block report access; an initial alert at one bureau is shared with the others. The FTC's IdentityTheft.gov produces a tailored report and recovery plan when misuse occurs. Review your credit reports, contact the issuer of each account you did not open, and dispute incorrect entries with the bureau and furnishing business. Save written confirmations. A police report may be useful in a particular process, but it is not a universal prerequisite.\n\n### Do not export US rules\n\nThe UK, EU, UAE and other systems do not all have the US three-bureau freeze. Check local bureau, lender and identity-authority procedures. In Russia, the Bank of Russia documents a **self-ban on certain consumer loans**, available through Gosuslugi or MFC, with exclusions including mortgages and some secured or education loans. It is not identical to a US credit freeze and does not block use of an existing credit card. Use the official service to inspect its current status and terms.\n\nIf someone used your existing card or bank account, report that to the institution immediately; an identity measure cannot undo the transaction. A genuine credit application you made may be delayed by a freeze or ban, so plan a temporary lift through the official process. Avoid paid “identity repair” promises that claim a guaranteed result. Recovery ends when each fraudulent record is resolved and the protective controls you chose are documented, not after a fixed number of months.",
+  "body_md": "## Identity recovery is a series of separate disputes\n\nAn exposed name or identity number is not the same as a fraudulent account. First establish what was exposed and what was used. A breach notice may justify protective steps even before misuse. An unfamiliar account, debt notice, tax filing or benefit claim needs a specific dispute with the organization involved. Keep records of each case and its outcome. A tax, benefits or medical-insurance misuse needs contact with that specific agency or insurer; a credit freeze does not repair it.\n\n### US: a freeze, report and disputes\n\nIn the US, a free security freeze at **each** of Equifax, Experian and TransUnion restricts access to the credit report for new credit. It does not stop use of existing accounts, all forms of identity misuse, or every lender outside that system. You can lift it for a legitimate application. A fraud alert asks lenders to verify identity but does not block report access; an initial alert at one bureau is shared with the others. The FTC's IdentityTheft.gov produces a tailored report and recovery plan when misuse occurs. Review your credit reports, contact the issuer of each account you did not open, and dispute incorrect entries with the bureau and furnishing business. Save written confirmations. A police report may be useful in a particular process, but it is not a universal prerequisite.\n\n### Do not export US rules\n\nThe UK, EU, UAE and other systems do not all have the US three-bureau freeze. Check local bureau, lender and identity-authority procedures. In Russia, the Bank of Russia documents a **self-ban on certain consumer loans**, available through Gosuslugi or MFC, with exclusions including mortgages and some secured or education loans. It is not identical to a US credit freeze and does not block use of an existing credit card. Use the official service to inspect its current status and terms.\n\nIf someone used your existing card or bank account, report that to the institution immediately; an identity measure cannot undo the transaction. For a genuine US credit application, ask the lender which bureau it uses and arrange a temporary lift of that bureau’s freeze through the official channel. In Russia, if the planned consumer loan is covered by a self-ban, request cancellation through Gosuslugi or an MFC and allow for the cooling interval: cancellation takes effect on the second calendar day after its record enters your credit history. Confirm the status before applying. Mortgages are excluded from that Russian self-ban, so check a mortgage delay with the lender rather than assuming the ban caused it. Avoid paid “identity repair” promises that claim a guaranteed result. Recovery ends when each fraudulent record is resolved and the protective controls you chose are documented, not after a fixed number of months.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
@@ -51,7 +51,7 @@
       {
         "type": "practice",
         "title": "A report you did not expect",
-        "setup": "Synthetic: you live in the US. A credit report shows an unfamiliar store card; an email also advertises paid “instant identity repair.”",
+        "setup": "Synthetic: you live in the US. A credit report shows an unfamiliar store card; an email also advertises paid “instant identity repair.” Each decision is an independent US snapshot; no later question assumes that an earlier action happened.",
         "synthetic": true,
         "steps": [
           {
@@ -72,7 +72,7 @@
             ]
           },
           {
-            "prompt": "How do you address the card already opened?",
+            "prompt": "Separate snapshot: an unfamiliar store card is already open in your name. How do you address that existing account?",
             "choices": [
               {
                 "text": "Dispute it with the issuer and relevant bureau, using the FTC recovery plan if appropriate.",
@@ -89,12 +89,12 @@
             ]
           },
           {
-            "prompt": "The issuer asks for a case reference. What do you provide?",
+            "prompt": "Separate snapshot: an issuer you contacted through its official channel asks for a report or case reference in a new dispute. What do you provide?",
             "choices": [
               {
-                "text": "A verified report/reference through the issuer's official process, retaining copies.",
-                "consequence": "The dispute has a traceable record.",
-                "explanation": "Share only requested information on a confirmed channel.",
+                "text": "Give a verified report or case reference if you have one; otherwise say so and ask what the issuer needs through its official process.",
+                "consequence": "The issuer gets an accurate reference or can explain how to obtain the required record.",
+                "explanation": "Do not invent a case number or send documents through an ad’s upload link.",
                 "recommended": true
               },
               {
@@ -106,7 +106,7 @@
             ]
           },
           {
-            "prompt": "A genuine loan application is due next month. What now?",
+            "prompt": "Separate US snapshot: you have a genuine loan application next month and an active credit freeze. What now?",
             "choices": [
               {
                 "text": "Plan a temporary lift at the bureau the lender uses, then restore the freeze.",

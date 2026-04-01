@@ -56,7 +56,7 @@
       {
         "type": "practice",
         "title": "Who gets the first call?",
-        "setup": "Synthetic: your number loses service; a payment app shows a transfer you approved after a fake invoice, and a social account is locked.",
+        "setup": "Synthetic: your number loses service; a payment app shows a transfer you approved after a fake invoice, and a social account is locked. Each decision below is an independent snapshot; no later prompt assumes that an earlier recommended action was taken.",
         "synthetic": true,
         "steps": [
           {
@@ -77,7 +77,7 @@
             ]
           },
           {
-            "prompt": "What do you do about the phone number?",
+            "prompt": "Separate snapshot: your number has lost service. What do you do about it?",
             "choices": [
               {
                 "text": "Call the carrier through a known number and ask about outage, SIM/port activity and account protection.",
@@ -94,7 +94,7 @@
             ]
           },
           {
-            "prompt": "Which route handles the locked social account?",
+            "prompt": "Separate snapshot: your social account is locked. Which route handles it?",
             "choices": [
               {
                 "text": "Pay a recovery agent who promises access today.",
@@ -111,18 +111,18 @@
             ]
           },
           {
-            "prompt": "You file a US IC3 complaint. What should you expect?",
+            "prompt": "Separate snapshot: you file a complaint with the US FBI’s IC3 about an online fraud. Bank/provider contact may still be outstanding. What should you expect?",
             "choices": [
               {
                 "text": "It directly reverses the transfer.",
                 "consequence": "IC3 collects complaints; it does not operate the bank.",
-                "explanation": "Continue the provider case.",
+                "explanation": "IC3 does not operate the bank; contact the provider if you have not, or continue its case.",
                 "recommended": false
               },
               {
-                "text": "Save a copy, retain originals, and keep following up with the bank/provider.",
-                "consequence": "The complaint supports reporting while account action stays with the service.",
-                "explanation": "IC3 does not promise status updates.",
+                "text": "Save the complaint and originals; contact the bank/provider through its official route if missed, or follow up on its existing case.",
+                "consequence": "The complaint is saved while you pursue or continue the payment report through the service.",
+                "explanation": "IC3 accepts complaints from affected people outside the US too, but it does not replace local reporting or bank action and does not promise status updates.",
                 "recommended": true
               }
             ]

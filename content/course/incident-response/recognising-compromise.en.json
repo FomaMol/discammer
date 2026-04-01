@@ -46,7 +46,7 @@
       {
         "type": "practice",
         "title": "A confusing mailbox alert",
-        "setup": "Synthetic: your email shows a new-location notice while you are traveling; a colleague then mentions a strange request from you. Make each decision in order.",
+        "setup": "Synthetic: these are three independent snapshots about a new-location alert and a colleague’s suspicious payment request. Each prompt states its own facts; an earlier choice does not determine the next snapshot.",
         "synthetic": true,
         "steps": [
           {
@@ -67,7 +67,7 @@
             ]
           },
           {
-            "prompt": "The app shows a new device you cannot identify. What next?",
+            "prompt": "Separate snapshot: you open the provider app directly from your home screen. It shows a new device you cannot identify. What next?",
             "choices": [
               {
                 "text": "Record the device/time, secure the account and use provider recovery if needed.",
@@ -78,13 +78,13 @@
               {
                 "text": "Wait for a second alert so you can be certain.",
                 "consequence": "The session may remain active.",
-                "explanation": "You already have two independent signs.",
+                "explanation": "An unfamiliar active session merits action even before another alert arrives.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Your colleague received a payment request from your account. What do you tell them?",
+            "prompt": "Separate snapshot: a colleague shows you a payment request apparently sent from your account. What do you tell them?",
             "choices": [
               {
                 "text": "Ask them to forward the request to everyone.",

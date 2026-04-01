@@ -51,7 +51,7 @@
       {
         "type": "practice",
         "title": "A payment and a login alert",
-        "setup": "Synthetic: a banking app shows an unfamiliar transfer at 19:10; an email alert says a new device signed in. Your laptop recently ran unknown remote-support software.",
+        "setup": "Synthetic: a banking app shows an unfamiliar transfer at 19:10; an email alert says a new device signed in. Your laptop recently ran unknown remote-support software. The following decisions are independent response snapshots; each prompt supplies its own facts regardless of earlier choices.",
         "synthetic": true,
         "steps": [
           {
@@ -72,7 +72,7 @@
             ]
           },
           {
-            "prompt": "Where do you recover email?",
+            "prompt": "Separate snapshot: you have lost email access and must recover it. A laptop ran unknown remote-support software, but you have another trusted device. Where do you recover email?",
             "choices": [
               {
                 "text": "On the same possibly controlled laptop in a private window.",
@@ -89,7 +89,7 @@
             ]
           },
           {
-            "prompt": "The laptop may still be remotely controlled. What do you do?",
+            "prompt": "Separate snapshot: a laptop recently ran unknown remote-support software and may still be controlled. What do you do?",
             "choices": [
               {
                 "text": "Disconnect it if safe, stop using it for sensitive work, and seek trusted help; preserve workplace evidence under policy.",
@@ -106,18 +106,18 @@
             ]
           },
           {
-            "prompt": "The hour ends before the bank responds. What next?",
+            "prompt": "Separate snapshot: an unfamiliar transfer is still visible after an hour. You may or may not have reached the bank. What next?",
             "choices": [
               {
                 "text": "Assume the risk window is closed.",
                 "consequence": "An arbitrary hour does not resolve an incident.",
-                "explanation": "Continue the bank case and account checks.",
+                "explanation": "Report the transfer now if you missed it; continue the case if you already reported it.",
                 "recommended": false
               },
               {
-                "text": "Record the case number, pending actions and follow-up time.",
-                "consequence": "You can resume without losing the response trail.",
-                "explanation": "The playbook is a sequence, not a completion certificate.",
+                "text": "If not yet reported, start contacting the bank now through a known route; otherwise record any case number issued, pending actions and follow-up time.",
+                "consequence": "You pursue the missed report, or keep an existing case traceable.",
+                "explanation": "The hour is a planning aid, not a deadline that closes the incident.",
                 "recommended": true
               }
             ]
