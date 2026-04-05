@@ -10,7 +10,7 @@
     "goal": "Preserve a usable, private timeline and original artifacts while containing an active incident promptly.",
     "today_action": "Create an empty incident-note template with fields for date/time/timezone, observed fact, source, action, contact and case number; store it privately.",
     "checked_at": "2026-10-20",
-    "scope": "General evidence organization; legal admissibility and provider retention differ; IC3 attachment rules apply to US complaints.",
+    "scope": "General evidence organization; legal admissibility and provider retention differ; IC3 does not accept attachments to its complaint form, regardless of where the complainant lives or their citizenship.",
     "sources": [
       {
         "title": "FBI IC3: Complaint FAQ",

@@ -72,7 +72,7 @@
               {
                 "text": "Record the device/time, secure the account and use provider recovery if needed.",
                 "consequence": "You preserve a useful timeline while limiting access.",
-                "explanation": "An unknown active session plus the colleague's report warrants containment.",
+                "explanation": "An unknown active session in the official app warrants prompt containment.",
                 "recommended": true
               },
               {
