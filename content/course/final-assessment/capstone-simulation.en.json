@@ -1,29 +1,340 @@
 {
   "order": 2,
   "title": "Capstone simulation — a Tuesday at the office",
-  "est_minutes": 12,
-  "body_md": "## A scenario that uses every module\n\nIt's a normal Tuesday morning. You're an operations lead at a 200-person company. You've completed the DiScammer programme — and now everything you learned is about to land in one afternoon.\n\nThe simulation has multiple decision points. Each one is a small scenario; the right answer in each frames the next.\n\n### 09:14 — An odd email\n\nYour inbox shows a message from a vendor you pay every month. The CFO of the vendor company, copied with you, asks you to update their banking IBAN before tomorrow's invoice. The email comes from the right domain. The signature block is identical to past emails.\n\nThe attached PDF gives the new IBAN — in a different country than the previous one.\n\n### 11:47 — A call\n\nYour phone rings. The caller ID shows the name of someone from your bank's fraud team. Calm voice, professional tone. She says she's calling because three accounts in your country were just hit by the same suspicious pattern as one of yours, and she wants to walk you through enabling 'enhanced protection' on your account by reading you a code that was just sent to your phone.\n\nA verification SMS code does land on your phone as she speaks.\n\n### 14:32 — A Zoom invite\n\nYour CEO sends a Slack message: an unexpected Zoom call in five minutes about a confidential acquisition discussion. The Zoom invite is from her real account. On the call, the CEO and head of legal greet you by name and ask you to authorize a $180,000 wire to an escrow account before market close.\n\nDecision time. The scenario below asks you to choose the right move at each of the three flashpoints.",
-  "widget_type": "scenario",
+  "est_minutes": 18,
+  "body_md": "## Goal: run a verification and response workflow across a whole day\n\nThis is a **fictional training day** at a small company. You are the operations lead, not a forensic investigator. Your job is to keep a routine payment moving only after a trustworthy change check, protect accounts from a live impersonation attempt, and respond proportionately if a colleague acted already. The seven decisions below form a sequence; a later scene does not depend on a hidden branch. You can retry each choice and replay the exercise.\n\n### How the chain works\n\nAt 09:14, a vendor-change message appears in an existing mail thread. That thread, familiar signature and plausible invoice are *context*, not proof: a mailbox can be compromised and an invoice can be copied. The target action is the payment-detail change. Map **claim → requested action → asset exposed → independent check** before touching it. A strange country on a bank account is a reason to verify, not proof of crime: a genuine vendor may move banks. The control is the same in either case—call a known contact from your vendor record and apply your existing dual-approval policy.\n\nAt 11:47, the caller ID says “bank security” and an SMS code arrives. Caller ID and the timing of a code do not authenticate the caller. A manually entered one-time code can be relayed into a real login. Do not read it aloud or type it into a page reached from the call; end the call and contact the bank through an app or contact you opened independently. A passkey or security key can resist a lookalike login site by binding to the intended service, but it does not approve a transfer or make the recovery route automatically safe.\n\nAt 14:32, a video meeting appears to show two executives asking for an urgent transfer. A familiar face and voice, even with no visible glitch, do not establish authority. The video might be manipulated, or a real colleague's account might be misused. Check the *transaction* using a separately held contact and your payment workflow. Content Credentials, if present, can help establish media provenance under a trust model; they do not certify the business request as true. Their absence is not proof of fakery.\n\nAt 15:10, a colleague reports having opened a QR login page, and the office phone shows “No service.” These clues may have ordinary explanations; they are enough to begin safe checks. Use the known service app or address to inspect sessions and recovery settings, and ask the carrier through an independently found support route about the line. If money moved or credentials were entered, contact the affected provider promptly. Preserve the message, timestamps and transaction reference without circulating passwords or codes. A bank may attempt a recall; no recovery is guaranteed.\n\n### Your working rule\n\nSeparate **observation** (“a code arrived”) from **inference** (“the caller is from my bank”). Pause, verify the consequential request with a contact you selected independently, and record what you learned. Do not make blanket accusations when a routine request is merely confusing. Choose a local escalation route for your actual country and employer. No real messages, codes, URLs, account details or money belong in this exercise.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "Three escalating events have hit you in one day: the IBAN-change email, the 'fraud team' phone call asking for your SMS code, and the deepfake-suspicious Zoom call. You need one *general rule* to apply to all three.",
-    "prompt": "What's the rule that defends you against all three at once?",
-    "choices": [
+    "version": 2,
+    "goal": "Practise a seven-decision verification and response workflow that transfers across all eight teaching modules.",
+    "today_action": "Write down one trusted bank contact route and one independent contact for a person or vendor you may need to verify; keep the list private.",
+    "checked_at": "2026-10-20",
+    "scope": "Synthetic cross-module practice; contact, payment and incident procedures vary by employer, provider and country.",
+    "sources": [
       {
-        "text": "Verify everything with a written audit trail before doing anything.",
-        "outcome": "risky",
-        "explanation": "Closer to right, but 'written' doesn't help against the Zoom case if the written confirmation lives in the same email thread. The defining property must be the channel itself."
+        "title": "UK NCSC — How to spot a scam email, text or call",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "UK consumer guidance, published 2021 and reviewed 2022; verification method is broadly transferable, UK reporting routes are local."
       },
       {
-        "text": "For any consequential request, verify on a *separate channel using a contact you already had* before acting — and refuse to read out one-time codes ever.",
-        "outcome": "good",
-        "explanation": "Yes. This single rule kills all three attacks: callback the vendor's CFO on the number you already had to confirm the IBAN; refuse the SMS code over phone (banks never ask) and call back the bank on the number on your card; after the Zoom, message the CEO on internal Slack from your contacts list before processing the wire. One pattern, all three defeated."
+        "title": "NIST SP 800-63B-4 — Authenticator and verifier requirements",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
+        "scope": "US identity-service technical standard; explains why manually entered OTPs are not phishing-resistant and WebAuthn can bind to the verifier."
       },
       {
-        "text": "Look for visual / linguistic artifacts (deepfake faces, AI-style prose) and trust the request if you can't find any.",
-        "outcome": "disaster",
-        "explanation": "All three attacks are now polished enough to pass surface inspection. Relying on 'doesn't look fake to me' is exactly what these schemes are engineered to clear."
+        "title": "FTC — What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US consumer response guide, June 2026; payment recovery options and rights vary by country, provider and method."
+      },
+      {
+        "title": "FTC — Scammers use fake emergencies",
+        "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
+        "scope": "US consumer guidance, September 2023; voice cloning and known-number family verification."
+      },
+      {
+        "title": "UK NCSC — Recovering a hacked account",
+        "url": "https://www.ncsc.gov.uk/guidance/recovering-a-hacked-account",
+        "scope": "UK consumer account-recovery guidance; provider-specific recovery controls differ."
+      },
+      {
+        "title": "C2PA 2.4 — Harms modelling for content consumers",
+        "url": "https://spec.c2pa.org/specifications/specifications/2.4/security/Harms_Modelling.html",
+        "scope": "Provenance specification; a validated manifest is not proof that a claim in media is true."
       }
     ],
-    "moral": "Verification through a channel the attacker can't control is a single rule that survives every modern attack — voice cloning, BEC, vishing, deepfake video — that you'll meet in the wild."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Synthetic case: the thread is real, the change is not",
+        "situation": "A supplier mailbox was taken over in this fictional example. The attacker replies in a genuine old thread, attaches a copied invoice and switches the payee to a new account. The greeting, domain and previous messages all look normal.",
+        "analysis": "The suspicious action is changing the payee. Replying inside the thread lets the same mailbox answer its own challenge. Hold the change, use a phone number stored before this email, and have another authorized person check the new details. If a payment was sent, contact your bank immediately through its official channel.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "Synthetic legitimate case: a real bank change",
+        "situation": "A known supplier has moved its billing to another country. An email announces a new account and a due date. The request is genuine, but the account country and timing feel unusual.",
+        "analysis": "Treat the difference as a verification trigger, not a verdict. Call the supplier using the contact already in your records, confirm the full payee details, document who confirmed them, and follow the normal second-approval process. If the supplier cannot be reached, postpone the change; do not invent certainty.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Tuesday at the office: seven decisions",
+        "setup": "All names, events and amounts are invented. Follow the same workday; the decisions teach a repeatable process, not a simulated forensic verdict. Every scene offers a retry.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "09:14. A familiar supplier thread asks for a new payee before tomorrow. What do you identify first?",
+            "choices": [
+              {
+                "text": "The claim, the requested payee change, the exposed funds and a separate verification route.",
+                "consequence": "You isolate the action that can cause harm before judging the message.",
+                "explanation": "An authentic-looking thread can still carry an unauthorized payment instruction.",
+                "recommended": true
+              },
+              {
+                "text": "The sender logo and grammar; if both look right, accept the new account.",
+                "consequence": "The change moves toward payment without checking who controls the request.",
+                "explanation": "Style and thread history are not authorization evidence.",
+                "recommended": false
+              },
+              {
+                "text": "Delete the email and permanently block the supplier.",
+                "consequence": "A real supplier change becomes impossible to process.",
+                "explanation": "Suspicion calls for verification, not an automatic accusation.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "09:20. The attached PDF shows a new account and a QR code to “confirm vendor identity.” How do you proceed?",
+            "choices": [
+              {
+                "text": "Use the supplier number already in your records and your normal change-approval process; do not scan the QR link.",
+                "consequence": "You can confirm a genuine change without following a route supplied by the request.",
+                "explanation": "The independent contact and two-person control check the action itself.",
+                "recommended": true
+              },
+              {
+                "text": "Scan the QR code because the PDF arrived in a genuine old thread.",
+                "consequence": "The code can take you to an attacker-controlled sign-in page.",
+                "explanation": "QR delivery does not make a destination safer than a typed link.",
+                "recommended": false
+              },
+              {
+                "text": "Reply to the email asking whether it is genuine.",
+                "consequence": "Whoever controls that mailbox can answer “yes.”",
+                "explanation": "A confirmation in the same potentially compromised channel is weak.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "11:47. “Bank security” calls; a code arrives while the caller asks you to read it out. What now?",
+            "choices": [
+              {
+                "text": "End the call without sharing the code; open your bank app or use the number on your card to check.",
+                "consequence": "The caller cannot use you to relay the login code; a real alert can still be investigated.",
+                "explanation": "A coincident code and caller ID are not proof of caller identity.",
+                "recommended": true
+              },
+              {
+                "text": "Read the code once because the caller seems to know your account.",
+                "consequence": "A live login or recovery attempt may be completed by someone else.",
+                "explanation": "One-time codes are meant for a login you started, not an inbound caller.",
+                "recommended": false
+              },
+              {
+                "text": "Ask the caller to send an email from the bank domain, then share the code.",
+                "consequence": "A forged or compromised email can still support the same attack.",
+                "explanation": "The verification route must be selected independently.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "12:05. Your bank account offers a passkey, but recovery still uses an old phone number. What is the best maintenance action?",
+            "choices": [
+              {
+                "text": "Enable the passkey where supported, then review and update recovery methods through the genuine account settings.",
+                "consequence": "The sign-in improves while the weaker recovery route is also addressed.",
+                "explanation": "Phishing-resistant sign-in does not erase recovery risk.",
+                "recommended": true
+              },
+              {
+                "text": "Enable the passkey and assume the old phone number no longer matters.",
+                "consequence": "The stale number may remain a recovery weakness.",
+                "explanation": "A strong front door is only part of the account lifecycle.",
+                "recommended": false
+              },
+              {
+                "text": "Keep using the old password and SMS only, because passkeys can be lost.",
+                "consequence": "You retain an avoidable phishing path without solving recovery.",
+                "explanation": "Plan backups and recovery rather than rejecting a supported stronger method.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "14:32. Two executives on video ask for a confidential urgent transfer. How do you verify?",
+            "choices": [
+              {
+                "text": "Pause the transfer and confirm the instruction through a known executive contact plus normal payment approvals.",
+                "consequence": "A legitimate deal can proceed after the independent checks.",
+                "explanation": "Face, voice and meeting access do not replace transaction authorization.",
+                "recommended": true
+              },
+              {
+                "text": "Approve it because there are two familiar faces and no visible deepfake artifacts.",
+                "consequence": "A convincing recording or compromised meeting can move funds.",
+                "explanation": "Visual quality is not an authorization control.",
+                "recommended": false
+              },
+              {
+                "text": "Ask for Content Credentials on a screenshot, and approve if they validate.",
+                "consequence": "A provenance signal is mistaken for permission to pay.",
+                "explanation": "Even authentic media can carry a false or unauthorized instruction.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "15:10. A colleague scanned a login QR and the office phone shows “No service.” What do you do?",
+            "choices": [
+              {
+                "text": "Ask what was entered; use known service and carrier routes to check sessions, recovery settings and the line; escalate if exposure is confirmed.",
+                "consequence": "You investigate two clues without claiming a compromise you have not established.",
+                "explanation": "The response depends on what was entered and whether access or the line changed.",
+                "recommended": true
+              },
+              {
+                "text": "Assume both are harmless and wait until tomorrow.",
+                "consequence": "A live account or SIM takeover could continue unnoticed.",
+                "explanation": "Uncertain evidence still justifies low-risk checks.",
+                "recommended": false
+              },
+              {
+                "text": "Announce a confirmed SIM swap and malware infection to everyone.",
+                "consequence": "Unverified claims can disrupt response and spread misinformation.",
+                "explanation": "“No service” and a scanned code are observations, not diagnoses.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "15:25. A teammate says an invoice payment was already sent to the changed account. What is the priority?",
+            "choices": [
+              {
+                "text": "Contact the sending bank through its official fraud route immediately, request a recall or trace, notify internal finance/security, and preserve records.",
+                "consequence": "You give the payment provider its best chance to act while retaining evidence.",
+                "explanation": "A recall may fail; local bank and legal procedures vary.",
+                "recommended": true
+              },
+              {
+                "text": "First spend hours proving whether the video was a deepfake.",
+                "consequence": "The payment response window shrinks.",
+                "explanation": "The payment method and exposure determine the first containment action.",
+                "recommended": false
+              },
+              {
+                "text": "Pay a private “recovery expert” from a direct message.",
+                "consequence": "More money and information may be lost.",
+                "explanation": "Unexpected recovery offers are another risk; use the original provider.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Replay any decision where you treated a familiar channel as proof. The safe pattern is to identify the requested action, verify through a contact you chose, apply ordinary approval controls, and respond to the exposure that actually occurred. A legitimate vendor change survives this process; an attacker-controlled instruction does not. The exercise stores no real incident data.",
+        "mode": "sequence"
+      },
+      {
+        "type": "check",
+        "title": "Transfer check",
+        "questions": [
+          {
+            "prompt": "A known charity emails a new donation link just before a public campaign. What is the best next move?",
+            "choices": [
+              {
+                "text": "Open the charity site from a saved address or independent search and confirm the campaign and payment destination.",
+                "explanation": "A familiar name and plausible timing are context; the independently reached destination matters.",
+                "correct": true
+              },
+              {
+                "text": "Donate from the email because a public campaign makes it genuine.",
+                "explanation": "A real campaign can be copied by an impostor.",
+                "correct": false
+              },
+              {
+                "text": "Report the charity as fraudulent without checking.",
+                "explanation": "The request may be legitimate; verify before labeling it.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Your password manager does not offer autofill on a login page from a meeting chat. What does that mean?",
+            "choices": [
+              {
+                "text": "Treat it as a warning to inspect the actual site and use a known entry route; do not paste credentials.",
+                "explanation": "No autofill may have benign causes, but a domain mismatch is important enough to stop.",
+                "correct": true
+              },
+              {
+                "text": "The site is definitely malicious.",
+                "explanation": "Browser and manager behavior can have benign explanations.",
+                "correct": false
+              },
+              {
+                "text": "Paste the password manually so the meeting can continue.",
+                "explanation": "This bypasses a useful domain check under pressure.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A family member sounds distressed on a call and asks for a transfer. Which check is most useful?",
+            "choices": [
+              {
+                "text": "End the call and call a number already saved for them, or contact another trusted person.",
+                "explanation": "The same voice can be imitated; a separately chosen route tests the emergency.",
+                "correct": true
+              },
+              {
+                "text": "Ask them to repeat a fact from a public profile.",
+                "explanation": "Public details may be available to an impersonator.",
+                "correct": false
+              },
+              {
+                "text": "Use an AI voice detector as the deciding authority.",
+                "explanation": "Detectors are not a reliable identity or payment authorization method.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "An employee entered a password on a suspicious page but no payment occurred. What response fits?",
+            "choices": [
+              {
+                "text": "Use the real service to change the password, revoke suspect sessions, inspect recovery settings and notify workplace security.",
+                "explanation": "Contain the exposed account; do not wait for a payment loss.",
+                "correct": true
+              },
+              {
+                "text": "Request a bank wire recall first.",
+                "explanation": "There is no known wire in this situation.",
+                "correct": false
+              },
+              {
+                "text": "Do nothing because the page used HTTPS.",
+                "explanation": "Encryption does not prove the page or recipient was legitimate.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "The supplier confirms a real bank change by a stored number, but the invoice still differs from your purchase order. What next?",
+            "choices": [
+              {
+                "text": "Resolve the amount and order mismatch through the normal approval process before paying.",
+                "explanation": "Identity verification does not validate every term of the transaction.",
+                "correct": true
+              },
+              {
+                "text": "Pay now because the supplier verified the account.",
+                "explanation": "The invoice mismatch remains unresolved.",
+                "correct": false
+              },
+              {
+                "text": "Delete all supplier details as compromised.",
+                "explanation": "The account change may be legitimate; the remaining discrepancy needs ordinary review.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "revision": "2026-10-20"
   }
 }

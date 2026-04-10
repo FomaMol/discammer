@@ -1,20 +1,110 @@
 {
   "order": 3,
   "title": "Локальная запись о прохождении DiScammer Defender",
-  "est_minutes": 5,
-  "body_md": "## Твоя локальная запись о прохождении\n\nКогда пункты ниже подсвечены зелёным, можно создать личную запись об этапах обучения, которые отмечены как завершённые на этом устройстве.\n\nЧтобы её создать, нужны:\n\n- Все уроки во всех модулях, отмеченные как пройденные в этом браузере.\n- Результат финальной самооценки 80% или выше в этом браузере.\n\nВведи имя, которое должно появиться в записи. Запись, имя и результат создаются и хранятся локально в браузере. DiScammer их не получает, не выдаёт, не подписывает и не проверяет. Если очистить хранилище браузера или перейти на другое устройство, запись может исчезнуть.\n\nКнопка **Печать / сохранить PDF** сохранит личную копию, если она нужна. Эта запись не является результатом прокторинга, проверяемым удостоверением, подтверждением личности или доказательством компетентности; не представляй её таковой.\n\n## Короткая заметка о том, что ты потренировал\n\nДевять модулей возвращают к одной идее: *защита — это процесс, а не значок*. Клонированный голос, дипфейк-видео, ИИ-персонализированный фишинг и многоэтапные длинные разводы требуют одних и тех же привычек:\n\n- Проверяй через канал, который атакующий не контролирует.\n- Не доверяй каналу, через который пришёл запрос.\n- Замедляйся. Время — самый дорогой ресурс атакующего.\n- Используй инструменты, которые делают проверку простой: менеджеры паролей, MFA, кодовые слова и перезвоны.\n\nЗапись — напоминание о практике, выполненной в этом браузере. Важнее перенести эти привычки в реальные решения.",
+  "est_minutes": 10,
+  "body_md": "## Локальная запись о практике\n\nПункты ниже проверяют отметки об уроках и результат самооценки, сохранённые в этом браузере. Для личной записи все уроки девяти модулей должны быть отмечены как пройденные здесь, а финальная самооценка — иметь сохранённый результат **не ниже 80%**. Введи имя, которое хочешь видеть на записи. Запись создаётся в этом браузере. DiScammer не выдаёт, не подписывает, не прокторит и не проверяет её. Если ты явно включишь необязательную синхронизацию прогресса, зашифрованный пакет может включать результат экзамена и имя; сервер получает шифротекст, а не читаемую запись. Очистка данных браузера может удалить локальную копию; на другом устройстве она появится только после импорта или синхронизации прогресса. При желании сохрани личную копию через **Печать / сохранить PDF**.\n\nЭта запись **не является квалификацией, удостоверением личности, независимо проверенным баллом или доказательством умения предотвратить настоящий обман**. Высокий балл — повод продолжать практику, а не пропускать проверки. Старый успешный результат может сохраниться после слабой повторной попытки: разбери последние ошибки, даже если пункт остаётся зелёным.\n\n## Составь личный план безопасности — храни его приватно\n\nПотрать пять минут на план в собственной закрытой заметке или на бумаге. Не вводи в этот урок номера счетов, пароли, коды, реальные детали происшествий и финансовые данные.\n\n1. **Сигнал для паузы.** Напиши фразу на случай внезапной просьбы оплатить, назвать секрет, войти или сменить реквизиты: «Я проверю это выбранным мной способом». Разреши себе прервать чужую срочность.\n2. **Независимые контакты.** Сохрани настоящий путь в поддержку банка с карты или из приложения, контакт одного близкого и рабочий контакт по платежам или безопасности. Запиши, где их найти, а не секреты доступа. Обновляй после изменений.\n3. **Основа аккаунтов.** Выбери основную почту и банковские аккаунты. Проверь уникальность паролей или доступность passkey, поддерживаемую MFA, актуальность контактов восстановления и безопасные резервные способы. Passkey усиливает доступный путь входа, но не исправляет слабое восстановление.\n4. **Правило платежа.** При новом получателе, смене банковского счёта или исключительном переводе приостановись и подтверди точного получателя и назначение через известный контакт. Если на работе нужно второе согласование — пройди его. Настоящий запрос выдержит такую проверку.\n5. **Если что-то случилось.** Отметь, что затронуто: деньги, пароль, код, доступ к устройству или документы. Быстро обратись к нужному провайдеру официальным путём, попроси действие по способу платежа, защити пострадавший аккаунт, сохрани время и номера обращений. Возврат не гарантирован; пути сообщения различаются по странам.\n6. **Потренируйся с человеком.** Расскажи одному доверенному человеку правило обратного звонка без личных деталей. Договоритесь, как спокойно проверять неожиданные просьбы, даже если голос или видео знакомые. Кодовое слово может помочь, но не должно быть единственной проверкой.\n\n### Вопросы перед печатью\n\nКакие два решения на экзамене или в симуляции были труднее всего и каким независимым каналом ты воспользуешься в реальной версии каждого? Что изменится, если просьба окажется настоящей? Если ответа пока нет, вернись к этим урокам и поправь план. Полезен навык за пределами браузера, а не вид самой записи.\n\n**Источники и область применения.** План опирается на материалы британского NCSC о [проверке мошеннических обращений](https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams) и [восстановлении аккаунта](https://www.ncsc.gov.uk/guidance/recovering-a-hacked-account), стандарт NIST о [способах входа](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/) и рекомендации FTC для США о [реакции на платежи](https://consumer.ftc.gov/articles/what-do-if-you-were-scammed). Ссылки проверены 20.10.2026; они поддерживают привычки, а не квалификацию DiScammer. Реальные действия зависят от банка, сервиса, работодателя и местного права.",
   "widget_type": "certificate",
   "widget_config": {
     "requirements": [
-      { "module": "threat-fundamentals", "lessons": ["scam-economy","attack-vectors","threat-actors","glossary","breach-reports","cfo-deepfake-heist"] },
-      { "module": "social-engineering", "lessons": ["cialdini-principles","pretexting","vishing-and-smishing","romance-and-pig-butchering","urgency-triggers","verbal-red-flags","verification-routine"] },
-      { "module": "phishing", "lessons": ["email-anatomy","lookalike-domains","link-previews","fake-login-pages","quishing","reporting-suspicious"] },
-      { "module": "passwords-mfa", "lessons": ["how-credentials-leak","password-manager-basics","mfa-tiers","passkeys","account-recovery","credential-audit"] },
-      { "module": "financial-fraud", "lessons": ["fake-stores","crypto-investment-scams","pig-butchering-pipeline","invoice-fraud","card-skimming","charity-fraud","first-24-hours","winning-disputes"] },
-      { "module": "ai-deepfakes", "lessons": ["how-generative-ai-works","voice-cloning-attacks","video-deepfake-bec","detecting-ai-text","provenance-c2pa","family-verification"] },
-      { "module": "mobile-network", "lessons": ["mobile-permissions","sim-swap-defense","browser-hardening","public-wifi-vpn","dns-filtering","updates-eol"] },
-      { "module": "incident-response", "lessons": ["recognising-compromise","first-60-minutes","preserving-evidence","who-to-contact","identity-theft-recovery","telling-your-network","post-incident-hardening"] },
-      { "module": "final-assessment", "lessons": ["final-exam","capstone-simulation"] }
+      {
+        "module": "threat-fundamentals",
+        "lessons": [
+          "scam-economy",
+          "attack-vectors",
+          "threat-actors",
+          "glossary",
+          "breach-reports",
+          "cfo-deepfake-heist"
+        ]
+      },
+      {
+        "module": "social-engineering",
+        "lessons": [
+          "cialdini-principles",
+          "pretexting",
+          "vishing-and-smishing",
+          "romance-and-pig-butchering",
+          "urgency-triggers",
+          "verbal-red-flags",
+          "verification-routine"
+        ]
+      },
+      {
+        "module": "phishing",
+        "lessons": [
+          "email-anatomy",
+          "lookalike-domains",
+          "link-previews",
+          "fake-login-pages",
+          "quishing",
+          "reporting-suspicious"
+        ]
+      },
+      {
+        "module": "passwords-mfa",
+        "lessons": [
+          "how-credentials-leak",
+          "password-manager-basics",
+          "mfa-tiers",
+          "passkeys",
+          "account-recovery",
+          "credential-audit"
+        ]
+      },
+      {
+        "module": "financial-fraud",
+        "lessons": [
+          "fake-stores",
+          "crypto-investment-scams",
+          "pig-butchering-pipeline",
+          "invoice-fraud",
+          "card-skimming",
+          "charity-fraud",
+          "first-24-hours",
+          "winning-disputes"
+        ]
+      },
+      {
+        "module": "ai-deepfakes",
+        "lessons": [
+          "how-generative-ai-works",
+          "voice-cloning-attacks",
+          "video-deepfake-bec",
+          "detecting-ai-text",
+          "provenance-c2pa",
+          "family-verification"
+        ]
+      },
+      {
+        "module": "mobile-network",
+        "lessons": [
+          "mobile-permissions",
+          "sim-swap-defense",
+          "browser-hardening",
+          "public-wifi-vpn",
+          "dns-filtering",
+          "updates-eol"
+        ]
+      },
+      {
+        "module": "incident-response",
+        "lessons": [
+          "recognising-compromise",
+          "first-60-minutes",
+          "preserving-evidence",
+          "who-to-contact",
+          "identity-theft-recovery",
+          "telling-your-network",
+          "post-incident-hardening"
+        ]
+      },
+      {
+        "module": "final-assessment",
+        "lessons": [
+          "final-exam",
+          "capstone-simulation"
+        ]
+      }
     ],
     "examKey": "discammer:exam:v1"
   }

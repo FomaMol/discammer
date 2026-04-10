@@ -1,8 +1,8 @@
 {
   "order": 1,
   "title": "Final self-assessment — 40 questions across Modules 1–8",
-  "est_minutes": 40,
-  "body_md": "## Final self-assessment\n\nYou've worked through eight modules of theory, examples, and practice. This untimed self-assessment helps you apply that knowledge at your own pace. It is not proctored, monitored, or independently verified. The format:\n\n- **40 multiple-choice questions**, five per module, drawn from the patterns covered in Modules 1–8.\n- **Personal benchmark: 80%** (32 correct). Below that, review the answers and retake the full self-assessment whenever you want.\n- **One choice per question per attempt.** Choose an answer, then see the result before continuing.\n- **Local result only.** A passing result is saved in this browser so it can appear in your personal completion record. It is not sent to DiScammer and cannot be verified by DiScammer or a third party.\n\nTake your time. There is no timer, proctor, or external record.",
+  "est_minutes": 35,
+  "body_md": "## Final self-assessment: decisions, not labels\n\nThis untimed, not proctored self-assessment has **40 questions, five from each of Modules 1–8**. Each asks what you would infer or do in a concrete situation. Some messages are plausible and legitimate; spotting pressure is a cue to verify, not proof of a crime. Read why every choice works or fails before moving on.\n\nChoose one answer per question. The personal benchmark is **80% (32 of 40)**. You can retake the complete set. A pass is stored in this browser for the local completion record. With optional progress sync, an encrypted copy can be stored remotely. The result is **not independently verified**, server-issued, or a measure of real-world competence. There is no timer or external assessor. A previous local pass may remain in the browser after a weaker retake, so use the new score for honest self-reflection.\n\n### How to review\n\nAfterward, revisit questions you missed by **decision type**: reading evidence and report denominators (Module 1); pressure and independent contact (2); destination and login route (3); password, MFA and recovery (4); payment and provider response (5); voice, video and provenance (6); device, browser and network limits (7); containment, evidence and recovery (8). Write one practical change for your own setup. Do not enter real passwords, codes, messages, URLs or payment details here.\n\n### Source scope\n\nThese scenarios are synthetic. The [UK NCSC scam guide](https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams), [NIST authenticator standard](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/), [FTC post-scam guidance](https://consumer.ftc.gov/articles/what-do-if-you-were-scammed), and [C2PA provenance guidance](https://spec.c2pa.org/specifications/specifications/2.4/security/Harms_Modelling.html) were checked on 2026-10-20. UK NCSC advice on breaking contact, NIST authenticator distinctions, FTC US consumer payment/recovery guidance, and C2PA provenance limits inform the questions. Reporting and payment rights depend on your country and provider; no source certifies this assessment.",
   "widget_type": "exam",
   "widget_config": {
     "passThreshold": 0.8,
@@ -10,402 +10,932 @@
     "questions": [
       {
         "module": "Module 1 — Threat Landscape",
-        "question": "Why are highly personalised scam messages now economical to send to millions of people?",
+        "question": "A report says “10,000 scam complaints last year.” What can you conclude from that figure?",
         "choices": [
-          { "text": "Spam filters got weaker.", "correct": false },
-          { "text": "Phishing-as-a-Service and breach data collapsed the cost per attempt to cents.", "correct": true, "explanation": "Industrialised supply chain — kits, hosting, leads, cash-out — drives cost down, not click-through up." },
-          { "text": "Users click more than they used to.", "correct": false },
-          { "text": "Fraud was decriminalised in major countries.", "correct": false }
+          {
+            "text": "The reporting system received 10,000 complaints; it does not by itself measure all victimization.",
+            "correct": true,
+            "explanation": "Reports have a reporting denominator and may be unverified."
+          },
+          {
+            "text": "Exactly 10,000 people were scammed.",
+            "correct": false,
+            "explanation": "One person may report more than once and many victims never report."
+          },
+          {
+            "text": "The scam probability for any reader is 10,000 divided by the country population.",
+            "correct": false,
+            "explanation": "A report count is not a population survey or individual probability."
+          }
         ]
       },
       {
         "module": "Module 1 — Threat Landscape",
-        "question": "Which channel has the highest open rate but the lowest preview information for a link?",
+        "question": "A message arrives through a channel you rarely use and includes little context. What should drive the first decision?",
         "choices": [
-          { "text": "Email", "correct": false },
-          { "text": "SMS", "correct": true, "explanation": "Texts have a >95% open rate in minutes and no built-in link preview, which is why smishing is so effective." },
-          { "text": "Voice call", "correct": false },
-          { "text": "Web ad", "correct": false }
+          {
+            "text": "Identify the requested action and verify a consequential claim through a known route.",
+            "correct": true,
+            "explanation": "Channel alone does not diagnose fraud; the action and independent check matter."
+          },
+          {
+            "text": "Treat every SMS as fraudulent.",
+            "correct": false,
+            "explanation": "Legitimate services also send texts."
+          },
+          {
+            "text": "Trust the message if it addresses you by name.",
+            "correct": false,
+            "explanation": "Names are commonly available and do not prove sender control."
+          }
         ]
       },
       {
         "module": "Module 1 — Threat Landscape",
-        "question": "A six-week WhatsApp friendship that ends with an 'investment opportunity' is the calling card of which actor type?",
+        "question": "A stranger builds a friendship, then introduces a private investing site. Which pattern warrants the closest check?",
         "choices": [
-          { "text": "Opportunist", "correct": false },
-          { "text": "Nation-state operation", "correct": false },
-          { "text": "Organized fraud ring running pig-butchering", "correct": true, "explanation": "Long-rapport scripts targeting strangers are the trademark of commercial fraud rings, not nation-state actors." },
-          { "text": "Disgruntled insider", "correct": false }
+          {
+            "text": "A one-off shipping scam.",
+            "correct": false,
+            "explanation": "No shipment or seller transaction appears in the scenario."
+          },
+          {
+            "text": "A state-directed intelligence operation.",
+            "correct": false,
+            "explanation": "Nothing here establishes a state actor."
+          },
+          {
+            "text": "A relationship-based investment fraud pattern.",
+            "correct": true,
+            "explanation": "Trust-building followed by a private investment invitation is the relevant pattern; it remains a reason to verify, not proof about this person."
+          },
+          {
+            "text": "A routine account-recovery request.",
+            "correct": false,
+            "explanation": "The requested action is investment, not account recovery."
+          }
         ]
       },
       {
         "module": "Module 1 — Threat Landscape",
-        "question": "Which term best fits an attacker impersonating a CFO to redirect a wire transfer to a new bank account?",
+        "question": "An attacker emails accounts payable while impersonating a CFO to redirect a transfer. What is this usually called?",
         "choices": [
-          { "text": "Ransomware", "correct": false },
-          { "text": "BEC (Business Email Compromise)", "correct": true, "explanation": "BEC is the umbrella for executive-impersonation schemes that redirect payments." },
-          { "text": "Quishing", "correct": false },
-          { "text": "Credential stuffing", "correct": false }
+          {
+            "text": "Ransomware",
+            "correct": false,
+            "explanation": "Ransomware encrypts or extorts data; this is a payment-instruction impersonation."
+          },
+          {
+            "text": "BEC (Business Email Compromise)",
+            "correct": true,
+            "explanation": "BEC is the umbrella for executive-impersonation schemes that redirect payments."
+          },
+          {
+            "text": "Quishing",
+            "correct": false,
+            "explanation": "A QR lure is not described."
+          },
+          {
+            "text": "Credential stuffing",
+            "correct": false,
+            "explanation": "Credential stuffing uses reused credentials at login; it is not the payment instruction."
+          }
         ]
       },
       {
         "module": "Module 1 — Threat Landscape",
-        "question": "How would you stop a multi-participant deepfake video meeting from succeeding?",
+        "question": "A video meeting shows several familiar executives requesting a large transfer. What control is strongest?",
         "choices": [
-          { "text": "Train yourself to spot artifacts on faces in the call.", "correct": false },
-          { "text": "Require a call-back to a known number on a different channel before any large transfer.", "correct": true, "explanation": "Out-of-band verification on a channel the attacker can't control is the only durable defence against AI-augmented impersonation." },
-          { "text": "Move all approvals into encrypted email.", "correct": false },
-          { "text": "Add a written PIN inside the same email thread.", "correct": false }
+          {
+            "text": "Pause and confirm the specific transaction through a separately held contact and normal approvals.",
+            "correct": true,
+            "explanation": "The check works whether the video is fake or an account is compromised."
+          },
+          {
+            "text": "Look for lip-sync errors and pay if none appear.",
+            "correct": false,
+            "explanation": "Absence of artifacts does not authorize payment."
+          },
+          {
+            "text": "Ask the same meeting chat to confirm in writing.",
+            "correct": false,
+            "explanation": "The same potentially controlled channel can repeat the instruction."
+          }
         ]
       },
       {
         "module": "Module 2 — Social Engineering",
-        "question": "'Only 3 spots left — closes in 12 hours' stacks which two Cialdini principles?",
+        "question": "A ticket offer says “Only three left; decide in ten minutes.” What does this show?",
         "choices": [
-          { "text": "Authority + Reciprocity", "correct": false },
-          { "text": "Social Proof + Authority", "correct": false },
-          { "text": "Scarcity + Commitment", "correct": false },
-          { "text": "Scarcity + Liking (via being 'specially chosen')", "correct": true, "explanation": "A countdown is scarcity; the framing 'you've been selected' triggers liking through flattery." }
+          {
+            "text": "Scarcity and urgency are pressure cues; independently check the seller and terms before paying.",
+            "correct": true,
+            "explanation": "Real limited inventory exists, so the cue calls for verification rather than a verdict."
+          },
+          {
+            "text": "It proves the seller is fraudulent.",
+            "correct": false,
+            "explanation": "A genuine sale can also be time-limited."
+          },
+          {
+            "text": "It proves the seller is genuine because it shows stock data.",
+            "correct": false,
+            "explanation": "The displayed count can be invented."
+          }
         ]
       },
       {
         "module": "Module 2 — Social Engineering",
         "question": "How do you break a pretext in a suspicious call?",
         "choices": [
-          { "text": "Demand the caller's badge number.", "correct": false },
-          { "text": "Hang up and call back on a number you already had.", "correct": true, "explanation": "The pretext lives inside the channel; switching channels collapses it." },
-          { "text": "Argue with the caller until they slip up.", "correct": false },
-          { "text": "Stay on the line so police can trace it.", "correct": false }
+          {
+            "text": "Demand the caller's badge number.",
+            "correct": false,
+            "explanation": "A badge number supplied by the same caller is not independent evidence."
+          },
+          {
+            "text": "Hang up and call back on a number you already had.",
+            "correct": true,
+            "explanation": "The pretext lives inside the channel; switching channels collapses it."
+          },
+          {
+            "text": "Argue with the caller until they slip up.",
+            "correct": false,
+            "explanation": "Arguing gives the caller more time to steer you."
+          },
+          {
+            "text": "Stay on the line so police can trace it.",
+            "correct": false,
+            "explanation": "Staying connected does not authenticate the caller or safely trace them."
+          }
         ]
       },
       {
         "module": "Module 2 — Social Engineering",
-        "question": "A vishing call asks you to stay on the line while you transfer money to a 'safe account'. What is the *strongest* single tell?",
+        "question": "A caller asks you to move money to a “safe account” while staying on the line. Which detail most changes your response?",
         "choices": [
-          { "text": "The caller has a foreign accent.", "correct": false },
-          { "text": "The caller insists on staying on the line during a financial action.", "correct": true, "explanation": "Legitimate fraud teams never coach you through a transfer in real time. That's diagnostic." },
-          { "text": "The caller knows the last four digits of your card.", "correct": false },
-          { "text": "The call came outside business hours.", "correct": false }
+          {
+            "text": "The caller has a foreign accent.",
+            "correct": false,
+            "explanation": "An accent is not evidence of fraud."
+          },
+          {
+            "text": "The caller insists on staying on the line during a financial action.",
+            "correct": true,
+            "explanation": "A caller-directed “safe account” transfer is the high-risk action; stop and verify through the bank independently."
+          },
+          {
+            "text": "The caller knows the last four digits of your card.",
+            "correct": false,
+            "explanation": "Knowledge of card digits does not authorize a new transfer."
+          },
+          {
+            "text": "The call came outside business hours.",
+            "correct": false,
+            "explanation": "Calls outside business hours can be legitimate."
+          }
         ]
       },
       {
         "module": "Module 2 — Social Engineering",
         "question": "A stranger you've chatted with for weeks introduces a small crypto platform and helps you make a successful test withdrawal. The strongest indicator of pig-butchering is:",
         "choices": [
-          { "text": "The promised returns are unrealistic.", "correct": false },
-          { "text": "The introduction came sideways from a stranger who built rapport for weeks.", "correct": true, "explanation": "Real investments are not introduced by strangers via DM. The pipeline is the diagnostic, not the returns." },
-          { "text": "A relative of theirs supposedly works at the platform.", "correct": false },
-          { "text": "They suggest starting small.", "correct": false }
+          {
+            "text": "The promised returns are unrealistic.",
+            "correct": false,
+            "explanation": "High returns are also a warning, but the relationship-to-platform transition is the pattern asked about."
+          },
+          {
+            "text": "The introduction came sideways from a stranger who built rapport for weeks.",
+            "correct": true,
+            "explanation": "The combination of trust-building and investment referral is the warning; even a small successful withdrawal would not prove the platform safe."
+          },
+          {
+            "text": "A relative of theirs supposedly works at the platform.",
+            "correct": false,
+            "explanation": "A claimed relative at the platform is unverified social proof."
+          },
+          {
+            "text": "They suggest starting small.",
+            "correct": false,
+            "explanation": "A small starting amount can lower resistance without validating the site."
+          }
         ]
       },
       {
         "module": "Module 2 — Social Engineering",
         "question": "Which phrase in a live call is sufficient on its own to end the conversation?",
         "choices": [
-          { "text": "'For security, please install AnyDesk so I can clean your computer remotely.'", "correct": true, "explanation": "No legitimate vendor uses remote-access tools over cold calls. This is the universal tech-support fraud signature." },
-          { "text": "'I'll send you the details by email.'", "correct": false },
-          { "text": "'Could you confirm your name?'", "correct": false },
-          { "text": "'Sorry for the noise on my side.'", "correct": false }
+          {
+            "text": "'For security, please install AnyDesk so I can clean your computer remotely.'",
+            "correct": true,
+            "explanation": "An unsolicited caller directing you to install remote-access software creates an immediate access risk. End the call and verify support independently if needed."
+          },
+          {
+            "text": "'I'll send you the details by email.'",
+            "correct": false,
+            "explanation": "Offering email details alone does not require ending every legitimate call."
+          },
+          {
+            "text": "'Could you confirm your name?'",
+            "correct": false,
+            "explanation": "Asking a name alone can occur in normal service calls; avoid giving sensitive details to unverified callers."
+          },
+          {
+            "text": "'Sorry for the noise on my side.'",
+            "correct": false,
+            "explanation": "Background noise alone is not a fraud signal."
+          }
         ]
       },
       {
         "module": "Module 3 — Phishing",
-        "question": "In the URL `https://login.paypal.com.account-verify.io/signin`, what is the registered domain?",
+        "question": "In the fictional URL `https://login.paypal.com.account-verify.example/signin`, which part names the site under the reserved .example suffix?",
         "choices": [
-          { "text": "paypal.com", "correct": false },
-          { "text": "login.paypal.com", "correct": false },
-          { "text": "account-verify.io", "correct": true, "explanation": "The registered domain is the two labels immediately before the first slash. Everything to the left is a label the attacker chose." },
-          { "text": "signin.io", "correct": false }
+          {
+            "text": "paypal.com",
+            "correct": false,
+            "explanation": "The visible paypal.com string is inside a different host."
+          },
+          {
+            "text": "login.paypal.com",
+            "correct": false,
+            "explanation": "This is only a prefix within a different host."
+          },
+          {
+            "text": "account-verify.example",
+            "correct": true,
+            "explanation": "The .example suffix is reserved for examples. In this fictional host, account-verify is the label immediately under it; paypal.com appears only in left-side labels. Real suffixes such as co.uk need different parsing."
+          },
+          {
+            "text": "signin.example",
+            "correct": false,
+            "explanation": "signin is in the path, not the host."
+          }
         ]
       },
       {
         "module": "Module 3 — Phishing",
-        "question": "Which character substitution is the most common lookalike-domain trick?",
+        "question": "A brand name appears in a URL with a visually similar character. What is the useful response?",
         "choices": [
-          { "text": "Capital 'I' for lowercase 'l'", "correct": false },
-          { "text": "Cyrillic 'а' for Latin 'a'", "correct": true, "explanation": "Homoglyph substitution from Cyrillic to Latin produces visually identical domains; Punycode (`xn--…`) is what reveals them in some browsers." },
-          { "text": "Digit '8' for 'B'", "correct": false },
-          { "text": "Underscore inserted in random places", "correct": false }
+          {
+            "text": "Use a saved entry point or type the known service address yourself, then inspect the real host.",
+            "correct": true,
+            "explanation": "Lookalike characters make visual reading unreliable; an independent route helps."
+          },
+          {
+            "text": "Assume every non-Latin character in a URL is malicious.",
+            "correct": false,
+            "explanation": "Internationalized domain names can be legitimate."
+          },
+          {
+            "text": "Trust the page if it has HTTPS.",
+            "correct": false,
+            "explanation": "HTTPS protects the connection, not the identity of the business."
+          }
         ]
       },
       {
         "module": "Module 3 — Phishing",
-        "question": "Your password manager refuses to auto-fill on what looks like your bank's login page. What is most likely happening?",
+        "question": "A password manager does not autofill on a page that resembles your bank. What should you do?",
         "choices": [
-          { "text": "The manager's vault is corrupted.", "correct": false },
-          { "text": "The domain doesn't match your saved entry — likely a phishing site.", "correct": true, "explanation": "A no-autofill is one of the most reliable phishing detectors. Trust it." },
-          { "text": "The bank changed its login flow without telling anyone.", "correct": false },
-          { "text": "The page is in incognito mode.", "correct": false }
+          {
+            "text": "Assume the vault is broken and reset it immediately.",
+            "correct": false,
+            "explanation": "A vault fault is possible, but resetting it before checking the address can create avoidable recovery work."
+          },
+          {
+            "text": "Stop and open the bank by a saved or independently chosen route; inspect the address before entering credentials.",
+            "correct": true,
+            "explanation": "Stop, inspect the actual address and open the bank via a saved or independently chosen route. Autofill failure is a useful warning, not proof of phishing."
+          },
+          {
+            "text": "Paste the password manually because the bank probably changed its login flow.",
+            "correct": false,
+            "explanation": "A real login change is possible, but manual paste into this unverified page bypasses the domain check."
+          },
+          {
+            "text": "Ignore the warning because private browsing can block autofill.",
+            "correct": false,
+            "explanation": "Private browsing may affect autofill, but it does not establish the site identity."
+          }
         ]
       },
       {
         "module": "Module 3 — Phishing",
-        "question": "What's the right next move when you spot a clear phishing email at work?",
+        "question": "At work, an email asks you to re-enter payroll credentials. You did not click it. What is the useful report?",
         "choices": [
-          { "text": "Reply 'this is a scam' to the sender.", "correct": false },
-          { "text": "Click the 'Report phishing' button in your mail client and forward the email as an attachment to security; move to junk.", "correct": true, "explanation": "One-click report + as-attachment forward preserves headers and triggers company-wide blocking within minutes." },
-          { "text": "Forward to everyone on the team so they can learn from it.", "correct": false },
-          { "text": "Delete it immediately to be safe.", "correct": false }
+          {
+            "text": "Use your organization’s established phishing-report route, keeping the message intact.",
+            "correct": true,
+            "explanation": "The security team can inspect it; local procedures differ."
+          },
+          {
+            "text": "Forward the live link to every colleague so they can test it.",
+            "correct": false,
+            "explanation": "This spreads a potentially harmful link."
+          },
+          {
+            "text": "Delete it silently; reporting has no value.",
+            "correct": false,
+            "explanation": "A report can help protect other recipients."
+          }
         ]
       },
       {
         "module": "Module 3 — Phishing",
         "question": "A poster next to the office copier displays a QR code and says 'Your Microsoft 365 password is expiring — scan to renew'. What's the safest move?",
         "choices": [
-          { "text": "Scan and renew — IT often posts these.", "correct": false },
-          { "text": "Renew through the company's official SSO portal that you already use, and report the poster to IT.", "correct": true, "explanation": "Posted QR codes are not the right channel for credential changes — anyone with badge-in access could have put them up. Use the trusted SSO portal you already use, and warn IT." },
-          { "text": "Ignore it — passwords don't expire anymore.", "correct": false },
-          { "text": "Scan only if the URL preview looks plausible.", "correct": false }
+          {
+            "text": "Scan and renew — IT often posts these.",
+            "correct": false,
+            "explanation": "IT may post notices, but the code itself is not an authenticated route."
+          },
+          {
+            "text": "Renew through the company's official SSO portal that you already use, and report the poster to IT.",
+            "correct": true,
+            "explanation": "Posted QR codes are not the right channel for credential changes — anyone with badge-in access could have put them up. Use the trusted SSO portal you already use, and warn IT."
+          },
+          {
+            "text": "Ignore it — passwords don't expire anymore.",
+            "correct": false,
+            "explanation": "Password-expiry rules depend on the organization; the poster still needs checking."
+          },
+          {
+            "text": "Scan only if the URL preview looks plausible.",
+            "correct": false,
+            "explanation": "A plausible preview can still lead to an attacker-controlled destination."
+          }
         ]
       },
       {
         "module": "Module 4 — Passwords & MFA",
-        "question": "Your password leaks in a breach of a small forum. The single most urgent action is:",
+        "question": "A forum tells you your password was exposed. What is the most useful immediate account check?",
         "choices": [
-          { "text": "Change the password on the forum.", "correct": false },
-          { "text": "Change the password on the bank, email, and any other site where the same password was reused.", "correct": true, "explanation": "The risk is credential stuffing across other services. Bank and email are highest-value." },
-          { "text": "Create a new email and migrate everything.", "correct": false },
-          { "text": "Wait to see if your bank notifies you.", "correct": false }
+          {
+            "text": "Change the password on the forum.",
+            "correct": false,
+            "explanation": "The forum needs attention too, but checking reuse prevents the same secret from opening other accounts."
+          },
+          {
+            "text": "Change the exposed password wherever reused, starting with important accounts, and secure the forum account.",
+            "correct": true,
+            "explanation": "Change the exposed password wherever it was reused, prioritizing important accounts; also secure the forum account. If unique, focus on that account and watch for related exposure."
+          },
+          {
+            "text": "Create a new email and migrate everything.",
+            "correct": false,
+            "explanation": "Creating a new address does not remove the exposed password."
+          },
+          {
+            "text": "Wait to see if your bank notifies you.",
+            "correct": false,
+            "explanation": "Waiting for a bank notice leaves possible reuse unaddressed."
+          }
         ]
       },
       {
         "module": "Module 4 — Passwords & MFA",
         "question": "Which MFA tier is phishing-resistant by protocol design?",
         "choices": [
-          { "text": "SMS one-time codes", "correct": false },
-          { "text": "TOTP authenticator app", "correct": false },
-          { "text": "Hardware key / passkey (FIDO2)", "correct": true, "explanation": "FIDO2 binds the signature to the origin URL — a fake page cannot produce a valid signature for the real domain." },
-          { "text": "Email-link confirmation", "correct": false }
+          {
+            "text": "SMS one-time codes",
+            "correct": false,
+            "explanation": "An SMS code can be relayed or intercepted."
+          },
+          {
+            "text": "TOTP authenticator app",
+            "correct": false,
+            "explanation": "An app-generated code can also be relayed to a phishing page."
+          },
+          {
+            "text": "Hardware key / passkey (FIDO2)",
+            "correct": true,
+            "explanation": "FIDO2 binds the signature to the origin URL — a fake page cannot produce a valid signature for the real domain."
+          },
+          {
+            "text": "Email-link confirmation",
+            "correct": false,
+            "explanation": "An email link is not generally origin-bound like FIDO2."
+          }
         ]
       },
       {
         "module": "Module 4 — Passwords & MFA",
-        "question": "Where does a passkey actually live, in terms of where it gets synced?",
+        "question": "You add a passkey for one account. What still needs attention?",
         "choices": [
-          { "text": "On the server of the site you log into.", "correct": false },
-          { "text": "Inside your platform account (iCloud Keychain, Google account, or password manager).", "correct": true, "explanation": "That's why securing your platform account matters: it now holds your passkeys." },
-          { "text": "Printed in your browser's settings.", "correct": false },
-          { "text": "In a public registry.", "correct": false }
+          {
+            "text": "Check where that particular passkey is stored and which recovery methods remain enabled.",
+            "correct": true,
+            "explanation": "Device-bound and synced credentials differ; recovery can remain a weaker route."
+          },
+          {
+            "text": "All passkeys are stored in iCloud.",
+            "correct": false,
+            "explanation": "Storage depends on platform, provider and account setup."
+          },
+          {
+            "text": "A passkey makes account recovery irrelevant.",
+            "correct": false,
+            "explanation": "Loss of access and recovery attacks still need planning."
+          }
         ]
       },
       {
         "module": "Module 4 — Passwords & MFA",
-        "question": "Your work email uses TOTP for MFA, but recovery is still via SMS to a number you'll leave behind for six months abroad. What's the right move before you travel?",
+        "question": "A work account uses an authenticator app, but its recovery phone number is no longer yours. What should you do?",
         "choices": [
-          { "text": "Leave it — TOTP already covers the risk.", "correct": false },
-          { "text": "Disable SMS recovery and add a hardware key or trusted-device backup; set a port-out PIN with your carrier.", "correct": true, "explanation": "SMS recovery is bypass-able via SIM-swap; TOTP doesn't help if the recovery flow itself accepts SMS." },
-          { "text": "Move your number to a friend's phone.", "correct": false },
-          { "text": "Switch to email-only recovery.", "correct": false }
+          {
+            "text": "Update recovery through the service or administrator and add supported backup methods.",
+            "correct": true,
+            "explanation": "The live recovery route is part of account security."
+          },
+          {
+            "text": "Ignore the number because app codes protect all account routes.",
+            "correct": false,
+            "explanation": "Recovery may bypass the sign-in factor."
+          },
+          {
+            "text": "Send a colleague a screenshot of your backup codes.",
+            "correct": false,
+            "explanation": "Backup codes are secrets and must be stored privately."
+          }
         ]
       },
       {
         "module": "Module 4 — Passwords & MFA",
-        "question": "What is the single most-leveraged item in a yearly credential audit?",
+        "question": "A password manager flags reused and exposed passwords. Where should you start?",
         "choices": [
-          { "text": "Renaming your accounts to less guessable usernames.", "correct": false },
-          { "text": "Rotating passwords flagged as weak / reused / breach-known by your password manager's health report.", "correct": true, "explanation": "The manager already does the audit — your job is to act on the flagged entries from highest-value down." },
-          { "text": "Deleting all old emails.", "correct": false },
-          { "text": "Adding a CAPTCHA to your home Wi-Fi.", "correct": false }
+          {
+            "text": "Renaming your accounts to less guessable usernames.",
+            "correct": false,
+            "explanation": "Changing usernames does not address a known reused secret."
+          },
+          {
+            "text": "Fix flagged reused or exposed passwords, starting with important accounts.",
+            "correct": true,
+            "explanation": "Fix flagged reused or exposed passwords, starting with important accounts, and review available MFA and recovery. Do not rotate every strong unique password on a calendar."
+          },
+          {
+            "text": "Deleting all old emails.",
+            "correct": false,
+            "explanation": "Deleting mail does not change account credentials."
+          },
+          {
+            "text": "Adding a CAPTCHA to your home Wi-Fi.",
+            "correct": false,
+            "explanation": "A home Wi-Fi CAPTCHA is not a remedy for reused passwords."
+          }
         ]
       },
       {
         "module": "Module 5 — Financial Fraud",
         "question": "An online store wants to charge you for a PS5 at 90% off MSRP via Bitcoin or gift cards, on a 14-day-old domain. Which signal is the *strongest* by itself?",
         "choices": [
-          { "text": "The domain age of 14 days.", "correct": false },
-          { "text": "Payment options exclude major cards and use only non-reversible methods.", "correct": true, "explanation": "No legitimate retailer goes crypto/gift-card-only — the irreversibility is the entire point of the scam." },
-          { "text": "The 'only 3 left' urgency.", "correct": false },
-          { "text": "The store name contains 'sony'.", "correct": false }
+          {
+            "text": "The domain age of 14 days.",
+            "correct": false,
+            "explanation": "A new domain warrants a check but is not conclusive by itself."
+          },
+          {
+            "text": "Payment options exclude major cards and use only non-reversible methods.",
+            "correct": true,
+            "explanation": "Gift-card or crypto-only payment in this unfamiliar, steeply discounted store sharply reduces normal dispute options; verify the seller and choose a protected method if available."
+          },
+          {
+            "text": "The 'only 3 left' urgency.",
+            "correct": false,
+            "explanation": "Scarcity language is a pressure cue, not proof."
+          },
+          {
+            "text": "The store name contains 'sony'.",
+            "correct": false,
+            "explanation": "A brand word in the store name does not prove affiliation."
+          }
         ]
       },
       {
         "module": "Module 5 — Financial Fraud",
-        "question": "After being scammed publicly, you get a DM from a 'forensic recovery specialist' offering to retrieve your crypto for a 20% fee in USDT. The strongest single tell that this is a follow-up scam is:",
+        "question": "After posting about a loss, you receive an unsolicited offer to “recover” your money for a fee. What now?",
         "choices": [
-          { "text": "The fee is high.", "correct": false },
-          { "text": "They contacted you proactively after seeing your public report.", "correct": true, "explanation": "Real recovery firms don't cold-DM victims. The unsolicited contact is the pattern." },
-          { "text": "They want payment in USDT.", "correct": false },
-          { "text": "Their screenshots look polished.", "correct": false }
+          {
+            "text": "Do not pay or share data; contact the original payment provider through its official route.",
+            "correct": true,
+            "explanation": "Unexpected recovery offers can compound the loss, while provider options depend on payment method."
+          },
+          {
+            "text": "Pay a small test fee to establish credibility.",
+            "correct": false,
+            "explanation": "The fee can be the next loss; it proves no recovery ability."
+          },
+          {
+            "text": "Send transaction and identity documents to the stranger first.",
+            "correct": false,
+            "explanation": "This exposes more sensitive information without validating the service."
+          }
         ]
       },
       {
         "module": "Module 5 — Financial Fraud",
         "question": "A 'CFO' emails accounts payable asking to update a vendor's IBAN before the next invoice. Which control prevents the wire-redirection fraud?",
         "choices": [
-          { "text": "Verify the From-domain matches the vendor's real domain.", "correct": false },
-          { "text": "Call the vendor's CFO on a phone number you already had and verbally confirm the IBAN change.", "correct": true, "explanation": "BEC often runs from genuinely compromised mailboxes; only an out-of-band callback breaks it." },
-          { "text": "Forward to IT for analysis before processing.", "correct": false },
-          { "text": "Check the IBAN format is country-valid.", "correct": false }
+          {
+            "text": "Verify the From-domain matches the vendor's real domain.",
+            "correct": false,
+            "explanation": "A matching From domain can come from a compromised mailbox."
+          },
+          {
+            "text": "Call the vendor's CFO on a phone number you already had and verbally confirm the IBAN change.",
+            "correct": true,
+            "explanation": "Confirm the exact change through a previously recorded supplier contact and the normal second-approval process; the known contact need not be the CFO personally."
+          },
+          {
+            "text": "Forward to IT for analysis before processing.",
+            "correct": false,
+            "explanation": "IT analysis can help, but payment control still needs independent supplier confirmation."
+          },
+          {
+            "text": "Check the IBAN format is country-valid.",
+            "correct": false,
+            "explanation": "A formally valid account number can belong to the wrong recipient."
+          }
         ]
       },
       {
         "module": "Module 5 — Financial Fraud",
         "question": "Which payment-method combination defends best against both physical and digital card skimming?",
         "choices": [
-          { "text": "Memorising your number.", "correct": false },
-          { "text": "Apple Pay / Google Pay where possible + virtual cards + real-time transaction alerts.", "correct": true, "explanation": "Tap-to-pay tokenises the number so the merchant never sees it. Virtual cards limit damage where tap isn't supported. Alerts give you minutes to react." },
-          { "text": "Only shopping on stores you've never used before.", "correct": false },
-          { "text": "Avoiding online shopping entirely.", "correct": false }
+          {
+            "text": "Memorising your number.",
+            "correct": false,
+            "explanation": "Memorizing a card number does not protect it when used at a compromised terminal or site."
+          },
+          {
+            "text": "Apple Pay / Google Pay where possible + virtual cards + real-time transaction alerts.",
+            "correct": true,
+            "explanation": "Where supported, tokenized wallet payments and limited-use virtual cards can reduce card-number exposure; transaction alerts help detect misuse, not prevent it."
+          },
+          {
+            "text": "Only shopping on stores you've never used before.",
+            "correct": false,
+            "explanation": "Unfamiliar stores are not inherently safer."
+          },
+          {
+            "text": "Avoiding online shopping entirely.",
+            "correct": false,
+            "explanation": "Avoiding all online shopping does not address physical card exposure."
+          }
         ]
       },
       {
         "module": "Module 5 — Financial Fraud",
-        "question": "You realise you sent a $30K wire based on a BEC email last night. What's the *first* action that gives the best recovery odds?",
+        "question": "You discover a bank transfer to a changed supplier account may be fraudulent. What is the first payment-response action?",
         "choices": [
-          { "text": "Email the bank requesting a recall.", "correct": false },
-          { "text": "Call the bank's fraud line and request an urgent SWIFT wire recall.", "correct": true, "explanation": "Recall odds collapse with time, and only phone moves at minute resolution." },
-          { "text": "File a police report first to get a case number.", "correct": false },
-          { "text": "Engage a Telegram 'recovery service'.", "correct": false }
+          {
+            "text": "Contact the sending bank’s official fraud channel now and ask what recall, hold or trace is available.",
+            "correct": true,
+            "explanation": "The bank needs early notice; options depend on transfer rail and jurisdiction."
+          },
+          {
+            "text": "Wait for absolute proof before telling the bank.",
+            "correct": false,
+            "explanation": "Delay may reduce available payment actions."
+          },
+          {
+            "text": "Promise the supplier that the transfer will certainly be reversed.",
+            "correct": false,
+            "explanation": "Reversal is not guaranteed."
+          }
         ]
       },
       {
         "module": "Module 6 — AI & Deepfakes",
         "question": "Which defensive strategy is *most durable* against improving generative-AI capabilities?",
         "choices": [
-          { "text": "Training to spot visual deepfake artifacts.", "correct": false },
-          { "text": "Out-of-band verification protocols (callback to known numbers, family code words).", "correct": true, "explanation": "Process defences are independent of model capability." },
-          { "text": "Avoiding any AI-generated content entirely.", "correct": false },
-          { "text": "Trusting AI-text detector tools.", "correct": false }
+          {
+            "text": "Training to spot visual deepfake artifacts.",
+            "correct": false,
+            "explanation": "Visible defects may disappear as tools improve."
+          },
+          {
+            "text": "Out-of-band verification protocols (callback to known numbers, family code words).",
+            "correct": true,
+            "explanation": "Independent contact and transaction approvals remain useful as synthetic media improves; a family word is only an extra signal, not sole proof."
+          },
+          {
+            "text": "Avoiding any AI-generated content entirely.",
+            "correct": false,
+            "explanation": "Avoiding all generated content is not a workable verification process."
+          },
+          {
+            "text": "Trusting AI-text detector tools.",
+            "correct": false,
+            "explanation": "A detector score cannot authenticate the speaker or authorize a payment."
+          }
         ]
       },
       {
         "module": "Module 6 — AI & Deepfakes",
-        "question": "Your 'daughter' calls in tears asking for $4K bail in gift cards and begs you not to tell anyone. What's the right move?",
+        "question": "Someone sounds like your relative and urgently requests gift-card numbers. What check is best?",
         "choices": [
-          { "text": "Buy the gift cards immediately.", "correct": false },
-          { "text": "Ask for the family code word; if she can't say it, hang up and call her directly.", "correct": true, "explanation": "Code words survive voice cloning. Gift-card bail is not a real legal mechanism anywhere." },
-          { "text": "Ask 'put me on with the officer'.", "correct": false },
-          { "text": "Tell her you'll wire instead.", "correct": false }
+          {
+            "text": "End the call and reach the relative through a saved number or another trusted person.",
+            "correct": true,
+            "explanation": "Voice can be cloned or imitated; a separately chosen route tests the story."
+          },
+          {
+            "text": "Treat the voice as proof of identity.",
+            "correct": false,
+            "explanation": "A familiar sound is not authentication."
+          },
+          {
+            "text": "Ask a family code word, then pay without any other check.",
+            "correct": false,
+            "explanation": "A word can leak or be overheard; it is an aid, not sole authorization."
+          }
         ]
       },
       {
         "module": "Module 6 — AI & Deepfakes",
-        "question": "Mid-call, your CFO plus two other execs ask you on Zoom to wire $200K in 30 minutes. Which control would actually defeat a deepfake here?",
+        "question": "A CFO on a video call asks for an exceptional payment. Which step protects the decision?",
         "choices": [
-          { "text": "Inspect for facial artifacts in real time.", "correct": false },
-          { "text": "After the call, message the CFO on company Slack from your contacts list and ask written confirmation.", "correct": true, "explanation": "The deepfake lives inside the meeting; a different channel breaks it." },
-          { "text": "Ask the CFO for a piece of internal trivia.", "correct": false },
-          { "text": "Process the wire — three execs is overwhelming.", "correct": false }
+          {
+            "text": "Verify the request through a known independent contact and required payment approvers.",
+            "correct": true,
+            "explanation": "A separate transaction control survives a manipulated meeting or account."
+          },
+          {
+            "text": "Message the same meeting chat for confirmation.",
+            "correct": false,
+            "explanation": "The attacker may control that channel too."
+          },
+          {
+            "text": "Pay if the face and voice have no artifacts.",
+            "correct": false,
+            "explanation": "Quality is not authorization."
+          }
         ]
       },
       {
         "module": "Module 6 — AI & Deepfakes",
-        "question": "What's the single most reliable check on whether an unexpected message from an old college friend is really her?",
+        "question": "An old friend unexpectedly messages you asking for money. Which check is strongest?",
         "choices": [
-          { "text": "Run the email through an AI-text detector.", "correct": false },
-          { "text": "Ask about a specific shared memory that isn't in any public profile.", "correct": true, "explanation": "AI impersonators have your friend's public info; they don't have private shared history." },
-          { "text": "Reply 'are you really my friend?'", "correct": false },
-          { "text": "Send the money 'just in case'.", "correct": false }
+          {
+            "text": "Call the saved number or use another established route before deciding.",
+            "correct": true,
+            "explanation": "A compromised account can know private message history."
+          },
+          {
+            "text": "Ask a shared-memory question in the same chat and pay if answered.",
+            "correct": false,
+            "explanation": "Chat history or public information may supply the answer."
+          },
+          {
+            "text": "Run the message through an AI-text detector.",
+            "correct": false,
+            "explanation": "Writing style detection does not establish account control or need."
+          }
         ]
       },
       {
         "module": "Module 6 — AI & Deepfakes",
-        "question": "Which combination of checks best evaluates whether a viral political video is genuine?",
+        "question": "A viral clip has valid Content Credentials. What does that establish?",
         "choices": [
-          { "text": "Inspect the politician's facial movements.", "correct": false },
-          { "text": "Find the clip on the politician's verified channels or established news outlets; cross-reference reverse-search; check Content Credentials.", "correct": true, "explanation": "Multiple provenance signals beat any single artifact-detection approach." },
-          { "text": "Trust the source if the account has many followers.", "correct": false },
-          { "text": "Use an automated deepfake detector and trust its result.", "correct": false }
+          {
+            "text": "A provenance record validates under its trust model; the clip’s claims still need corroboration.",
+            "correct": true,
+            "explanation": "C2PA does not make truth judgments."
+          },
+          {
+            "text": "The depicted claim must be true.",
+            "correct": false,
+            "explanation": "Authentic provenance can accompany misleading content."
+          },
+          {
+            "text": "Any clip without credentials must be fake.",
+            "correct": false,
+            "explanation": "Legitimate media may lack credentials."
+          }
         ]
       },
       {
         "module": "Module 7 — Mobile & Network",
-        "question": "A 'Free Flashlight + Compass' app from a third-party store wants microphone, contacts, SMS, and Accessibility access. The biggest red flag is:",
+        "question": "A simple torch app asks for SMS, contacts and accessibility permissions. What is the best decision?",
         "choices": [
-          { "text": "Microphone access alone.", "correct": false },
-          { "text": "All of these — and especially Accessibility, which gives full remote-control-style power.", "correct": true, "explanation": "Accessibility is the most dangerous permission for an arbitrary app; combined with the rest, this is a textbook malware profile." },
-          { "text": "The app being on a third-party store.", "correct": false },
-          { "text": "The app having a 'Free' label.", "correct": false }
+          {
+            "text": "Do not grant unrelated powerful permissions; verify the publisher and use a narrower alternative if needed.",
+            "correct": true,
+            "explanation": "Permissions should fit function; accessibility capabilities vary by platform and setting."
+          },
+          {
+            "text": "Grant them because app stores review all apps.",
+            "correct": false,
+            "explanation": "Store review is not a reason for unrelated access."
+          },
+          {
+            "text": "Assume every accessibility request means complete remote control.",
+            "correct": false,
+            "explanation": "The exact powers vary, although this request is still excessive."
+          }
         ]
       },
       {
         "module": "Module 7 — Mobile & Network",
-        "question": "Your phone suddenly shows 'No service' while other people's phones on the same carrier work. What's the right first move?",
+        "question": "Your phone loses service unexpectedly. You also receive an account-recovery notice. What is a proportionate first check?",
         "choices": [
-          { "text": "Drive to the carrier store to fix the SIM.", "correct": false },
-          { "text": "Borrow a phone, call the carrier's fraud line to freeze the SIM transfer, then sign into email and bank from a computer.", "correct": true, "explanation": "SIM-swap is a race. The longer the attacker holds your number, the more accounts they can drain." },
-          { "text": "Wait an hour to see if it's just a carrier outage.", "correct": false },
-          { "text": "Restart your phone repeatedly.", "correct": false }
+          {
+            "text": "Use another trusted route to contact the carrier and affected service; check for a line or account change.",
+            "correct": true,
+            "explanation": "A SIM takeover is possible, but an outage is also possible."
+          },
+          {
+            "text": "Declare a confirmed SIM swap from “No service” alone.",
+            "correct": false,
+            "explanation": "The observation does not establish the cause."
+          },
+          {
+            "text": "Wait several days without checking.",
+            "correct": false,
+            "explanation": "The recovery notice makes prompt low-risk checks appropriate."
+          }
         ]
       },
       {
         "module": "Module 7 — Mobile & Network",
-        "question": "A browser extension you want asks for 'Read and change data on all websites'. The right approach is:",
+        "question": "A browser extension wants access to all websites to perform a task needed on one site. What is the safer choice?",
         "choices": [
-          { "text": "Grant it immediately — that's how extensions work.", "correct": false },
-          { "text": "Verify the publisher first; if legitimate, accept but disable the extension in incognito and confine it to a single profile.", "correct": true, "explanation": "The permission is unavoidable for some extensions, but the blast radius can be scoped." },
-          { "text": "Refuse and install a different extension that doesn't need it.", "correct": false },
-          { "text": "Install as a temporary trial.", "correct": false }
+          {
+            "text": "Look for site-specific permission or a narrower alternative; verify the publisher before installing.",
+            "correct": true,
+            "explanation": "A broad grant increases reach beyond the task."
+          },
+          {
+            "text": "Grant all-sites access because legitimate extensions sometimes need it.",
+            "correct": false,
+            "explanation": "Some do, but need and trust must be assessed for this task."
+          },
+          {
+            "text": "Install it briefly; temporary use removes the risk.",
+            "correct": false,
+            "explanation": "An extension can read data during that time."
+          }
         ]
       },
       {
         "module": "Module 7 — Mobile & Network",
-        "question": "In a café you need to log into your bank. The strongest practical security posture is:",
+        "question": "At a café, a bank page shows HTTPS. What does that tell you?",
         "choices": [
-          { "text": "Connect to a paid VPN before logging in.", "correct": false },
-          { "text": "Use the bank's mobile app on cellular data instead of the laptop on Wi-Fi.", "correct": true, "explanation": "Removes you from the café's network entirely and uses an app with certificate pinning." },
-          { "text": "Tether to a friend's hotspot.", "correct": false },
-          { "text": "Trust HTTPS — modern banks are safe over any network.", "correct": false }
+          {
+            "text": "The connection to that host is encrypted; verify the host and use a trusted entry route.",
+            "correct": true,
+            "explanation": "Modern encrypted public Wi-Fi can be usable, while a scam site can also use HTTPS."
+          },
+          {
+            "text": "The café Wi-Fi is always unsafe, even for encrypted sites.",
+            "correct": false,
+            "explanation": "That blanket claim does not reflect modern HTTPS guidance."
+          },
+          {
+            "text": "HTTPS proves the page belongs to your bank.",
+            "correct": false,
+            "explanation": "Encryption does not prove business identity."
+          }
         ]
       },
       {
         "module": "Module 7 — Mobile & Network",
-        "question": "To protect everyone in your household (kids, older relatives, IoT) from accidentally connecting to phishing domains, the highest-leverage setup is:",
+        "question": "A family sets filtering DNS on the home router. What limitation should they understand?",
         "choices": [
-          { "text": "Install antivirus on every device.", "correct": false },
-          { "text": "Configure your router to use a filtering DNS provider (NextDNS, Cloudflare for Families, Quad9).", "correct": true, "explanation": "One router setting protects every device, automatically, with no per-device maintenance." },
-          { "text": "Give each family member a paid VPN.", "correct": false },
-          { "text": "Tell everyone to be careful what they click.", "correct": false }
+          {
+            "text": "It may block known domains for devices using that resolver, but cannot judge every scam or protect devices off that network.",
+            "correct": true,
+            "explanation": "DNS filtering is a useful layer, not universal protection."
+          },
+          {
+            "text": "It makes every device safe from any phishing attempt.",
+            "correct": false,
+            "explanation": "Unknown domains, apps and alternate resolvers can bypass the layer."
+          },
+          {
+            "text": "It guarantees protection while phones use mobile data.",
+            "correct": false,
+            "explanation": "The home router does not control off-network traffic."
+          }
         ]
       },
       {
         "module": "Module 8 — Incident Response",
-        "question": "Three password-reset emails arrive for sites you don't use, plus a 'login from Lagos' alert, plus a new mail-forwarding rule. What's the strongest evidence the account is compromised?",
+        "question": "You find an unfamiliar mail-forwarding rule after a login alert. What should you do?",
         "choices": [
-          { "text": "The login from Lagos.", "correct": false },
-          { "text": "The unfamiliar auto-forwarding rule — it's the diagnostic action of an account takeover.", "correct": true, "explanation": "Forwarding rules silently siphon mail and are one of the highest-confidence indicators of email-account compromise." },
-          { "text": "The number of reset emails.", "correct": false },
-          { "text": "All three together aren't really proof.", "correct": false }
+          {
+            "text": "Treat it as a strong warning, verify it in the real account, remove unauthorized access and inspect recent activity.",
+            "correct": true,
+            "explanation": "A forwarding rule may expose future mail; verify ownership before concluding."
+          },
+          {
+            "text": "Assume the geographic login alert alone proves compromise.",
+            "correct": false,
+            "explanation": "Travel and network routing can affect location labels."
+          },
+          {
+            "text": "Ignore the rule because a login alert can be inaccurate.",
+            "correct": false,
+            "explanation": "The rule itself needs investigation regardless of the alert."
+          }
         ]
       },
       {
         "module": "Module 8 — Incident Response",
-        "question": "You see a 'login from Singapore' alert and can't sign back in — password just changed. Your phone is on the kitchen counter. First action?",
+        "question": "You cannot access email after a password-change alert. Which recovery path is sensible?",
         "choices": [
-          { "text": "Try the reset from your phone.", "correct": false },
-          { "text": "Grab a known-clean device, open incognito, reset the email from there.", "correct": true, "explanation": "Clean-device rule avoids any compromise on the phone itself and prevents attacker software watching." },
-          { "text": "Call email-provider customer support.", "correct": false },
-          { "text": "Wait a few minutes to see what happens.", "correct": false }
+          {
+            "text": "Open the provider’s known recovery route on a device you trust; if the device may be compromised, use another trusted one.",
+            "correct": true,
+            "explanation": "Incognito mode alone does not clean a compromised device."
+          },
+          {
+            "text": "Use a link in the alert without checking its destination.",
+            "correct": false,
+            "explanation": "The alert itself may be phishing."
+          },
+          {
+            "text": "Assume an incognito window makes any infected device safe.",
+            "correct": false,
+            "explanation": "Private browsing does not remove malware."
+          }
         ]
       },
       {
         "module": "Module 8 — Incident Response",
         "question": "An attacker is actively in your inbox right now. As an individual (not an organisation), what should you do?",
         "choices": [
-          { "text": "Quietly screenshot what they do for evidence.", "correct": false },
-          { "text": "Sign out all sessions, change the password, then capture the activity log.", "correct": true, "explanation": "Contain first. The activity log is preserved after eviction; the marginal evidence from watching isn't worth the active risk." },
-          { "text": "Reply to one of their emails to confirm their identity.", "correct": false },
-          { "text": "Set up DevTools monitoring on the inbox.", "correct": false }
+          {
+            "text": "Quietly screenshot what they do for evidence.",
+            "correct": false,
+            "explanation": "Watching an active intruder can prolong unauthorized access."
+          },
+          {
+            "text": "Sign out all sessions, change the password, then capture the activity log.",
+            "correct": true,
+            "explanation": "Use the genuine account or provider recovery route to change the secret, revoke sessions where supported, review forwarding/recovery settings, then preserve available activity records."
+          },
+          {
+            "text": "Reply to one of their emails to confirm their identity.",
+            "correct": false,
+            "explanation": "Replying may reveal more information without containing access."
+          },
+          {
+            "text": "Set up DevTools monitoring on the inbox.",
+            "correct": false,
+            "explanation": "Developer tools are not needed before basic account containment."
+          }
         ]
       },
       {
         "module": "Module 8 — Incident Response",
-        "question": "Someone opened a fraudulent credit card in your name (US). First-day actions: ",
+        "question": "A US resident discovers a new credit account opened in their name. Which response fits the situation?",
         "choices": [
-          { "text": "Call the issuer of the fraudulent card to close it.", "correct": false },
-          { "text": "Freeze all three credit bureaus, file IC3/FTC, file local police, dispute with the issuer.", "correct": true, "explanation": "Bureau freezes prevent further accounts opening; federal reports feed aggregate investigations; local police gives you a case number." },
-          { "text": "Wait for your credit report to update first.", "correct": false },
-          { "text": "Post about it on social media to warn friends.", "correct": false }
+          {
+            "text": "Contact the issuer, use IdentityTheft.gov for a tailored plan, and consider a freeze with the US credit bureaus.",
+            "correct": true,
+            "explanation": "US-specific identity-theft tools help; reports and disputes depend on facts."
+          },
+          {
+            "text": "Use the US credit-bureau process as universal advice in any country.",
+            "correct": false,
+            "explanation": "Credit reporting and legal routes differ by jurisdiction."
+          },
+          {
+            "text": "Wait for another account before acting.",
+            "correct": false,
+            "explanation": "Delay can allow additional misuse."
+          }
         ]
       },
       {
         "module": "Module 8 — Incident Response",
         "question": "Three months after a credential-stuffing incident on your email, the single most useful follow-up action is:",
         "choices": [
-          { "text": "Create a new email and migrate everything.", "correct": false },
-          { "text": "Re-audit the email's security settings: active sessions, forwarding rules, OAuth apps, recovery contacts, login history.", "correct": true, "explanation": "Attackers leave delayed-action footholds that are silent for months. Re-audit catches them." },
-          { "text": "Buy identity-theft insurance.", "correct": false },
-          { "text": "Reinstall the OS on all your devices.", "correct": false }
+          {
+            "text": "Create a new email and migrate everything.",
+            "correct": false,
+            "explanation": "A new address alone does not remove old unauthorized access."
+          },
+          {
+            "text": "Re-audit the email's security settings: active sessions, forwarding rules, OAuth apps, recovery contacts, login history.",
+            "correct": true,
+            "explanation": "Review sessions, forwarding, third-party app access, recovery details and available login history to catch lingering unauthorized settings; not every past incident leaves one."
+          },
+          {
+            "text": "Buy identity-theft insurance.",
+            "correct": false,
+            "explanation": "Insurance does not inspect account settings."
+          },
+          {
+            "text": "Reinstall the OS on all your devices.",
+            "correct": false,
+            "explanation": "Reinstalling all devices is disproportionate without device-compromise evidence."
+          }
         ]
       }
     ]
