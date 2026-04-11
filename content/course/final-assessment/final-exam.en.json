@@ -2,10 +2,11 @@
   "order": 1,
   "title": "Final self-assessment — 40 questions across Modules 1–8",
   "est_minutes": 35,
-  "body_md": "## Final self-assessment: decisions, not labels\n\nThis untimed, not proctored self-assessment has **40 questions, five from each of Modules 1–8**. Each asks what you would infer or do in a concrete situation. Some messages are plausible and legitimate; spotting pressure is a cue to verify, not proof of a crime. Read why every choice works or fails before moving on.\n\nChoose one answer per question. The personal benchmark is **80% (32 of 40)**. You can retake the complete set. A pass is stored in this browser for the local completion record. With optional progress sync, an encrypted copy can be stored remotely. The result is **not independently verified**, server-issued, or a measure of real-world competence. There is no timer or external assessor. A previous local pass may remain in the browser after a weaker retake, so use the new score for honest self-reflection.\n\n### How to review\n\nAfterward, revisit questions you missed by **decision type**: reading evidence and report denominators (Module 1); pressure and independent contact (2); destination and login route (3); password, MFA and recovery (4); payment and provider response (5); voice, video and provenance (6); device, browser and network limits (7); containment, evidence and recovery (8). Write one practical change for your own setup. Do not enter real passwords, codes, messages, URLs or payment details here.\n\n### Source scope\n\nThese scenarios are synthetic. The [UK NCSC scam guide](https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams), [NIST authenticator standard](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/), [FTC post-scam guidance](https://consumer.ftc.gov/articles/what-do-if-you-were-scammed), and [C2PA provenance guidance](https://spec.c2pa.org/specifications/specifications/2.4/security/Harms_Modelling.html) were checked on 2026-10-20. UK NCSC advice on breaking contact, NIST authenticator distinctions, FTC US consumer payment/recovery guidance, and C2PA provenance limits inform the questions. Reporting and payment rights depend on your country and provider; no source certifies this assessment.",
+  "body_md": "## Final self-assessment: decisions, not labels\n\nThis untimed, not proctored self-assessment has **40 questions, five from each of Modules 1–8**. Each asks what you would infer or do in a concrete situation. Some messages are plausible and legitimate; spotting pressure is a cue to verify, not proof of a crime. Read why every choice works or fails before moving on.\n\nChoose one answer per question. The personal benchmark is **80% (32 of 40)**. You can retake the complete set. An earlier pass is preserved separately and does not count toward the current local completion record. Pass this revised exam at 80% or higher for the current record. With optional progress sync, an encrypted copy can be stored remotely. The result is **not independently verified**, server-issued, or a measure of real-world competence. There is no timer or external assessor. Within this revision, a previous pass may remain after a weaker retake, so use the new score for honest self-reflection.\n\n### How to review\n\nAfterward, revisit questions you missed by **decision type**: reading evidence and report denominators (Module 1); pressure and independent contact (2); destination and login route (3); password, MFA and recovery (4); payment and provider response (5); voice, video and provenance (6); device, browser and network limits (7); containment, evidence and recovery (8). Write one practical change for your own setup. Do not enter real passwords, codes, messages, URLs or payment details here.\n\n### Source scope\n\nThese scenarios are synthetic. The [UK NCSC scam guide](https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams), [NIST authenticator standard](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/), [FTC post-scam guidance](https://consumer.ftc.gov/articles/what-do-if-you-were-scammed), and [C2PA provenance guidance](https://spec.c2pa.org/specifications/specifications/2.4/security/Harms_Modelling.html) were checked on 2026-10-20. UK NCSC advice on breaking contact, NIST authenticator distinctions, FTC US consumer payment/recovery guidance, and C2PA provenance limits inform the questions. Reporting and payment rights depend on your country and provider; no source certifies this assessment.",
   "widget_type": "exam",
   "widget_config": {
     "passThreshold": 0.8,
+    "revision": "2026-10-20",
     "shuffle": false,
     "questions": [
       {
@@ -498,9 +499,9 @@
             "explanation": "A new domain warrants a check but is not conclusive by itself."
           },
           {
-            "text": "Payment options exclude major cards and use only non-reversible methods.",
+            "text": "Payment is limited to gift cards or crypto, making recovery harder and leaving fewer ordinary dispute protections.",
             "correct": true,
-            "explanation": "Gift-card or crypto-only payment in this unfamiliar, steeply discounted store sharply reduces normal dispute options; verify the seller and choose a protected method if available."
+            "explanation": "Gift-card or crypto-only payment in this unfamiliar, steeply discounted store sharply reduces ordinary dispute options. If you already paid, ask the gift-card issuer or crypto exchange/operator promptly about possible recovery; it is not guaranteed. Verify the seller and choose a protected method if available."
           },
           {
             "text": "The 'only 3 left' urgency.",
@@ -875,9 +876,9 @@
             "explanation": "Watching an active intruder can prolong unauthorized access."
           },
           {
-            "text": "Sign out all sessions, change the password, then capture the activity log.",
+            "text": "Use the genuine service to secure forwarding and recovery settings, change the password, revoke available sessions, then save activity records.",
             "correct": true,
-            "explanation": "Use the genuine account or provider recovery route to change the secret, revoke sessions where supported, review forwarding/recovery settings, then preserve available activity records."
+            "explanation": "Use the genuine account or provider recovery route. Remove unauthorized forwarding or recovery changes, change the password, then revoke sessions where supported. Contain active access before preserving available activity records."
           },
           {
             "text": "Reply to one of their emails to confirm their identity.",
