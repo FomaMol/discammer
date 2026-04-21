@@ -1,33 +1,217 @@
 {
   "order": 4,
   "title": "Glossary: malware, phishing, ransomware, RAT",
-  "est_minutes": 6,
-  "body_md": "## A working vocabulary for the rest of the course\n\nSecurity reporting throws around a lot of jargon. You don't need to memorize an encyclopedia — you need a small working vocabulary that lets you read advisories, breach reports, and news without getting lost.\n\nHere are the eight terms that come up over and over.\n\n### Malware\n\nAny software whose purpose is to harm or surveil. Worms, viruses, trojans, keyloggers, miners — all sub-types. Treat *malware* as the umbrella term.\n\n### Phishing\n\nA message designed to trick you into revealing credentials, transferring money, or installing malware. The bait is the message; the hook is the link or attachment.\n\n- **Spear phishing** — targeted at one specific person, often with personal context.\n- **Whaling** — spear phishing aimed at executives.\n- **Smishing** — phishing over SMS.\n- **Vishing** — phishing over voice calls.\n- **Quishing** — phishing via QR codes.\n\n### Ransomware\n\nMalware that encrypts your files (or a company's) and demands payment for the decryption key. Modern variants also exfiltrate the data first and threaten to publish it — *double extortion*.\n\n### RAT (Remote Access Trojan)\n\nMalware that gives the attacker an interactive shell on your device. They can read your screen, type as you, exfiltrate files. Often delivered through a fake \"support\" call — the operator asks you to install AnyDesk or TeamViewer.\n\n### Credential stuffing\n\nAttackers take leaked username/password pairs from one breach and try them on hundreds of other services. Works because most people reuse passwords.\n\n### BEC (Business Email Compromise)\n\nAttacker compromises (or convincingly spoofs) a high-trust mailbox — CEO, CFO, vendor — and uses it to redirect a wire transfer or change banking details. The single most expensive class of scam, costing companies billions per year.\n\n### Pig-butchering (sha zhu pan)\n\nA long-con investment scam. Build emotional connection over weeks, introduce a \"crypto trading platform,\" let the victim withdraw small amounts to build trust, then drain everything when they invest big.\n\n### Zero-day\n\nA software vulnerability that is being exploited *before* the vendor releases a fix. Rare and expensive — usually held by nation-states or sold for six figures.\n\n## How to use this glossary\n\nWhen you read a breach report or news article, pause when you hit an unfamiliar term and look it up. The first three pieces you struggle with will teach you 80% of the vocabulary you'll ever need.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## Terms are shortcuts, not a verdict\nSecurity words are useful when they specify a mechanism. **Malware** is harmful software or code. **Phishing** is a deceptive attempt to make someone reveal information or take an unsafe action, often through a message. They are different categories: a phishing message can lead to malware, a fake login page, or a payment; malware can arrive by other routes too. A link is not malware merely because it is unfamiliar, and a warning banner is not evidence that malware ran. *Spear phishing* targets a particular person with tailored context; *whaling* is a term for executive-focused phishing; *quishing* uses a QR code as the route to a deceptive destination. These are labels for targeting or delivery, not separate proof of compromise.\n\n**Ransomware** is malicious software or an attack that denies access to data, commonly by encryption, while demanding payment. Some operators also steal data and threaten release. Whether a particular incident included theft must come from evidence, not the word “ransomware” alone. **RAT** usually means *remote access trojan*: malicious code designed to give unauthorized remote control. A legitimate remote-support tool is not inherently a RAT, but granting control to an unverified caller can still expose a device. If you installed a tool at a stranger’s request, describe what access you gave rather than guessing the software category.\n\n**Credential stuffing** is automated reuse of leaked username/password pairs at other services. It explains why one reused password can endanger multiple accounts. **Business email compromise (BEC)** covers fraud that abuses apparently trusted business communications, often to redirect payments. The mailbox may really be compromised or the identity may be impersonated; the remedy is to verify payment changes through an established path. **Smishing** and **vishing** name phishing by text and voice. The channel suffix tells you little about whether the content is true.\n\n**Investment grooming** sometimes appears in reports under the phrase “pig-butchering”: a person builds trust, introduces a supposedly profitable platform, and escalates deposits. Avoid the dehumanizing nickname when speaking to someone harmed; describe the mechanism instead. A **zero-day attack**, in NIST's glossary, exploits a previously unknown vulnerability. It does not imply a particular price, actor or likelihood. If a news article uses the term loosely, look for the vendor advisory before changing your own behavior.\n\n### Turn jargon into a decision\nAsk three questions: What happened? What asset might be exposed? What evidence supports that? If a message says “your account suffered a RAT and zero-day,” but asks you to call an unfamiliar number and install software, those labels are part of a claim, not proof. Open the provider’s own app or support site. If you knowingly granted remote control, disconnect from the session and seek trusted device help; if a password was exposed, change it through the real service and review reused passwords. The actions differ because the exposures differ.\n\n**Keep the vocabulary small:** learn the mechanism and its limits, then use an independent source to verify the incident.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "An attacker calls a finance employee pretending to be the CFO, asks them to update the bank routing number on a pending vendor invoice, and walks away with $1.2 million. Which term best fits?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Translate security labels into the concrete action and exposure they describe, without treating a label as a diagnosis.",
+    "today_action": "Pick one unfamiliar term from a trusted advisory and rewrite it as “what happened, what was exposed, what do I do?”",
+    "checked_at": "2026-10-20",
+    "scope": "General vocabulary; NIST terms are technical definitions, and incident response depends on what actually occurred.",
+    "sources": [
       {
-        "text": "Ransomware",
-        "correct": false,
-        "explanation": "Ransomware encrypts files and demands a ransom. This attack involves no encryption — it's pure social engineering against a finance process."
+        "title": "NIST CSRC glossary: malware",
+        "url": "https://csrc.nist.gov/glossary/term/malware",
+        "scope": "Technical definitions; terms do not diagnose a particular device"
       },
       {
-        "text": "BEC (Business Email Compromise)",
-        "correct": true,
-        "explanation": "Yes. BEC is the umbrella for attacks that abuse executive identity (impersonated or genuinely compromised) to redirect payments. The CFO-pretext + vendor-invoice change is the canonical BEC pattern."
+        "title": "NIST CSRC glossary: phishing",
+        "url": "https://csrc.nist.gov/glossary/term/phishing",
+        "scope": "Technical definitions; examples may use newer channels"
       },
       {
-        "text": "Credential stuffing",
-        "correct": false,
-        "explanation": "Credential stuffing is automated re-use of leaked passwords across services. No human-to-human pretext is involved."
+        "title": "NIST CSRC glossary: zero-day attack",
+        "url": "https://csrc.nist.gov/glossary/term/Zero_Day_Attack",
+        "scope": "Definition from CNSSI 4009-2022; no prevalence or price claim"
       },
       {
-        "text": "Quishing",
-        "correct": false,
-        "explanation": "Quishing is phishing via QR codes. No QR code is involved in this scenario."
+        "title": "FBI IC3: Ransomware",
+        "url": "https://www.ic3.gov/CrimeInfo/Ransomware",
+        "scope": "US law-enforcement overview of mechanism and response; not a diagnosis"
+      },
+      {
+        "title": "FBI IC3: Investment Fraud",
+        "url": "https://www.ic3.gov/CrimeInfo/Investment",
+        "scope": "US law-enforcement description of trust-building, fake returns and small withdrawals"
+      },
+      {
+        "title": "NIST SP 800-63B-4: Authenticators",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
+        "scope": "US technical standard for identity-service implementers; password storage and authenticator properties"
+      },
+      {
+        "title": "FBI IC3: Business Email Compromise",
+        "url": "https://www.ic3.gov/CrimeInfo/BEC",
+        "scope": "US law-enforcement overview; payment verification concept is general"
+      },
+      {
+        "title": "FTC: What to do if you were scammed",
+        "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
+        "scope": "US consumer response by exposure/payment type; June 2026; local rights vary"
       }
     ],
-    "hint": "The key elements are: trusted-executive pretext, payment redirection. What single term covers that pattern?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A pop-up shouts “RAT detected”",
+        "situation": "Synthetic: A browser page sounds an alarm, says a remote-access trojan is on the laptop, and tells Jo to call a displayed “support” number and install a screen-sharing app.",
+        "analysis": "A web page can display this claim without scanning the device. The requested remote access is the immediate risk. Jo should close the page, use trusted device security tools or manufacturer support, and avoid the supplied number. The page alone does not diagnose infection.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A scheduled remote-support session",
+        "situation": "Synthetic: Jo opened a ticket with the device maker through its official site. The support agent at the agreed time asks to start the documented screen-sharing tool, and Jo can end the session.",
+        "analysis": "Remote access can be legitimate with verified identity, clear scope and consent. The tool itself is not necessarily a RAT. Jo should still avoid showing passwords, watch the session and end access afterward.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "mode": "sequence",
+        "title": "Translate jargon during a device scare",
+        "setup": "A synthetic browser warning uses several technical terms. Work from observed exposure, not from labels.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "A pop-up says “zero-day malware detected.” What do you know?",
+            "choices": [
+              {
+                "text": "Only that the page made a claim; check with trusted security tools.",
+                "consequence": "You avoid treating webpage text as a device diagnosis.",
+                "explanation": "The words do not prove a scan occurred.",
+                "recommended": true
+              },
+              {
+                "text": "The phrase proves a nation-state attacker is inside.",
+                "consequence": "An unsupported attribution adds panic.",
+                "explanation": "Zero-day names a vulnerability condition, not an actor.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The page asks you to call its number and install remote support. Choose.",
+            "choices": [
+              {
+                "text": "Do not use that contact; close the page and use manufacturer support reached independently if needed.",
+                "consequence": "You withhold device control from an unknown party.",
+                "explanation": "The requested action is more important than the label.",
+                "recommended": true
+              },
+              {
+                "text": "Install the tool to let the caller verify the alert.",
+                "consequence": "An unknown caller gains a path to your screen or device.",
+                "explanation": "Verification should precede access, not depend on it.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "Suppose you already gave the caller control. What report is most useful?",
+            "choices": [
+              {
+                "text": "State what tool ran, when, and what the caller could see; seek trusted device help.",
+                "consequence": "A responder can assess actual exposure.",
+                "explanation": "Observable facts are more actionable than guessing “RAT.”",
+                "recommended": true
+              },
+              {
+                "text": "Say only “I had ransomware.”",
+                "consequence": "The label may be wrong and omits useful details.",
+                "explanation": "Ransomware involves loss of access or extortion, which was not observed.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "You typed an account password while the screen was shared. What next?",
+            "choices": [
+              {
+                "text": "End the session, then change that password through the real service from a trusted device and review reuse.",
+                "consequence": "You address the specific exposed credential.",
+                "explanation": "Exposure, not a dramatic term, sets the response.",
+                "recommended": true
+              },
+              {
+                "text": "Wait for an encryption demand before acting.",
+                "consequence": "The password may already be exposed.",
+                "explanation": "Credential risk does not require ransomware.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Replay by replacing each noun with an observed event. The fake warning alone proves no infection; a granted session and visible password create concrete exposures."
+      },
+      {
+        "type": "check",
+        "title": "Use terms accurately",
+        "questions": [
+          {
+            "prompt": "A fake invoice email leads to a payment page but installs no software. Which statement is accurate?",
+            "choices": [
+              {
+                "text": "It may be phishing without malware.",
+                "explanation": "Phishing describes the deceptive request; software installation is not required.",
+                "correct": true
+              },
+              {
+                "text": "It cannot be phishing without malware.",
+                "explanation": "Phishing can seek money or credentials directly.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A firm says it has encrypted files but has not confirmed data theft. What can you conclude?",
+            "choices": [
+              {
+                "text": "Access may be disrupted; theft needs separate evidence.",
+                "explanation": "Encryption and exfiltration are distinct events.",
+                "correct": true
+              },
+              {
+                "text": "All ransomware necessarily copied every file.",
+                "explanation": "The label does not prove exfiltration.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A legitimate technician uses a remote-support app with consent. Is the app automatically a RAT?",
+            "choices": [
+              {
+                "text": "No; assess authorization and actual behavior.",
+                "explanation": "Remote access can be legitimate, though it requires care.",
+                "correct": true
+              },
+              {
+                "text": "Yes; all remote software is malware.",
+                "explanation": "Purpose and authorization matter.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "One breached password is tried on many sites. What is this called?",
+            "choices": [
+              {
+                "text": "Credential stuffing.",
+                "explanation": "Reused credential pairs are tested elsewhere.",
+                "correct": true
+              },
+              {
+                "text": "A zero-day attack.",
+                "explanation": "No unknown software flaw is required.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

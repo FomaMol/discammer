@@ -1,33 +1,212 @@
 {
   "order": 1,
   "title": "Anatomy of a modern scam economy",
-  "est_minutes": 7,
-  "body_md": "## Scams are a supply chain, not a lone hacker\n\nThe stereotype of a hooded loner in a basement is decades out of date. Today's fraud ecosystem looks much more like a tech startup with departments, vendors, customers, and a price list.\n\nA typical operation pulls from at least four specialized layers:\n\n- **Tooling.** Off-the-shelf *phishing kits* clone a brand's login page for $30–$200. **Phishing-as-a-Service** (PhaaS) platforms sell subscriptions with dashboards, A/B-tested email templates, and live victim feeds.\n- **Infrastructure.** Bulletproof hosting, lookalike domains, anonymized SMS gateways, and disposable phone numbers are all rented by the hour.\n- **Leads.** Stolen email lists, breach databases, and *lead targeting* by demographic (“65+, US, owns crypto wallet”) trade on closed forums.\n- **Cash-out.** Mule networks, crypto mixers, and gift-card laundries move stolen funds out of the banking system and into the operator's pocket.\n\n## Why the economics matter to you\n\nBecause every layer is specialized and rented, the *cost per attempted scam* is now pennies. Attackers can afford to send a million highly personalized messages to find a handful of victims.\n\nThe defensive lesson follows directly: you cannot rely on attackers being lazy, stupid, or rare. They are industrial. Your defense has to be habits, not luck.\n\n## What you should remember\n\n- Scams are a *business*, with vendors, prices, and quality tiers.\n- Personalization is now cheap; “generic phishing” is no longer a reassuring marker of safety.\n- Defense is about repeatable habits — verification, pauses, second opinions — not about being smart in the moment.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## Follow the money, not the polish\nA scam can involve several people or services, but you rarely need to identify them to protect yourself. Follow four functions: **reach** (an ad or message finds you), **credibility** (a plausible employer, friend or brand), **extraction** (money, credentials, access or a payment change) and **cash-out** (moving value beyond easy recall). One person may do every part; in another operation, roles are split. Do not infer a large criminal organization from a polished message. In one documented 2025 FBI case, a provider supplied hosting and domain infrastructure used by many fraudulent investment sites. Other operations may reuse fake pages, contact lists or payment intermediaries; the exact arrangement is not visible from a single message.\n\nA job ad may be the recruitment surface. A chat operator builds trust. A fake dashboard shows a balance. The instruction to deposit funds or relay a payment is the extraction point. If you are asked to receive and send money through your own account, you may be recruited as a *money mule*, even if the arrangement is described as payroll or a customer refund. An incoming transfer does not establish that it is final, lawful or yours to forward. The FTC warns that a deposited check can later prove fake, leaving the recipient liable for money already sent on.\n\n### Where a pause helps\nThe useful question is not “Which criminal role wrote this?” It is “What asset am I about to hand over, and can I verify the reason through a channel I chose?” Before giving account details, paying to unlock a task, forwarding money, or changing a supplier account, stop the workflow. Contact the genuine organization using an established site, app or number. For a workplace payment, follow a documented approval path and verify changed details with the known supplier contact; a familiar mailbox can itself be compromised.\n\n### What the model cannot tell you\nA real company can use recruiters, chat support, dashboards and subcontractors. A slow reply or unusual wording does not prove fraud; a professional website does not prove legitimacy. The strongest decision points are requests that transfer control: advance payment to earn wages, use of your personal account to move another party's funds, credentials, remote access, or an unexpected recipient change. Treat this chain as a way to identify the next safe action, not as a diagnosis of every person in it.\n\n**Remember:** you can interrupt a chain before its last step. If you already moved money, stop further transfers and promptly contact your bank or payment provider. Recovery is uncertain and rules vary by country.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "Which of the following is the single biggest reason highly personalized scam messages now reach millions of inboxes per day?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Map an apparent opportunity into recruitment, trust-building, extraction and cash-out, then choose where to stop it.",
+    "today_action": "Write down one rule for offers involving your own account: never receive and forward money for a stranger or supposed employer.",
+    "checked_at": "2026-10-20",
+    "scope": "Global educational model. The FTC examples and reporting routes cited below concern the US; roles vary between schemes and one clue cannot prove a crime.",
+    "sources": [
       {
-        "text": "Modern email providers have weakened their spam filters.",
-        "correct": false,
-        "explanation": "Spam filters have actually improved over time. The drop in cost comes from the attacker side, not the defender side."
+        "title": "FTC: What is a money mule scam?",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2020/03/whats-money-mule-scam",
+        "scope": "US consumer warning from 2020; banking/legal consequences depend on jurisdiction"
       },
       {
-        "text": "Phishing-as-a-Service and stolen breach data have made personalization extremely cheap.",
-        "correct": true,
-        "explanation": "Exactly. The supply chain — kits, hosted infrastructure, breach data, cash-out networks — collapses the per-attempt cost to a few cents, so personalization at scale is now economical."
+        "title": "FTC: Job scammers are looking to hire you",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2025/07/job-scammers-are-looking-hire-you",
+        "scope": "US consumer examples, July 2025; no universal prevalence claim"
       },
       {
-        "text": "Most users now click on any link they receive.",
-        "correct": false,
-        "explanation": "Click-through rates on phishing are actually low (a few percent). Scammers don't need a high rate — they need a low cost per attempt and high volume."
+        "title": "FBI IC3: Business Email Compromise",
+        "url": "https://www.ic3.gov/CrimeInfo/BEC",
+        "scope": "US law-enforcement overview; payment verification concept is general"
       },
       {
-        "text": "Government regulation has made fraud legal in many countries.",
-        "correct": false,
-        "explanation": "Fraud is illegal essentially everywhere. The challenge is jurisdiction and enforcement, not legality."
+        "title": "NCSC: How to spot a scam email, text message or call",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "UK consumer guidance; published 2021, reviewed 2022; verification habit applies broadly"
+      },
+      {
+        "title": "FBI IC3: Investment Fraud",
+        "url": "https://www.ic3.gov/CrimeInfo/Investment",
+        "scope": "US law-enforcement description of trust-building, fake returns and small withdrawals"
+      },
+      {
+        "title": "FBI: Infrastructure used in cryptocurrency investment fraud",
+        "url": "https://www.ic3.gov/CSA/2025/250529.pdf",
+        "scope": "Dated 29 May 2025 case-specific infrastructure advisory; not a claim about every scam"
       }
     ],
-    "hint": "Think about the cost side of the equation, not the click rate."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A paid “quality tester” queue",
+        "situation": "Synthetic: A recruiter contacts Mira about rating product photos. A dashboard shows commissions, then says she must deposit a small amount to unlock a higher-paying batch.",
+        "analysis": "The first two stages recruit and create a believable balance. The deposit is extraction; a displayed balance is not proof of withdrawable earnings. Mira should stop, use the employer’s independently found careers page, and avoid any deposit.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A real supplier changes a billing contact",
+        "situation": "Synthetic: A known print supplier sends a new invoice after a documented change of accountant. The request appears in the usual work system, with no demand to bypass approvals.",
+        "analysis": "This can be legitimate. The changed recipient still deserves a call to the supplier number already on file and the normal dual approval. Verification can confirm the change without accusing the supplier.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "mode": "sequence",
+        "title": "Trace a synthetic task-job chain",
+        "setup": "You are offered a remote catalogue-review role. No real account, link or money is involved in this exercise. At each step, identify the asset at risk.",
+        "synthetic": true,
+        "steps": [
+          {
+            "prompt": "A chat recruiter offers immediate work under a famous retailer name. What starts the check?",
+            "choices": [
+              {
+                "text": "Find the role through the retailer’s own careers page.",
+                "consequence": "You can compare the role and recruiter without sharing details.",
+                "explanation": "An independently reached source tests the recruitment claim.",
+                "recommended": true
+              },
+              {
+                "text": "Send your identity document in chat to reserve the role.",
+                "consequence": "The stranger receives sensitive data before the employer is verified.",
+                "explanation": "Brand names in a chat are easy to claim.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A dashboard shows a small “earned” balance, but withdrawal requires a deposit. Choose.",
+            "choices": [
+              {
+                "text": "Decline the deposit and preserve the message privately.",
+                "consequence": "You avoid paying to access a displayed number.",
+                "explanation": "A platform display does not make the balance real.",
+                "recommended": true
+              },
+              {
+                "text": "Pay once because the balance is larger.",
+                "consequence": "You risk losing the deposit and being pressured for more.",
+                "explanation": "A larger displayed number is controlled by the same unknown operator.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The recruiter says a customer refund will enter your bank and you must forward it. Choose.",
+            "choices": [
+              {
+                "text": "Refuse to receive or relay the funds.",
+                "consequence": "Your account is not used as a transfer channel.",
+                "explanation": "The FTC warns this can be a money-mule pattern.",
+                "recommended": true
+              },
+              {
+                "text": "Forward it after it appears in your account.",
+                "consequence": "The payment can later be reversed or disputed.",
+                "explanation": "Seeing a credit is not proof that the money is safe to pass on.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "You already gave your bank details, but moved no money. What next?",
+            "choices": [
+              {
+                "text": "Contact the bank through its app or known number and ask about safeguards.",
+                "consequence": "The bank can advise account-specific steps; you stop the chain.",
+                "explanation": "Early provider contact is useful even before a loss.",
+                "recommended": true
+              },
+              {
+                "text": "Wait for the recruiter’s reassurance.",
+                "consequence": "The person making the request controls the reassurance.",
+                "explanation": "The claimed employer cannot validate itself.",
+                "recommended": false
+              }
+            ]
+          }
+        ],
+        "debrief": "Replay at the first transfer-of-control point: the deposit. The later refund request exposes a second risk. A genuine job can be verified without giving a stranger your account as a relay."
+      },
+      {
+        "type": "check",
+        "title": "Apply the chain to a new offer",
+        "questions": [
+          {
+            "prompt": "A seller asks to replace the bank account on an existing invoice. Which stage is at risk?",
+            "choices": [
+              {
+                "text": "Payment extraction or diversion; verify the change with the known supplier contact.",
+                "explanation": "The asset is the outgoing payment, even when the invoice is familiar.",
+                "correct": true
+              },
+              {
+                "text": "Only recruitment; the invoice already exists.",
+                "explanation": "A real invoice can be used to redirect a payment.",
+                "correct": false
+              },
+              {
+                "text": "No risk if the email signature is correct.",
+                "explanation": "Signatures can be copied and mailboxes compromised.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Why is a small successful withdrawal from an unfamiliar investment portal weak proof?",
+            "choices": [
+              {
+                "text": "The operator may control the display and early withdrawals to build trust.",
+                "explanation": "A small payout does not establish the safety of later deposits.",
+                "correct": true
+              },
+              {
+                "text": "Any withdrawal proves the regulator licensed it.",
+                "explanation": "A transaction does not establish licensing.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A real employer uses a chat interview. What is the sound conclusion?",
+            "choices": [
+              {
+                "text": "Chat alone is inconclusive; verify the role and avoid advance payments.",
+                "explanation": "The channel is common, while a deposit-to-work request changes the risk.",
+                "correct": true
+              },
+              {
+                "text": "Every chat interview is a scam.",
+                "explanation": "Legitimate employers may use chat tools.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "You already forwarded an unknown “refund.” What is the next step?",
+            "choices": [
+              {
+                "text": "Stop further transfers and contact your bank promptly.",
+                "explanation": "The bank can advise on a potentially reversible or disputed transfer.",
+                "correct": true
+              },
+              {
+                "text": "Forward another payment to settle the account.",
+                "explanation": "More transfers can increase loss and exposure.",
+                "correct": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
