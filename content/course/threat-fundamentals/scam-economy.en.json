@@ -69,16 +69,16 @@
             "prompt": "A chat recruiter offers immediate work under a famous retailer name. What starts the check?",
             "choices": [
               {
-                "text": "Find the role through the retailer’s own careers page.",
-                "consequence": "You can compare the role and recruiter without sharing details.",
-                "explanation": "An independently reached source tests the recruitment claim.",
-                "recommended": true
-              },
-              {
                 "text": "Send your identity document in chat to reserve the role.",
                 "consequence": "The stranger receives sensitive data before the employer is verified.",
                 "explanation": "Brand names in a chat are easy to claim.",
                 "recommended": false
+              },
+              {
+                "text": "Find the role through the retailer’s own careers page.",
+                "consequence": "You can compare the role and recruiter without sharing details.",
+                "explanation": "An independently reached source tests the recruitment claim.",
+                "recommended": true
               }
             ]
           },
@@ -103,38 +103,38 @@
             "prompt": "The recruiter says a customer refund will enter your bank and you must forward it. Choose.",
             "choices": [
               {
-                "text": "Refuse to receive or relay the funds.",
-                "consequence": "Your account is not used as a transfer channel.",
-                "explanation": "The FTC warns this can be a money-mule pattern.",
-                "recommended": true
-              },
-              {
                 "text": "Forward it after it appears in your account.",
                 "consequence": "The payment can later be reversed or disputed.",
                 "explanation": "Seeing a credit is not proof that the money is safe to pass on.",
                 "recommended": false
+              },
+              {
+                "text": "Refuse to receive or relay the funds.",
+                "consequence": "Your account is not used as a transfer channel.",
+                "explanation": "The FTC warns this can be a money-mule pattern.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "You already gave your bank details, but moved no money. What next?",
+            "prompt": "Separate snapshot: another applicant says they already forwarded a supposed customer refund. What should you advise now?",
             "choices": [
               {
-                "text": "Contact the bank through its app or known number and ask about safeguards.",
-                "consequence": "The bank can advise account-specific steps; you stop the chain.",
-                "explanation": "Early provider contact is useful even before a loss.",
+                "text": "Tell them to stop further transfers, contact their bank promptly through a known channel, and keep the records.",
+                "consequence": "They can report the transfer and ask about account-specific safeguards; recovery is not guaranteed.",
+                "explanation": "Once money has moved, prompt provider contact matters as well as stopping the chain.",
                 "recommended": true
               },
               {
-                "text": "Wait for the recruiter’s reassurance.",
-                "consequence": "The person making the request controls the reassurance.",
-                "explanation": "The claimed employer cannot validate itself.",
+                "text": "Tell them to wait for the recruiter to reassure them.",
+                "consequence": "Further transfers may be requested while the completed transfer goes unreported.",
+                "explanation": "The person who requested the transfer cannot independently assess or resolve it.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Replay at the first transfer-of-control point: the deposit. The later refund request exposes a second risk. A genuine job can be verified without giving a stranger your account as a relay."
+        "debrief": "Replay at the first transfer-of-control point: the deposit. The later refund request exposes a second risk. In the separate final snapshot, money has already moved, so stop further transfers and promptly contact the bank; if you made an earlier unsafe choice, apply that response to your own situation too. A genuine job can be verified without using your account as a relay."
       },
       {
         "type": "check",
@@ -144,11 +144,6 @@
             "prompt": "A seller asks to replace the bank account on an existing invoice. Which stage is at risk?",
             "choices": [
               {
-                "text": "Payment extraction or diversion; verify the change with the known supplier contact.",
-                "explanation": "The asset is the outgoing payment, even when the invoice is familiar.",
-                "correct": true
-              },
-              {
                 "text": "Only recruitment; the invoice already exists.",
                 "explanation": "A real invoice can be used to redirect a payment.",
                 "correct": false
@@ -157,6 +152,11 @@
                 "text": "No risk if the email signature is correct.",
                 "explanation": "Signatures can be copied and mailboxes compromised.",
                 "correct": false
+              },
+              {
+                "text": "Payment extraction or diversion; verify the change with the known supplier contact.",
+                "explanation": "The asset is the outgoing payment, even when the invoice is familiar.",
+                "correct": true
               }
             ]
           },
@@ -164,14 +164,14 @@
             "prompt": "Why is a small successful withdrawal from an unfamiliar investment portal weak proof?",
             "choices": [
               {
-                "text": "The operator may control the display and early withdrawals to build trust.",
-                "explanation": "A small payout does not establish the safety of later deposits.",
-                "correct": true
-              },
-              {
                 "text": "Any withdrawal proves the regulator licensed it.",
                 "explanation": "A transaction does not establish licensing.",
                 "correct": false
+              },
+              {
+                "text": "The operator may control the display and early withdrawals to build trust.",
+                "explanation": "A small payout does not establish the safety of later deposits.",
+                "correct": true
               }
             ]
           },
@@ -194,14 +194,14 @@
             "prompt": "You already forwarded an unknown “refund.” What is the next step?",
             "choices": [
               {
-                "text": "Stop further transfers and contact your bank promptly.",
-                "explanation": "The bank can advise on a potentially reversible or disputed transfer.",
-                "correct": true
-              },
-              {
                 "text": "Forward another payment to settle the account.",
                 "explanation": "More transfers can increase loss and exposure.",
                 "correct": false
+              },
+              {
+                "text": "Stop further transfers and contact your bank promptly.",
+                "explanation": "The bank can advise on a potentially reversible or disputed transfer.",
+                "correct": true
               }
             ]
           }

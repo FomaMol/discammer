@@ -59,16 +59,16 @@
             "prompt": "A news headline says “millions breached.” What do you read first?",
             "choices": [
               {
-                "text": "The provider’s own affected-group and data-field description.",
-                "consequence": "You separate a large headline from your exposure.",
-                "explanation": "Scale alone does not identify what happened to your account.",
-                "recommended": true
-              },
-              {
                 "text": "Assume every personal record and card number leaked.",
                 "consequence": "You may take irrelevant actions and miss the actual issue.",
                 "explanation": "Headlines often lack field and affected-group detail.",
                 "recommended": false
+              },
+              {
+                "text": "The provider’s own affected-group and data-field description.",
+                "consequence": "You separate a large headline from your exposure.",
+                "explanation": "Scale alone does not identify what happened to your account.",
+                "recommended": true
               }
             ]
           },
@@ -93,16 +93,16 @@
             "prompt": "A follow-up says card data was not in the affected system. What action fits?",
             "choices": [
               {
-                "text": "Check relevant accounts for unusual activity, but do not claim card replacement is mandated by this notice.",
-                "consequence": "Response stays tied to known fields.",
-                "explanation": "No card exposure has been reported here.",
-                "recommended": true
-              },
-              {
                 "text": "Cancel every card solely because this service had a breach.",
                 "consequence": "The action is unsupported by the stated exposure.",
                 "explanation": "A breach at one system does not imply all data types were stored there.",
                 "recommended": false
+              },
+              {
+                "text": "Check relevant accounts for unusual activity, but do not claim card replacement is mandated by this notice.",
+                "consequence": "Response stays tied to known fields.",
+                "explanation": "No card exposure has been reported here.",
+                "recommended": true
               }
             ]
           },
@@ -149,14 +149,14 @@
             "prompt": "A US report book contains unverified consumer complaints. What does its count represent?",
             "choices": [
               {
-                "text": "Reports received, not a population incidence rate.",
-                "explanation": "Reporting and verification limits prevent that inference.",
-                "correct": true
-              },
-              {
                 "text": "The measured probability that any user will be scammed.",
                 "explanation": "The denominator and sampling are different.",
                 "correct": false
+              },
+              {
+                "text": "Reports received, not a population incidence rate.",
+                "explanation": "Reporting and verification limits prevent that inference.",
+                "correct": true
               }
             ]
           },
@@ -179,14 +179,14 @@
             "prompt": "A verified notice lists names and postal areas but explicitly excludes passwords. Best immediate focus?",
             "choices": [
               {
-                "text": "Watch for tailored contact and follow updates, rather than claiming a forced password reset.",
-                "explanation": "The action matches described data while uncertainty remains visible.",
-                "correct": true
-              },
-              {
                 "text": "Tell everyone their passwords were stolen.",
                 "explanation": "The notice says otherwise.",
                 "correct": false
+              },
+              {
+                "text": "Watch for tailored contact and follow updates, rather than claiming a forced password reset.",
+                "explanation": "The action matches described data while uncertainty remains visible.",
+                "correct": true
               }
             ]
           }

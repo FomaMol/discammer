@@ -76,16 +76,16 @@
             "prompt": "The meeting says the deal is secret and you may not consult the team. What response?",
             "choices": [
               {
-                "text": "Use the confidential approval route and required second approver.",
-                "consequence": "The transaction can stay restricted while retaining controls.",
-                "explanation": "Confidentiality does not cancel authorization.",
-                "recommended": true
-              },
-              {
                 "text": "Bypass policy to preserve secrecy.",
                 "consequence": "A single pressured decision controls the money.",
                 "explanation": "Secrecy is not a substitute for approval.",
                 "recommended": false
+              },
+              {
+                "text": "Use the confidential approval route and required second approver.",
+                "consequence": "The transaction can stay restricted while retaining controls.",
+                "explanation": "Confidentiality does not cancel authorization.",
+                "recommended": true
               }
             ]
           },
@@ -107,19 +107,19 @@
             ]
           },
           {
-            "prompt": "The known executive says they did not request it. What now?",
+            "prompt": "Separate update, regardless of which number you chose: a finance colleague calls the executive using the pre-existing company directory. The executive denies the request; a transfer may be pending or already sent. What now?",
             "choices": [
               {
-                "text": "Stop the transfer, alert the finance/security team and retain the messages under policy.",
-                "consequence": "The payment is paused and the organization can investigate.",
-                "explanation": "A mismatch is a reason to halt, not to debate facial details.",
-                "recommended": true
+                "text": "Rely on a head-turn video test and take no further action.",
+                "consequence": "A pending payment may proceed, or a completed transfer may go unreported.",
+                "explanation": "A visual trick cannot override the independent denial or replace incident response.",
+                "recommended": false
               },
               {
-                "text": "Ask the video participant to perform a head turn and approve if it looks normal.",
-                "consequence": "The disputed payment remains exposed.",
-                "explanation": "A visual test cannot override contradictory independent confirmation.",
-                "recommended": false
+                "text": "Stop any pending payment, alert finance/security, contact the bank promptly if funds left, and preserve messages under policy.",
+                "consequence": "The team can contain pending activity and ask the bank about any completed transfer; recovery is uncertain.",
+                "explanation": "An independent denial calls for containment whether or not funds have moved.",
+                "recommended": true
               }
             ]
           }
@@ -134,14 +134,14 @@
             "prompt": "What did the 2024 Hong Kong government account say about the video conference?",
             "choices": [
               {
-                "text": "It was prerecorded; later instructions moved to instant messaging.",
-                "explanation": "The official reply explicitly distinguishes recording from live interaction.",
-                "correct": true
-              },
-              {
                 "text": "It was a fully interactive live synthetic meeting.",
                 "explanation": "That is not what the official reply says.",
                 "correct": false
+              },
+              {
+                "text": "It was prerecorded; later instructions moved to instant messaging.",
+                "explanation": "The official reply explicitly distinguishes recording from live interaction.",
+                "correct": true
               }
             ]
           },
@@ -164,14 +164,14 @@
             "prompt": "A callback reaches the number printed in the suspicious chat. What does that prove?",
             "choices": [
               {
-                "text": "Little; the requester may control that number.",
-                "explanation": "Independent verification requires a pre-existing trusted contact.",
-                "correct": true
-              },
-              {
                 "text": "That the caller is the real CFO.",
                 "explanation": "The channel changed, but the contact source did not.",
                 "correct": false
+              },
+              {
+                "text": "Little; the requester may control that number.",
+                "explanation": "Independent verification requires a pre-existing trusted contact.",
+                "correct": true
               }
             ]
           },

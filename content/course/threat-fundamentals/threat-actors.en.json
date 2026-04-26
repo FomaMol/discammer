@@ -59,16 +59,16 @@
             "prompt": "The volunteer requests the full member contact file “for coordination.” What do you map first?",
             "choices": [
               {
-                "text": "Identify the data requested, purpose and existing access policy.",
-                "consequence": "You know what would leave the group and why.",
-                "explanation": "Asset and capability guide the decision better than guessing the sender’s motive.",
-                "recommended": true
-              },
-              {
                 "text": "Label the volunteer a criminal from the request alone.",
                 "consequence": "The accusation has no supporting evidence.",
                 "explanation": "A broad request can be mistaken or malicious; verify it.",
                 "recommended": false
+              },
+              {
+                "text": "Identify the data requested, purpose and existing access policy.",
+                "consequence": "You know what would leave the group and why.",
+                "explanation": "Asset and capability guide the decision better than guessing the sender’s motive.",
+                "recommended": true
               }
             ]
           },
@@ -90,19 +90,19 @@
             ]
           },
           {
-            "prompt": "The coordinator confirms only an attendance count is needed. What do you provide?",
+            "prompt": "The coordinator confirms that only an attendance count is needed. You may already have sent the full file. What now?",
             "choices": [
               {
-                "text": "The count through the approved shared workspace.",
-                "consequence": "The goal is met with less personal data.",
-                "explanation": "Least necessary access limits impact even for legitimate work.",
-                "recommended": true
+                "text": "Send the complete contact list in a personal chat anyway.",
+                "consequence": "The full file is exposed, or exposed again if you had already sent it.",
+                "explanation": "A count does not require personal contact details.",
+                "recommended": false
               },
               {
-                "text": "The complete contact list in a personal chat.",
-                "consequence": "More data is exposed than the task requires.",
-                "explanation": "Convenience does not justify an unnecessary export.",
-                "recommended": false
+                "text": "Provide only the count in the approved workspace and report any earlier file disclosure to the coordinator.",
+                "consequence": "The current task uses minimal data; any earlier disclosure is flagged for containment.",
+                "explanation": "An earlier mistake does not justify sending more data, and it needs a real response.",
+                "recommended": true
               }
             ]
           },
@@ -116,9 +116,9 @@
                 "recommended": true
               },
               {
-                "text": "Accept it because the earlier count request was legitimate.",
-                "consequence": "Prior legitimacy is stretched to a new high-impact action.",
-                "explanation": "Authorization is specific to the asset and action.",
+                "text": "Accept it because the request comes from a familiar account.",
+                "consequence": "A familiar account is treated as authority for a separate financial change.",
+                "explanation": "Even a legitimate earlier request would not authorize a new payee.",
                 "recommended": false
               }
             ]
@@ -149,14 +149,14 @@
             "prompt": "A known vendor mailbox asks for new payment details. What is the key risk?",
             "choices": [
               {
-                "text": "Payment diversion, even if the mailbox is genuine; verify with a known contact.",
-                "explanation": "A compromised real account can carry a fraudulent change.",
-                "correct": true
-              },
-              {
                 "text": "Only a forged sender address; matching it ends the check.",
                 "explanation": "Real accounts can be compromised.",
                 "correct": false
+              },
+              {
+                "text": "Payment diversion, even if the mailbox is genuine; verify with a known contact.",
+                "explanation": "A compromised real account can carry a fraudulent change.",
+                "correct": true
               }
             ]
           },
@@ -179,14 +179,14 @@
             "prompt": "What can you conclude from a single suspicious IP or time zone?",
             "choices": [
               {
-                "text": "It is a clue for investigation, not reliable actor attribution.",
-                "explanation": "Shared infrastructure and proxies complicate attribution.",
-                "correct": true
-              },
-              {
                 "text": "It identifies the responsible person.",
                 "explanation": "Network location does not name an individual.",
                 "correct": false
+              },
+              {
+                "text": "It is a clue for investigation, not reliable actor attribution.",
+                "explanation": "Shared infrastructure and proxies complicate attribution.",
+                "correct": true
               }
             ]
           }

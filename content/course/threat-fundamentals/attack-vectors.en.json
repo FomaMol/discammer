@@ -66,16 +66,16 @@
             "prompt": "A caller now says they are support and tells you to call the number in the email. How verify?",
             "choices": [
               {
-                "text": "End the call and use the support contact from your own app or saved records.",
-                "consequence": "The new route is outside the caller’s instructions.",
-                "explanation": "A number supplied by the same claim is not independent.",
-                "recommended": true
-              },
-              {
                 "text": "Call the number in the email.",
                 "consequence": "The same actor may answer.",
                 "explanation": "Changing devices is not enough when the contact source is untrusted.",
                 "recommended": false
+              },
+              {
+                "text": "End the call and use the support contact from your own app or saved records.",
+                "consequence": "The new route is outside the caller’s instructions.",
+                "explanation": "A number supplied by the same claim is not independent.",
+                "recommended": true
               }
             ]
           },
@@ -100,16 +100,16 @@
             "prompt": "The official app shows normal files and no warning. What now?",
             "choices": [
               {
-                "text": "Treat the incoming claim as unconfirmed, report/block it through the provider’s normal route.",
-                "consequence": "You stop the chain and preserve the real service.",
-                "explanation": "Account state from the trusted app is stronger evidence than the incoming messages.",
-                "recommended": true
-              },
-              {
                 "text": "Follow the email anyway in case the app is late.",
                 "consequence": "You give the original claim control again.",
                 "explanation": "A mismatch warrants support through the known route, not the suspicious link.",
                 "recommended": false
+              },
+              {
+                "text": "Treat the incoming claim as unconfirmed, report/block it through the provider’s normal route.",
+                "consequence": "You stop the chain and preserve the real service.",
+                "explanation": "Account state from the trusted app is stronger evidence than the incoming messages.",
+                "recommended": true
               }
             ]
           }
@@ -124,14 +124,14 @@
             "prompt": "A real bank text warns of unusual activity. What is the safest way to resolve it?",
             "choices": [
               {
-                "text": "Open the bank app you already use and review activity or contact support there.",
-                "explanation": "This handles a genuine alert without relying on the message link.",
-                "correct": true
-              },
-              {
                 "text": "Ignore every text because banks never send alerts.",
                 "explanation": "Real services may send alerts; verify independently.",
                 "correct": false
+              },
+              {
+                "text": "Open the bank app you already use and review activity or contact support there.",
+                "explanation": "This handles a genuine alert without relying on the message link.",
+                "correct": true
               }
             ]
           },
@@ -154,14 +154,14 @@
             "prompt": "An email and its linked page both show the same logo. Which inference is sound?",
             "choices": [
               {
-                "text": "They may be controlled by the same sender; check through a separate source.",
-                "explanation": "Visual agreement across two attacker-supplied surfaces is weak evidence.",
-                "correct": true
-              },
-              {
                 "text": "The match proves the page is official.",
                 "explanation": "A logo can be copied.",
                 "correct": false
+              },
+              {
+                "text": "They may be controlled by the same sender; check through a separate source.",
+                "explanation": "Visual agreement across two attacker-supplied surfaces is weak evidence.",
+                "correct": true
               }
             ]
           },

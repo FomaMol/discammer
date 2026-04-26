@@ -96,16 +96,16 @@
             "prompt": "The page asks you to call its number and install remote support. Choose.",
             "choices": [
               {
-                "text": "Do not use that contact; close the page and use manufacturer support reached independently if needed.",
-                "consequence": "You withhold device control from an unknown party.",
-                "explanation": "The requested action is more important than the label.",
-                "recommended": true
-              },
-              {
                 "text": "Install the tool to let the caller verify the alert.",
                 "consequence": "An unknown caller gains a path to your screen or device.",
                 "explanation": "Verification should precede access, not depend on it.",
                 "recommended": false
+              },
+              {
+                "text": "Do not use that contact; close the page and use manufacturer support reached independently if needed.",
+                "consequence": "You withhold device control from an unknown party.",
+                "explanation": "The requested action is more important than the label.",
+                "recommended": true
               }
             ]
           },
@@ -130,16 +130,16 @@
             "prompt": "You typed an account password while the screen was shared. What next?",
             "choices": [
               {
-                "text": "End the session, then change that password through the real service from a trusted device and review reuse.",
-                "consequence": "You address the specific exposed credential.",
-                "explanation": "Exposure, not a dramatic term, sets the response.",
-                "recommended": true
-              },
-              {
                 "text": "Wait for an encryption demand before acting.",
                 "consequence": "The password may already be exposed.",
                 "explanation": "Credential risk does not require ransomware.",
                 "recommended": false
+              },
+              {
+                "text": "End the session, then change that password through the real service from a trusted device and review reuse.",
+                "consequence": "You address the specific exposed credential.",
+                "explanation": "Exposure, not a dramatic term, sets the response.",
+                "recommended": true
               }
             ]
           }
@@ -154,14 +154,14 @@
             "prompt": "A fake invoice email leads to a payment page but installs no software. Which statement is accurate?",
             "choices": [
               {
-                "text": "It may be phishing without malware.",
-                "explanation": "Phishing describes the deceptive request; software installation is not required.",
-                "correct": true
-              },
-              {
                 "text": "It cannot be phishing without malware.",
                 "explanation": "Phishing can seek money or credentials directly.",
                 "correct": false
+              },
+              {
+                "text": "It may be phishing without malware.",
+                "explanation": "Phishing describes the deceptive request; software installation is not required.",
+                "correct": true
               }
             ]
           },
@@ -184,14 +184,14 @@
             "prompt": "A legitimate technician uses a remote-support app with consent. Is the app automatically a RAT?",
             "choices": [
               {
-                "text": "No; assess authorization and actual behavior.",
-                "explanation": "Remote access can be legitimate, though it requires care.",
-                "correct": true
-              },
-              {
                 "text": "Yes; all remote software is malware.",
                 "explanation": "Purpose and authorization matter.",
                 "correct": false
+              },
+              {
+                "text": "No; assess authorization and actual behavior.",
+                "explanation": "Remote access can be legitimate, though it requires care.",
+                "correct": true
               }
             ]
           },
