@@ -134,7 +134,7 @@
             ]
           }
         ],
-        "debrief": "Replay at the first transfer-of-control point: the deposit. The later refund request exposes a second risk. In the separate final snapshot, money has already moved, so stop further transfers and promptly contact the bank; if you made an earlier unsafe choice, apply that response to your own situation too. A genuine job can be verified without using your account as a relay."
+        "debrief": "On replay, identify what you handed over. Sending an identity document in the opening chat gives a stranger a copy of sensitive data: that is already a transfer of control. If you did not send it, the deposit is the next possible handover of value. The refund request adds a risk of moving someone else's funds through your account. If you sent the document, stop sharing data, consult official guidance in your country on exposed identity documents, and watch for misuse. If you paid a deposit or forwarded funds, stop further transfers and promptly contact your bank or payment provider through a known channel; recovery is uncertain. The separate final snapshot concerns another applicant who already forwarded funds, so advise them on that money-transfer response. A genuine job can be verified without using your account as a relay."
       },
       {
         "type": "check",
