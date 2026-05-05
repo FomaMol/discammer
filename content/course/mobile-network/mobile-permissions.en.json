@@ -1,65 +1,201 @@
 {
   "order": 1,
   "title": "Mobile app permissions and side-loaded apps",
-  "est_minutes": 7,
-  "body_md": "## Your phone is a sensor platform — and you decide who sees what\n\nA modern phone carries microphones, cameras, GPS, accelerometers, contacts, photos, health data, payment credentials, and your full message history. Every app you install asks for some subset of these. **Most apps ask for more than they need.**\n\nThe defensive habit is small: every six months, audit your app permissions, revoke anything you can't justify, and uninstall apps you no longer use.\n\n### The permission categories that matter most\n\n- **Microphone.** Apps that don't need it should never have it. A calculator with mic access is suspicious.\n- **Camera.** Same logic. A flashlight app does not need your camera.\n- **Location (precise vs approximate).** Many apps work fine with approximate location or no location at all. Map apps need precise; weather apps need only the city.\n- **Contacts.** Sharing your contacts uploads everyone you know to that company's servers. Once you grant it, you can't take back what was uploaded.\n- **Photos / media library.** Some apps only need the *picker* (you choose what they see), not full library access. Modern iOS and Android let you grant access on a per-photo basis.\n- **SMS / call logs.** A genuine messaging app needs these. Most other categories don't.\n- **Accessibility services (Android).** The most dangerous category. An accessibility-service app can read everything on your screen and tap anywhere — *exactly* what a remote-control attacker would want. Grant only to known accessibility tools.\n- **Notifications access.** Lets an app read every notification, including OTP codes from your bank.\n\n### Where to audit\n\n- **iOS:** Settings → Privacy & Security → individual category (Microphone, Camera, Location, Contacts...). Walk down each list and revoke anything you don't actively use.\n- **Android:** Settings → Privacy → Permission manager → individual category. Same drill.\n\nReview takes about 10 minutes. Doing it once a quarter is enough.\n\n### Side-loaded apps (Android)\n\nInstalling an APK from outside the Play Store bypasses the Play Protect scanning that most legitimate apps go through. Side-loaded apps are *not inherently* malicious — many open-source tools are distributed that way — but they are the dominant delivery channel for Android malware.\n\nNever side-load apps from:\n\n- WhatsApp / Telegram forwards from strangers.\n- Mobile websites that pop up an APK download from search ad clicks.\n- Promised 'official versions' of apps that already exist on the Play Store.\n\nIf you do need to side-load (a legitimate open-source app, a banking app from a non-Play-Store country), verify the source signature against the developer's official site, and turn off 'install unknown apps' immediately after.\n\n### iOS sideloading (newer)\n\nIn the EU, third-party app stores are now permitted on iOS. The same principle applies: known publisher, official source, otherwise treat as untrusted.",
-  "widget_type": "redflags",
+  "est_minutes": 14,
+  "body_md": "## Treat a permission as access, not a verdict\n\nA phone app can request the camera, microphone, location, contacts, photos or notifications because a feature needs them. The same grant can expose information beyond the task you intended. Ask three questions: **What feature needs this? Does it need access now or only while I use the feature? What happens if I decline?** A map needs location for directions; a wallpaper app normally does not need your contacts. An odd request is a reason to investigate, not proof of malware.\n\nOn iPhone, Settings → Privacy & Security lists apps by data type; you can grant or revoke access. On Android, Settings → Security & privacy/Privacy → Privacy dashboard shows recent use on supported versions, then lets you inspect permissions. Some apps present an additional in-app permission or cloud-sharing setting: changing the OS grant may not remove data already uploaded. Review the app's account settings too. Denying a legitimate permission may disable one feature; try the narrowest option offered, such as selected photos, approximate location or access only while using the app. Reopen the feature and see whether it still works.\n\n## Off-store installation is a separate decision\n\nOn Android an APK from a message or website bypasses the normal Play Store install path. Google Play Protect also scans apps from other sources, but a clean scan is not a guarantee. A warning asking you to disable scanning, grant Accessibility, read notifications or install another package deserves a stop. These powers can let an app observe or act on sensitive screens. Obtain the app from the publisher's independently found official channel and verify why its distribution differs; if the source or need is unclear, postpone installation. Do not follow a link supplied by an unexpected caller.\n\nApple's alternative distribution rules differ by region and OS. Do not assume that every iPhone can install arbitrary apps, or that the App Store or any alternative store eliminates malicious behavior. Device management profiles and enterprise distribution deserve the same independent verification. If work or school manages the phone, ask its administrator before removing required controls.\n\n## A workable review cycle\n\nStart with high-impact grants: contacts, notification access, accessibility, precise/background location, microphone, camera and full photo library. For each app, identify the real feature and publisher, reduce the grant where possible, then test the feature. Uninstall an app you no longer need and remove its account access separately if applicable. Keep the OS and apps updated. If you already installed a suspicious package, stop using it, remove its permissions and the app through system settings, on Android run Play Protect, and review accounts used on that phone from a trusted device. A reset or provider help may be needed if it had powerful device-control access; the exact recovery depends on the device.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "You're helping a relative audit the permissions on their phone. They installed a 'Free Flashlight + Compass' app two years ago and never reviewed it. The permission screen looks like this.",
-    "messageBlocks": [
-      { "label": "App:", "value": "Free Flashlight + Compass" },
-      { "label": "Installs:", "value": "30M+ (third-party store, not Play Store)" },
-      { "label": "Permissions:", "value": "Camera, Microphone, Location (precise), Contacts, SMS, Notifications access, Accessibility service" }
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Audit one phone app by matching each permission to a feature, then decide safely whether an off-store install is necessary.",
+    "today_action": "Open the system permission list, review one app you no longer use and one that handles photos or messages, and revoke access that has no current purpose. On Android, confirm Play Protect is on.",
+    "checked_at": "2026-10-20",
+    "scope": "General Android/iOS guidance as of 2026-10-20; menu names and alternative app distribution vary by OS, device, country and store policy. Permissions and store review reduce risk but do not certify an app.",
+    "sources": [
+      {
+        "title": "Apple: iOS privacy permissions",
+        "url": "https://support.apple.com/en-us/102515",
+        "scope": "iOS/iPadOS permission controls; Apple article dated 2026-05-20."
+      },
+      {
+        "title": "Android: Privacy dashboard",
+        "url": "https://support.google.com/android/answer/13530434?hl=en",
+        "scope": "Android 12/13+ version-dependent permission history and controls."
+      },
+      {
+        "title": "Google Play Protect help",
+        "url": "https://support.google.com/googleplay/answer/2812853?hl=en",
+        "scope": "Google Play Protect checks including off-store apps; not a safety guarantee."
+      },
+      {
+        "title": "Apple alternative app distribution",
+        "url": "https://support.apple.com/en-us/118110",
+        "scope": "Availability varies by region and platform; Apple page published 2026-06-18."
+      }
     ],
-    "prompt": "Mark every permission that is genuinely suspicious for this app.",
-    "items": [
+    "blocks": [
       {
-        "id": "camera",
-        "label": "Camera access",
-        "flag": true,
-        "explanation": "A flashlight needs the LED, not the camera sensor's image data. Image-capable access is wildly out of scope for the stated purpose."
+        "type": "case",
+        "title": "The urgent delivery APK",
+        "situation": "A fictional courier message says a parcel will be lost unless Mira installs “ParcelTrack.apk” and enables notification access. The link and parcel are synthetic.",
+        "analysis": "The requested power is unrelated to viewing a parcel. Notification access can reveal verification messages. Mira checks her orders in the retailer app she already uses and asks the courier via its known channel; she does not install the file. A real delivery could still exist, so she verifies the order rather than dismissing it.",
+        "legitimate": false
       },
       {
-        "id": "microphone",
-        "label": "Microphone access",
-        "flag": true,
-        "explanation": "There is no plausible reason a flashlight + compass needs your microphone. This permission alone is enough to uninstall."
+        "type": "case",
+        "title": "The scan button that needs a camera",
+        "situation": "A known banking app asks for camera access only when Leon taps “scan document”. It offers limited photo selection too.",
+        "analysis": "The timing and feature make camera access plausible. Leon grants access while using the app, checks the document is sent to the expected bank workflow, and later revokes it if unused. Permission alone does not prove the app or destination is genuine.",
+        "legitimate": true
       },
       {
-        "id": "location-precise",
-        "label": "Precise location",
-        "flag": true,
-        "explanation": "A compass needs orientation data, not GPS coordinates. Precise location is excessive — at most a compass might warrant approximate location for declination correction."
+        "type": "practice",
+        "title": "Choose settings for a family phone",
+        "setup": "Synthetic practice: a relative wants a parcel tracker and a photo-scanning app. No real package, code or account data is entered.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "A text offers a tracker APK and says Play Protect must be turned off. What first?",
+            "choices": [
+              {
+                "text": "Open the known retailer app or type its known address independently.",
+                "consequence": "You can check the order without granting a stranger install rights.",
+                "explanation": "Independent navigation separates the real service from the message.",
+                "recommended": true
+              },
+              {
+                "text": "Turn off Play Protect and install the APK.",
+                "consequence": "The package may gain powerful access before you verify its publisher.",
+                "explanation": "Pressure and a request to disable a safeguard are strong reasons to stop.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A known scanner asks for all photos when you need one image.",
+            "choices": [
+              {
+                "text": "Grant full access permanently.",
+                "consequence": "Unrelated photos become accessible to the app.",
+                "explanation": "A convenient default is broader than this one-image need.",
+                "recommended": false
+              },
+              {
+                "text": "Use selected-photo access if available, then test scanning.",
+                "consequence": "The feature works with less exposure.",
+                "explanation": "Grant the minimum needed for the current task.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The scanner now asks for microphone access although you only scan paper.",
+            "choices": [
+              {
+                "text": "Decline and check whether the scan still works; investigate any voice feature later.",
+                "consequence": "The scan can continue if audio is unnecessary.",
+                "explanation": "A permission should follow a feature, not the mere presence of a prompt.",
+                "recommended": true
+              },
+              {
+                "text": "Allow because the app is in a store.",
+                "consequence": "Store review does not explain or limit this grant.",
+                "explanation": "Distribution is one signal, not a reason to approve every request.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The relative says the tracker was installed last week and has notification access.",
+            "choices": [
+              {
+                "text": "Leave it because nothing bad has happened visibly.",
+                "consequence": "The app keeps receiving future notifications.",
+                "explanation": "Absence of a visible loss does not make unnecessary access safe.",
+                "recommended": false
+              },
+              {
+                "text": "Revoke the access, uninstall the suspect app, and review affected accounts from a trusted device.",
+                "consequence": "Exposure stops and you can investigate what happened.",
+                "explanation": "Revoking now cannot undo prior access, so account review matters.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Replay the four decisions using this rule: verify the publisher independently, grant the smallest functional permission, and investigate past access separately."
       },
       {
-        "id": "contacts",
-        "label": "Contacts",
-        "flag": true,
-        "explanation": "Absolutely no flashlight needs your contacts. Granting this uploads your friends' phone numbers and emails to the app maker."
-      },
-      {
-        "id": "sms",
-        "label": "SMS access",
-        "flag": true,
-        "explanation": "SMS access to a flashlight is a textbook malicious signature — likely used to silently send premium-rate texts or read OTP codes."
-      },
-      {
-        "id": "notifications",
-        "label": "Notifications access",
-        "flag": true,
-        "explanation": "Lets the app read every notification on your phone, including bank OTPs. Has no legitimate use for this category of app."
-      },
-      {
-        "id": "accessibility",
-        "label": "Accessibility service",
-        "flag": true,
-        "explanation": "The most dangerous permission. An accessibility service can read your screen and tap as you. Granting it to a flashlight is effectively handing over remote control."
-      },
-      {
-        "id": "third-party-store",
-        "label": "Installed from a third-party store rather than the official store",
-        "flag": true,
-        "explanation": "Third-party stores skip the official scanning. A 'flashlight' with 30M installs on an unofficial store is the canonical malware distribution profile."
+        "type": "check",
+        "title": "Transfer check",
+        "questions": [
+          {
+            "prompt": "A familiar map requests location only when directions start. Best response?",
+            "choices": [
+              {
+                "text": "Allow while using the app and review later.",
+                "explanation": "The permission matches the feature without permanent background access.",
+                "correct": true
+              },
+              {
+                "text": "Never allow location to any app.",
+                "explanation": "That disables a legitimate route feature unnecessarily.",
+                "correct": false
+              },
+              {
+                "text": "Allow precise background location forever.",
+                "explanation": "That is broader than this trip requires.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "An app disappears from the home screen after you revoke contacts. What does that prove?",
+            "choices": [
+              {
+                "text": "The app is definitely malicious.",
+                "explanation": "A broken feature alone cannot establish malicious intent.",
+                "correct": false
+              },
+              {
+                "text": "Only that a feature may depend on contacts; check the function and publisher.",
+                "explanation": "Permission denial can break legitimate behavior; it is not a malware test.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "Play Protect reports no issue with an unknown APK. What follows?",
+            "choices": [
+              {
+                "text": "Continue independent publisher and need checks; scanning is partial.",
+                "explanation": "A scan can miss new or deceptive behavior.",
+                "correct": true
+              },
+              {
+                "text": "It is proven safe to grant Accessibility.",
+                "explanation": "A clean result is not certification for powerful access.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "After uninstalling an app, what may still need attention?",
+            "choices": [
+              {
+                "text": "Nothing; uninstall always reverses sharing.",
+                "explanation": "Prior sharing may persist.",
+                "correct": false
+              },
+              {
+                "text": "Its cloud account access and data already uploaded.",
+                "explanation": "Uninstalling stops local app use but cannot automatically erase remote copies.",
+                "correct": true
+              }
+            ]
+          }
+        ]
       }
     ]
   }

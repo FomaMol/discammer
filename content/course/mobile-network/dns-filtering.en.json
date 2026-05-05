@@ -1,33 +1,192 @@
 {
   "order": 5,
   "title": "Household DNS filtering",
-  "est_minutes": 6,
-  "body_md": "## Block the bad domain before anyone in the house clicks it\n\nDNS — the Domain Name System — is what turns `bank.com` into an IP address your browser can talk to. Every web request your devices make starts with a DNS lookup. That makes the DNS layer a high-leverage place to block known-malicious destinations: if the lookup fails, your device never even tries to connect.\n\nThis is the basic idea of a **filtering DNS resolver**: instead of returning the real IP for a known phishing or malware domain, the resolver returns a 'blocked' page or nothing at all.\n\nA filtering resolver doesn't replace endpoint protection. It does add a quiet layer that catches a meaningful fraction of attacks before they reach the user.\n\n### Three setup options, from easiest to deepest\n\n#### Option 1 — Change DNS on each device\n\nThe lightest setup. In your phone or laptop's Wi-Fi settings, change the DNS server from automatic to:\n\n- **NextDNS** (`https://nextdns.io`) — free for personal use, customizable lists.\n- **Cloudflare for Families** — `1.1.1.2` blocks known malware; `1.1.1.3` adds adult content blocking.\n- **Quad9** — `9.9.9.9` blocks known malicious domains via threat intelligence feeds.\n\nFive minutes per device. Works only on that device, only on that network.\n\n#### Option 2 — Change DNS on your home router\n\nLog into the router admin (often `192.168.1.1`), find DNS settings, set them to the filtering resolver. Now every device on the home network — including guests, smart TVs, cameras — uses the filter automatically. Roughly an order of magnitude more leverage than Option 1.\n\nLimitations: smart devices that hard-code DNS (some Google and Amazon hardware) bypass router DNS. You can sometimes block their hard-coded DNS at the firewall.\n\n#### Option 3 — Run a local Pi-hole or AdGuard Home\n\nA Raspberry Pi or any always-on computer in the home runs a local resolver that filters at the household level. Gives you visibility (you can see which devices are querying which domains), plus deep customization. Time to set up: an evening for the technically curious.\n\n### What filtering catches\n\n- Known phishing domains (kits often reuse the same backend domains).\n- Malware command-and-control servers — even if a device gets infected, the malware can't 'phone home' to its operator.\n- Domains tied to ad tracking and cross-site profiling.\n- Adult content on family-shared networks (if you opt for that).\n\n### What filtering misses\n\n- Brand-new phishing domains in their first hours, before they hit threat-intelligence feeds.\n- Attacks that work over IP addresses directly without DNS.\n- Anything inside an end-to-end-encrypted channel where you've already authorized the connection.\n\n### Why it's worth it anyway\n\nDNS filtering is the cybersecurity equivalent of locking the front door: it doesn't stop every burglar, but it stops the casual ones and the lazy bots that would otherwise succeed in volume. For families with older relatives or kids on the same network, the household-level layer is especially worthwhile — it protects people who haven't taken this course.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## DNS answers a name before a connection\n\nWhen a device opens a site, it commonly asks a DNS resolver where that domain points. A filtering resolver may refuse names it classifies as malware or phishing. Cloudflare's **plain** 1.1.1.1 is a general resolver, not the same as its Families malware-filtering addresses 1.1.1.2/1.0.0.2. Families returns a blocking address for a classified domain. Other providers use different lists, categories, test pages and privacy policies. Select a provider only after reading its scope and data handling. DNS filtering can stop a known malicious domain before a page loads, but it cannot judge a seller's intent, inspect encrypted page content or reliably classify every new lookalike. A legitimate domain can be mistakenly blocked.\n\n## Decide where the policy should apply\n\nConfiguring a router can cover devices that use its DNS settings while at home; configuring one device is narrower and easier to test. A local DNS blocker such as Pi-hole adds control but needs a maintained host and may expose query logs to its administrator. Browser secure DNS, a VPN, cellular data, a device's own DNS configuration or an app can use a different resolver. Thus “set on the router” does not mean “protects every device everywhere.” Encrypted DNS protects queries on the path to the chosen resolver; it does not automatically filter or validate websites. If another person manages the home network, agree on policy and a way to reverse it before changing shared settings.\n\n## Test, investigate, reverse\n\nWrite down the original DNS setting before changing it. Use the resolver's documented safe test page or domain; do not test by visiting a live malicious site. Check a device on home Wi-Fi and, separately, cellular or another network if relevant. If a needed site fails, check whether the filter blocked its domain rather than assuming the site is dangerous. Confirm the service's true address independently, inspect the provider's block reason and consider a narrow exception only if you trust the destination. Avoid a broad allowlist of ad/tracking domains to fix one login. If the resolver is unavailable, restore your recorded settings or use a trusted fallback. DNS is a layer beneath browser warnings, updates, MFA and independent verification; a successful DNS lookup is never a safety verdict.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "You want to protect your whole household — including your parents' iPad and your kids' laptops — from accidentally connecting to phishing domains. What's the highest-leverage setup with the least ongoing maintenance?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Set one household DNS filter deliberately, test its scope, and recover from a false block without abandoning safer browsing habits.",
+    "today_action": "Identify your current DNS provider on one device, choose whether filtering is wanted, then test a documented provider test domain on that device and note whether mobile data or browser secure DNS bypasses the setting.",
+    "checked_at": "2026-10-20",
+    "scope": "General home-network explanation checked 2026-10-20. Cloudflare addresses are examples of one provider, not a universal recommendation; test names and router behavior vary. DNS labels can be wrong or late.",
+    "sources": [
       {
-        "text": "Install an antivirus on every device.",
-        "correct": false,
-        "explanation": "Endpoint AV helps but doesn't catch the DNS-layer redirection, and it's hard to keep current across a mix of devices and users. The leverage is lower than a single setting change."
+        "title": "Cloudflare 1.1.1.1 and Families setup",
+        "url": "https://developers.cloudflare.com/1.1.1.1/setup/",
+        "scope": "Provider-specific DNS addresses, block behavior and documented safe tests; updated 2026-05-06."
       },
       {
-        "text": "Configure your home router to use a filtering DNS provider (NextDNS, Cloudflare for Families, or Quad9).",
-        "correct": true,
-        "explanation": "Yes. One configuration change at the router level protects every device that uses the home Wi-Fi automatically. No software on each device, no per-user training. The maintenance is essentially zero after setup."
+        "title": "Cloudflare public resolver privacy",
+        "url": "https://developers.cloudflare.com/1.1.1.1/privacy/public-dns-resolver/",
+        "scope": "Provider-specific plain DNS behavior and privacy; not a filtering promise."
       },
       {
-        "text": "Give each family member a paid VPN subscription.",
-        "correct": false,
-        "explanation": "VPN doesn't directly filter known-bad domains (unless the VPN provider also offers DNS filtering, in which case the DNS layer is doing the work). And per-device VPN management on family devices is awkward."
-      },
-      {
-        "text": "Tell everyone to be careful what they click.",
-        "correct": false,
-        "explanation": "Education matters but doesn't scale to kids and older relatives at busy moments. Defence-in-depth means catching mistakes at the network layer too."
+        "title": "Chrome secure DNS settings",
+        "url": "https://support.google.com/chrome/answer/10468685?hl=en",
+        "scope": "Chrome Android can select a custom secure-DNS provider, which may differ from router DNS."
       }
     ],
-    "hint": "Which single change protects every device that joins your network, without any per-device setup?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "A new fake benefits from the gap",
+        "situation": "Synthetic: a family member receives a parcel notice pointing to parcel-status.example. The filter allows it because the fictional domain is not classified.",
+        "analysis": "An allowed DNS answer is only a name lookup. They open the real retailer order history through a saved app and do not enter credentials at the message address. The .example address is synthetic and not meant to be visited.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "School portal blocked by category",
+        "situation": "Synthetic: a known school portal stops loading after the household enables an aggressive category list; the school confirms its official domain independently.",
+        "analysis": "This can be a false positive. The family inspects the resolver log or test result, reports the classification and, if necessary, adds only that verified domain as an exception. Disabling all filtering is not the only option.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Pilot a home DNS policy",
+        "setup": "Synthetic exercise: you are setting a test device before changing the shared router; no live risky domain is opened.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "You want malware filtering and see 1.1.1.1 and 1.1.1.2. Which choice?",
+            "choices": [
+              {
+                "text": "Use the documented Families malware-filtering address on the test device.",
+                "consequence": "The chosen resolver has the requested category.",
+                "explanation": "Plain 1.1.1.1 is not the Families filter.",
+                "recommended": true
+              },
+              {
+                "text": "Use plain 1.1.1.1 and assume it blocks malware.",
+                "consequence": "Filtering expectation is false.",
+                "explanation": "Resolver names and policies must be checked, not guessed.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "How will you verify filtering without browsing a real scam?",
+            "choices": [
+              {
+                "text": "Search for a current malware link and open it.",
+                "consequence": "You expose the device unnecessarily.",
+                "explanation": "Never require a live malicious destination for a lesson or setup test.",
+                "recommended": false
+              },
+              {
+                "text": "Use the provider’s documented safe test domain and record the result.",
+                "consequence": "You test the setup without exposure to a malicious page.",
+                "explanation": "Provider test endpoints are built for this purpose.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The test works on Wi-Fi but not on cellular. What does that mean?",
+            "choices": [
+              {
+                "text": "The device may use different DNS on cellular; document the boundary.",
+                "consequence": "You know where the policy applies.",
+                "explanation": "Router DNS does not follow the phone off the home network.",
+                "recommended": true
+              },
+              {
+                "text": "The home router is broken.",
+                "consequence": "You may change a working setup for the wrong reason.",
+                "explanation": "Different networks commonly use different resolvers.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "A verified school portal is blocked after a category update.",
+            "choices": [
+              {
+                "text": "Turn off all protection and never revisit it.",
+                "consequence": "Every category is abandoned for one exception.",
+                "explanation": "A focused correction is available.",
+                "recommended": false
+              },
+              {
+                "text": "Check the block reason and permit only the verified domain if needed.",
+                "consequence": "School access returns while most filtering remains.",
+                "explanation": "False positives call for a narrow, reversible response.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Replay by distinguishing the resolver selected, the network path actually used and the separate decision whether a site is trustworthy."
+      },
+      {
+        "type": "check",
+        "title": "Transfer check",
+        "questions": [
+          {
+            "prompt": "What does plain Cloudflare 1.1.1.1 do in this lesson?",
+            "choices": [
+              {
+                "text": "Resolves names without the Families malware category.",
+                "explanation": "The filtering service has distinct addresses.",
+                "correct": true
+              },
+              {
+                "text": "Guarantees that every phishing domain is blocked.",
+                "explanation": "Neither plain DNS nor a filter can guarantee that.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A filtered domain resolves successfully. What can you infer?",
+            "choices": [
+              {
+                "text": "The seller is legitimate.",
+                "explanation": "DNS does not authenticate a seller.",
+                "correct": false
+              },
+              {
+                "text": "Only that this resolver did not block this lookup.",
+                "explanation": "A new or misclassified scam site can pass.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "Why may a browser ignore your router’s DNS filter?",
+            "choices": [
+              {
+                "text": "Its secure-DNS setting may use another resolver.",
+                "explanation": "Some browser configurations choose their own path.",
+                "correct": true
+              },
+              {
+                "text": "Router DNS always controls all browser queries.",
+                "explanation": "That ignores secure DNS and other overrides.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A known service is blocked. Best first step?",
+            "choices": [
+              {
+                "text": "Assume it is criminal and warn everyone.",
+                "explanation": "A classifier error is possible.",
+                "correct": false
+              },
+              {
+                "text": "Independently confirm its domain and inspect the block reason.",
+                "explanation": "It could be a true or false positive.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

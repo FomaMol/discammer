@@ -1,0 +1,32 @@
+# Mobile and network module source notes
+
+Checked 2026-10-20. These are primary provider and public-agency pages inspected at their specific URLs during authoring. Course cases and practices are fictional. The EN and RU lesson files carry localized source titles, scope notes and the same URLs. None of these pages is a live threat feed or a guarantee that a product or website is safe.
+
+| Lesson | Inspected source | Claim used and scope |
+| --- | --- | --- |
+| `mobile-permissions` | [Apple privacy and Location Services](https://support.apple.com/en-us/102515) | Apple explains reviewing/revoking app access in Settings → Privacy & Security; article published 2026-05-20. iOS/iPadOS menus and availability vary. |
+| `mobile-permissions` | [Android Privacy dashboard](https://support.google.com/android/answer/13530434?hl=en) | Google documents recent permission activity and version-dependent dashboard steps on Android 12/13+. |
+| `mobile-permissions` | [Google Play Protect](https://support.google.com/googleplay/answer/2812853?hl=en) | Google says it checks Play and off-store apps and can warn/remove harmful apps. The page does not warrant a claim that scanning detects every harmful app. |
+| `mobile-permissions` | [Apple alternative app distribution](https://support.apple.com/en-us/118110) | Apple page published 2026-06-18 explains region-specific availability, baseline notarization and different marketplace review. |
+| `sim-swap-defense` | [FTC SIM swap consumer alert](https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself) | US consumer alert from 2019 explains number takeover, carrier account PIN as a possible obstacle, and prompt carrier contact. It does not establish current controls for every operator or country. |
+| `sim-swap-defense` | [FTC two-factor guide](https://consumer.ftc.gov/articles/use-two-factor-authentication-protect-your-accounts) | US general guidance explains SMS exposure to SIM swap and stronger options where available. Carrier-specific recovery must be verified locally. |
+| `sim-swap-defense` | [NIST SP 800-63B authenticators](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/) | US federal technical standard: manually entered OTP is not phishing-resistant; WebAuthn is an example of verifier-name binding. Used only for the distinction between authenticator codes and passkeys/security keys. |
+| `browser-hardening` | [Chrome extension management](https://support.google.com/chrome/answer/2664769?hl=en) | Google documents read/change site-data permissions and on-click or specific-site access in Chrome desktop. |
+| `browser-hardening` | [Chrome Safe Browsing levels](https://support.google.com/chrome/answer/9890866?hl=en) | Standard/Enhanced warning differences and the additional URLs/page samples sent for Enhanced Protection; Chrome setting, not a universal browser rule. |
+| `browser-hardening` | [NCSC browser security](https://www.ncsc.gov.uk/collection/device-security-guidance/policies-and-settings/managing-web-browser-security) | UK organization-oriented advice on browser configuration, updates and extension attack surface. Privacy settings are not treated as a phishing verdict. |
+| `public-wifi-vpn` | [FTC public Wi-Fi advice](https://consumer.ftc.gov/articles/are-public-wi-fi-networks-safe-what-you-need-know) | US consumer article dated February 2023: widespread HTTPS means public Wi-Fi is usually safe for encrypted sites; a fake site can also use HTTPS. |
+| `public-wifi-vpn` | [NCSC VPN guidance](https://www.ncsc.gov.uk/collection/device-security-guidance/infrastructure/virtual-private-networks) | UK organization-oriented explanation of encrypted VPN connection, routed-traffic scope and captive-portal complications. It explicitly does not cover individual VPN purchasing choices. |
+| `dns-filtering` | [Cloudflare DNS setup and Families](https://developers.cloudflare.com/1.1.1.1/setup/) | Provider documentation updated 2026-05-06 distinguishes plain 1.1.1.1 from Families malware-filtering addresses, documents blocking behavior and safe test URLs. Other providers differ. |
+| `dns-filtering` | [Cloudflare public resolver privacy](https://developers.cloudflare.com/1.1.1.1/privacy/public-dns-resolver/) | Provider-specific explanation of ordinary public DNS and its privacy commitments. A general DNS resolver is not itself a malware classifier. |
+| `dns-filtering` | [Chrome secure DNS setting](https://support.google.com/chrome/answer/10468685?hl=en) | Chrome Android can select a custom secure-DNS provider, so a browser can take a different path from the router's default resolver. |
+| `updates-eol` | [NCSC updates](https://www.ncsc.gov.uk/collection/device-security-guidance/managing-deployed-devices/keeping-devices-and-software-up-to-date) | UK organizational guidance, reviewed 2025-05-13, explains patching, failures of automatic updates, restarts and backups. |
+| `updates-eol` | [NCSC obsolete products](https://www.ncsc.gov.uk/collection/device-security-guidance/managing-deployed-devices/obsolete-products) | UK organizational risk guidance: mitigations for unsupported products are not a risk-free substitute for replacement. |
+| `updates-eol` | [Microsoft Windows 10 support end](https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025) | Microsoft gives 2025-10-14 ordinary support end and separate consumer ESU option. Eligibility and actual enrollment must be checked; no blanket claim about all Windows 10 editions. |
+
+## Editorial corrections to the previous version
+
+- Carrier account PIN and port controls reduce risk but are not universal or impossible to bypass. An unexplained loss of signal is a prompt to verify, not proof of SIM swap.
+- HTTPS protects the connection to the displayed domain. It does not authenticate a merchant; public Wi-Fi is not inherently unsafe, and a VPN cannot repair a phishing destination.
+- Plain 1.1.1.1 is distinct from Cloudflare Families filtering. Router DNS may be bypassed by browser secure DNS, VPN, cellular or device settings, and a false positive needs a narrow review.
+- Browser cookie controls primarily address privacy. Chrome Enhanced Protection shares additional data with Google; extension scopes and profiles have different boundaries.
+- End-of-support status requires exact model/edition and current vendor terms. A working device or an ESU preparation package is not proof of ongoing security updates.

@@ -1,29 +1,192 @@
 {
   "order": 2,
   "title": "Defending against SIM-swap attacks",
-  "est_minutes": 7,
-  "body_md": "## When losing your number means losing your accounts\n\nA SIM-swap attack is when an attacker convinces your mobile carrier to move your phone number to a SIM card they control. From that moment, every SMS — including bank one-time codes, password-reset links, and Telegram login codes — arrives on the attacker's phone. Your phone shows 'No service'.\n\nThe technique is over a decade old and still works because:\n\n- Carrier support staff handle hundreds of legitimate SIM transfers per day.\n- Identity verification at retail counters is often weak.\n- The information used to verify you (date of birth, last bill amount) is widely leaked in breaches.\n- Many high-value accounts still recover via SMS code.\n\n### How it actually unfolds\n\n1. **Target selection.** Attackers either work from breach data or from public crypto holdings / wealth signals.\n\n2. **Information gathering.** They collect your name, phone number, date of birth, last four of your social/national ID — all available from past breach dumps and your own public profiles.\n\n3. **Carrier social engineering.** They call the carrier (or walk into a store) impersonating you, claim they lost their phone, and request the number be transferred to a new SIM in their hand. If the front-line agent is skeptical, they hang up and try again until they get a less skeptical agent.\n\n4. **Account takeover sprint.** Within minutes of the swap, they trigger password resets and OTP flows on email, bank, exchange, and social accounts. Most resets land within 5 minutes.\n\n### What you can do — the carrier side\n\nEvery major carrier now offers a **port-out / SIM-change PIN** — sometimes called *Number Lock*, *Port Freeze*, or *SIM Protection*. With this enabled, no SIM transfer can happen without you supplying the PIN. **Turning this on is the single most effective defence.**\n\nHow to enable it varies by carrier. In your carrier's app, look for: 'account security', 'SIM protection', 'port-out PIN', or 'number lock'. If you can't find it, call customer service and explicitly ask.\n\nWhile you're there, also:\n\n- Ask if your account has a separate *account PIN* for any account changes.\n- Confirm that recovery contact info (alternate phone, email) on the carrier account is current and uses *your* contacts, not the attacker's.\n- Ask for *port-out notifications* to be enabled — many carriers will text you on multiple channels if a port is requested.\n\n### What you can do — the account side\n\nIndependent of carrier hardening, reduce your dependence on SMS:\n\n- **Move every high-value account off SMS MFA** to TOTP, hardware key, or passkey (covered in module 4).\n- **Remove your phone number from recovery options** wherever the account allows. If a service refuses to let you remove it (your bank, etc.), make sure there's also another factor required for recovery.\n- **Set up SMS-independent backup recovery** — printed recovery codes stored physically (in a safe, with documents), an authenticator app on a separate device, hardware keys.\n\n### What to do if it happens\n\nIf your phone suddenly shows 'No service' for more than a few minutes and other people's phones work:\n\n1. **Immediately call the carrier from a different phone** (a partner, family member, even a hotel desk). Ask if a port-out was triggered on your number. If yes, demand it be reversed and the SIM cancelled.\n2. **Sign in to email and rotate the password** from a computer.\n3. **Sign in to bank apps** and check for unauthorized transactions; freeze cards.\n4. **File a report** with the carrier, the bank fraud team, and local police. Time-stamped reports help with later dispute resolution.",
-  "widget_type": "scenario",
+  "est_minutes": 14,
+  "body_md": "## A phone number is a recovery route\n\nIn a SIM swap or number-port attack, someone persuades a carrier to move your number to a SIM or account they control. Your own phone may lose mobile service. Calls and SMS sent to that number can reach the attacker, including sign-in and password-reset codes. The attacker may still need a password, an existing session or a weak recovery flow: number control alone does not automatically open every account. A no-service icon also has innocent causes such as an outage, a damaged SIM or a billing issue. Treat it as a time-sensitive signal to verify.\n\nAn account PIN or transfer lock may make unauthorized changes harder, but carrier offerings and verification procedures differ. The PIN is not the same as the PIN that unlocks your phone's SIM. Use your carrier's official app or a number from a bill or known website to ask: which changes require the account PIN, is porting separately locked, and how will I be alerted? Keep the carrier account password and recovery email secure. Never disclose a one-time carrier code to an incoming caller claiming to be support.\n\n## Separate your valuable accounts from SMS\n\nReview the primary email first: it often resets other accounts. Where supported, use a passkey or security key, or an authenticator app instead of SMS. An authenticator app resists number theft, although a code can still be phished; a passkey or security key can resist phishing when correctly used. Save backup codes offline or in a protected manager, and test that you can recover without the phone number. Some banks require SMS or phone recovery; document that limitation and ask the bank what extra safeguards it offers. Removing your number from every service is not always possible or desirable.\n\n## When service disappears\n\nCheck whether other nearby users of the same carrier are also affected and whether Wi-Fi still works. If the loss is unexplained, contact the carrier immediately from a different phone or trusted internet connection using a known channel. Ask if a SIM change or port was requested, request a block/reversal if unauthorized, and record the case reference. Independently open your email and financial services on a trusted device to review sign-ins and transactions. If you see unauthorized activity, use each provider's fraud channel quickly; change credentials and sessions as their guidance permits. Preserve alerts and times privately. Do not paste codes or account details into an educational exercise. After the number is restored, revisit recovery methods; a simple replacement SIM does not undo account changes already made.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "You wake up to find your phone shows 'No service' — and won't reconnect after a restart. Your spouse's phone on the same carrier works fine. You also have an email from your bank: 'Your withdrawal of $9,800 has been processed.'",
-    "prompt": "What is the right first move?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Reduce dependence on a phone number for account recovery and respond to an unexplained loss of service without assuming it is an attack.",
+    "today_action": "In your carrier’s official app or help channel, check whether an account PIN, port lock or transfer alert exists. Then check the recovery and MFA options of your primary email account.",
+    "checked_at": "2026-10-20",
+    "scope": "Carrier features and reporting routes vary by country and operator; examples are synthetic. FTC guidance is US-facing and dated 2019, so verify current local carrier procedures as of 2026-10-20.",
+    "sources": [
       {
-        "text": "Walk to the carrier store to fix the SIM in person.",
-        "outcome": "disaster",
-        "explanation": "Driving to a store costs you the most critical resource: time. While you're in transit, more accounts are being drained. The store is the right place *after* you've contained on the digital channels."
+        "title": "FTC SIM swap consumer alert",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
+        "scope": "US consumer advice published 2019; mechanism, account PIN, immediate carrier contact."
       },
       {
-        "text": "Borrow a phone, immediately call the carrier's fraud line to freeze the SIM transfer, then sign into your email and bank from a computer to change passwords and freeze cards.",
-        "outcome": "good",
-        "explanation": "Yes. SIM-swap is a race; every minute matters. Calling the carrier to reverse or freeze the swap shortens the attacker's window. Then logging into email (the master account) and the bank from a computer that doesn't depend on the phone gets back in front of the attacker. Cards/freezes prevent further damage."
+        "title": "FTC two-factor authentication guide",
+        "url": "https://consumer.ftc.gov/articles/use-two-factor-authentication-protect-your-accounts",
+        "scope": "US general account guidance; SMS can be diverted in SIM swap."
       },
       {
-        "text": "Wait an hour to see if it's just a carrier outage.",
-        "outcome": "disaster",
-        "explanation": "An hour is enough to lose your email, bank, and any crypto exchanges. Treat sudden 'no service' as an emergency until proven otherwise."
+        "title": "NIST SP 800-63B authenticators",
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
+        "scope": "US federal technical standard: manually entered OTP is not phishing-resistant; WebAuthn is an example of verifier-name binding."
       }
     ],
-    "moral": "If your phone suddenly stops working, assume it's not the network — it's an attack until you've checked."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Unexpected silence after a carrier notice",
+        "situation": "Synthetic: Nika’s phone shows no service and her email on Wi-Fi shows a carrier notice about a new SIM; a payment alert follows.",
+        "analysis": "The combined signals justify urgent independent calls to the carrier and bank while she checks email access on a trusted device. She records times; she does not rely on the contact number inside a suspicious message. The alert alone does not prove the payment completed.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "A planned eSIM transfer",
+        "situation": "Synthetic: Pavel moved his eSIM to a replacement phone minutes ago. The old handset loses service; the new handset has signal and the carrier’s official app shows the initiated transfer.",
+        "analysis": "The timing and independently checked status explain the symptom. Pavel still confirms his accounts work and that no other transfer is pending; he does not report a crime merely because the old SIM stopped working.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "Recover from a number-change alert",
+        "setup": "Synthetic exercise: a phone loses service during a normal workday; no real number or account is used.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "Your phone says “no service” while a colleague on the same carrier has signal. First move?",
+            "choices": [
+              {
+                "text": "Contact the carrier through a saved number or official app over Wi-Fi.",
+                "consequence": "You can learn whether a SIM change exists quickly.",
+                "explanation": "Verify through a trusted channel before assuming the cause.",
+                "recommended": true
+              },
+              {
+                "text": "Wait until tomorrow.",
+                "consequence": "An unauthorized transfer could continue unchecked.",
+                "explanation": "A quick check is proportionate even if it proves to be an outage.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The carrier confirms a transfer you did not request. What do you ask?",
+            "choices": [
+              {
+                "text": "Ask only for a replacement handset.",
+                "consequence": "The unauthorized transfer and account access remain unresolved.",
+                "explanation": "Hardware replacement does not correct carrier records.",
+                "recommended": false
+              },
+              {
+                "text": "Block or reverse it, secure the carrier account and get a case reference.",
+                "consequence": "The number may be recovered and the timeline documented.",
+                "explanation": "Carrier action limits continuing number control; keep a record.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "Email is accessible on a trusted laptop; the bank shows an unfamiliar transfer request.",
+            "choices": [
+              {
+                "text": "Use the bank’s known fraud channel, protect email, and preserve alerts.",
+                "consequence": "Providers can act while evidence remains available.",
+                "explanation": "Account containment and financial response run alongside carrier recovery.",
+                "recommended": true
+              },
+              {
+                "text": "Tell the caller who claims to be bank support the SMS code.",
+                "consequence": "A scammer may gain another way into the account.",
+                "explanation": "Inbound identity claims do not authorize code disclosure.",
+                "recommended": false
+              }
+            ]
+          },
+          {
+            "prompt": "The carrier restores service. How do you reduce repeat exposure?",
+            "choices": [
+              {
+                "text": "Assume all accounts are safe because calls work again.",
+                "consequence": "Changed credentials or sessions may remain.",
+                "explanation": "Check account state separately from the SIM state.",
+                "recommended": false
+              },
+              {
+                "text": "Review email recovery/MFA, available carrier locks, sessions and affected accounts.",
+                "consequence": "You address paths the attacker may have touched.",
+                "explanation": "Restoring signal alone does not restore account integrity.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Replay with two parallel goals: regain the number through the carrier and contain account/financial access through independent providers."
+      },
+      {
+        "type": "check",
+        "title": "Transfer check",
+        "questions": [
+          {
+            "prompt": "A phone loses mobile service after you initiated an eSIM move. What is the sound conclusion?",
+            "choices": [
+              {
+                "text": "Check the new device and official transfer status before escalating.",
+                "explanation": "An expected transfer can explain the symptom; verify it.",
+                "correct": true
+              },
+              {
+                "text": "Every loss of signal is a confirmed attack.",
+                "explanation": "Outages and planned changes also occur.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "What can an account PIN do?",
+            "choices": [
+              {
+                "text": "Make number transfer technically impossible everywhere.",
+                "explanation": "No universal lock or perfect procedure exists.",
+                "correct": false
+              },
+              {
+                "text": "Add a carrier-side obstacle if supported, without guaranteeing safety.",
+                "explanation": "The carrier may require it for changes; procedures vary.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "Why move primary email away from SMS MFA?",
+            "choices": [
+              {
+                "text": "A stolen number could receive codes or resets; another factor breaks that dependency.",
+                "explanation": "Email often controls recovery of other services.",
+                "correct": true
+              },
+              {
+                "text": "Because an authenticator code can never be phished.",
+                "explanation": "App-generated codes can still be entered into a fake site.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "After the carrier reverses a swap, what remains to check?",
+            "choices": [
+              {
+                "text": "Only the signal bars.",
+                "explanation": "Signal restoration does not undo account changes.",
+                "correct": false
+              },
+              {
+                "text": "Sessions, recovery settings and transactions on affected services.",
+                "explanation": "The attacker may have changed account state while holding the number.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
