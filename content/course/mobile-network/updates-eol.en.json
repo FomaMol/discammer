@@ -2,7 +2,7 @@
   "order": 6,
   "title": "Updates, patches, and end-of-life devices",
   "est_minutes": 14,
-  "body_md": "## An update closes a known path, if it actually installs\n\nSecurity patches fix flaws that a remote page, document, app or local attacker may exploit. Updating does not prevent social engineering or guarantee that every flaw is known, but running an old vulnerable version leaves a fixable path open. Enable automatic updates for the operating system, browser, apps and router firmware where supported. Then verify they actually finish: a device may need storage, power, Wi-Fi or a restart. An “auto update on” toggle is not proof the last patch installed. Use the OS update screen or the vendor's official app; do not install an update package from an unexpected message.\n\nBefore a major update, make a backup and know how to recover important data. For urgent security fixes, follow vendor advice promptly; for feature upgrades that may affect work software, check compatibility and schedule a short maintenance window. Avoid a universal “exactly seven days” promise: urgency and rollout timing differ. If a trusted app says it needs an OS version newer than your device supports, check the device maker's support page rather than downloading a “compatibility patch” from a third party.\n\n## Support is a property of an exact product\n\nEnd of support means the vendor no longer supplies ordinary security fixes for that product/version. The device can still turn on and run apps; that does not make it suitable for primary email, banking or a password manager. Some vendors release limited exceptional fixes or offer an extended-update program, so check the exact model, edition and enrollment. For example, ordinary Windows 10 support ended 14 October 2025; Microsoft's consumer Extended Security Updates is a separate, temporary path for eligible enrolled devices. A PC merely displaying Windows 10 is not proof it receives ESU. Apple and Android support also vary by model; avoid rules such as “all iPhones older than five years are unsupported.”\n\nFor an unsupported device, prioritize moving sensitive tasks to a supported replacement or upgrade. If immediate replacement is impossible, reduce exposure: remove high-value accounts, avoid untrusted downloads, disable unused network services and isolate an IoT device on a guest network where the router actually separates clients. Segmentation limits some lateral movement; it cannot patch the device, protect its cloud account or guarantee containment. A camera or router with no firmware updates is especially worth inventorying because it may stay online unnoticed. Factory reset does not create new security support. Plan disposal or offline use after data migration, and confirm backups before wiping anything.",
+  "body_md": "## An update closes a known path, if it actually installs\n\nSecurity patches fix flaws that a remote page, document, app or local attacker may exploit. Updating does not prevent social engineering or guarantee that every flaw is known, but running an old vulnerable version leaves a fixable path open. Enable automatic updates for the operating system, browser, apps and router firmware where supported. Then verify they actually finish: a device may need storage, power, Wi-Fi or a restart. An “auto update on” toggle is not proof the last patch installed. Use the OS update screen or the vendor's official app; do not install an update package from an unexpected message.\n\nBefore a major update, make a backup and know how to recover important data. For urgent security fixes, follow vendor advice promptly; for feature upgrades that may affect work software, check compatibility and schedule a short maintenance window. Avoid a universal “exactly seven days” promise: urgency and rollout timing differ. If a trusted app says it needs an OS version newer than your device supports, check the device maker's support page rather than downloading a “compatibility patch” from a third party.\n\n## Support is a property of an exact product\n\nEnd of support means the vendor no longer supplies ordinary security fixes for that product/version. The device can still turn on and run apps; that does not make it suitable for primary email, banking or a password manager. Some vendors release limited exceptional fixes or offer an extended-update program, so check the exact model, edition and enrollment. For example, ordinary Windows 10 support ended 14 October 2025; Microsoft's consumer Extended Security Updates is a separate, temporary path for eligible enrolled devices. A PC merely displaying Windows 10 is not proof it receives ESU. For Windows 10 version 22H2, Microsoft says its KB5126256 licensing preparation package is a prerequisite, not enrollment or a security update; consumers and organizations follow their applicable enrollment routes and exact edition rules. Apple and Android support also vary by model; avoid rules such as “all iPhones older than five years are unsupported.”\n\nFor an unsupported device, prioritize moving sensitive tasks to a supported replacement or upgrade. If immediate replacement is impossible, reduce exposure: remove high-value accounts, avoid untrusted downloads, disable unused network services and isolate an IoT device on a guest network where the router actually separates clients. Segmentation limits some lateral movement; it cannot patch the device, protect its cloud account or guarantee containment. A camera or router with no firmware updates is especially worth inventorying because it may stay online unnoticed. Factory reset does not create new security support. Plan disposal or offline use after data migration, and confirm backups before wiping anything.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
@@ -26,6 +26,11 @@
         "title": "Microsoft Windows 10 support end",
         "url": "https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025",
         "scope": "Windows 10 consumer support ended 2025-10-14; ESU requires eligibility/enrollment."
+      },
+      {
+        "title": "Microsoft KB5126256: Windows 10 ESU licensing preparation",
+        "url": "https://support.microsoft.com/en-us/servicing/os/windows-10/2026/09/kb5126256-windows-10-21h2-22h2-standalone-cbs",
+        "scope": "Windows 10 version 22H2 licensing preparation package: prerequisite only, not enrollment or security updates. Consumer and organization enrollment routes are separate; check exact edition. Published 2026-09-08."
       }
     ],
     "blocks": [
@@ -102,7 +107,7 @@
             ]
           },
           {
-            "prompt": "A Windows 10 laptop claims ESU coverage. How do you assess it?",
+            "prompt": "A Windows 10 version 22H2 laptop claims ESU coverage. How do you assess it?",
             "choices": [
               {
                 "text": "Assume every Windows 10 device is covered.",
@@ -171,7 +176,7 @@
             ]
           },
           {
-            "prompt": "A Windows 10 PC shows an ESU preparation update. Is it necessarily enrolled?",
+            "prompt": "A Windows 10 version 22H2 PC shows the KB5126256 ESU preparation update. Is it necessarily enrolled?",
             "choices": [
               {
                 "text": "Yes; the preparation package grants coverage.",

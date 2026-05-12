@@ -41,29 +41,29 @@
       {
         "type": "practice",
         "title": "Choose a connection at a station",
-        "setup": "Synthetic exercise: you need to check a train ticket and make a bank payment; no real credentials or site is opened.",
+        "setup": "Synthetic exercise: four separate checkpoints at a station. Each step starts a new situation; earlier choices do not decide the next network. No real credentials or site is opened.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Two networks have similar names. Which do you join?",
+            "prompt": "Checkpoint 1: two station networks have similar names. Which do you join?",
             "choices": [
-              {
-                "text": "Confirm the official name with station staff or signage first.",
-                "consequence": "You reduce the chance of choosing a lookalike.",
-                "explanation": "A familiar-looking SSID is not authentication.",
-                "recommended": true
-              },
               {
                 "text": "Pick the stronger signal.",
                 "consequence": "A nearby rogue hotspot could be strongest.",
                 "explanation": "Signal strength says nothing about operator identity.",
                 "recommended": false
+              },
+              {
+                "text": "Confirm the official name with station staff or signage first.",
+                "consequence": "You reduce the chance of choosing a lookalike.",
+                "explanation": "A familiar-looking SSID is not authentication.",
+                "recommended": true
               }
             ]
           },
           {
-            "prompt": "The portal asks to install a “security certificate”.",
+            "prompt": "Checkpoint 2: on a separate station Wi-Fi attempt, the portal asks you to install a “security certificate”.",
             "choices": [
               {
                 "text": "Install it to finish faster.",
@@ -80,12 +80,12 @@
             ]
           },
           {
-            "prompt": "You switch to cellular and open a bank-like page from a message. It has HTTPS.",
+            "prompt": "Checkpoint 3: separately, a bank-like page opens from a message on a phone using cellular data. It has HTTPS. What now?",
             "choices": [
               {
                 "text": "Close it and use the bank app or saved address.",
                 "consequence": "The payment starts at a known destination.",
-                "explanation": "Changing networks does not authenticate a link.",
+                "explanation": "Cellular data and HTTPS do not authenticate a link from a message.",
                 "recommended": true
               },
               {
@@ -97,19 +97,19 @@
             ]
           },
           {
-            "prompt": "A colleague suggests a VPN as the only way to use the station Wi-Fi.",
+            "prompt": "Checkpoint 4: a colleague suggests a VPN as the only way to use station Wi-Fi. What do you say?",
             "choices": [
-              {
-                "text": "Buy the first advertised VPN and ignore site warnings.",
-                "consequence": "A bad destination or certificate problem remains.",
-                "explanation": "A VPN is not a substitute for verification.",
-                "recommended": false
-              },
               {
                 "text": "Explain what its tunnel covers and still check the destination and HTTPS.",
                 "consequence": "The tool is used for its actual purpose.",
                 "explanation": "VPN protects routed traffic to its server, not a scam page.",
                 "recommended": true
+              },
+              {
+                "text": "Buy the first advertised VPN and ignore site warnings.",
+                "consequence": "A bad destination or certificate problem remains.",
+                "explanation": "A VPN is not a substitute for verification.",
+                "recommended": false
               }
             ]
           }

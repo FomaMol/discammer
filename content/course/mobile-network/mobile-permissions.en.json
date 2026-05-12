@@ -151,7 +151,7 @@
             ]
           },
           {
-            "prompt": "An app disappears from the home screen after you revoke contacts. What does that prove?",
+            "prompt": "After you revoke contacts, an app’s address-book feature works worse. What does that prove?",
             "choices": [
               {
                 "text": "The app is definitely malicious.",
@@ -159,8 +159,8 @@
                 "correct": false
               },
               {
-                "text": "Only that a feature may depend on contacts; check the function and publisher.",
-                "explanation": "Permission denial can break legitimate behavior; it is not a malware test.",
+                "text": "Only that this feature may need contacts; check what it does and who publishes the app.",
+                "explanation": "Denying a legitimate permission can affect a feature; it is not a malware test.",
                 "correct": true
               }
             ]

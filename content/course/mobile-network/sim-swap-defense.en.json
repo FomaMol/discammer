@@ -46,9 +46,9 @@
       {
         "type": "practice",
         "title": "Recover from a number-change alert",
-        "setup": "Synthetic exercise: a phone loses service during a normal workday; no real number or account is used.",
+        "setup": "Synthetic exercise: a phone loses service during a workday. Contacting the carrier now or waiting changes the timing of the next decision; no real account is used.",
         "synthetic": true,
-        "mode": "sequence",
+        "mode": "graph",
         "steps": [
           {
             "prompt": "Your phone says “no service” while a colleague on the same carrier has signal. First move?",
@@ -57,15 +57,18 @@
                 "text": "Contact the carrier through a saved number or official app over Wi-Fi.",
                 "consequence": "You can learn whether a SIM change exists quickly.",
                 "explanation": "Verify through a trusted channel before assuming the cause.",
-                "recommended": true
+                "recommended": true,
+                "next": "carrier-now"
               },
               {
                 "text": "Wait until tomorrow.",
                 "consequence": "An unauthorized transfer could continue unchecked.",
                 "explanation": "A quick check is proportionate even if it proves to be an outage.",
-                "recommended": false
+                "recommended": false,
+                "next": "carrier-later"
               }
-            ]
+            ],
+            "id": "signal"
           },
           {
             "prompt": "The carrier confirms a transfer you did not request. What do you ask?",
@@ -74,52 +77,81 @@
                 "text": "Ask only for a replacement handset.",
                 "consequence": "The unauthorized transfer and account access remain unresolved.",
                 "explanation": "Hardware replacement does not correct carrier records.",
-                "recommended": false
+                "recommended": false,
+                "next": "bank-alert"
               },
               {
                 "text": "Block or reverse it, secure the carrier account and get a case reference.",
                 "consequence": "The number may be recovered and the timeline documented.",
                 "explanation": "Carrier action limits continuing number control; keep a record.",
-                "recommended": true
+                "recommended": true,
+                "next": "bank-alert"
               }
-            ]
+            ],
+            "id": "carrier-now"
           },
           {
-            "prompt": "Email is accessible on a trusted laptop; the bank shows an unfamiliar transfer request.",
+            "prompt": "The next morning, service is still absent. You contact the carrier through its official channel; it confirms a transfer you did not request. What do you ask now?",
             "choices": [
               {
-                "text": "Use the bank’s known fraud channel, protect email, and preserve alerts.",
-                "consequence": "Providers can act while evidence remains available.",
-                "explanation": "Account containment and financial response run alongside carrier recovery.",
-                "recommended": true
+                "text": "Ask only for a replacement handset.",
+                "consequence": "After the lost day, the unauthorized transfer remains unresolved.",
+                "explanation": "Hardware replacement does not correct carrier records.",
+                "recommended": false,
+                "next": "bank-alert"
               },
+              {
+                "text": "Block or reverse it, secure the carrier account and get a case reference.",
+                "consequence": "The carrier can act, but the lost day cannot be recovered; you document the timeline.",
+                "explanation": "Carrier action limits continuing number control; keep a record.",
+                "recommended": true,
+                "next": "bank-alert"
+              }
+            ],
+            "id": "carrier-later"
+          },
+          {
+            "prompt": "Independently, the bank app on a trusted laptop shows an unfamiliar transfer request. What next?",
+            "choices": [
               {
                 "text": "Tell the caller who claims to be bank support the SMS code.",
                 "consequence": "A scammer may gain another way into the account.",
                 "explanation": "Inbound identity claims do not authorize code disclosure.",
-                "recommended": false
+                "recommended": false,
+                "next": "account-follow-up"
+              },
+              {
+                "text": "Use the bank’s known fraud channel, protect email, and preserve alerts.",
+                "consequence": "Providers can act while evidence remains available.",
+                "explanation": "Account containment and financial response run alongside carrier recovery.",
+                "recommended": true,
+                "next": "account-follow-up"
               }
-            ]
+            ],
+            "id": "bank-alert"
           },
           {
-            "prompt": "The carrier restores service. How do you reduce repeat exposure?",
+            "prompt": "Whether service returns soon or later, what follow-up reduces the risk to your accounts?",
             "choices": [
-              {
-                "text": "Assume all accounts are safe because calls work again.",
-                "consequence": "Changed credentials or sessions may remain.",
-                "explanation": "Check account state separately from the SIM state.",
-                "recommended": false
-              },
               {
                 "text": "Review email recovery/MFA, available carrier locks, sessions and affected accounts.",
                 "consequence": "You address paths the attacker may have touched.",
                 "explanation": "Restoring signal alone does not restore account integrity.",
-                "recommended": true
+                "recommended": true,
+                "next": "end"
+              },
+              {
+                "text": "Assume carrier recovery will make every account safe.",
+                "consequence": "Changed credentials or sessions may remain after the number returns.",
+                "explanation": "Account state must be checked separately from SIM state.",
+                "recommended": false,
+                "next": "end"
               }
-            ]
+            ],
+            "id": "account-follow-up"
           }
         ],
-        "debrief": "Replay with two parallel goals: regain the number through the carrier and contain account/financial access through independent providers."
+        "debrief": "Replay both routes: waiting loses time, but every route still needs carrier recovery and separate account and financial checks."
       },
       {
         "type": "check",
