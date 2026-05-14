@@ -107,7 +107,7 @@
             ]
           },
           {
-            "prompt": "The relative says the tracker was installed last week and has notification access.",
+            "prompt": "Now inspect a different tracker app the relative installed last week, before today's message. It already has notification access; it is not the APK from step 1. What next?",
             "choices": [
               {
                 "text": "Leave it because nothing bad has happened visibly.",
