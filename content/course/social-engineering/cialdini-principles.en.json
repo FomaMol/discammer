@@ -1,33 +1,160 @@
 {
   "order": 1,
   "title": "The six principles of influence",
-  "est_minutes": 8,
-  "body_md": "## Why scammers all sound the same\n\nIf you've listened to enough fraud pitches, you've noticed a strange pattern: cold callers from totally different scams use almost identical emotional moves. That isn't a coincidence. They all draw from the same six psychological levers that the social psychologist **Robert Cialdini** documented in his 1984 book *Influence*.\n\nLearning the six principles by name is not academic trivia. Once you can label the move that is being made on you, it stops working.\n\n### 1. Reciprocity\n\nIf someone gives you something — a favour, a small gift, a piece of information — you feel pressure to return the favour. Scammers exploit this with \"free\" gifts, \"insider tips\", or warm-up favours that bind you before the real ask.\n\n### 2. Commitment & Consistency\n\nOnce you've taken a small public step toward something, you'll keep stepping in the same direction to stay consistent with yourself. The classic pig-butchering investment scam starts by getting you to invest $50 — once you do, the larger ask feels like just *more of the same*.\n\n### 3. Social Proof\n\nIf other people are doing it, it must be safe. Fake reviews, fake \"members already invested\" counters, screenshots of a forum thread with hundreds of replies — all manufacture the impression that you'd be the *odd one out* not to participate.\n\n### 4. Authority\n\nWe defer to people who look like authorities. A police badge in a video call, a logo on an email, a confident tone that says *\"I'm calling from the bank's fraud team\"* — these short-circuit the part of you that asks for proof.\n\n### 5. Liking\n\nWe say yes to people we like. Pig-butchering is the extreme form: weeks of rapport so you genuinely *like* the person before they ask for money. But it shows up in much shorter cons too — a friendly voice, a shared hobby, a compliment.\n\n### 6. Scarcity\n\nIf something is rare or about to disappear, we want it more. \"Last 3 spots\", \"price doubles tomorrow\", \"only available to verified customers\". Scarcity collapses your time to think.\n\n## The defensive move\n\nWhen you feel an emotion in response to a message — flattered, rushed, important, *chosen* — name the lever first. \"This is the urgency move.\" \"This is the authority move.\" Once you've labelled it, the message is no longer pulling on the lever — *you are looking at the lever*.",
-  "widget_type": "quiz",
+  "est_minutes": 14,
+  "body_md": "## Influence is normal; the request still needs a check\n\nRobert Cialdini's classic six principles describe common shortcuts in persuasion: **reciprocity** (returning a favour), **commitment and consistency** (continuing a choice already made), **social proof** (following others), **authority** (deferring to expertise), **liking** (agreeing with people we feel close to), and **scarcity** (valuing limited opportunities). His current account also includes a seventh principle, *unity*. This lesson keeps the established six in its title; the framework is a way to notice pressure, not a lie detector.\n\nA genuine colleague can do you a favour; a real store can have limited stock; a licensed professional can be an expert. The dangerous step is letting that cue replace evidence about the **specific action** requested. Ask: Who benefits? What exactly am I being asked to do? Can I check the claim in a channel I chose? A review count, uniform, logo or warm introduction does not answer those questions.\n\nScams often combine shortcuts. A stranger sends a small useful guide (reciprocity), asks you to join a trial group (commitment), shows glowing member comments (social proof), and says enrollment closes tonight (scarcity). Each step makes the next seem smaller. Yet a favourable first experience does not establish that later money, credentials or identity documents should be handed over. A small test withdrawal in a fake investment can be deliberately allowed to build trust; it is not a licence for a larger deposit.\n\n**Pause at the change of stakes.** Naming the tactic may help you notice it, but it does not automatically switch off emotion. Before paying, sharing a code, installing software or granting access, verify the underlying claim independently and use your ordinary approval process. If the claim is real, it should withstand that check. If an offer expires before you can verify it, accepting that you may miss it is safer than treating the deadline as proof.\n\nThe cases below distinguish ordinary persuasion from an attempt to move the decision into an unverified payment channel. In the practice, choose the next action after each new cue; you can retry a decision and replay the sequence.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "An email says: \"You've been selected from 0.1% of users for our private beta. Spots close in 12 hours.\" Which two Cialdini principles is this message stacking?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Identify the influence cue, then verify the consequential request without relying on that cue.",
+    "today_action": "Write one question you will ask before a high-stakes offer: “How can I confirm this through a contact I already trust?”",
+    "checked_at": "2026-10-20",
+    "scope": "General decision practice; Cialdini describes persuasion, while NCSC/FTC examples are UK/US guidance. Local payment and reporting rules differ.",
+    "sources": [
       {
-        "text": "Authority + Reciprocity",
-        "correct": false,
-        "explanation": "There's no real authority claim (no badge, no agency, no executive) and no gift being offered. Look at what the message is actually doing."
+        "title": "Cialdini / Influence at Work — principles of persuasion",
+        "url": "https://www.influenceatwork.com/7-principles-of-persuasion/",
+        "scope": "Author’s current account of the original six principles and later seventh, unity."
       },
       {
-        "text": "Scarcity + Commitment/Consistency",
-        "correct": false,
-        "explanation": "Scarcity is right (the 12-hour timer), but no commitment has been requested yet — you haven't taken any step. Look again at the *flattery* in the message."
+        "title": "UK NCSC — how to spot a scam message or call",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
       },
       {
-        "text": "Scarcity + Liking",
-        "correct": true,
-        "explanation": "Exactly. The 12-hour close is *scarcity*. \"You've been selected from 0.1% of users\" is a flattery move that triggers *liking* — feeling chosen makes you warm to the sender. Stacking two principles is the standard pattern; defenders should look for each one separately."
-      },
-      {
-        "text": "Social Proof + Authority",
-        "correct": false,
-        "explanation": "No other users are being shown ('thousands joined'), and no authority figure is named. The message is talking about *you*, not about a crowd."
+        "title": "US FTC — How to Avoid a Scam",
+        "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
+        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
       }
     ],
-    "hint": "Identify the time pressure first, then look at what the flattering language is doing to your feelings."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Synthetic: the helpful club organizer",
+        "situation": "A new online club organizer sends a free checklist, invites you into a private group with enthusiastic testimonials, then says members must pay a “verification deposit” before midnight.",
+        "analysis": "The checklist and compliments create reciprocity and liking; testimonials suggest social proof; the deadline adds scarcity. None establishes who receives the deposit or whether it is refundable. Leave the group link and verify the organizer and payment route independently before any payment.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "Synthetic: a genuine limited workshop",
+        "situation": "A community library lists twelve seats for a free workshop on its own published calendar. A librarian you already know mentions that booking closes when seats fill.",
+        "analysis": "Scarcity can be real. Check the library calendar or call its published desk number. If the event is listed and registration stays on the library’s own system, the cue alone is no reason to reject it. You may still decline without pressure.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The invitation ladder",
+        "setup": "A fictional hobby forum member sends you a useful design template and invites you to a “verified makers circle.” No real account or payment is used here.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "They ask for a public thank-you post before you have reviewed the group. What do you do?",
+            "choices": [
+              {
+                "text": "Post it immediately; a gift deserves a public return.",
+                "consequence": "The post becomes a visible commitment you may feel obliged to defend.",
+                "explanation": "Reciprocity is a feeling, not a debt. You can thank them privately without endorsing an unreviewed group.",
+                "recommended": false
+              },
+              {
+                "text": "Thank them for the template and wait to endorse the group until you know it.",
+                "consequence": "You keep appreciation separate from an endorsement.",
+                "explanation": "This respects the person while withholding a public signal others might mistake for a recommendation.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The group page shows many glowing member quotes and a “verified by experts” badge. What next?",
+            "choices": [
+              {
+                "text": "Treat the quotes and badge as proof that the payment request is safe.",
+                "consequence": "You may mistake presentation for independent evidence.",
+                "explanation": "Testimonials and badges can be created by the seller; seek an outside record and exact terms.",
+                "recommended": false
+              },
+              {
+                "text": "Find the organizer and terms through a source outside that page.",
+                "consequence": "You gain a check that the invitation page cannot supply by itself.",
+                "explanation": "Look for the organization’s own established contact and written terms; lack of confirmation is a reason to pause.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "A moderator says the final seat requires a deposit tonight by transfer. What is the best response?",
+            "choices": [
+              {
+                "text": "Pay a small deposit so you do not lose the seat.",
+                "consequence": "A small transfer may lead to larger requests and can be hard to recover.",
+                "explanation": "The size of the first ask does not authenticate the seller or payment destination.",
+                "recommended": false
+              },
+              {
+                "text": "Decline the deadline until the destination and policy are independently verified.",
+                "consequence": "You may lose the seat, but you avoid letting scarcity choose the payment channel.",
+                "explanation": "A legitimate organizer can explain the ordinary booking process; otherwise let the offer pass.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Debrief: the template, public commitment, social proof and scarcity created a ladder. On replay, stop at the first step that turns appreciation into an endorsement or payment. The lesson is to verify the new stake, not to distrust every friendly act."
+      },
+      {
+        "type": "check",
+        "title": "Transfer the skill",
+        "questions": [
+          {
+            "prompt": "A trusted colleague offers free advice, then asks you to approve a new bank recipient. Which fact matters most?",
+            "choices": [
+              {
+                "text": "The recipient change must pass the normal independent approval path.",
+                "explanation": "Correct: gratitude for advice does not verify payment details.",
+                "correct": true
+              },
+              {
+                "text": "The colleague was generous, so the recipient is safe.",
+                "explanation": "Reciprocity describes your feeling, not the integrity of bank details.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A real theater has only three tickets left on its own checkout. Is scarcity proof of fraud?",
+            "choices": [
+              {
+                "text": "No; verify you are on the theater’s established checkout and decide freely.",
+                "explanation": "Correct: scarce stock may be genuine, but the payment route still matters.",
+                "correct": true
+              },
+              {
+                "text": "Yes; every limited offer is a scam.",
+                "explanation": "A cue alone cannot classify an offer.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A page displays hundreds of positive reviews for an unfamiliar investment app. Best inference?",
+            "choices": [
+              {
+                "text": "Reviews establish that other people earned money.",
+                "explanation": "Reviews may be fake or selective and cannot prove returns.",
+                "correct": false
+              },
+              {
+                "text": "Reviews are a prompt to research, not proof of safety.",
+                "explanation": "Correct: check the entity and product through independent, relevant sources.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

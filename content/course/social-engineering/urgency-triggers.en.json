@@ -1,29 +1,160 @@
 {
   "order": 5,
   "title": "Urgency, fear, and authority triggers",
-  "est_minutes": 7,
-  "body_md": "## Time pressure is the universal exploit\n\nEvery successful social-engineering attack has to solve the same problem: how to get you to act before your slower, deliberate self has time to weigh in. Three emotional triggers do most of that work — and you can learn to feel them firing the moment they hit.\n\n### Urgency\n\nA limited-time window forces you to skip steps you'd otherwise take. \"In the next 10 minutes\", \"before the meeting ends\", \"before the warrant is issued\". Real organizations almost never need you to act within minutes. The IRS doesn't. Your bank doesn't. Your boss usually doesn't.\n\n### Fear\n\nLoss aversion is roughly twice as powerful as gain seeking. A message that threatens loss — your account, your money, your reputation, your freedom — short-circuits weighing of evidence. \"Your account will be permanently closed unless...\" is the canonical example.\n\nFear is especially effective combined with shame. Sextortion emails (\"we have a recording of you visiting [adult site]\") work because the target is too embarrassed to talk to anyone before paying.\n\n### Authority\n\nWe defer to figures of authority — police, tax officials, bank fraud teams, our own boss. The deference is mostly automatic. Authority works extra well in cultures where direct disagreement with authority is discouraged.\n\n## The combined exploit\n\nAlmost no real attack uses one trigger at a time. The high-yield pattern is **fear + urgency + authority** stacked:\n\n> *\"This is Officer Daniels from the Federal Trade Commission. A federal warrant for your arrest will be issued within the next 45 minutes unless you cooperate to resolve the irregularity in your account.\"*\n\nEvery sentence is a trigger. The combined cognitive load is the point — *you don't have spare bandwidth left to question the call.*\n\n## The defence\n\nThere is exactly one defensive move that scales to all three triggers: **slow it down**. Every minute you spend not acting is a minute the attacker is not earning. Real organizations tolerate the pause. Scammers can't.\n\nThe physical action: say out loud, in your head or to the caller, *\"I am going to take 10 minutes before I do anything.\"* Then take the 10 minutes. The pretext almost never survives them.",
-  "widget_type": "scenario",
+  "est_minutes": 13,
+  "body_md": "## Pressure is a reason to change pace\n\nUrgency, fear and claimed authority often arrive together. “The account closes in ten minutes,” “you will be arrested,” and “I am from the fraud team” are designed to make the proposed action seem like the only safe exit. The UK NCSC identifies authority, urgency, emotion and scarcity as common scam cues. A cue is a reason to slow down and check, not proof that every urgent situation is false. Real card alerts, medical calls and workplace deadlines exist.\n\nThe mechanism is practical: a short clock shrinks the time available to consult a second source; fear narrows attention to avoiding loss; an official-sounding title makes questions feel improper. An attacker may add secrecy (“do not tell your family”) or continuous contact (“stay on the line”) to prevent outside comparison. There is no reliable universal pause length. Take enough time to end the inbound interaction and reach the institution or person by a route you already know. A real emergency can still be handled through the real service.\n\nInspect the **requested remedy**, not just the threatened problem. A caller who claims fraud and then asks you to transfer money to “protect” it is offering a remedy that creates the risk. A message about an account lock that asks for a verification code has the same structure. Ask what would happen if you did nothing for a few minutes, then check in your own app, card statement, published service number or known work directory. Do not debate a caller into proving their status; their answers are part of the same unverified channel.\n\nA legitimate deadline may be inconvenient. The independent channel may confirm that payment is due, a card is blocked, or a meeting is about to start. Once confirmed, follow the real procedure. If the pressure involves immediate physical danger, contact local emergency services by a number you know; do not delay emergency help to finish an online checklist. The cases and exercise show how to preserve both caution and urgency when the underlying issue might be real.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "Your phone rings. The caller says: \"This is Sergeant Allen from the Federal Police, badge 4421. A federal warrant for tax evasion will be issued against you within the next 30 minutes. Stay on the line — we can resolve this through a controlled-payment protocol if you cooperate now.\"",
-    "prompt": "What is the single best move?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Respond to a fear-plus-deadline claim by verifying the problem and remedy through a known route before taking a consequential action.",
+    "today_action": "Choose one short phrase to use under pressure: “I will check this through my own app or number and call back.”",
+    "checked_at": "2026-10-20",
+    "scope": "General decision rule; UK NCSC and US FTC consumer examples. Actual deadlines, emergency numbers and legal procedures depend on place and institution.",
+    "sources": [
       {
-        "text": "Stay on the line, get more details, and try to verify the badge number before agreeing to anything.",
-        "outcome": "risky",
-        "explanation": "Staying on the line is exactly the goal of the script. Every additional minute you spend on the call increases the chance the attacker pushes you past your decision point. Badge numbers are trivially fabricated and the caller can claim you 'can't share' the verification with anyone."
+        "title": "UK NCSC — how to spot a scam message or call",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
       },
       {
-        "text": "Hang up. Wait 10 minutes. Then call your country's actual police or tax non-emergency line yourself.",
-        "outcome": "good",
-        "explanation": "Correct. The 10-minute pause and the channel switch defeat all three triggers — urgency, fear, and authority — at once. If the warrant were real (it isn't), it would survive the 10 minutes. If it's a scam, the attacker won't be there when you call back."
+        "title": "US FTC — How to Avoid a Scam",
+        "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
+        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
       },
       {
-        "text": "Refuse to cooperate and threaten to report the caller to your lawyer.",
-        "outcome": "risky",
-        "explanation": "Pushing back keeps you on the call, which is what the attacker wants. A real officer would not be threatened by you mentioning a lawyer. The cleaner move is just to disengage entirely."
+        "title": "US FTC — unexpected calls about money at risk",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
+        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
       }
     ],
-    "moral": "Slow it down. Every minute you don't act, the attacker is the one losing."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Synthetic: “protect your savings now”",
+        "situation": "A caller says a fraudulent transfer is pending, claims to be a bank supervisor, and gives you eight minutes to move savings to a new “secure” account. They insist you stay on the call.",
+        "analysis": "Fear, authority and a clock reinforce each other; the offered remedy is itself a transfer. End the call without moving money or reading codes. Check activity in your own bank app or call the card’s established number. Ask the real bank what protective steps it actually supports.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "Synthetic: real card alert at a bad moment",
+        "situation": "Your bank app, opened from your phone’s home screen, shows a declined transaction and a card lock. You also received a text saying the card was locked.",
+        "analysis": "The alert may be genuine. The independently opened app confirms an account state, but you still follow the bank’s own in-app or card-backed instructions rather than a text link. Fast action can be appropriate after authentication.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The deadline call",
+        "setup": "A fictional housing office caller says a tenancy renewal will be cancelled today unless you pay through a new link. This is a learning scenario, not legal or housing advice.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "The caller cites your building and a deadline. What first?",
+            "choices": [
+              {
+                "text": "Pay through the link to preserve the renewal.",
+                "consequence": "You may pay a party you have not verified.",
+                "explanation": "Correct building details and a deadline do not authenticate a payment link.",
+                "recommended": false
+              },
+              {
+                "text": "Note the claimed deadline and end the call before using any link.",
+                "consequence": "You make room for an independent check.",
+                "explanation": "You can act quickly through a trusted office route if the claim is real.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The caller warns that the published office line is overloaded. What route do you use?",
+            "choices": [
+              {
+                "text": "Use the alternate number they supply.",
+                "consequence": "The same source now controls the “verification” route.",
+                "explanation": "An excuse about the usual channel must itself be verified.",
+                "recommended": false
+              },
+              {
+                "text": "Open the known tenant portal or call the office number on your existing lease.",
+                "consequence": "You use contact details held before the call.",
+                "explanation": "The office can confirm whether a payment and deadline exist.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "The portal shows a renewal due this week, with no new payment link. What next?",
+            "choices": [
+              {
+                "text": "Pay the caller anyway because the deadline is close.",
+                "consequence": "A real deadline can be used to attach a fake remedy.",
+                "explanation": "Follow the portal’s listed process or ask staff through the known channel.",
+                "recommended": false
+              },
+              {
+                "text": "Complete any due action in the portal and ask staff about the conflicting call.",
+                "consequence": "You address the genuine task while rejecting the unverified payment path.",
+                "explanation": "This separates the real deadline from the caller’s invented instruction.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Debrief: urgency is compatible with a real underlying task. On replay, inspect the proposed solution separately from the problem. Independent verification can lead to prompt legitimate action, not just refusal."
+      },
+      {
+        "type": "check",
+        "title": "Pressure and evidence",
+        "questions": [
+          {
+            "prompt": "An urgent fraud call says a “safe account” transfer is the only remedy. What do you do?",
+            "choices": [
+              {
+                "text": "Transfer first, verify after.",
+                "explanation": "A later check may not undo an authorized transfer.",
+                "correct": false
+              },
+              {
+                "text": "End the call and use your own bank contact to verify both problem and remedy.",
+                "explanation": "Correct: the caller cannot authenticate their own instructions.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "Your independently opened bank app confirms a card lock. Does the text alert have to be fake?",
+            "choices": [
+              {
+                "text": "No; use the app’s own instructions to handle the real lock.",
+                "explanation": "Correct: the underlying issue can be real, and the action path remains independent.",
+                "correct": true
+              },
+              {
+                "text": "Yes; urgent texts can never describe real account events.",
+                "explanation": "A text may be genuine; the app confirmation changes the evidence.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "Someone claims the main office line is down. What is the status of that claim?",
+            "choices": [
+              {
+                "text": "A reason to use their new number without checking.",
+                "explanation": "That keeps verification under the caller’s control.",
+                "correct": false
+              },
+              {
+                "text": "An unverified exception to check through an existing portal or later known contact.",
+                "explanation": "Correct: an exception is not evidence of its own truth.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

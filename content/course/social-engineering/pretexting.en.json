@@ -1,29 +1,189 @@
 {
   "order": 2,
   "title": "Pretexting: when the story is the attack",
-  "est_minutes": 7,
-  "body_md": "## A scam is a story told to a single audience: you\n\nA pretext is the cover story an attacker constructs to make a request feel routine. The technical exploit doesn't matter if the social context is plausible enough that you don't ask the obvious question.\n\nWell-built pretexts share three properties.\n\n### 1. They fit an existing routine\n\nThe attacker picks a context you already navigate: a parcel delivery, an HR onboarding form, a bank fraud check, an IT password reset. You're not being walked into a foreign room — you're being walked into a room you enter every week.\n\nThis is why **untargeted phishing still works**. A 2% hit rate on a delivery-themed text against millions of recipients is millions of victims.\n\n### 2. They have a small but credible mission\n\n\"Hand over your life savings\" is too big a leap. \"Verify your account so we can release a pending refund\" is small, plausible, and creates forward momentum. The mission is large enough to require action, small enough to seem reasonable.\n\n### 3. They have a built-in answer to your first objection\n\nA good pretexter anticipates what you'd push back on, and answers it before you ask:\n\n- *\"You should be able to do this in your app — but the system is down for a few hours, so I'm calling instead.\"*\n- *\"Normally we'd email — but for security on amounts over $5,000 we always call.\"*\n\nThe pre-emptive explanation feels reassuring. In reality, it's a flag — *because they prepared for it*.\n\n## How to break a pretext\n\nThe single most effective technique: **switch channels**. The pretext lives in *this* conversation. Tell the caller \"I'll call you back through the number on the bank's website.\" Hang up. Look up the number yourself. Call.\n\nNine times out of ten, the attacker won't take the call. They'll claim it's urgent. They'll try to keep you on the line. They'll say \"the call has to happen now or the transaction will fail.\" All three of those reactions are confirmation that you were about to be scammed.",
-  "widget_type": "scenario",
+  "est_minutes": 13,
+  "body_md": "## When the story is the tool\n\nA pretext is a made-up role and situation that makes a request seem like the next routine step. It may borrow a real organization, a real event or details about you. The caller’s knowledge of an address or the last digits of an account is not proof of identity: such details may be public, stolen or guessed. Caller ID can also be altered. What matters is the requested action and whether you can confirm it outside the conversation.\n\nA convincing story fits a routine: a delivery needs an address, payroll needs a form, IT needs an update, a bank needs to handle a disputed transaction. The attacker asks for a seemingly small step, then uses your cooperation to justify the next. A “fraud officer” might first ask whether a charge is yours, then insist that you move money to a “safe” account. Answering an initial question is not a commitment to follow the rest of the script.\n\nA pretext may also explain away the very safeguard you would normally use: “the app is down,” “we cannot put this in writing,” or “don’t call the main desk because this case is confidential.” These explanations are claims, not proof. Real exceptions can happen; verify through the institution’s established app, the number on a card or statement, or a known internal directory. Tell that independent contact the exact claim and ask whether an action is required. Do not use callback details supplied by the person whose identity you are checking.\n\n**Break contact without diagnosing the caller.** You do not need to prove a lie while on the line. Record only non-sensitive basics such as the claimed organization and issue, end the interaction, and independently check. If the matter is real, the organization can explain the next steps through its normal channel. If you already sent information or money, contact the relevant provider promptly using a trusted channel; options vary by country and payment method.\n\nThe examples show why a realistic administrative story still requires a clean verification path. The practice rehearses that path through a fictional benefits-office call.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "setup": "Your phone rings. The caller ID shows your bank's name. A woman introduces herself as Maria from the Fraud Prevention team. She says a suspicious $1,200 charge from a hotel chain in Bali has been flagged on your card and asks if you authorized it.",
-    "prompt": "You did not authorize that charge. How do you respond?",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Extract the request from a plausible cover story and confirm it through an independently chosen channel.",
+    "today_action": "Save one trusted contact route for a bank or workplace service before you need it; use an existing card, app or directory.",
+    "checked_at": "2026-10-20",
+    "scope": "General technique; FTC callback advice is US consumer guidance and NCSC advice is UK guidance. Use your own institution’s real process and local response channels.",
+    "sources": [
       {
-        "text": "\"No, that's not me — please reverse it. What do you need from me?\"",
-        "outcome": "disaster",
-        "explanation": "You've just confirmed to the caller that there is panic to work with. The next step in the script will be 'we need to move your money to a safe account' — which actually means *the attacker's account*. The caller ID is trivially spoofable."
+        "title": "US FTC — unexpected calls about money at risk",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
+        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
       },
       {
-        "text": "\"Thanks for flagging that. I'll hang up and call the number on the back of my card.\"",
-        "outcome": "good",
-        "explanation": "Correct. The attack lives inside this call. You break it by stepping into a channel the attacker can't control — calling the number you already have. If the call is genuine, the real fraud team will still find your case in their queue."
+        "title": "UK NCSC — how to spot a scam message or call",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
       },
       {
-        "text": "\"Can you read me the last four digits of my card to prove you're really the bank?\"",
-        "outcome": "risky",
-        "explanation": "Plausible-sounding test, but most card-fraud calls genuinely *will* know your last four digits because they were leaked in an earlier breach. The attacker may pass this test and you'll feel reassured. Always switch channel anyway."
+        "title": "US FTC — How to Avoid a Scam",
+        "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
+        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
       }
     ],
-    "moral": "Pretexts are scripts. Step out of the script — change the channel — and the script breaks."
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Synthetic: “card safety desk”",
+        "situation": "An inbound caller displays the bank’s name, knows your street, and describes an unfamiliar hotel charge. After you say it was not yours, the caller asks you to transfer your balance into a temporary protected account.",
+        "analysis": "The first question resembles a legitimate fraud check; the transfer is the consequential step. Neither displayed name nor personal detail authenticates the caller. End the call and check the charge in your own banking app or call the number on your card. Never treat a caller-directed transfer as account protection.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "Synthetic: real payroll form",
+        "situation": "A known HR colleague mentions that employees must update tax details after a company merger. The same notice appears in the authenticated staff portal, and your manager confirms the deadline through a contact you already use.",
+        "analysis": "An administrative request and a deadline can be real. The established portal and independent confirmation support the story. Enter details only through the verified workplace process; do not email documents in reply to an unexpected message.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The benefits-office story",
+        "setup": "A fictional caller says a routine benefits record failed to import. The exercise contains no real identity details.",
+        "synthetic": true,
+        "mode": "graph",
+        "steps": [
+          {
+            "prompt": "The caller knows your department and asks you to “confirm” a personal identifier. What do you do?",
+            "choices": [
+              {
+                "text": "Provide it; knowing the department proves the caller belongs there.",
+                "consequence": "You expose information without authenticating the caller.",
+                "explanation": "Workplace details may be available from public profiles or a compromised directory.",
+                "recommended": false,
+                "next": "still-on-call"
+              },
+              {
+                "text": "Ask for the claimed office and issue, then end the call without giving the identifier.",
+                "consequence": "You preserve enough context to check independently.",
+                "explanation": "You can verify a claim without continuing the caller’s workflow.",
+                "recommended": true,
+                "next": "independent-route"
+              }
+            ],
+            "id": "initial-request"
+          },
+          {
+            "id": "still-on-call",
+            "prompt": "After you disclose the identifier, the caller says the normal portal is down and dictates an alternate upload link. What now?",
+            "choices": [
+              {
+                "text": "Use the dictated link to finish quickly.",
+                "consequence": "You expose more details through an unverified page.",
+                "explanation": "The asserted outage and link both come from the same unverified caller.",
+                "recommended": false,
+                "next": "desk-result"
+              },
+              {
+                "text": "Stop, end the call, and check the known benefits portal or directory.",
+                "consequence": "You can still interrupt the script and reach a real service.",
+                "explanation": "Even after one disclosure, do not compound it; tell verified staff what happened.",
+                "recommended": true,
+                "next": "desk-result"
+              }
+            ]
+          },
+          {
+            "id": "independent-route",
+            "prompt": "After you end the call, a text claims the staff portal is down and offers an alternate upload link. What now?",
+            "choices": [
+              {
+                "text": "Open the new link; it arrived by a different channel.",
+                "consequence": "The second message may be part of the same operation.",
+                "explanation": "A second inbound channel is not independent verification.",
+                "recommended": false,
+                "next": "desk-result"
+              },
+              {
+                "text": "Use the portal or number already in your staff directory.",
+                "consequence": "The claimed outage is checked outside both inbound contacts.",
+                "explanation": "Ask the real service whether the request exists before submitting anything.",
+                "recommended": true,
+                "next": "desk-result"
+              }
+            ]
+          },
+          {
+            "prompt": "The real benefits desk says no update is due. What next?",
+            "choices": [
+              {
+                "text": "Ignore the desk because the caller sounded more confident.",
+                "consequence": "You privilege tone over an independent record.",
+                "explanation": "Confidence and detailed scripts do not outrank the actual account or service owner.",
+                "recommended": false,
+                "next": "end"
+              },
+              {
+                "text": "Do not submit; report the contact through your workplace’s normal suspicious-contact route.",
+                "consequence": "The request stops, and the organization can investigate.",
+                "explanation": "Share the claim and contact details, not personal identifiers or an unverified link.",
+                "recommended": true,
+                "next": "end"
+              }
+            ],
+            "id": "desk-result"
+          }
+        ],
+        "debrief": "Debrief: the first choice changes which version of the outage claim you hear. Both routes still allow a safer next decision. Replay to see that one disclosure is a reason to seek verified help, not a reason to finish the attacker’s process."
+      },
+      {
+        "type": "check",
+        "title": "Apply to a new story",
+        "questions": [
+          {
+            "prompt": "A caller knows the last four digits of your card. Does that prove the caller is the bank?",
+            "choices": [
+              {
+                "text": "Yes; only the bank could know them.",
+                "explanation": "Partial account details can leak or be obtained elsewhere.",
+                "correct": false
+              },
+              {
+                "text": "No; independently reach the bank before acting.",
+                "explanation": "Correct: identity comes from a trusted contact path, not a fact recited by the inbound caller.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "A delivery company’s real app shows a parcel awaiting address correction. What is a reasonable next step?",
+            "choices": [
+              {
+                "text": "Use the app’s own help flow, after opening it yourself.",
+                "explanation": "Correct: a legitimate issue can be handled without the text’s link.",
+                "correct": true
+              },
+              {
+                "text": "Send the address and card details to the caller so they can fix it.",
+                "explanation": "That leaves the verified channel and exposes data unnecessarily.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "The caller says the usual verification process is unavailable. Best interpretation?",
+            "choices": [
+              {
+                "text": "The exception proves fraud.",
+                "explanation": "Outages can be real; the claim still needs checking.",
+                "correct": false
+              },
+              {
+                "text": "Treat it as an unverified claim and ask the established service channel.",
+                "explanation": "Correct: neither automatically accept nor dismiss the entire issue.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

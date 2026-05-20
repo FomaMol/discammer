@@ -1,33 +1,160 @@
 {
   "order": 6,
   "title": "Verbal red flags in real conversations",
-  "est_minutes": 6,
-  "body_md": "## Hearing the script through the conversation\n\nSocial-engineering attacks are mostly read off a script. Once you've heard the patterns a few times, you can recognize them inside a live call before you've consciously decided anything is wrong.\n\nHere are the phrases and beats that show up over and over.\n\n### \"Don't tell anyone else about this call\"\n\nLegitimate institutions *want* you to verify. Banks invite you to call back. Police are fine with you contacting them through public channels. The only people who insist on secrecy are people who can't survive verification.\n\n### \"This has to happen right now\"\n\nReal organizations operate on hours and days, not minutes. \"Right now\" inside a financial conversation almost always means the script is racing against your better judgement.\n\n### \"I'll stay on the line while you do it\"\n\nA bank fraud team never asks to coach you through transferring money. The only reason to stay on the line is to *prevent you* from independently verifying.\n\n### \"To prove this is real, here's a piece of your data\"\n\nAttackers buy old breach data — your address, the last 4 digits of a card, your mother's maiden name, sometimes much more. Knowing something about you is no longer proof of identity. It's the *first thing* a script provides.\n\n### \"For security, you'll need to install [remote-access app]\"\n\nLegitimate companies have *zero* reason to make you install AnyDesk, TeamViewer, or any other remote-control software. This is the signature move of tech-support scams. The moment the word \"AnyDesk\" or \"TeamViewer\" appears, end the conversation.\n\n### \"Just for security, can you confirm the 6-digit code I just sent you?\"\n\nThe 6-digit code is your *one-time password* (OTP). Sharing it is sharing your account. Banks, exchanges, and platforms will *never* legitimately ask you to read out an OTP that was sent to your phone.\n\n### \"I'll send you instructions on Telegram instead\"\n\nSwitching the conversation onto an end-to-end encrypted channel that the company doesn't actually use is a classic move. A real bank does not coordinate fraud cases over Telegram or WhatsApp.\n\n## How to use these as a checklist\n\nWhen you're in a live call that feels off, listen for any *one* of these phrases. A single one is enough to end the call immediately. You do not have to be polite to a scammer. You do not have to explain. \"I'll call you back through the official number\" is a complete sentence.",
-  "widget_type": "quiz",
+  "est_minutes": 13,
+  "body_md": "## Listen for a request to give up control\n\nA suspicious conversation is rarely identified by one magic phrase. A caller may be polite and grammatical; a genuine support agent may use words like “urgent” or “verification.” Instead, track what the speaker asks you to surrender: time to think, the ability to consult someone else, control of your device, an account code, or freedom to use an official channel. The UK NCSC says polished messages can fool even experts; errors in spelling are no longer a reliable test.\n\nSeveral phrases deserve a deliberate stop. “Do not tell anyone” isolates you. “Stay on the line while you transfer” prevents independent checking. “I know your address and last four digits” turns ordinary or leaked data into a false identity proof. “Read the code I just sent” may allow access to your account. “Install remote support so I can fix this” hands over device control. FTC guidance describes unsolicited tech-support calls and remote-access requests as a scam pattern. A legitimate IT department may use remote tools after you initiate a verified support ticket, so the tool name alone is not a universal verdict; the unexpected request and absence of independent approval are the problem.\n\nA move to another app is also contextual. Friends and real businesses sometimes change channels. But if the move hides a financial request from the platform’s records or your workplace process, ask why. An actual bank’s fraud team may need to discuss a card issue, yet you can call the bank through its own contact details and work through its real procedure. Do not recite a one-time code or share your screen because an inbound caller knows a detail about you.\n\nUse a neutral exit rather than an argument: “I will contact the organization through the route I already use.” Then end the exchange. If the situation concerns a device you already gave remote access to, disconnect the session and use trusted support for recovery; do not keep following instructions from the same caller. If a code or password was shared, use the account provider’s verified recovery flow promptly. The point is not to label every awkward conversation a scam. It is to preserve a chance to verify before control changes hands.",
+  "widget_type": "course_v2",
   "widget_config": {
-    "question": "A caller from \"Microsoft support\" says: \"Your computer is sending malware signals to our network. For security, please download AnyDesk so I can clean it remotely. Don't end the call — once you disconnect, the infection spreads.\" Identify the *strongest* single tell that this is a scam.",
-    "choices": [
+    "version": 2,
+    "revision": "2026-10-20",
+    "goal": "Identify conversational moves that remove independent control and exit to a verified channel before sharing access, codes or money.",
+    "today_action": "Rehearse one exit sentence aloud and save the real support route for an account or device you use.",
+    "checked_at": "2026-10-20",
+    "scope": "General conversational safety. NCSC guidance is UK-facing and FTC tech-support guidance is US-facing; workplace remote-support procedures vary by organization.",
+    "sources": [
       {
-        "text": "Microsoft does not call individual users about malware.",
-        "correct": false,
-        "explanation": "True, but a learner who doesn't already know this fact won't catch it. We want a tell that's diagnostic *inside the conversation itself*."
+        "title": "UK NCSC — how to spot a scam message or call",
+        "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
+        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
       },
       {
-        "text": "The request to install AnyDesk for remote access.",
-        "correct": true,
-        "explanation": "Yes. No legitimate vendor — Microsoft, Apple, your bank, your ISP — will *ever* legitimately walk you through installing AnyDesk or TeamViewer over a cold call. The remote-access request is the universal red flag of tech-support fraud. The moment you hear it, end the conversation."
+        "title": "US FTC — tech support scams",
+        "url": "https://consumer.ftc.gov/articles/how-spot-avoid-and-report-tech-support-scams",
+        "scope": "US consumer guidance; unsolicited remote-access requests and trusted support paths."
       },
       {
-        "text": "The claim that 'malware signals' are being sent.",
-        "correct": false,
-        "explanation": "The jargon is fake-sounding, but a non-technical person genuinely doesn't know whether 'malware signals to a network' is a real thing. It's suspicious, but not the strongest single tell."
-      },
-      {
-        "text": "The threat that disconnecting will spread the infection.",
-        "correct": false,
-        "explanation": "This is a fear-and-urgency move (real red flag), but the *single* most diagnostic tell is the AnyDesk request — it has no legitimate context."
+        "title": "US FTC — unexpected calls about money at risk",
+        "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
+        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
       }
     ],
-    "hint": "Which sentence in the script has no possible legitimate version, in any company, anywhere?"
+    "blocks": [
+      {
+        "type": "case",
+        "title": "Synthetic: surprise “security technician”",
+        "situation": "An unsolicited caller says your laptop is leaking data. They ask you to install remote-access software, keep the call secret, and read an account code during setup.",
+        "analysis": "The combination removes independent control: device access, isolation and an account credential. End the call without installing or sharing. If you already granted access, disconnect and contact trusted IT or the device provider through an established route.",
+        "legitimate": false
+      },
+      {
+        "type": "case",
+        "title": "Synthetic: approved workplace support session",
+        "situation": "You opened a ticket through the company portal. A technician responds inside the ticket, and you independently confirm the session ID with known IT staff before approving a time-limited remote session.",
+        "analysis": "A remote tool can be legitimate in a verified support workflow. Keep control of the session, follow your organization’s policy, and stop if the technician requests unrelated banking details or codes. The tool name alone does not classify the interaction.",
+        "legitimate": true
+      },
+      {
+        "type": "practice",
+        "title": "The support conversation",
+        "setup": "A fictional account-support caller reaches you after you had a login error. This coincidence makes the call plausible but does not authenticate it.",
+        "synthetic": true,
+        "mode": "sequence",
+        "steps": [
+          {
+            "prompt": "They mention the login error and say, “Please stay with me; the case will disappear if you hang up.” What do you do?",
+            "choices": [
+              {
+                "text": "Stay because the timing proves they see your case.",
+                "consequence": "You lose the chance to verify the caller’s identity.",
+                "explanation": "Coincidence or leaked account activity can be used as part of a story.",
+                "recommended": false
+              },
+              {
+                "text": "Ask for a non-sensitive case description, end the call, and open the provider’s support route yourself.",
+                "consequence": "You preserve the problem but move authentication outside the call.",
+                "explanation": "A real case should be visible or confirmable through the provider’s normal channel.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "They text you a one-time code and ask you to read it back. What now?",
+            "choices": [
+              {
+                "text": "Read it; support initiated the code.",
+                "consequence": "The code may authorize an account login or recovery.",
+                "explanation": "Do not disclose a code generated by a request you did not initiate in a verified flow.",
+                "recommended": false
+              },
+              {
+                "text": "Keep the code private and do not enter it into a page the caller supplied.",
+                "consequence": "You avoid handing over an authentication step.",
+                "explanation": "Check your account through its own app or support if concerned.",
+                "recommended": true
+              }
+            ]
+          },
+          {
+            "prompt": "They offer to install remote software as an “easier fix.” What is the best response?",
+            "choices": [
+              {
+                "text": "Install it because a remote session is always standard support.",
+                "consequence": "You could surrender device control to an unverified caller.",
+                "explanation": "Remote support may be legitimate only within a confirmed, initiated process.",
+                "recommended": false
+              },
+              {
+                "text": "Decline the inbound setup and, if needed, start a fresh ticket in the known support portal.",
+                "consequence": "Any future remote session can be approved under the real process.",
+                "explanation": "This does not rule out legitimate technical help; it changes who controls its start.",
+                "recommended": true
+              }
+            ]
+          }
+        ],
+        "debrief": "Debrief: watch for a conversation that cuts off independent checks or transfers account/device control. Replay without relying on a single phrase. A genuine support issue can be resolved in a verified ticket."
+      },
+      {
+        "type": "check",
+        "title": "Hear the move",
+        "questions": [
+          {
+            "prompt": "A technician on a ticket you opened asks for an approved remote session. Is “remote access” alone proof of fraud?",
+            "choices": [
+              {
+                "text": "Yes; no legitimate team ever uses remote tools.",
+                "explanation": "Verified support teams can use them under policy.",
+                "correct": false
+              },
+              {
+                "text": "No; confirm the ticket and technician through your established process before approving.",
+                "explanation": "Correct: context and independent approval matter.",
+                "correct": true
+              }
+            ]
+          },
+          {
+            "prompt": "An inbound caller quotes your address and asks for a one-time code. What matters most?",
+            "choices": [
+              {
+                "text": "Do not share the code; reach the service through its established route.",
+                "explanation": "Correct: knowing personal details is not identity proof.",
+                "correct": true
+              },
+              {
+                "text": "Share it because the address proves access to your account.",
+                "explanation": "The address could have come from many sources.",
+                "correct": false
+              }
+            ]
+          },
+          {
+            "prompt": "A friend asks to continue chatting in another app, with no access or money request. What follows?",
+            "choices": [
+              {
+                "text": "The app switch itself proves deception.",
+                "explanation": "Ordinary conversations can move apps.",
+                "correct": false
+              },
+              {
+                "text": "Keep normal boundaries; assess any later sensitive request separately.",
+                "explanation": "Correct: a cue is not a verdict without the action and context.",
+                "correct": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
