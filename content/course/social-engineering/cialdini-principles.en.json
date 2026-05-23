@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r2",
     "goal": "Identify the influence cue, then verify the consequential request without relying on that cue.",
     "today_action": "Write one question you will ask before a high-stakes offer: “How can I confirm this through a contact I already trust?”",
     "checked_at": "2026-10-20",
@@ -26,6 +26,11 @@
         "title": "US FTC — How to Avoid a Scam",
         "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
         "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
+      },
+      {
+        "title": "US SEC-led Investor Alert — relationship investment scams",
+        "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/relationship-investment-scams-investor-alert",
+        "scope": "US investor alert (10 September 2024); small early withdrawals may be allowed to create false confidence."
       }
     ],
     "blocks": [
@@ -71,7 +76,7 @@
             "prompt": "The group page shows many glowing member quotes and a “verified by experts” badge. What next?",
             "choices": [
               {
-                "text": "Treat the quotes and badge as proof that the payment request is safe.",
+                "text": "Treat the quotes and badge as proof that the group is trustworthy.",
                 "consequence": "You may mistake presentation for independent evidence.",
                 "explanation": "Testimonials and badges can be created by the seller; seek an outside record and exact terms.",
                 "recommended": false

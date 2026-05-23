@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r2",
     "goal": "Extract the request from a plausible cover story and confirm it through an independently chosen channel.",
     "today_action": "Save one trusted contact route for a bank or workplace service before you need it; use an existing card, app or directory.",
     "checked_at": "2026-10-20",
@@ -79,10 +79,10 @@
                 "consequence": "You expose more details through an unverified page.",
                 "explanation": "The asserted outage and link both come from the same unverified caller.",
                 "recommended": false,
-                "next": "desk-result"
+                "next": "unverified-page"
               },
               {
-                "text": "Stop, end the call, and check the known benefits portal or directory.",
+                "text": "Stop, end the call, and call the real benefits desk using the existing staff directory.",
                 "consequence": "You can still interrupt the script and reach a real service.",
                 "explanation": "Even after one disclosure, do not compound it; tell verified staff what happened.",
                 "recommended": true,
@@ -99,10 +99,10 @@
                 "consequence": "The second message may be part of the same operation.",
                 "explanation": "A second inbound channel is not independent verification.",
                 "recommended": false,
-                "next": "desk-result"
+                "next": "unverified-page"
               },
               {
-                "text": "Use the portal or number already in your staff directory.",
+                "text": "Call the real benefits desk using the number already in your staff directory.",
                 "consequence": "The claimed outage is checked outside both inbound contacts.",
                 "explanation": "Ask the real service whether the request exists before submitting anything.",
                 "recommended": true,
@@ -121,17 +121,37 @@
                 "next": "end"
               },
               {
-                "text": "Do not submit; report the contact through your workplace’s normal suspicious-contact route.",
-                "consequence": "The request stops, and the organization can investigate.",
-                "explanation": "Share the claim and contact details, not personal identifiers or an unverified link.",
+                "text": "Do not submit; report the contact and any information already shared through your workplace’s verified response route.",
+                "consequence": "The request stops, and verified staff can advise on any exposed information.",
+                "explanation": "Use the established confidential process to describe what was shared; avoid posting identifiers or the unverified link in a public channel.",
                 "recommended": true,
                 "next": "end"
               }
             ],
             "id": "desk-result"
+          },
+          {
+            "id": "unverified-page",
+            "prompt": "The unverified upload page asks for more personal documents. You may also have disclosed an identifier by phone. What now?",
+            "choices": [
+              {
+                "text": "Upload the documents to complete the caller’s request.",
+                "consequence": "More sensitive information may reach the same unverified party.",
+                "explanation": "Opening a page or sharing one identifier does not establish that the request is legitimate.",
+                "recommended": false,
+                "next": "end"
+              },
+              {
+                "text": "Stop using the page; contact the real benefits desk through the existing directory and explain any information already shared.",
+                "consequence": "You interrupt further disclosure and can ask the real service about protective steps.",
+                "explanation": "The independent desk can check whether an update exists and advise on an exposed identifier; avoid the caller’s link and number.",
+                "recommended": true,
+                "next": "end"
+              }
+            ]
           }
         ],
-        "debrief": "Debrief: the first choice changes which version of the outage claim you hear. Both routes still allow a safer next decision. Replay to see that one disclosure is a reason to seek verified help, not a reason to finish the attacker’s process."
+        "debrief": "Debrief: disclosing the identifier changes what you may need to report. Opening an unverified page never yields the real desk’s answer; only using the established route does. Replay to practise stopping after any exposure and telling verified staff what happened."
       },
       {
         "type": "check",

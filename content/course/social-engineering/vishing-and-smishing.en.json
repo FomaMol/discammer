@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r2",
     "goal": "Handle an unexpected SMS or voice request by switching to a contact path chosen before the request.",
     "today_action": "Open a delivery or banking app from your home screen and locate its help or transaction history, so you know the route before an alert arrives.",
     "checked_at": "2026-10-20",
@@ -51,7 +51,7 @@
       {
         "type": "practice",
         "title": "Two channels, one claim",
-        "setup": "You work at a fictional community center. A text and then a voice call claim that a manager needs an urgent supplier payment. All names and accounts are invented.",
+        "setup": "You work at a fictional community center. The first two decisions concern one text-and-call payment attempt. The third is a separate new invoice snapshot; choices from the first attempt do not carry into it. All names and accounts are invented.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -90,7 +90,7 @@
             ]
           },
           {
-            "prompt": "The saved work account says the supplier is real but the bank details changed. What now?",
+            "prompt": "Separate new invoice: you independently open the center’s purchasing system. A message in your manager’s saved work account confirms that the supplier is real, but says its bank details changed; an inbound text supplies the purported new details. No payment has been approved in this new snapshot. What now?",
             "choices": [
               {
                 "text": "Compare the new details with the caller’s text and pay if they match.",
@@ -107,7 +107,7 @@
             ]
           }
         ],
-        "debrief": "Debrief: a plausible text, a familiar voice and matching numbers may all be part of one attempt. Replay with attention to what counts as genuinely independent evidence. A real invoice can survive the normal check."
+        "debrief": "Debrief: a text and familiar-sounding call can support the same false request. The final, separate invoice tests a changed recipient even after a manager confirms the supplier exists. If you approved the earlier payment, seek the center’s verified response route promptly; replay to practise checking before approval."
       },
       {
         "type": "check",

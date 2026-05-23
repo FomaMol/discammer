@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r2",
     "goal": "Respond to a fear-plus-deadline claim by verifying the problem and remedy through a known route before taking a consequential action.",
     "today_action": "Choose one short phrase to use under pressure: “I will check this through my own app or number and call back.”",
     "checked_at": "2026-10-20",
@@ -46,7 +46,7 @@
       {
         "type": "practice",
         "title": "The deadline call",
-        "setup": "A fictional housing office caller says a tenancy renewal will be cancelled today unless you pay through a new link. This is a learning scenario, not legal or housing advice.",
+        "setup": "Three separate fictional housing snapshots test a deadline, a callback route and a tenant-portal finding. Each new snapshot resets the situation; no choice carries into the next one. This is not legal or housing advice.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -68,7 +68,7 @@
             ]
           },
           {
-            "prompt": "The caller warns that the published office line is overloaded. What route do you use?",
+            "prompt": "Separate new call: a claimed housing-office worker says the published office line is overloaded and offers an alternate number. Which route do you use?",
             "choices": [
               {
                 "text": "Use the alternate number they supply.",
@@ -85,7 +85,7 @@
             ]
           },
           {
-            "prompt": "The portal shows a renewal due this week, with no new payment link. What next?",
+            "prompt": "Separate new renewal: you opened your known tenant portal yourself. It shows a renewal due this week but no new payment link. An inbound caller nevertheless asks you to pay through a new link. What next?",
             "choices": [
               {
                 "text": "Pay the caller anyway because the deadline is close.",
@@ -102,7 +102,7 @@
             ]
           }
         ],
-        "debrief": "Debrief: urgency is compatible with a real underlying task. On replay, inspect the proposed solution separately from the problem. Independent verification can lead to prompt legitimate action, not just refusal."
+        "debrief": "Debrief: these are three independent decisions, so a prior payment or ended call does not create the later portal finding. Urgency can accompany a real renewal, while an unverified payment link remains unsafe. Replay each snapshot and check the claimed problem and proposed remedy separately."
       },
       {
         "type": "check",

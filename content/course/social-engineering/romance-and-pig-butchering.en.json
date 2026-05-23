@@ -2,11 +2,11 @@
   "order": 4,
   "title": "Romance scams and pig-butchering",
   "est_minutes": 16,
-  "body_md": "## When affection becomes a route to money\n\nA romance scam may begin with real-seeming attention and weeks of conversation before an emergency request. A related **relationship investment scam**, sometimes called “pig butchering,” builds friendship or intimacy and then introduces an investment platform. The labels describe a pattern, not a way to judge a person by their accent, appearance, location or willingness to video call. A real relationship can be distant, move between apps or involve genuine hardship. Focus on requests and verification.\n\nThe common sequence is contact (a dating match, social message or apparent wrong number), frequent private conversation, a turn toward money, and a reason to act outside your own financial judgment. The other person may offer to “teach” you a crypto strategy, show screenshots of gains or direct you to a realistic dashboard. The screen is not an audited account statement. US investor authorities describe fabricated profits and even deliberate small withdrawals that build confidence before larger deposits. An early withdrawal is therefore not proof that the remaining displayed balance exists.\n\nA later request to pay “tax,” “verification” or a release fee into a new account before you can withdraw is especially serious. The US SEC describes this as advance-fee fraud in relationship investment cases. Do not send more money in an attempt to retrieve an apparent balance. Also beware people who later offer to recover losses for an upfront fee. A legitimate investment decision requires research independent of the new contact and, where appropriate, regulated advice within your jurisdiction. A genuine romantic relationship does not make a particular investment safe.\n\nIf you suspect this is happening, stop payments and contact your bank or payment provider through its established support route as soon as possible. Ask what can be stopped or disputed, without expecting guaranteed recovery. Save records privately and talk with someone you trust; shame is a tool the scam relies on. Do not post sensitive details into a course exercise or public forum. Reporting options depend on your country and platform.\n\nThe practice starts before any transfer and then tests what to do if a payment has already happened. The examples are fictional composites, not accounts of real people.",
+  "body_md": "## When affection becomes a route to money\n\nA romance scam may begin with real-seeming attention and weeks of conversation before an emergency request. A related **relationship investment scam**, sometimes called “pig butchering,” builds friendship or intimacy and then introduces an investment platform. The labels describe a pattern, not a way to judge a person by their accent, appearance, location or willingness to video call. A real relationship can be distant, move between apps or involve genuine hardship. Focus on requests and verification.\n\nThe common sequence is contact (a dating match, social message or apparent wrong number), frequent private conversation, a turn toward money, and a reason to act outside your own financial judgment. The other person may offer to “teach” you a crypto strategy, show screenshots of gains or direct you to a realistic dashboard. The screen is not an audited account statement. A 2024 US SEC-led investor alert describes fabricated profits and even deliberately permitted small withdrawals that build confidence before larger deposits. An early withdrawal is therefore not proof that the remaining displayed balance exists.\n\nA later request to pay “tax,” “verification” or a release fee into a new account before you can withdraw is especially serious. The US SEC describes this as advance-fee fraud in relationship investment cases. Do not send more money in an attempt to retrieve an apparent balance. Also beware people who later offer to recover losses for an upfront fee. A legitimate investment decision requires research independent of the new contact and, where appropriate, regulated advice within your jurisdiction. A genuine romantic relationship does not make a particular investment safe.\n\nIf you suspect this is happening, stop payments and contact your bank or payment provider through its established support route as soon as possible. Ask what can be stopped or disputed, without expecting guaranteed recovery. Save records privately and talk with someone you trust; shame is a tool the scam relies on. Do not post sensitive details into a course exercise or public forum. Reporting options depend on your country and platform.\n\nThe practice starts before any transfer and then tests what to do if a payment has already happened. The examples are fictional composites, not accounts of real people.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r2",
     "goal": "Recognize when a new relationship is steering an investment decision and stop additional payments at a withdrawal-fee demand.",
     "today_action": "Agree with someone you trust that any investment introduced by a new online contact gets an independent review before payment.",
     "checked_at": "2026-10-20",
@@ -23,6 +23,11 @@
         "scope": "US investor guidance; friendship/romance grooming, fake dashboards and withdrawal barriers."
       },
       {
+        "title": "US SEC-led Investor Alert — relationship investment scams",
+        "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/relationship-investment-scams-investor-alert",
+        "scope": "US investor alert (10 September 2024); deliberately permitted early withdrawals can create false confidence before larger deposits."
+      },
+      {
         "title": "US SEC Investor.gov — advance fee fraud",
         "url": "https://www.investor.gov/protect-your-investments/fraud/types-fraud/advance-fee-fraud",
         "scope": "US investor guidance; claimed tax or validation fee to release purported investment proceeds."
@@ -33,7 +38,7 @@
         "type": "case",
         "title": "Synthetic: the warm contact and trading dashboard",
         "situation": "After a month of daily messages, a dating-app contact shows a dashboard of steady gains, coaches a small crypto transfer, and later asks for a much larger deposit. A small withdrawal appeared to work.",
-        "analysis": "Warmth is real as an experience but does not validate the product. The SEC warns that displayed returns can be fabricated and a small withdrawal can be allowed deliberately. Stop further transfers and research the entity independently; do not rely on the contact or their screenshots.",
+        "analysis": "Warmth is real as an experience but does not validate the product. A US SEC-led investor alert warns that displayed returns can be fabricated and a small withdrawal can be allowed deliberately. Stop further transfers and research the entity independently; do not rely on the contact or their screenshots.",
         "legitimate": false
       },
       {
@@ -71,7 +76,7 @@
             "id": "invitation"
           },
           {
-            "prompt": "They say a successful small withdrawal proves the platform. What do you infer?",
+            "prompt": "After your small deposit, you request a small withdrawal and confirm that the amount reaches an account you control. The friend says this proves the platform. What do you infer?",
             "choices": [
               {
                 "text": "It proves the full displayed balance can be withdrawn.",

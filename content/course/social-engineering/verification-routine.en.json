@@ -6,7 +6,7 @@
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
-    "revision": "2026-10-20",
+    "revision": "2026-10-20-r2",
     "goal": "Run a repeatable four-part verification routine before acting on an unexpected high-stakes request.",
     "today_action": "Write a private, offline list of two established contact routes and tell one trusted person that you will use it for unexpected payment or access requests.",
     "checked_at": "2026-10-20",
@@ -51,7 +51,7 @@
       {
         "type": "practice",
         "title": "The water-leak request",
-        "setup": "You receive a fictional building message about a possible leak next door. The scenario uses no real address, access code or phone number.",
+        "setup": "A fictional building message asks for a door code. The first two decisions test how to pause and choose a contact route. The third is a separate leak report that you check independently, regardless of those choices; the fourth is an explicit what-if after disclosure. No real address, access code or phone number is used.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -90,7 +90,7 @@
             ]
           },
           {
-            "prompt": "The desk confirms a leak, but says staff never need residents’ door codes. What do you do?",
+            "prompt": "Separate new leak report: you independently call the management desk using the number on your existing lease. The desk confirms a leak but says staff do not need residents’ door codes. A message nevertheless asks for yours. What do you do?",
             "choices": [
               {
                 "text": "Send the code because the leak is real.",
@@ -124,7 +124,7 @@
             ]
           }
         ],
-        "debrief": "Debrief: stop, choose a known route, restate the precise ask, then decide or respond. The leak was real; the request for a door code was not authorized. Replay and notice how verifying only the headline would have missed the unsafe remedy."
+        "debrief": "Debrief: the contact-route choice does not itself produce a real-desk finding. In the separate third snapshot, you make that independent call explicitly: the leak is real, but the code request is unauthorized. The final what-if tests recovery after disclosure. Replay the full stop → known route → exact request → response routine."
       },
       {
         "type": "check",
