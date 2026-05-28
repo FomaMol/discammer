@@ -75,18 +75,18 @@
             "prompt": "After you disclose the identifier, the caller says the normal portal is down and dictates an alternate upload link. What now?",
             "choices": [
               {
-                "text": "Use the dictated link to finish quickly.",
-                "consequence": "You expose more details through an unverified page.",
-                "explanation": "The asserted outage and link both come from the same unverified caller.",
-                "recommended": false,
-                "next": "unverified-page"
-              },
-              {
                 "text": "Stop, end the call, and call the real benefits desk using the existing staff directory.",
                 "consequence": "You can still interrupt the script and reach a real service.",
                 "explanation": "Even after one disclosure, do not compound it; tell verified staff what happened.",
                 "recommended": true,
                 "next": "desk-result"
+              },
+              {
+                "text": "Use the dictated link to finish quickly.",
+                "consequence": "You expose more details through an unverified page.",
+                "explanation": "The asserted outage and link both come from the same unverified caller.",
+                "recommended": false,
+                "next": "unverified-page"
               }
             ]
           },
@@ -114,17 +114,17 @@
             "prompt": "The real benefits desk says no update is due. What next?",
             "choices": [
               {
-                "text": "Ignore the desk because the caller sounded more confident.",
-                "consequence": "You privilege tone over an independent record.",
-                "explanation": "Confidence and detailed scripts do not outrank the actual account or service owner.",
-                "recommended": false,
-                "next": "end"
-              },
-              {
                 "text": "Do not submit; report the contact and any information already shared through your workplace’s verified response route.",
                 "consequence": "The request stops, and verified staff can advise on any exposed information.",
                 "explanation": "Use the established confidential process to describe what was shared; avoid posting identifiers or the unverified link in a public channel.",
                 "recommended": true,
+                "next": "end"
+              },
+              {
+                "text": "Ignore the desk because the caller sounded more confident.",
+                "consequence": "You privilege tone over an independent record.",
+                "explanation": "Confidence and detailed scripts do not outrank the actual account or service owner.",
+                "recommended": false,
                 "next": "end"
               }
             ],

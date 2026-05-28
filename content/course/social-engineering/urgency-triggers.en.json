@@ -51,7 +51,7 @@
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The caller cites your building and a deadline. What first?",
+            "prompt": "First call: an unknown caller cites your building, says your lease renewal will lapse tonight, and sends a payment link to preserve it. What first?",
             "choices": [
               {
                 "text": "Pay through the link to preserve the renewal.",
@@ -71,16 +71,16 @@
             "prompt": "Separate new call: a claimed housing-office worker says the published office line is overloaded and offers an alternate number. Which route do you use?",
             "choices": [
               {
-                "text": "Use the alternate number they supply.",
-                "consequence": "The same source now controls the “verification” route.",
-                "explanation": "An excuse about the usual channel must itself be verified.",
-                "recommended": false
-              },
-              {
                 "text": "Open the known tenant portal or call the office number on your existing lease.",
                 "consequence": "You use contact details held before the call.",
                 "explanation": "The office can confirm whether a payment and deadline exist.",
                 "recommended": true
+              },
+              {
+                "text": "Use the alternate number they supply.",
+                "consequence": "The same source now controls the “verification” route.",
+                "explanation": "An excuse about the usual channel must itself be verified.",
+                "recommended": false
               }
             ]
           },

@@ -76,16 +76,16 @@
             "prompt": "Which contact will verify the request?",
             "choices": [
               {
-                "text": "The callback number in the same message.",
-                "consequence": "The original sender controls the supposed check.",
-                "explanation": "Use a number or app you held before the message.",
-                "recommended": false
-              },
-              {
                 "text": "The management app or phone number on your existing lease.",
                 "consequence": "You contact the party through an established route.",
                 "explanation": "Ask whether there is an open work order and what access method is authorized.",
                 "recommended": true
+              },
+              {
+                "text": "The callback number in the same message.",
+                "consequence": "The original sender controls the supposed check.",
+                "explanation": "Use a number or app you held before the message.",
+                "recommended": false
               }
             ]
           },
@@ -110,16 +110,16 @@
             "prompt": "Suppose you had already shared the code. What is the next action?",
             "choices": [
               {
-                "text": "Do nothing because the desk confirmed a leak.",
-                "consequence": "An exposed code may still allow unauthorized entry.",
-                "explanation": "Contact the verified management team about changing access and their incident process.",
-                "recommended": false
-              },
-              {
                 "text": "Tell the verified desk, change or disable the code through the authorized process, and keep the message privately.",
                 "consequence": "You respond to the exposure without using the suspicious sender.",
                 "explanation": "Steps depend on the building system; the desk can advise the actual procedure.",
                 "recommended": true
+              },
+              {
+                "text": "Do nothing because the desk confirmed a leak.",
+                "consequence": "An exposed code may still allow unauthorized entry.",
+                "explanation": "Contact the verified management team about changing access and their incident process.",
+                "recommended": false
               }
             ]
           }

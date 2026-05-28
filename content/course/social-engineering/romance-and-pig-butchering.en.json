@@ -59,18 +59,18 @@
             "prompt": "They send a screenshot of profits and offer to guide your first deposit. Your best first decision?",
             "choices": [
               {
-                "text": "Send a small deposit to test whether the platform works.",
-                "consequence": "You may enter an attacker-controlled process before independent research.",
-                "explanation": "A small first deposit is not a safe test of legitimacy.",
-                "recommended": false,
-                "next": "deposited"
-              },
-              {
                 "text": "Keep the friendship separate and research the firm and product independently before any investment.",
                 "consequence": "The financial claim must stand without the friend’s story.",
                 "explanation": "Check the relevant regulator and product terms for your jurisdiction; ask an independent qualified adviser if needed.",
                 "recommended": true,
                 "next": "held-off"
+              },
+              {
+                "text": "Send a small deposit to test whether the platform works.",
+                "consequence": "You may enter an attacker-controlled process before independent research.",
+                "explanation": "A small first deposit is not a safe test of legitimacy.",
+                "recommended": false,
+                "next": "deposited"
               }
             ],
             "id": "invitation"
@@ -99,17 +99,17 @@
             "prompt": "Now the site says a separate “tax” payment is required to release the balance. What next?",
             "choices": [
               {
-                "text": "Pay once more to avoid losing the earlier amount.",
-                "consequence": "The extra transfer can increase the loss without releasing anything.",
-                "explanation": "Advance-fee demands are a major warning; do not chase a displayed balance.",
-                "recommended": false,
-                "next": "end"
-              },
-              {
                 "text": "Stop transfers and contact the payment provider through its official channel promptly.",
                 "consequence": "You preserve a chance to ask about reversal or fraud response, though recovery is uncertain.",
                 "explanation": "Keep records privately and seek local reporting help; do not pay a recovery agent upfront.",
                 "recommended": true,
+                "next": "end"
+              },
+              {
+                "text": "Pay once more to avoid losing the earlier amount.",
+                "consequence": "The extra transfer can increase the loss without releasing anything.",
+                "explanation": "Advance-fee demands are a major warning; do not chase a displayed balance.",
+                "recommended": false,
                 "next": "end"
               }
             ],
@@ -140,17 +140,17 @@
             "prompt": "The friend says the “special allocation” closes tonight and asks you to borrow money to join. What do you do?",
             "choices": [
               {
-                "text": "Borrow money before the offer closes.",
-                "consequence": "Debt magnifies exposure to an unverified platform.",
-                "explanation": "A deadline cannot replace due diligence, especially for borrowed funds.",
-                "recommended": false,
-                "next": "end"
-              },
-              {
                 "text": "Decline the investment and the loan; disengage if the pressure continues.",
                 "consequence": "You avoid turning intimacy and scarcity into a financial obligation.",
                 "explanation": "If you want to invest, research a product independently on your own timeline.",
                 "recommended": true,
+                "next": "end"
+              },
+              {
+                "text": "Borrow money before the offer closes.",
+                "consequence": "Debt magnifies exposure to an unverified platform.",
+                "explanation": "A deadline cannot replace due diligence, especially for borrowed funds.",
+                "recommended": false,
                 "next": "end"
               }
             ]

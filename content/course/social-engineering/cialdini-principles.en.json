@@ -38,7 +38,7 @@
         "type": "case",
         "title": "Synthetic: the helpful club organizer",
         "situation": "A new online club organizer sends a free checklist, invites you into a private group with enthusiastic testimonials, then says members must pay a “verification deposit” before midnight.",
-        "analysis": "The checklist and compliments create reciprocity and liking; testimonials suggest social proof; the deadline adds scarcity. None establishes who receives the deposit or whether it is refundable. Leave the group link and verify the organizer and payment route independently before any payment.",
+        "analysis": "The checklist and compliments create reciprocity and liking; testimonials suggest social proof; the deadline adds scarcity. None establishes who receives the deposit or whether it is refundable. Do not pay in response to the group’s request; verify the organizer and payment route independently before any payment.",
         "legitimate": false
       },
       {
@@ -76,16 +76,16 @@
             "prompt": "The group page shows many glowing member quotes and a “verified by experts” badge. What next?",
             "choices": [
               {
-                "text": "Treat the quotes and badge as proof that the group is trustworthy.",
-                "consequence": "You may mistake presentation for independent evidence.",
-                "explanation": "Testimonials and badges can be created by the seller; seek an outside record and exact terms.",
-                "recommended": false
-              },
-              {
                 "text": "Find the organizer and terms through a source outside that page.",
                 "consequence": "You gain a check that the invitation page cannot supply by itself.",
                 "explanation": "Look for the organization’s own established contact and written terms; lack of confirmation is a reason to pause.",
                 "recommended": true
+              },
+              {
+                "text": "Treat the quotes and badge as proof that the group is trustworthy.",
+                "consequence": "You may mistake presentation for independent evidence.",
+                "explanation": "Testimonials and badges can be created by the seller; seek an outside record and exact terms.",
+                "recommended": false
               }
             ]
           },

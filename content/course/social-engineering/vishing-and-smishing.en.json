@@ -59,16 +59,16 @@
             "prompt": "The text contains a supplier link and says the invoice expires at noon. What first?",
             "choices": [
               {
-                "text": "Open the link because the center has a supplier.",
-                "consequence": "The existence of a supplier does not verify this invoice or destination.",
-                "explanation": "Use an invoice or system you independently access.",
-                "recommended": false
-              },
-              {
                 "text": "Open the center’s known purchasing system and look for the invoice.",
                 "consequence": "You check whether the claim exists outside the message.",
                 "explanation": "A real deadline can be handled through the usual records.",
                 "recommended": true
+              },
+              {
+                "text": "Open the link because the center has a supplier.",
+                "consequence": "The existence of a supplier does not verify this invoice or destination.",
+                "explanation": "Use an invoice or system you independently access.",
+                "recommended": false
               }
             ]
           },
@@ -93,16 +93,16 @@
             "prompt": "Separate new invoice: you independently open the center’s purchasing system. A message in your manager’s saved work account confirms that the supplier is real, but says its bank details changed; an inbound text supplies the purported new details. No payment has been approved in this new snapshot. What now?",
             "choices": [
               {
-                "text": "Compare the new details with the caller’s text and pay if they match.",
-                "consequence": "Two copies of attacker-supplied details do not authenticate a change.",
-                "explanation": "A recipient change needs independent supplier verification under workplace policy.",
-                "recommended": false
-              },
-              {
                 "text": "Pause payment and ask purchasing to verify the new destination with the supplier through its existing contact.",
                 "consequence": "The changed destination receives its own check.",
                 "explanation": "A real supplier can confirm through a previously held contact; until then, do not pay.",
                 "recommended": true
+              },
+              {
+                "text": "Compare the new details with the caller’s text and pay if they match.",
+                "consequence": "Two copies of attacker-supplied details do not authenticate a change.",
+                "explanation": "A recipient change needs independent supplier verification under workplace policy.",
+                "recommended": false
               }
             ]
           }

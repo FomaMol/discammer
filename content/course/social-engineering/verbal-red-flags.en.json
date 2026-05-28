@@ -46,7 +46,7 @@
       {
         "type": "practice",
         "title": "The support conversation",
-        "setup": "Three separate fictional inbound support attempts test isolation, an unexpected code and remote access. Each next prompt resets to a new contact, so ending one call does not resume it.",
+        "setup": "Three separate fictional inbound support attempts test isolation, an unexpected code and remote access. In the first, you encounter a login error and open a support ticket before an unsolicited caller claiming support rings. Each next prompt resets to a new contact, so ending one call does not resume it.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
@@ -54,16 +54,16 @@
             "prompt": "They mention the login error and say, “Please stay with me; the case will disappear if you hang up.” What do you do?",
             "choices": [
               {
-                "text": "Stay because the timing proves they see your case.",
-                "consequence": "You lose the chance to verify the caller’s identity.",
-                "explanation": "Coincidence or leaked account activity can be used as part of a story.",
-                "recommended": false
-              },
-              {
                 "text": "Ask for a non-sensitive case description, end the call, and open the provider’s support route yourself.",
                 "consequence": "You preserve the problem but move authentication outside the call.",
                 "explanation": "A real case should be visible or confirmable through the provider’s normal channel.",
                 "recommended": true
+              },
+              {
+                "text": "Stay because the timing proves they see your case.",
+                "consequence": "You lose the chance to verify the caller’s identity.",
+                "explanation": "Coincidence or leaked account activity can be used as part of a story.",
+                "recommended": false
               }
             ]
           },
@@ -88,16 +88,16 @@
             "prompt": "Another separate unsolicited support caller offers remote software as an “easier fix.” What is the best response?",
             "choices": [
               {
-                "text": "Install it because a remote session is always standard support.",
-                "consequence": "You could surrender device control to an unverified caller.",
-                "explanation": "Remote support may be legitimate only within a confirmed, initiated process.",
-                "recommended": false
-              },
-              {
                 "text": "Decline the inbound setup and, if needed, start a fresh ticket in the known support portal.",
                 "consequence": "Any future remote session can be approved under the real process.",
                 "explanation": "This does not rule out legitimate technical help; it changes who controls its start.",
                 "recommended": true
+              },
+              {
+                "text": "Install it because a remote session is always standard support.",
+                "consequence": "You could surrender device control to an unverified caller.",
+                "explanation": "Remote support may be legitimate only within a confirmed, initiated process.",
+                "recommended": false
               }
             ]
           }
