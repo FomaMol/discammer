@@ -51,7 +51,7 @@
       {
         "type": "practice",
         "title": "The water-leak request",
-        "setup": "A fictional building message asks for a door code. The first two decisions test how to pause and choose a contact route. The third is a separate leak report that you check independently, regardless of those choices; the fourth is an explicit what-if after disclosure. No real address, access code or phone number is used.",
+        "setup": "A fictional message claiming to be from building management says: ‘There may be a water leak in Unit 204, next to yours. Send your door code to our technician right away so we can check your apartment.’ The first two decisions test how to pause and choose a contact route. The third is a separate leak report that you check independently, regardless of those choices; the fourth is an explicit what-if after disclosure. No real address, access code or phone number is used.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
