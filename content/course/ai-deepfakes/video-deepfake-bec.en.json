@@ -49,16 +49,16 @@
             "prompt": "A familiar face says the deal is confidential. What do you record?",
             "choices": [
               {
-                "text": "The exact new recipient and requested action",
-                "consequence": "You define the change requiring verification.",
-                "explanation": "A general “CFO approved” is too vague to validate the beneficiary.",
-                "recommended": true
-              },
-              {
                 "text": "Only who appeared on screen",
                 "consequence": "The payment destination remains unchecked.",
                 "explanation": "Faces do not describe the account change.",
                 "recommended": false
+              },
+              {
+                "text": "The exact new recipient and requested action",
+                "consequence": "You define the change requiring verification.",
+                "explanation": "A general “CFO approved” is too vague to validate the beneficiary.",
+                "recommended": true
               }
             ]
           },
@@ -122,14 +122,14 @@
             "prompt": "The vendor’s camera glitches during a routine unchanged invoice. What follows?",
             "choices": [
               {
-                "text": "Continue normal checks and reconnect if needed",
-                "explanation": "A glitch can be benign and does not settle identity or fraud.",
-                "correct": true
-              },
-              {
                 "text": "Declare the vendor a deepfake",
                 "explanation": "Compression artifacts are not a reliable verdict.",
                 "correct": false
+              },
+              {
+                "text": "Continue normal checks and reconnect if needed",
+                "explanation": "A glitch can be benign and does not settle identity or fraud.",
+                "correct": true
               }
             ]
           },
@@ -137,14 +137,14 @@
             "prompt": "A transfer was made to a suspected impostor account. First practical response?",
             "choices": [
               {
-                "text": "Contact the sending bank promptly about recall",
-                "explanation": "Timing matters, though recovery is not guaranteed.",
-                "correct": true
-              },
-              {
                 "text": "Wait for the meeting organiser to explain",
                 "explanation": "Delay can reduce the chance of any recovery.",
                 "correct": false
+              },
+              {
+                "text": "Contact the sending bank promptly about recall",
+                "explanation": "Timing matters, though recovery is not guaranteed.",
+                "correct": true
               }
             ]
           }

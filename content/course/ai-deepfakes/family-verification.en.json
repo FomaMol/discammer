@@ -78,16 +78,16 @@
             "prompt": "A relative proposes a shared phrase. How should it be used?",
             "choices": [
               {
-                "text": "As an optional clue alongside independent callback",
-                "consequence": "The phrase helps memory without becoming a master key.",
-                "explanation": "It can leak or be forgotten; the saved route remains primary.",
-                "recommended": true
-              },
-              {
                 "text": "As sole proof, replacing the callback",
                 "consequence": "One overheard phrase can defeat the whole plan.",
                 "explanation": "A shared secret alone does not verify the current situation.",
                 "recommended": false
+              },
+              {
+                "text": "As an optional clue alongside independent callback",
+                "consequence": "The phrase helps memory without becoming a master key.",
+                "explanation": "It can leak or be forgotten; the saved route remains primary.",
+                "recommended": true
               }
             ]
           }
@@ -102,14 +102,14 @@
             "prompt": "A real relative forgets the family phrase during an injury.",
             "choices": [
               {
-                "text": "Verify through a clinic or another saved contact, then help",
-                "explanation": "The plan supports a genuine emergency without treating memory failure as guilt.",
-                "correct": true
-              },
-              {
                 "text": "Refuse all help because the phrase is missing",
                 "explanation": "A phrase is optional and fallible.",
                 "correct": false
+              },
+              {
+                "text": "Verify through a clinic or another saved contact, then help",
+                "explanation": "The plan supports a genuine emergency without treating memory failure as guilt.",
+                "correct": true
               }
             ]
           },
@@ -117,14 +117,14 @@
             "prompt": "Who should know the response plan?",
             "choices": [
               {
-                "text": "People likely to receive or verify an urgent request",
-                "explanation": "The callback fails if only one family member knows it.",
-                "correct": true
-              },
-              {
                 "text": "Only the person who designed it",
                 "explanation": "Others need to practise before panic.",
                 "correct": false
+              },
+              {
+                "text": "People likely to receive or verify an urgent request",
+                "explanation": "The callback fails if only one family member knows it.",
+                "correct": true
               }
             ]
           },

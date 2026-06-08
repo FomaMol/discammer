@@ -71,16 +71,16 @@
             "prompt": "Separate snapshot: the message links to a fee page. Where do you check?",
             "choices": [
               {
-                "text": "Open the organiser’s known site or saved contact independently",
-                "consequence": "You compare with a source outside the message.",
-                "explanation": "A link supplied by the message may lead to an attacker page.",
-                "recommended": true
-              },
-              {
                 "text": "Follow the message link because the domain looks neat",
                 "consequence": "You remain within the sender’s chosen path.",
                 "explanation": "Visual neatness does not authenticate the site.",
                 "recommended": false
+              },
+              {
+                "text": "Open the organiser’s known site or saved contact independently",
+                "consequence": "You compare with a source outside the message.",
+                "explanation": "A link supplied by the message may lead to an attacker page.",
+                "recommended": true
               }
             ]
           },
@@ -88,16 +88,16 @@
             "prompt": "Separate snapshot: you open the organiser's known site independently and find no fee announcement there. The organiser is unavailable. What do you do?",
             "choices": [
               {
-                "text": "Hold payment and ask later through the known route",
-                "consequence": "You avoid an unverified charge.",
-                "explanation": "A deadline in an unverified message is not a reason to skip the check.",
-                "recommended": true
-              },
-              {
                 "text": "Upload the message to an AI detector and pay after it reports a low AI-likelihood score",
                 "consequence": "In this synthetic snapshot, the detector reports a low AI-likelihood score. You expose the private message to a third-party service and pay an unverified fee.",
                 "explanation": "An AI score does not decide whether the payment is authorised.",
                 "recommended": false
+              },
+              {
+                "text": "Hold payment and ask later through the known route",
+                "consequence": "You avoid an unverified charge.",
+                "explanation": "A deadline in an unverified message is not a reason to skip the check.",
+                "recommended": true
               }
             ]
           }
@@ -112,14 +112,14 @@
             "prompt": "An AI detector marks a private email “human”. Does that permit payment?",
             "choices": [
               {
-                "text": "No; verify the payment request independently",
-                "explanation": "Authorship classification and payment authority are different questions.",
-                "correct": true
-              },
-              {
                 "text": "Yes; a human score authenticates the sender",
                 "explanation": "Even a human-written message may be fraudulent or come from a compromised account.",
                 "correct": false
+              },
+              {
+                "text": "No; verify the payment request independently",
+                "explanation": "Authorship classification and payment authority are different questions.",
+                "correct": true
               }
             ]
           },

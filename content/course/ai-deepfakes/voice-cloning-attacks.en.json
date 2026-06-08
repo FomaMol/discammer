@@ -66,16 +66,16 @@
             "prompt": "Separate snapshot: you end the incoming call and dial your brother's saved number, but nobody answers. What next?",
             "choices": [
               {
-                "text": "Contact another relative or a published institution number",
-                "consequence": "You seek independent welfare information.",
-                "explanation": "No answer does not mean the caller’s payment story is true.",
-                "recommended": true
-              },
-              {
                 "text": "Send a small test payment",
                 "consequence": "The attacker gets money and may ask for more.",
                 "explanation": "A test payment is still a payment to an unverified recipient.",
                 "recommended": false
+              },
+              {
+                "text": "Contact another relative or a published institution number",
+                "consequence": "You seek independent welfare information.",
+                "explanation": "No answer does not mean the caller’s payment story is true.",
+                "recommended": true
               }
             ]
           },
@@ -107,14 +107,14 @@
             "prompt": "A manager’s familiar voice asks to change supplier bank details. Best next step?",
             "choices": [
               {
-                "text": "Use the documented payment-change and callback process",
-                "explanation": "Financial controls apply regardless of voice quality.",
-                "correct": true
-              },
-              {
                 "text": "Approve because you recognise the voice",
                 "explanation": "Cloning and ordinary impersonation make voice alone insufficient.",
                 "correct": false
+              },
+              {
+                "text": "Use the documented payment-change and callback process",
+                "explanation": "Financial controls apply regardless of voice quality.",
+                "correct": true
               }
             ]
           },
@@ -137,14 +137,14 @@
             "prompt": "The real person cannot be reached, but danger may be genuine.",
             "choices": [
               {
-                "text": "Contact another trusted person or local emergency service; do not make an unverified payment",
-                "explanation": "You can check welfare promptly without accepting the caller’s payment channel.",
-                "correct": true
-              },
-              {
                 "text": "Ignore every emergency until the person calls back",
                 "explanation": "A real emergency may require a prompt call to a reliable institution.",
                 "correct": false
+              },
+              {
+                "text": "Contact another trusted person or local emergency service; do not make an unverified payment",
+                "explanation": "You can check welfare promptly without accepting the caller’s payment channel.",
+                "correct": true
               }
             ]
           }

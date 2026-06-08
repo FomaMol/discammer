@@ -54,16 +54,16 @@
             "prompt": "The face and voice match. What do you evaluate first?",
             "choices": [
               {
-                "text": "The requested change to payment details",
-                "consequence": "You identify the irreversible step before trusting the presentation.",
-                "explanation": "The risk lies in approving a new destination for funds; the media only delivers the request.",
-                "recommended": true
-              },
-              {
                 "text": "Whether the video has a lip-sync error",
                 "consequence": "No artifact appears, so the transfer pressure remains.",
                 "explanation": "Clean video does not prove who controls the meeting.",
                 "recommended": false
+              },
+              {
+                "text": "The requested change to payment details",
+                "consequence": "You identify the irreversible step before trusting the presentation.",
+                "explanation": "The risk lies in approving a new destination for funds; the media only delivers the request.",
+                "recommended": true
               }
             ]
           },
@@ -88,16 +88,16 @@
             "prompt": "Separate snapshot: you call the manager using the existing staff directory, but nobody answers. The deadline for the new-account payment is near. What now?",
             "choices": [
               {
-                "text": "Pause payment and escalate through the usual approver",
-                "consequence": "The payment waits while an authorised person checks it.",
-                "explanation": "An unanswered callback is not approval; established controls still apply.",
-                "recommended": true
-              },
-              {
                 "text": "Approve because the video looked normal",
                 "consequence": "The unverified new account receives the funds in this simulation.",
                 "explanation": "Appearance cannot replace approval. Retry the decision using the existing route.",
                 "recommended": false
+              },
+              {
+                "text": "Pause payment and escalate through the usual approver",
+                "consequence": "The payment waits while an authorised person checks it.",
+                "explanation": "An unanswered callback is not approval; established controls still apply.",
+                "recommended": true
               }
             ]
           }
@@ -127,14 +127,14 @@
             "prompt": "An odd accent appears on a call without a money request. What does it prove?",
             "choices": [
               {
-                "text": "Nothing decisive about identity",
-                "explanation": "Connection quality, translation and individual variation can all affect sound.",
-                "correct": true
-              },
-              {
                 "text": "The speaker is a clone",
                 "explanation": "Accent alone is not a reliable deepfake test.",
                 "correct": false
+              },
+              {
+                "text": "Nothing decisive about identity",
+                "explanation": "Connection quality, translation and individual variation can all affect sound.",
+                "correct": true
               }
             ]
           },

@@ -49,16 +49,16 @@
             "prompt": "The repost has no credential. What does that mean?",
             "choices": [
               {
-                "text": "It remains unverified; look for an original publication",
-                "consequence": "You avoid turning absence into a verdict.",
-                "explanation": "Reposting or re-encoding can remove provenance information.",
-                "recommended": true
-              },
-              {
                 "text": "It is certainly a deepfake",
                 "consequence": "A genuine clip may be wrongly dismissed.",
                 "explanation": "No credential is not proof of fabrication.",
                 "recommended": false
+              },
+              {
+                "text": "It remains unverified; look for an original publication",
+                "consequence": "You avoid turning absence into a verdict.",
+                "explanation": "Reposting or re-encoding can remove provenance information.",
+                "recommended": true
               }
             ]
           },
@@ -66,16 +66,16 @@
             "prompt": "Separate snapshot: you have not paid or shared the clip. An original file has a valid signer and an editing record. What do you do?",
             "choices": [
               {
-                "text": "Read the signer and claims, then check the fee elsewhere",
-                "consequence": "You learn the file history without equating it with law or policy.",
-                "explanation": "Credentials describe provenance, not whether the spoken claim is true.",
-                "recommended": true
-              },
-              {
                 "text": "Pay because the signature validates the fee",
                 "consequence": "You send money for a fee that could still be invented or miscaptioned.",
                 "explanation": "A signed file can carry false or irrelevant claims.",
                 "recommended": false
+              },
+              {
+                "text": "Read the signer and claims, then check the fee elsewhere",
+                "consequence": "You learn the file history without equating it with law or policy.",
+                "explanation": "Credentials describe provenance, not whether the spoken claim is true.",
+                "recommended": true
               }
             ]
           },
@@ -137,14 +137,14 @@
             "prompt": "A supported watermark is found in a clip. What can it support?",
             "choices": [
               {
-                "text": "A narrow association with the marking system, not the truth of its caption",
-                "explanation": "Origin signals and contextual claims are separate.",
-                "correct": true
-              },
-              {
                 "text": "Every statement in the clip is false",
                 "explanation": "A marked clip can still contain accurate statements or legitimate illustration.",
                 "correct": false
+              },
+              {
+                "text": "A narrow association with the marking system, not the truth of its caption",
+                "explanation": "Origin signals and contextual claims are separate.",
+                "correct": true
               }
             ]
           }
