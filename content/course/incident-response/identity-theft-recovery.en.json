@@ -75,16 +75,16 @@
             "prompt": "Separate snapshot: an unfamiliar store card is already open in your name. How do you address that existing account?",
             "choices": [
               {
-                "text": "Dispute it with the issuer and relevant bureau, using the FTC recovery plan if appropriate.",
-                "consequence": "The existing record gets a specific challenge.",
-                "explanation": "A freeze alone does not delete old entries.",
-                "recommended": true
-              },
-              {
                 "text": "Assume the freeze erases it.",
                 "consequence": "The fraudulent account remains.",
                 "explanation": "Prevention and correction are separate.",
                 "recommended": false
+              },
+              {
+                "text": "Dispute it with the issuer and relevant bureau, using the FTC recovery plan if appropriate.",
+                "consequence": "The existing record gets a specific challenge.",
+                "explanation": "A freeze alone does not delete old entries.",
+                "recommended": true
               }
             ]
           },
@@ -109,16 +109,16 @@
             "prompt": "Separate US snapshot: you have a genuine loan application next month and an active credit freeze. What now?",
             "choices": [
               {
-                "text": "Plan a temporary lift at the bureau the lender uses, then restore the freeze.",
-                "consequence": "The legitimate check can proceed while protection resumes.",
-                "explanation": "A freeze is reversible; confirm the lender independently.",
-                "recommended": true
-              },
-              {
                 "text": "Remove all freezes permanently because applications are impossible otherwise.",
                 "consequence": "Protection is lost unnecessarily.",
                 "explanation": "Temporary lifts are supported.",
                 "recommended": false
+              },
+              {
+                "text": "Plan a temporary lift at the bureau the lender uses, then restore the freeze.",
+                "consequence": "The legitimate check can proceed while protection resumes.",
+                "explanation": "A freeze is reversible; confirm the lender independently.",
+                "recommended": true
               }
             ]
           }

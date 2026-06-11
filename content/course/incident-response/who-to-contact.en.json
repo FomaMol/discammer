@@ -153,14 +153,14 @@
             "prompt": "A UK consumer lost money after account takeover. Which reporting pair matches NCSC guidance?",
             "choices": [
               {
-                "text": "Bank promptly, then Report Fraud or Police Scotland as applicable.",
-                "explanation": "The bank handles money; the local reporting route handles the crime report.",
-                "correct": true
-              },
-              {
                 "text": "IC3 alone, regardless of location.",
                 "explanation": "IC3 is a US system and does not replace the bank.",
                 "correct": false
+              },
+              {
+                "text": "Bank promptly, then Report Fraud or Police Scotland as applicable.",
+                "explanation": "The bank handles money; the local reporting route handles the crime report.",
+                "correct": true
               }
             ]
           },

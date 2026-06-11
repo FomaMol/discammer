@@ -68,16 +68,16 @@
             "prompt": "Which setting deserves direct review?",
             "choices": [
               {
-                "text": "Forwarding rules, recovery contacts, sessions and connected apps.",
-                "consequence": "You look for remaining access paths.",
-                "explanation": "Changing the password alone may leave delegated access.",
-                "recommended": true
-              },
-              {
                 "text": "Only the profile photo.",
                 "consequence": "It does not explain account persistence.",
                 "explanation": "Prioritize controls that grant access.",
                 "recommended": false
+              },
+              {
+                "text": "Forwarding rules, recovery contacts, sessions and connected apps.",
+                "consequence": "You look for remaining access paths.",
+                "explanation": "Changing the password alone may leave delegated access.",
+                "recommended": true
               }
             ]
           },
@@ -102,16 +102,16 @@
             "prompt": "You suspect the laptop had remote-support software. How do you change credentials?",
             "choices": [
               {
-                "text": "Use a trusted device, remove the software with reputable help, then review affected credentials.",
-                "consequence": "New passwords are less likely to be observed.",
-                "explanation": "Device trust matters during rotation.",
-                "recommended": true
-              },
-              {
                 "text": "Change them on the same uncontrolled laptop.",
                 "consequence": "The new secrets might be captured.",
                 "explanation": "A password change on a watched device can fail.",
                 "recommended": false
+              },
+              {
+                "text": "Use a trusted device, remove the software with reputable help, then review affected credentials.",
+                "consequence": "New passwords are less likely to be observed.",
+                "explanation": "Device trust matters during rotation.",
+                "recommended": true
               }
             ]
           },

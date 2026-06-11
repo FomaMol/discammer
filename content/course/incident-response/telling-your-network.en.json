@@ -70,16 +70,16 @@
             "prompt": "What channel do you use?",
             "choices": [
               {
-                "text": "A known phone number or another established channel; explain verification if only the affected channel works.",
-                "consequence": "Recipients can authenticate the warning.",
-                "explanation": "Channel choice should fit their actual reachability.",
-                "recommended": true
-              },
-              {
                 "text": "Only the compromised chat, with no explanation.",
                 "consequence": "They may doubt or miss the warning.",
                 "explanation": "Give an independent way to verify.",
                 "recommended": false
+              },
+              {
+                "text": "A known phone number or another established channel; explain verification if only the affected channel works.",
+                "consequence": "Recipients can authenticate the warning.",
+                "explanation": "Channel choice should fit their actual reachability.",
+                "recommended": true
               }
             ]
           },
@@ -87,16 +87,16 @@
             "prompt": "What should the message say about timing?",
             "choices": [
               {
-                "text": "State the known approximate window and say you will update it if needed.",
-                "consequence": "Uncertainty stays visible without delaying action.",
-                "explanation": "Do not invent exact start times.",
-                "recommended": true
-              },
-              {
                 "text": "Claim you know the exact first minute.",
                 "consequence": "Recipients may wrongly dismiss an earlier request.",
                 "explanation": "Unverified precision can be harmful.",
                 "recommended": false
+              },
+              {
+                "text": "State the known approximate window and say you will update it if needed.",
+                "consequence": "Uncertainty stays visible without delaying action.",
+                "explanation": "Do not invent exact start times.",
+                "recommended": true
               }
             ]
           },
