@@ -59,16 +59,16 @@
             "prompt": "The alert asks everyone to open an attachment. You have not interacted. What first?",
             "choices": [
               {
-                "text": "Forward the entire message to all teammates as a warning.",
-                "consequence": "The active attachment reaches more people.",
-                "explanation": "A wide forward spreads the payload.",
-                "recommended": false
-              },
-              {
                 "text": "Leave the attachment closed and use the team's report channel.",
                 "consequence": "Security receives the original through the expected route.",
                 "explanation": "Reporting can start without opening the file.",
                 "recommended": true
+              },
+              {
+                "text": "Forward the entire message to all teammates as a warning.",
+                "consequence": "The active attachment reaches more people.",
+                "explanation": "A wide forward spreads the payload.",
+                "recommended": false
               }
             ]
           },
@@ -76,16 +76,16 @@
             "prompt": "The report form asks whether anyone clicked. You clicked the message but not the file. What do you write?",
             "choices": [
               {
-                "text": "Say 'no interaction' to avoid concern.",
-                "consequence": "Responders receive an inaccurate incident description.",
-                "explanation": "Distinguish viewing a message from opening its link or file.",
-                "recommended": false
-              },
-              {
                 "text": "State exactly that you viewed the message but did not open the attachment.",
                 "consequence": "Responders can assess the actual exposure.",
                 "explanation": "Clear facts help more than a confident guess.",
                 "recommended": true
+              },
+              {
+                "text": "Say 'no interaction' to avoid concern.",
+                "consequence": "Responders receive an inaccurate incident description.",
+                "explanation": "Distinguish viewing a message from opening its link or file.",
+                "recommended": false
               }
             ]
           },

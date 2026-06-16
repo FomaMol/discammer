@@ -66,16 +66,16 @@
             "prompt": "The sticker appears layered over an older code. Next move?",
             "choices": [
               {
-                "text": "Use the layered code because it is on museum property.",
-                "consequence": "A public surface is mistaken for authorization.",
-                "explanation": "Anyone with access may place a sticker.",
-                "recommended": false
-              },
-              {
                 "text": "Ask desk staff or use the ticket already in your app.",
                 "consequence": "You obtain a separate route to the same task.",
                 "explanation": "Staff or a known app can clarify without the sticker.",
                 "recommended": true
+              },
+              {
+                "text": "Use the layered code because it is on museum property.",
+                "consequence": "A public surface is mistaken for authorization.",
+                "explanation": "Anyone with access may place a sticker.",
+                "recommended": false
               }
             ]
           },
@@ -83,16 +83,16 @@
             "prompt": "Staff say tickets never require another payment, but the preview shows https://museum-entry-pay.example. What now?",
             "choices": [
               {
-                "text": "Open it to see the fee amount.",
-                "consequence": "You move toward an unconfirmed payment form.",
-                "explanation": "The claimed payment contradicts the verified process.",
-                "recommended": false
-              },
-              {
                 "text": "Do not open it; tell staff where the sticker is.",
                 "consequence": "They can inspect and remove the suspicious code.",
                 "explanation": "The preview and staff answer together justify stopping.",
                 "recommended": true
+              },
+              {
+                "text": "Open it to see the fee amount.",
+                "consequence": "You move toward an unconfirmed payment form.",
+                "explanation": "The claimed payment contradicts the verified process.",
+                "recommended": false
               }
             ]
           },

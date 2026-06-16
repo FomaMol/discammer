@@ -54,16 +54,16 @@
             "prompt": "The display name matches the service, but the bill was unexpected. First move?",
             "choices": [
               {
-                "text": "Open the attachment to see whether it is real.",
-                "consequence": "The file runs or opens before you know its origin.",
-                "explanation": "Unexpected files can be the payload. Inspect the claim before opening them.",
-                "recommended": false
-              },
-              {
                 "text": "Identify the claim and set the attachment aside.",
                 "consequence": "You retain the evidence and avoid immediate exposure.",
                 "explanation": "Start with what the email wants you to do.",
                 "recommended": true
+              },
+              {
+                "text": "Open the attachment to see whether it is real.",
+                "consequence": "The file runs or opens before you know its origin.",
+                "explanation": "Unexpected files can be the payload. Inspect the claim before opening them.",
+                "recommended": false
               }
             ]
           },
@@ -88,16 +88,16 @@
             "prompt": "Later, you check the real account through your bookmark. It shows no unpaid invoice. What now?",
             "choices": [
               {
-                "text": "Reply asking the sender to explain.",
-                "consequence": "You re-enter an untrusted conversation.",
-                "explanation": "A reply does not establish identity and may invite more pressure.",
-                "recommended": false
-              },
-              {
                 "text": "Report the suspicious email in your mail client or workplace flow.",
                 "consequence": "The message is sent to the relevant review channel.",
                 "explanation": "Report the discrepancy; do not promise that a report instantly blocks every copy.",
                 "recommended": true
+              },
+              {
+                "text": "Reply asking the sender to explain.",
+                "consequence": "You re-enter an untrusted conversation.",
+                "explanation": "A reply does not establish identity and may invite more pressure.",
+                "recommended": false
               }
             ]
           },

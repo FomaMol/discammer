@@ -54,16 +54,16 @@
             "prompt": "The email button opens a page with a familiar logo and HTTPS. What first?",
             "choices": [
               {
-                "text": "Enter your username; the lock proves the operator.",
-                "consequence": "You begin disclosing data to an unverified site.",
-                "explanation": "HTTPS protects transit, not the honesty of the site.",
-                "recommended": false
-              },
-              {
                 "text": "Read the browser address and recall your normal file-service route.",
                 "consequence": "You inspect who will receive the login.",
                 "explanation": "The browser address and known path matter more than the artwork.",
                 "recommended": true
+              },
+              {
+                "text": "Enter your username; the lock proves the operator.",
+                "consequence": "You begin disclosing data to an unverified site.",
+                "explanation": "HTTPS protects transit, not the honesty of the site.",
+                "recommended": false
               }
             ]
           },
@@ -105,16 +105,16 @@
             "prompt": "Suppose you already entered a password before pausing. What is the priority?",
             "choices": [
               {
-                "text": "Just close the tab; no loss occurs until a code is entered.",
-                "consequence": "The password may already be known.",
-                "explanation": "Do not wait for proof of misuse.",
-                "recommended": false
-              },
-              {
                 "text": "Use the real service to change it and tell your security or support team what was entered.",
                 "consequence": "You start account recovery and preserve a useful incident description.",
                 "explanation": "Mention any code or approval as well so support can judge exposure.",
                 "recommended": true
+              },
+              {
+                "text": "Just close the tab; no loss occurs until a code is entered.",
+                "consequence": "The password may already be known.",
+                "explanation": "Do not wait for proof of misuse.",
+                "recommended": false
               }
             ]
           }

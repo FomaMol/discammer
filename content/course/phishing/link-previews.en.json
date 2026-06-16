@@ -71,16 +71,16 @@
             "prompt": "You later check the portal; it has no alert. The message claims you must pay a processing charge. Next?",
             "choices": [
               {
-                "text": "Pay through the message before the deadline.",
-                "consequence": "You may send money based only on the unverified demand.",
-                "explanation": "A new financial demand needs independent confirmation.",
-                "recommended": false
-              },
-              {
                 "text": "Contact the admissions office using the directory on the university site.",
                 "consequence": "The office can confirm the procedure.",
                 "explanation": "Use contact details found outside the message.",
                 "recommended": true
+              },
+              {
+                "text": "Pay through the message before the deadline.",
+                "consequence": "You may send money based only on the unverified demand.",
+                "explanation": "A new financial demand needs independent confirmation.",
+                "recommended": false
               }
             ]
           },
@@ -105,16 +105,16 @@
             "prompt": "The form redirects to another site before a sign-in. Your move?",
             "choices": [
               {
-                "text": "Enter credentials because the first page was confirmed.",
-                "consequence": "The final sign-in destination remains unchecked.",
-                "explanation": "A redirect changes the page that receives your details.",
-                "recommended": false
-              },
-              {
                 "text": "Stop and check the final address and expected sign-in method with the office.",
                 "consequence": "You verify the action at the moment it matters.",
                 "explanation": "A confirmed first hop does not authenticate later pages.",
                 "recommended": true
+              },
+              {
+                "text": "Enter credentials because the first page was confirmed.",
+                "consequence": "The final sign-in destination remains unchecked.",
+                "explanation": "A redirect changes the page that receives your details.",
+                "recommended": false
               }
             ]
           }
