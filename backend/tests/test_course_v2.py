@@ -1,6 +1,7 @@
 """The v2 pilot must remain readable without JS and reject incomplete exercises."""
 import copy
 import json
+from collections import Counter
 from html import unescape
 from pathlib import Path
 
@@ -126,3 +127,55 @@ def test_exam_has_static_study_fallback(client, lang):
             assert choice['text'] in html
             if choice.get('explanation'):
                 assert choice['explanation'] in html
+
+
+def test_complete_bilingual_course_contract_and_completion_requirements():
+    course_dir = ROOT / 'content/course'
+    en_paths = sorted(course_dir.glob('*/*.en.json'))
+    assert len(en_paths) == 55
+    counts = {'course_v2': 0, 'exam': 0, 'certificate': 0}
+    all_keys = set()
+    for en_path in en_paths:
+        ru_path = en_path.with_name(en_path.name.replace('.en.', '.ru.'))
+        assert ru_path.exists(), en_path
+        en = json.loads(en_path.read_text())
+        ru = json.loads(ru_path.read_text())
+        key = (en_path.parent.name, en_path.name.removesuffix('.en.json'))
+        all_keys.add(key)
+        assert en['widget_type'] == ru['widget_type']
+        counts[en['widget_type']] += 1
+        validate_pair(en, ru, str(key))
+        if en['widget_type'] == 'course_v2':
+            validate_v2(en['widget_config'], str(en_path))
+            validate_v2(ru['widget_config'], str(ru_path))
+            assert en['widget_config']['checked_at'] == ru['widget_config']['checked_at']
+            practices = [b for b in en['widget_config']['blocks'] if b['type'] == 'practice']
+            checks = [b for b in en['widget_config']['blocks'] if b['type'] == 'check']
+            practice_positions = [next(i for i, c in enumerate(step['choices']) if c['recommended'])
+                                  for block in practices for step in block['steps']]
+            check_positions = [next(i for i, c in enumerate(question['choices']) if c['correct'])
+                               for block in checks for question in block['questions']]
+            assert len(set(practice_positions)) >= 2, en_path
+            assert len(set(check_positions)) >= 2, en_path
+    assert counts == {'course_v2': 53, 'exam': 1, 'certificate': 1}
+
+    exam = json.loads((course_dir / 'final-assessment/final-exam.en.json').read_text())['widget_config']
+    exam_ru = json.loads((course_dir / 'final-assessment/final-exam.ru.json').read_text())['widget_config']
+    assert len(exam['questions']) == 40
+    assert len(exam_ru['questions']) == 40
+    assert exam['passThreshold'] == exam_ru['passThreshold'] == 0.8
+    assert sorted(Counter(q['module'] for q in exam['questions']).values()) == [5] * 8
+    assert sorted(Counter(q['module'] for q in exam_ru['questions']).values()) == [5] * 8
+    assert sum(1 for q in exam['questions'] if 3 <= len(q['choices']) <= 4
+               and sum(choice.get('correct') is True for choice in q['choices']) == 1
+               and all(choice.get('explanation') for choice in q['choices'])) == 40
+    assert all([c.get('correct') for c in a['choices']] == [c.get('correct') for c in b['choices']] and
+               len(b['choices']) == len(a['choices']) and all(c.get('explanation') for c in b['choices'])
+               for a, b in zip(exam['questions'], exam_ru['questions']))
+    cert = json.loads((course_dir / 'final-assessment/defender-certificate.en.json').read_text())['widget_config']
+    cert_ru = json.loads((course_dir / 'final-assessment/defender-certificate.ru.json').read_text())['widget_config']
+    required = {(req['module'], slug) for req in cert['requirements'] for slug in req['lessons']}
+    assert required == all_keys - {('final-assessment', 'defender-certificate')}
+    assert cert['examRevision'] == exam['revision']
+    assert cert_ru['requirements'] == cert['requirements']
+    assert cert_ru['examRevision'] == exam_ru['revision'] == exam['revision']

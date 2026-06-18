@@ -101,6 +101,33 @@ test('earlier lesson and exam records cannot issue the current completion record
   await expect(page.locator('#discammer-certificate')).toHaveCount(0);
 });
 
+test('revised lesson completion still requires the revised exam result', async ({ page, request }) => {
+  const response = await request.get('/api/course/lesson-manifest?lang=en');
+  expect(response.ok()).toBe(true);
+  const manifest = await response.json() as { module_slug: string; slug: string; content_revision: string | null }[];
+  expect(manifest).toHaveLength(55);
+  expect(manifest.filter((lesson) => lesson.content_revision)).toHaveLength(55);
+  await page.addInitScript((lessons) => {
+    const revisions = Object.fromEntries(lessons.map((lesson) => [
+      `${lesson.module_slug}/${lesson.slug}@${lesson.content_revision}`, true,
+    ]));
+    localStorage.setItem('discammer:lesson-revisions:v1', JSON.stringify(revisions));
+    localStorage.setItem('discammer:exam:v1', JSON.stringify({
+      passed: true, score: 40, total: 40, passedAt: '2026-01-01T00:00:00Z',
+    }));
+    localStorage.setItem('discammer:certificate:name', 'Local Learner');
+  }, manifest);
+  await page.goto('/en/course/final-assessment/defender-certificate');
+  await expect(page.locator('#discammer-certificate')).toHaveCount(0);
+  await page.evaluate(() => {
+    localStorage.setItem('discammer:exam-revisions:v1', JSON.stringify({
+      '2026-10-20': { passed: true, score: 40, total: 40, passedAt: '2026-10-20T00:00:00Z' },
+    }));
+  });
+  await page.reload();
+  await expect(page.locator('#discammer-certificate')).toBeVisible();
+});
+
 for (const [lang, transmit, next] of [
   ['en', 'TRANSMIT', 'NEXT QUESTION'],
   ['ru', 'ОТПРАВИТЬ', 'СЛЕДУЮЩИЙ'],
@@ -108,7 +135,8 @@ for (const [lang, transmit, next] of [
   test(`${lang} exam keeps keyboard focus through answer and next question`, async ({ page }) => {
     await page.goto(`/${lang}/course/final-assessment/final-exam`);
     const widget = page.locator('[data-component="LessonWidget"]');
-    await expect(widget.locator('input[type="radio"]')).toHaveCount(4);
+    await expect(widget.locator('input[type="radio"]').first()).toBeVisible();
+    expect(await widget.locator('input[type="radio"]').count()).toBeGreaterThanOrEqual(3);
     await widget.locator('input[type="radio"]').first().check();
     await widget.getByRole('button', { name: new RegExp(transmit) }).click();
     const explanation = widget.getByRole('group', { name: lang === 'en' ? 'Inspect transmission log' : 'Открыть лог передачи' });
@@ -121,6 +149,25 @@ for (const [lang, transmit, next] of [
     await expect(widget.locator('h3[tabindex="-1"]')).toBeFocused();
   });
 }
+
+test('revised exam focuses result and restarted question after the full attempt', async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.goto('/en/course/final-assessment/final-exam');
+  const widget = page.locator('[data-component="LessonWidget"]');
+  for (let i = 0; i < 40; i++) {
+    await widget.locator('input[type="radio"]').first().check();
+    await widget.getByRole('button', { name: /TRANSMIT/ }).click();
+    await expect(widget.getByRole('group', { name: 'Inspect transmission log' })).toBeFocused();
+    if (i < 39) {
+      await widget.getByRole('button', { name: /NEXT QUESTION/ }).click();
+      await expect(widget.locator('h3[tabindex="-1"]')).toBeFocused();
+    }
+  }
+  await widget.getByRole('button', { name: /FINALIZE SELF-ASSESSMENT/ }).click();
+  await expect(widget.locator('h2[tabindex="-1"]')).toBeFocused();
+  await widget.getByRole('button', { name: 'Repeat self-assessment' }).click();
+  await expect(widget.locator('h3[tabindex="-1"]')).toBeFocused();
+});
 
 test('exam no-JS fallback exposes question explanations on a phone', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
