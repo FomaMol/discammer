@@ -16,16 +16,16 @@ import { assertNoNetworkLeak } from './helpers';
  * the part of a device change that matters to this feature.
  */
 
-const PROGRESS_KEY = 'discammer:progress:v1';
+const REVISIONS_KEY = 'discammer:lesson-revisions:v1';
 const MODULE = 'threat-fundamentals';
 const LESSON = 'attack-vectors';
 
 /** Read the fact under test straight out of storage, not out of the DOM. */
-async function lessonIsComplete(page: Page): Promise<boolean> {
-  const raw = await page.evaluate((k) => localStorage.getItem(k), PROGRESS_KEY);
+async function lessonIsComplete(page: Page, revision: string): Promise<boolean> {
+  const raw = await page.evaluate((k) => localStorage.getItem(k), REVISIONS_KEY);
   if (!raw) return false;
   try {
-    return JSON.parse(raw)?.modules?.[MODULE]?.lessons?.[LESSON] === true;
+    return JSON.parse(raw)?.[`${MODULE}/${LESSON}@${revision}`] === true;
   } catch {
     return false;
   }
@@ -37,6 +37,11 @@ test('progress survives a device change via the sync code', async ({ browser }) 
 
   try {
     const a = await deviceA.newPage();
+    const manifestResponse = await a.request.get('/api/course/lesson-manifest?lang=en');
+    expect(manifestResponse.ok()).toBe(true);
+    const manifest = await manifestResponse.json() as { module_slug: string; slug: string; content_revision: string | null }[];
+    const revision = manifest.find((lesson) => lesson.module_slug === MODULE && lesson.slug === LESSON)?.content_revision;
+    expect(revision).toBeTruthy();
 
     // Everything device A puts on the wire, kept for the privacy assertions
     // below. Registered before the first navigation so nothing is missed.
@@ -47,11 +52,11 @@ test('progress survives a device change via the sync code', async ({ browser }) 
     // Seeding storage would test the sync code against a fixture. Clicking the
     // button tests it against the app.
     await a.goto(`/en/course/${MODULE}/${LESSON}`);
-    const markComplete = a.getByRole('button', { name: /mark debrief complete/i });
+    const markComplete = a.getByRole('button', { name: /mark updated lesson complete/i });
     await expect(markComplete).toBeVisible({ timeout: 10_000 });
     await markComplete.click();
-    await expect(a.getByRole('button', { name: /debrief logged/i })).toBeVisible();
-    expect(await lessonIsComplete(a), 'device A never recorded the lesson').toBe(true);
+    await expect(a.getByRole('button', { name: /updated lesson complete/i })).toBeVisible();
+    expect(await lessonIsComplete(a, revision!), 'device A never recorded the lesson').toBe(true);
 
     // --- Device A: create a code and link ------------------------------------
     await a.goto('/en/course');
@@ -95,7 +100,7 @@ test('progress survives a device change via the sync code', async ({ browser }) 
     await b.goto('/en/course');
     const codeInput = b.getByTestId('sync-code-input');
     await expect(codeInput).toBeVisible({ timeout: 10_000 });
-    expect(await lessonIsComplete(b), 'device B was not a clean device').toBe(false);
+    expect(await lessonIsComplete(b, revision!), 'device B was not a clean device').toBe(false);
 
     await codeInput.fill(code);
     await b.getByTestId('sync-link').click();
@@ -103,12 +108,12 @@ test('progress survives a device change via the sync code', async ({ browser }) 
     await expect(b.getByTestId('sync-linked')).toBeVisible();
 
     // The claim, in storage…
-    expect(await lessonIsComplete(b), 'the synced copy did not carry the lesson').toBe(true);
+    expect(await lessonIsComplete(b, revision!), 'the synced copy did not carry the lesson').toBe(true);
 
     // …and on the page the user would actually go look at. Storage alone could
     // be true while the app still showed the lesson as untouched.
     await b.goto(`/en/course/${MODULE}/${LESSON}`);
-    await expect(b.getByRole('button', { name: /debrief logged/i })).toBeVisible({
+    await expect(b.getByRole('button', { name: /updated lesson complete/i })).toBeVisible({
       timeout: 10_000,
     });
   } finally {

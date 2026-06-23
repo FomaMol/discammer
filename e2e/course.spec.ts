@@ -4,8 +4,8 @@ import { test, expect } from '@playwright/test';
  * Course progress unlock + exam persistence.
  *
  * Module 2 (`social-engineering`) is locked by seed; the progressive-unlock rule
- * in CourseProgress opens it once every lesson of module 1 (`threat-fundamentals`,
- * 6 lessons) is completed. We seed discammer:progress:v1 to that state and assert
+ * in CourseProgress opens it once every current lesson of module 1 (`threat-fundamentals`,
+ * 6 lessons) is completed. We seed revision-aware progress to that state and assert
  * module 2 renders as an actual link (unlocked) rather than a non-interactive
  * locked card.
  *
@@ -14,7 +14,7 @@ import { test, expect } from '@playwright/test';
  * than depend on the exact certificate DOM, which only mounts on the cert lesson).
  */
 
-const PROGRESS_KEY = 'discammer:progress:v1';
+const REVISIONS_KEY = 'discammer:lesson-revisions:v1';
 const EXAM_KEY = 'discammer:exam:v1';
 
 // All six lessons of threat-fundamentals, completed.
@@ -27,17 +27,20 @@ const TF_LESSONS = [
   'cfo-deepfake-heist',
 ];
 
-function seededProgress() {
-  const lessons: Record<string, true> = {};
-  for (const slug of TF_LESSONS) lessons[slug] = true;
-  return JSON.stringify({ modules: { 'threat-fundamentals': { lessons } } });
-}
-
-test('completing module 1 unlocks module 2 in the course flow', async ({ page }) => {
+test('completing current module 1 lessons unlocks module 2 in the course flow', async ({ page, request }) => {
+  const response = await request.get('/api/course/lesson-manifest?lang=en');
+  expect(response.ok()).toBe(true);
+  const manifest = await response.json() as { module_slug: string; slug: string; content_revision: string | null }[];
+  const moduleLessons = manifest.filter((lesson) => lesson.module_slug === 'threat-fundamentals');
+  expect(moduleLessons.map((lesson) => lesson.slug).sort()).toEqual([...TF_LESSONS].sort());
+  expect(moduleLessons.every((lesson) => lesson.content_revision)).toBe(true);
+  const revisions = Object.fromEntries(moduleLessons.map((lesson) => [
+    `${lesson.module_slug}/${lesson.slug}@${lesson.content_revision}`, true,
+  ]));
   // Seed BEFORE any app code runs so CourseProgress reads it on first mount.
   await page.addInitScript(
     ([key, value]) => window.localStorage.setItem(key, value),
-    [PROGRESS_KEY, seededProgress()],
+    [REVISIONS_KEY, JSON.stringify(revisions)],
   );
 
   await page.goto('/en/course');
