@@ -366,7 +366,7 @@ function FeaturedCard({
               alt=""
               aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' ? 'contain' : 'cover' }}
+              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' && !item.cover_image?.includes('/static/images/video-posters/') ? 'contain' : 'cover' }}
               loading="eager"
               onError={(event) => { event.currentTarget.hidden = true; }}
             />
@@ -495,7 +495,7 @@ function ZigzagCard({
               alt=""
               aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' ? 'contain' : 'cover' }}
+              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' && !item.cover_image?.includes('/static/images/video-posters/') ? 'contain' : 'cover' }}
               loading="lazy"
               onError={(event) => { event.currentTarget.hidden = true; }}
             />

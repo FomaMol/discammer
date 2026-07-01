@@ -1,0 +1,300 @@
+{
+  "date": "2026-10-20",
+  "reference_01": {
+    "status": "unresolved_pending_source_frame_match",
+    "file": "reference-01.png",
+    "visible_time": null
+  },
+  "duplicate_groups": [
+    [
+      3,
+      5
+    ]
+  ],
+  "posters": [
+    {
+      "slug": "the-story-of-alex-chen",
+      "type": "newsletter",
+      "title_en": "The story of Alex Chen",
+      "source_video": "/media/videos/newsletters/the-story-of-alex-chen.mp4",
+      "source_url": "https://discammer.com/media/videos/newsletters/the-story-of-alex-chen.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/newsletters/the-story-of-alex-chen.mp4",
+      "source_sha256": "639d2566ef351685832fc2bfa501f97b8c29778d6a6664f4a4d9d91f788b7334",
+      "duration_seconds": 187.754667,
+      "reference_frames": [
+        {
+          "id": 2,
+          "seconds": 87
+        }
+      ],
+      "selected_seconds": 87,
+      "selection_note": "Near reference, clean frame; source video and scene match visually.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild6138-3732-4132-b062-656166626562/file424f7076-d7f5-4d.jpg",
+        "player_poster": "/media/posters/newsletters/the-story-of-alex-chen.jpg",
+        "card_sha256": "69f8fe53d5e5666b79404a90ce6ce6e366cbe6cb040df749699375f7fb16b32d",
+        "player_sha256": "ccdba47d5a3d5889be280582f3f4746ee54c5e96c8729c8d40acc4d1eef511f2"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/the-story-of-alex-chen-20261020-t87.jpg",
+        "player_poster": "/static/images/video-posters/the-story-of-alex-chen-20261020-t87.jpg",
+        "card_sha256": "3f5ad7cc8f7b92a2ad36b1132e931b27456fe2f255e74399522afe1e914e7b60",
+        "player_sha256": "3f5ad7cc8f7b92a2ad36b1132e931b27456fe2f255e74399522afe1e914e7b60"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    },
+    {
+      "slug": "the-verification-swindle",
+      "type": "newsletter",
+      "title_en": "The Verification Swindle",
+      "source_video": "/media/videos/newsletters/the-verification-swindle.mp4",
+      "source_url": "https://discammer.com/media/videos/newsletters/the-verification-swindle.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/newsletters/the-verification-swindle.mp4",
+      "source_sha256": "9e89f4124dfb19f70bc88d91bc5cbe3ab3dade4a88d3239cbd4c0c690deeb298",
+      "duration_seconds": 169.493,
+      "reference_frames": [
+        {
+          "id": 3,
+          "seconds": 75
+        },
+        {
+          "id": 5,
+          "seconds": 140
+        }
+      ],
+      "selected_seconds": 75,
+      "selection_note": "Near reference, clean frame; source video and scene match visually.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild6439-6439-4933-a131-383531613836/filec73663a6-2f6c-43.jpg",
+        "player_poster": "/media/posters/newsletters/the-verification-swindle.jpg",
+        "card_sha256": "f5eaab4fb80150c63de3b09f62aad63bc17c787244621938918008fd4de8de3a",
+        "player_sha256": "c4b7e1cba5287cea21a242ee5727e8ec132151a805447eceacc510833be5c7bb"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/the-verification-swindle-20261020-t75.jpg",
+        "player_poster": "/static/images/video-posters/the-verification-swindle-20261020-t75.jpg",
+        "card_sha256": "302d72706421e764f953e7520943c9d6487033d37125df0036ab51032f697f1c",
+        "player_sha256": "302d72706421e764f953e7520943c9d6487033d37125df0036ab51032f697f1c"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    },
+    {
+      "slug": "the-urgency-trap",
+      "type": "newsletter",
+      "title_en": "The Urgency Trap",
+      "source_video": "/media/videos/newsletters/the-urgency-trap.mp4",
+      "source_url": "https://discammer.com/media/videos/newsletters/the-urgency-trap.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/newsletters/the-urgency-trap.mp4",
+      "source_sha256": "93033a5ca39d634babd06b4a9d1fa9073fefea4998a1f412d91f57e4fdbeada1",
+      "duration_seconds": 106.091,
+      "reference_frames": [
+        {
+          "id": 4,
+          "seconds": 15
+        }
+      ],
+      "selected_seconds": 33,
+      "selection_note": "Near reference, clean frame; source video and scene match visually.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild3235-6439-4962-a531-616132663763/file8806acc2-7abf-4e.jpg",
+        "player_poster": "/media/posters/newsletters/the-urgency-trap.jpg",
+        "card_sha256": "3b265e36bcfd52dae208243e145209107b8eff4eb1b6af749797ae5e078334fe",
+        "player_sha256": "8f877f641a38b93d6b5e7ad44bc794d629ab595ff0c9aa9d07de283d04f1467c"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
+        "player_poster": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
+        "card_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc",
+        "player_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    },
+    {
+      "slug": "interview-with-guest-ben-yehooda",
+      "type": "interview",
+      "title_en": "Interview with guest Ben Yehooda",
+      "source_video": "/media/videos/interviews/ben-yehooda.mp4",
+      "source_url": "https://discammer.com/media/videos/interviews/ben-yehooda.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/interviews/ben-yehooda.mp4",
+      "source_sha256": "28027ce3b3a9e60807a4fcb05811d6b379b7f7840b48c1052d0f5abee3485dd7",
+      "duration_seconds": 786.688,
+      "reference_frames": [
+        {
+          "id": 6,
+          "seconds": 136
+        }
+      ],
+      "selected_seconds": 134,
+      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild3736-6436-4564-b766-326235636538/2024-12-08_01-34-32.png",
+        "player_poster": "/media/posters/interviews/ben-yehooda.jpg",
+        "card_sha256": "3bd024b39863c71fd40e14b8b1e664e1c45e382b890d5d15ae14318164be9b6b",
+        "player_sha256": "1840509a62ba241970da78af09869d7c1d50537d0a50931b35dc3c26c9489696"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/ben-yehooda-20261020-t134-card.jpg",
+        "player_poster": "/static/images/video-posters/ben-yehooda-20261020-t134.jpg",
+        "card_sha256": "240f084ae8756a84fc3387b283795b8002182c28d0cb951a6cfbb9887e2ab0dd",
+        "player_sha256": "b55077abfd821d06a8d6bf66a7c62d2527d316a1edfd401d3ebbec57bd72e986"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    },
+    {
+      "slug": "interview-with-guest-casey-orion",
+      "type": "interview",
+      "title_en": "Interview with guest Casey Orion",
+      "source_video": "/media/videos/interviews/casey-orion.mp4",
+      "source_url": "https://discammer.com/media/videos/interviews/casey-orion.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/interviews/casey-orion.mp4",
+      "source_sha256": "8f0c2fc8cf6c11ef52d4f09f3221071c41c8b749f7689d104e7df6ed13bf4525",
+      "duration_seconds": 1922.090667,
+      "reference_frames": [
+        {
+          "id": 7,
+          "seconds": 75
+        }
+      ],
+      "selected_seconds": 82,
+      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild3465-3765-4636-b037-366630336439/2024-12-08_01-43-38.png",
+        "player_poster": "/media/posters/interviews/casey-orion.jpg",
+        "card_sha256": "9ec636b9cfec857ba0f7af8fafbbb5829be24c308e16f1b21863994f69e879c1",
+        "player_sha256": "20ee6733c96267b525a228d80a2167a7517cd1a9fa73873fa18824c8589307d1"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/casey-orion-20261020-t82-card.jpg",
+        "player_poster": "/static/images/video-posters/casey-orion-20261020-t82.jpg",
+        "card_sha256": "e1792ff3dad7b7dc5ebc44a1ac997d54562b1523ab05da9e91a0462c1d996f8b",
+        "player_sha256": "2680a2ea5d32c4712c84b01882e5aed9d2cf153ead5f9bc35e5c5a77e7f55911"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    },
+    {
+      "slug": "interview-with-guest-joel",
+      "type": "interview",
+      "title_en": "Interview with guest Joel",
+      "source_video": "/media/videos/interviews/joel.mp4",
+      "source_url": "https://discammer.com/media/videos/interviews/joel.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/interviews/joel.mp4",
+      "source_sha256": "201d47dfb0a6f8f21b00eca4d14e380fbdb083ece8008c15e5a2968a45a9c4d5",
+      "duration_seconds": 1888.106667,
+      "reference_frames": [
+        {
+          "id": 8,
+          "seconds": 340
+        }
+      ],
+      "selected_seconds": 338,
+      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild6265-3336-4265-b361-643566356561/2024-12-09_21-14-38.png",
+        "player_poster": "/media/posters/interviews/joel.jpg",
+        "card_sha256": "0199eae7c6fb8ddb06c5de912599c59e63c3ea77623b41a5901bb54b804d7a7c",
+        "player_sha256": "e810103d167b4d7c5c24c7d441508525c059105085e163a94574c8e56c45627b"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/joel-20261020-t338-card.jpg",
+        "player_poster": "/static/images/video-posters/joel-20261020-t338.jpg",
+        "card_sha256": "7528298284e21891cfd50d566baff821b52ef1f471fcf121798003b9526a4c7a",
+        "player_sha256": "a6945d8beda993a3a731f541370e02cfa7bff82243038e3a8fc7202770d10662"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    },
+    {
+      "slug": "interview-with-guest-jimmy-zhou",
+      "type": "interview",
+      "title_en": "Interview with guest Jimmy Zhou",
+      "source_video": "/media/videos/interviews/jimmy-zhou.mp4",
+      "source_url": "https://discammer.com/media/videos/interviews/jimmy-zhou.mp4",
+      "source_archive_path": "/Users/dev/Downloads/DiScammer-Video-Sources-2026-10-20/01-reference-videos/interviews/jimmy-zhou.mp4",
+      "source_sha256": "6dc3a6148c881305cba18cadc0231b82cb4997e55e5e0cc9e77c1123a4feef29",
+      "duration_seconds": 950.421333,
+      "reference_frames": [
+        {
+          "id": 9,
+          "seconds": 85
+        }
+      ],
+      "selected_seconds": 85,
+      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "before": {
+        "card_cover": "https://static.tildacdn.com/tild6230-6463-4838-a232-326362383936/2024-12-09_21-16-35.png",
+        "player_poster": "/media/posters/interviews/jimmy-zhou.jpg",
+        "card_sha256": "0a12d459df0ba965bc5a22a04f1e5d54db0855f09e0888195b7026be61e4d19a",
+        "player_sha256": "b5fc5b2e0b1702afb28653d02f5a6ce850d1e3abcc4817e7f6de4d070cca9b34"
+      },
+      "after": {
+        "card_cover": "/static/images/video-posters/jimmy-zhou-20261020-t85-card.jpg",
+        "player_poster": "/static/images/video-posters/jimmy-zhou-20261020-t85.jpg",
+        "card_sha256": "dd94ade12397db2695dff3574fe636f9c6518e0420218d7e9f703be3f69707c2",
+        "player_sha256": "80ec0648dd07cb77800824e670ff434fd707dd98239d255f4136243d5e593cfa"
+      },
+      "display": {
+        "home_cover": false,
+        "journal_card": true,
+        "post_player": true,
+        "locales": [
+          "en",
+          "ru"
+        ]
+      }
+    }
+  ],
+  "preserved": {
+    "leading_journal_interviews": [
+      "interview-with-guest-mike-gibson",
+      "interview-with-guest-guy-eames"
+    ],
+    "guy_handshake": "/static/images/interviews/guy-eames-20261018.jpg"
+  }
+}

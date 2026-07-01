@@ -3,7 +3,7 @@ title: "Interview with guest Joel"
 slug: "interview-with-guest-joel"
 subtitle: "The impact of new technologies"
 type: "interview"
-cover_image: "https://static.tildacdn.com/tild6265-3336-4265-b361-643566356561/2024-12-09_21-14-38.png"
+cover_image: "/static/images/video-posters/joel-20261020-t338-card.jpg"
 published_at: "2024-12-09"
 ---
 
@@ -13,4 +13,4 @@ The impact of new technologies
 
 ## Watch the Video
 
-<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/joel.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/interviews/joel.jpg&quot;, &quot;title&quot;: &quot;Interview with guest Joel&quot;}'></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/interviews/joel.mp4&quot;, &quot;poster&quot;: &quot;/static/images/video-posters/joel-20261020-t338.jpg&quot;, &quot;title&quot;: &quot;Interview with guest Joel&quot;}'></div>

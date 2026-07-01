@@ -136,6 +136,9 @@ case "$1" in
   login) cat >/dev/null; exit 0 ;;   # drain the password pipe
   pull) exit 0 ;;
   compose)
+    for a in "$@"; do
+      if [ "$a" = "ps" ]; then printf 'test-container-id\n'; exit 0; fi
+    done
     envf=""; prev=""
     for a in "$@"; do
       if [ "$prev" = "--env-file" ]; then envf="$a"; fi
@@ -148,6 +151,9 @@ case "$1" in
       if [ "$dig" = "$b" ]; then exit 1; fi
     done
     exit 0 ;;
+  exec)
+    echo "migration ${*: -1}" >>"$STUB_LOG"
+    [ -z "${STUB_MIGRATE_FAIL:-}" ]; exit $? ;;
 esac
 exit 0
 STUB
@@ -236,12 +242,25 @@ check_rollback_failed() {  # $1 sandbox name, $2 label
 # a. Healthy new image: deploys, no rollback.
 run_deploy happy
 if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
+   && grep -qx 'migration apply' "$WORK/happy/log" \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
   ok "deploy: healthy new image deploys with no rollback (exit 0)"
 else
   bad "deploy: healthy new image (rc=$DEPLOY_RC)"
   show happy
+fi
+
+# A failed transactional editorial update keeps the healthy new image and
+# existing rows in place. A backup from an earlier release must not be restored.
+run_deploy migration-fail STUB_MIGRATE_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'editorial poster update failed' "$WORK/migration-fail/out" \
+   && grep -q "@sha256:$NEW_DIG\$" "$WORK/migration-fail/etc/deployment.env" \
+   && ! grep -qx 'up bbbb' "$WORK/migration-fail/log"; then
+  ok "deploy: failed editorial update retains healthy image and fails loudly"
+else
+  bad "deploy: failed editorial update (rc=$DEPLOY_RC)"
+  show migration-fail
 fi
 
 # b. The new image fails to start: roll back, then probe the restored image.

@@ -539,6 +539,20 @@ jobs:
               fi
               exit 1
             fi
+            # The published SQLite editorial rows are intentionally not reseeded
+            # on startup. Apply the exact 14-row poster update only after the new
+            # image is healthy; the command snapshots those rows on the persistent
+            # data mount and is idempotent for later course releases.
+            CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web)
+            [ -n "$CID" ]
+            if ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply; then
+              # The migration is one SQLite transaction: failure leaves the
+              # current editorial rows unchanged. Keep the healthy image up;
+              # its old media URLs still work. An older backup can exist on a
+              # later release, so an automatic restore could undo this release.
+              echo "::error::editorial poster update failed; healthy image retained for inspection"
+              exit 1
+            fi
             echo "health ok: version ${GIT_SHORT}"
             if [ -n "${CF_API_TOKEN:-}" ] && [ -n "${CF_ZONE_ID:-}" ]; then
               curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
