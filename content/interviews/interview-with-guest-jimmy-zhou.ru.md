@@ -3,7 +3,7 @@ title: "Интервью с гостем: Джимми Чжоу"
 slug: "interview-with-guest-jimmy-zhou"
 subtitle: "Размышления о метавселенной"
 type: "interview"
-cover_image: "/static/images/video-posters/jimmy-zhou-20261020-t85-card.jpg"
+cover_image: "/static/images/video-posters/jimmy-zhou-20261020-t85.jpg"
 published_at: "2024-12-09"
 ---
 

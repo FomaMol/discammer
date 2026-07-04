@@ -3,7 +3,7 @@ title: "Интервью с гостем: Бен Йехуда"
 slug: "interview-with-guest-ben-yehooda"
 subtitle: "Исследование блокчейн-технологии"
 type: "interview"
-cover_image: "/static/images/video-posters/ben-yehooda-20261020-t134-card.jpg"
+cover_image: "/static/images/video-posters/ben-yehooda-20261020-t134.jpg"
 published_at: "2024-12-08"
 ---
 

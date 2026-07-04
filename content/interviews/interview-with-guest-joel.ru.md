@@ -3,7 +3,7 @@ title: "Интервью с гостем: Джоэль"
 slug: "interview-with-guest-joel"
 subtitle: "Влияние новых технологий"
 type: "interview"
-cover_image: "/static/images/video-posters/joel-20261020-t338-card.jpg"
+cover_image: "/static/images/video-posters/joel-20261020-t338.jpg"
 published_at: "2024-12-09"
 ---
 

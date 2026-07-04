@@ -3,7 +3,7 @@ title: "Interview with guest Casey Orion"
 slug: "interview-with-guest-casey-orion"
 subtitle: "The Impact of AI a the Future of Education"
 type: "interview"
-cover_image: "/static/images/video-posters/casey-orion-20261020-t82-card.jpg"
+cover_image: "/static/images/video-posters/casey-orion-20261020-t82.jpg"
 published_at: "2024-11-28"
 ---
 

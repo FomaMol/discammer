@@ -3,7 +3,7 @@ title: "Interview with guest Joel"
 slug: "interview-with-guest-joel"
 subtitle: "The impact of new technologies"
 type: "interview"
-cover_image: "/static/images/video-posters/joel-20261020-t338-card.jpg"
+cover_image: "/static/images/video-posters/joel-20261020-t338.jpg"
 published_at: "2024-12-09"
 ---
 
