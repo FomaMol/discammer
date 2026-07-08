@@ -543,14 +543,19 @@ jobs:
             # on startup. Apply the exact 14-row poster update only after the new
             # image is healthy; the command snapshots those rows on the persistent
             # data mount and is idempotent for later course releases.
-            CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web)
-            [ -n "$CID" ]
-            if ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply; then
+            CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web || true)
+            if [ -z "$CID" ] || ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply; then
               # The migration is one SQLite transaction: failure leaves the
-              # current editorial rows unchanged. Keep the healthy image up;
-              # its old media URLs still work. An older backup can exist on a
-              # later release, so an automatic restore could undo this release.
-              echo "::error::editorial poster update failed; healthy image retained for inspection"
+              # editorial rows unchanged. Restore the previous image so a red
+              # deploy cannot leave the new SHA live. Do not restore an older
+              # poster backup: it may be from an earlier successful release.
+              echo "::error::editorial poster update failed or web container missing; rolling back image"
+              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
+              if apply && health_up; then
+                echo "::warning::previous image restored after editorial update failure"
+              else
+                echo "::error::ROLLBACK FAILED after editorial update failure; manual repair required"
+              fi
               exit 1
             fi
             echo "health ok: version ${GIT_SHORT}"

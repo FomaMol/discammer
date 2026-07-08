@@ -137,7 +137,10 @@ case "$1" in
   pull) exit 0 ;;
   compose)
     for a in "$@"; do
-      if [ "$a" = "ps" ]; then printf 'test-container-id\n'; exit 0; fi
+      if [ "$a" = "ps" ]; then
+        [ -z "${STUB_EMPTY_CID:-}" ] && printf 'test-container-id\n'
+        exit 0
+      fi
     done
     envf=""; prev=""
     for a in "$@"; do
@@ -251,17 +254,12 @@ else
   show happy
 fi
 
-# A failed transactional editorial update keeps the healthy new image and
-# existing rows in place. A backup from an earlier release must not be restored.
+# A failed transactional editorial update rolls the image back. An older
+# snapshot must not be restored, because it may predate an earlier release.
 run_deploy migration-fail STUB_MIGRATE_FAIL=1
-if [ "$DEPLOY_RC" = 1 ] && grep -q 'editorial poster update failed' "$WORK/migration-fail/out" \
-   && grep -q "@sha256:$NEW_DIG\$" "$WORK/migration-fail/etc/deployment.env" \
-   && ! grep -qx 'up bbbb' "$WORK/migration-fail/log"; then
-  ok "deploy: failed editorial update retains healthy image and fails loudly"
-else
-  bad "deploy: failed editorial update (rc=$DEPLOY_RC)"
-  show migration-fail
-fi
+check_rollback migration-fail "deploy: failed editorial update rolls back the image"
+run_deploy container-missing STUB_EMPTY_CID=1
+check_rollback container-missing "deploy: missing web container rolls back the image"
 
 # b. The new image fails to start: roll back, then probe the restored image.
 run_deploy apply-fail STUB_BROKEN_APPLY="$NEW_DIG"

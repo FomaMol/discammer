@@ -149,7 +149,7 @@
         }
       ],
       "selected_seconds": 134,
-      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "selection_note": "Same clean source frame and URL for card and player; wider desktop card image keeps both speakers visible.",
       "before": {
         "card_cover": "https://static.tildacdn.com/tild3736-6436-4564-b766-326235636538/2024-12-08_01-34-32.png",
         "player_poster": "/media/posters/interviews/ben-yehooda.jpg",
@@ -188,7 +188,7 @@
         }
       ],
       "selected_seconds": 82,
-      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "selection_note": "Same clean source frame and URL for card and player; wider desktop card image keeps both speakers visible.",
       "before": {
         "card_cover": "https://static.tildacdn.com/tild3465-3765-4636-b037-366630336439/2024-12-08_01-43-38.png",
         "player_poster": "/media/posters/interviews/casey-orion.jpg",
@@ -227,7 +227,7 @@
         }
       ],
       "selected_seconds": 338,
-      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "selection_note": "Same clean source frame and URL for card and player; wider desktop card image keeps both speakers visible.",
       "before": {
         "card_cover": "https://static.tildacdn.com/tild6265-3336-4265-b361-643566356561/2024-12-09_21-14-38.png",
         "player_poster": "/media/posters/interviews/joel.jpg",
@@ -266,7 +266,7 @@
         }
       ],
       "selected_seconds": 85,
-      "selection_note": "Same source frame as player; 4:3 centered card crop preserves both speakers and removes UI letterboxing.",
+      "selection_note": "Same clean source frame and URL for card and player; wider desktop card image keeps both speakers visible.",
       "before": {
         "card_cover": "https://static.tildacdn.com/tild6230-6463-4838-a232-326362383936/2024-12-09_21-16-35.png",
         "player_poster": "/media/posters/interviews/jimmy-zhou.jpg",
