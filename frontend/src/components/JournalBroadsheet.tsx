@@ -366,7 +366,7 @@ function FeaturedCard({
               alt=""
               aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' ? 'contain' : 'cover' }}
+              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' && !item.cover_image?.includes('/static/images/video-posters/') ? 'contain' : 'cover' }}
               loading="eager"
               onError={(event) => { event.currentTarget.hidden = true; }}
             />
@@ -471,6 +471,7 @@ function ZigzagCard({
   const imageOnRight = idx % 2 === 1; // image-left on odd cards (0,2,4), image-right on even (1,3,5)
   const headline = item.title || '';
   const firstChar = headline.charAt(0);
+  const wideVideoCover = item.type.toLowerCase() === 'interview' && item.cover_image?.includes('/static/images/video-posters/');
 
   return (
     <a
@@ -487,7 +488,7 @@ function ZigzagCard({
         {/* Cover */}
         {item.cover_image ? (
           <div
-            className="sm:col-span-2 relative overflow-hidden bg-[var(--code)] aspect-[4/3] sm:aspect-auto sm:min-h-[200px]"
+            className={`${wideVideoCover ? 'sm:col-span-3' : 'sm:col-span-2'} relative overflow-hidden bg-[var(--code)] aspect-[4/3] sm:aspect-auto sm:min-h-[200px]`}
             style={{ direction: 'ltr' }}
           >
             <img
@@ -495,14 +496,14 @@ function ZigzagCard({
               alt=""
               aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' ? 'contain' : 'cover' }}
+              style={{ filter: 'saturate(0.85) contrast(1.05)', objectFit: item.type.toLowerCase() === 'interview' && !item.cover_image?.includes('/static/images/video-posters/') ? 'contain' : 'cover' }}
               loading="lazy"
               onError={(event) => { event.currentTarget.hidden = true; }}
             />
           </div>
         ) : (
           <div
-            className="sm:col-span-2 bg-[var(--code)] flex items-center justify-center min-h-[160px] sm:min-h-[200px]"
+          className="sm:col-span-2 bg-[var(--code)] flex items-center justify-center min-h-[160px] sm:min-h-[200px]"
             style={{ direction: 'ltr' }}
             aria-hidden="true"
           >
@@ -522,7 +523,7 @@ function ZigzagCard({
 
         {/* Text */}
         <div
-          className="sm:col-span-3 p-5 sm:p-6 flex flex-col justify-between gap-4"
+          className={`${wideVideoCover ? 'sm:col-span-2' : 'sm:col-span-3'} p-5 sm:p-6 flex flex-col justify-between gap-4`}
           style={{ direction: 'ltr' }}
         >
           <div>

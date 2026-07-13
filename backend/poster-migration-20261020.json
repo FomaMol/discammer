@@ -1,0 +1,68 @@
+{
+  "migration": "video-posters-20261020",
+  "rows": [
+    {
+      "slug": "the-story-of-alex-chen",
+      "old_cover": "https://static.tildacdn.com/tild6138-3732-4132-b062-656166626562/file424f7076-d7f5-4d.jpg",
+      "old_poster": "/media/posters/newsletters/the-story-of-alex-chen.jpg",
+      "new_cover": "/static/images/video-posters/the-story-of-alex-chen-20261020-t87.jpg",
+      "new_poster": "/static/images/video-posters/the-story-of-alex-chen-20261020-t87.jpg",
+      "card_sha256": "3f5ad7cc8f7b92a2ad36b1132e931b27456fe2f255e74399522afe1e914e7b60",
+      "player_sha256": "3f5ad7cc8f7b92a2ad36b1132e931b27456fe2f255e74399522afe1e914e7b60"
+    },
+    {
+      "slug": "the-verification-swindle",
+      "old_cover": "https://static.tildacdn.com/tild6439-6439-4933-a131-383531613836/filec73663a6-2f6c-43.jpg",
+      "old_poster": "/media/posters/newsletters/the-verification-swindle.jpg",
+      "new_cover": "/static/images/video-posters/the-verification-swindle-20261020-t75.jpg",
+      "new_poster": "/static/images/video-posters/the-verification-swindle-20261020-t75.jpg",
+      "card_sha256": "302d72706421e764f953e7520943c9d6487033d37125df0036ab51032f697f1c",
+      "player_sha256": "302d72706421e764f953e7520943c9d6487033d37125df0036ab51032f697f1c"
+    },
+    {
+      "slug": "the-urgency-trap",
+      "old_cover": "https://static.tildacdn.com/tild3235-6439-4962-a531-616132663763/file8806acc2-7abf-4e.jpg",
+      "old_poster": "/media/posters/newsletters/the-urgency-trap.jpg",
+      "new_cover": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
+      "new_poster": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
+      "card_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc",
+      "player_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc"
+    },
+    {
+      "slug": "interview-with-guest-ben-yehooda",
+      "old_cover": "https://static.tildacdn.com/tild3736-6436-4564-b766-326235636538/2024-12-08_01-34-32.png",
+      "old_poster": "/media/posters/interviews/ben-yehooda.jpg",
+      "new_cover": "/static/images/video-posters/ben-yehooda-20261020-t134.jpg",
+      "new_poster": "/static/images/video-posters/ben-yehooda-20261020-t134.jpg",
+      "card_sha256": "b55077abfd821d06a8d6bf66a7c62d2527d316a1edfd401d3ebbec57bd72e986",
+      "player_sha256": "b55077abfd821d06a8d6bf66a7c62d2527d316a1edfd401d3ebbec57bd72e986"
+    },
+    {
+      "slug": "interview-with-guest-casey-orion",
+      "old_cover": "https://static.tildacdn.com/tild3465-3765-4636-b037-366630336439/2024-12-08_01-43-38.png",
+      "old_poster": "/media/posters/interviews/casey-orion.jpg",
+      "new_cover": "/static/images/video-posters/casey-orion-20261020-t82.jpg",
+      "new_poster": "/static/images/video-posters/casey-orion-20261020-t82.jpg",
+      "card_sha256": "2680a2ea5d32c4712c84b01882e5aed9d2cf153ead5f9bc35e5c5a77e7f55911",
+      "player_sha256": "2680a2ea5d32c4712c84b01882e5aed9d2cf153ead5f9bc35e5c5a77e7f55911"
+    },
+    {
+      "slug": "interview-with-guest-joel",
+      "old_cover": "https://static.tildacdn.com/tild6265-3336-4265-b361-643566356561/2024-12-09_21-14-38.png",
+      "old_poster": "/media/posters/interviews/joel.jpg",
+      "new_cover": "/static/images/video-posters/joel-20261020-t338.jpg",
+      "new_poster": "/static/images/video-posters/joel-20261020-t338.jpg",
+      "card_sha256": "a6945d8beda993a3a731f541370e02cfa7bff82243038e3a8fc7202770d10662",
+      "player_sha256": "a6945d8beda993a3a731f541370e02cfa7bff82243038e3a8fc7202770d10662"
+    },
+    {
+      "slug": "interview-with-guest-jimmy-zhou",
+      "old_cover": "https://static.tildacdn.com/tild6230-6463-4838-a232-326362383936/2024-12-09_21-16-35.png",
+      "old_poster": "/media/posters/interviews/jimmy-zhou.jpg",
+      "new_cover": "/static/images/video-posters/jimmy-zhou-20261020-t85.jpg",
+      "new_poster": "/static/images/video-posters/jimmy-zhou-20261020-t85.jpg",
+      "card_sha256": "80ec0648dd07cb77800824e670ff434fd707dd98239d255f4136243d5e593cfa",
+      "player_sha256": "80ec0648dd07cb77800824e670ff434fd707dd98239d255f4136243d5e593cfa"
+    }
+  ]
+}
