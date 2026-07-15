@@ -1,10 +1,12 @@
 """Course publication changes only matched editorial rows and can be reversed."""
 from pathlib import Path
 import sqlite3
+import sys
 
 import pytest
 
-from editorial_course_sync import apply, db_rows, restore
+import config
+from editorial_course_sync import apply, db_rows, main, restore
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -66,3 +68,12 @@ def test_restore_refuses_to_overwrite_later_editorial_change(tmp_path):
     with sqlite3.connect(db) as conn:
         assert conn.execute("SELECT title FROM lesson WHERE locale='en'").fetchone()[0] == 'Later editorial change'
         assert conn.execute("SELECT ciphertext FROM sync_blob").fetchone()[0] == b'opaque-user-data'
+
+
+def test_publication_cli_refuses_effective_startup_reseed(monkeypatch, tmp_path):
+    monkeypatch.setattr(config, 'SEED_ON_STARTUP', True)
+    monkeypatch.setattr(sys, 'argv', ['editorial_course_sync.py', '--dry-run',
+                                      '--db', str(tmp_path / 'absent.db'),
+                                      '--content', str(tmp_path / 'absent-content')])
+    with pytest.raises(RuntimeError, match='SEED_ON_STARTUP is enabled'):
+        main()

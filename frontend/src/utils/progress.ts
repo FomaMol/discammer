@@ -445,7 +445,9 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
 
   // ---- Merge lessons (UNION) -------------------------------------------------
   const current = read();
-  let addedLessons = 0;
+  // A current revision and its legacy slug describe one lesson to the learner.
+  // Count each newly imported lesson once for the visible merge result.
+  const addedLessonKeys = new Set<string>();
   for (const [moduleSlug, mod] of Object.entries(importedModules)) {
     const lessons = mod && typeof mod === 'object' ? (mod as { lessons?: unknown }).lessons : null;
     if (!lessons || typeof lessons !== 'object') continue;
@@ -454,7 +456,7 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
       if (!current.modules[moduleSlug]?.lessons) current.modules[moduleSlug] = { lessons: {} };
       if (!current.modules[moduleSlug].lessons[lessonSlug]) {
         current.modules[moduleSlug].lessons[lessonSlug] = true;
-        addedLessons += 1;
+        addedLessonKeys.add(`${moduleSlug}/${lessonSlug}`);
       }
     }
   }
@@ -532,11 +534,15 @@ export function importProgress(json: string | object): ImportOk | ImportErr {
   // Persist merged lesson state and notify the UI (exam writes already fired).
   const incomingRevisions = (d.lessonRevisions || {}) as LessonRevisions;
   if (Object.keys(incomingRevisions).length) {
-    writeLessonRevisions({ ...readLessonRevisions(), ...incomingRevisions });
+    const existingRevisions = readLessonRevisions();
+    for (const key of Object.keys(incomingRevisions)) {
+      if (!existingRevisions[key]) addedLessonKeys.add(key.split('@')[0]);
+    }
+    writeLessonRevisions({ ...existingRevisions, ...incomingRevisions });
   }
   write(current);
 
-  return { ok: true, addedLessons, improvedExams, improvedGuideChecks };
+  return { ok: true, addedLessons: addedLessonKeys.size, improvedExams, improvedGuideChecks };
 }
 
 function writeExamRecord(rec: ExamRecord) {

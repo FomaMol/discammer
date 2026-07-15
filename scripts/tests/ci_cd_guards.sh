@@ -138,7 +138,11 @@ case "$1" in
   compose)
     for a in "$@"; do
       if [ "$a" = "ps" ]; then
-        [ -z "${STUB_EMPTY_CID:-}" ] && printf 'test-container-id\n'
+        img="$(grep -E '^DISCAMMER_IMAGE=' "$STUB_ENV_FILE" | cut -d= -f2-)"
+        dig="${img#*@sha256:}"
+        if [ -z "${STUB_EMPTY_CID:-}" ] && { [ -z "${STUB_EMPTY_NEW_CID:-}" ] || [ "$dig" != "$STUB_NEW_DIG" ]; }; then
+          printf 'test-container-id\n'
+        fi
         exit 0
       fi
     done
@@ -155,8 +159,21 @@ case "$1" in
     done
     exit 0 ;;
   exec)
-    echo "migration ${*: -1}" >>"$STUB_LOG"
-    [ -z "${STUB_MIGRATE_FAIL:-}" ]; exit $? ;;
+    case " $* " in
+      *"python -c "*)
+        echo "seed check" >>"$STUB_LOG"
+        [ -z "${STUB_SEED_CHECK_FAIL:-}" ]; exit $? ;;
+      *"editorial_course_sync.py --dry-run"*)
+        echo "course preflight" >>"$STUB_LOG"
+        [ -z "${STUB_COURSE_PREFLIGHT_FAIL:-}" ]; exit $? ;;
+      *"poster_migration.py apply"*)
+        echo "poster apply" >>"$STUB_LOG"
+        [ -z "${STUB_MIGRATE_FAIL:-}" ]; exit $? ;;
+      *"editorial_course_sync.py --apply"*)
+        echo "course apply" >>"$STUB_LOG"
+        [ -z "${STUB_COURSE_APPLY_FAIL:-}" ]; exit $? ;;
+    esac
+    exit 1 ;;
 esac
 exit 0
 STUB
@@ -245,7 +262,10 @@ check_rollback_failed() {  # $1 sandbox name, $2 label
 # a. Healthy new image: deploys, no rollback.
 run_deploy happy
 if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
-   && grep -qx 'migration apply' "$WORK/happy/log" \
+   && grep -qx 'seed check' "$WORK/happy/log" \
+   && grep -qx 'course preflight' "$WORK/happy/log" \
+   && grep -qx 'poster apply' "$WORK/happy/log" \
+   && grep -qx 'course apply' "$WORK/happy/log" \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
   ok "deploy: healthy new image deploys with no rollback (exit 0)"
@@ -254,11 +274,33 @@ else
   show happy
 fi
 
+# The effective seed setting is checked before even switching images.
+run_deploy seed-check-fail STUB_SEED_CHECK_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && ! grep -q '^up ' "$WORK/seed-check-fail/log" \
+   && grep -q "@sha256:$PREV_DIG\$" "$WORK/seed-check-fail/etc/deployment.env"; then
+  ok "deploy: enabled startup seed stops before image change"
+else
+  bad "deploy: enabled startup seed did not stop before image change"
+  show seed-check-fail
+fi
+
+# The new-image exact-key preflight is required before any editorial update.
+# A failure leaves both migrations untouched and restores the previous image.
+run_deploy course-preflight-fail STUB_COURSE_PREFLIGHT_FAIL=1
+check_rollback course-preflight-fail "deploy: failed course preflight rolls back the image"
+if ! grep -q 'poster apply\|course apply' "$WORK/course-preflight-fail/log"; then
+  ok "deploy: failed course preflight skips both editorial updates"
+else
+  bad "deploy: failed course preflight ran an editorial update"
+fi
+
 # A failed transactional editorial update rolls the image back. An older
 # snapshot must not be restored, because it may predate an earlier release.
 run_deploy migration-fail STUB_MIGRATE_FAIL=1
 check_rollback migration-fail "deploy: failed editorial update rolls back the image"
-run_deploy container-missing STUB_EMPTY_CID=1
+run_deploy course-apply-fail STUB_COURSE_APPLY_FAIL=1
+check_rollback course-apply-fail "deploy: failed course editorial update rolls back the image"
+run_deploy container-missing STUB_EMPTY_NEW_CID=1
 check_rollback container-missing "deploy: missing web container rolls back the image"
 
 # b. The new image fails to start: roll back, then probe the restored image.

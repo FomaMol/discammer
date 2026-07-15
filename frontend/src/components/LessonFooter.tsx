@@ -55,7 +55,6 @@ export default function LessonFooter({
       if (revisionDone) markLessonRevisionIncomplete(moduleSlug, lessonSlug, contentRevision);
       else {
         markLessonRevisionComplete(moduleSlug, lessonSlug, contentRevision);
-        if (!legacyDone) markLessonComplete(moduleSlug, lessonSlug);
         trackEvent('lesson_complete');
       }
       return;

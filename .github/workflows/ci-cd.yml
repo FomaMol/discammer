@@ -520,6 +520,14 @@ jobs:
               done
               return 1
             }
+            # Check the effective setting in the currently serving container
+            # before starting a new image. If startup seeding were enabled,
+            # booting the new image could rewrite editorial tables too early.
+            CURRENT_CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web || true)
+            if [ -z "$CURRENT_CID" ] || ! sudo docker exec -u 10001 "$CURRENT_CID" python -c 'import sys; sys.path.insert(0, "/app/backend"); import config; assert not config.SEED_ON_STARTUP, "SEED_ON_STARTUP must be false"'; then
+              echo "::error::effective production SEED_ON_STARTUP is enabled or current web container is missing; no image change made"
+              exit 1
+            fi
             PREV=$(sudo grep -E '^DISCAMMER_IMAGE=' "$ENV_FILE" | cut -d= -f2-)
             echo "previous image: ${PREV}"
             echo "new image:      ${NEW}"
@@ -539,12 +547,23 @@ jobs:
               fi
               exit 1
             fi
-            # The published SQLite editorial rows are intentionally not reseeded
-            # on startup. Apply the exact 14-row poster update only after the new
-            # image is healthy; the command snapshots those rows on the persistent
-            # data mount and is idempotent for later course releases.
+            # Production editorial rows must not reseed on startup. The course
+            # dry run checks the effective config, validates all 110 authored
+            # lesson rows and verifies DB key coverage before either migration.
+            # Its snapshot and the poster backup live on the persistent mount.
             CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web || true)
-            if [ -z "$CID" ] || ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply; then
+            if [ -z "$CID" ] || ! sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --dry-run; then
+              echo "::error::course preflight failed or web container missing; rolling back image"
+              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
+              if apply && health_up; then
+                echo "::warning::previous image restored after course preflight failure"
+              else
+                echo "::error::ROLLBACK FAILED after course preflight failure; manual repair required"
+              fi
+              exit 1
+            fi
+            # The poster migration is idempotent after A's published release.
+            if ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply; then
               # The migration is one SQLite transaction: failure leaves the
               # editorial rows unchanged. Restore the previous image so a red
               # deploy cannot leave the new SHA live. Do not restore an older
@@ -555,6 +574,20 @@ jobs:
                 echo "::warning::previous image restored after editorial update failure"
               else
                 echo "::error::ROLLBACK FAILED after editorial update failure; manual repair required"
+              fi
+              exit 1
+            fi
+            COURSE_SNAPSHOT="/app/data/course-editorial-before-${GIT_SHORT}.json"
+            if ! sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --apply --snapshot "$COURSE_SNAPSHOT"; then
+              # The updater snapshots first and changes exactly matched lesson
+              # rows in one SQLite transaction. The previous A image remains
+              # compatible with the unchanged DB when this command fails.
+              echo "::error::course editorial update failed; rolling back image"
+              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
+              if apply && health_up; then
+                echo "::warning::previous image restored after course editorial failure"
+              else
+                echo "::error::ROLLBACK FAILED after course editorial failure; manual repair required"
               fi
               exit 1
             fi

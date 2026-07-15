@@ -67,6 +67,43 @@ test('earlier completion remains separate from the revised lesson', async ({ pag
   expect(state.revised['phishing/lookalike-domains@2026-10-20']).toBe(true);
 });
 
+test('a fresh learner can unmark current practice without inventing earlier completion', async ({ page }) => {
+  await page.goto('/en/course/threat-fundamentals/attack-vectors');
+  await page.getByRole('button', { name: 'Mark updated lesson complete' }).click();
+  await page.getByRole('button', { name: 'Updated lesson complete' }).click();
+  await expect(page.getByText('Your earlier lesson completion is preserved.')).toHaveCount(0);
+  const state = await page.evaluate(() => ({
+    legacy: JSON.parse(localStorage.getItem('discammer:progress:v1') || '{"modules":{}}'),
+    revision: JSON.parse(localStorage.getItem('discammer:lesson-revisions:v1') || '{}'),
+  }));
+  expect(state.legacy.modules['threat-fundamentals']?.lessons?.['attack-vectors']).toBeUndefined();
+  expect(state.revision['threat-fundamentals/attack-vectors@2026-10-20']).toBeUndefined();
+});
+
+test('import toast counts a newly restored current revision', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('discammer:progress:v1', JSON.stringify({
+      modules: { 'threat-fundamentals': { lessons: { 'scam-economy': true } } },
+    }));
+  });
+  await page.goto('/en/course');
+  const dossier = {
+    v: 2,
+    exportedAt: '2026-10-20T00:00:00Z',
+    lessons: { 'threat-fundamentals': { lessons: { 'scam-economy': true } } },
+    lessonRevisions: { 'threat-fundamentals/scam-economy@2026-10-20': true },
+    exams: null,
+    certName: null,
+    guideChecks: {},
+  };
+  const file = { name: 'progress.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(dossier)) };
+  await page.locator('input[type="file"]').setInputFiles(file);
+  await expect(page.getByText('// dossier merged: +1')).toBeVisible();
+  await expect(page.getByText('1/55')).toBeVisible();
+  await page.locator('input[type="file"]').setInputFiles(file);
+  await expect(page.getByText('// dossier merged: +0')).toBeVisible();
+});
+
 test('old completion does not mark the revised lesson or course overview complete', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('discammer:progress:v1', JSON.stringify({

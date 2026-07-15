@@ -1,6 +1,6 @@
 {
-  "_IncidentActionWizard-CPu7qpq5.js": {
-    "file": "js/chunks/IncidentActionWizard-CPu7qpq5.js",
+  "_IncidentActionWizard-CorkolAL.js": {
+    "file": "js/chunks/IncidentActionWizard-CorkolAL.js",
     "name": "IncidentActionWizard",
     "imports": [
       "src/main.tsx",
@@ -18,15 +18,15 @@
     "file": "js/chunks/i18n-gVZb7XXq.js",
     "name": "i18n"
   },
-  "_index-vVbbdTqH.js": {
-    "file": "js/chunks/index-vVbbdTqH.js",
+  "_index-gg5O8zbL.js": {
+    "file": "js/chunks/index-gg5O8zbL.js",
     "name": "index",
     "imports": [
       "src/main.tsx"
     ]
   },
-  "_progress-CMPq0uXC.js": {
-    "file": "js/chunks/progress-CMPq0uXC.js",
+  "_progress-DTLPmplY.js": {
+    "file": "js/chunks/progress-DTLPmplY.js",
     "name": "progress"
   },
   "_redflags-Dfk9x4ad.js": {
@@ -44,26 +44,26 @@
     "file": "js/chunks/threat_feed-BciEgeoR.js",
     "name": "threat_feed"
   },
-  "_useReducedMotion-UW9EgDVj.js": {
-    "file": "js/chunks/useReducedMotion-UW9EgDVj.js",
+  "_useReducedMotion-CCcFpe0U.js": {
+    "file": "js/chunks/useReducedMotion-CCcFpe0U.js",
     "name": "useReducedMotion",
     "imports": [
       "src/main.tsx"
     ]
   },
   "src/components/ContentCarousel.tsx": {
-    "file": "js/chunks/ContentCarousel-xNgkaHCU.js",
+    "file": "js/chunks/ContentCarousel-DsczGxnN.js",
     "name": "ContentCarousel",
     "src": "src/components/ContentCarousel.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js"
+      "_useReducedMotion-CCcFpe0U.js"
     ]
   },
   "src/components/CourseProgress.tsx": {
-    "file": "js/chunks/CourseProgress-BF60DPXO.js",
+    "file": "js/chunks/CourseProgress-DucH-cUo.js",
     "name": "CourseProgress",
     "src": "src/components/CourseProgress.tsx",
     "isDynamicEntry": true,
@@ -71,55 +71,55 @@
       "src/main.tsx",
       "_api-B4HBC_-I.js",
       "_i18n-gVZb7XXq.js",
-      "_progress-CMPq0uXC.js"
+      "_progress-DTLPmplY.js"
     ]
   },
   "src/components/GameLauncher.tsx": {
-    "file": "js/chunks/GameLauncher-CH6BAe1S.js",
+    "file": "js/chunks/GameLauncher-DwkMv7Cc.js",
     "name": "GameLauncher",
     "src": "src/components/GameLauncher.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
-      "_index-vVbbdTqH.js",
+      "_index-gg5O8zbL.js",
       "_i18n-gVZb7XXq.js"
     ]
   },
   "src/components/HeroShader.tsx": {
-    "file": "js/chunks/HeroShader-2ljXS9Tg.js",
+    "file": "js/chunks/HeroShader-CU1rCt-C.js",
     "name": "HeroShader",
     "src": "src/components/HeroShader.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_theme-color-CltKEOde.js",
-      "_useReducedMotion-UW9EgDVj.js"
+      "_useReducedMotion-CCcFpe0U.js"
     ]
   },
   "src/components/HeroTerminal.tsx": {
-    "file": "js/chunks/HeroTerminal-SwuKZ8Hw.js",
+    "file": "js/chunks/HeroTerminal-CNruE4Y4.js",
     "name": "HeroTerminal",
     "src": "src/components/HeroTerminal.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js"
+      "_useReducedMotion-CCcFpe0U.js"
     ]
   },
   "src/components/HeroTypewriter.tsx": {
-    "file": "js/chunks/HeroTypewriter-DuxmCN_K.js",
+    "file": "js/chunks/HeroTypewriter-DKnD1DYJ.js",
     "name": "HeroTypewriter",
     "src": "src/components/HeroTypewriter.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js"
+      "_useReducedMotion-CCcFpe0U.js"
     ]
   },
   "src/components/JournalBroadsheet.tsx": {
-    "file": "js/chunks/JournalBroadsheet-CZVphyNI.js",
+    "file": "js/chunks/JournalBroadsheet-6XAfFV--.js",
     "name": "JournalBroadsheet",
     "src": "src/components/JournalBroadsheet.tsx",
     "isDynamicEntry": true,
@@ -130,36 +130,36 @@
     ]
   },
   "src/components/KnowledgeCheck.tsx": {
-    "file": "js/chunks/KnowledgeCheck-Dy7Y12Ii.js",
+    "file": "js/chunks/KnowledgeCheck-CG05gpz_.js",
     "name": "KnowledgeCheck",
     "src": "src/components/KnowledgeCheck.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_progress-CMPq0uXC.js"
+      "_progress-DTLPmplY.js"
     ]
   },
   "src/components/LessonFooter.tsx": {
-    "file": "js/chunks/LessonFooter-Cq3scEGS.js",
+    "file": "js/chunks/LessonFooter-DX2UVdcY.js",
     "name": "LessonFooter",
     "src": "src/components/LessonFooter.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
-      "_progress-CMPq0uXC.js",
+      "_progress-DTLPmplY.js",
       "_i18n-gVZb7XXq.js"
     ]
   },
   "src/components/LessonWidget.tsx": {
-    "file": "js/chunks/LessonWidget-B9p5PeGe.js",
+    "file": "js/chunks/LessonWidget-BqW4fL6u.js",
     "name": "LessonWidget",
     "src": "src/components/LessonWidget.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_progress-CMPq0uXC.js",
+      "_progress-DTLPmplY.js",
       "_api-B4HBC_-I.js"
     ],
     "css": [
@@ -167,7 +167,7 @@
     ]
   },
   "src/components/LinkInspector.tsx": {
-    "file": "js/chunks/LinkInspector-oYZZwS9D.js",
+    "file": "js/chunks/LinkInspector-DTl2kTQU.js",
     "name": "LinkInspector",
     "src": "src/components/LinkInspector.tsx",
     "isDynamicEntry": true,
@@ -175,12 +175,12 @@
       "src/main.tsx",
       "_threat_feed-BciEgeoR.js",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js",
-      "_IncidentActionWizard-CPu7qpq5.js"
+      "_useReducedMotion-CCcFpe0U.js",
+      "_IncidentActionWizard-CorkolAL.js"
     ]
   },
   "src/components/MessageAnalyzer.tsx": {
-    "file": "js/chunks/MessageAnalyzer-D0QBpeXU.js",
+    "file": "js/chunks/MessageAnalyzer-DARgcUpX.js",
     "name": "MessageAnalyzer",
     "src": "src/components/MessageAnalyzer.tsx",
     "isDynamicEntry": true,
@@ -189,13 +189,13 @@
       "_redflags-Dfk9x4ad.js",
       "_threat_feed-BciEgeoR.js",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js",
-      "_IncidentActionWizard-CPu7qpq5.js",
+      "_useReducedMotion-CCcFpe0U.js",
+      "_IncidentActionWizard-CorkolAL.js",
       "_theme-color-CltKEOde.js"
     ]
   },
   "src/components/MessageChecker.tsx": {
-    "file": "js/chunks/MessageChecker-BOUZTWFY.js",
+    "file": "js/chunks/MessageChecker-CkFPFNDf.js",
     "name": "MessageChecker",
     "src": "src/components/MessageChecker.tsx",
     "isDynamicEntry": true,
@@ -207,24 +207,24 @@
     ]
   },
   "src/components/MissionBriefingTerminal.tsx": {
-    "file": "js/chunks/MissionBriefingTerminal-A3Yv2J_N.js",
+    "file": "js/chunks/MissionBriefingTerminal-GulecL9p.js",
     "name": "MissionBriefingTerminal",
     "src": "src/components/MissionBriefingTerminal.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js"
+      "_useReducedMotion-CCcFpe0U.js"
     ]
   },
   "src/components/MobileMenu.tsx": {
-    "file": "js/chunks/MobileMenu-BnOfjFmO.js",
+    "file": "js/chunks/MobileMenu-Coa5N0VM.js",
     "name": "MobileMenu",
     "src": "src/components/MobileMenu.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
-      "_index-vVbbdTqH.js",
+      "_index-gg5O8zbL.js",
       "_i18n-gVZb7XXq.js"
     ],
     "dynamicImports": [
@@ -232,18 +232,18 @@
     ]
   },
   "src/components/ModuleLessons.tsx": {
-    "file": "js/chunks/ModuleLessons-DcECdlm8.js",
+    "file": "js/chunks/ModuleLessons-Brqcwvep.js",
     "name": "ModuleLessons",
     "src": "src/components/ModuleLessons.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_progress-CMPq0uXC.js"
+      "_progress-DTLPmplY.js"
     ]
   },
   "src/components/ObjectivesPanel.tsx": {
-    "file": "js/chunks/ObjectivesPanel-C5ddB-Kk.js",
+    "file": "js/chunks/ObjectivesPanel-_8IOXusr.js",
     "name": "ObjectivesPanel",
     "src": "src/components/ObjectivesPanel.tsx",
     "isDynamicEntry": true,
@@ -253,7 +253,7 @@
     ]
   },
   "src/components/OpsDebriefPanel.tsx": {
-    "file": "js/chunks/OpsDebriefPanel-DopqICi-.js",
+    "file": "js/chunks/OpsDebriefPanel-B2FpbvMD.js",
     "name": "OpsDebriefPanel",
     "src": "src/components/OpsDebriefPanel.tsx",
     "isDynamicEntry": true,
@@ -263,18 +263,18 @@
     ]
   },
   "src/components/ProgressSync.tsx": {
-    "file": "js/chunks/ProgressSync-Be7BW0ne.js",
+    "file": "js/chunks/ProgressSync-BHSI_BZt.js",
     "name": "ProgressSync",
     "src": "src/components/ProgressSync.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_progress-CMPq0uXC.js"
+      "_progress-DTLPmplY.js"
     ]
   },
   "src/components/ScamTypesGrid.tsx": {
-    "file": "js/chunks/ScamTypesGrid-Bm6lR_NY.js",
+    "file": "js/chunks/ScamTypesGrid-Z_9xsj8i.js",
     "name": "ScamTypesGrid",
     "src": "src/components/ScamTypesGrid.tsx",
     "isDynamicEntry": true,
@@ -285,7 +285,7 @@
     ]
   },
   "src/components/SearchConsole.tsx": {
-    "file": "js/chunks/SearchConsole-BJO8HEcK.js",
+    "file": "js/chunks/SearchConsole-BsDLGRmR.js",
     "name": "SearchConsole",
     "src": "src/components/SearchConsole.tsx",
     "isDynamicEntry": true,
@@ -295,18 +295,18 @@
     ]
   },
   "src/components/SimulateTerminal.tsx": {
-    "file": "js/chunks/SimulateTerminal-CFEMsowl.js",
+    "file": "js/chunks/SimulateTerminal-BoGoFPs8.js",
     "name": "SimulateTerminal",
     "src": "src/components/SimulateTerminal.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/main.tsx",
       "_i18n-gVZb7XXq.js",
-      "_useReducedMotion-UW9EgDVj.js"
+      "_useReducedMotion-CCcFpe0U.js"
     ]
   },
   "src/components/ThemeSwitcher.tsx": {
-    "file": "js/chunks/ThemeSwitcher-BeZWKoyN.js",
+    "file": "js/chunks/ThemeSwitcher-CFpGcwUj.js",
     "name": "ThemeSwitcher",
     "src": "src/components/ThemeSwitcher.tsx",
     "isDynamicEntry": true,
@@ -316,7 +316,7 @@
     ]
   },
   "src/components/VideoPlayer.tsx": {
-    "file": "js/chunks/VideoPlayer-CvhCYDKH.js",
+    "file": "js/chunks/VideoPlayer-D9nXIsHe.js",
     "name": "VideoPlayer",
     "src": "src/components/VideoPlayer.tsx",
     "isDynamicEntry": true,
@@ -329,7 +329,7 @@
     ]
   },
   "src/components/WordmarkReveal.tsx": {
-    "file": "js/chunks/WordmarkReveal-DL0kwCZU.js",
+    "file": "js/chunks/WordmarkReveal-DhvZs7Nv.js",
     "name": "WordmarkReveal",
     "src": "src/components/WordmarkReveal.tsx",
     "isDynamicEntry": true,
@@ -338,7 +338,7 @@
     ]
   },
   "src/main.tsx": {
-    "file": "js/main-1Wd4FNwh.js",
+    "file": "js/main-DCWKIsLr.js",
     "name": "main",
     "src": "src/main.tsx",
     "isEntry": true,

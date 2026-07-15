@@ -12,6 +12,7 @@ from pathlib import Path
 import sqlite3
 import tempfile
 
+import config
 from course_contract import validate_pair, validate_v2
 
 FIELDS = ('order', 'title', 'body_md', 'widget_type', 'widget_config_json', 'est_minutes')
@@ -144,6 +145,10 @@ def main() -> None:
         if not a.snapshot: p.error('--restore requires --snapshot')
         print(json.dumps(restore(a.db, a.snapshot)))
         return
+    # Production must keep authored editorial rows stable until this exact-row
+    # migration runs. A startup reseed would change them before the snapshot.
+    if config.SEED_ON_STARTUP:
+        raise RuntimeError('SEED_ON_STARTUP is enabled; refuse course editorial publication')
     authored = authored_rows(a.content)
     if len(authored) != a.expected_count:
         raise ValueError(f'Expected {a.expected_count} authored localized lessons; found {len(authored)}')

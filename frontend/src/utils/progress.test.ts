@@ -149,6 +149,27 @@ describe('exportProgress / importProgress', () => {
     expect(mod.isLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20')).toBe(true);
   });
 
+  it('reports a newly imported revision once even when the legacy slug already exists', async () => {
+    const mod = await loadModule();
+    mod.markLessonComplete('phishing', 'lookalike-domains');
+    const dossier = {
+      ...mod.exportProgress(),
+      lessonRevisions: { 'phishing/lookalike-domains@2026-10-20': true },
+    };
+    const first = mod.importProgress(dossier);
+    expect(first.ok).toBe(true);
+    if (first.ok) expect(first.addedLessons).toBe(1);
+    expect(mod.isLessonRevisionComplete('phishing', 'lookalike-domains', '2026-10-20')).toBe(true);
+    const repeated = mod.importProgress(dossier);
+    expect(repeated.ok).toBe(true);
+    if (repeated.ok) expect(repeated.addedLessons).toBe(0);
+
+    storage.clear();
+    const bothNew = mod.importProgress(dossier);
+    expect(bothNew.ok).toBe(true);
+    if (bothNew.ok) expect(bothNew.addedLessons).toBe(1);
+  });
+
   it('rejects malformed revised-completion imports before mutating state', async () => {
     const mod = await loadModule();
     mod.markLessonComplete('phishing', 'lookalike-domains');
