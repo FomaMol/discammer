@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import sqlite3
+import stat
 import tempfile
 
 import config
@@ -58,8 +59,19 @@ def db_rows(conn: sqlite3.Connection) -> dict[tuple[str, str, str], dict]:
 
 def snapshot_atomically(snapshot_path: Path, payload: dict) -> None:
     snapshot_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-    if snapshot_path.exists():
-        raise FileExistsError(f'Snapshot already exists: {snapshot_path}')
+    def verify_existing() -> None:
+        metadata = snapshot_path.lstat()
+        if (not stat.S_ISREG(metadata.st_mode) or stat.S_IMODE(metadata.st_mode) != 0o600
+                or metadata.st_uid != os.getuid()):
+            raise ValueError(f'Unsafe existing course snapshot: {snapshot_path}')
+        existing = json.loads(snapshot_path.read_text(encoding='utf-8'))
+        if (existing.get('kind') != payload['kind']
+                or existing.get('rows') != payload['rows']
+                or existing.get('applied_rows') != payload['applied_rows']):
+            raise ValueError(f'Existing course snapshot differs from current update: {snapshot_path}')
+    if snapshot_path.exists() or snapshot_path.is_symlink():
+        verify_existing()
+        return
     fd, temp = tempfile.mkstemp(prefix='.course-snapshot-', dir=snapshot_path.parent)
     try:
         os.fchmod(fd, 0o600)
@@ -67,7 +79,15 @@ def snapshot_atomically(snapshot_path: Path, payload: dict) -> None:
             json.dump(payload, handle, ensure_ascii=False, indent=2)
             handle.write('\n')
             handle.flush(); os.fsync(handle.fileno())
-        os.replace(temp, snapshot_path)
+        try:
+            # An exact retry may reuse its prior snapshot; never overwrite it.
+            os.link(temp, snapshot_path)
+        except FileExistsError:
+            verify_existing()
+        else:
+            directory_fd = os.open(snapshot_path.parent, os.O_RDONLY)
+            try: os.fsync(directory_fd)
+            finally: os.close(directory_fd)
     finally:
         if os.path.exists(temp): os.unlink(temp)
 

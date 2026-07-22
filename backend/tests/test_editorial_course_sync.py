@@ -77,3 +77,38 @@ def test_publication_cli_refuses_effective_startup_reseed(monkeypatch, tmp_path)
                                       '--content', str(tmp_path / 'absent-content')])
     with pytest.raises(RuntimeError, match='SEED_ON_STARTUP is enabled'):
         main()
+
+
+def test_failed_transaction_reuses_exact_snapshot_on_same_sha_retry(tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    with sqlite3.connect(db) as conn:
+        before = db_rows(conn)
+        conn.execute("CREATE TRIGGER fail_course BEFORE UPDATE ON lesson BEGIN SELECT RAISE(ABORT, 'injected update failure'); END")
+    with pytest.raises(sqlite3.IntegrityError, match='injected update failure'):
+        apply(db, content, snapshot, expected_count=2)
+    assert snapshot.exists() and snapshot.stat().st_mode & 0o777 == 0o600
+    with sqlite3.connect(db) as conn:
+        assert db_rows(conn) == before
+        assert conn.execute("SELECT ciphertext FROM sync_blob").fetchone()[0] == b'opaque-user-data'
+        conn.execute('DROP TRIGGER fail_course')
+    assert apply(db, content, snapshot, expected_count=2)['changed'] == 2
+    assert restore(db, snapshot)['restored'] == 2
+    with sqlite3.connect(db) as conn:
+        assert db_rows(conn) == before
+
+
+def test_retry_refuses_snapshot_with_different_prior_rows(tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    with sqlite3.connect(db) as conn:
+        conn.execute("CREATE TRIGGER fail_course BEFORE UPDATE ON lesson BEGIN SELECT RAISE(ABORT, 'injected update failure'); END")
+    with pytest.raises(sqlite3.IntegrityError):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        conn.execute('DROP TRIGGER fail_course')
+        conn.execute("UPDATE lesson SET title='Later editor change' WHERE locale='en'")
+    with pytest.raises(ValueError, match='snapshot differs'):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        assert conn.execute("SELECT title FROM lesson WHERE locale='en'").fetchone()[0] == 'Later editor change'
