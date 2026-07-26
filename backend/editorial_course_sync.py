@@ -6,6 +6,7 @@ updating them in one transaction. --restore reverses a named snapshot.
 """
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -57,21 +58,59 @@ def db_rows(conn: sqlite3.Connection) -> dict[tuple[str, str, str], dict]:
     return {(r['module_slug'], r['slug'], r['locale']): dict(r) for r in raw}
 
 
-def snapshot_atomically(snapshot_path: Path, payload: dict) -> None:
-    snapshot_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-    def verify_existing() -> None:
-        metadata = snapshot_path.lstat()
+def snapshot_digest(payload: dict) -> str:
+    core = {key: value for key, value in payload.items() if key != 'sha256'}
+    encoded = json.dumps(core, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def snapshot_identity(path: Path, fd: int, original: os.stat_result) -> None:
+    """Refuse a replaced or modified snapshot before the SQLite commit."""
+    held = os.fstat(fd)
+    on_path = os.stat(path, follow_symlinks=False)
+    for now in (held, on_path):
+        if (not stat.S_ISREG(now.st_mode) or stat.S_IMODE(now.st_mode) != 0o600
+                or now.st_uid != os.getuid()
+                or (now.st_dev, now.st_ino, now.st_size, now.st_mtime_ns)
+                != (original.st_dev, original.st_ino, original.st_size, original.st_mtime_ns)):
+            raise ValueError(f'Course snapshot changed during update: {path}')
+
+
+def open_snapshot(path: Path) -> tuple[dict, int, os.stat_result]:
+    """Read a regular 0600 snapshot through one no-follow descriptor."""
+    try:
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+    except OSError as exc:
+        raise ValueError(f'Unsafe course snapshot: {path}') from exc
+    try:
+        metadata = os.fstat(fd)
         if (not stat.S_ISREG(metadata.st_mode) or stat.S_IMODE(metadata.st_mode) != 0o600
                 or metadata.st_uid != os.getuid()):
-            raise ValueError(f'Unsafe existing course snapshot: {snapshot_path}')
-        existing = json.loads(snapshot_path.read_text(encoding='utf-8'))
-        if (existing.get('kind') != payload['kind']
-                or existing.get('rows') != payload['rows']
+            raise ValueError(f'Unsafe course snapshot: {path}')
+        with os.fdopen(os.dup(fd), 'r', encoding='utf-8') as handle:
+            payload = json.load(handle)
+        if (not isinstance(payload, dict) or payload.get('kind') != 'course-editorial-before'
+                or payload.get('sha256') != snapshot_digest(payload)):
+            raise ValueError(f'Course snapshot checksum differs: {path}')
+        snapshot_identity(path, fd, metadata)
+        return payload, fd, metadata
+    except BaseException:
+        os.close(fd)
+        raise
+
+
+def snapshot_atomically(snapshot_path: Path, payload: dict) -> tuple[int, os.stat_result]:
+    snapshot_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    payload = {**payload, 'sha256': snapshot_digest(payload)}
+    def verify_existing() -> tuple[int, os.stat_result]:
+        existing, fd, metadata = open_snapshot(snapshot_path)
+        if (existing.get('rows') != payload['rows']
                 or existing.get('applied_rows') != payload['applied_rows']):
+            os.close(fd)
             raise ValueError(f'Existing course snapshot differs from current update: {snapshot_path}')
+        return fd, metadata
     if snapshot_path.exists() or snapshot_path.is_symlink():
-        verify_existing()
-        return
+        return verify_existing()
     fd, temp = tempfile.mkstemp(prefix='.course-snapshot-', dir=snapshot_path.parent)
     try:
         os.fchmod(fd, 0o600)
@@ -83,13 +122,14 @@ def snapshot_atomically(snapshot_path: Path, payload: dict) -> None:
             # An exact retry may reuse its prior snapshot; never overwrite it.
             os.link(temp, snapshot_path)
         except FileExistsError:
-            verify_existing()
+            return verify_existing()
         else:
             directory_fd = os.open(snapshot_path.parent, os.O_RDONLY)
             try: os.fsync(directory_fd)
             finally: os.close(directory_fd)
     finally:
         if os.path.exists(temp): os.unlink(temp)
+    return verify_existing()
 
 
 def apply(db: Path, course_dir: Path, snapshot: Path, expected_count: int = 110) -> dict:
@@ -108,21 +148,32 @@ def apply(db: Path, course_dir: Path, snapshot: Path, expected_count: int = 110)
         payload = {'kind': 'course-editorial-before', 'created_at': datetime.now(timezone.utc).isoformat(),
                    'rows': [before[key] for key in changed],
                    'applied_rows': [{**{k: before[key][k] for k in ('id',) + KEYS}, **authored[key]} for key in changed]}
-        snapshot_atomically(snapshot, payload)
+        snapshot_fd, snapshot_metadata = snapshot_atomically(snapshot, payload)
         try:
             for key in changed:
                 row = authored[key]
                 conn.execute('UPDATE lesson SET "order"=?, title=?, body_md=?, widget_type=?, widget_config_json=?, est_minutes=? WHERE id=? AND module_slug=? AND slug=? AND locale=?',
                     tuple(row[f] for f in FIELDS) + (before[key]['id'],) + key)
+            snapshot_identity(snapshot, snapshot_fd, snapshot_metadata)
             conn.commit()
         except BaseException:
             conn.rollback()
             raise
+        finally:
+            os.close(snapshot_fd)
     return {'changed': len(changed), 'snapshot': str(snapshot)}
 
 
 def restore(db: Path, snapshot: Path) -> dict:
-    payload = json.loads(snapshot.read_text(encoding='utf-8'))
+    payload, snapshot_fd, snapshot_metadata = open_snapshot(snapshot)
+    try:
+        return _restore_verified(db, snapshot, payload, snapshot_fd, snapshot_metadata)
+    finally:
+        os.close(snapshot_fd)
+
+
+def _restore_verified(db: Path, snapshot: Path, payload: dict, snapshot_fd: int,
+                      snapshot_metadata: os.stat_result) -> dict:
     if (payload.get('kind') != 'course-editorial-before'
             or not isinstance(payload.get('rows'), list)
             or not isinstance(payload.get('applied_rows'), list)
@@ -146,6 +197,7 @@ def restore(db: Path, snapshot: Path) -> dict:
             key = tuple(row[k] for k in KEYS)
             conn.execute('UPDATE lesson SET "order"=?, title=?, body_md=?, widget_type=?, widget_config_json=?, est_minutes=? WHERE id=? AND module_slug=? AND slug=? AND locale=?',
                 tuple(row[f] for f in FIELDS) + (row['id'],) + key)
+        snapshot_identity(snapshot, snapshot_fd, snapshot_metadata)
         conn.commit()
     return {'restored': len(payload['rows']), 'snapshot': str(snapshot)}
 

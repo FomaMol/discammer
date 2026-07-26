@@ -1,11 +1,13 @@
 """Course publication changes only matched editorial rows and can be reversed."""
 from pathlib import Path
+import json
 import sqlite3
 import sys
 
 import pytest
 
 import config
+import editorial_course_sync
 from editorial_course_sync import apply, db_rows, main, restore
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -112,3 +114,45 @@ def test_retry_refuses_snapshot_with_different_prior_rows(tmp_path):
         apply(db, content, snapshot, expected_count=2)
     with sqlite3.connect(db) as conn:
         assert conn.execute("SELECT title FROM lesson WHERE locale='en'").fetchone()[0] == 'Later editor change'
+
+
+def test_retry_refuses_changed_snapshot_metadata(tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    with sqlite3.connect(db) as conn:
+        conn.execute("CREATE TRIGGER fail_course BEFORE UPDATE ON lesson BEGIN SELECT RAISE(ABORT, 'injected update failure'); END")
+    with pytest.raises(sqlite3.IntegrityError):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        conn.execute('DROP TRIGGER fail_course')
+    payload = json.loads(snapshot.read_text())
+    payload['created_at'] = '2000-01-01T00:00:00+00:00'
+    snapshot.write_text(json.dumps(payload))
+    with pytest.raises(ValueError, match='checksum differs'):
+        apply(db, content, snapshot, expected_count=2)
+
+
+def test_retry_refuses_snapshot_replaced_during_read(monkeypatch, tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    with sqlite3.connect(db) as conn:
+        conn.execute("CREATE TRIGGER fail_course BEFORE UPDATE ON lesson BEGIN SELECT RAISE(ABORT, 'injected update failure'); END")
+    with pytest.raises(sqlite3.IntegrityError):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        before = db_rows(conn)
+        conn.execute('DROP TRIGGER fail_course')
+    replacement = tmp_path / 'replacement.json'
+    replacement.write_bytes(snapshot.read_bytes())
+    replacement.chmod(0o600)
+    original_load = json.load
+    def swap_after_read(handle):
+        payload = original_load(handle)
+        snapshot.unlink()
+        snapshot.symlink_to(replacement)
+        return payload
+    monkeypatch.setattr(editorial_course_sync.json, 'load', swap_after_read)
+    with pytest.raises(ValueError, match='snapshot changed during update'):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        assert db_rows(conn) == before
