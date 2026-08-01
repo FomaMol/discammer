@@ -3,9 +3,10 @@
 # copy, so a regression in the workflow fails here:
 #   1. the top-level token is read-only, and id-token: write (OIDC for the ECR
 #      push) appears only in jobs gated to a main push;
-#   2. the "Health check" step fails closed on an empty, short or foreign version;
-#   3. the production SSH deploy script rolls back after a failed apply or health
-#      probe, re-probes the restored image, and reports a failed rollback loudly.
+#   2. the production SSH deploy script checks the public domain in the same
+#      transaction as the editorial update, then restores the exact changed rows
+#      and previous image if public verification fails;
+#   3. failed apply/health probes restore and re-probe the previous image.
 # Nothing here reaches a network, a host or AWS: curl, docker, sudo, aws and sleep
 # are stubs on PATH, and /etc/discammer is redirected into a temp directory.
 #
@@ -67,54 +68,15 @@ else
 fi
 
 # 2. Extract the real step texts. Syntax-check them before running anything.
-ruby "$WORK/extract.rb" "$WF" deploy "Health check" run >"$WORK/health.sh" 2>"$WORK/err" \
-  || bad "extract: deploy / Health check run ($(cat "$WORK/err"))"
 ruby "$WORK/extract.rb" "$WF" deploy "SSH deploy" script >"$WORK/deploy.raw" 2>"$WORK/err" \
   || bad "extract: deploy / SSH deploy script ($(cat "$WORK/err"))"
-if bash -n "$WORK/health.sh" && bash -n "$WORK/deploy.raw"; then
-  ok "syntax: extracted health-check and SSH deploy scripts parse (bash -n)"
+if bash -n "$WORK/deploy.raw"; then
+  ok "syntax: extracted SSH deploy script parses (bash -n)"
 else
   bad "syntax: an extracted script does not parse"
 fi
 
-# --- 3. Health check: the domain must report the shipped SHA, or the step fails.
-mkdir -p "$WORK/hbin"
-cat >"$WORK/hbin/curl" <<'STUB'
-#!/usr/bin/env bash
-# Stub for the Health check step. Status probes (-w) answer 200; the version
-# probe (no -w) answers $STUB_BODY.
-for a in "$@"; do
-  if [ "$a" = "-w" ]; then printf '200'; exit 0; fi
-done
-printf '%s' "${STUB_BODY:-}"
-STUB
-chmod +x "$WORK/hbin/curl"
-
-HEALTH_SHA="0123456789abcdef0123456789abcdef01234567"
-run_health() {  # $1 label, $2 body the domain returns, $3 expected exit code
-  local rc
-  STUB_BODY="$2" GITHUB_SHA="$HEALTH_SHA" PATH="$WORK/hbin:$PATH" \
-    bash -e "$WORK/health.sh" >"$WORK/health.out" 2>&1
-  rc=$?
-  if [ "$rc" = "$3" ]; then
-    ok "$1 (exit $rc)"
-  else
-    bad "$1 (exit $rc, want $3)"
-    tail -n 3 "$WORK/health.out" | sed 's/^/      /'
-  fi
-}
-run_health "health: matching version passes" \
-  '{"status":"ok","version":"0123456"}' 0
-run_health "health: HTML 200 without a version field fails" \
-  '<!doctype html><html><body>ok</body></html>' 1
-run_health "health: empty version fails" \
-  '{"status":"ok","version":""}' 1
-run_health "health: foreign version fails" \
-  '{"status":"ok","version":"fffffff"}' 1
-run_health "health: 1-char prefix fails" \
-  '{"status":"ok","version":"0"}' 1
-
-# --- 4. Production SSH deploy script: rollback and its reporting. ---------------
+# --- 3. Production SSH deploy script: public gate and rollback. -----------------
 # Stubs for sudo, docker, aws, curl and sleep. They record to $STUB_LOG and decide
 # the outcome from the digest the env file points at ("aaaa" = new, "bbbb" = prev).
 mkdir -p "$WORK/stubs"
@@ -155,15 +117,41 @@ case "$1" in
     done
     exit 0 ;;
   exec)
-    echo "migration ${*: -1}" >>"$STUB_LOG"
-    [ -z "${STUB_MIGRATE_FAIL:-}" ]; exit $? ;;
+    mode=""
+    for a in "$@"; do
+      case "$a" in apply|restore) mode="$a" ;; esac
+    done
+    echo "migration $mode" >>"$STUB_LOG"
+    if [ "$mode" = apply ]; then
+      [ -z "${STUB_MIGRATE_FAIL:-}" ] || exit 1
+      printf 'applied: 14 post rows; backup /app/data/poster-backup.json\n'
+      exit 0
+    fi
+    [ -z "${STUB_RESTORE_FAIL:-}" ]; exit $? ;;
 esac
 exit 0
 STUB
 cat >"$WORK/stubs/curl" <<'STUB'
 #!/usr/bin/env bash
-# Stub for the app probe on 127.0.0.1:8000. It answers for the image the env file
-# points at: the digest under test ("new") or any other digest ("prev").
+# Stub local and public probes, including a foreign public SHA after migration.
+url=""
+status=0
+for a in "$@"; do
+  case "$a" in https://discammer.com*) url="$a" ;; -w) status=1 ;; esac
+done
+if [ -n "$url" ]; then
+  if [ "$status" = 1 ]; then
+    if [ -n "${STUB_PUBLIC_BAD_PATH:-}" ] && [ "$url" = "https://discammer.com${STUB_PUBLIC_BAD_PATH}" ]; then
+      echo 'public 503' >>"$STUB_LOG"; printf 503
+    else
+      echo 'public 200' >>"$STUB_LOG"; printf 200
+    fi
+  else
+    echo 'public version' >>"$STUB_LOG"
+    printf '{"status":"ok","version":"%s"}' "${STUB_PUBLIC_VERSION-$STUB_GIT_SHORT}"
+  fi
+  exit 0
+fi
 img="$(grep -E '^DISCAMMER_IMAGE=' "$STUB_ENV_FILE" | cut -d= -f2-)"
 dig="${img#*@sha256:}"
 if [ "$dig" = "$STUB_NEW_DIG" ]; then
@@ -246,6 +234,7 @@ check_rollback_failed() {  # $1 sandbox name, $2 label
 run_deploy happy
 if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
    && grep -qx 'migration apply' "$WORK/happy/log" \
+   && grep -qx 'public version' "$WORK/happy/log" \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
   ok "deploy: healthy new image deploys with no rollback (exit 0)"
@@ -280,6 +269,28 @@ check_rollback_failed rollback-unhealthy "deploy: unhealthy rollback target is r
 # f. The rollback apply itself fails: must be reported as ROLLBACK FAILED.
 run_deploy rollback-apply-fails STUB_BROKEN_APPLY="$NEW_DIG $PREV_DIG"
 check_rollback_failed rollback-apply-fails "deploy: failed rollback apply is reported as ROLLBACK FAILED"
+
+# g. Public failure comes after migration. Restore THIS attempt's rows before
+# selecting the previous image, and probe that previous image in the same step.
+run_deploy public-version-mismatch STUB_PUBLIC_VERSION=fffffff
+if grep -qx 'migration restore' "$WORK/public-version-mismatch/log" \
+   && [ "$(grep -nE 'migration restore|up bbbb' "$WORK/public-version-mismatch/log" | cut -d: -f2- | paste -sd, -)" = 'migration restore,up bbbb' ]; then
+  check_rollback public-version-mismatch "deploy: foreign public SHA restores rows, image and health"
+else
+  bad 'deploy: public rollback must restore the changed rows before the old image'
+fi
+run_deploy public-route-fail STUB_PUBLIC_BAD_PATH=/en/course
+check_rollback public-route-fail "deploy: failed public route restores previous image"
+run_deploy public-empty-version STUB_PUBLIC_VERSION=
+check_rollback public-empty-version "deploy: empty public SHA fails closed and rolls back"
+run_deploy public-restore-fails STUB_PUBLIC_VERSION=fffffff STUB_RESTORE_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: editorial restore' "$WORK/public-restore-fails/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/public-restore-fails/etc/deployment.env" \
+  && ! grep -qx 'up bbbb' "$WORK/public-restore-fails/log"; then
+  ok 'deploy: rejected editorial restore retains compatible new image and reports failure'
+else
+  bad 'deploy: rejected editorial restore must not select old image with new poster URLs'
+fi
 
 echo "----"
 echo "$pass passed, $fail failed"
