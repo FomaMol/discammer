@@ -3,9 +3,10 @@
 # copy, so a regression in the workflow fails here:
 #   1. the top-level token is read-only, and id-token: write (OIDC for the ECR
 #      push) appears only in jobs gated to a main push;
-#   2. the "Health check" step fails closed on an empty, short or foreign version;
-#   3. the production SSH deploy script rolls back after a failed apply or health
-#      probe, re-probes the restored image, and reports a failed rollback loudly.
+#   2. the production SSH deploy script checks the public domain in the same
+#      transaction as the editorial update, then restores the exact changed rows
+#      and previous image if public verification fails;
+#   3. failed apply/health probes restore and re-probe the previous image.
 # Nothing here reaches a network, a host or AWS: curl, docker, sudo, aws and sleep
 # are stubs on PATH, and /etc/discammer is redirected into a temp directory.
 #
@@ -67,54 +68,15 @@ else
 fi
 
 # 2. Extract the real step texts. Syntax-check them before running anything.
-ruby "$WORK/extract.rb" "$WF" deploy "Health check" run >"$WORK/health.sh" 2>"$WORK/err" \
-  || bad "extract: deploy / Health check run ($(cat "$WORK/err"))"
 ruby "$WORK/extract.rb" "$WF" deploy "SSH deploy" script >"$WORK/deploy.raw" 2>"$WORK/err" \
   || bad "extract: deploy / SSH deploy script ($(cat "$WORK/err"))"
-if bash -n "$WORK/health.sh" && bash -n "$WORK/deploy.raw"; then
-  ok "syntax: extracted health-check and SSH deploy scripts parse (bash -n)"
+if bash -n "$WORK/deploy.raw"; then
+  ok "syntax: extracted SSH deploy script parses (bash -n)"
 else
   bad "syntax: an extracted script does not parse"
 fi
 
-# --- 3. Health check: the domain must report the shipped SHA, or the step fails.
-mkdir -p "$WORK/hbin"
-cat >"$WORK/hbin/curl" <<'STUB'
-#!/usr/bin/env bash
-# Stub for the Health check step. Status probes (-w) answer 200; the version
-# probe (no -w) answers $STUB_BODY.
-for a in "$@"; do
-  if [ "$a" = "-w" ]; then printf '200'; exit 0; fi
-done
-printf '%s' "${STUB_BODY:-}"
-STUB
-chmod +x "$WORK/hbin/curl"
-
-HEALTH_SHA="0123456789abcdef0123456789abcdef01234567"
-run_health() {  # $1 label, $2 body the domain returns, $3 expected exit code
-  local rc
-  STUB_BODY="$2" GITHUB_SHA="$HEALTH_SHA" PATH="$WORK/hbin:$PATH" \
-    bash -e "$WORK/health.sh" >"$WORK/health.out" 2>&1
-  rc=$?
-  if [ "$rc" = "$3" ]; then
-    ok "$1 (exit $rc)"
-  else
-    bad "$1 (exit $rc, want $3)"
-    tail -n 3 "$WORK/health.out" | sed 's/^/      /'
-  fi
-}
-run_health "health: matching version passes" \
-  '{"status":"ok","version":"0123456"}' 0
-run_health "health: HTML 200 without a version field fails" \
-  '<!doctype html><html><body>ok</body></html>' 1
-run_health "health: empty version fails" \
-  '{"status":"ok","version":""}' 1
-run_health "health: foreign version fails" \
-  '{"status":"ok","version":"fffffff"}' 1
-run_health "health: 1-char prefix fails" \
-  '{"status":"ok","version":"0"}' 1
-
-# --- 4. Production SSH deploy script: rollback and its reporting. ---------------
+# --- 3. Production SSH deploy script: public gate and rollback. -----------------
 # Stubs for sudo, docker, aws, curl and sleep. They record to $STUB_LOG and decide
 # the outcome from the digest the env file points at ("aaaa" = new, "bbbb" = prev).
 mkdir -p "$WORK/stubs"
@@ -168,10 +130,28 @@ case "$1" in
         [ -z "${STUB_COURSE_PREFLIGHT_FAIL:-}" ]; exit $? ;;
       *"poster_migration.py apply"*)
         echo "poster apply" >>"$STUB_LOG"
-        [ -z "${STUB_MIGRATE_FAIL:-}" ]; exit $? ;;
+        [ -z "${STUB_MIGRATE_FAIL:-}" ] || exit 1
+        if [ -n "${STUB_POSTER_NEEDS_APPLY:-}" ]; then
+          printf 'applied: 14 post rows; backup /app/data/poster-backup.json\n'
+        else
+          printf 'already applied: 14 post rows\n'
+        fi
+        exit 0 ;;
+      *"poster_migration.py restore"*)
+        echo "poster restore" >>"$STUB_LOG"
+        [ -z "${STUB_RESTORE_FAIL:-}" ]; exit $? ;;
       *"editorial_course_sync.py --apply"*)
         echo "course apply" >>"$STUB_LOG"
-        [ -z "${STUB_COURSE_APPLY_FAIL:-}" ]; exit $? ;;
+        [ -z "${STUB_COURSE_APPLY_FAIL:-}" ] || exit 1
+        if [ -n "${STUB_COURSE_NO_CHANGE:-}" ]; then
+          printf '{"changed": 0, "snapshot": null}\n'
+        else
+          printf '{"changed": 110, "snapshot": "/app/data/course-editorial-before.json"}\n'
+        fi
+        exit 0 ;;
+      *"editorial_course_sync.py --restore"*)
+        echo "course restore" >>"$STUB_LOG"
+        [ -z "${STUB_COURSE_RESTORE_FAIL:-}" ]; exit $? ;;
     esac
     exit 1 ;;
 esac
@@ -179,8 +159,25 @@ exit 0
 STUB
 cat >"$WORK/stubs/curl" <<'STUB'
 #!/usr/bin/env bash
-# Stub for the app probe on 127.0.0.1:8000. It answers for the image the env file
-# points at: the digest under test ("new") or any other digest ("prev").
+# Stub local and public probes, including a foreign public SHA after migration.
+url=""
+status=0
+for a in "$@"; do
+  case "$a" in https://discammer.com*) url="$a" ;; -w) status=1 ;; esac
+done
+if [ -n "$url" ]; then
+  if [ "$status" = 1 ]; then
+    if [ -n "${STUB_PUBLIC_BAD_PATH:-}" ] && [ "$url" = "https://discammer.com${STUB_PUBLIC_BAD_PATH}" ]; then
+      echo 'public 503' >>"$STUB_LOG"; printf 503
+    else
+      echo 'public 200' >>"$STUB_LOG"; printf 200
+    fi
+  else
+    echo 'public version' >>"$STUB_LOG"
+    printf '{"status":"ok","version":"%s"}' "${STUB_PUBLIC_VERSION-$STUB_GIT_SHORT}"
+  fi
+  exit 0
+fi
 img="$(grep -E '^DISCAMMER_IMAGE=' "$STUB_ENV_FILE" | cut -d= -f2-)"
 dig="${img#*@sha256:}"
 if [ "$dig" = "$STUB_NEW_DIG" ]; then
@@ -266,6 +263,7 @@ if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
    && grep -qx 'course preflight' "$WORK/happy/log" \
    && grep -qx 'poster apply' "$WORK/happy/log" \
    && grep -qx 'course apply' "$WORK/happy/log" \
+   && grep -qx 'public version' "$WORK/happy/log" \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
   ok "deploy: healthy new image deploys with no rollback (exit 0)"
@@ -274,7 +272,7 @@ else
   show happy
 fi
 
-# The effective seed setting is checked before even switching images.
+# Effective seeding is checked before the image reference changes.
 run_deploy seed-check-fail STUB_SEED_CHECK_FAIL=1
 if [ "$DEPLOY_RC" = 1 ] && ! grep -q '^up ' "$WORK/seed-check-fail/log" \
    && grep -q "@sha256:$PREV_DIG\$" "$WORK/seed-check-fail/etc/deployment.env"; then
@@ -284,24 +282,31 @@ else
   show seed-check-fail
 fi
 
-# The new-image exact-key preflight is required before any editorial update.
-# A failure leaves both migrations untouched and restores the previous image.
+# New-image lesson preflight must precede both editorial updates.
 run_deploy course-preflight-fail STUB_COURSE_PREFLIGHT_FAIL=1
-check_rollback course-preflight-fail "deploy: failed course preflight rolls back the image"
+check_rollback course-preflight-fail "deploy: failed course preflight rolls back image"
 if ! grep -q 'poster apply\|course apply' "$WORK/course-preflight-fail/log"; then
-  ok "deploy: failed course preflight skips both editorial updates"
+  ok "deploy: failed course preflight skips editorial updates"
 else
   bad "deploy: failed course preflight ran an editorial update"
 fi
 
-# A failed transactional editorial update rolls the image back. An older
-# snapshot must not be restored, because it may predate an earlier release.
+# A failed transactional editorial update rolls the image back.
 run_deploy migration-fail STUB_MIGRATE_FAIL=1
 check_rollback migration-fail "deploy: failed editorial update rolls back the image"
 run_deploy course-apply-fail STUB_COURSE_APPLY_FAIL=1
-check_rollback course-apply-fail "deploy: failed course editorial update rolls back the image"
+check_rollback course-apply-fail "deploy: failed course editorial update rolls back image"
 run_deploy container-missing STUB_EMPTY_NEW_CID=1
 check_rollback container-missing "deploy: missing web container rolls back the image"
+
+# B may only publish after A's posters are already applied. A changed poster
+# row in this attempt is restored before the A image is reselected.
+run_deploy posters-not-live STUB_POSTER_NEEDS_APPLY=1
+if grep -qx 'poster restore' "$WORK/posters-not-live/log"; then
+  check_rollback posters-not-live "deploy: out-of-order poster update is restored before image rollback"
+else
+  bad "deploy: out-of-order poster update was not restored"
+fi
 
 # b. The new image fails to start: roll back, then probe the restored image.
 run_deploy apply-fail STUB_BROKEN_APPLY="$NEW_DIG"
@@ -322,6 +327,35 @@ check_rollback_failed rollback-unhealthy "deploy: unhealthy rollback target is r
 # f. The rollback apply itself fails: must be reported as ROLLBACK FAILED.
 run_deploy rollback-apply-fails STUB_BROKEN_APPLY="$NEW_DIG $PREV_DIG"
 check_rollback_failed rollback-apply-fails "deploy: failed rollback apply is reported as ROLLBACK FAILED"
+
+# g. Public failure comes after course publication. Restore THIS attempt's
+# course rows before selecting the prior A image, then probe it.
+run_deploy public-version-mismatch STUB_PUBLIC_VERSION=fffffff
+if grep -qx 'course restore' "$WORK/public-version-mismatch/log" \
+   && [ "$(grep -nE 'course restore|up bbbb' "$WORK/public-version-mismatch/log" | cut -d: -f2- | paste -sd, -)" = 'course restore,up bbbb' ]; then
+  check_rollback public-version-mismatch "deploy: foreign public SHA restores course rows, image and health"
+else
+  bad 'deploy: public rollback must restore the course rows before the old image'
+fi
+run_deploy public-route-fail STUB_PUBLIC_BAD_PATH=/en/course
+check_rollback public-route-fail "deploy: failed public route restores previous image"
+run_deploy public-empty-version STUB_PUBLIC_VERSION=
+check_rollback public-empty-version "deploy: empty public SHA fails closed and rolls back"
+run_deploy public-restore-fails STUB_PUBLIC_VERSION=fffffff STUB_COURSE_RESTORE_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: course restore' "$WORK/public-restore-fails/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/public-restore-fails/etc/deployment.env" \
+  && ! grep -qx 'up bbbb' "$WORK/public-restore-fails/log"; then
+  ok 'deploy: rejected course restore retains compatible new image and reports failure'
+else
+  bad 'deploy: rejected course restore must not select old image with new lesson rows'
+fi
+
+run_deploy public-no-course-change STUB_PUBLIC_VERSION=fffffff STUB_COURSE_NO_CHANGE=1
+if ! grep -qx 'course restore' "$WORK/public-no-course-change/log"; then
+  check_rollback public-no-course-change "deploy: no-op course update needs no snapshot restore"
+else
+  bad 'deploy: no-op course update attempted snapshot restore'
+fi
 
 echo "----"
 echo "$pass passed, $fail failed"
