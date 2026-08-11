@@ -163,3 +163,23 @@ def test_restore_refuses_snapshot_replaced_during_read(monkeypatch, tmp_path):
         restore(db, snapshot)
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before
+
+
+def test_apply_refuses_snapshot_changed_after_exclusive_creation(monkeypatch, tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    with sqlite3.connect(db) as conn:
+        before = db_rows(conn)
+    original_link = editorial_course_sync.os.link
+    def alter_after_link(source, target):
+        original_link(source, target)
+        path = Path(target)
+        payload = json.loads(path.read_text())
+        payload['created_at'] = '2000-01-01T00:00:00+00:00'
+        payload['sha256'] = editorial_course_sync.snapshot_digest(payload)
+        path.write_text(json.dumps(payload))
+    monkeypatch.setattr(editorial_course_sync.os, 'link', alter_after_link)
+    with pytest.raises(ValueError, match='differs from intended update'):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        assert db_rows(conn) == before

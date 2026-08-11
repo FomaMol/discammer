@@ -122,7 +122,10 @@ def snapshot_atomically(snapshot_path: Path, payload: dict) -> tuple[int, os.sta
         finally: os.close(directory_fd)
     finally:
         if os.path.exists(temp): os.unlink(temp)
-    _, fd, metadata = open_snapshot(snapshot_path)
+    actual, fd, metadata = open_snapshot(snapshot_path)
+    if actual != payload:
+        os.close(fd)
+        raise ValueError(f'New course snapshot differs from intended update: {snapshot_path}')
     return fd, metadata
 
 
