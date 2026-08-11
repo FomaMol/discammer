@@ -122,6 +122,8 @@ case "$1" in
     exit 0 ;;
   exec)
     case " $* " in
+      *" test -f "*)
+        [ -f "$STUB_STATE_DIR/course-snapshot" ]; exit $? ;;
       *"python -c "*)
         echo "seed check" >>"$STUB_LOG"
         [ -z "${STUB_SEED_CHECK_FAIL:-}" ]; exit $? ;;
@@ -143,6 +145,11 @@ case "$1" in
       *"editorial_course_sync.py --apply"*)
         echo "course apply" >>"$STUB_LOG"
         [ -z "${STUB_COURSE_APPLY_FAIL:-}" ] || exit 1
+        if [ -n "${STUB_COURSE_APPLY_COMMITTED_ERROR:-}" ]; then
+          : >"$STUB_STATE_DIR/course-snapshot"
+          echo "course committed before command error" >>"$STUB_LOG"
+          exit 1
+        fi
         if [ -n "${STUB_COURSE_NO_CHANGE:-}" ]; then
           printf '{"changed": 0, "snapshot": null}\n'
         else
@@ -212,15 +219,16 @@ run_deploy() {
   shift
   d="$WORK/$name"
   mkdir -p "$d/etc" "$d/bin"
+  mkdir -p "$d/state"
   cp "$WORK/stubs/"* "$d/bin/"
   sed "s|/etc/discammer|$d/etc|g" "$WORK/deploy.raw" >"$d/deploy.sh"
   printf 'DISCAMMER_IMAGE=%s\nKEEP_ME=1\n' "$PREV_IMG" >"$d/etc/deployment.env"
   : >"$d/etc/compose.yaml"
   : >"$d/log"
   env -i PATH="$d/bin:/usr/bin:/bin" HOME="$d" \
-    IMAGE_REGISTRY="$REG" IMAGE_DIGEST="sha256:$NEW_DIG" GIT_SHORT="$GIT_SHORT" \
+    IMAGE_REGISTRY="$REG" IMAGE_DIGEST="sha256:$NEW_DIG" GIT_SHORT="$GIT_SHORT" DEPLOY_RUN="12345-1" \
     CF_API_TOKEN="" CF_ZONE_ID="" \
-    STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" \
+    STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" STUB_STATE_DIR="$d/state" \
     STUB_NEW_DIG="$NEW_DIG" STUB_GIT_SHORT="$GIT_SHORT" "$@" \
     bash "$d/deploy.sh" >"$d/out" 2>&1
   DEPLOY_RC=$?
@@ -296,6 +304,20 @@ run_deploy migration-fail STUB_MIGRATE_FAIL=1
 check_rollback migration-fail "deploy: failed editorial update rolls back the image"
 run_deploy course-apply-fail STUB_COURSE_APPLY_FAIL=1
 check_rollback course-apply-fail "deploy: failed course editorial update rolls back image"
+run_deploy course-commit-then-error STUB_COURSE_APPLY_COMMITTED_ERROR=1
+if [ "$(grep -E 'course restore|up bbbb' "$WORK/course-commit-then-error/log" | paste -sd, -)" = 'course restore,up bbbb' ]; then
+  check_rollback course-commit-then-error "deploy: course command error after commit restores rows before old image"
+else
+  bad "deploy: course commit-then-error did not restore rows before image rollback"
+fi
+run_deploy course-commit-restore-fails STUB_COURSE_APPLY_COMMITTED_ERROR=1 STUB_COURSE_RESTORE_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: course state' "$WORK/course-commit-restore-fails/out" \
+   && grep -q "@sha256:$NEW_DIG\$" "$WORK/course-commit-restore-fails/etc/deployment.env" \
+   && ! grep -qx 'up bbbb' "$WORK/course-commit-restore-fails/log"; then
+  ok "deploy: ambiguous course commit with rejected restore retains new image"
+else
+  bad "deploy: ambiguous course commit selected old image despite failed restore"
+fi
 run_deploy container-missing STUB_EMPTY_NEW_CID=1
 check_rollback container-missing "deploy: missing web container rolls back the image"
 

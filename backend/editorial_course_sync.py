@@ -102,15 +102,11 @@ def open_snapshot(path: Path) -> tuple[dict, int, os.stat_result]:
 def snapshot_atomically(snapshot_path: Path, payload: dict) -> tuple[int, os.stat_result]:
     snapshot_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     payload = {**payload, 'sha256': snapshot_digest(payload)}
-    def verify_existing() -> tuple[int, os.stat_result]:
-        existing, fd, metadata = open_snapshot(snapshot_path)
-        if (existing.get('rows') != payload['rows']
-                or existing.get('applied_rows') != payload['applied_rows']):
-            os.close(fd)
-            raise ValueError(f'Existing course snapshot differs from current update: {snapshot_path}')
-        return fd, metadata
+    # The deploy workflow chooses a new path per GitHub run and attempt. Never
+    # reuse a prior file: even an internally valid checksum cannot authenticate
+    # metadata that another owner-UID process changed between attempts.
     if snapshot_path.exists() or snapshot_path.is_symlink():
-        return verify_existing()
+        raise FileExistsError(f'Course snapshot already exists: {snapshot_path}')
     fd, temp = tempfile.mkstemp(prefix='.course-snapshot-', dir=snapshot_path.parent)
     try:
         os.fchmod(fd, 0o600)
@@ -118,18 +114,16 @@ def snapshot_atomically(snapshot_path: Path, payload: dict) -> tuple[int, os.sta
             json.dump(payload, handle, ensure_ascii=False, indent=2)
             handle.write('\n')
             handle.flush(); os.fsync(handle.fileno())
-        try:
-            # An exact retry may reuse its prior snapshot; never overwrite it.
-            os.link(temp, snapshot_path)
-        except FileExistsError:
-            return verify_existing()
-        else:
-            directory_fd = os.open(snapshot_path.parent, os.O_RDONLY)
-            try: os.fsync(directory_fd)
-            finally: os.close(directory_fd)
+        # link() is exclusive even if another process creates this path after
+        # the precheck. A collision stops before any SQLite update.
+        os.link(temp, snapshot_path)
+        directory_fd = os.open(snapshot_path.parent, os.O_RDONLY)
+        try: os.fsync(directory_fd)
+        finally: os.close(directory_fd)
     finally:
         if os.path.exists(temp): os.unlink(temp)
-    return verify_existing()
+    _, fd, metadata = open_snapshot(snapshot_path)
+    return fd, metadata
 
 
 def apply(db: Path, course_dir: Path, snapshot: Path, expected_count: int = 110) -> dict:
@@ -189,6 +183,17 @@ def _restore_verified(db: Path, snapshot: Path, payload: dict, snapshot_fd: int,
             key = tuple(row[k] for k in KEYS)
             if key not in current or current[key]['id'] != row['id']:
                 raise ValueError(f'Snapshot row no longer matches DB identity: {key}')
+            if key not in applied_by_key or applied_by_key[key]['id'] != row['id']:
+                raise ValueError(f'Snapshot applied row identity differs: {key}')
+        if all(all(current[tuple(row[k] for k in KEYS)][field] == row[field] for field in FIELDS)
+               for row in payload['rows']):
+            # A command can exit nonzero after SQLite committed or after an
+            # earlier restore. Only these exact original rows are already safe.
+            snapshot_identity(snapshot, snapshot_fd, snapshot_metadata)
+            conn.rollback()
+            return {'restored': 0, 'snapshot': str(snapshot), 'state': 'already-original'}
+        for row in payload['rows']:
+            key = tuple(row[k] for k in KEYS)
             applied = applied_by_key.get(key)
             if (not applied or applied['id'] != row['id']
                     or any(current[key][field] != applied[field] for field in FIELDS)):

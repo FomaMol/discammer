@@ -45,6 +45,7 @@ def test_targeted_apply_and_restore_preserve_identity_and_user_state(tmp_path):
     assert apply(db, content, tmp_path / 'unused.json', expected_count=2)['changed'] == 0
     assert not (tmp_path / 'unused.json').exists()
     assert restore(db, snapshot)['restored'] == 2
+    assert restore(db, snapshot)['restored'] == 0
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before
         assert conn.execute('SELECT ciphertext FROM sync_blob').fetchone()[0] == b'opaque-user-data'
@@ -81,7 +82,7 @@ def test_publication_cli_refuses_effective_startup_reseed(monkeypatch, tmp_path)
         main()
 
 
-def test_failed_transaction_reuses_exact_snapshot_on_same_sha_retry(tmp_path):
+def test_failed_transaction_retries_with_a_new_attempt_snapshot(tmp_path):
     db, content = fixture_db(tmp_path)
     snapshot = tmp_path / 'before.json'
     with sqlite3.connect(db) as conn:
@@ -94,8 +95,12 @@ def test_failed_transaction_reuses_exact_snapshot_on_same_sha_retry(tmp_path):
         assert db_rows(conn) == before
         assert conn.execute("SELECT ciphertext FROM sync_blob").fetchone()[0] == b'opaque-user-data'
         conn.execute('DROP TRIGGER fail_course')
-    assert apply(db, content, snapshot, expected_count=2)['changed'] == 2
-    assert restore(db, snapshot)['restored'] == 2
+    with pytest.raises(FileExistsError, match='already exists'):
+        apply(db, content, snapshot, expected_count=2)
+    retry_snapshot = tmp_path / 'before-run-2.json'
+    assert apply(db, content, retry_snapshot, expected_count=2)['changed'] == 2
+    assert retry_snapshot.stat().st_mode & 0o777 == 0o600
+    assert restore(db, retry_snapshot)['restored'] == 2
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before
 
@@ -110,7 +115,7 @@ def test_retry_refuses_snapshot_with_different_prior_rows(tmp_path):
     with sqlite3.connect(db) as conn:
         conn.execute('DROP TRIGGER fail_course')
         conn.execute("UPDATE lesson SET title='Later editor change' WHERE locale='en'")
-    with pytest.raises(ValueError, match='snapshot differs'):
+    with pytest.raises(FileExistsError, match='already exists'):
         apply(db, content, snapshot, expected_count=2)
     with sqlite3.connect(db) as conn:
         assert conn.execute("SELECT title FROM lesson WHERE locale='en'").fetchone()[0] == 'Later editor change'
@@ -128,20 +133,22 @@ def test_retry_refuses_changed_snapshot_metadata(tmp_path):
     payload = json.loads(snapshot.read_text())
     payload['created_at'] = '2000-01-01T00:00:00+00:00'
     snapshot.write_text(json.dumps(payload))
+    with pytest.raises(FileExistsError, match='already exists'):
+        apply(db, content, snapshot, expected_count=2)
     with pytest.raises(ValueError, match='checksum differs'):
+        restore(db, snapshot)
+    payload['sha256'] = editorial_course_sync.snapshot_digest(payload)
+    snapshot.write_text(json.dumps(payload))
+    with pytest.raises(FileExistsError, match='already exists'):
         apply(db, content, snapshot, expected_count=2)
 
 
-def test_retry_refuses_snapshot_replaced_during_read(monkeypatch, tmp_path):
+def test_restore_refuses_snapshot_replaced_during_read(monkeypatch, tmp_path):
     db, content = fixture_db(tmp_path)
     snapshot = tmp_path / 'before.json'
-    with sqlite3.connect(db) as conn:
-        conn.execute("CREATE TRIGGER fail_course BEFORE UPDATE ON lesson BEGIN SELECT RAISE(ABORT, 'injected update failure'); END")
-    with pytest.raises(sqlite3.IntegrityError):
-        apply(db, content, snapshot, expected_count=2)
+    apply(db, content, snapshot, expected_count=2)
     with sqlite3.connect(db) as conn:
         before = db_rows(conn)
-        conn.execute('DROP TRIGGER fail_course')
     replacement = tmp_path / 'replacement.json'
     replacement.write_bytes(snapshot.read_bytes())
     replacement.chmod(0o600)
@@ -153,6 +160,6 @@ def test_retry_refuses_snapshot_replaced_during_read(monkeypatch, tmp_path):
         return payload
     monkeypatch.setattr(editorial_course_sync.json, 'load', swap_after_read)
     with pytest.raises(ValueError, match='snapshot changed during update'):
-        apply(db, content, snapshot, expected_count=2)
+        restore(db, snapshot)
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before

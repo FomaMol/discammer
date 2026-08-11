@@ -481,12 +481,13 @@ jobs:
           IMAGE_REGISTRY: ${{ needs.docker-build.outputs.image_registry }}
           IMAGE_DIGEST: ${{ needs.docker-build.outputs.image_digest }}
           GIT_SHORT: ${{ needs.docker-build.outputs.short_sha }}
+          DEPLOY_RUN: ${{ github.run_id }}-${{ github.run_attempt }}
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           port: 22
-          envs: CF_API_TOKEN,CF_ZONE_ID,IMAGE_REGISTRY,IMAGE_DIGEST,GIT_SHORT
+          envs: CF_API_TOKEN,CF_ZONE_ID,IMAGE_REGISTRY,IMAGE_DIGEST,GIT_SHORT,DEPLOY_RUN
           command_timeout: 18m
           script: |
             set -euo pipefail
@@ -495,6 +496,7 @@ jobs:
             NEW="${IMAGE_REGISTRY}/discammer-web@${IMAGE_DIGEST}"
             [[ "$NEW" =~ ^[0-9]{12}\.dkr\.ecr\.eu-central-1\.amazonaws\.com/discammer-web@sha256:[a-f0-9]{64}$ ]]
             [[ "$GIT_SHORT" =~ ^[0-9a-f]{7}$ ]]
+            [[ "$DEPLOY_RUN" =~ ^[0-9]+-[0-9]+$ ]]
             # /etc/discammer is root-only (700): compose reads the env file as root via
             # --env-file, the ssh user never sources it.
             apply() {
@@ -618,12 +620,21 @@ jobs:
               fi
               exit 1
             fi
-            COURSE_SNAPSHOT="/app/data/course-editorial-before-${GIT_SHORT}.json"
+            # Run and attempt keep this snapshot exclusive to this deploy,
+            # including a GitHub rerun of the same commit.
+            COURSE_SNAPSHOT="/app/data/course-editorial-before-${GIT_SHORT}-${DEPLOY_RUN}.json"
             COURSE_OUTPUT=""
             if ! COURSE_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --apply --snapshot "$COURSE_SNAPSHOT"); then
-              # The updater changes exactly matched lesson rows in one SQLite
-              # transaction; a command failure leaves the prior A rows intact.
-              echo "::error::course editorial update failed; rolling back image"
+              # A command may report failure after SQLite committed (for
+              # example, closed stdout). Reconcile this attempt's snapshot
+              # before selecting the prior A image.
+              echo "::error::course editorial update command failed; reconciling exact attempt state"
+              if sudo docker exec -u 10001 "$CID" test -f "$COURSE_SNAPSHOT"; then
+                if ! sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --restore --snapshot "$COURSE_SNAPSHOT"; then
+                  echo "::error::ROLLBACK FAILED: course state could not be restored; retaining the new image"
+                  exit 1
+                fi
+              fi
               sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
               if apply && health_up; then
                 echo "::warning::previous image restored after course editorial failure"
