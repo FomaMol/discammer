@@ -540,6 +540,15 @@ jobs:
               echo "expected SHA: ${expected} | domain reports: ${deployed:-<none>}"
               [ "${#deployed}" -ge 7 ] && [[ "$deployed" = "$expected"* ]]
             }
+            rollback_image() {
+              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
+              if apply && health_up; then
+                echo "::warning::previous image restored and probed: ${PREV}"
+              else
+                echo "::error::ROLLBACK FAILED: ${PREV} did not come up healthy; manual repair required"
+              fi
+              exit 1
+            }
             PREV=$(sudo grep -E '^DISCAMMER_IMAGE=' "$ENV_FILE" | cut -d= -f2-)
             echo "previous image: ${PREV}"
             echo "new image:      ${NEW}"
@@ -565,22 +574,50 @@ jobs:
             # data mount and is idempotent for later course releases.
             CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web || true)
             BACKUP="/app/data/poster-backup-${GIT_SHORT}.json"
-            MIGRATION_OUTPUT=""
-            if [ -z "$CID" ] || ! MIGRATION_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply --backup "$BACKUP"); then
-              # The migration is one SQLite transaction: failure leaves the
-              # editorial rows unchanged. Restore the previous image so a red
-              # deploy cannot leave the new SHA live. Do not restore an older
-              # poster backup: it may be from an earlier successful release.
-              echo "::error::editorial poster update failed or web container missing; rolling back image"
-              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
-              if apply && health_up; then
-                echo "::warning::previous image restored after editorial update failure"
-              else
-                echo "::error::ROLLBACK FAILED after editorial update failure; manual repair required"
+            # A nonzero docker-exec exit does not prove that SQLite rolled back:
+            # the transaction may commit before stdout or SSH transport fails.
+            # Record the exact 14-row state before apply, then resolve it again
+            # before every image rollback after this point.
+            BEFORE_STATE=""
+            if [ -z "$CID" ] || ! BEFORE_STATE=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status); then
+              echo "::error::web container missing or editorial preflight failed"
+              rollback_image
+            fi
+            case "$BEFORE_STATE" in old|new) ;; *) echo "::error::unknown editorial preflight state"; rollback_image ;; esac
+            revert_editorial_if_needed() {
+              local current
+              current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1
+              if [ "$BEFORE_STATE" = new ]; then
+                [ "$current" = new ]
+                return
               fi
-              exit 1
+              case "$current" in
+                old) return 0 ;;
+                new)
+                  # Restore only the snapshot created by this commit's attempt.
+                  # If restore commits but its output fails, trust a fresh row
+                  # check, not the command's exit code.
+                  sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py restore --backup "$BACKUP" || true
+                  current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1
+                  [ "$current" = old ]
+                  ;;
+                *) return 1 ;;
+              esac
+            }
+            MIGRATION_OUTPUT=""
+            if ! MIGRATION_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply --backup "$BACKUP"); then
+              echo "::error::editorial poster command failed; checking committed row state"
+              if ! revert_editorial_if_needed; then
+                echo "::error::ROLLBACK FAILED: editorial state could not be proved compatible with the previous image; retaining the new image"
+                exit 1
+              fi
+              rollback_image
             fi
             echo "$MIGRATION_OUTPUT"
+            if [ "$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null || true)" != new ]; then
+              echo "::error::ROLLBACK FAILED: editorial command succeeded without a provable new row state; retaining the new image"
+              exit 1
+            fi
             echo "health ok: version ${GIT_SHORT}"
             if [ -n "${CF_API_TOKEN:-}" ] && [ -n "${CF_ZONE_ID:-}" ]; then
               curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
@@ -589,26 +626,11 @@ jobs:
             fi
             if ! public_ok; then
               echo "::error::public verification failed; restoring the exact editorial rows changed by this attempt before image rollback"
-              case "$MIGRATION_OUTPUT" in
-                'applied: 14 post rows;'*)
-                  if ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py restore --backup "$BACKUP"; then
-                    echo "::error::ROLLBACK FAILED: editorial restore rejected the current rows; retaining the new image to avoid broken poster URLs"
-                    exit 1
-                  fi
-                  ;;
-                'already applied: 14 post rows')
-                  # This attempt made no editorial change. A previous successful
-                  # release owns those rows; its previous image remains compatible.
-                  ;;
-                *) echo "::error::ROLLBACK FAILED: unexpected migration result '$MIGRATION_OUTPUT'"; exit 1 ;;
-              esac
-              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
-              if apply && health_up; then
-                echo "::warning::previous image restored after public verification failure"
-              else
-                echo "::error::ROLLBACK FAILED after public verification failure; manual repair required"
+              if ! revert_editorial_if_needed; then
+                echo "::error::ROLLBACK FAILED: editorial state could not be proved compatible with the previous image; retaining the new image"
+                exit 1
               fi
-              exit 1
+              rollback_image
             fi
 
   smoke-prod:

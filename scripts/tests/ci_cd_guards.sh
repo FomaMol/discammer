@@ -6,7 +6,8 @@
 #   2. the production SSH deploy script checks the public domain in the same
 #      transaction as the editorial update, then restores the exact changed rows
 #      and previous image if public verification fails;
-#   3. failed apply/health probes restore and re-probe the previous image.
+#   3. a command error after the editorial transaction commits cannot select
+#      the previous image until those exact rows are restored and verified.
 # Nothing here reaches a network, a host or AWS: curl, docker, sudo, aws and sleep
 # are stubs on PATH, and /etc/discammer is redirected into a temp directory.
 #
@@ -119,15 +120,23 @@ case "$1" in
   exec)
     mode=""
     for a in "$@"; do
-      case "$a" in apply|restore) mode="$a" ;; esac
+      case "$a" in apply|restore|status) mode="$a" ;; esac
     done
     echo "migration $mode" >>"$STUB_LOG"
+    if [ "$mode" = status ]; then
+      cat "$STUB_ROW_FILE"
+      exit 0
+    fi
     if [ "$mode" = apply ]; then
       [ -z "${STUB_MIGRATE_FAIL:-}" ] || exit 1
+      printf 'new\n' >"$STUB_ROW_FILE"
+      [ -z "${STUB_COMMIT_THEN_ERROR:-}" ] || exit 1
       printf 'applied: 14 post rows; backup /app/data/poster-backup.json\n'
       exit 0
     fi
-    [ -z "${STUB_RESTORE_FAIL:-}" ]; exit $? ;;
+    [ -z "${STUB_RESTORE_FAIL:-}" ] || exit 1
+    printf 'old\n' >"$STUB_ROW_FILE"
+    exit 0 ;;
 esac
 exit 0
 STUB
@@ -189,12 +198,13 @@ run_deploy() {
   cp "$WORK/stubs/"* "$d/bin/"
   sed "s|/etc/discammer|$d/etc|g" "$WORK/deploy.raw" >"$d/deploy.sh"
   printf 'DISCAMMER_IMAGE=%s\nKEEP_ME=1\n' "$PREV_IMG" >"$d/etc/deployment.env"
+  printf 'old\n' >"$d/row-state"
   : >"$d/etc/compose.yaml"
   : >"$d/log"
   env -i PATH="$d/bin:/usr/bin:/bin" HOME="$d" \
     IMAGE_REGISTRY="$REG" IMAGE_DIGEST="sha256:$NEW_DIG" GIT_SHORT="$GIT_SHORT" \
     CF_API_TOKEN="" CF_ZONE_ID="" \
-    STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" \
+    STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" STUB_ROW_FILE="$d/row-state" \
     STUB_NEW_DIG="$NEW_DIG" STUB_GIT_SHORT="$GIT_SHORT" "$@" \
     bash "$d/deploy.sh" >"$d/out" 2>&1
   DEPLOY_RC=$?
@@ -209,6 +219,7 @@ check_rollback() {  # $1 sandbox name, $2 label
   local d="$WORK/$1" last
   last="$(tail -n 1 "$d/log")"
   if [ "$DEPLOY_RC" = 1 ] && [ "$last" = "health bbbb ok" ] \
+     && [ "$(cat "$d/row-state")" = old ] \
      && grep -q "@sha256:$PREV_DIG\$" "$d/etc/deployment.env" \
      && grep -qx 'KEEP_ME=1' "$d/etc/deployment.env" \
      && ! grep -q 'ROLLBACK FAILED' "$d/out"; then
@@ -234,6 +245,7 @@ check_rollback_failed() {  # $1 sandbox name, $2 label
 run_deploy happy
 if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
    && grep -qx 'migration apply' "$WORK/happy/log" \
+   && [ "$(cat "$WORK/happy/row-state")" = new ] \
    && grep -qx 'public version' "$WORK/happy/log" \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
@@ -247,6 +259,13 @@ fi
 # snapshot must not be restored, because it may predate an earlier release.
 run_deploy migration-fail STUB_MIGRATE_FAIL=1
 check_rollback migration-fail "deploy: failed editorial update rolls back the image"
+run_deploy commit-then-error STUB_COMMIT_THEN_ERROR=1
+if [ "$(cat "$WORK/commit-then-error/row-state")" = old ] \
+   && [ "$(grep -E 'migration restore|up bbbb' "$WORK/commit-then-error/log" | paste -sd, -)" = 'migration restore,up bbbb' ]; then
+  check_rollback commit-then-error "deploy: post-commit command error restores rows before old image"
+else
+  bad 'deploy: post-commit command error must restore rows before old image'
+fi
 run_deploy container-missing STUB_EMPTY_CID=1
 check_rollback container-missing "deploy: missing web container rolls back the image"
 
@@ -284,7 +303,8 @@ check_rollback public-route-fail "deploy: failed public route restores previous 
 run_deploy public-empty-version STUB_PUBLIC_VERSION=
 check_rollback public-empty-version "deploy: empty public SHA fails closed and rolls back"
 run_deploy public-restore-fails STUB_PUBLIC_VERSION=fffffff STUB_RESTORE_FAIL=1
-if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: editorial restore' "$WORK/public-restore-fails/out" \
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: editorial state' "$WORK/public-restore-fails/out" \
+  && [ "$(cat "$WORK/public-restore-fails/row-state")" = new ] \
   && grep -q "@sha256:$NEW_DIG\$" "$WORK/public-restore-fails/etc/deployment.env" \
   && ! grep -qx 'up bbbb' "$WORK/public-restore-fails/log"; then
   ok 'deploy: rejected editorial restore retains compatible new image and reports failure'
