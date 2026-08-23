@@ -64,8 +64,8 @@ def snapshot_digest(payload: dict) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def snapshot_identity(path: Path, fd: int, original: os.stat_result) -> None:
-    """Refuse a replaced or modified snapshot before the SQLite commit."""
+def snapshot_identity(path: Path, fd: int, original: os.stat_result, expected_sha256: str) -> None:
+    """Bind a commit to the snapshot contents, not only mutable file metadata."""
     held = os.fstat(fd)
     on_path = os.stat(path, follow_symlinks=False)
     for now in (held, on_path):
@@ -74,6 +74,13 @@ def snapshot_identity(path: Path, fd: int, original: os.stat_result) -> None:
                 or (now.st_dev, now.st_ino, now.st_size, now.st_mtime_ns)
                 != (original.st_dev, original.st_ino, original.st_size, original.st_mtime_ns)):
             raise ValueError(f'Course snapshot changed during update: {path}')
+    try:
+        candidate = json.loads(os.pread(fd, held.st_size, 0))
+    except (OSError, ValueError) as exc:
+        raise ValueError(f'Course snapshot changed during update: {path}') from exc
+    if (not isinstance(candidate, dict) or candidate.get('sha256') != expected_sha256
+            or snapshot_digest(candidate) != expected_sha256):
+        raise ValueError(f'Course snapshot changed during update: {path}')
 
 
 def open_snapshot(path: Path) -> tuple[dict, int, os.stat_result]:
@@ -92,7 +99,7 @@ def open_snapshot(path: Path) -> tuple[dict, int, os.stat_result]:
         if (not isinstance(payload, dict) or payload.get('kind') != 'course-editorial-before'
                 or payload.get('sha256') != snapshot_digest(payload)):
             raise ValueError(f'Course snapshot checksum differs: {path}')
-        snapshot_identity(path, fd, metadata)
+        snapshot_identity(path, fd, metadata, payload['sha256'])
         return payload, fd, metadata
     except BaseException:
         os.close(fd)
@@ -151,7 +158,7 @@ def apply(db: Path, course_dir: Path, snapshot: Path, expected_count: int = 110)
                 row = authored[key]
                 conn.execute('UPDATE lesson SET "order"=?, title=?, body_md=?, widget_type=?, widget_config_json=?, est_minutes=? WHERE id=? AND module_slug=? AND slug=? AND locale=?',
                     tuple(row[f] for f in FIELDS) + (before[key]['id'],) + key)
-            snapshot_identity(snapshot, snapshot_fd, snapshot_metadata)
+            snapshot_identity(snapshot, snapshot_fd, snapshot_metadata, snapshot_digest(payload))
             conn.commit()
         except BaseException:
             conn.rollback()
@@ -169,43 +176,62 @@ def restore(db: Path, snapshot: Path) -> dict:
         os.close(snapshot_fd)
 
 
-def _restore_verified(db: Path, snapshot: Path, payload: dict, snapshot_fd: int,
-                      snapshot_metadata: os.stat_result) -> dict:
+def snapshot_row_state(payload: dict, current: dict) -> str:
     if (payload.get('kind') != 'course-editorial-before'
             or not isinstance(payload.get('rows'), list)
             or not isinstance(payload.get('applied_rows'), list)
+            or not payload['rows']
             or len(payload['rows']) != len(payload['applied_rows'])):
         raise ValueError('Not a course editorial snapshot')
+    originals = {tuple(row[k] for k in KEYS): row for row in payload['rows']}
+    applied = {tuple(row[k] for k in KEYS): row for row in payload['applied_rows']}
+    if (len(originals) != len(payload['rows']) or len(applied) != len(originals)
+            or set(originals) != set(applied)):
+        raise ValueError('Snapshot has duplicate or missing lesson rows')
+    for key, row in originals.items():
+        if key not in current or current[key]['id'] != row['id'] or applied[key]['id'] != row['id']:
+            raise ValueError(f'Snapshot row identity differs: {key}')
+    def matches(rows: dict) -> bool:
+        return all(all(current[key][field] == row[field] for field in FIELDS)
+                   for key, row in rows.items())
+    if matches(originals): return 'original'
+    if matches(applied): return 'applied'
+    raise ValueError('Editorial rows changed since apply; restore refused')
+
+
+def status(db: Path, snapshot: Path) -> str:
+    """Reconcile one attempt without modifying rows or printing their content."""
+    if not snapshot.exists() and not snapshot.is_symlink():
+        return 'absent'
+    payload, fd, metadata = open_snapshot(snapshot)
+    try:
+        with sqlite3.connect(db, timeout=15) as conn:
+            conn.execute('BEGIN')
+            state = snapshot_row_state(payload, db_rows(conn))
+            snapshot_identity(snapshot, fd, metadata, payload['sha256'])
+            conn.rollback()
+            return state
+    finally:
+        os.close(fd)
+
+
+def _restore_verified(db: Path, snapshot: Path, payload: dict, snapshot_fd: int,
+                      snapshot_metadata: os.stat_result) -> dict:
     with sqlite3.connect(db, timeout=15) as conn:
         conn.execute('BEGIN IMMEDIATE')
         current = db_rows(conn)
-        applied_by_key = {tuple(row[k] for k in KEYS): row for row in payload['applied_rows']}
-        if len(applied_by_key) != len(payload['rows']):
-            raise ValueError('Snapshot has duplicate or missing applied rows')
-        for row in payload['rows']:
-            key = tuple(row[k] for k in KEYS)
-            if key not in current or current[key]['id'] != row['id']:
-                raise ValueError(f'Snapshot row no longer matches DB identity: {key}')
-            if key not in applied_by_key or applied_by_key[key]['id'] != row['id']:
-                raise ValueError(f'Snapshot applied row identity differs: {key}')
-        if all(all(current[tuple(row[k] for k in KEYS)][field] == row[field] for field in FIELDS)
-               for row in payload['rows']):
+        state = snapshot_row_state(payload, current)
+        if state == 'original':
             # A command can exit nonzero after SQLite committed or after an
             # earlier restore. Only these exact original rows are already safe.
-            snapshot_identity(snapshot, snapshot_fd, snapshot_metadata)
+            snapshot_identity(snapshot, snapshot_fd, snapshot_metadata, payload['sha256'])
             conn.rollback()
             return {'restored': 0, 'snapshot': str(snapshot), 'state': 'already-original'}
         for row in payload['rows']:
             key = tuple(row[k] for k in KEYS)
-            applied = applied_by_key.get(key)
-            if (not applied or applied['id'] != row['id']
-                    or any(current[key][field] != applied[field] for field in FIELDS)):
-                raise ValueError(f'Editorial row changed since apply; restore refused: {key}')
-        for row in payload['rows']:
-            key = tuple(row[k] for k in KEYS)
             conn.execute('UPDATE lesson SET "order"=?, title=?, body_md=?, widget_type=?, widget_config_json=?, est_minutes=? WHERE id=? AND module_slug=? AND slug=? AND locale=?',
                 tuple(row[f] for f in FIELDS) + (row['id'],) + key)
-        snapshot_identity(snapshot, snapshot_fd, snapshot_metadata)
+        snapshot_identity(snapshot, snapshot_fd, snapshot_metadata, payload['sha256'])
         conn.commit()
     return {'restored': len(payload['rows']), 'snapshot': str(snapshot)}
 
@@ -220,7 +246,12 @@ def main() -> None:
     group.add_argument('--dry-run', action='store_true')
     group.add_argument('--apply', action='store_true')
     group.add_argument('--restore', action='store_true')
+    group.add_argument('--status', action='store_true')
     a = p.parse_args()
+    if a.status:
+        if not a.snapshot: p.error('--status requires --snapshot')
+        print(status(a.db, a.snapshot))
+        return
     if a.restore:
         if not a.snapshot: p.error('--restore requires --snapshot')
         print(json.dumps(restore(a.db, a.snapshot)))

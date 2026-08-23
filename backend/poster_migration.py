@@ -48,6 +48,39 @@ def _select(db: sqlite3.Connection, slugs: list[str]) -> list[dict]:
     return sorted((dict(row) for row in rows), key=lambda row: (row["slug"], row["locale"]))
 
 
+def _row_state(rows: list[dict], by_slug: dict) -> str:
+    expected = {(slug, lang) for slug in by_slug for lang in ("en", "ru")}
+    assert len(rows) == 14 and {(r["slug"], r["locale"]) for r in rows} == expected
+    old_count = new_count = 0
+    for row in rows:
+        item = by_slug[row["slug"]]
+        old = row["cover_image"] == item["old_cover"] and row["content"].count(item["old_poster"]) == 1
+        new = row["cover_image"] == item["new_cover"] and row["content"].count(item["new_poster"]) == 1
+        assert old != new, (row["slug"], row["locale"], "unexpected editorial state")
+        old_count += old
+        new_count += new
+    assert (old_count, new_count) in ((14, 0), (0, 14)), "Mixed old/new rows; inspect before retry"
+    return "new" if new_count == 14 else "old"
+
+
+def status(db_path: Path) -> str:
+    """Read the exact 14-row state before deciding whether an image can roll back."""
+    by_slug = {row["slug"]: row for row in _mapping()}
+    db = sqlite3.connect(db_path, timeout=15, isolation_level=None)
+    db.row_factory = sqlite3.Row
+    try:
+        db.execute("BEGIN")
+        result = _row_state(_select(db, list(by_slug)), by_slug)
+        db.execute("COMMIT")
+        return result
+    except BaseException:
+        if db.in_transaction:
+            db.execute("ROLLBACK")
+        raise
+    finally:
+        db.close()
+
+
 def _snapshot(rows: list[dict]) -> dict:
     canonical = json.dumps(rows, sort_keys=True, ensure_ascii=False).encode()
     return {
@@ -95,19 +128,7 @@ def apply(db_path: Path, backup_path: Path) -> str:
     try:
         db.execute("BEGIN IMMEDIATE")
         rows = _select(db, list(by_slug))
-        expected = {(slug, lang) for slug in by_slug for lang in ("en", "ru")}
-        assert len(rows) == 14 and {(r["slug"], r["locale"]) for r in rows} == expected
-
-        old_count = new_count = 0
-        for row in rows:
-            item = by_slug[row["slug"]]
-            old = row["cover_image"] == item["old_cover"] and row["content"].count(item["old_poster"]) == 1
-            new = row["cover_image"] == item["new_cover"] and row["content"].count(item["new_poster"]) == 1
-            assert old != new, (row["slug"], row["locale"], "unexpected editorial state")
-            old_count += old
-            new_count += new
-        assert (old_count, new_count) in ((14, 0), (0, 14)), "Mixed old/new rows; inspect before retry"
-        if new_count == 14:
+        if _row_state(rows, by_slug) == "new":
             db.execute("COMMIT")
             return "already applied: 14 post rows"
 
@@ -178,8 +199,12 @@ def restore(db_path: Path, backup_path: Path) -> str:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("apply", "restore"))
+    parser.add_argument("command", choices=("apply", "restore", "status"))
     parser.add_argument("--db", type=Path, default=config.DATABASE_PATH)
     parser.add_argument("--backup", type=Path, default=DEFAULT_BACKUP)
     args = parser.parse_args()
-    print(apply(args.db, args.backup) if args.command == "apply" else restore(args.db, args.backup))
+    print(
+        apply(args.db, args.backup) if args.command == "apply"
+        else restore(args.db, args.backup) if args.command == "restore"
+        else status(args.db)
+    )

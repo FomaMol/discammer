@@ -1,6 +1,7 @@
 """Course publication changes only matched editorial rows and can be reversed."""
 from pathlib import Path
 import json
+import os
 import sqlite3
 import sys
 
@@ -8,7 +9,7 @@ import pytest
 
 import config
 import editorial_course_sync
-from editorial_course_sync import apply, db_rows, main, restore
+from editorial_course_sync import apply, db_rows, main, restore, status
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -33,8 +34,10 @@ def test_targeted_apply_and_restore_preserve_identity_and_user_state(tmp_path):
     db, content = fixture_db(tmp_path)
     with sqlite3.connect(db) as conn: before = db_rows(conn)
     snapshot = tmp_path / 'snapshots' / 'before.json'
+    assert status(db, snapshot) == 'absent'
     result = apply(db, content, snapshot, expected_count=2)
     assert result['changed'] == 2
+    assert status(db, snapshot) == 'applied'
     assert snapshot.exists()
     assert snapshot.stat().st_mode & 0o777 == 0o600
     with sqlite3.connect(db) as conn:
@@ -45,6 +48,7 @@ def test_targeted_apply_and_restore_preserve_identity_and_user_state(tmp_path):
     assert apply(db, content, tmp_path / 'unused.json', expected_count=2)['changed'] == 0
     assert not (tmp_path / 'unused.json').exists()
     assert restore(db, snapshot)['restored'] == 2
+    assert status(db, snapshot) == 'original'
     assert restore(db, snapshot)['restored'] == 0
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before
@@ -68,6 +72,8 @@ def test_restore_refuses_to_overwrite_later_editorial_change(tmp_path):
         conn.execute("UPDATE lesson SET title='Later editorial change' WHERE locale='en'")
     with pytest.raises(ValueError, match='changed since apply'):
         restore(db, snapshot)
+    with pytest.raises(ValueError, match='changed since apply'):
+        status(db, snapshot)
     with sqlite3.connect(db) as conn:
         assert conn.execute("SELECT title FROM lesson WHERE locale='en'").fetchone()[0] == 'Later editorial change'
         assert conn.execute("SELECT ciphertext FROM sync_blob").fetchone()[0] == b'opaque-user-data'
@@ -91,6 +97,7 @@ def test_failed_transaction_retries_with_a_new_attempt_snapshot(tmp_path):
     with pytest.raises(sqlite3.IntegrityError, match='injected update failure'):
         apply(db, content, snapshot, expected_count=2)
     assert snapshot.exists() and snapshot.stat().st_mode & 0o777 == 0o600
+    assert status(db, snapshot) == 'original'
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before
         assert conn.execute("SELECT ciphertext FROM sync_blob").fetchone()[0] == b'opaque-user-data'
@@ -137,6 +144,8 @@ def test_retry_refuses_changed_snapshot_metadata(tmp_path):
         apply(db, content, snapshot, expected_count=2)
     with pytest.raises(ValueError, match='checksum differs'):
         restore(db, snapshot)
+    with pytest.raises(ValueError, match='checksum differs'):
+        status(db, snapshot)
     payload['sha256'] = editorial_course_sync.snapshot_digest(payload)
     snapshot.write_text(json.dumps(payload))
     with pytest.raises(FileExistsError, match='already exists'):
@@ -180,6 +189,35 @@ def test_apply_refuses_snapshot_changed_after_exclusive_creation(monkeypatch, tm
         path.write_text(json.dumps(payload))
     monkeypatch.setattr(editorial_course_sync.os, 'link', alter_after_link)
     with pytest.raises(ValueError, match='differs from intended update'):
+        apply(db, content, snapshot, expected_count=2)
+    with sqlite3.connect(db) as conn:
+        assert db_rows(conn) == before
+
+
+def test_apply_refuses_same_size_same_mtime_snapshot_rewrite(monkeypatch, tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot = tmp_path / 'before.json'
+    with sqlite3.connect(db) as conn:
+        before = db_rows(conn)
+    original_identity = editorial_course_sync.snapshot_identity
+    calls = 0
+
+    def rewrite_before_commit(path, fd, metadata, expected_sha256):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            old_stat = path.stat()
+            old_size = old_stat.st_size
+            payload = json.loads(path.read_text())
+            payload['rows'][0]['title'] = 'Bad title'  # same length as 'Old title'
+            payload['sha256'] = editorial_course_sync.snapshot_digest(payload)
+            path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
+            assert path.stat().st_size == old_size
+            os.utime(path, ns=(old_stat.st_atime_ns, old_stat.st_mtime_ns))
+        return original_identity(path, fd, metadata, expected_sha256)
+
+    monkeypatch.setattr(editorial_course_sync, 'snapshot_identity', rewrite_before_commit)
+    with pytest.raises(ValueError, match='changed during update'):
         apply(db, content, snapshot, expected_count=2)
     with sqlite3.connect(db) as conn:
         assert db_rows(conn) == before

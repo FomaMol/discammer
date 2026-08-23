@@ -550,6 +550,15 @@ jobs:
               echo "::error::effective production SEED_ON_STARTUP is enabled or current web container is missing; no image change made"
               exit 1
             fi
+            rollback_image() {
+              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
+              if apply && health_up; then
+                echo "::warning::previous image restored and probed: ${PREV}"
+              else
+                echo "::error::ROLLBACK FAILED: ${PREV} did not come up healthy; manual repair required"
+              fi
+              exit 1
+            }
             PREV=$(sudo grep -E '^DISCAMMER_IMAGE=' "$ENV_FILE" | cut -d= -f2-)
             echo "previous image: ${PREV}"
             echo "new image:      ${NEW}"
@@ -573,7 +582,8 @@ jobs:
             # exact DB keys before either editorial update. The course updater
             # snapshots only changed lesson rows on the persistent mount.
             CID=$(sudo docker compose --env-file "$ENV_FILE" -p discammer-staging -f "$COMPOSE" ps -q web || true)
-            if [ -z "$CID" ] || ! sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --dry-run; then
+            COURSE_PREFLIGHT_OUTPUT=""
+            if [ -z "$CID" ] || ! COURSE_PREFLIGHT_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --dry-run); then
               echo "::error::course preflight failed or web container missing; rolling back image"
               sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
               if apply && health_up; then
@@ -583,57 +593,99 @@ jobs:
               fi
               exit 1
             fi
-            BACKUP="/app/data/poster-backup-${GIT_SHORT}.json"
-            MIGRATION_OUTPUT=""
-            if [ -z "$CID" ] || ! MIGRATION_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply --backup "$BACKUP"); then
-              # The migration is one SQLite transaction: failure leaves the
-              # editorial rows unchanged. Restore the previous image so a red
-              # deploy cannot leave the new SHA live. Do not restore an older
-              # poster backup: it may be from an earlier successful release.
-              echo "::error::editorial poster update failed or web container missing; rolling back image"
-              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
-              if apply && health_up; then
-                echo "::warning::previous image restored after editorial update failure"
-              else
-                echo "::error::ROLLBACK FAILED after editorial update failure; manual repair required"
-              fi
+            echo "$COURSE_PREFLIGHT_OUTPUT"
+            COURSE_BEFORE_CHANGED=$(printf '%s' "$COURSE_PREFLIGHT_OUTPUT" | sed -n 's/.*"changed": \([0-9][0-9]*\).*/\1/p')
+            if ! [[ "$COURSE_BEFORE_CHANGED" =~ ^[0-9]+$ ]]; then
+              echo "::error::course preflight count is unavailable; retaining the new image"
               exit 1
             fi
-            echo "$MIGRATION_OUTPUT"
-            # A must already be published before B owns release. If posters were
-            # unexpectedly changed here, restore just this attempt and stop.
-            if [ "$MIGRATION_OUTPUT" != 'already applied: 14 post rows' ]; then
-              echo "::error::A poster release was not already applied; restoring this attempt before course publication"
-              case "$MIGRATION_OUTPUT" in
-                'applied: 14 post rows;'*)
-                  if ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py restore --backup "$BACKUP"; then
-                    echo "::error::ROLLBACK FAILED: poster restore rejected current rows; retaining the new image"
-                    exit 1
-                  fi ;;
-                *) echo "::error::ROLLBACK FAILED: unexpected poster result '$MIGRATION_OUTPUT'"; exit 1 ;;
-              esac
-              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
-              if apply && health_up; then
-                echo "::warning::previous image restored after out-of-order poster update"
-              else
-                echo "::error::ROLLBACK FAILED after out-of-order poster update; manual repair required"
+            BACKUP="/app/data/poster-backup-${GIT_SHORT}.json"
+            # A nonzero docker-exec exit does not prove that SQLite rolled back:
+            # the transaction may commit before stdout or SSH transport fails.
+            # Record the exact 14-row state before apply, then resolve it again
+            # before every image rollback after this point.
+            BEFORE_STATE=""
+            if [ -z "$CID" ] || ! BEFORE_STATE=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status); then
+              echo "::error::web container missing or editorial preflight failed"
+              rollback_image
+            fi
+            case "$BEFORE_STATE" in old|new) ;; *) echo "::error::unknown editorial preflight state"; rollback_image ;; esac
+            revert_editorial_if_needed() {
+              local current
+              current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1
+              if [ "$BEFORE_STATE" = new ]; then
+                [ "$current" = new ]
+                return
               fi
+              case "$current" in
+                old) return 0 ;;
+                new)
+                  # Restore only the snapshot created by this commit's attempt.
+                  # If restore commits but its output fails, trust a fresh row
+                  # check, not the command's exit code.
+                  sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py restore --backup "$BACKUP" || true
+                  current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1
+                  [ "$current" = old ]
+                  ;;
+                *) return 1 ;;
+              esac
+            }
+            MIGRATION_OUTPUT=""
+            if ! MIGRATION_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py apply --backup "$BACKUP"); then
+              echo "::error::editorial poster command failed; checking committed row state"
+              if ! revert_editorial_if_needed; then
+                echo "::error::ROLLBACK FAILED: editorial state could not be proved compatible with the previous image; retaining the new image"
+                exit 1
+              fi
+              rollback_image
+            fi
+            echo "$MIGRATION_OUTPUT"
+            if [ "$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null || true)" != new ]; then
+              echo "::error::ROLLBACK FAILED: poster apply lacks a provable new row state; retaining the new image"
               exit 1
+            fi
+            # A must already have published posters before B owns release.
+            if [ "$BEFORE_STATE" != new ]; then
+              echo "::error::A poster rows were not already live; restoring this attempt"
+              if ! revert_editorial_if_needed; then
+                echo "::error::ROLLBACK FAILED: out-of-order poster update could not be restored; retaining the new image"
+                exit 1
+              fi
+              rollback_image
             fi
             # Run and attempt keep this snapshot exclusive to this deploy,
             # including a GitHub rerun of the same commit.
             COURSE_SNAPSHOT="/app/data/course-editorial-before-${GIT_SHORT}-${DEPLOY_RUN}.json"
+            # Keep rollback snapshots root-owned and 0600 on the persistent
+            # mount; the serving web UID must not be able to rewrite them.
+            course_state() {
+              sudo docker exec -u 0 "$CID" python /app/backend/editorial_course_sync.py --status --snapshot "$COURSE_SNAPSHOT"
+            }
+            restore_course_if_needed() {
+              local current
+              current=$(course_state 2>/dev/null) || return 1
+              case "$current" in
+                absent) [ "$COURSE_BEFORE_CHANGED" -eq 0 ] ;;
+                original) return 0 ;;
+                applied)
+                  # The restore command can also commit before reporting an
+                  # error. Re-read exact rows before deciding image safety.
+                  sudo docker exec -u 0 "$CID" python /app/backend/editorial_course_sync.py --restore --snapshot "$COURSE_SNAPSHOT" || true
+                  current=$(course_state 2>/dev/null) || return 1
+                  [ "$current" = original ]
+                  ;;
+                *) return 1 ;;
+              esac
+            }
             COURSE_OUTPUT=""
-            if ! COURSE_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --apply --snapshot "$COURSE_SNAPSHOT"); then
+            if ! COURSE_OUTPUT=$(sudo docker exec -u 0 "$CID" python /app/backend/editorial_course_sync.py --apply --snapshot "$COURSE_SNAPSHOT"); then
               # A command may report failure after SQLite committed (for
               # example, closed stdout). Reconcile this attempt's snapshot
               # before selecting the prior A image.
               echo "::error::course editorial update command failed; reconciling exact attempt state"
-              if sudo docker exec -u 10001 "$CID" test -f "$COURSE_SNAPSHOT"; then
-                if ! sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --restore --snapshot "$COURSE_SNAPSHOT"; then
-                  echo "::error::ROLLBACK FAILED: course state could not be restored; retaining the new image"
-                  exit 1
-                fi
+              if ! restore_course_if_needed; then
+                echo "::error::ROLLBACK FAILED: course state could not be proved restored; retaining the new image"
+                exit 1
               fi
               sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
               if apply && health_up; then
@@ -649,6 +701,19 @@ jobs:
               echo "::error::ROLLBACK FAILED: cannot parse course update result; retaining the new image for inspection"
               exit 1
             fi
+            if [ "$COURSE_CHANGED" -ne "$COURSE_BEFORE_CHANGED" ]; then
+              echo "::error::ROLLBACK FAILED: course preflight and update counts disagree; retaining the new image"
+              exit 1
+            fi
+            COURSE_STATE=$(course_state 2>/dev/null) || {
+              echo "::error::ROLLBACK FAILED: course update state cannot be verified; retaining the new image"
+              exit 1
+            }
+            if { [ "$COURSE_CHANGED" -gt 0 ] && [ "$COURSE_STATE" != applied ]; } ||
+               { [ "$COURSE_CHANGED" -eq 0 ] && [ "$COURSE_STATE" != absent ]; }; then
+              echo "::error::ROLLBACK FAILED: course update result and exact row state disagree; retaining the new image"
+              exit 1
+            fi
             echo "health ok: version ${GIT_SHORT}"
             if [ -n "${CF_API_TOKEN:-}" ] && [ -n "${CF_ZONE_ID:-}" ]; then
               curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
@@ -657,32 +722,15 @@ jobs:
             fi
             if ! public_ok; then
               echo "::error::public verification failed; restoring the exact editorial rows changed by this attempt before image rollback"
-              if [ "$COURSE_CHANGED" -gt 0 ]; then
-                if ! sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --restore --snapshot "$COURSE_SNAPSHOT"; then
-                  echo "::error::ROLLBACK FAILED: course restore rejected current rows; retaining the new image"
-                  exit 1
-                fi
+              if ! restore_course_if_needed; then
+                echo "::error::ROLLBACK FAILED: course rows could not be proved restored; retaining the new image"
+                exit 1
               fi
-              case "$MIGRATION_OUTPUT" in
-                'applied: 14 post rows;'*)
-                  if ! sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py restore --backup "$BACKUP"; then
-                    echo "::error::ROLLBACK FAILED: editorial restore rejected the current rows; retaining the new image to avoid broken poster URLs"
-                    exit 1
-                  fi
-                  ;;
-                'already applied: 14 post rows')
-                  # This attempt made no editorial change. A previous successful
-                  # release owns those rows; its previous image remains compatible.
-                  ;;
-                *) echo "::error::ROLLBACK FAILED: unexpected migration result '$MIGRATION_OUTPUT'"; exit 1 ;;
-              esac
-              sudo cp -p "$ENV_FILE.prev" "$ENV_FILE"
-              if apply && health_up; then
-                echo "::warning::previous image restored after public verification failure"
-              else
-                echo "::error::ROLLBACK FAILED after public verification failure; manual repair required"
+              if ! revert_editorial_if_needed; then
+                echo "::error::ROLLBACK FAILED: editorial state could not be proved compatible with the previous image; retaining the new image"
+                exit 1
               fi
-              exit 1
+              rollback_image
             fi
 
   smoke-prod:

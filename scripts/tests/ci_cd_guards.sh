@@ -122,18 +122,27 @@ case "$1" in
     exit 0 ;;
   exec)
     case " $* " in
-      *" test -f "*)
-        [ -f "$STUB_STATE_DIR/course-snapshot" ]; exit $? ;;
       *"python -c "*)
         echo "seed check" >>"$STUB_LOG"
         [ -z "${STUB_SEED_CHECK_FAIL:-}" ]; exit $? ;;
       *"editorial_course_sync.py --dry-run"*)
         echo "course preflight" >>"$STUB_LOG"
-        [ -z "${STUB_COURSE_PREFLIGHT_FAIL:-}" ]; exit $? ;;
+        [ -z "${STUB_COURSE_PREFLIGHT_FAIL:-}" ] || exit 1
+        if [ -n "${STUB_COURSE_NO_CHANGE:-}" ]; then
+          printf '{"localized_lessons": 110, "changed": 0, "applied": false}\n'
+        else
+          printf '{"localized_lessons": 110, "changed": 110, "applied": false}\n'
+        fi
+        exit 0 ;;
+      *"poster_migration.py status"*)
+        echo "poster status" >>"$STUB_LOG"
+        cat "$STUB_ROW_FILE"; exit 0 ;;
       *"poster_migration.py apply"*)
         echo "poster apply" >>"$STUB_LOG"
         [ -z "${STUB_MIGRATE_FAIL:-}" ] || exit 1
-        if [ -n "${STUB_POSTER_NEEDS_APPLY:-}" ]; then
+        if [ "$(cat "$STUB_ROW_FILE")" = old ]; then
+          printf 'new\n' >"$STUB_ROW_FILE"
+          [ -z "${STUB_POSTER_COMMITTED_ERROR:-}" ] || exit 1
           printf 'applied: 14 post rows; backup /app/data/poster-backup.json\n'
         else
           printf 'already applied: 14 post rows\n'
@@ -141,24 +150,34 @@ case "$1" in
         exit 0 ;;
       *"poster_migration.py restore"*)
         echo "poster restore" >>"$STUB_LOG"
-        [ -z "${STUB_RESTORE_FAIL:-}" ]; exit $? ;;
+        [ -z "${STUB_RESTORE_FAIL:-}" ] || exit 1
+        printf 'old\n' >"$STUB_ROW_FILE"
+        exit 0 ;;
       *"editorial_course_sync.py --apply"*)
         echo "course apply" >>"$STUB_LOG"
         [ -z "${STUB_COURSE_APPLY_FAIL:-}" ] || exit 1
         if [ -n "${STUB_COURSE_APPLY_COMMITTED_ERROR:-}" ]; then
-          : >"$STUB_STATE_DIR/course-snapshot"
+          printf 'applied\n' >"$STUB_STATE_DIR/course-state"
           echo "course committed before command error" >>"$STUB_LOG"
           exit 1
         fi
         if [ -n "${STUB_COURSE_NO_CHANGE:-}" ]; then
           printf '{"changed": 0, "snapshot": null}\n'
         else
+          printf 'applied\n' >"$STUB_STATE_DIR/course-state"
           printf '{"changed": 110, "snapshot": "/app/data/course-editorial-before.json"}\n'
         fi
         exit 0 ;;
+      *"editorial_course_sync.py --status"*)
+        echo "course status" >>"$STUB_LOG"
+        [ -z "${STUB_COURSE_STATUS_FAIL:-}" ] || exit 1
+        if [ -f "$STUB_STATE_DIR/course-state" ]; then cat "$STUB_STATE_DIR/course-state"; else printf 'absent\n'; fi
+        exit 0 ;;
       *"editorial_course_sync.py --restore"*)
         echo "course restore" >>"$STUB_LOG"
-        [ -z "${STUB_COURSE_RESTORE_FAIL:-}" ]; exit $? ;;
+        [ -z "${STUB_COURSE_RESTORE_FAIL:-}" ] || exit 1
+        printf 'original\n' >"$STUB_STATE_DIR/course-state"
+        [ -z "${STUB_COURSE_RESTORE_COMMITTED_ERROR:-}" ]; exit $? ;;
     esac
     exit 1 ;;
 esac
@@ -215,8 +234,11 @@ PREV_IMG="$REG/discammer-web@sha256:$PREV_DIG"
 # run_deploy NAME [VAR=VALUE ...]: run the production SSH script in a sandbox at
 # $WORK/NAME with /etc/discammer redirected there. Sets DEPLOY_RC.
 run_deploy() {
-  local name="$1" d
+  local name="$1" d row_initial=new setting
   shift
+  for setting in "$@"; do
+    case "$setting" in STUB_POSTER_INITIAL=*) row_initial="${setting#*=}" ;; esac
+  done
   d="$WORK/$name"
   mkdir -p "$d/etc" "$d/bin"
   mkdir -p "$d/state"
@@ -225,10 +247,11 @@ run_deploy() {
   printf 'DISCAMMER_IMAGE=%s\nKEEP_ME=1\n' "$PREV_IMG" >"$d/etc/deployment.env"
   : >"$d/etc/compose.yaml"
   : >"$d/log"
+  printf '%s\n' "$row_initial" >"$d/row-state"
   env -i PATH="$d/bin:/usr/bin:/bin" HOME="$d" \
     IMAGE_REGISTRY="$REG" IMAGE_DIGEST="sha256:$NEW_DIG" GIT_SHORT="$GIT_SHORT" DEPLOY_RUN="12345-1" \
     CF_API_TOKEN="" CF_ZONE_ID="" \
-    STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" STUB_STATE_DIR="$d/state" \
+    STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" STUB_STATE_DIR="$d/state" STUB_ROW_FILE="$d/row-state" \
     STUB_NEW_DIG="$NEW_DIG" STUB_GIT_SHORT="$GIT_SHORT" "$@" \
     bash "$d/deploy.sh" >"$d/out" 2>&1
   DEPLOY_RC=$?
@@ -239,10 +262,11 @@ show() {  # $1 sandbox name: the last lines of output and of the stub log
   tail -n 4 "$WORK/$1/log" | sed 's/^/      log: /'
 }
 
-check_rollback() {  # $1 sandbox name, $2 label
-  local d="$WORK/$1" last
+check_rollback() {  # $1 sandbox name, $2 label, $3 expected poster state (default new)
+  local d="$WORK/$1" last expected="${3:-new}"
   last="$(tail -n 1 "$d/log")"
   if [ "$DEPLOY_RC" = 1 ] && [ "$last" = "health bbbb ok" ] \
+     && [ "$(cat "$d/row-state")" = "$expected" ] \
      && grep -q "@sha256:$PREV_DIG\$" "$d/etc/deployment.env" \
      && grep -qx 'KEEP_ME=1' "$d/etc/deployment.env" \
      && ! grep -q 'ROLLBACK FAILED' "$d/out"; then
@@ -303,7 +327,15 @@ fi
 run_deploy migration-fail STUB_MIGRATE_FAIL=1
 check_rollback migration-fail "deploy: failed editorial update rolls back the image"
 run_deploy course-apply-fail STUB_COURSE_APPLY_FAIL=1
-check_rollback course-apply-fail "deploy: failed course editorial update rolls back image"
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: course state could not be proved restored' "$WORK/course-apply-fail/out" \
+   && grep -q "@sha256:$NEW_DIG\$" "$WORK/course-apply-fail/etc/deployment.env" \
+   && ! grep -qx 'up bbbb' "$WORK/course-apply-fail/log"; then
+  ok "deploy: missing snapshot after failed change retains compatible new image"
+else
+  bad "deploy: ambiguous missing snapshot selected old image"
+fi
+run_deploy course-no-change-apply-fail STUB_COURSE_NO_CHANGE=1 STUB_COURSE_APPLY_FAIL=1
+check_rollback course-no-change-apply-fail "deploy: failed no-op course update rolls back after count preflight"
 run_deploy course-commit-then-error STUB_COURSE_APPLY_COMMITTED_ERROR=1
 if [ "$(grep -E 'course restore|up bbbb' "$WORK/course-commit-then-error/log" | paste -sd, -)" = 'course restore,up bbbb' ]; then
   check_rollback course-commit-then-error "deploy: course command error after commit restores rows before old image"
@@ -323,11 +355,17 @@ check_rollback container-missing "deploy: missing web container rolls back the i
 
 # B may only publish after A's posters are already applied. A changed poster
 # row in this attempt is restored before the A image is reselected.
-run_deploy posters-not-live STUB_POSTER_NEEDS_APPLY=1
+run_deploy posters-not-live STUB_POSTER_INITIAL=old
 if grep -qx 'poster restore' "$WORK/posters-not-live/log"; then
-  check_rollback posters-not-live "deploy: out-of-order poster update is restored before image rollback"
+  check_rollback posters-not-live "deploy: out-of-order poster update is restored before image rollback" old
 else
   bad "deploy: out-of-order poster update was not restored"
+fi
+run_deploy poster-commit-then-error STUB_POSTER_INITIAL=old STUB_POSTER_COMMITTED_ERROR=1
+if [ "$(grep -E 'poster restore|up bbbb' "$WORK/poster-commit-then-error/log" | paste -sd, -)" = 'poster restore,up bbbb' ]; then
+  check_rollback poster-commit-then-error "deploy: ambiguous committed poster update restores rows before old image" old
+else
+  bad "deploy: ambiguous committed poster update did not restore rows before image"
 fi
 
 # b. The new image fails to start: roll back, then probe the restored image.
@@ -364,12 +402,22 @@ check_rollback public-route-fail "deploy: failed public route restores previous 
 run_deploy public-empty-version STUB_PUBLIC_VERSION=
 check_rollback public-empty-version "deploy: empty public SHA fails closed and rolls back"
 run_deploy public-restore-fails STUB_PUBLIC_VERSION=fffffff STUB_COURSE_RESTORE_FAIL=1
-if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: course restore' "$WORK/public-restore-fails/out" \
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: course rows could not be proved restored' "$WORK/public-restore-fails/out" \
   && grep -q "@sha256:$NEW_DIG\$" "$WORK/public-restore-fails/etc/deployment.env" \
   && ! grep -qx 'up bbbb' "$WORK/public-restore-fails/log"; then
   ok 'deploy: rejected course restore retains compatible new image and reports failure'
 else
   bad 'deploy: rejected course restore must not select old image with new lesson rows'
+fi
+run_deploy public-restore-committed-error STUB_PUBLIC_VERSION=fffffff STUB_COURSE_RESTORE_COMMITTED_ERROR=1
+check_rollback public-restore-committed-error 'deploy: restore that committed before command error is verified by row state'
+run_deploy course-status-fails STUB_COURSE_STATUS_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: course update state cannot be verified' "$WORK/course-status-fails/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/course-status-fails/etc/deployment.env" \
+  && ! grep -qx 'up bbbb' "$WORK/course-status-fails/log"; then
+  ok 'deploy: unavailable course state check retains compatible new image'
+else
+  bad 'deploy: unavailable course state check selected old image without proof'
 fi
 
 run_deploy public-no-course-change STUB_PUBLIC_VERSION=fffffff STUB_COURSE_NO_CHANGE=1
