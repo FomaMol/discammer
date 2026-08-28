@@ -108,6 +108,10 @@ def open_snapshot(path: Path) -> tuple[dict, int, os.stat_result]:
 
 def snapshot_atomically(snapshot_path: Path, payload: dict) -> tuple[int, os.stat_result]:
     snapshot_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    parent = snapshot_path.parent.lstat()
+    if (not stat.S_ISDIR(parent.st_mode) or parent.st_uid != os.getuid()
+            or stat.S_IMODE(parent.st_mode) != 0o700):
+        raise ValueError(f'Unsafe course snapshot directory: {snapshot_path.parent}')
     payload = {**payload, 'sha256': snapshot_digest(payload)}
     # The deploy workflow chooses a new path per GitHub run and attempt. Never
     # reuse a prior file: even an internally valid checksum cannot authenticate

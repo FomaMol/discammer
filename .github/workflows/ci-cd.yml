@@ -655,7 +655,7 @@ jobs:
             fi
             # Run and attempt keep this snapshot exclusive to this deploy,
             # including a GitHub rerun of the same commit.
-            COURSE_SNAPSHOT="/app/data/course-editorial-before-${GIT_SHORT}-${DEPLOY_RUN}.json"
+            COURSE_SNAPSHOT="/app/data/course-release-snapshots/course-editorial-before-${GIT_SHORT}-${DEPLOY_RUN}.json"
             # Keep rollback snapshots root-owned and 0600 on the persistent
             # mount; the serving web UID must not be able to rewrite them.
             course_state() {

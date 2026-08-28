@@ -64,6 +64,20 @@ def test_missing_db_lesson_aborts_without_snapshot(tmp_path):
     assert not snapshot.exists()
 
 
+def test_apply_refuses_snapshot_directory_with_app_access(tmp_path):
+    db, content = fixture_db(tmp_path)
+    snapshot_dir = tmp_path / 'course-release-snapshots'
+    snapshot_dir.mkdir(mode=0o755)
+    snapshot = snapshot_dir / 'before.json'
+    with sqlite3.connect(db) as conn:
+        before = db_rows(conn)
+    with pytest.raises(ValueError, match='Unsafe course snapshot directory'):
+        apply(db, content, snapshot, expected_count=2)
+    assert not snapshot.exists()
+    with sqlite3.connect(db) as conn:
+        assert db_rows(conn) == before
+
+
 def test_restore_refuses_to_overwrite_later_editorial_change(tmp_path):
     db, content = fixture_db(tmp_path)
     snapshot = tmp_path / 'before.json'
