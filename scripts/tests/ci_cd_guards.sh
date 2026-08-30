@@ -192,6 +192,18 @@ for a in "$@"; do
   case "$a" in https://discammer.com*) url="$a" ;; -w) status=1 ;; esac
 done
 if [ -n "$url" ]; then
+  case "$url" in
+    *'/api/course/phishing/lookalike-domains?lang='*)
+      echo 'public course' >>"$STUB_LOG"
+      lang="${url##*=}"
+      if [ -n "${STUB_PUBLIC_COURSE_STALE:-}" ]; then
+        printf '{"locale":"%s","widget_type":"quiz","body_md":"old"}' "$lang"
+      else
+        body="$(printf '%0501d' 0)"
+        printf '{"locale":"%s","widget_type":"course_v2","body_md":"%s","widget_config":{"revision":"2026-10-20","blocks":[{"type":"practice","steps":[{},{},{}]}]}}' "$lang" "$body"
+      fi
+      exit 0 ;;
+  esac
   if [ "$status" = 1 ]; then
     if [ -n "${STUB_PUBLIC_BAD_PATH:-}" ] && [ "$url" = "https://discammer.com${STUB_PUBLIC_BAD_PATH}" ]; then
       echo 'public 503' >>"$STUB_LOG"; printf 503
@@ -399,6 +411,12 @@ else
 fi
 run_deploy public-route-fail STUB_PUBLIC_BAD_PATH=/en/course
 check_rollback public-route-fail "deploy: failed public route restores previous image"
+run_deploy public-course-stale STUB_PUBLIC_COURSE_STALE=1
+if grep -qx 'course restore' "$WORK/public-course-stale/log"; then
+  check_rollback public-course-stale "deploy: stale public course exercise restores rows and previous image"
+else
+  bad "deploy: stale public course exercise did not restore editorial rows"
+fi
 run_deploy public-empty-version STUB_PUBLIC_VERSION=
 check_rollback public-empty-version "deploy: empty public SHA fails closed and rolls back"
 run_deploy public-restore-fails STUB_PUBLIC_VERSION=fffffff STUB_COURSE_RESTORE_FAIL=1

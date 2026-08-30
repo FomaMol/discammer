@@ -540,7 +540,16 @@ jobs:
               deployed=$(curl -sL -A 'Mozilla/5.0' --max-time 15 https://discammer.com/api/health \
                 | sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' || true)
               echo "expected SHA: ${expected} | domain reports: ${deployed:-<none>}"
-              [ "${#deployed}" -ge 7 ] && [[ "$deployed" = "$expected"* ]]
+              [ "${#deployed}" -ge 7 ] && [[ "$deployed" = "$expected"* ]] || return 1
+              # Health alone can pass while persistent course rows remain old.
+              # Require actual authored text and multi-decision practice in
+              # both public locales before this transaction is accepted.
+              for lang in en ru; do
+                curl -fsS -A 'Mozilla/5.0' --max-time 15 "https://discammer.com/api/course/phishing/lookalike-domains?lang=$lang" \
+                  | python3 -c 'import json,sys; d=json.load(sys.stdin); c=d.get("widget_config") or {}; b=c.get("blocks") or []; assert d.get("locale")==sys.argv[1] and d.get("widget_type")=="course_v2" and c.get("revision")=="2026-10-20" and len(d.get("body_md") or "")>500 and any(x.get("type")=="practice" and len(x.get("steps") or [])>=3 for x in b)' "$lang" \
+                  || return 1
+              done
+              return 0
             }
             # Verify the effective setting in the currently serving A image
             # before booting B. Startup reseeding would rewrite editorial rows
