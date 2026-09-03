@@ -17,22 +17,10 @@ APP_UID="${APP_UID:-10001}"
 APP_GID="${APP_GID:-10001}"
 
 # /app/data is the only path the running process must write (SQLite seed writes
-# discammer.db here). Preserve the root-owned course rollback snapshots across
-# restarts; recursive chown would make them inaccessible to the release script
-# and writable by the serving application UID.
+# discammer.db here). Create it if missing, then align ownership to the app
+# uid:gid. -R covers a pre-existing db/journal left by an earlier run.
 mkdir -p /app/data
-SNAPSHOT_DIR=/app/data/course-release-snapshots
-if [ -L "$SNAPSHOT_DIR" ] || { [ -e "$SNAPSHOT_DIR" ] && [ ! -d "$SNAPSHOT_DIR" ]; }; then
-  echo "unsafe course snapshot directory" >&2
-  exit 1
-fi
-if [ -d "$SNAPSHOT_DIR" ]; then
-  chown "${APP_UID}:${APP_GID}" /app/data
-  find /app/data -mindepth 1 -maxdepth 1 ! -name course-release-snapshots \
-    -exec chown -R "${APP_UID}:${APP_GID}" {} +
-else
-  chown -R "${APP_UID}:${APP_GID}" /app/data
-fi
+chown -R "${APP_UID}:${APP_GID}" /app/data
 
 # Drop root and hand off to the CMD (uvicorn). Numeric uid:gid avoids depending
 # on a passwd lookup matching APP_UID.

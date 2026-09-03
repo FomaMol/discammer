@@ -40,6 +40,8 @@ def test_targeted_apply_and_restore_preserve_identity_and_user_state(tmp_path):
     assert status(db, snapshot) == 'applied'
     assert snapshot.exists()
     assert snapshot.stat().st_mode & 0o777 == 0o600
+    assert snapshot.parent.stat().st_mode & 0o777 == 0o700
+    assert snapshot.parent.stat().st_uid == os.getuid()
     with sqlite3.connect(db) as conn:
         after = db_rows(conn)
         assert conn.execute('SELECT ciphertext FROM sync_blob WHERE blob_id=?', ('private-id',)).fetchone()[0] == b'opaque-user-data'

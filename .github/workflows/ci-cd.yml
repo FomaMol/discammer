@@ -665,10 +665,11 @@ jobs:
             # Run and attempt keep this snapshot exclusive to this deploy,
             # including a GitHub rerun of the same commit.
             COURSE_SNAPSHOT="/app/data/course-release-snapshots/course-editorial-before-${GIT_SHORT}-${DEPLOY_RUN}.json"
-            # Keep rollback snapshots root-owned and 0600 on the persistent
-            # mount; the serving web UID must not be able to rewrite them.
+            # Match the serving app UID: the entrypoint recursively chowns
+            # /app/data to 10001 on every start, including release snapshots.
+            # Using one UID keeps 0600 snapshots readable after a restart.
             course_state() {
-              sudo docker exec -u 0 "$CID" python /app/backend/editorial_course_sync.py --status --snapshot "$COURSE_SNAPSHOT"
+              sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --status --snapshot "$COURSE_SNAPSHOT"
             }
             restore_course_if_needed() {
               local current
@@ -679,7 +680,7 @@ jobs:
                 applied)
                   # The restore command can also commit before reporting an
                   # error. Re-read exact rows before deciding image safety.
-                  sudo docker exec -u 0 "$CID" python /app/backend/editorial_course_sync.py --restore --snapshot "$COURSE_SNAPSHOT" || true
+                  sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --restore --snapshot "$COURSE_SNAPSHOT" || true
                   current=$(course_state 2>/dev/null) || return 1
                   [ "$current" = original ]
                   ;;
@@ -687,7 +688,7 @@ jobs:
               esac
             }
             COURSE_OUTPUT=""
-            if ! COURSE_OUTPUT=$(sudo docker exec -u 0 "$CID" python /app/backend/editorial_course_sync.py --apply --snapshot "$COURSE_SNAPSHOT"); then
+            if ! COURSE_OUTPUT=$(sudo docker exec -u 10001 "$CID" python /app/backend/editorial_course_sync.py --apply --snapshot "$COURSE_SNAPSHOT"); then
               # A command may report failure after SQLite committed (for
               # example, closed stdout). Reconcile this attempt's snapshot
               # before selecting the prior A image.

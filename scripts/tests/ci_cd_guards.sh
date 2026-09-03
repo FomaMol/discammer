@@ -121,6 +121,10 @@ case "$1" in
     done
     exit 0 ;;
   exec)
+    if [[ " $* " == *"editorial_course_sync.py"* ]] && [[ " $* " != *" -u 10001 "* ]]; then
+      echo 'course command used wrong UID' >>"$STUB_LOG"
+      exit 1
+    fi
     case " $* " in
       *"python -c "*)
         echo "seed check" >>"$STUB_LOG"
