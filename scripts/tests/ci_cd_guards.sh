@@ -124,6 +124,7 @@ case "$1" in
     done
     echo "migration $mode" >>"$STUB_LOG"
     if [ "$mode" = status ]; then
+      [ -z "${STUB_STATUS_FAIL:-}" ] || exit 1
       cat "$STUB_ROW_FILE"
       exit 0
     fi
@@ -268,6 +269,15 @@ else
 fi
 run_deploy container-missing STUB_EMPTY_CID=1
 check_rollback container-missing "deploy: missing web container rolls back the image"
+run_deploy status-unknown STUB_STATUS_FAIL=1
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: editorial preflight state unknown' "$WORK/status-unknown/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/status-unknown/etc/deployment.env" \
+  && [ "$(cat "$WORK/status-unknown/row-state")" = old ] \
+  && ! grep -qx 'up bbbb' "$WORK/status-unknown/log"; then
+  ok 'deploy: unknown editorial preflight retains new image rather than asserting old compatibility'
+else
+  bad 'deploy: unknown editorial preflight must fail without selecting the old image'
+fi
 
 # b. The new image fails to start: roll back, then probe the restored image.
 run_deploy apply-fail STUB_BROKEN_APPLY="$NEW_DIG"

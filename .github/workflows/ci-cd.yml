@@ -579,11 +579,18 @@ jobs:
             # Record the exact 14-row state before apply, then resolve it again
             # before every image rollback after this point.
             BEFORE_STATE=""
-            if [ -z "$CID" ] || ! BEFORE_STATE=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status); then
-              echo "::error::web container missing or editorial preflight failed"
+            if [ -z "$CID" ]; then
+              echo "::error::web container missing before any editorial command"
               rollback_image
             fi
-            case "$BEFORE_STATE" in old|new) ;; *) echo "::error::unknown editorial preflight state"; rollback_image ;; esac
+            if ! BEFORE_STATE=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status); then
+              echo "::error::ROLLBACK FAILED: editorial preflight state unknown; retaining the new image because compatibility with the previous image is unproved"
+              exit 1
+            fi
+            case "$BEFORE_STATE" in
+              old|new) ;;
+              *) echo "::error::ROLLBACK FAILED: unknown editorial preflight state; retaining the new image"; exit 1 ;;
+            esac
             revert_editorial_if_needed() {
               local current
               current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1

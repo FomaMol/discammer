@@ -54,8 +54,16 @@ def _row_state(rows: list[dict], by_slug: dict) -> str:
     old_count = new_count = 0
     for row in rows:
         item = by_slug[row["slug"]]
-        old = row["cover_image"] == item["old_cover"] and row["content"].count(item["old_poster"]) == 1
-        new = row["cover_image"] == item["new_cover"] and row["content"].count(item["new_poster"]) == 1
+        old = (
+            row["cover_image"] == item["old_cover"]
+            and row["content"].count(item["old_poster"]) == 1
+            and item["new_poster"] not in row["content"]
+        )
+        new = (
+            row["cover_image"] == item["new_cover"]
+            and row["content"].count(item["new_poster"]) == 1
+            and item["old_poster"] not in row["content"]
+        )
         assert old != new, (row["slug"], row["locale"], "unexpected editorial state")
         old_count += old
         new_count += new

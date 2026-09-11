@@ -74,3 +74,35 @@ def test_unexpected_editorial_state_aborts_without_mutation(tmp_path):
     assert not backup.exists()
     with sqlite3.connect(db_path) as db:
         assert db.execute("SELECT cover_image FROM post WHERE id=1").fetchone()[0] == "unexpected"
+
+
+def test_old_row_with_new_poster_url_is_not_a_safe_rollback_state(tmp_path):
+    db_path = tmp_path / "editorial.db"
+    backup = tmp_path / "poster-backup.json"
+    _db(db_path)
+    new_poster = _mapping()[0]["new_poster"]
+    with sqlite3.connect(db_path) as db:
+        db.execute("UPDATE post SET content=content || ? WHERE id=1", (f" extra {new_poster}",))
+        db.commit()
+    with pytest.raises(AssertionError, match="unexpected editorial state"):
+        status(db_path)
+    with pytest.raises(AssertionError, match="unexpected editorial state"):
+        apply(db_path, backup)
+    assert not backup.exists()
+
+
+def test_new_row_with_old_poster_url_is_not_an_exact_new_state(tmp_path):
+    db_path = tmp_path / "editorial.db"
+    backup = tmp_path / "poster-backup.json"
+    _db(db_path)
+    assert apply(db_path, backup).startswith("applied: 14 post rows")
+    old_poster = _mapping()[0]["old_poster"]
+    with sqlite3.connect(db_path) as db:
+        db.execute("UPDATE post SET content=content || ? WHERE id=1", (f" extra {old_poster}",))
+        db.commit()
+    with pytest.raises(AssertionError, match="unexpected editorial state"):
+        status(db_path)
+    with pytest.raises(AssertionError):
+        restore(db_path, backup)
+    with sqlite3.connect(db_path) as db:
+        assert old_poster in db.execute("SELECT content FROM post WHERE id=1").fetchone()[0]
