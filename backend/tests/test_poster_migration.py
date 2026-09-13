@@ -106,3 +106,18 @@ def test_new_row_with_old_poster_url_is_not_an_exact_new_state(tmp_path):
         restore(db_path, backup)
     with sqlite3.connect(db_path) as db:
         assert old_poster in db.execute("SELECT content FROM post WHERE id=1").fetchone()[0]
+
+
+def test_old_row_with_another_videos_new_poster_is_not_rollback_safe(tmp_path):
+    db_path = tmp_path / "editorial.db"
+    backup = tmp_path / "poster-backup.json"
+    _db(db_path)
+    foreign_new_poster = _mapping()[1]["new_poster"]
+    with sqlite3.connect(db_path) as db:
+        db.execute("UPDATE post SET content=content || ? WHERE id=1", (f" extra {foreign_new_poster}",))
+        db.commit()
+    with pytest.raises(AssertionError, match="unexpected editorial state"):
+        status(db_path)
+    with pytest.raises(AssertionError, match="unexpected editorial state"):
+        apply(db_path, backup)
+    assert not backup.exists()

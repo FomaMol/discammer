@@ -57,7 +57,9 @@ def _row_state(rows: list[dict], by_slug: dict) -> str:
         old = (
             row["cover_image"] == item["old_cover"]
             and row["content"].count(item["old_poster"]) == 1
-            and item["new_poster"] not in row["content"]
+            # The previous image has no video-posters directory. Even a URL
+            # for another mapped video makes an old-image rollback unsafe.
+            and "/static/images/video-posters/" not in row["content"]
         )
         new = (
             row["cover_image"] == item["new_cover"]

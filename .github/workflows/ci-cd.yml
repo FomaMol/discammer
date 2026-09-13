@@ -591,11 +591,29 @@ jobs:
               old|new) ;;
               *) echo "::error::ROLLBACK FAILED: unknown editorial preflight state; retaining the new image"; exit 1 ;;
             esac
+            previous_image_supports_posters() {
+              # An already-new DB may predate this attempt. Verify the previous
+              # image actually contains all seven selected assets before ever
+              # pairing it with those rows on a failed retry.
+              sudo docker run --rm --network none -i --entrypoint python "$PREV" - <<'PY'
+            import hashlib
+            import json
+            from pathlib import Path
+
+            rows = json.loads(Path('/app/backend/poster-migration-20261020.json').read_text())['rows']
+            assert len(rows) == 7
+            for row in rows:
+                assert row['new_cover'] == row['new_poster']
+                assert row['card_sha256'] == row['player_sha256']
+                image = Path('/app/backend') / row['new_cover'].removeprefix('/')
+                assert hashlib.sha256(image.read_bytes()).hexdigest() == row['card_sha256']
+            PY
+            }
             revert_editorial_if_needed() {
               local current
               current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1
               if [ "$BEFORE_STATE" = new ]; then
-                [ "$current" = new ]
+                [ "$current" = new ] && previous_image_supports_posters
                 return
               fi
               case "$current" in
