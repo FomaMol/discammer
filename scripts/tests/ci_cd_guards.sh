@@ -97,6 +97,9 @@ cat >"$WORK/stubs/docker" <<'STUB'
 case "$1" in
   login) cat >/dev/null; exit 0 ;;   # drain the password pipe
   pull) exit 0 ;;
+  run)
+    echo "previous image poster probe" >>"$STUB_LOG"
+    [ "${STUB_PREV_HAS_POSTERS:-1}" = 1 ]; exit $? ;;
   compose)
     for a in "$@"; do
       if [ "$a" = "ps" ]; then
@@ -140,6 +143,7 @@ case "$1" in
         exit 0 ;;
       *"poster_migration.py status"*)
         echo "poster status" >>"$STUB_LOG"
+        [ -z "${STUB_STATUS_FAIL:-}" ] || exit 1
         cat "$STUB_ROW_FILE"; exit 0 ;;
       *"poster_migration.py apply"*)
         echo "poster apply" >>"$STUB_LOG"
@@ -368,6 +372,34 @@ else
 fi
 run_deploy container-missing STUB_EMPTY_NEW_CID=1
 check_rollback container-missing "deploy: missing web container rolls back the image"
+run_deploy status-unknown STUB_STATUS_FAIL=1 STUB_POSTER_INITIAL=old
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: editorial preflight state unknown' "$WORK/status-unknown/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/status-unknown/etc/deployment.env" \
+  && [ "$(cat "$WORK/status-unknown/row-state")" = old ] \
+  && ! grep -qx 'up bbbb' "$WORK/status-unknown/log"; then
+  ok 'deploy: unknown editorial preflight retains new image rather than asserting old compatibility'
+else
+  bad 'deploy: unknown editorial preflight must fail without selecting the old image'
+fi
+run_deploy already-new-old-image STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_POSTERS=0
+if [ "$DEPLOY_RC" = 1 ] && grep -q 'ROLLBACK FAILED: editorial state' "$WORK/already-new-old-image/out" \
+  && grep -qx 'previous image poster probe' "$WORK/already-new-old-image/log" \
+  && [ "$(cat "$WORK/already-new-old-image/row-state")" = new ] \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/already-new-old-image/etc/deployment.env" \
+  && ! grep -qx 'up bbbb' "$WORK/already-new-old-image/log"; then
+  ok 'deploy: already-new rows never select an assetless previous image'
+else
+  bad 'deploy: already-new rows require previous-image asset proof before rollback'
+fi
+run_deploy already-new-compatible-image STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_POSTERS=1
+if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image poster probe' "$WORK/already-new-compatible-image/log" \
+  && grep -qx 'up bbbb' "$WORK/already-new-compatible-image/log" \
+  && [ "$(cat "$WORK/already-new-compatible-image/row-state")" = new ] \
+  && grep -q "@sha256:$PREV_DIG\$" "$WORK/already-new-compatible-image/etc/deployment.env"; then
+  ok 'deploy: already-new rows roll back only to a poster-compatible image'
+else
+  bad 'deploy: verified previous image should remain a valid rollback target'
+fi
 
 # B may only publish after A's posters are already applied. A changed poster
 # row in this attempt is restored before the A image is reselected.
