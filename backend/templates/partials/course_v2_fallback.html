@@ -1,5 +1,9 @@
 {% set cfg = lesson.widget_config or {} %}
 {% set ru = _lang == 'ru' %}
+{# Synthetic email and userinfo examples must remain readable without JS at
+   the Cloudflare edge. The paired comments scope Cloudflare's documented
+   Email Address Obfuscation exemption to this authored lesson fallback. #}
+<!--email_off-->
 <div class="space-y-6" data-course-fallback="2">
   <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
     <h2 class="text-lg font-semibold text-[var(--text-strong)]">{{ 'Цель урока' if ru else 'Skill goal' }}</h2>
@@ -75,3 +79,4 @@
     </ul>
   </section>
 </div>
+<!--/email_off-->
