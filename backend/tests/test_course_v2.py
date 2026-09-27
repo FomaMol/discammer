@@ -61,6 +61,19 @@ def test_no_js_examples_exempt_from_edge_email_rewrite(client, slug, lang, examp
     assert example in protected
 
 
+@pytest.mark.parametrize('lang', ['en', 'ru'])
+def test_no_js_reporting_address_visible_in_authored_article(client, lang):
+    response = client.get(f'/{lang}/course/phishing/reporting-suspicious')
+    assert response.status_code == 200
+    html = response.text
+    assert html.count('<!--email_off-->') == 1
+    assert html.count('<!--/email_off-->') == 1
+    protected = html.split('<!--email_off-->', 1)[1].split('<!--/email_off-->', 1)[0]
+    article = protected.split('<article class="prose mt-8">', 1)[1].split('</article>', 1)[0]
+    assert 'report@phishing.gov.uk' in article
+    assert 'data-course-fallback="2"' in protected
+
+
 def test_rejects_missing_consequence_and_non_https_source():
     cfg = copy.deepcopy(pilot('en')['widget_config'])
     practice = next(b for b in cfg['blocks'] if b['type'] == 'practice')

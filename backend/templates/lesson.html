@@ -92,6 +92,9 @@
     {{ lesson.title }}
   </h1>
 
+  {# Keep authored course addresses and the no-JS practice fallback readable at
+     the Cloudflare edge. This exemption ends before site navigation/contacts. #}
+  <!--email_off-->
   {# Body — Markdown rendered to HTML server-side #}
   <article class="prose mt-8">
     {{ lesson.body_html | safe }}
@@ -116,6 +119,7 @@
       {% endif %}</div>
   </div>
   {% endif %}
+  <!--/email_off-->
 
   {# OPS DEBRIEF panel — appears before the LessonFooter to bookend the briefing #}
   <div data-component="OpsDebriefPanel" data-props='{{ {
