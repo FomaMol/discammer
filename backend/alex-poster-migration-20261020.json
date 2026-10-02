@@ -1,0 +1,15 @@
+{
+  "migration": "alex-chen-poster-20261020-f2634",
+  "slug": "the-story-of-alex-chen",
+  "old_cover": "/static/images/video-posters/the-story-of-alex-chen-20261020-t87.jpg",
+  "old_poster": "/static/images/video-posters/the-story-of-alex-chen-20261020-t87.jpg",
+  "old_asset_sha256": "3f5ad7cc8f7b92a2ad36b1132e931b27456fe2f255e74399522afe1e914e7b60",
+  "new_cover": "/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg",
+  "new_poster": "/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg",
+  "asset_sha256": "6a38fecca896a5e03b177e964ea638a6aa9ca14f1029a4b35a3bc52ca93b260b",
+  "source_video": "DiScammer-Video-Sources-2026-10-20/01-reference-videos/newsletters/the-story-of-alex-chen.mp4",
+  "source_video_sha256": "639d2566ef351685832fc2bfa501f97b8c29778d6a6664f4a4d9d91f788b7334",
+  "source_frame_zero_based": 2634,
+  "source_time_seconds": 87.8878,
+  "reference_screenshot_sha256": "9caccf57141007a51603df5145e08cbbdd9a4d20fcc7af4c7be82bbd6cc98181"
+}

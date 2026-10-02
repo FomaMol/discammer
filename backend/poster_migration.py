@@ -36,6 +36,11 @@ def _mapping() -> list[dict]:
             # HERE / "static/images/..." is in the built image and worktree.
             assert image.is_file(), image
             assert hashlib.sha256(image.read_bytes()).hexdigest() == row[f"{kind}_sha256"], image
+        if "accepted_successor_cover" in row:
+            assert row["accepted_successor_cover"] == row["accepted_successor_poster"]
+            successor = HERE / row["accepted_successor_cover"].removeprefix("/static/").replace("images/", "static/images/", 1)
+            assert successor.is_file(), successor
+            assert hashlib.sha256(successor.read_bytes()).hexdigest() == row["accepted_successor_sha256"]
     return rows
 
 
@@ -61,10 +66,14 @@ def _row_state(rows: list[dict], by_slug: dict) -> str:
             # for another mapped video makes an old-image rollback unsafe.
             and "/static/images/video-posters/" not in row["content"]
         )
-        new = (
-            row["cover_image"] == item["new_cover"]
-            and row["content"].count(item["new_poster"]) == 1
-            and item["old_poster"] not in row["content"]
+        accepted_new = [(item["new_cover"], item["new_poster"])]
+        if "accepted_successor_cover" in item:
+            accepted_new.append((item["accepted_successor_cover"], item["accepted_successor_poster"]))
+        new = item["old_poster"] not in row["content"] and any(
+            row["cover_image"] == cover
+            and row["content"].count(poster) == 1
+            and all(other not in row["content"] for _, other in accepted_new if other != poster)
+            for cover, poster in accepted_new
         )
         assert old != new, (row["slug"], row["locale"], "unexpected editorial state")
         old_count += old

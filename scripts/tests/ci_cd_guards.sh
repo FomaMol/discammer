@@ -98,6 +98,10 @@ case "$1" in
   login) cat >/dev/null; exit 0 ;;   # drain the password pipe
   pull) exit 0 ;;
   run)
+    if grep -q 'f2634.jpg' /dev/stdin; then
+      echo "previous image alex probe" >>"$STUB_LOG"
+      [ "${STUB_PREV_HAS_ALEX:-0}" = 1 ]; exit $?;
+    fi
     echo "previous image poster probe" >>"$STUB_LOG"
     [ "${STUB_PREV_HAS_POSTERS:-1}" = 1 ]; exit $? ;;
   compose)
@@ -140,6 +144,26 @@ case "$1" in
         else
           printf '{"localized_lessons": 110, "changed": 110, "applied": false}\n'
         fi
+        exit 0 ;;
+      *"alex_poster_migration.py status"*)
+        echo "alex status" >>"$STUB_LOG"
+        [ -z "${STUB_ALEX_STATUS_FAIL:-}" ] || exit 1
+        cat "$STUB_STATE_DIR/alex-state"; exit 0 ;;
+      *"alex_poster_migration.py apply"*)
+        echo "alex apply" >>"$STUB_LOG"
+        [ -z "${STUB_ALEX_APPLY_FAIL:-}" ] || exit 1
+        if [ "$(cat "$STUB_STATE_DIR/alex-state")" = old ]; then
+          printf 'new\n' >"$STUB_STATE_DIR/alex-state"
+          [ -z "${STUB_ALEX_COMMITTED_ERROR:-}" ] || exit 1
+          printf 'applied: 2 post rows\n'
+        else
+          printf 'already applied: 2 post rows\n'
+        fi
+        exit 0 ;;
+      *"alex_poster_migration.py restore"*)
+        echo "alex restore" >>"$STUB_LOG"
+        [ -z "${STUB_ALEX_RESTORE_FAIL:-}" ] || exit 1
+        printf 'old\n' >"$STUB_STATE_DIR/alex-state"
         exit 0 ;;
       *"poster_migration.py status"*)
         echo "poster status" >>"$STUB_LOG"
@@ -211,6 +235,18 @@ if [ -n "$url" ]; then
         printf '{"locale":"%s","widget_type":"course_v2","body_md":"%s","widget_config":{"revision":"2026-10-20","blocks":[{"type":"practice","steps":[{},{},{}]}]}}' "$lang" "$body"
       fi
       exit 0 ;;
+    *'/api/posts?lang='*)
+      echo 'public alex card' >>"$STUB_LOG"
+      printf '[{"slug":"the-story-of-alex-chen","cover_image":"/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg"}]'
+      exit 0 ;;
+    *'/journal/the-story-of-alex-chen'*)
+      echo 'public alex page' >>"$STUB_LOG"
+      printf '<img src="/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg">'
+      exit 0 ;;
+    *'/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg'*)
+      echo 'public alex asset' >>"$STUB_LOG"
+      cat "$STUB_POSTER_ASSET"
+      exit 0 ;;
   esac
   if [ "$status" = 1 ]; then
     if [ -n "${STUB_PUBLIC_BAD_PATH:-}" ] && [ "$url" = "https://discammer.com${STUB_PUBLIC_BAD_PATH}" ]; then
@@ -254,10 +290,13 @@ PREV_IMG="$REG/discammer-web@sha256:$PREV_DIG"
 # run_deploy NAME [VAR=VALUE ...]: run the production SSH script in a sandbox at
 # $WORK/NAME with /etc/discammer redirected there. Sets DEPLOY_RC.
 run_deploy() {
-  local name="$1" d row_initial=new setting
+  local name="$1" d row_initial=new alex_initial=old setting
   shift
   for setting in "$@"; do
-    case "$setting" in STUB_POSTER_INITIAL=*) row_initial="${setting#*=}" ;; esac
+    case "$setting" in
+      STUB_POSTER_INITIAL=*) row_initial="${setting#*=}" ;;
+      STUB_ALEX_INITIAL=*) alex_initial="${setting#*=}" ;;
+    esac
   done
   d="$WORK/$name"
   mkdir -p "$d/etc" "$d/bin"
@@ -268,10 +307,12 @@ run_deploy() {
   : >"$d/etc/compose.yaml"
   : >"$d/log"
   printf '%s\n' "$row_initial" >"$d/row-state"
+  printf '%s\n' "$alex_initial" >"$d/state/alex-state"
   env -i PATH="$d/bin:/usr/bin:/bin" HOME="$d" \
     IMAGE_REGISTRY="$REG" IMAGE_DIGEST="sha256:$NEW_DIG" GIT_SHORT="$GIT_SHORT" DEPLOY_RUN="12345-1" \
     CF_API_TOKEN="" CF_ZONE_ID="" \
     STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" STUB_STATE_DIR="$d/state" STUB_ROW_FILE="$d/row-state" \
+    STUB_POSTER_ASSET="$ROOT/backend/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg" \
     STUB_NEW_DIG="$NEW_DIG" STUB_GIT_SHORT="$GIT_SHORT" "$@" \
     bash "$d/deploy.sh" >"$d/out" 2>&1
   DEPLOY_RC=$?
@@ -287,6 +328,7 @@ check_rollback() {  # $1 sandbox name, $2 label, $3 expected poster state (defau
   last="$(tail -n 1 "$d/log")"
   if [ "$DEPLOY_RC" = 1 ] && [ "$last" = "health bbbb ok" ] \
      && [ "$(cat "$d/row-state")" = "$expected" ] \
+     && [ "$(cat "$d/state/alex-state")" = old ] \
      && grep -q "@sha256:$PREV_DIG\$" "$d/etc/deployment.env" \
      && grep -qx 'KEEP_ME=1' "$d/etc/deployment.env" \
      && ! grep -q 'ROLLBACK FAILED' "$d/out"; then
@@ -314,8 +356,11 @@ if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
    && grep -qx 'seed check' "$WORK/happy/log" \
    && grep -qx 'course preflight' "$WORK/happy/log" \
    && grep -qx 'poster apply' "$WORK/happy/log" \
+   && grep -qx 'alex apply' "$WORK/happy/log" \
    && grep -qx 'course apply' "$WORK/happy/log" \
    && grep -qx 'public version' "$WORK/happy/log" \
+   && grep -qx 'public alex asset' "$WORK/happy/log" \
+   && [ "$(cat "$WORK/happy/state/alex-state")" = new ] \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
   ok "deploy: healthy new image deploys with no rollback (exit 0)"
@@ -399,6 +444,34 @@ if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image poster probe' "$WORK/already
   ok 'deploy: already-new rows roll back only to a poster-compatible image'
 else
   bad 'deploy: verified previous image should remain a valid rollback target'
+fi
+
+# The correction uses a separate two-row snapshot. A committed apply failure
+# must restore it before selecting the old image. An already-corrected DB can
+# pair with the previous image only if that image contains the exact new asset.
+run_deploy alex-commit-then-error STUB_ALEX_COMMITTED_ERROR=1
+if [ "$(grep -E 'alex restore|up bbbb' "$WORK/alex-commit-then-error/log" | paste -sd, -)" = 'alex restore,up bbbb' ]; then
+  check_rollback alex-commit-then-error "deploy: committed Alex correction restores two rows before old image"
+else
+  bad "deploy: committed Alex correction was not restored before image rollback"
+fi
+run_deploy corrected-prev-missing STUB_ALEX_INITIAL=new STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_ALEX=0
+if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image alex probe' "$WORK/corrected-prev-missing/log" \
+  && grep -q 'ROLLBACK FAILED: Alex poster rows' "$WORK/corrected-prev-missing/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/corrected-prev-missing/etc/deployment.env" \
+  && ! grep -qx 'up bbbb' "$WORK/corrected-prev-missing/log"; then
+  ok 'deploy: already-corrected DB rejects previous image without exact new asset'
+else
+  bad 'deploy: corrected DB paired with assetless previous image'
+fi
+run_deploy corrected-prev-supported STUB_ALEX_INITIAL=new STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_ALEX=1
+if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image alex probe' "$WORK/corrected-prev-supported/log" \
+  && [ "$(cat "$WORK/corrected-prev-supported/state/alex-state")" = new ] \
+  && grep -qx 'up bbbb' "$WORK/corrected-prev-supported/log" \
+  && grep -q "@sha256:$PREV_DIG\$" "$WORK/corrected-prev-supported/etc/deployment.env"; then
+  ok 'deploy: already-corrected DB rolls back only to image with exact asset'
+else
+  bad 'deploy: compatible corrected rollback target was rejected'
 fi
 
 # B may only publish after A's posters are already applied. A changed poster

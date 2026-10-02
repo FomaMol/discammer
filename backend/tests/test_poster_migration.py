@@ -121,3 +121,22 @@ def test_old_row_with_another_videos_new_poster_is_not_rollback_safe(tmp_path):
     with pytest.raises(AssertionError, match="unexpected editorial state"):
         apply(db_path, backup)
     assert not backup.exists()
+
+
+def test_seven_poster_status_accepts_later_alex_revision_without_reverting_it(tmp_path):
+    db_path = tmp_path / "editorial.db"
+    backup = tmp_path / "poster-backup.json"
+    _db(db_path)
+    assert apply(db_path, backup).startswith("applied: 14 post rows")
+    alex = next(item for item in _mapping() if item["slug"] == "the-story-of-alex-chen")
+    with sqlite3.connect(db_path) as db:
+        db.execute(
+            "UPDATE post SET cover_image=?, content=replace(content, ?, ?) WHERE slug=?",
+            (alex["accepted_successor_cover"], alex["new_poster"],
+             alex["accepted_successor_poster"], alex["slug"]),
+        )
+        db.commit()
+    assert status(db_path) == "new"
+    assert apply(db_path, backup) == "already applied: 14 post rows"
+    with pytest.raises(AssertionError):
+        restore(db_path, backup)
