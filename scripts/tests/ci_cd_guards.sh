@@ -98,7 +98,12 @@ case "$1" in
   login) cat >/dev/null; exit 0 ;;   # drain the password pipe
   pull) exit 0 ;;
   run)
-    if grep -q 'f2634.jpg' /dev/stdin; then
+    payload="$(cat)"
+    if [[ "$payload" == *'f453.jpg'* ]]; then
+      echo "previous image urgency probe" >>"$STUB_LOG"
+      [ "${STUB_PREV_HAS_URGENCY:-0}" = 1 ]; exit $?;
+    fi
+    if [[ "$payload" == *'f2634.jpg'* ]]; then
       echo "previous image alex probe" >>"$STUB_LOG"
       [ "${STUB_PREV_HAS_ALEX:-0}" = 1 ]; exit $?;
     fi
@@ -164,6 +169,26 @@ case "$1" in
         echo "alex restore" >>"$STUB_LOG"
         [ -z "${STUB_ALEX_RESTORE_FAIL:-}" ] || exit 1
         printf 'old\n' >"$STUB_STATE_DIR/alex-state"
+        exit 0 ;;
+      *"urgency_poster_migration.py status"*)
+        echo "urgency status" >>"$STUB_LOG"
+        [ -z "${STUB_URGENCY_STATUS_FAIL:-}" ] || exit 1
+        cat "$STUB_STATE_DIR/urgency-state"; exit 0 ;;
+      *"urgency_poster_migration.py apply"*)
+        echo "urgency apply" >>"$STUB_LOG"
+        [ -z "${STUB_URGENCY_APPLY_FAIL:-}" ] || exit 1
+        if [ "$(cat "$STUB_STATE_DIR/urgency-state")" = old ]; then
+          printf 'new\n' >"$STUB_STATE_DIR/urgency-state"
+          [ -z "${STUB_URGENCY_COMMITTED_ERROR:-}" ] || exit 1
+          printf 'applied: 2 post rows\n'
+        else
+          printf 'already applied: 2 post rows\n'
+        fi
+        exit 0 ;;
+      *"urgency_poster_migration.py restore"*)
+        echo "urgency restore" >>"$STUB_LOG"
+        [ -z "${STUB_URGENCY_RESTORE_FAIL:-}" ] || exit 1
+        printf 'old\n' >"$STUB_STATE_DIR/urgency-state"
         exit 0 ;;
       *"poster_migration.py status"*)
         echo "poster status" >>"$STUB_LOG"
@@ -236,8 +261,8 @@ if [ -n "$url" ]; then
       fi
       exit 0 ;;
     *'/api/posts?lang='*)
-      echo 'public alex card' >>"$STUB_LOG"
-      printf '[{"slug":"the-story-of-alex-chen","cover_image":"/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg"}]'
+      echo 'public poster cards' >>"$STUB_LOG"
+      printf '[{"slug":"the-story-of-alex-chen","cover_image":"/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg"},{"slug":"the-urgency-trap","cover_image":"/static/images/video-posters/the-urgency-trap-20261020-f453.jpg"}]'
       exit 0 ;;
     *'/journal/the-story-of-alex-chen'*)
       echo 'public alex page' >>"$STUB_LOG"
@@ -246,6 +271,14 @@ if [ -n "$url" ]; then
     *'/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg'*)
       echo 'public alex asset' >>"$STUB_LOG"
       cat "$STUB_POSTER_ASSET"
+      exit 0 ;;
+    *'/journal/the-urgency-trap'*)
+      echo 'public urgency page' >>"$STUB_LOG"
+      printf '<img src="/static/images/video-posters/the-urgency-trap-20261020-f453.jpg">'
+      exit 0 ;;
+    *'/static/images/video-posters/the-urgency-trap-20261020-f453.jpg'*)
+      echo 'public urgency asset' >>"$STUB_LOG"
+      cat "$STUB_URGENCY_ASSET"
       exit 0 ;;
   esac
   if [ "$status" = 1 ]; then
@@ -290,12 +323,13 @@ PREV_IMG="$REG/discammer-web@sha256:$PREV_DIG"
 # run_deploy NAME [VAR=VALUE ...]: run the production SSH script in a sandbox at
 # $WORK/NAME with /etc/discammer redirected there. Sets DEPLOY_RC.
 run_deploy() {
-  local name="$1" d row_initial=new alex_initial=old setting
+  local name="$1" d row_initial=new alex_initial=old urgency_initial=old setting
   shift
   for setting in "$@"; do
     case "$setting" in
       STUB_POSTER_INITIAL=*) row_initial="${setting#*=}" ;;
       STUB_ALEX_INITIAL=*) alex_initial="${setting#*=}" ;;
+      STUB_URGENCY_INITIAL=*) urgency_initial="${setting#*=}" ;;
     esac
   done
   d="$WORK/$name"
@@ -308,11 +342,13 @@ run_deploy() {
   : >"$d/log"
   printf '%s\n' "$row_initial" >"$d/row-state"
   printf '%s\n' "$alex_initial" >"$d/state/alex-state"
+  printf '%s\n' "$urgency_initial" >"$d/state/urgency-state"
   env -i PATH="$d/bin:/usr/bin:/bin" HOME="$d" \
     IMAGE_REGISTRY="$REG" IMAGE_DIGEST="sha256:$NEW_DIG" GIT_SHORT="$GIT_SHORT" DEPLOY_RUN="12345-1" \
     CF_API_TOKEN="" CF_ZONE_ID="" \
     STUB_LOG="$d/log" STUB_ENV_FILE="$d/etc/deployment.env" STUB_STATE_DIR="$d/state" STUB_ROW_FILE="$d/row-state" \
     STUB_POSTER_ASSET="$ROOT/backend/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg" \
+    STUB_URGENCY_ASSET="$ROOT/backend/static/images/video-posters/the-urgency-trap-20261020-f453.jpg" \
     STUB_NEW_DIG="$NEW_DIG" STUB_GIT_SHORT="$GIT_SHORT" "$@" \
     bash "$d/deploy.sh" >"$d/out" 2>&1
   DEPLOY_RC=$?
@@ -329,6 +365,7 @@ check_rollback() {  # $1 sandbox name, $2 label, $3 expected poster state (defau
   if [ "$DEPLOY_RC" = 1 ] && [ "$last" = "health bbbb ok" ] \
      && [ "$(cat "$d/row-state")" = "$expected" ] \
      && [ "$(cat "$d/state/alex-state")" = old ] \
+     && [ "$(cat "$d/state/urgency-state")" = old ] \
      && grep -q "@sha256:$PREV_DIG\$" "$d/etc/deployment.env" \
      && grep -qx 'KEEP_ME=1' "$d/etc/deployment.env" \
      && ! grep -q 'ROLLBACK FAILED' "$d/out"; then
@@ -357,10 +394,13 @@ if [ "$DEPLOY_RC" = 0 ] && grep -qx 'up aaaa' "$WORK/happy/log" \
    && grep -qx 'course preflight' "$WORK/happy/log" \
    && grep -qx 'poster apply' "$WORK/happy/log" \
    && grep -qx 'alex apply' "$WORK/happy/log" \
+   && grep -qx 'urgency apply' "$WORK/happy/log" \
    && grep -qx 'course apply' "$WORK/happy/log" \
    && grep -qx 'public version' "$WORK/happy/log" \
    && grep -qx 'public alex asset' "$WORK/happy/log" \
+   && grep -qx 'public urgency asset' "$WORK/happy/log" \
    && [ "$(cat "$WORK/happy/state/alex-state")" = new ] \
+   && [ "$(cat "$WORK/happy/state/urgency-state")" = new ] \
    && ! grep -qx 'up bbbb' "$WORK/happy/log" \
    && grep -q "@sha256:$NEW_DIG\$" "$WORK/happy/etc/deployment.env"; then
   ok "deploy: healthy new image deploys with no rollback (exit 0)"
@@ -457,7 +497,7 @@ else
 fi
 run_deploy corrected-prev-missing STUB_ALEX_INITIAL=new STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_ALEX=0
 if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image alex probe' "$WORK/corrected-prev-missing/log" \
-  && grep -q 'ROLLBACK FAILED: Alex poster rows' "$WORK/corrected-prev-missing/out" \
+  && grep -q 'ROLLBACK FAILED: corrected poster rows' "$WORK/corrected-prev-missing/out" \
   && grep -q "@sha256:$NEW_DIG\$" "$WORK/corrected-prev-missing/etc/deployment.env" \
   && ! grep -qx 'up bbbb' "$WORK/corrected-prev-missing/log"; then
   ok 'deploy: already-corrected DB rejects previous image without exact new asset'
@@ -472,6 +512,30 @@ if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image alex probe' "$WORK/corrected
   ok 'deploy: already-corrected DB rolls back only to image with exact asset'
 else
   bad 'deploy: compatible corrected rollback target was rejected'
+fi
+run_deploy urgency-commit-then-error STUB_URGENCY_COMMITTED_ERROR=1
+if [ "$(grep -E 'urgency restore|up bbbb' "$WORK/urgency-commit-then-error/log" | paste -sd, -)" = 'urgency restore,up bbbb' ]; then
+  check_rollback urgency-commit-then-error "deploy: committed Urgency correction restores two rows before old image"
+else
+  bad "deploy: committed Urgency correction was not restored before image rollback"
+fi
+run_deploy urgency-prev-missing STUB_URGENCY_INITIAL=new STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_URGENCY=0
+if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image urgency probe' "$WORK/urgency-prev-missing/log" \
+  && grep -q 'ROLLBACK FAILED: corrected poster rows' "$WORK/urgency-prev-missing/out" \
+  && grep -q "@sha256:$NEW_DIG\$" "$WORK/urgency-prev-missing/etc/deployment.env" \
+  && ! grep -qx 'up bbbb' "$WORK/urgency-prev-missing/log"; then
+  ok 'deploy: already-corrected Urgency DB rejects previous image without exact asset'
+else
+  bad 'deploy: corrected Urgency DB paired with assetless previous image'
+fi
+run_deploy urgency-prev-supported STUB_URGENCY_INITIAL=new STUB_PUBLIC_VERSION=fffffff STUB_PREV_HAS_URGENCY=1
+if [ "$DEPLOY_RC" = 1 ] && grep -qx 'previous image urgency probe' "$WORK/urgency-prev-supported/log" \
+  && [ "$(cat "$WORK/urgency-prev-supported/state/urgency-state")" = new ] \
+  && grep -qx 'up bbbb' "$WORK/urgency-prev-supported/log" \
+  && grep -q "@sha256:$PREV_DIG\$" "$WORK/urgency-prev-supported/etc/deployment.env"; then
+  ok 'deploy: already-corrected Urgency DB rolls back only to image with exact asset'
+else
+  bad 'deploy: compatible corrected Urgency rollback target was rejected'
 fi
 
 # B may only publish after A's posters are already applied. A changed poster

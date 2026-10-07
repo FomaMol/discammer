@@ -1,0 +1,15 @@
+{
+  "migration": "urgency-trap-poster-20261020-f453",
+  "slug": "the-urgency-trap",
+  "old_cover": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
+  "old_poster": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
+  "old_asset_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc",
+  "new_cover": "/static/images/video-posters/the-urgency-trap-20261020-f453.jpg",
+  "new_poster": "/static/images/video-posters/the-urgency-trap-20261020-f453.jpg",
+  "asset_sha256": "a83d51f2002ba80795544caef7af0d2493a049411ef24b79967451f1978643a1",
+  "source_video": "DiScammer-Video-Sources-2026-10-20/01-reference-videos/newsletters/the-urgency-trap.mp4",
+  "source_video_sha256": "93033a5ca39d634babd06b4a9d1fa9073fefea4998a1f412d91f57e4fdbeada1",
+  "source_frame_zero_based": 453,
+  "source_time_seconds": 15.1151,
+  "reference_screenshot_sha256": "c36220fb634072cd91b2dbbbe085768a9562d0021db90ed0870aaa79989606c9"
+}

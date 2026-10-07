@@ -549,14 +549,20 @@ jobs:
                   | python3 -c 'import json,sys; d=json.load(sys.stdin); c=d.get("widget_config") or {}; b=c.get("blocks") or []; assert d.get("locale")==sys.argv[1] and d.get("widget_type")=="course_v2" and c.get("revision")=="2026-10-20" and len(d.get("body_md") or "")>500 and any(x.get("type")=="practice" and len(x.get("steps") or [])>=3 for x in b)' "$lang" \
                   || return 1
                 curl -fsS -A 'Mozilla/5.0' --max-time 15 "https://discammer.com/api/posts?lang=$lang" \
-                  | python3 -c 'import json,sys; rows=json.load(sys.stdin); item=next(x for x in rows if x["slug"]=="the-story-of-alex-chen"); assert item["cover_image"]=="/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg"' \
+                  | python3 -c 'import json,sys; rows=json.load(sys.stdin); expected={"the-story-of-alex-chen":"the-story-of-alex-chen-20261020-f2634.jpg", "the-urgency-trap":"the-urgency-trap-20261020-f453.jpg"}; assert all(next(x for x in rows if x["slug"]==slug)["cover_image"]=="/static/images/video-posters/"+name for slug,name in expected.items())' \
                   || return 1
                 curl -fsS -A 'Mozilla/5.0' --max-time 15 "https://discammer.com/$lang/journal/the-story-of-alex-chen" \
                   | python3 -c 'import sys; s=sys.stdin.read(); assert "the-story-of-alex-chen-20261020-f2634.jpg" in s and "the-story-of-alex-chen-20261020-t87.jpg" not in s' \
                   || return 1
+                curl -fsS -A 'Mozilla/5.0' --max-time 15 "https://discammer.com/$lang/journal/the-urgency-trap" \
+                  | python3 -c 'import sys; s=sys.stdin.read(); assert "the-urgency-trap-20261020-f453.jpg" in s and "the-urgency-trap-20261020-t33.jpg" not in s' \
+                  || return 1
               done
               curl -fsS -A 'Mozilla/5.0' --max-time 15 'https://discammer.com/static/images/video-posters/the-story-of-alex-chen-20261020-f2634.jpg' \
                 | python3 -c 'import hashlib,sys; assert hashlib.sha256(sys.stdin.buffer.read()).hexdigest()=="6a38fecca896a5e03b177e964ea638a6aa9ca14f1029a4b35a3bc52ca93b260b"' \
+                || return 1
+              curl -fsS -A 'Mozilla/5.0' --max-time 15 'https://discammer.com/static/images/video-posters/the-urgency-trap-20261020-f453.jpg' \
+                | python3 -c 'import hashlib,sys; assert hashlib.sha256(sys.stdin.buffer.read()).hexdigest()=="a83d51f2002ba80795544caef7af0d2493a049411ef24b79967451f1978643a1"' \
                 || return 1
               return 0
             }
@@ -661,18 +667,31 @@ jobs:
             assert hashlib.sha256(image.read_bytes()).hexdigest() == '6a38fecca896a5e03b177e964ea638a6aa9ca14f1029a4b35a3bc52ca93b260b'
             PY
             }
+            previous_image_supports_urgency() {
+              sudo docker run --rm --network none -i --entrypoint python "$PREV" - <<'PY'
+            import hashlib
+            from pathlib import Path
+            image = Path('/app/backend/static/images/video-posters/the-urgency-trap-20261020-f453.jpg')
+            assert hashlib.sha256(image.read_bytes()).hexdigest() == 'a83d51f2002ba80795544caef7af0d2493a049411ef24b79967451f1978643a1'
+            PY
+            }
             revert_editorial_if_needed() {
-              local current alex_current
+              local current alex_current urgency_current
               current=$(sudo docker exec -u 10001 "$CID" python /app/backend/poster_migration.py status 2>/dev/null) || return 1
               if [ "$BEFORE_STATE" = new ]; then
                 [ "$current" = new ] && previous_image_supports_posters || return 1
                 alex_current=$(sudo docker exec -u 10001 "$CID" python /app/backend/alex_poster_migration.py status 2>/dev/null) || return 1
                 case "$alex_current" in
-                  old) return 0 ;;
-                  new) previous_image_supports_alex ;;
+                  old) ;;
+                  new) previous_image_supports_alex || return 1 ;;
                   *) return 1 ;;
                 esac
-                return
+                urgency_current=$(sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py status 2>/dev/null) || return 1
+                case "$urgency_current" in
+                  old) return 0 ;;
+                  new) previous_image_supports_urgency ;;
+                  *) return 1 ;;
+                esac
               fi
               case "$current" in
                 old) return 0 ;;
@@ -751,6 +770,44 @@ jobs:
               echo "::error::Alex poster state unproved after apply; retaining new image"
               exit 1
             fi
+            URGENCY_BACKUP="/app/data/urgency-poster-backup-${GIT_SHORT}-${DEPLOY_RUN}.json"
+            URGENCY_BEFORE_STATE=$(sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py status) || {
+              echo "::error::Urgency poster state unknown; retaining new image"
+              exit 1
+            }
+            case "$URGENCY_BEFORE_STATE" in
+              old|new) ;;
+              *) echo "::error::unknown Urgency poster state; retaining new image"; exit 1 ;;
+            esac
+            restore_urgency_if_needed() {
+              local current
+              current=$(sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py status 2>/dev/null) || return 1
+              if [ "$URGENCY_BEFORE_STATE" = new ]; then
+                [ "$current" = new ] && previous_image_supports_urgency
+                return
+              fi
+              case "$current" in
+                old) return 0 ;;
+                new)
+                  sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py restore --backup "$URGENCY_BACKUP" || true
+                  current=$(sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py status 2>/dev/null) || return 1
+                  [ "$current" = old ]
+                  ;;
+                *) return 1 ;;
+              esac
+            }
+            if ! sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py apply --backup "$URGENCY_BACKUP"; then
+              echo "::error::Urgency poster correction failed; resolving exact rows before image rollback"
+              if ! restore_urgency_if_needed || ! restore_alex_if_needed || ! revert_editorial_if_needed; then
+                echo "::error::ROLLBACK FAILED: poster state unproved; retaining new image"
+                exit 1
+              fi
+              rollback_image
+            fi
+            if [ "$(sudo docker exec -u 10001 "$CID" python /app/backend/urgency_poster_migration.py status 2>/dev/null || true)" != new ]; then
+              echo "::error::Urgency poster state unproved after apply; retaining new image"
+              exit 1
+            fi
             # Run and attempt keep this snapshot exclusive to this deploy,
             # including a GitHub rerun of the same commit.
             COURSE_SNAPSHOT="/app/data/course-release-snapshots/course-editorial-before-${GIT_SHORT}-${DEPLOY_RUN}.json"
@@ -786,7 +843,7 @@ jobs:
                 echo "::error::ROLLBACK FAILED: course state could not be proved restored; retaining the new image"
                 exit 1
               fi
-              if ! restore_alex_if_needed || ! revert_editorial_if_needed; then
+              if ! restore_urgency_if_needed || ! restore_alex_if_needed || ! revert_editorial_if_needed; then
                 echo "::error::ROLLBACK FAILED: poster state unproved after course failure; retaining new image"
                 exit 1
               fi
@@ -829,8 +886,8 @@ jobs:
                 echo "::error::ROLLBACK FAILED: course rows could not be proved restored; retaining the new image"
                 exit 1
               fi
-              if ! restore_alex_if_needed; then
-                echo "::error::ROLLBACK FAILED: Alex poster rows could not be proved restored; retaining the new image"
+              if ! restore_urgency_if_needed || ! restore_alex_if_needed; then
+                echo "::error::ROLLBACK FAILED: corrected poster rows could not be proved restored; retaining the new image"
                 exit 1
               fi
               if ! revert_editorial_if_needed; then

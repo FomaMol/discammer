@@ -29,7 +29,10 @@
       "new_cover": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
       "new_poster": "/static/images/video-posters/the-urgency-trap-20261020-t33.jpg",
       "card_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc",
-      "player_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc"
+      "player_sha256": "ae0b289a09a1907d27c6971082bfebbea1fe296275be048a68744ca10b8d35bc",
+      "accepted_successor_cover": "/static/images/video-posters/the-urgency-trap-20261020-f453.jpg",
+      "accepted_successor_poster": "/static/images/video-posters/the-urgency-trap-20261020-f453.jpg",
+      "accepted_successor_sha256": "a83d51f2002ba80795544caef7af0d2493a049411ef24b79967451f1978643a1"
     },
     {
       "slug": "interview-with-guest-ben-yehooda",
