@@ -1,180 +1,180 @@
 {
   "order": 5,
-  "title": "Card skimming and digital pickpocketing",
+  "title": "Skimmers at the ATM, skimmers at the checkout",
   "est_minutes": 15,
-  "body_md": "## Two kinds of card-data theft\nA physical skimmer is an added or hidden reader in an ATM or point-of-sale terminal; a camera or keypad overlay may capture the PIN. Some devices are deep inside the reader, so a normal appearance is **not proof of safety**. The US Secret Service advises preferring supervised ATMs, looking for tampering, covering PIN entry and enabling transaction alerts. Inspect gently; do not dismantle or handle a suspected device. Tell staff and choose another terminal.\n\nDigital e-skimming is different: unauthorized code on a payment page can copy entered card data while a genuine purchase still succeeds. PCI SSC addresses this chiefly through merchant controls over payment-page scripts; a consumer cannot reliably spot malicious JavaScript by eye. HTTPS protects data in transit but cannot prove a merchant or its page is uncompromised. Browser extensions with broad page access add another exposure; grant only necessary permissions and remove unused extensions. Open Wi-Fi alone is not a reliable explanation for modern HTTPS checkout theft.\n\nWhen available, a supported contactless wallet can substitute a payment token for the card number; an issuer virtual card may limit where a credential works. Features vary, and neither makes a dishonest merchant safe. Also set issuer alerts and review statements. If a charge is unfamiliar, check whether it is a merchant descriptor, pending authorization or family purchase without delaying a call to the issuer when fraud is plausible. Use the issuer's app or the number on your card, freeze/replace as advised and dispute accurately. For a Russian unauthorized card debit, the Bank of Russia says to promptly notify/block through the bank, get a statement, contest the operation and report theft; local rules elsewhere differ.",
+  "body_md": "## Losing a card number without losing the card\n\nThe card is in your wallet where it always is, and your phone shows a charge from a city you have never visited. Nobody picked your pocket. The number was copied somewhere along the way, at one of two kinds of place: a terminal you can touch or a checkout page you can only look at.\n\n### The terminal\n\nA physical skimmer is an extra reader fitted to an ATM or card terminal, sometimes with a camera or a keypad overlay to catch the PIN. Some sit deep inside the slot, so a normal look is **no proof of safety**. The US Secret Service advises preferring supervised ATMs, checking for tampering, covering the keypad and turning on transaction alerts. Look, but do not pull at anything. If something seems wrong, tell staff and use another machine.\n\n### The checkout\n\nE-skimming is the digital cousin. Unauthorized code on a payment page copies card details as you type, and the purchase still goes through. PCI SSC puts the burden on merchants, who must control which scripts run on their payment pages; a shopper cannot reliably spot malicious JavaScript by eye. HTTPS protects data in transit and proves nothing about the seller or the page. Browser extensions with broad access are another way in: grant only the permissions they need and remove the rest. Open Wi-Fi alone does not explain theft at a modern HTTPS checkout.\n\n### Shrinking the damage\n\nA supported contactless wallet can pass the shop a payment token instead of your card number, and a virtual card from your bank can limit where the details work. Features vary, and neither makes a dishonest shop honest. Set up alerts and read your statements.\n\nFor a charge you don’t recognize, spare a moment for the innocent explanations: a trading name that differs from the shop’s sign, a pending authorization, someone at home. If fraud looks plausible, do not let that moment become delay. Open your bank’s app or call the number on the card, freeze or replace the card as advised, and dispute the charge accurately. For an unauthorized debit on a Russian card, the Bank of Russia says to tell the bank promptly and block the card, get a statement, file a written objection and report the theft. Rules elsewhere differ.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Reduce card-data exposure at terminals and online checkouts, then respond correctly to a suspicious charge.",
-    "today_action": "Turn on issuer transaction alerts and find the card-freeze control in your bank app before you need it.",
+    "goal": "Give a stolen card number less to work with, at the terminal and at the checkout, and know your first move when a strange charge lands.",
+    "today_action": "Switch on transaction alerts in your bank app and find the card-freeze control, so you know where it is on the day you need it in a hurry.",
     "checked_at": "2026-10-20",
-    "scope": "Physical advice: US Secret Service February 2025; digital threat: PCI SSC March 2025; tokenization: Visa; Russian response: Bank of Russia. Features and rights vary, checked 2026-10-20.",
+    "scope": "Terminal advice comes from the US Secret Service (February 2025), the e-skimming picture from PCI SSC (March 2025), tokens from Visa and the Russian steps from the Bank of Russia. Features and rights differ by bank and country; checked 2026-10-20. The examples are invented.",
     "sources": [
       {
         "title": "US Secret Service: ATM & POS Terminal Skimming (February 2025)",
         "url": "https://www.secretservice.gov/sites/default/files/reports/2025-02/Public-Alerts-2025-ATM-POS-Terminal-Skimming.pdf",
-        "scope": "US advisory on physical skimmers, PIN shielding, alerts and reporting; February 2025."
+        "scope": "A US advisory on physical skimmers: shielding the PIN, alerts and what to report."
       },
       {
         "title": "PCI SSC: Payment Page Security and Preventing E-Skimming",
         "url": "https://blog.pcisecuritystandards.org/new-information-supplement-payment-page-security-and-preventing-e-skimming",
-        "scope": "March 2025 merchant/service-provider guidance on browser payment-page scripts; not a consumer detector."
+        "scope": "March 2025 guidance for merchants and service providers on scripts in browser payment pages. It will not teach a shopper to spot an e-skimmer."
       },
       {
         "title": "Visa: What is Tokenisation?",
         "url": "https://corporate.visa.com/en/sites/visa-perspectives/innovation/what-is-tokenisation.html",
-        "scope": "Visa explanation of replacing card number with payment token; implementation varies by wallet/provider."
+        "scope": "Visa’s account of swapping a card number for a payment token. Details vary by wallet and provider."
       },
       {
         "title": "Google Chrome Help: Install and Manage Extensions",
         "url": "https://support.google.com/chrome/answer/2664769?hl=en",
-        "scope": "Chrome-specific controls for extension access to website data; not a skimmer detector."
+        "scope": "How to limit what Chrome extensions may read on websites. A permissions guide, not a skimmer detector."
       },
       {
         "title": "Bank of Russia: Unauthorized Card Debits",
         "url": "https://www.cbr.ru/Reception/TopicalMessage/Page/3402",
-        "scope": "Russian cardholder steps for an unauthorized debit; not an automatic refund rule."
+        "scope": "What a Russian cardholder does after an unauthorized debit. It promises no automatic refund."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A loose reader at a station ATM",
-        "situation": "Synthetic: the card slot on an unsupervised station ATM looks raised and the keypad surround moves. You have not inserted a card.",
-        "analysis": "The anomaly warrants choosing a different machine and telling the operator; it is not your job to prove a crime by pulling parts off. If you already used it, contact your issuer for card and PIN advice and watch alerts.",
+        "title": "The wobbly keypad at the station",
+        "situation": "The ATM in the station concourse has no staff anywhere near it. The card slot juts out slightly, and the frame around the keypad shifts when you press its edge. Your card is still in your pocket.",
+        "analysis": "That odd fit is reason enough to walk to another machine and tell the operator. Proving a crime by prying parts off is not your job, and you could spoil the evidence. If you have already used this one, ask your bank what to do about the card and the PIN, and watch your alerts.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A restaurant preauthorization",
-        "situation": "Synthetic: after paying by phone wallet, your app shows the restaurant’s name and a pending amount slightly above the bill. Staff explain a preauthorization and provide a receipt.",
-        "analysis": "A pending amount can be legitimate, but do not assume it will settle correctly. Keep the receipt, check the final posting and ask the issuer if it remains wrong. Wallet use reduces card-number exposure but does not settle billing disputes automatically.",
+        "title": "The pending charge after dinner",
+        "situation": "You paid for dinner with your phone. An hour later your bank app lists the restaurant and a pending amount a little above the bill. The waiter explains that it is a preauthorization and brings a receipt.",
+        "analysis": "A pending amount can be perfectly ordinary, but nobody promises it will settle at the right figure. Keep the receipt, look at the final posting and ask your bank if it stays wrong. The wallet kept your card number from the restaurant; it will not settle a billing dispute for you.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The travel payment trail",
-        "setup": "Synthetic: you need cash at a station and later pay online. Decide across physical and digital exposure; no real card data is used.",
+        "title": "Cash at the station, a checkout at night",
+        "setup": "An invented trip: you need cash at a station and later pay for something online. You meet the physical risk first and the digital one after it. No real card data is involved.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "The station ATM reader is loose. What do you do?",
+            "prompt": "The ATM’s card reader wobbles. What do you do?",
             "choices": [
               {
-                "text": "Insert the card to see if it works.",
-                "consequence": "The test may expose card data.",
-                "explanation": "Do not test suspected skimmers with your card.",
+                "text": "Put your card in to see whether it works anyway.",
+                "consequence": "If something is bolted onto that slot, it reads your card as it goes in.",
+                "explanation": "Never test a suspect machine with your own card.",
                 "recommended": false
               },
               {
-                "text": "Leave it, notify the operator and use a supervised alternative.",
-                "consequence": "You avoid a visible anomaly without touching evidence.",
-                "explanation": "A visible problem justifies changing machines.",
+                "text": "Leave it, tell the operator and find a supervised ATM.",
+                "consequence": "You step around the problem and leave it untouched for whoever investigates.",
+                "explanation": "A visible fault is reason enough to change machines.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The next ATM looks normal. What additional action helps?",
+            "prompt": "The next ATM looks perfectly normal. What else helps?",
             "choices": [
               {
-                "text": "Shield the PIN and keep transaction alerts active.",
-                "consequence": "A camera sees less, and unexpected use can be noticed.",
-                "explanation": "A hidden reader may be invisible; layers still matter.",
+                "text": "Cover the keypad as you type the PIN, and keep transaction alerts on.",
+                "consequence": "A hidden camera sees less, and an alert tells you soon if a stranger tries your card.",
+                "explanation": "A reader inside the slot shows nothing from outside. Several small habits beat one careful look.",
                 "recommended": true
               },
               {
-                "text": "Assume appearance alone rules out skimming.",
-                "consequence": "An internal device would go unnoticed.",
-                "explanation": "Normal appearance is not a safety certificate.",
+                "text": "Decide that a normal look rules out a skimmer.",
+                "consequence": "A device inside the slot goes unnoticed.",
+                "explanation": "A normal look is not a safety certificate.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "An online checkout has HTTPS. What does it tell you?",
+            "prompt": "The online checkout shows the padlock and HTTPS. What does that tell you?",
             "choices": [
               {
-                "text": "No e-skimmer can exist on this page.",
-                "consequence": "Malicious scripts may run on encrypted pages.",
-                "explanation": "Encryption does not validate page code.",
+                "text": "That no e-skimmer can be on this page.",
+                "consequence": "Malicious script runs just as happily on an encrypted page.",
+                "explanation": "Encryption says nothing about the code on the page.",
                 "recommended": false
               },
               {
-                "text": "Traffic is encrypted; still verify seller and use suitable payment protection.",
-                "consequence": "You account for both transport and merchant risk.",
-                "explanation": "Payment-page code can be compromised despite HTTPS.",
+                "text": "The connection is encrypted; I will still check the seller and use a protected payment method.",
+                "consequence": "You take the padlock for what it is, a note about the connection, and keep your own checks on the seller.",
+                "explanation": "Payment-page code can be compromised even under HTTPS.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A small unfamiliar charge appears. What is the first safe route?",
+            "prompt": "An alert shows a small charge you don’t recognize. What is the first safe move?",
             "choices": [
               {
-                "text": "Use the issuer app or card number, check descriptor and report if still unexplained.",
-                "consequence": "The issuer can assess the charge and card controls.",
-                "explanation": "Do not give card details to a number in a suspicious alert.",
+                "text": "Check the merchant name through the bank’s app or the number on the card, and report it if unexplained.",
+                "consequence": "The bank can look into the charge and, if need be, freeze the card.",
+                "explanation": "Never give card details to a number or link in a suspicious alert.",
                 "recommended": true
               },
               {
-                "text": "Reply with card details to the alert message.",
-                "consequence": "You may hand sensitive data to an impostor.",
-                "explanation": "Reach the issuer independently.",
+                "text": "Reply to the alert with your card details.",
+                "consequence": "You may be handing them to an impostor.",
+                "explanation": "Reach the bank on your own, not through the message.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Physical inspection helps but misses hidden devices; payment tokens and alerts reduce exposure or time to detection. The issuer handles an actual charge."
+        "debrief": "Looking over a machine helps, but it misses what is hidden. Tokens shrink what a thief can copy, alerts shorten the time before you find out, and the bank deals with the charge itself. Walk it again and take the other turn at each fork."
       },
       {
         "type": "check",
-        "title": "Choose the right layer",
+        "title": "Pick the right layer",
         "questions": [
           {
-            "prompt": "A terminal looks clean. Can it still contain a skimmer?",
+            "prompt": "The terminal looks spotless. Could it still hold a skimmer?",
             "choices": [
               {
-                "text": "Yes; some devices are internal, so use PIN and monitoring layers.",
-                "explanation": "The Secret Service describes deeply inserted readers.",
+                "text": "Yes. Some devices sit inside, so cover your PIN and watch your account too.",
+                "explanation": "The Secret Service describes readers inserted deep inside.",
                 "correct": true
               },
               {
-                "text": "No; every skimmer is a loose overlay.",
-                "explanation": "Some are not visible externally.",
+                "text": "No, every skimmer is a loose overlay you can see.",
+                "explanation": "Some cannot be seen from outside.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A tokenized wallet payment was made at a dishonest store. What remains?",
+            "prompt": "You paid with a tokenized wallet at a dishonest store. What risk is left?",
             "choices": [
               {
-                "text": "The wallet guarantees delivery.",
-                "explanation": "No payment token can force delivery.",
+                "text": "None; the wallet guarantees delivery.",
+                "explanation": "No token can force a seller to ship.",
                 "correct": false
               },
               {
-                "text": "The seller can still fail to deliver; use normal dispute channels.",
-                "explanation": "Tokenization protects a credential, not the merchant promise.",
+                "text": "The seller can still keep your money and send nothing, so the normal dispute route remains.",
+                "explanation": "A token protects your credentials, not the seller’s promise.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "An unknown debit appears on a Russian card. What does CBR advise first?",
+            "prompt": "An unknown debit appears on a Russian card. What does the Bank of Russia advise first?",
             "choices": [
               {
-                "text": "Promptly contact/block through the bank and contest the operation.",
-                "explanation": "The Russian guidance starts with the bank and card block.",
+                "text": "Tell the bank promptly, block the card and contest the operation.",
+                "explanation": "The Russian guidance starts with the bank and the block.",
                 "correct": true
               },
               {
-                "text": "Wait for the merchant to refund automatically.",
-                "explanation": "Delay may permit more misuse.",
+                "text": "Wait for the merchant to refund it automatically.",
+                "explanation": "Delay leaves room for more misuse.",
                 "correct": false
               }
             ]

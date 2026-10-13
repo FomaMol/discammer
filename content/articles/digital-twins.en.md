@@ -1,12 +1,12 @@
 ---
-title: "Digital twins"
+title: "Digital Twins"
 slug: "digital-twins"
 type: "article"
 cover_image: "https://static.tildacdn.com/tild3931-3438-4130-a339-633566303461/5285466087254780588.jpg"
 published_at: "2024-12-09"
 ---
 
-# Digital twins
+# Digital Twins
 
 ## Full Report
 

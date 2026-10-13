@@ -1,0 +1,53 @@
+{
+  "migration": "site-copy-20261021",
+  "posts": [
+    {
+      "slug": "ai-on-the-future-educat",
+      "locale": "en",
+      "old_title": "Ai on the future educat",
+      "old_content_sha256": "389c3aa0606396e85812213d1d5d3b03f5d779a2d9c28d9fac16fe11e0bd8c3b"
+    },
+    {
+      "slug": "breakin-the-code",
+      "locale": "en",
+      "old_title": "Breakin the Code",
+      "old_content_sha256": "8a801dcecf4b930b5a54a74d4a822299c7ea5a9a5039ad3a3e984e126529a526"
+    },
+    {
+      "slug": "digital-twins",
+      "locale": "en",
+      "old_title": "Digital twins",
+      "old_content_sha256": "668a5100d4cf0ba94298ec2da79123a38bf1b69d6249085aa6744d7701d09d09"
+    },
+    {
+      "slug": "the-impact-of-technology",
+      "locale": "en",
+      "old_title": "The impact of technology",
+      "old_content_sha256": "57aa83859040f66c033fa06e03be0f3c5e5cdcc7c543f8912d8118cc320e2796"
+    },
+    {
+      "slug": "ai-creativity",
+      "locale": "en",
+      "old_title": "Ai creativity",
+      "old_content_sha256": "1f1425181e29f42660633edbed6f02097eaa7ffbaba8a3aed5cdc00fdf78865e"
+    },
+    {
+      "slug": "the-future-of-work",
+      "locale": "en",
+      "old_title": "The future of Work",
+      "old_content_sha256": "0e3d40333f1477c697f659bb5c3e74892c32a4eaf093a9b5ca904c7127cafad4"
+    },
+    {
+      "slug": "the-story-of-alex-chen",
+      "locale": "en",
+      "old_title": "The story of Alex Chen",
+      "old_content_sha256": "41e45b86800ddda7d429264838af42cf9203d6bdfd1a4c4312e9d3e6d6546a78"
+    },
+    {
+      "slug": "wearable-lots",
+      "locale": "en",
+      "old_title": "Wearable lots",
+      "old_content_sha256": "e6f6bfeea728bb67919163c2b9eaea60bef2517627b65301da04dc9760205587"
+    }
+  ]
+}

@@ -1,191 +1,191 @@
 {
   "order": 6,
-  "title": "Reporting and quarantining suspicious mail",
+  "title": "Reporting suspicious mail: who to tell, and how",
   "est_minutes": 14,
-  "body_md": "## Report the message without spreading it\n\nRecognizing a suspicious email is useful; getting it to the right review channel may help others. A report is **not** a guarantee that a campaign will be blocked, that money will be recovered, or that every copy will disappear. Treat reporting as part of a calm response, followed by any account or payment action your actual exposure requires.\n\n### Choose the recipient\n\nFor personal mail, use your provider's built-in phishing report when available. In Gmail on a computer, open the message menu beside Reply and choose **Report phishing**. Google says a manually reported message, including attachments, may be copied and analyzed for abuse protection. Outlook.com has **Report → Report phishing**; Microsoft notes that reporting a sender does not itself block future messages from that sender. Menu names and locations can change.\n\nFor workplace or school mail, use the organization's security-report button or the channel in its policy. Preserve the message until its team tells you how to handle it; some teams want the original as an attachment so headers survive. Do not send a live suspicious email to a wide colleague list. A screenshot may help discussion, but the security team may need the original message for analysis.\n\nIn the UK, the NCSC asks people to forward doubtful emails to report@phishing.gov.uk. In the US, the FTC describes reporting to ReportFraud.ftc.gov and forwarding phishing email to the Anti-Phishing Working Group. These are jurisdiction-specific options, not a single worldwide mailbox. Check official current instructions before sending a report, especially if the message contains private workplace or customer information.\n\n### Then contain what happened\n\nDo not reply, open an attachment or use the unsubscribe link in a message you suspect is malicious. A legitimate subscription you chose is different: use the provider's normal unsubscribe controls or account preferences. After reporting, follow your provider's or organization's instructions for moving to Junk, retaining or deleting the message; there is no universal “keep it in quarantine” rule. If you clicked, downloaded, entered credentials or paid, tell support what happened and take the relevant recovery steps promptly through independently found channels. Do not hide a mistake out of embarrassment.\n\nThe goal is an accurate signal to the right place, with minimum extra exposure. You can say “I am not sure” in a report. Suspicion is enough to ask for a review.",
+  "body_md": "## Tell the right people, and don’t pass it round\n\nA parcel nobody ordered is sitting in the lobby, and the label looks official. Nobody opens it, and nobody carries it around the office to show everyone. You call whoever deals with these things, and you say honestly whether you touched it. A suspicious email deserves the same handling.\n\nSpotting it is useful, and getting it in front of people who can review it may protect others too. A report is **not** a guarantee that a campaign will be blocked, that money will be recovered, or that every copy will vanish. Treat it as one calm step. What comes after depends on what you actually exposed: if your accounts or payments were touched, deal with those too.\n\n### Pick the right address\n\nFor personal mail, use your provider’s built-in phishing report where there is one. In Gmail on a computer, open the menu beside Reply and choose **Report phishing**. Google says a message you report by hand, attachments included, may be copied and analyzed to protect against abuse. Outlook.com has **Report → Report phishing**, and Microsoft notes that reporting a sender does not by itself stop that sender’s future messages. Menu names and positions change from time to time.\n\nFor work or school mail, use your organization’s report button, or the channel named in its policy. Keep the message until the team tells you what to do with it; some want the original attached so the headers survive. Don’t send a live suspicious email to a long list of colleagues. A screenshot can help a discussion, but the security team may need the original to analyze.\n\nIn the UK, the NCSC asks people to forward doubtful emails to report@phishing.gov.uk. In the US, the FTC points to ReportFraud.ftc.gov and, for phishing email, to the Anti-Phishing Working Group. These are local options, not one worldwide mailbox. Check the official, current instructions before you send, especially if the message holds private workplace or customer information.\n\n### Then deal with what happened\n\nDon’t reply to a message you think is malicious, don’t open its attachment, and don’t use its unsubscribe link. A subscription you chose yourself is a different matter: use the provider’s normal unsubscribe control or your account settings. After you report, follow your provider’s or organization’s instructions on moving the message to Junk, keeping it or deleting it; there is no universal “leave it in quarantine” rule. If you clicked, downloaded a file, entered credentials or paid, tell support what happened and start the right recovery steps promptly, through channels you found yourself. Don’t hide a mistake out of embarrassment.\n\nWhat you are after is an accurate signal, sent to the right place, with as little extra exposure as possible. “I’m not sure” is a perfectly good thing to write in a report. Suspicion is enough to ask for a second look.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Route a suspicious email to the appropriate provider or organization and describe any interaction honestly.",
-    "today_action": "Find the phishing-report control or internal security contact for one mail account you use. Note the route without sending a real message for this exercise.",
+    "goal": "Get a suspicious email to your provider or organization, and describe honestly what you did with it.",
+    "today_action": "Find the phishing-report control, or the security contact, for one mailbox you use. Note the route and send nothing for this exercise.",
     "checked_at": "2026-10-20",
-    "scope": "Gmail and Outlook steps apply to named products as checked on 20 October 2026; UK NCSC and US FTC routes are local. Workplace policy and privacy rules take priority.",
+    "scope": "Gmail and Outlook steps describe those products as checked on 20 October 2026. The UK NCSC and US FTC routes apply only in those countries. Workplace policy and privacy rules come first.",
     "sources": [
       {
         "title": "Gmail Help: avoid and report phishing",
         "url": "https://support.google.com/mail/answer/8253?hl=en",
-        "scope": "Gmail web reporting and notice about provider access to reported mail."
+        "scope": "Reporting in Gmail on the web, and Google’s notice that it can see mail you report."
       },
       {
         "title": "Microsoft Support: phishing in Outlook",
         "url": "https://support.microsoft.com/en-gb/outlook/mail/phishing-and-suspicious-behavior-in-outlook",
-        "scope": "Outlook.com reporting controls and limitation that reporting does not block a sender."
+        "scope": "Outlook.com’s report controls, and the note that reporting does not block a sender."
       },
       {
         "title": "UK NCSC: report a scam email",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/report-scam-email",
-        "scope": "UK Suspicious Email Reporting Service and what to report."
+        "scope": "The UK’s Suspicious Email Reporting Service and what to send it."
       },
       {
         "title": "US FTC: recognize and avoid phishing",
         "url": "https://consumer.ftc.gov/articles/how-recognize-avoid-phishing-scams",
-        "scope": "US phishing reporting and post-interaction advice."
+        "scope": "Where to report phishing in the US, and what to do after you have interacted."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic case: fake staff rota",
-        "situation": "A message to several employees claims a new rota is attached. The sender name resembles HR, but the request was not announced and the file is unexpected. One colleague asks you to forward it.",
-        "analysis": "Do not open or widely forward the file. Use the workplace report channel and describe the claimed sender, attachment and recipients. Ask HR through the known internal directory whether a rota was sent. Let security decide retention and containment.",
+        "title": "A schedule nobody announced",
+        "situation": "A message to several employees says a new work schedule is attached. The sender’s name looks like HR’s, but nobody announced a new schedule and the file is a surprise. A colleague asks you to forward it to them.",
+        "analysis": "Don’t open the file, and don’t forward it, even to the colleague who asked. Use your workplace’s report channel and describe the claimed sender, the attachment and who received it. Ask HR through the staff directory whether it sent a schedule. Leave retention and containment to the security team.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic case: wanted newsletter in Junk",
-        "situation": "A newsletter you subscribed to appears in Junk after a platform migration. Its topic and sender are familiar, but the delivery address changed.",
-        "analysis": "A changed address can be legitimate. Check your subscription in the publisher's normal account or official site. If confirmed, use the mail client's 'not spam' control; do not report it as phishing solely because it reached Junk. If it asks for a surprising password or payment, verify separately.",
+        "title": "The newsletter in Junk",
+        "situation": "A newsletter you subscribed to has landed in Junk since the sender changed platforms. The topic and the sender’s name are familiar, but the address it arrives from has changed.",
+        "analysis": "A changed address can be perfectly legitimate. Check your subscription in your account with the publisher or on its official site. If it checks out, use your mail app’s “not spam” control, and don’t report it as phishing just because a filter put it in Junk. If it ever asks for a password or a payment you didn’t expect, verify that separately.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The shared mailbox warning",
-        "setup": "Synthetic exercise. A team mailbox receives a supposed file-sharing alert; no real message or attachment is used.",
+        "title": "The alert in the team mailbox",
+        "setup": "An invented exercise. A team mailbox receives what claims to be a file-sharing alert. No real message or attachment is involved.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The alert asks everyone to open an attachment. You have not interacted. What first?",
+            "prompt": "The alert tells everyone to open an attachment. You haven’t touched it. What first?",
             "choices": [
               {
-                "text": "Leave the attachment closed and use the team's report channel.",
-                "consequence": "Security receives the original through the expected route.",
-                "explanation": "Reporting can start without opening the file.",
+                "text": "Leave the attachment closed and use the team’s report channel.",
+                "consequence": "Security gets the original by the route it expects.",
+                "explanation": "You can report without opening the file.",
                 "recommended": true
               },
               {
-                "text": "Forward the entire message to all teammates as a warning.",
-                "consequence": "The active attachment reaches more people.",
-                "explanation": "A wide forward spreads the payload.",
+                "text": "Forward the whole message to your teammates as a warning.",
+                "consequence": "A working attachment lands in more inboxes.",
+                "explanation": "A wide forward spreads the very thing you are warning about.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The report form asks whether anyone clicked. You clicked the message but not the file. What do you write?",
+            "prompt": "The report form asks whether anyone clicked on anything. You opened the message but never the file. What do you write?",
             "choices": [
               {
-                "text": "State exactly that you viewed the message but did not open the attachment.",
-                "consequence": "Responders can assess the actual exposure.",
-                "explanation": "Clear facts help more than a confident guess.",
+                "text": "That you read the message and did not open the attachment, exactly as it happened.",
+                "consequence": "Responders can judge how much was really exposed.",
+                "explanation": "Plain facts help more than a confident guess.",
                 "recommended": true
               },
               {
-                "text": "Say 'no interaction' to avoid concern.",
-                "consequence": "Responders receive an inaccurate incident description.",
-                "explanation": "Distinguish viewing a message from opening its link or file.",
+                "text": "“No interaction,” so nobody worries.",
+                "consequence": "Responders get an inaccurate account of the incident.",
+                "explanation": "Reading a message is different from opening its link or file, and the report should say which one happened.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A coworker says they entered a password after following the link. What advice?",
+            "prompt": "A coworker says they opened the attachment and typed their password into the page it showed. What do you advise?",
             "choices": [
               {
-                "text": "Wait for security to prove compromise first.",
-                "consequence": "Recovery may be delayed while access is at risk.",
-                "explanation": "Potential credential disclosure needs prompt action.",
+                "text": "Wait until security proves there has been a compromise.",
+                "consequence": "Recovery is held up while the account is at risk.",
+                "explanation": "A password that may have been exposed needs quick action.",
                 "recommended": false
               },
               {
-                "text": "Tell them to contact security and change the password through the real service, following its guidance.",
-                "consequence": "The exposure and response reach the right team.",
-                "explanation": "Include any code or approval in the report.",
+                "text": "Contact security, and change the password in the real service, following their guidance.",
+                "consequence": "The exposure and the response reach the right team.",
+                "explanation": "If a code or an approval was involved, put that in the report too.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Later, security acknowledges a report about this message. What do you do with your copy?",
+            "prompt": "Security later confirms it received a report about this message. What do you do with your own copy?",
             "choices": [
               {
-                "text": "Assume every recipient is protected and delete evidence regardless of policy.",
-                "consequence": "You may discard material the team needs.",
-                "explanation": "A report does not guarantee instant blocking.",
+                "text": "Assume everyone is protected and delete it, whatever the policy says.",
+                "consequence": "You may throw away material the team needs.",
+                "explanation": "Filing a report does not mean every inbox is protected at once.",
                 "recommended": false
               },
               {
-                "text": "Follow the team's instruction for retaining, moving or deleting it.",
-                "consequence": "The evidence and mailbox are handled under the local procedure.",
-                "explanation": "Retention depends on the organization.",
+                "text": "Do what the team tells you: keep it, move it or delete it.",
+                "consequence": "The message and the mailbox are handled under local procedure.",
+                "explanation": "How long to keep it depends on the organization.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Good reporting is precise and routed correctly. It neither replaces recovery after exposure nor guarantees automatic protection. Retry the decisions that spread the mail or concealed details."
+        "debrief": "A good report is precise and goes to the right place. It does not replace recovery after exposure, and it does not switch on protection by itself. Retry the choices that spread the message or hid a detail."
       },
       {
         "type": "check",
         "title": "Send the right signal",
         "questions": [
           {
-            "prompt": "Your workplace has a dedicated phishing-report button. A suspicious attachment arrives. What is best?",
+            "prompt": "Your workplace has a dedicated phishing-report button, and a suspicious attachment arrives. What is best?",
             "choices": [
               {
-                "text": "Use that button without opening or mass-forwarding the attachment.",
-                "explanation": "The local security process receives the message.",
+                "text": "Press the button, without opening the attachment or forwarding it around.",
+                "explanation": "Your security process receives the message.",
                 "correct": true
               },
               {
-                "text": "Forward it to every colleague so they can decide.",
-                "explanation": "That distributes the risky content.",
+                "text": "Forward it to every colleague and let them decide.",
+                "explanation": "That spreads the risky content.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A newsletter you requested lands in Junk. Is that proof of phishing?",
+            "prompt": "A newsletter you asked for lands in Junk. Does that prove it is phishing?",
             "choices": [
               {
-                "text": "Yes; Junk classification is final.",
-                "explanation": "Filters can misclassify legitimate mail.",
+                "text": "Yes; whatever the Junk folder decides is final.",
+                "explanation": "Filters sometimes misjudge honest mail.",
                 "correct": false
               },
               {
-                "text": "No; verify the subscription separately and correct the classification if genuine.",
-                "explanation": "A confusing legitimate case needs a check, not an automatic accusation.",
+                "text": "No. Check the subscription separately, and mark it as not spam if it is genuine.",
+                "explanation": "A confusing but legitimate case needs checking, not an automatic accusation.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "You reported a suspicious Outlook.com sender. What is safe to assume?",
+            "prompt": "You reported a suspicious sender in Outlook.com. What can you safely assume?",
             "choices": [
               {
-                "text": "The report is submitted, but the sender is not necessarily blocked.",
-                "explanation": "Microsoft explicitly separates reporting and blocking.",
+                "text": "The report went through, but the sender is not necessarily blocked.",
+                "explanation": "Microsoft says plainly that reporting and blocking are separate.",
                 "correct": true
               },
               {
-                "text": "Every future email from that sender is blocked for everyone.",
-                "explanation": "The report does not promise that outcome.",
+                "text": "Every future email from that sender is now blocked for everyone.",
+                "explanation": "A report does not promise that.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "You entered a password through a suspected phishing link. Is reporting the email enough?",
+            "prompt": "You entered a password after following a suspected phishing link. Is reporting the email enough?",
             "choices": [
               {
-                "text": "Yes; a report automatically restores the account.",
-                "explanation": "Reporting and account recovery are separate.",
+                "text": "Yes; a report restores the account automatically.",
+                "explanation": "Reporting and account recovery are separate things.",
                 "correct": false
               },
               {
-                "text": "No; report what happened and change the password through the real service, seeking support.",
-                "explanation": "Respond to the actual exposure promptly.",
+                "text": "No. Report what happened, change the password through the real service, and ask for support.",
+                "explanation": "Respond promptly to what was actually exposed.",
                 "correct": true
               }
             ]

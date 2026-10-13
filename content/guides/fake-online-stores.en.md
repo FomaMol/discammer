@@ -1,33 +1,33 @@
 ---
 title: "Fake online stores"
 slug: "fake-online-stores"
-description: "Check a seller, payment path, and terms before paying for an unfamiliar online offer."
+description: "How to check a shop, its payment route and its return terms before you pay a seller you have never heard of."
 icon: "🛒"
 threat_level: 4
 category: "commerce"
 published_at: "2025-02-14"
 ---
 
-An unfamiliar shop is not automatically fraudulent, but a polished page, a padlock icon, or a social-media ad do not prove that a seller will deliver what it promises. Treat an online purchase as a small verification task before you pay.
+The price is well below everyone else’s, a countdown clock is ticking in the corner, and the checkout page has a neat little padlock. None of that makes the shop a fraud, and none of it means a parcel will ever arrive. A polished page, a padlock and a social-media ad prove only that someone built a page and ran an ad. Before you pay a shop you have never heard of, give it a few minutes of checking.
 
-## Signals worth checking together
+## Five signals, read together
 
-1. **A price or deadline that pushes a rushed decision.** Compare the exact product model and total cost with other sellers.
-2. **Thin or inconsistent business details.** Look for a workable contact method, delivery information, and clear return and refund terms.
-3. **Payment outside a protected route.** A seller that insists on gift cards, wire transfer, cryptocurrency, or payment outside a marketplace removes important protections.
-4. **Reviews that do not hold up across sources.** Search the seller name with “complaint” or “scam”; do not rely on star ratings alone.
-5. **A secure connection used as proof.** `https` encrypts a connection, but it does not establish that a shop is legitimate.
+1. **A price or deadline that rushes you.** Compare the exact model and the total cost with what other sellers ask.
+2. **Thin or inconsistent business details.** Look for a contact method that works, delivery information, and clear return and refund terms.
+3. **Payment outside a protected route.** A seller who insists on gift cards, a wire transfer, cryptocurrency or payment outside the marketplace strips away protections you would otherwise have.
+4. **Reviews that fall apart across sources.** Search the seller’s name with “complaint” or “scam,” and do not trust star ratings on their own.
+5. **A padlock offered as proof.** `https` encrypts the connection, but it says nothing about whether the shop is honest.
 
-## Illustrative scenario — not a case report
+## An invented ad, not a real shop
 
-An ad offers a popular product at a dramatic discount and shows a countdown timer. The shop accepts only cryptocurrency and the return policy is vague. These signals do not require you to investigate the seller for hours: close the offer, compare it through trusted retailers, and use a payment method with buyer protections if you decide to buy elsewhere.
+An ad shows a popular product at a dramatic discount, with a countdown timer beside it. The shop takes only cryptocurrency, and its return policy is vague. You do not need to spend hours investigating this seller. Close the offer, look for the same product at retailers you already trust, and if you decide to buy elsewhere, pay in a way that gives you buyer protection.
 
-## Safer purchase routine
+## A safer way to buy
 
-1. Search for the seller and the product independently; include words such as “review,” “complaint,” and “scam.”
-2. Read the delivery, return, refund, and contact information before ordering.
-3. Prefer a payment method that offers dispute or buyer-protection options where available.
-4. Keep the listing, order confirmation, messages, promised delivery date, and payment record.
-5. If an order does not arrive or a charge looks wrong, contact the payment provider promptly and follow its dispute process.
+1. Search for the seller and the product on your own, adding “review,” “complaint” and “scam” to the search.
+2. Read the delivery, return, refund and contact details before you order.
+3. Where you can, pay by a method that lets you dispute the charge or gives buyer protection.
+4. Keep the listing, the order confirmation, the messages, the promised delivery date and the payment record.
+5. If the order never arrives or a charge looks wrong, contact your payment provider promptly and follow its dispute process.
 
-Avoid entering more personal information than a purchase requires. A privacy policy can explain collection practices, but it is not a guarantee of a trustworthy seller.
+Give a shop only the personal details a purchase needs. A privacy policy explains what a shop collects; it does not vouch for the seller.

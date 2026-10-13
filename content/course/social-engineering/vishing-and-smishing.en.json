@@ -1,159 +1,159 @@
 {
   "order": 3,
-  "title": "Vishing, smishing, and voice deepfakes",
+  "title": "Vishing, smishing and voice deepfakes",
   "est_minutes": 14,
-  "body_md": "## The channel does not authenticate the sender\n\n**Smishing** is phishing by text; **vishing** is phishing by voice. Both use the convenience of a phone at a moment when you may be distracted. A text can imitate a delivery service or bank, and a caller can claim to be an investigator, executive or family member. Sender names, caller ID, a familiar voice and even a second matching message are weak evidence when the contact began unexpectedly.\n\nA fraudulent delivery text may contain a short link, but a short link is not required. A readable web address can also lead to a lookalike page. The decision is based on the *request*: open the carrier’s app or type its known address yourself and check whether there is actually a parcel issue. If you were expecting a parcel, that makes the message more plausible, not authenticated. Some genuine services send texts with links; this lesson teaches a safer independent route for consequential tasks, not a claim that every text link is malicious.\n\nIn a call, the attacker may move through authority (“security team”), fear (“your money is at risk”) and an immediate fix (“stay with me and move it”). A voice clone can make a family or work impersonation feel personal. The FTC warns that short clips can be used to imitate a relative. You do not need to judge whether audio is synthetic. End the incoming call and contact the person through a number you already stored, or contact another trusted person if the first cannot be reached. For a workplace transfer, use the established approval channel and a known colleague, not the email that arrived alongside the call.\n\nA channel switch is only useful if the new route is **independent**. Calling back the displayed caller ID, a number in the text, or a number supplied by the speaker keeps you inside their story. You may also need to wait for a clean line or use another device if a suspicious call has not fully ended. If you already tapped a link but entered nothing, close it and check through the service; if you entered credentials or paid, use the service’s verified recovery channel promptly. Do not paste a real message, code or URL into this exercise.\n\nPractice the same choice across text and voice: identify the claimed organization, then reach it yourself.",
+  "body_md": "## A phone call proves nothing\n\nYou are at the front door with a shopping bag in each hand when the phone buzzes: your bank, a courier, or a voice that sounds exactly like your nephew. That is the moment these scams are built for, when your hands are full and your mind is elsewhere. **Smishing** is phishing by text; **vishing** is phishing by voice. A text can borrow the name of a delivery company or a bank, and a caller can claim to be an investigator, an executive, a relative. The sender name, the number on the screen, a familiar voice, even a second message that matches the first all count for little when the contact began out of nowhere.\n\nA fake delivery text often carries a short link, though not always, and a readable web address can still lead to a lookalike page. So judge the request. Open the delivery company’s app, or type its address yourself, and see whether the package has a problem at all. Expecting a package makes the text more believable, but it does not make it real. Genuine services do send texts with links, and not every link is a trap; for anything consequential, though, use a route you chose yourself.\n\nOn a call the usual order is authority (“the security team”), then fear (“your money is at risk”), then an instant fix (“stay with me and move it”). A cloned voice can make a call from a relative or a boss feel personal. The FTC warns that a short clip of someone speaking can be enough to imitate a relative. You do not have to judge whether the audio is genuine. Hang up on the incoming call and reach the person on a number you already stored; if they don’t answer, try someone else you trust. For a transfer at work, use the usual approval channel and a colleague you know, not the email that turned up alongside the call.\n\n### The route has to be yours\n\nSwitching channels helps only when the new route is **independent**. Calling back the number your caller ID shows, the number in the text, or one the speaker gives you keeps you inside their story. It is like asking a man selling a watch to confirm the receipt he printed himself. Make sure the suspicious call has really ended, or use a different phone. If you tapped a link but typed nothing, close it and check with the service itself. If you entered a password or paid, go to the service’s verified recovery channel promptly. Keep any real message, code or URL out of the exercises below.\n\nWith text or with voice, do the same thing: work out which organization is supposed to be speaking, then get to it yourself.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Handle an unexpected SMS or voice request by switching to a contact path chosen before the request.",
-    "today_action": "Open a delivery or banking app from your home screen and locate its help or transaction history, so you know the route before an alert arrives.",
+    "goal": "When an unexpected text or call asks you for something, switch to a contact route you chose before it arrived.",
+    "today_action": "From your home screen, open a delivery or banking app and find its help page or transaction history, so you know the way before an alert arrives.",
     "checked_at": "2026-10-20",
-    "scope": "General channel-safety practice. FTC examples are US-specific; NCSC reporting routes apply in the UK. Voice cloning is possible, not assumed in every unusual call.",
+    "scope": "General advice on choosing a safe channel. The FTC examples come from the US, and the NCSC reporting routes apply in the UK. Voice cloning is possible, but it should not be assumed in every odd call.",
     "sources": [
       {
-        "title": "UK NCSC — how to spot a scam message or call",
+        "title": "UK NCSC: how to spot a scam message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
+        "scope": "British public guidance, published in 2021 and reviewed in 2022. Warning signs and independent contact: cues to weigh, not a test that gives a verdict."
       },
       {
-        "title": "US FTC — fake delivery texts",
+        "title": "US FTC: fake delivery texts",
         "url": "https://consumer.ftc.gov/consumer-alerts/2025/04/think-text-message-usps-it-could-be-scam",
-        "scope": "US USPS example (April 2025); verify delivery independently rather than use inbound links."
+        "scope": "A US example involving USPS (April 2025). Check the delivery yourself instead of using the links you were sent."
       },
       {
-        "title": "US FTC — fake family emergencies",
+        "title": "US FTC: fake family emergencies",
         "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
-        "scope": "US consumer guidance (2023); voice cloning, secrecy and direct contact with family."
+        "scope": "US consumer guidance (2023) on voice cloning, demands for secrecy and getting in touch with family directly."
       },
       {
-        "title": "US FTC — unexpected calls about money at risk",
+        "title": "US FTC: unexpected calls about money at risk",
         "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
-        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
+        "scope": "US consumer alert (January 2026). Call back using the number on your card or statement, your app or the official site."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: parcel text during a real delivery",
-        "situation": "You expect a parcel. A text says an address field failed and asks for a small redelivery payment on a linked page. The sender name resembles the carrier.",
-        "analysis": "Timing and branding make this plausible. Open the carrier app yourself or use the tracking number from your original order. If the problem exists, resolve it there. Do not use the text’s link or supply payment details solely because the charge is small.",
+        "title": "A package text that arrives on time",
+        "situation": "You are expecting a package. A text says an address field failed and asks for a small redelivery fee on a linked page. The sender name looks like the delivery company’s.",
+        "analysis": "The timing and the branding make it believable, and that is exactly what the trick relies on. Open the delivery company’s app yourself, or use the tracking number from your original order. If something is wrong, you can fix it there. Don’t follow the link or enter card details just because the fee is small.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: genuine appointment reminder",
-        "situation": "A clinic you use sends a reminder containing only an appointment time and says you can change it in the existing patient portal. Your portal, opened from a saved bookmark, shows the same appointment.",
-        "analysis": "This may be a legitimate text. Matching information in the independently opened portal supports it. You can keep or change the appointment through that portal; there is no need to reply with medical or payment data to the text.",
+        "title": "A reminder from the clinic",
+        "situation": "A clinic you use sends a text with nothing but an appointment time, and says you can change it in your existing patient portal. You open the portal from a bookmark you saved long ago and see the same appointment.",
+        "analysis": "This looks like a genuine text. The same appointment, in a portal you opened by your own route, backs it up. Keep or change the booking there; there is no reason to answer the text with medical or payment details.",
         "legitimate": true
       },
       {
         "type": "practice",
         "title": "Two channels, one claim",
-        "setup": "You work at a fictional community center. The first two decisions concern one text-and-call payment attempt. The third is a separate new invoice snapshot; choices from the first attempt do not carry into it. All names and accounts are invented.",
+        "setup": "You work at an invented community center, and everything in this exercise, names and accounts included, is made up. The first two decisions belong to one attempt to get a payment out of you by text and by phone. The third is a new invoice that starts from scratch; nothing you chose earlier carries over.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The text contains a supplier link and says the invoice expires at noon. What first?",
+            "prompt": "A text carries a supplier’s link and says the invoice expires at noon. What first?",
             "choices": [
               {
-                "text": "Open the center’s known purchasing system and look for the invoice.",
-                "consequence": "You check whether the claim exists outside the message.",
-                "explanation": "A real deadline can be handled through the usual records.",
+                "text": "Open the center’s own purchasing system and look for the invoice.",
+                "consequence": "You find out whether the claim exists anywhere outside the message.",
+                "explanation": "A real deadline will show up in the usual records.",
                 "recommended": true
               },
               {
-                "text": "Open the link because the center has a supplier.",
-                "consequence": "The existence of a supplier does not verify this invoice or destination.",
-                "explanation": "Use an invoice or system you independently access.",
+                "text": "Open the link. The center does have a supplier.",
+                "consequence": "Having a supplier proves nothing about this invoice or about where the money would go.",
+                "explanation": "Use an invoice or a system you reach independently.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The caller sounds like your manager and repeats the exact invoice amount. What next?",
+            "prompt": "A caller who sounds like your manager repeats the exact invoice amount. What next?",
             "choices": [
               {
-                "text": "Approve payment; two channels now agree.",
-                "consequence": "Both channels could be controlled or informed by the same attacker.",
-                "explanation": "Matching details and familiar audio are not independent approval.",
+                "text": "Approve the payment. Two channels now agree.",
+                "consequence": "Both channels could be run by one attacker, or fed by the same information.",
+                "explanation": "Details that match and a voice you know are still not independent approval.",
                 "recommended": false
               },
               {
-                "text": "Use the center’s established approval process and message the manager’s saved work account.",
-                "consequence": "You seek a separate identity and payment check.",
-                "explanation": "If the manager is genuine, the established process still applies.",
+                "text": "Follow the center’s normal approval process and message your manager’s saved work account.",
+                "consequence": "You ask for a separate check on both the person and the payment.",
+                "explanation": "A genuine manager would expect the usual process to be followed.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate new invoice: you independently open the center’s purchasing system. A message in your manager’s saved work account confirms that the supplier is real, but says its bank details changed; an inbound text supplies the purported new details. No payment has been approved in this new snapshot. What now?",
+            "prompt": "A new invoice. You open the center’s purchasing system yourself. A note in your manager’s saved work account confirms the supplier is genuine. Then a text arrives saying the supplier’s bank details have changed, with new ones attached. Nothing is approved yet. What now?",
             "choices": [
               {
-                "text": "Pause payment and ask purchasing to verify the new destination with the supplier through its existing contact.",
-                "consequence": "The changed destination receives its own check.",
-                "explanation": "A real supplier can confirm through a previously held contact; until then, do not pay.",
+                "text": "Hold the payment and ask purchasing to confirm the new account with the supplier through its existing contact.",
+                "consequence": "The changed account gets a check of its own.",
+                "explanation": "A genuine supplier can confirm through a contact you already held; until it does, don’t pay.",
                 "recommended": true
               },
               {
-                "text": "Compare the new details with the caller’s text and pay if they match.",
-                "consequence": "Two copies of attacker-supplied details do not authenticate a change.",
-                "explanation": "A recipient change needs independent supplier verification under workplace policy.",
+                "text": "Pay the new account. Your manager has confirmed the supplier is genuine.",
+                "consequence": "The supplier is real, but the account number came from a text nobody has checked.",
+                "explanation": "A change of recipient needs independent verification with the supplier, under your workplace’s policy.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Debrief: a text and familiar-sounding call can support the same false request. The final, separate invoice tests a changed recipient even after a manager confirms the supplier exists. If you approved the earlier payment, seek the center’s verified response route promptly; replay to practise checking before approval."
+        "debrief": "A text and a familiar-sounding call can prop up the same false request. The last invoice, a separate one, hides its problem in a changed recipient, even though your manager has vouched for the supplier. If you approved the first payment, go straight to the center’s verified reporting route. Replay the decisions and check before you approve."
       },
       {
         "type": "check",
-        "title": "Channel decisions",
+        "title": "Choosing the channel",
         "questions": [
           {
-            "prompt": "A text from a familiar sender name includes a readable carrier domain. What is safest for a payment request?",
+            "prompt": "A text from a sender name you recognize includes a readable web address for the delivery company. What is safest when it asks for payment?",
             "choices": [
               {
-                "text": "Open the carrier app or site from a route you already use.",
-                "explanation": "Correct: a plausible display name or address does not verify the request.",
+                "text": "Open the delivery company’s app or site by a route you already use.",
+                "explanation": "A believable name or address does not verify the request.",
                 "correct": true
               },
               {
-                "text": "Pay through the link because it is not shortened.",
-                "explanation": "Long addresses can also be misleading or copied.",
+                "text": "Pay through the link, since it isn’t shortened.",
+                "explanation": "A long address can mislead too, or be copied.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A relative’s voice asks for urgent help, but their saved number does not answer. Best next step?",
+            "prompt": "A relative’s voice asks for urgent help, but their saved number doesn’t answer. What is the best next step?",
             "choices": [
               {
-                "text": "Send the money because the voice is unmistakable.",
-                "explanation": "Familiarity does not establish the caller’s identity.",
+                "text": "Send the money. The voice is unmistakable.",
+                "explanation": "A familiar sound does not establish who is speaking.",
                 "correct": false
               },
               {
-                "text": "Contact another trusted relative or known route before sending anything.",
-                "explanation": "Correct: an independent person can help check a real emergency.",
+                "text": "Contact another trusted relative, or reach them by some other route you know, before sending anything.",
+                "explanation": "A second, independent person can help you check a real emergency.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A real clinic reminder matches the appointment in your independently opened portal. What follows?",
+            "prompt": "A genuine clinic reminder matches the appointment in the portal you opened yourself. What follows?",
             "choices": [
               {
-                "text": "Use the portal for any change; the text need not be treated as fraud.",
-                "explanation": "Correct: independent confirmation can validate an ordinary reminder.",
+                "text": "Use the portal for any change. The text need not be treated as fraud.",
+                "explanation": "A match in a portal you opened independently bears out an ordinary reminder.",
                 "correct": true
               },
               {
-                "text": "The reminder must be malicious because it arrived by SMS.",
-                "explanation": "The channel alone cannot classify it.",
+                "text": "The reminder must be malicious, because it came by SMS.",
+                "explanation": "A channel alone cannot classify a message.",
                 "correct": false
               }
             ]

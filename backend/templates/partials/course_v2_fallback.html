@@ -2,20 +2,20 @@
 {% set ru = _lang == 'ru' %}
 <div class="space-y-6" data-course-fallback="2">
   <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
-    <h2 class="text-lg font-semibold text-[var(--text-strong)]">{{ 'Цель урока' if ru else 'Skill goal' }}</h2>
+    <h2 class="text-lg font-semibold text-[var(--text-strong)]">{{ 'Цель урока' if ru else 'Lesson goal' }}</h2>
     <p class="mt-2 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ cfg.goal }}</p>
   </section>
   {% for block in cfg.blocks or [] %}
     {% if block.type == 'case' %}
       <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
-        <p class="font-mono text-[12px] text-[var(--brand)]">{% if block.legitimate %}{{ 'Законная, но неоднозначная ситуация' if ru else 'Legitimate but confusing' }}{% else %}{{ 'Учебный вымышленный пример' if ru else 'Synthetic training example' }}{% endif %}</p>
+        <p class="font-mono text-[12px] text-[var(--brand)]">{% if block.legitimate %}{{ 'Всё честно, но сбивает с толку' if ru else 'Genuine, but confusing' }}{% else %}{{ 'Вымышленный пример' if ru else 'Invented example' }}{% endif %}</p>
         <h2 class="mt-2 text-xl font-semibold text-[var(--text-strong)]">{{ block.title }}</h2>
         <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.situation }}</p>
         <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.analysis }}</p>
       </section>
     {% elif block.type == 'practice' %}
       <section class="rounded-[4px] border border-[var(--border-strong)] bg-[var(--panel)] p-4 sm:p-6">
-        <p class="font-mono text-[12px] text-[var(--brand)]">{{ 'Учебный вымышленный сценарий' if ru else 'Synthetic training scenario' }}</p>
+        <p class="font-mono text-[12px] text-[var(--brand)]">{{ 'Вымышленная учебная ситуация' if ru else 'Invented practice scenario' }}</p>
         <h2 class="mt-2 text-xl font-semibold text-[var(--text-strong)]">{{ block.title }}</h2>
         <p class="mt-3 text-[16px] leading-relaxed text-[var(--text-medium)]">{{ block.setup }}</p>
         <p class="mt-3 text-[14px] text-[var(--text-soft)]">{{ 'Без JavaScript можно раскрыть последствия каждого решения и пройти разбор по порядку.' if ru else 'Without JavaScript, open each decision to read its consequences and work through the debrief in order.' }}</p>
@@ -29,7 +29,7 @@
                     <summary class="min-h-11 cursor-pointer text-[16px] text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]">{{ choice.text }}</summary>
                     <p class="mt-2"><strong>{{ 'Последствие' if ru else 'Consequence' }}:</strong> {{ choice.consequence }}</p>
                     <p class="mt-2"><strong>{{ 'Почему' if ru else 'Why' }}:</strong> {{ choice.explanation }}</p>
-                    <p class="mt-2 font-semibold">{{ ('Более безопасный выбор' if ru else 'Safer choice') if choice.recommended else ('Учитывайте риск' if ru else 'Risk to consider') }}</p>
+                    <p class="mt-2 font-semibold">{{ ('Так безопаснее' if ru else 'Safer choice') if choice.recommended else ('Так рискованнее' if ru else 'Riskier choice') }}</p>
                   </details></li>
                 {% endfor %}
               </ul>

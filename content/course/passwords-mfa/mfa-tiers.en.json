@@ -1,171 +1,171 @@
 {
   "order": 3,
-  "title": "MFA tiers: SMS, TOTP, hardware keys",
+  "title": "SMS, app code or key: what each one stops",
   "est_minutes": 14,
-  "body_md": "## Choose MFA for the attack it must stop\n\nMFA asks for more than a password, but methods differ in what they stop. The useful question is not “do I have two steps?” It is “can an attacker who knows my password, controls my phone number, or operates a fake login still get in?” Use the strongest method your real service and recovery plan support; leaving an account with no MFA while waiting for a perfect option is usually worse.\n\n### The methods and their limits\n\n**SMS or voice codes** add a barrier against simple password reuse. A number can be reassigned or hijacked by a SIM swap, and a code can be talked out of you or entered into a fake login. If SMS is the only offered option, it is often better than none; ask your carrier about account PIN or number-transfer protection, where offered.\n\n**Authenticator-app codes (TOTP)** come from a shared secret enrolled with a service. The app may store or sync that seed depending on its settings, so “only on this phone” is not a universal property. TOTP avoids SMS-number takeover, but the code is still manually entered and can be relayed by a phishing site in real time. Store recovery codes securely and understand how to move to a replacement device before discarding the old one.\n\n**FIDO security keys and passkeys** use cryptographic credentials bound to the real service's domain. Properly implemented WebAuthn authentication prevents a lookalike site from obtaining a valid response for the target service. A physical key is generally bound to that device; a passkey can be synced or device-bound, depending on its provider. Both still depend on service configuration, a secure device, and recovery choices. A site might keep SMS as an alternate route even after you register a key. Review the complete sign-in and recovery settings rather than assuming the strongest enrolled factor is the only path.\n\nEmail, password manager and any account that resets others deserve early attention. Financial and work accounts may offer only a subset; use their strongest available option, ask the institution about alternatives, and do not bypass workplace policy. If a code arrives unexpectedly, do not approve or share it. Open the service independently and inspect recent activity. Never give a code to a person who called you, even if they claim to be support.",
+  "body_md": "## Anything you can read aloud\n\nA friendly voice on the phone says someone is trying to get into your account from abroad, and that cancelling the attempt takes only the six digits that have just arrived on your phone. The digits are genuine. So is the sign-in the caller has open on their own screen, which is waiting for exactly that code.\n\nMulti-factor authentication (MFA) asks for more than a password, but its methods are not equals: each stops some attacks and waves others through. So “do I have two steps?” is the wrong question. Ask this: **could someone who knows my password, who has taken over my phone number, or who runs a fake login page still get in?** Choose the strongest method on offer, provided you could get back in after losing your phone. An account left on a password alone while you wait for the perfect option is usually worse off.\n\n### What each method stops, and what it lets through\n\n**SMS or voice codes** get in the way of a stolen or reused password. Two things can go wrong. The number can be taken over in a SIM swap, where a scammer talks the carrier into moving it onto a SIM they hold, and the code can be coaxed out of you by phone or typed into a fake page. If SMS is all a service offers, it still beats nothing. Ask your carrier about an account PIN or protection against number transfers.\n\n**Authenticator-app codes (TOTP, time-based one-time passwords)** are worked out on your device from a secret shared with the service at setup. Depending on its settings, the app may store or sync that secret, so “it lives only on this phone” is not safe to assume. A number thief gets nothing here. But you still type the code by hand, and a phishing page can pass it to the real site at once. Save the recovery codes, and learn how to move to a new phone before you part with the old one.\n\n**FIDO security keys and passkeys** differ in kind: there is no code to read out. They use a cryptographic credential tied to the domain of the real service, and when WebAuthn is properly implemented a lookalike site cannot collect an answer the real one would accept. A physical key is generally tied to that one device; a passkey may sync or stay put, depending on its provider. All of it rests on the service’s setup, your device and your recovery choices. And a site may keep SMS as a side entrance after you register a key, so read the whole sign-in and recovery settings instead of assuming the strongest factor is the only way in.\n\nStart with your email, your password manager and any account that can reset others. Banks and employers may offer only some of these methods: use the best on offer, ask about alternatives, and keep to workplace policy. If a code arrives that you never asked for, approve nothing and share nothing; open the service yourself and check recent activity. A code goes to no one who phoned you, even a caller who says they are support.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r1",
-    "goal": "Select and configure an MFA method by its phishing and recovery limits, not by a simple ranking label.",
-    "today_action": "Inspect MFA and recovery on your primary email; enable the strongest supported method you can back up, save recovery codes safely, and note any weaker alternate sign-in routes.",
+    "goal": "Choose and set up a second sign-in step by what it stops against phishing and how you get back in if you lose it, not by a ranking.",
+    "today_action": "Open the security and recovery settings of your main email. Turn on the strongest second step you can also back up, keep the recovery codes somewhere safe, and write down any weaker route that can still get in.",
     "checked_at": "2026-10-20",
-    "scope": "General comparison; actual options vary by service, carrier and jurisdiction. NIST is a US federal technical standard. Checked 2026-10-20.",
+    "scope": "A general comparison; the options vary by service, carrier and country. The cases and exercises are invented. NIST is a US federal technical standard. Checked 2026-10-20.",
     "sources": [
       {
         "title": "NIST SP 800-63B-4: Authenticators",
         "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
-        "scope": "US federal digital identity technical standard; phishing resistance and authenticator types."
+        "scope": "The US federal technical standard for digital identity: the kinds of authenticator, and which of them resist phishing."
       },
       {
         "title": "FTC: Use Two-Factor Authentication To Protect Your Accounts",
         "url": "https://consumer.ftc.gov/articles/use-two-factor-authentication-protect-your-accounts",
-        "scope": "US consumer guidance on SMS, apps and security keys."
+        "scope": "US consumer advice on SMS codes, authenticator apps and security keys."
       },
       {
         "title": "FTC: SIM Swap Scams: How to Protect Yourself",
         "url": "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
-        "scope": "US carrier and consumer context; carrier controls vary by country."
+        "scope": "How SIM swap scams work and how to guard against them, from a US point of view; what carriers offer varies by country."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A live code request during a fake login",
-        "situation": "A synthetic “support agent” calls while you are on a login page and asks you to read a new app code to cancel an attempted sign-in.",
-        "analysis": "The code could complete an attacker’s live login; TOTP and SMS are not phishing-resistant. End the call, open the official service independently, and inspect activity. Never read the code to the caller.",
+        "title": "The caller wants your code",
+        "situation": "You are halfway through signing in to your email when the phone rings. A calm “support agent” says a sign-in attempt has been spotted, and to cancel it he needs you to read out the new code from your authenticator app.",
+        "analysis": "That code is exactly what a live attacker’s login is waiting for, and neither an SMS code nor an app code can tell a real request from one that has been relayed. Hang up, open the service yourself and check recent activity. The code goes to no caller, whoever they say they are.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A bank offers only SMS",
-        "situation": "A synthetic bank account has password plus SMS verification and no app, key or passkey option in its published settings.",
-        "analysis": "SMS still adds a barrier compared with password alone. Keep it, secure the carrier account if available, and ask the bank about stronger options. Do not disable the only second step merely because it is weaker than a key.",
+        "title": "The bank that only texts",
+        "situation": "Your bank protects the account with a password and a code sent by SMS. Its published settings list no authenticator app, no security key and no passkey.",
+        "analysis": "A texted code still beats a password alone. Keep it, protect your number with the carrier if it offers a way, and ask the bank whether anything stronger is on the way. Switching off your only second step because it is weaker than a key would leave you less safe, not more.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Harden a travel-critical mailbox",
-        "setup": "Four independent snapshots of synthetic travel-critical mailboxes. Each prompt supplies its own starting facts; an earlier choice does not change a later snapshot.",
+        "title": "The inbox your trip depends on",
+        "setup": "Four separate mailboxes, all invented, each holding the bookings for an upcoming trip. Each mailbox has its own starting facts, so nothing you choose in one carries into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Snapshot 1: A travel-critical mailbox offers SMS, authenticator codes and FIDO keys. You are signed in on its verified security page, with no key enrolled yet. Which factor will you enroll first for phishing resistance?",
+            "prompt": "Mailbox 1: it offers SMS, authenticator-app codes and FIDO keys. You are on its security page, which you opened from your own bookmark, and no key is registered yet. Which do you set up first to resist phishing?",
             "choices": [
               {
-                "text": "Keep only SMS because it is the easiest second step.",
-                "consequence": "Password theft is harder to exploit, but SIM takeover and code relay remain.",
-                "explanation": "SMS is useful when needed, but a stronger available factor addresses more threats.",
+                "text": "Stay with SMS alone; it is the easiest second step.",
+                "consequence": "A stolen password no longer works by itself, but a SIM swap or a relayed code still gets through.",
+                "explanation": "SMS is worth having when it is all you can get, but a stronger factor on offer covers more attacks.",
                 "recommended": false
               },
               {
-                "text": "Register a FIDO key on the mailbox’s verified security page.",
-                "consequence": "A properly configured WebAuthn login is bound to the service domain.",
-                "explanation": "Manual codes can be relayed; WebAuthn protects this authentication step.",
+                "text": "Register a FIDO key on the mailbox’s own security page.",
+                "consequence": "The login is now tied to the real service’s domain, and a lookalike page gets nothing it can use.",
+                "explanation": "A code you type can be relayed to the real site. A properly configured WebAuthn login cannot be.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Snapshot 2: A mailbox already has one FIDO key enrolled, and you have a spare key. The service offers a second key slot and recovery codes. How do you prepare for loss of the first key?",
+            "prompt": "Mailbox 2: this one already has a FIDO key registered, and you own a spare. The service allows a second key and gives out recovery codes. How do you prepare for losing the first key?",
             "choices": [
               {
-                "text": "Register the spare key and store recovery codes separately in a protected place.",
-                "consequence": "Loss of the daily key need not mean account loss.",
-                "explanation": "Recovery must be planned while you still have access; protect backup routes.",
+                "text": "Register the spare key and keep the recovery codes somewhere protected, apart from the keys.",
+                "consequence": "Losing the key you carry every day no longer means losing the mailbox.",
+                "explanation": "Plan the way back in while you still have access, and guard the backups as carefully as the key.",
                 "recommended": true
               },
               {
-                "text": "Skip backups because FIDO can never fail.",
-                "consequence": "Losing or damaging the only key could lock you out.",
-                "explanation": "Phishing resistance does not solve loss of the authenticator.",
+                "text": "Skip the backup; a FIDO key cannot fail.",
+                "consequence": "If your only key is lost or snapped in half, you are locked out.",
+                "explanation": "Resistance to phishing does nothing for a lost authenticator.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Snapshot 3: A mailbox has a FIDO key enrolled, but SMS remains enabled as an alternate sign-in route. What does that mean?",
+            "prompt": "Mailbox 3: a FIDO key is registered, yet SMS still works as another way to sign in. What do you do with that fact?",
             "choices": [
               {
-                "text": "Review whether it can be removed safely or is needed for recovery; document the residual risk.",
-                "consequence": "You understand the actual weakest supported route.",
-                "explanation": "Enrolling a key does not automatically retire every fallback.",
+                "text": "Check whether SMS can safely be removed or is needed for recovery, and write down the risk that remains.",
+                "consequence": "You know which route is now the weakest.",
+                "explanation": "Registering a key does not retire the older routes by itself.",
                 "recommended": true
               },
               {
-                "text": "The key makes all remaining routes phishing-resistant.",
-                "consequence": "A weaker fallback may still work.",
-                "explanation": "Security depends on all available sign-in and recovery paths.",
+                "text": "Conclude that the key has made every remaining route resistant to phishing.",
+                "consequence": "A weaker fallback may still let an attacker in.",
+                "explanation": "An account is only as strong as the weakest sign-in or recovery route that still works.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Snapshot 4: MFA is active on a mailbox. An unsolicited sign-in code arrives. What do you do?",
+            "prompt": "Mailbox 4: MFA is on. A sign-in code you did not request arrives, and a minute later someone phones, says they are from support and asks you to read it out. What do you do?",
             "choices": [
               {
-                "text": "Read it to the caller claiming to be support.",
-                "consequence": "The caller may finish a login.",
-                "explanation": "Real support should not need your one-time sign-in code.",
+                "text": "Read the code to the caller.",
+                "consequence": "They type it into the login they have open, and they are in.",
+                "explanation": "Real support has no use for your one-time sign-in code.",
                 "recommended": false
               },
               {
-                "text": "Do not share or approve it; open the mailbox independently and review activity.",
-                "consequence": "No attacker receives the one-time credential.",
-                "explanation": "An unexpected code can mean a mistake or an attempted login; verify without using the message link.",
+                "text": "Share and approve nothing. Open the mailbox yourself and check recent activity.",
+                "consequence": "The attacker’s login stalls without the code.",
+                "explanation": "An unexpected code means either a slip or someone trying to sign in. Check without using any link from the message.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "These are four independent MFA decisions. For each account, pair the strongest available factor with a usable backup and review every fallback route. Retry a missed decision before mapping the pattern to a real account."
+        "debrief": "Four separate decisions, one habit: pair the strongest factor an account offers with a backup you can really use, and look at every fallback that still works. If a choice went the other way, go back and run it again before you try this on a real account."
       },
       {
         "type": "check",
-        "title": "Compare different threats",
+        "title": "Match the method to the threat",
         "questions": [
           {
-            "prompt": "What threat does TOTP remove relative to SMS?",
+            "prompt": "What does an authenticator app protect against that SMS does not?",
             "choices": [
               {
-                "text": "Dependence on control of the mobile number for generating the code.",
-                "explanation": "An app-generated code does not require delivery to the phone number.",
+                "text": "The risk that whoever takes over your mobile number receives your codes.",
+                "explanation": "The app makes the code on your device, and nothing is sent to your number.",
                 "correct": true
               },
               {
-                "text": "All phishing in which a fake page asks for a code.",
-                "explanation": "A manually entered TOTP code can be relayed.",
+                "text": "Every phishing page that asks for a code.",
+                "explanation": "A code typed by hand can be relayed to the real site.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A site supports only SMS MFA. What is a practical choice?",
+            "prompt": "A site offers only SMS for its second step. What is a sensible move?",
             "choices": [
               {
-                "text": "Use no MFA until hardware keys become available.",
-                "explanation": "That leaves the account exposed to password-only login.",
+                "text": "Leave MFA off until security keys are supported.",
+                "explanation": "That leaves the account open to anyone who has the password.",
                 "correct": false
               },
               {
-                "text": "Enable it, protect the carrier account where possible, and monitor for stronger options.",
-                "explanation": "A weaker available factor can still reduce password-only risk.",
+                "text": "Turn it on, protect your number with the carrier where you can, and watch for stronger options.",
+                "explanation": "Even a weaker second step cuts the risk of a password-only login.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "What property makes correctly configured FIDO login phishing-resistant?",
+            "prompt": "What makes a correctly set up FIDO login resistant to phishing?",
             "choices": [
               {
-                "text": "The key sends a longer code that is harder to type.",
-                "explanation": "The protection is cryptographic binding, not code length.",
+                "text": "The key produces a longer code that is harder to type.",
+                "explanation": "The protection comes from the cryptographic tie to the service; the length of a code has nothing to do with it.",
                 "correct": false
               },
               {
-                "text": "The authentication response is bound to the real service identifier.",
-                "explanation": "A lookalike origin cannot reuse a valid response for the target.",
+                "text": "Its response is tied to the identity of the real service.",
+                "explanation": "A lookalike site cannot reuse a valid response that was meant for the real one.",
                 "correct": true
               }
             ]

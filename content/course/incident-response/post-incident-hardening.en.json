@@ -1,116 +1,116 @@
 {
   "order": 7,
-  "title": "Post-incident hardening checklist",
+  "title": "After the incident: close the route, then test it",
   "est_minutes": 15,
-  "body_md": "## Close the route the attacker used—and test recovery\n\nAfter urgent containment, turn the incident timeline into a prioritized repair list. Do not rotate every password merely because one account sent a phishing message; identify credentials that were shared, reused, stored on a controlled device, or reachable through the compromised mailbox. Change those through known-good devices and official account pages. A password manager can generate unique replacements, but if its own account or device was exposed, secure that access first.\n\n### Account and recovery paths\n\nReview active sessions and sign them out where the provider allows. Check recovery email, phone, backup codes, mail forwarding, filters, connected apps and app-specific passwords. Removing a visible forwarding rule is not enough if another authorized app or recovery address still gives access. Choose the strongest practical sign-in the service offers; WebAuthn/FIDO2 passkeys or security keys resist phishing better than manually entered codes, but availability and account recovery differ. SMS may still be the only offered method; use it rather than no second factor while securing the carrier account. Store backup options so losing one device does not lock you out.\n\n### Device and money paths\n\nInstall supported security updates on devices used in the incident. Remove unrecognized remote-support software and browser extensions after documenting what happened. Run reputable security tools or seek manufacturer/organizational help for suspected malware. A clean scan is reassuring but not proof; a managed work device follows the employer's procedure. If a card number was exposed, follow the issuer's replacement and monitoring instructions; an account transfer problem may require different controls. Check statements and alerts over time. A US credit freeze or Russian loan self-ban addresses only its defined new-credit scope.\n\n### A short follow-up checklist\n\n- Confirm affected passwords are unique and recovery contacts are yours.\n- Review sessions, forwarding and connected apps again after several days.\n- Ask your carrier about number-transfer protection if the number was involved.\n- Enable bank transaction alerts and track the open dispute or replacement card.\n- Schedule a later review of the incident record with a trusted person or workplace team when appropriate.\n\n### Define “done” with evidence\n\nMake a short table: exposure, control changed, confirmation, owner, follow-up date. Recheck a few days later that recovery contacts and forwarding have stayed correct; follow the bank/provider case until it has an outcome. Closure is a decision based on known risks, not certainty that every unseen attacker action is discovered. Keep a way to reopen the case if a delayed alert or fraudulent account appears.",
+  "body_md": "## Find the pipe, not only the puddle\n\nYou changed the password the same hour, and the puddle is gone. That tells you nothing about the pipe behind the wall, which may still be dripping: a forwarding rule, a spare recovery address, an app you never approved. Once the emergency is over, turn the timeline of the incident into a repair list, and put first whatever let the attacker in.\n\nDon’t rotate every password just because one account sent a phishing message. Pick out the credentials that were shared, reused, stored on a device someone else controlled, or reachable through the compromised mailbox, and change those from known-good devices on the provider’s official pages. A password manager can generate a unique replacement for each. If its own account or device was exposed, though, secure that first.\n\n### Accounts and recovery paths\n\nReview active sessions and sign them out where the provider allows it. Check the recovery email and phone, backup codes, mail forwarding, filters, connected apps and app-specific passwords. Deleting one visible forwarding rule is not enough if another authorized app or a recovery address still gives access. Choose the strongest sign-in the service practically offers. Passkeys and security keys built on WebAuthn/FIDO2 resist phishing better than codes typed by hand, though what is available, and how recovery works, differs from service to service. If SMS is the only method on offer, use it rather than going without a second factor, and secure your carrier account. Keep a backup way in, so that losing one device does not lock you out.\n\n### Devices and money\n\nInstall supported security updates on every device used in the incident. Once you have documented what happened, remove remote-support software you don’t recognize, along with unfamiliar browser extensions. For suspected malware, use reputable security tools or ask the manufacturer or your employer for help. A clean scan is reassuring, not proof, and a managed work device follows the employer’s procedure. If a card number was exposed, follow the issuer’s instructions on replacement and monitoring; a problem with transfers out of an account may call for different controls. Keep reading statements and alerts as the weeks go by. A US credit freeze or a Russian loan self-ban covers only the new credit it was built for.\n\n### A short follow-up checklist\n\n- Confirm affected passwords are unique and recovery contacts are yours.\n- Review sessions, forwarding and connected apps again after several days.\n- If your phone number was involved, ask your carrier about number-transfer protection.\n- Turn on bank transaction alerts, and track the open dispute or replacement card.\n- Where it fits, set a later date to go over the incident record with someone you trust or your workplace team.\n\n### What “done” looks like\n\nKeep a short ledger with one line per exposure: what was exposed, the control you changed, how you confirmed it, who owns it, and the date to check again. A few days later, recheck that recovery contacts and forwarding are still as you left them, and follow any bank or provider case until it has an outcome. Closing is a decision based on the risks you know about, not a certainty that every unseen action was found. Keep a way to reopen the case if a late alert or a fraudulent account turns up.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Turn the incident's entry path into a verifiable repair and follow-up checklist, with limits for each control.",
-    "today_action": "Check the recovery email/phone and active sessions of one important account through its official settings; record any change in a private checklist.",
+    "goal": "Turn the way the attacker got in into a repair and follow-up checklist you can verify, knowing the limits of each control.",
+    "today_action": "Open the official settings of one important account and check its recovery email, recovery phone and active sessions. Write down any change in a private checklist.",
     "checked_at": "2026-10-20",
-    "scope": "General consumer hardening; authenticator choices, device support, banking controls and credit measures vary by provider and jurisdiction.",
+    "scope": "General hardening for individuals. Authenticator options, device support, banking controls and credit measures differ by provider and country. The people in the examples are invented.",
     "sources": [
       {
         "title": "FTC: Recover a hacked email or social media account",
         "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
-        "scope": "US consumer guidance; provider controls vary"
+        "scope": "US consumer guidance; the controls you see depend on the provider."
       },
       {
         "title": "UK NCSC: Hacked accounts",
         "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
-        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+        "scope": "Recovery and reporting for UK readers; the account steps are useful anywhere."
       },
       {
         "title": "FTC: Use two-factor authentication",
         "url": "https://consumer.ftc.gov/articles/use-two-factor-authentication-protect-your-accounts",
-        "scope": "US consumer explanation; options depend on provider"
+        "scope": "US consumer explanation; the options depend on the provider."
       },
       {
         "title": "NIST SP 800-63B: Authenticators",
         "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
-        "scope": "Technical standard for identity services; implementations vary"
+        "scope": "A technical standard written for identity services; implementations vary."
       },
       {
         "title": "FTC: Credit freezes and fraud alerts",
         "url": "https://consumer.ftc.gov/articles/credit-freezes-and-fraud-alerts",
-        "scope": "US credit-report system only"
+        "scope": "Covers the US credit-report system only."
       },
       {
         "title": "Bank of Russia: Consumer-loan self-ban",
         "url": "https://www.cbr.ru/ckki/self-prohibition_credit/",
-        "scope": "Russian consumer-loan self-ban; exclusions apply"
+        "scope": "The Russian consumer-loan self-ban; exclusions apply."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "The password changed, but access remains",
-        "situation": "Synthetic: after an email takeover, Nika changes the password. A week later, a hidden forwarding rule still sends copies outside her mailbox.",
-        "analysis": "The password change addressed one path but not the persistence mechanism. She removes the rule, checks connected apps/recovery contacts and sessions, then verifies settings again later.",
+        "title": "New password, same leak",
+        "situation": "After an email takeover, Nika changes her password. A week later, a hidden forwarding rule is still sending copies of her mail to an address outside her mailbox.",
+        "analysis": "The new password closed one path and left what the attacker had planted. Nika deletes the rule, goes through connected apps, recovery contacts and sessions, and looks at all of it again a few days later to be sure it held.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "An expected connected app",
-        "situation": "Synthetic: a calendar app appears in Luis's account permissions. He installed it and confirms its exact permissions through the provider's settings.",
-        "analysis": "An unfamiliar-looking name is not automatically malicious. He can keep a needed app with understood permissions and remove any stale grants; indiscriminate revocation could disrupt work.",
+        "title": "An app on the list that you did install",
+        "situation": "A calendar app shows up in Luis’s account permissions. He installed it himself, and he checks its exact permissions in the provider’s settings.",
+        "analysis": "An app on the list is not automatically the attacker’s. Luis can keep an app he needs and understands, and remove stale grants. Revoking everything indiscriminately could break his work.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Find the remaining route",
-        "setup": "Synthetic: a mailbox was used to send fake invoices. The password has been changed, but the incident review is not finished.",
+        "title": "The route that is still open",
+        "setup": "An invented case: a mailbox was used to send fake invoices. The password has been changed, but the incident review isn’t finished.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "Which setting deserves direct review?",
+            "prompt": "The password is new. Which settings do you open next?",
             "choices": [
               {
-                "text": "Only the profile photo.",
-                "consequence": "It does not explain account persistence.",
-                "explanation": "Prioritize controls that grant access.",
+                "text": "The profile page, to make sure the name and photo still look right.",
+                "consequence": "It says nothing about how access persists.",
+                "explanation": "Look first at the controls that grant access.",
                 "recommended": false
               },
               {
                 "text": "Forwarding rules, recovery contacts, sessions and connected apps.",
-                "consequence": "You look for remaining access paths.",
-                "explanation": "Changing the password alone may leave delegated access.",
+                "consequence": "You are hunting for the access paths that remain.",
+                "explanation": "A password change alone can leave delegated access in place.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A known calendar app is listed. What do you do?",
+            "prompt": "A calendar app you know appears in the list. What do you do?",
             "choices": [
               {
-                "text": "Verify owner and permissions, then keep or revoke based on actual need.",
-                "consequence": "Legitimate access stays usable and excess access is reduced.",
-                "explanation": "Do not label a connected app malicious solely by name.",
+                "text": "Verify the owner and permissions, then keep or revoke it depending on whether you really need it.",
+                "consequence": "Legitimate access keeps working and excess access shrinks.",
+                "explanation": "Don’t call a connected app malicious on its name alone.",
                 "recommended": true
               },
               {
-                "text": "Report the app as proof of the attacker.",
-                "consequence": "You may misclassify a normal tool.",
-                "explanation": "Verify before attributing it.",
+                "text": "Report the app as the attacker’s handiwork.",
+                "consequence": "You may brand an ordinary tool as the culprit.",
+                "explanation": "Verify before you attribute.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "You suspect the laptop had remote-support software. How do you change credentials?",
+            "prompt": "You suspect the laptop had remote-support software on it. How do you change your credentials?",
             "choices": [
               {
-                "text": "Change them on the same uncontrolled laptop.",
-                "consequence": "The new secrets might be captured.",
-                "explanation": "A password change on a watched device can fail.",
+                "text": "On that same laptop, which someone may still control.",
+                "consequence": "The new secrets could be captured as you type them.",
+                "explanation": "A new password typed on a watched machine may not stay secret.",
                 "recommended": false
               },
               {
-                "text": "Use a trusted device, remove the software with reputable help, then review affected credentials.",
-                "consequence": "New passwords are less likely to be observed.",
-                "explanation": "Device trust matters during rotation.",
+                "text": "From a trusted device: remove the software with reputable help, then review the affected credentials.",
+                "consequence": "The new passwords are less likely to be seen.",
+                "explanation": "Trust in the device matters when you rotate credentials.",
                 "recommended": true
               }
             ]
@@ -119,67 +119,67 @@
             "prompt": "What makes the review complete enough to close?",
             "choices": [
               {
-                "text": "Document controls, confirmation and follow-up dates; reopen if new evidence appears.",
-                "consequence": "The decision is traceable and revisable.",
+                "text": "Documented controls, confirmations and follow-up dates, and a plan to reopen the case if new evidence appears.",
+                "consequence": "The decision can be traced and revised.",
                 "explanation": "No checklist can prove an attacker did nothing unseen.",
                 "recommended": true
               },
               {
-                "text": "Declare permanent safety because one scan is clean.",
-                "consequence": "Unknown paths or delayed fraud remain possible.",
+                "text": "Declaring permanent safety because one scan came back clean.",
+                "consequence": "Unknown paths or delayed fraud may still be there.",
                 "explanation": "A scan is not a guarantee.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Repair the specific route, check adjacent recovery paths and verify the result later. Retry choices and replay; a completed checklist is a reasoned snapshot, not a promise."
+        "debrief": "Repair the specific route, look at the neighboring recovery paths, and confirm the result later. Go back and take the other choices; a finished checklist is a reasoned snapshot, not a promise."
       },
       {
         "type": "check",
-        "title": "Apply the checklist elsewhere",
+        "title": "Same list, new accounts",
         "questions": [
           {
-            "prompt": "A password is changed but a stranger's recovery email remains. Is the account secured?",
+            "prompt": "A password is changed, but a stranger’s recovery email remains. Is the account secured?",
             "choices": [
               {
-                "text": "Yes; password changes remove all other access.",
-                "explanation": "The recovery address can restore access.",
+                "text": "Yes. A password change removes all other access.",
+                "explanation": "The recovery address can win control back.",
                 "correct": false
               },
               {
-                "text": "No; remove the unauthorized recovery path and review sessions.",
-                "explanation": "Both credential and recovery routes matter.",
+                "text": "No. Remove the unauthorized recovery path and review sessions.",
+                "explanation": "Both the credential and the recovery route matter.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A service offers SMS MFA only. What is the practical choice?",
+            "prompt": "A service offers SMS as its only second factor. What is the practical choice?",
             "choices": [
               {
-                "text": "Use SMS as offered and protect the carrier account while watching for stronger options.",
-                "explanation": "A second factor can still help, though SMS has SIM-swap risk.",
+                "text": "Use SMS as offered, protect your carrier account, and watch for stronger options.",
+                "explanation": "A second factor still helps, even though SMS carries SIM-swap risk.",
                 "correct": true
               },
               {
-                "text": "Disable MFA until a security key is supported.",
-                "explanation": "That removes available protection.",
+                "text": "Turn off multi-factor sign-in (MFA) until a security key is supported.",
+                "explanation": "That throws away protection you can have today.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A clean malware scan proves the device was never controlled. True?",
+            "prompt": "A clean malware scan proves the device was never controlled. True or false?",
             "choices": [
               {
                 "text": "True; the scan is conclusive.",
-                "explanation": "Scans have limits and cannot establish complete history.",
+                "explanation": "Scans have limits and can’t establish a device’s whole history.",
                 "correct": false
               },
               {
-                "text": "False; use the scan as one signal and seek trusted help when needed.",
-                "explanation": "The response depends on exposure and device ownership.",
+                "text": "False. Treat the scan as one signal and get trusted help when needed.",
+                "explanation": "A scan finds only what it knows how to look for. What you do next depends on what was exposed and who owns the device.",
                 "correct": true
               }
             ]

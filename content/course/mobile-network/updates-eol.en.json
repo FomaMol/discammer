@@ -1,191 +1,191 @@
 {
   "order": 6,
-  "title": "Updates, patches, and end-of-life devices",
+  "title": "Updates, patches and end-of-life devices",
   "est_minutes": 14,
-  "body_md": "## An update closes a known path, if it actually installs\n\nSecurity patches fix flaws that a remote page, document, app or local attacker may exploit. Updating does not prevent social engineering or guarantee that every flaw is known, but running an old vulnerable version leaves a fixable path open. Enable automatic updates for the operating system, browser, apps and router firmware where supported. Then verify they actually finish: a device may need storage, power, Wi-Fi or a restart. An “auto update on” toggle is not proof the last patch installed. Use the OS update screen or the vendor's official app; do not install an update package from an unexpected message.\n\nBefore a major update, make a backup and know how to recover important data. For urgent security fixes, follow vendor advice promptly; for feature upgrades that may affect work software, check compatibility and schedule a short maintenance window. Avoid a universal “exactly seven days” promise: urgency and rollout timing differ. If a trusted app says it needs an OS version newer than your device supports, check the device maker's support page rather than downloading a “compatibility patch” from a third party.\n\n## Support is a property of an exact product\n\nEnd of support means the vendor no longer supplies ordinary security fixes for that product/version. The device can still turn on and run apps; that does not make it suitable for primary email, banking or a password manager. Some vendors release limited exceptional fixes or offer an extended-update program, so check the exact model, edition and enrollment. For example, ordinary Windows 10 support ended 14 October 2025; Microsoft's consumer Extended Security Updates is a separate, temporary path for eligible enrolled devices. A PC merely displaying Windows 10 is not proof it receives ESU. For Windows 10 version 22H2, Microsoft says its KB5126256 licensing preparation package is a prerequisite, not enrollment or a security update; consumers and organizations follow their applicable enrollment routes and exact edition rules. Apple and Android support also vary by model; avoid rules such as “all iPhones older than five years are unsupported.”\n\nFor an unsupported device, prioritize moving sensitive tasks to a supported replacement or upgrade. If immediate replacement is impossible, reduce exposure: remove high-value accounts, avoid untrusted downloads, disable unused network services and isolate an IoT device on a guest network where the router actually separates clients. Segmentation limits some lateral movement; it cannot patch the device, protect its cloud account or guarantee containment. A camera or router with no firmware updates is especially worth inventorying because it may stay online unnoticed. Factory reset does not create new security support. Plan disposal or offline use after data migration, and confirm backups before wiping anything.",
+  "body_md": "## An update closes a known door, if it installs\n\nThe switch in settings says “Automatic updates: on.” The phone has also been waiting for a restart since last month, and the newest security patch on it is older than that.\n\nA security patch closes a flaw that a web page, a document, an app or someone holding your device could otherwise use. Updating will not stop a scammer from talking you into something, and it cannot fix flaws nobody has found yet, but an old, vulnerable version keeps open a door that a fix would already have shut. Turn on automatic updates for the operating system (OS), the browser, your apps and your router’s firmware, wherever they exist. Then check that they finish. A device can be short of storage, power, Wi-Fi or a restart, and an “auto update” toggle does not prove the last patch went in. Look at the system’s update screen or the maker’s official app, and never install an update package that arrives in an unexpected message.\n\nBefore a big update, back up your data and make sure you know how to get it back. Install urgent security fixes promptly, as the vendor advises. A feature upgrade that might disturb software you need for work is another matter: check compatibility and pick a short maintenance window. Be wary of any rule of the “patch within exactly seven days” kind, since urgency and rollout timing differ from fix to fix. And if a trusted app says it needs a newer OS than your device can run, look at the maker’s support page rather than downloading a “compatibility patch” from a third party.\n\n## Support belongs to an exact product\n\nEnd of support means the vendor no longer supplies ordinary security fixes for that product or version. The device still switches on and runs its apps, but that does not make it a good home for your primary email, your banking or your password manager. Some vendors release a limited fix as an exception, or run an extended-update program, so check the exact model, edition and enrollment.\n\nWindows 10 makes a clear case. Ordinary support ended on 14 October 2025. Microsoft’s consumer Extended Security Updates (ESU) is a separate, temporary path for eligible devices that have enrolled, and a PC that merely says Windows 10 is not thereby receiving ESU. For Windows 10 version 22H2, Microsoft says its KB5126256 licensing preparation package is a prerequisite: it is neither enrollment nor a security update, and consumers and organizations follow their own enrollment routes and edition rules. Apple and Android support also depend on the model, so beware of rules like “every iPhone older than five years is unsupported.”\n\nFor an unsupported device, move the sensitive tasks first, to a supported replacement or upgrade. If you cannot replace it right away, cut its exposure: take high-value accounts off it, avoid untrusted downloads, switch off network services you don’t use and, for an IoT device, put it on a guest network, provided your router really keeps the clients apart. That kind of segmentation limits some movement across the network. It cannot patch the device, protect its cloud account or promise containment. Cameras and routers with no firmware updates deserve a place on your list, because they can sit online unnoticed. A factory reset does not create new security support. Once your data has moved, plan to retire the device or use it offline, and check your backups before wiping anything.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Check whether a device is actually receiving security fixes, install a pending update safely, and make a practical plan for unsupported equipment.",
-    "today_action": "On one phone or laptop, open the built-in update screen, check the installed version and pending restart, confirm a recent backup, and schedule the next available security update. Record one old device whose support status you must verify.",
+    "goal": "Find out whether a device is actually receiving security fixes, install a pending update safely, and have a practical plan for equipment that no longer gets any.",
+    "today_action": "On one phone or laptop, open the built-in update screen, check the installed version and any pending restart, confirm a recent backup, and schedule the next security update. Write down one old device whose support status you still need to check.",
     "checked_at": "2026-10-20",
-    "scope": "General device advice checked 2026-10-20. Vendor support differs by exact model, OS edition and ESU enrollment. Microsoft Windows 10 dates cited only for applicable consumer editions; NCSC documents are UK organization-oriented.",
+    "scope": "General device advice, checked 2026-10-20. Vendor support differs by exact model, OS edition and ESU enrollment. Windows 10 dates are given only for the consumer editions they apply to, and the NCSC documents are written for UK organizations. The cases are invented.",
     "sources": [
       {
-        "title": "NCSC keeping devices and software up to date",
+        "title": "NCSC: keeping devices and software up to date",
         "url": "https://www.ncsc.gov.uk/collection/device-security-guidance/managing-deployed-devices/keeping-devices-and-software-up-to-date",
-        "scope": "UK organizational guidance, reviewed 2025-05-13; auto-update failure, backups, prompt patches."
+        "scope": "UK guidance for organizations, reviewed 2025-05-13: what to do when automatic updates fail, backups, applying patches promptly."
       },
       {
-        "title": "NCSC obsolete products",
+        "title": "NCSC: obsolete products",
         "url": "https://www.ncsc.gov.uk/collection/device-security-guidance/managing-deployed-devices/obsolete-products",
-        "scope": "UK organization-oriented EOL risk and mitigation; not a risk-free workaround."
+        "scope": "UK guidance for organizations on the risks of end-of-life (EOL) products and how to reduce them; the mitigations are not risk-free."
       },
       {
-        "title": "Microsoft Windows 10 support end",
+        "title": "Microsoft: Windows 10 support has ended",
         "url": "https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025",
-        "scope": "Windows 10 consumer support ended 2025-10-14; ESU requires eligibility/enrollment."
+        "scope": "Consumer support for Windows 10 ended 2025-10-14; ESU requires eligibility and enrollment."
       },
       {
         "title": "Microsoft KB5126256: Windows 10 ESU licensing preparation",
         "url": "https://support.microsoft.com/en-us/servicing/os/windows-10/2026/09/kb5126256-windows-10-21h2-22h2-standalone-cbs",
-        "scope": "Windows 10 version 22H2 licensing preparation package: prerequisite only, not enrollment or security updates. Consumer and organization enrollment routes are separate; check exact edition. Published 2026-09-08."
+        "scope": "Preparation package for Windows 10 version 22H2: a prerequisite only, neither enrollment nor security updates. Consumer and organization enrollment routes differ, so check your exact edition. Published 2026-09-08."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A camera that still streams",
-        "situation": "Synthetic: a home camera still works, but its maker lists the exact model as unsupported and offers no firmware updates. It shares a network with family laptops.",
-        "analysis": "The picture quality does not answer the patch question. The family plans a supported replacement, removes unnecessary remote access and checks whether a guest network actually separates clients until migration. Isolation reduces some risk but does not secure the camera itself.",
+        "title": "The old camera that still streams",
+        "situation": "A home camera still works, but its maker lists the exact model as unsupported and offers no firmware updates. It shares a network with the family’s laptops.",
+        "analysis": "A sharp picture says nothing about patches. The family plans a supported replacement, removes remote access it does not need, moves the camera to the guest network and checks that this network really keeps clients apart until the switch. Isolation lowers some of the risk. It does not make the camera itself secure.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A deferred update for a valid reason",
-        "situation": "Synthetic: a clinic laptop has a vendor-certified medical app; an OS feature upgrade is offered during a shift, while a security patch and backup are pending.",
-        "analysis": "The staff does not click an unknown update link or interrupt care. They verify the update in system settings, back up data, apply the security fix promptly in an approved window and coordinate the feature upgrade with the app vendor and administrator. A short managed delay is not the same as indefinite neglect.",
+        "title": "A delay with a good reason",
+        "situation": "A clinic laptop runs a vendor-certified medical app. Mid-shift the system offers a feature upgrade of the OS, while a security patch and a backup are both still pending.",
+        "analysis": "Staff do not accept the upgrade mid-shift, and they do not interrupt care. They confirm the update in system settings, make a backup, apply the security fix promptly in an approved window, and settle the feature upgrade with the app vendor and the administrator. A short, managed delay is not the same as neglect without end.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Plan a household patch cycle",
-        "setup": "Synthetic exercise: one laptop, one phone and an old camera need different decisions; no real update is installed here.",
+        "title": "A household’s patch day",
+        "setup": "Three invented devices, three different decisions: a laptop, a phone and an old camera. Nothing is actually installed here.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The phone says auto updates are on, but the last security patch is old.",
+            "prompt": "The phone says automatic updates are on, but its last security patch is old. What do you check?",
             "choices": [
               {
-                "text": "Check storage, power, Wi-Fi and pending restart in official settings.",
-                "consequence": "You find why an enabled setting did not finish the update.",
-                "explanation": "Verify installed state, not just the toggle.",
+                "text": "Check storage, power, Wi-Fi and any pending restart, in the official settings.",
+                "consequence": "You find out why a setting that was on did not finish the job.",
+                "explanation": "Verify what is installed, not just the toggle.",
                 "recommended": true
               },
               {
-                "text": "Assume auto updates guarantee currency.",
-                "consequence": "A missing patch remains unnoticed.",
-                "explanation": "Automatic processes can fail or wait for conditions.",
+                "text": "Nothing; automatic updates keep the phone current.",
+                "consequence": "The missing patch goes unnoticed.",
+                "explanation": "Automatic processes can fail, or wait for conditions to be met.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A message offers a “critical browser patch” as an attached installer.",
+            "prompt": "A message urges you to install a “critical browser patch,” and the installer is attached.",
             "choices": [
               {
-                "text": "Run the attachment because it says critical.",
-                "consequence": "The file could be unrelated malware.",
-                "explanation": "Urgency text does not authenticate a package.",
+                "text": "Run the attachment, since it says critical.",
+                "consequence": "The file may be malware that has nothing to do with your browser.",
+                "explanation": "Urgent wording does not authenticate a package.",
                 "recommended": false
               },
               {
-                "text": "Update through the browser or OS official channel.",
-                "consequence": "You avoid an unverified installer.",
-                "explanation": "The genuine update path is built into the product.",
+                "text": "Update through the browser itself or the official system channel.",
+                "consequence": "You skip an unverified installer.",
+                "explanation": "The real update path is built into the product.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The camera’s exact model is unsupported. What is the long-term answer?",
+            "prompt": "The camera’s exact model is no longer supported. What is the lasting fix?",
             "choices": [
               {
-                "text": "Replace it with a supported model and migrate configuration safely.",
-                "consequence": "The online device can again receive fixes.",
-                "explanation": "Isolation is temporary risk reduction, not a patch.",
+                "text": "Replace it with a supported model and move its settings across safely.",
+                "consequence": "Your online device can receive fixes again.",
+                "explanation": "Isolation lowers risk for a while. It is not a patch.",
                 "recommended": true
               },
               {
-                "text": "Factory reset it every month forever.",
-                "consequence": "Known flaws still have no fix.",
-                "explanation": "Reset does not extend vendor support.",
+                "text": "Factory reset it every month, indefinitely.",
+                "consequence": "The known flaws still have no fix.",
+                "explanation": "A reset does not extend vendor support.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A Windows 10 version 22H2 laptop claims ESU coverage. How do you assess it?",
+            "prompt": "A laptop on Windows 10 version 22H2 is said to be covered by ESU. How do you check?",
             "choices": [
               {
-                "text": "Assume every Windows 10 device is covered.",
-                "consequence": "The device may remain unsupported.",
-                "explanation": "Eligibility and enrollment are separate facts.",
+                "text": "Take it on trust that every Windows 10 device is covered.",
+                "consequence": "The device may be unsupported all the same.",
+                "explanation": "Being eligible for ESU and being enrolled in it are two different facts.",
                 "recommended": false
               },
               {
-                "text": "Verify exact edition, eligibility, enrollment and recent installed updates in Microsoft/Windows settings.",
-                "consequence": "Coverage is established by actual enrollment and update state.",
-                "explanation": "An ESU option or preparation package alone is not enrollment.",
+                "text": "Verify the exact edition, eligibility, enrollment and recently installed updates in Microsoft and Windows settings.",
+                "consequence": "Coverage is shown by actual enrollment and by what has been installed.",
+                "explanation": "An ESU option, or a preparation package, is not enrollment.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Replay by separating an available update, an installed update, vendor support and a temporary mitigation for an unsupported device."
+        "debrief": "Replay it and keep four things apart: an update that is available, one that is installed, the vendor’s support, and a stopgap for a device with none."
       },
       {
         "type": "check",
-        "title": "Transfer check",
+        "title": "Take it to your own devices",
         "questions": [
           {
-            "prompt": "Auto update is enabled but the device has not restarted in weeks. What should you check?",
+            "prompt": "Automatic updates are on, but the device has not restarted in weeks. What should you check?",
             "choices": [
               {
-                "text": "Pending restart and installed patch version in system settings.",
-                "explanation": "Some patches wait for completion conditions.",
+                "text": "The pending restart and the installed patch version, in system settings.",
+                "explanation": "Some patches wait for a restart or another condition.",
                 "correct": true
               },
               {
-                "text": "Nothing; the setting proves all patches are installed.",
-                "explanation": "Enabled is not the same as completed.",
+                "text": "Nothing; the setting proves every patch is installed.",
+                "explanation": "A setting that is switched on has not necessarily finished its work.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "What does a working unsupported device imply?",
+            "prompt": "An unsupported device still works perfectly. What does that tell you?",
             "choices": [
               {
-                "text": "It is safe for all sensitive accounts.",
-                "explanation": "Working software can retain known flaws.",
+                "text": "That it is safe for all your sensitive accounts.",
+                "explanation": "Working software can still carry known flaws.",
                 "correct": false
               },
               {
-                "text": "It may function while missing ordinary security fixes.",
-                "explanation": "Function and support are independent.",
+                "text": "That it may keep running while missing ordinary security fixes.",
+                "explanation": "Working and being supported are separate things.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A guest network isolates an old camera. What remains?",
+            "prompt": "A guest network keeps an old camera apart from your laptops. What is left to worry about?",
             "choices": [
               {
-                "text": "The camera itself and its cloud account can still be exposed.",
-                "explanation": "Segmentation limits some local paths, not the device’s own flaws.",
+                "text": "The camera itself, and its cloud account, can still be exposed.",
+                "explanation": "Separating the network narrows some local routes, but the camera’s own flaws remain.",
                 "correct": true
               },
               {
-                "text": "All security problems are solved.",
-                "explanation": "Network separation is only one layer.",
+                "text": "Nothing; every security problem is solved.",
+                "explanation": "Separating the network is one layer among several.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A Windows 10 version 22H2 PC shows the KB5126256 ESU preparation update. Is it necessarily enrolled?",
+            "prompt": "A PC on Windows 10 version 22H2 has installed the KB5126256 ESU preparation update. Does that mean it is enrolled?",
             "choices": [
               {
-                "text": "Yes; the preparation package grants coverage.",
-                "explanation": "It only prepares the device.",
+                "text": "Yes, the preparation package brings coverage with it.",
+                "explanation": "All it does is prepare the device.",
                 "correct": false
               },
               {
-                "text": "No; verify actual enrollment and received security updates.",
-                "explanation": "Microsoft distinguishes a prerequisite from ESU enrollment.",
+                "text": "No; verify actual enrollment and the security updates received.",
+                "explanation": "Microsoft treats the prerequisite and ESU enrollment as separate steps.",
                 "correct": true
               }
             ]

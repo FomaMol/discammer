@@ -2,185 +2,185 @@
   "order": 1,
   "title": "Anatomy of a phishing email",
   "est_minutes": 14,
-  "body_md": "## Read the request, then the wrapper\n\nA phishing email is a request dressed as a familiar message. It may ask you to sign in, open a file, pay an invoice, call a number, or share information. Its design can be polished and its spelling perfect. The useful question is: **what action does it want, and how can I check that action outside this email?**\n\n### Work through five parts\n\n1. **Claim.** The display name, logo and footer say who the sender wants to be. They are easy to copy. Expand the sender details and read the address, but remember that a genuine account can also be compromised. An apparently familiar address is useful context, not a verdict.\n2. **Trigger.** A deadline, account warning or unexpected reward is meant to move you quickly. Real organizations also send urgent notices. Pause because the action matters, not because urgency alone proves fraud.\n3. **Requested action.** Mark every link, attachment, reply address and phone number the message wants you to use. A message with no link can still steer you to a fraudulent phone line. Never send a password or one-time code in a reply.\n4. **Destination.** On a desktop, hover without clicking if your client shows the URL. The visible text of a button is not its destination. If the destination is shortened, cut off or unclear, do not resolve it by following the message. A preview can show only the first hop; check the address again if you independently reach a page.\n5. **Independent route.** Open the service's app or a bookmark you already use, or contact it through a number you found separately. If the claimed issue is real, you can usually see or ask about it there. For a workplace request, use your established internal channel.\n\nDo not treat a single feature as a magic test. Authentication indicators in some mail clients can help, but they do not prove that the request is authorized. Equally, a marketing platform may send a real message from a domain different from the brand's main domain. The safe decision is about the requested action and a separate path to verify it.\n\n### A short routine\n\nSay the claim aloud: “This message says my account needs attention.” Then set the message aside, go through a known route, and compare the claim. If you cannot verify now, defer the action. You do not owe an unexpected email an immediate answer.",
+  "body_md": "## The envelope is not the letter\n\nA phishing email is a request in borrowed clothes. It may ask you to sign in, open a file, pay an invoice, ring a number or hand over a few small details, and it will ask in the voice of someone you already trust. The logo can be flawless and the grammar better than your own. So set the costume aside and put one question to the message: **what does it want me to do, and how can I check that somewhere the message cannot reach?**\n\n### Five things to read, in order\n\n1. **The claim.** The display name, the logo, the tidy footer: they tell you who the sender would like to be, and every one of them can be copied in a minute. Open the sender details and read the real address, but hold the result loosely. A familiar address proves little, because genuine mailboxes get hijacked too.\n2. **The nudge.** A deadline, a warning about your account, a prize you never entered for: each is built to hurry you. Honest organisations send urgent notices as well, so urgency alone convicts no one. Pause because the action matters, not because a clock is ticking.\n3. **The ask.** Find every link, attachment, reply address and phone number the message wants you to use. A letter with no link can still steer you to a fraudulent helpline. And a password or a one-time code never belongs in a reply.\n4. **The destination.** On a computer, hover over a button without clicking; most mail programs will show where it leads. What a button says and where it goes are two separate facts. If the address is shortened, clipped or simply murky, do not settle the matter by following it. A preview shows only the first hop, so once a page has opened, read its address again before you trust it.\n5. **The other road.** Open the service’s app or a bookmark you already use, or phone it on a number you found yourself. If the trouble is real, it will usually be waiting for you there. For a request from work, use the channel your workplace already trusts.\n\nNo single clue settles it. The sender-check badges some mail programs display are useful, but they do not prove a request is legitimate, and an honest newsletter may arrive through a mailing platform whose domain looks nothing like the brand’s. What decides the matter is the action being asked of you, and whether a second, independent road exists to check it.\n\n### A habit of one breath\n\nSay the claim aloud: “This message says my account needs attention.” Then put the message down, take your usual road, and compare what you find. If you cannot check right now, you can wait. An unexpected email is not owed an instant answer.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "For an unexpected email, identify the requested action and verify its claim through a channel you already trust.",
-    "today_action": "Choose one recent service notification in your inbox without opening its links. Locate the sender details and decide where you would verify its claim independently.",
+    "goal": "When an unexpected email arrives, name what it asks you to do and check that claim through a channel you already trust.",
+    "today_action": "Pick one recent service notification in your inbox and leave its links alone. Find the sender details, and decide where you would go to check its claim yourself.",
     "checked_at": "2026-10-20",
-    "scope": "General consumer guidance; examples are synthetic. Reporting and account procedures vary by service and country.",
+    "scope": "Everyday advice for ordinary users. The firms, people and addresses in the examples are invented. Reporting routes and account procedures differ by service and country.",
     "sources": [
       {
         "title": "UK NCSC: how to spot a scam message",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "General warning signs and independent contact; UK reporting links are UK-specific."
+        "scope": "General warning signs and independent contact; the reporting links apply only in the UK."
       },
       {
         "title": "US FTC: recognize and avoid phishing",
         "url": "https://consumer.ftc.gov/articles/how-recognize-avoid-phishing-scams",
-        "scope": "Independent verification and actions after interaction; US reporting routes are jurisdiction-specific."
+        "scope": "Independent checks and what to do after you have interacted; reporting routes apply only in the US."
       },
       {
         "title": "Gmail Help: avoid and report phishing",
         "url": "https://support.google.com/mail/answer/8253?hl=en",
-        "scope": "Gmail-specific sender/link checks and limits."
+        "scope": "Sender and link checks specific to Gmail, and their limits."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic case: urgent storage warning",
-        "situation": "A polished email labelled “Cloud Desk” says storage will close tonight. Its sender is help@cloud-desk-alerts.example and the button says “Keep files.” It asks for a sign-in and a one-time code.",
-        "analysis": "The loss threat and code request make the proposed action high risk. The name and layout do not authenticate it. Leave the button alone; open your usual storage app or bookmarked site to inspect the account and report the message if unverified.",
+        "title": "The storage warning",
+        "situation": "A polished email from “Cloud Desk” says your storage will be shut down tonight. The sender is help@cloud-desk-alerts.example, the button says “Keep files,” and the page behind it wants your sign-in and a one-time code.",
+        "analysis": "A threat of loss plus a request for a code makes the action high-risk before you have read another word. The name and the layout authenticate nothing. Leave the button alone, open your usual storage app or bookmarked site to look at the account itself, and report the message if nothing there confirms it.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic case: real ticket change",
-        "situation": "You booked a train yesterday. An email from a ticketing platform you recognize says the departure platform changed. It includes a view-ticket button and a booking reference.",
-        "analysis": "The timing and reference fit a legitimate notice, yet either could be copied. Open the ticket in the app you used to buy it, or check the operator's official service page. If the change appears there, you can act without trusting the email link.",
+        "title": "A real change of platform",
+        "situation": "You booked a train yesterday. Now an email from a ticketing service you recognise says your departure platform has changed. It carries a “View ticket” button and your booking reference.",
+        "analysis": "The timing and the reference both fit a genuine notice, but both can be copied, so neither is proof. Open the ticket in the app you bought it from, or check the operator’s official service page. If the change shows up there, you can act on it without ever trusting the link in the email.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "A mailbox decision, not a logo contest",
-        "setup": "Synthetic exercise. You receive an invoice email for a software subscription. No real message or account is used.",
+        "title": "The invoice nobody expected",
+        "setup": "An invented exercise: an email arrives with an invoice for a software subscription. No real message or account is involved.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The display name matches the service, but the bill was unexpected. First move?",
+            "prompt": "The display name matches the service, but you were not expecting a bill. What do you do first?",
             "choices": [
               {
-                "text": "Identify the claim and set the attachment aside.",
-                "consequence": "You retain the evidence and avoid immediate exposure.",
-                "explanation": "Start with what the email wants you to do.",
+                "text": "Work out what the email is asking, and leave the attachment closed.",
+                "consequence": "You have kept the evidence and exposed nothing.",
+                "explanation": "Start from the request, not from the wrapper.",
                 "recommended": true
               },
               {
-                "text": "Open the attachment to see whether it is real.",
-                "consequence": "The file runs or opens before you know its origin.",
-                "explanation": "Unexpected files can be the payload. Inspect the claim before opening them.",
+                "text": "Open the attachment to see whether it is genuine.",
+                "consequence": "The file opens before you know where it came from.",
+                "explanation": "An unexpected file may be the attack itself. Examine the claim before you touch it.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The message says payment failed and offers a support phone number. How do you verify?",
+            "prompt": "The message says your payment failed and offers a support number. How do you check?",
             "choices": [
               {
                 "text": "Call the number printed in the email.",
-                "consequence": "The call may go to whoever authored the message.",
-                "explanation": "A copied footer can contain an attacker-controlled number.",
+                "consequence": "Your call may be answered by whoever wrote the message.",
+                "explanation": "A copied footer can carry a number the attacker controls.",
                 "recommended": false
               },
               {
-                "text": "Open your existing subscription app or bookmarked account page.",
-                "consequence": "You can check billing through a separately established route.",
-                "explanation": "Independent navigation tests the claim without using the offered path.",
+                "text": "Open your subscription app or a bookmarked account page.",
+                "consequence": "You can look at your billing by a route you set up yourself.",
+                "explanation": "Arriving by your own road tests the claim without using the path it offered you.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Later, you check the real account through your bookmark. It shows no unpaid invoice. What now?",
+            "prompt": "Later you check the real account through your bookmark. There is no unpaid invoice. What now?",
             "choices": [
               {
-                "text": "Report the suspicious email in your mail client or workplace flow.",
-                "consequence": "The message is sent to the relevant review channel.",
-                "explanation": "Report the discrepancy; do not promise that a report instantly blocks every copy.",
+                "text": "Report the suspicious email through your mail program or your workplace’s process.",
+                "consequence": "The message goes to the people who review such things.",
+                "explanation": "Report the mismatch, but do not count on a report to block every copy at once.",
                 "recommended": true
               },
               {
-                "text": "Reply asking the sender to explain.",
-                "consequence": "You re-enter an untrusted conversation.",
-                "explanation": "A reply does not establish identity and may invite more pressure.",
+                "text": "Reply and ask the sender to explain.",
+                "consequence": "You walk back into a conversation you cannot trust.",
+                "explanation": "A reply establishes nothing about who is writing, and it may invite more pressure.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A colleague says they received the same email. How do you help?",
+            "prompt": "A colleague says the same email reached them. How do you help?",
             "choices": [
               {
-                "text": "Forward the live email so they can inspect it.",
-                "consequence": "A working link or attachment reaches another inbox.",
-                "explanation": "Use your organization's reporting channel; avoid distributing active payloads.",
+                "text": "Forward the live email so they can take a look.",
+                "consequence": "A working link or attachment lands in one more inbox.",
+                "explanation": "Use your organisation’s reporting channel instead of passing along something that still works.",
                 "recommended": false
               },
               {
-                "text": "Tell them the claim was unverified and point them to the established reporting route.",
-                "consequence": "They can check their own account and report their copy.",
-                "explanation": "This gives a safe next action without spreading the message.",
+                "text": "Tell them the claim did not check out, and point them to the proper way to report it.",
+                "consequence": "They can check their own account and report their own copy.",
+                "explanation": "It gives them a safe next step without spreading the message.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The email's polish and a familiar name did not settle the invoice. Independent account status did. Retry any decision to see where the email tried to move you."
+        "debrief": "Neither the polish nor the familiar name settled anything about the invoice; the real account did. Go back and retry any decision to find the moment where the email tried to steer you."
       },
       {
         "type": "check",
-        "title": "Transfer the habit",
+        "title": "Take the habit with you",
         "questions": [
           {
             "prompt": "A message from a familiar address asks for a one-time sign-in code. What is safest?",
             "choices": [
               {
-                "text": "Send the code because the address is familiar.",
-                "explanation": "The account or address may be misused; a code can authorize access.",
+                "text": "Send it, because the address is familiar.",
+                "explanation": "The address or the account may be in someone else’s hands, and a code can unlock an account.",
                 "correct": false
               },
               {
-                "text": "Do not send the code; verify the request through your usual channel.",
-                "explanation": "The requested action is unsafe even when the wrapper looks familiar.",
+                "text": "Do not send it; check the request through your usual channel.",
+                "explanation": "The action is unsafe however familiar the wrapper looks.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A well-written alert says you must update payment details tonight. What does the good grammar prove?",
+            "prompt": "A well-written alert says you must update your payment details tonight. What does the good grammar prove?",
             "choices": [
               {
-                "text": "It proves the alert is genuine.",
+                "text": "That the alert is genuine.",
                 "explanation": "Polished text is easy to produce.",
                 "correct": false
               },
               {
-                "text": "Nothing about authorization; check billing through the known app or site.",
-                "explanation": "The claim needs independent verification.",
+                "text": "Nothing about who has the right to ask. Check your billing in the app or site you already use.",
+                "explanation": "The claim still needs independent checking.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A genuine-looking ticket update arrives just after your purchase. What should you do?",
+            "prompt": "A genuine-looking ticket update arrives soon after your purchase. What do you do?",
             "choices": [
               {
-                "text": "Check your ticket in the app or operator site you already use.",
-                "explanation": "A plausible message can still be verified without its link.",
+                "text": "Look at your ticket in the app or the operator’s site that you already use.",
+                "explanation": "A plausible message can still be checked without its link.",
                 "correct": true
               },
               {
-                "text": "Assume it is false because real notices never contain buttons.",
-                "explanation": "Legitimate messages often contain buttons; the button is simply not your verification channel.",
+                "text": "Assume it is fake, since real notices never contain buttons.",
+                "explanation": "Real notices often have buttons. The button just isn’t your means of checking.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A suspicious email has no link but tells you to call its support number. Is it safe?",
+            "prompt": "A suspicious email has no link, only a support number to call. Is that safe?",
             "choices": [
               {
-                "text": "Yes, phishing requires a link.",
-                "explanation": "A phone number can be the attacker's destination.",
+                "text": "Yes; phishing needs a link.",
+                "explanation": "A phone number can be exactly where the attacker wants you to land.",
                 "correct": false
               },
               {
-                "text": "No conclusion yet; find the service's number independently.",
-                "explanation": "A call request deserves the same channel check.",
+                "text": "Not necessarily; find the service’s number yourself.",
+                "explanation": "A request to call needs the same independent check as a request to click.",
                 "correct": true
               }
             ]

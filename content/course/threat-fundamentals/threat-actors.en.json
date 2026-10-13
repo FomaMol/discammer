@@ -1,191 +1,191 @@
 {
   "order": 3,
-  "title": "Threat actors and their motivations",
+  "title": "Threat actors: who they are, what they want",
   "est_minutes": 14,
-  "body_md": "## Who might act, and why it matters less than the control point\nA *threat actor* is whoever carries out or directs a harmful action. Some seek money through broad messages or long conversations. Others seek access, data, influence, disruption or retaliation. An insider can abuse legitimate access; a compromised colleague can unknowingly deliver an attacker’s request. These are useful hypotheses, not labels you can reliably assign from one email. A message with flawless grammar is not evidence of a state actor, and a clumsy one is not necessarily harmless.\n\nBroad opportunistic fraud, organized criminal operations, state-backed activity and malicious insiders are useful categories when evidence supports them. Their motives and capabilities can overlap; a state affiliation does not require a zero-day, and an insider may use ordinary approved tools.\n\nInstead of ranking people by a fixed “attacker type,” start with **asset, capability, opportunity and consequence**. What can the requester gain: a password, payment, document, device access, or a change to an approval process? What access would let them do it? Where could you interrupt the chain? A student managing one account and a finance worker approving invoices face different consequences even if the initial email looks alike. The safeguard should match the action: unique credentials and MFA for account access, normal approvals and callback for payment changes, minimal access for shared documents.\n\n### Motive does not identify a message\nFinancial motives can drive fake jobs, invoice diversion and extortion. A person may also want publicity, ideology-driven disruption, or information. In real investigations motives can be mixed or unknown. Do not conclude that a request is safe because the supposed sender lacks a reason to harm you. Likewise, do not assume a high-profile person must be the target of a sophisticated actor. Public and private accounts deserve basic controls, while people exposed to targeted risk may need organization-specific advice.\n\nThe FBI describes business email compromise as a pattern in which apparently trusted business communication is used to redirect money. A real mailbox may be compromised, so checking only the sender address is weak. An internal request can also be legitimate. The decision is whether a high-impact change went through the established process and was verified via contact information already trusted.\n\n### Limits of attribution\nTechnical clues such as an IP address, writing style or time zone can mislead. Proxies, shared tools and copied text break simple inferences. Incident teams may assess evidence over time; as an ordinary recipient, you usually need to decide only whether to grant access or authorize a change. Avoid sharing accusations publicly based on a single message. Preserve relevant records privately and involve the service or organization if a real incident is suspected.\n\n**Takeaway:** model what the actor can do next, not what you imagine the actor to be.",
+  "body_md": "## Who is behind it matters less than what they’d get\n\nAsk people to picture an attacker and most will draw a hooded figure over a keyboard. The email in your inbox comes with no portrait. It comes with grammar, a logo and a request, and from those you can’t tell a bored teenager from a crime syndicate from a state. You don’t have to.\n\nA *threat actor* is whoever carries out or directs a harmful action. Some want money and go after it with mass messages or long, patient conversations. Others want access, data, influence, disruption or revenge. An insider can abuse access they legitimately hold, and a colleague’s hijacked account can deliver an attacker’s request without the colleague knowing. Treat these as hypotheses, not labels you can pin on someone from a single email. Flawless grammar is no evidence of a state, and clumsy wording doesn’t make a request harmless.\n\nOpportunistic mass fraud, organized criminal operations, state-backed activity and malicious insiders are all useful categories when evidence supports them. Their motives and capabilities overlap: a state link doesn’t require a zero-day, and an insider may use perfectly ordinary, approved tools.\n\nSo instead of sorting senders into types, start with **asset, capability, opportunity and consequence**. What could the requester gain: a password, a payment, a document, access to a device, a change to an approval process? What access would let them do it? Where could you cut the chain? A student with one account and a finance clerk who approves invoices face very different consequences from emails that look alike. Match the safeguard to the action: unique passwords and multi-factor sign-in (MFA) for account access, normal approvals and a callback for payment changes, minimal access for shared documents.\n\n### A motive doesn’t identify a message\n\nMoney drives fake jobs, invoice diversion and extortion. Someone else may be after publicity, ideological disruption or information. In real investigations motives are often mixed, or never found out. Don’t decide a request is safe because the supposed sender has no reason to hurt you. And don’t assume a well-known person must be the target of a sophisticated actor. Public and private accounts alike deserve basic controls, while people who face targeted risk may need advice from their own organization.\n\nThe FBI describes business email compromise as a pattern in which an apparently trusted business message is used to redirect money. A real mailbox may have been taken over, so checking only the sender’s address is weak. An internal request can just as easily be genuine. What matters is whether a high-impact change went through the established process and was confirmed through contact details you already trust.\n\n### The limits of attribution\n\nAn IP address, a writing style or a time zone can mislead. Proxies, shared tools and copied text break the simple inferences. Incident teams can weigh evidence over time; as an ordinary recipient you usually need to decide only whether to grant access or authorize a change. Don’t post accusations based on a single message. Keep the relevant records privately, and bring in the service or organization if you suspect a real incident. Naming the culprit can wait for people who hold the evidence. The file, the account and the payee are yours to protect now.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Choose protection from the asset and requested action rather than guessing an attacker’s identity or motive.",
-    "today_action": "List two valuable accounts or work processes you control and one independent confirmation path for a high-impact change.",
+    "goal": "Pick the protection from the asset and the action being requested, not from a guess about who is attacking or why.",
+    "today_action": "Write down two accounts or work processes you control that would hurt to lose, and one independent way to confirm a high-impact change.",
     "checked_at": "2026-10-20",
-    "scope": "General threat-model teaching. Actor labels are provisional; US FTC and FBI examples have local reporting and legal limits.",
+    "scope": "General teaching on how to think about threats. The people in the cases are invented. Actor labels are provisional, and the US FTC and FBI examples are bound by American reporting and legal rules.",
     "sources": [
       {
         "title": "NCSC: How to spot a scam email, text message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK consumer guidance; published 2021, reviewed 2022; verification habit applies broadly"
+        "scope": "UK consumer guidance, published in 2021 and reviewed in 2022. The habit of verifying independently applies well beyond the UK."
       },
       {
         "title": "UK NCSC: Fundamentals of cyber risk",
         "url": "https://www.ncsc.gov.uk/collection/risk-management/the-fundamentals-and-basics-of-cyber-risk",
-        "scope": "UK organizational risk guidance; capability, intent, motivation and opportunity are analytical components"
+        "scope": "UK guidance on organizational risk. Capability, intent, motivation and opportunity are treated as parts of the analysis."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US law-enforcement overview; payment verification concept is general"
+        "scope": "A US law-enforcement overview. Verifying a payment change works the same way anywhere."
       },
       {
         "title": "FTC: What is a money mule scam?",
         "url": "https://consumer.ftc.gov/consumer-alerts/2020/03/whats-money-mule-scam",
-        "scope": "US consumer warning from 2020; banking/legal consequences depend on jurisdiction"
+        "scope": "A US consumer warning from 2020. Banking and legal consequences depend on where you live."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A “colleague” asks for a client export",
-        "situation": "Synthetic: A message in a work chat uses a colleague’s profile and asks Sam to export a client list to an unfamiliar shared folder before a meeting.",
-        "analysis": "The sender might be a compromised account, an impersonator or the colleague making a mistaken request. Attribution is unknown. The asset is client data; Sam should use the approved sharing process and confirm via the work directory, without posting the file first.",
+        "title": "A colleague’s profile asks for the client list",
+        "situation": "A message in the work chat, sent from a colleague’s profile, asks Sam to export the client list to a shared folder he doesn’t recognize before a meeting.",
+        "analysis": "It could be a hijacked account, an impersonator, or the colleague making an honest mistake, and nothing in the message says which. The asset is client data. Sam should use the approved sharing process and confirm the request in the company directory before exporting anything.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "An authorized temporary analyst needs access",
-        "situation": "Synthetic: An analyst on a documented project requests read-only access to one report. The project owner confirms through the usual ticket, and access can expire at the end of the work.",
-        "analysis": "This can be legitimate. Granting narrowly scoped, time-limited access after normal approval addresses the risk without guessing motive or blocking the project.",
+        "title": "A temporary analyst with a ticket",
+        "situation": "A temporary analyst on a documented project asks for read-only access to one report. The project owner confirms it in the usual ticket, and the access can expire when the work ends.",
+        "analysis": "This can be entirely legitimate. Narrow, time-limited access, granted after normal approval, handles the risk without guessing at anyone’s motive or stalling the project.",
         "legitimate": true
       },
       {
         "type": "practice",
         "mode": "sequence",
-        "title": "Model capability before motive",
-        "setup": "A synthetic school club stores event payments and member contacts. A new request claims to come from a volunteer.",
+        "title": "Capability first, motive later",
+        "setup": "An invented school club keeps event payments and member contacts. A new request arrives, apparently from a volunteer.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "The volunteer requests the full member contact file “for coordination.” What do you map first?",
+            "prompt": "The volunteer asks for the full member contact file “for coordination.” What do you work out first?",
             "choices": [
               {
-                "text": "Label the volunteer a criminal from the request alone.",
-                "consequence": "The accusation has no supporting evidence.",
-                "explanation": "A broad request can be mistaken or malicious; verify it.",
+                "text": "Decide from the request alone that the volunteer is a criminal.",
+                "consequence": "You have accused someone without a scrap of evidence.",
+                "explanation": "A broad request may be a mistake or may be malicious; either way it needs checking.",
                 "recommended": false
               },
               {
-                "text": "Identify the data requested, purpose and existing access policy.",
-                "consequence": "You know what would leave the group and why.",
-                "explanation": "Asset and capability guide the decision better than guessing the sender’s motive.",
+                "text": "Pin down what data is requested, for what purpose, and what the club’s access rules say.",
+                "consequence": "You know what would leave the group, and why.",
+                "explanation": "The asset and the access matter more than a guess about the sender’s motive.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The request comes from the volunteer’s usual account. What next?",
+            "prompt": "The request arrives from the volunteer’s usual account. What now?",
             "choices": [
               {
-                "text": "Confirm the task through the club’s established coordinator channel.",
-                "consequence": "You test the need and account context.",
-                "explanation": "A genuine account can be misused or the request can be an error.",
+                "text": "Confirm the task through the club coordinator’s established channel.",
+                "consequence": "You test both the need and the state of the account.",
+                "explanation": "A genuine account can be misused, or the request can simply be a mistake.",
                 "recommended": true
               },
               {
-                "text": "Send the file because the username matches.",
-                "consequence": "The file leaves before purpose and authorization are checked.",
-                "explanation": "A familiar account is insufficient for sensitive export.",
+                "text": "Send the file, since the username matches.",
+                "consequence": "The file is gone before anyone has checked purpose or authority.",
+                "explanation": "A familiar account isn’t enough to justify exporting sensitive data.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The coordinator confirms that only an attendance count is needed. You may already have sent the full file. What now?",
+            "prompt": "The coordinator says all the volunteer needs is a head count. If you sent the full file in the last step, that is a separate problem. What now?",
             "choices": [
               {
-                "text": "Send the complete contact list in a personal chat anyway.",
-                "consequence": "The full file is exposed, or exposed again if you had already sent it.",
-                "explanation": "A count does not require personal contact details.",
+                "text": "Send the whole contact list in a personal chat anyway.",
+                "consequence": "The full file is exposed, or exposed a second time if it already went out.",
+                "explanation": "Counting people doesn’t take their personal contact details.",
                 "recommended": false
               },
               {
-                "text": "Provide only the count in the approved workspace and report any earlier file disclosure to the coordinator.",
-                "consequence": "The current task uses minimal data; any earlier disclosure is flagged for containment.",
-                "explanation": "An earlier mistake does not justify sending more data, and it needs a real response.",
+                "text": "Give just the number in the approved workspace, and tell the coordinator about any earlier file you sent.",
+                "consequence": "This task runs on the minimum of data, and any earlier leak is flagged so it can be contained.",
+                "explanation": "An earlier mistake doesn’t justify handing over more, and it deserves a real response.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Later, the volunteer asks to change the account receiving ticket funds. What check?",
+            "prompt": "Later the volunteer asks to change the account that receives ticket money. What check applies?",
             "choices": [
               {
-                "text": "Use the club’s payment-change approval and a known callback.",
-                "consequence": "The financial change gets separate scrutiny.",
-                "explanation": "A person can be authorized for one task but not another.",
+                "text": "Use the club’s payment-change approval and a callback to a number you already have.",
+                "consequence": "The money change gets its own scrutiny.",
+                "explanation": "Someone can be authorized for one task and not for another.",
                 "recommended": true
               },
               {
-                "text": "Accept it because the request comes from a familiar account.",
-                "consequence": "A familiar account is treated as authority for a separate financial change.",
-                "explanation": "Even a legitimate earlier request would not authorize a new payee.",
+                "text": "Accept it; the request comes from a familiar account.",
+                "consequence": "A familiar username ends up standing in for authority over a separate financial change.",
+                "explanation": "Even a legitimate earlier request wouldn’t authorize a new payee.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "On replay, watch how the target changes from contact data to money. The same apparent sender does not make every request equivalent; apply the control appropriate to each asset."
+        "debrief": "Replay it and watch the target shift from contact data to money. A familiar sender doesn’t make every request equal; each asset gets its own control."
       },
       {
         "type": "check",
-        "title": "Reason from the asset",
+        "title": "Reasoning from the asset",
         "questions": [
           {
-            "prompt": "A message contains polished language and a custom logo. What does this tell you about the actor?",
+            "prompt": "A message has polished language and a custom logo. What does that tell you about the actor?",
             "choices": [
               {
-                "text": "Very little; decide based on requested access and independent verification.",
-                "explanation": "Presentation does not establish skill, identity or motive.",
+                "text": "Very little. Decide from the access being requested and an independent check.",
+                "explanation": "Polish doesn’t establish skill, identity or motive.",
                 "correct": true
               },
               {
                 "text": "It must be a state actor.",
-                "explanation": "Visual polish is widely available.",
+                "explanation": "Anyone can buy visual polish.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A known vendor mailbox asks for new payment details. What is the key risk?",
+            "prompt": "A known vendor’s mailbox sends new payment details. What is the main risk?",
             "choices": [
               {
-                "text": "Only a forged sender address; matching it ends the check.",
-                "explanation": "Real accounts can be compromised.",
+                "text": "Only a forged sender address; if it matches, the check is over.",
+                "explanation": "Real accounts get compromised too.",
                 "correct": false
               },
               {
-                "text": "Payment diversion, even if the mailbox is genuine; verify with a known contact.",
-                "explanation": "A compromised real account can carry a fraudulent change.",
+                "text": "Payment diversion, even if the mailbox is genuine. Verify through a contact you already have.",
+                "explanation": "A hijacked real account can carry fraudulent details.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A temporary contractor requests the one report named in an approved ticket. Best response?",
+            "prompt": "A temporary contractor asks for the one report named in an approved ticket. What is the best response?",
             "choices": [
               {
-                "text": "Grant only the approved scope and expiry through normal controls.",
-                "explanation": "Legitimate work can proceed with bounded access.",
+                "text": "Grant just the approved scope and expiry through the normal controls.",
+                "explanation": "Legitimate work can go ahead with bounded access.",
                 "correct": true
               },
               {
-                "text": "Deny all contractors because insiders are a threat category.",
-                "explanation": "A category is not evidence against this request.",
+                "text": "Refuse all contractors, since insiders are a threat category.",
+                "explanation": "A category is not evidence against this particular request.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "What can you conclude from a single suspicious IP or time zone?",
+            "prompt": "What can you conclude from one suspicious IP address or time zone?",
             "choices": [
               {
-                "text": "It identifies the responsible person.",
-                "explanation": "Network location does not name an individual.",
+                "text": "It identifies the person responsible.",
+                "explanation": "A network location doesn’t name an individual.",
                 "correct": false
               },
               {
-                "text": "It is a clue for investigation, not reliable actor attribution.",
-                "explanation": "Shared infrastructure and proxies complicate attribution.",
+                "text": "It’s a lead for investigators, not a reliable way to name the actor.",
+                "explanation": "Shared infrastructure and proxies muddy attribution.",
                 "correct": true
               }
             ]

@@ -2,185 +2,185 @@
   "order": 4,
   "title": "Spotting fake login pages",
   "est_minutes": 15,
-  "body_md": "## A convincing page can still be the wrong place to sign in\n\nA fake login page borrows a familiar logo, layout and error messages. The attacker needs you to type a password, approve a sign-in, or enter a one-time code into a page they control. Some pages then redirect to the real service so the mistake is less obvious. You cannot judge the recipient of your credentials by the artwork.\n\n### Check the route before the form\n\nStart with how you arrived. An unexpected email, ad, QR code or shared document can send you to a lookalike site. Read the browser's **address bar**, not a domain printed in the page body. A genuine site may use several legitimate domains and external identity providers, so do not invent a universal “exact brand domain” rule. Compare the address and sign-in flow to a bookmark, app or documented route you already use; if unfamiliar, stop and contact the service.\n\nHTTPS encrypts the connection to the site named in the address bar. It does not make that operator honest. A fake page can have HTTPS. The absence of a padlock is a warning for entering secrets, but its presence is not approval.\n\nA password manager may refuse to offer a saved login at a different site, which is a useful pause signal. It may also fail because the form or app changed, the manager is locked, the saved website is wrong, or a legitimate service uses a separate identity provider. Do not override the mismatch by typing a saved password into the page. Return via the known route and ask support if needed. Password managers reduce some phishing risk; they do not make credential theft impossible, especially if users copy passwords or approve prompts elsewhere.\n\n### The moment of entry\n\nBefore typing, ask: “Did I intend to reach this service, and does this exact sign-in path match what I know?” If the form asks for extra personal data, a code you did not initiate, or repeated entry after an odd error, stop. These are clues, not a universal fingerprint of fraud. Real services sometimes request step-up verification. Confirm through the account's normal app or support route.\n\nIf you already typed a password on a suspect page, leave it, open the real service independently, change that password there, change any reused copies, and review active sessions or contact support. If you approved an MFA request or entered a code, say so when asking the provider or your workplace security team for help. The action depends on what you exposed; no course exercise asks for real credentials.",
+  "body_md": "## Anyone can hang a sign\n\nIt is late, you are tired, and a page says your session has expired. The blue is the right blue, the logo sits where it always sits, and your thumb is already drifting toward the password box. The attack lives in that reflex. A fake login page copies the artwork, the layout and even the error messages, because all it needs is for you to type a password, approve a sign-in or read out a one-time code to someone who controls the page. Some of them wave you on to the real service afterwards, so nothing feels wrong.\n\nA logo is a sign over a shop door, and any painter can make one. What tells you whose shop it is is the street number, and on the web the street number is the address bar.\n\n### Start with how you got here\n\nThe way you arrived is the first clue. An unexpected email, an ad, a QR code or a shared document can all drop you on a lookalike site. Read the **address bar** of the browser, not an address printed inside the page, where anyone can write anything. Don’t hold out for a tidy rule such as “the domain must match the brand exactly”: real services run on several domains and often hand sign-in to an outside identity provider. Compare what you see with a bookmark, the app, or a sign-in route you already know. If it looks unfamiliar, stop and ask the service.\n\nHTTPS means the connection to the site in the address bar is encrypted. It says nothing about who runs that site, and scammers get HTTPS too. A missing padlock is a good reason not to type secrets; a padlock that is there is not a good reason to type them.\n\nA password manager can act as an early warning. If it refuses to offer your saved login on a page, find out why. It may be a fake site. It may also be that the manager is locked, the saved address is wrong, the form has changed, or the real service signs you in through a separate identity provider. Either way, don’t type the password by hand to get past the mismatch. Go back by the route you know and ask support if you need to. A manager removes part of the risk, not all of it, particularly if you copy passwords out of it or approve prompts somewhere else.\n\n### The second before you type\n\nAsk yourself: “Did I mean to come to this service, and does this exact sign-in path match what I know?” Stop if the form wants extra personal details, a code you never requested, or your password again after an odd error. None of these proves fraud, because real services sometimes ask for extra verification. Each is a reason to confirm through the account’s usual app or support route.\n\nIf you have already typed your password into a page you now doubt, leave it, open the real service on your own, and change the password there, along with every other account where you reused it. Check the active sessions or contact support. If you approved a multi-factor authentication (MFA) request or entered a code, say so when you ask the provider or your workplace security team for help, because what you do next depends on what you gave away. No exercise in this course ever asks for a real password.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Before entering credentials, verify the actual browser address and sign-in route through a known service path.",
-    "today_action": "Open one account you use from its saved app or bookmark and note the address and normal sign-in handoff, without entering any details into this lesson.",
+    "goal": "Before you type credentials, read the real address in the browser and confirm the sign-in route through a path you already know.",
+    "today_action": "Open one of your accounts from its saved app or bookmark. Note the address and how the usual sign-in hands you on. Enter nothing into this lesson.",
     "checked_at": "2026-10-20",
-    "scope": "General consumer guidance; identity-provider flows vary. Recovery steps depend on the service and workplace policy. Exercises use fictional domains.",
+    "scope": "Everyday advice for ordinary users. Sign-in through outside identity providers varies, and recovery steps depend on the service and on workplace policy. The domains in the exercises are invented.",
     "sources": [
       {
         "title": "UK NCSC: password manager buyers guide",
         "url": "https://www.ncsc.gov.uk/collection/passwords/password-manager-buyers-guide",
-        "scope": "Password managers and site matching; guidance for system owners, not a guarantee of detection."
+        "scope": "How password managers match saved logins to sites. Written for system owners, and no promise that every fake will be caught."
       },
       {
         "title": "US FTC: public Wi-Fi and HTTPS",
         "url": "https://consumer.ftc.gov/articles/are-public-wi-fi-networks-safe-what-you-need-know",
-        "scope": "Explains that an encrypted scam site can still steal information; US consumer context."
+        "scope": "Explains that an encrypted scam site can still steal what you type; US consumer context."
       },
       {
         "title": "Gmail Help: avoid and report phishing",
         "url": "https://support.google.com/mail/answer/8253?hl=en",
-        "scope": "Use a direct route rather than entering a password after a message link."
+        "scope": "Go straight to the service rather than typing a password after a link in a message."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic case: borrowed branding",
-        "situation": "A message claiming to be from a file service opens a polished login at https://files-verify.example/sign-in. The page asks for a password and then a one-time code. The browser shows HTTPS.",
-        "analysis": "The logo and encryption do not authenticate the operator. The message-origin route and unfamiliar address are enough to stop. Close the tab, open the saved service app, and check for a real notice there. Do not enter a code from an uninitiated sign-in.",
+        "title": "Borrowed branding",
+        "situation": "A message that claims to come from a file service sends you to a polished sign-in page at https://files-verify.example/sign-in. It asks for your password and then a one-time code. The browser shows HTTPS.",
+        "analysis": "The logo and the encryption vouch for nothing about who runs the page. You came from a message and the address is unfamiliar, and either is reason enough to stop. Close the tab, open the file service from its saved app, and see whether a real notice is waiting there. Never type a code for a sign-in you did not start.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic case: legitimate identity handoff",
-        "situation": "At work you open the intranet from your saved bookmark. It redirects to your organization's established identity provider. Your password manager does not suggest a login because it is locked.",
-        "analysis": "The missing suggestion alone does not prove phishing. The handoff might be the normal workplace flow. Compare it with the documented sign-in route or ask IT using the directory, then unlock the manager if confirmed. Avoid manually forcing credentials into an uncertain form.",
+        "title": "A handoff that is normal",
+        "situation": "At work you open the intranet from your saved bookmark, and it passes you to your organization’s usual identity provider. Your password manager offers nothing, because it is locked.",
+        "analysis": "A silent password manager does not prove phishing, and this handoff may be your workplace’s ordinary flow. Check it against the documented sign-in route or ask IT through the staff directory. Once that is confirmed, sign in to the manager and let it fill the form. What you should not do is push a password by hand into a form you are unsure of.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "A document that wants a login",
-        "setup": "Synthetic exercise. A colleague appears to share a project file; the login page is represented as text only.",
+        "title": "The shared project file",
+        "setup": "An invented exercise. A colleague seems to have shared a project file with you; the login page is shown here as text only.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The email button opens a page with a familiar logo and HTTPS. What first?",
+            "prompt": "The button in the email opens a page with a familiar logo and HTTPS. What do you do first?",
             "choices": [
               {
-                "text": "Read the browser address and recall your normal file-service route.",
-                "consequence": "You inspect who will receive the login.",
-                "explanation": "The browser address and known path matter more than the artwork.",
+                "text": "Read the browser’s address and remember how you normally reach the file service.",
+                "consequence": "You ask who will receive the login before you give it.",
+                "explanation": "The address and the route you know count for more than the artwork.",
                 "recommended": true
               },
               {
-                "text": "Enter your username; the lock proves the operator.",
-                "consequence": "You begin disclosing data to an unverified site.",
-                "explanation": "HTTPS protects transit, not the honesty of the site.",
+                "text": "Type your username; the padlock shows who runs the site.",
+                "consequence": "You start handing details to a site nobody has checked.",
+                "explanation": "HTTPS protects the trip, not the honesty of whoever runs the site.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The address is https://team-files-access.example; your normal app uses another route. What now?",
+            "prompt": "The address is https://team-files-access.example; your usual app signs in somewhere else. What now?",
             "choices": [
               {
-                "text": "Type the password anyway because the file is urgent.",
-                "consequence": "Credentials may reach the page operator.",
-                "explanation": "Urgency cannot resolve an unfamiliar sign-in path.",
+                "text": "Type the password anyway; the file is urgent.",
+                "consequence": "Your password may land with whoever runs the page.",
+                "explanation": "A deadline does not settle a doubt about where you are signing in.",
                 "recommended": false
               },
               {
-                "text": "Close the page and open the file service through your bookmark.",
-                "consequence": "You avoid the unverified form.",
-                "explanation": "The normal route can show whether the file was actually shared.",
+                "text": "Close the page and open the file service from your bookmark.",
+                "consequence": "The unchecked form never sees you.",
+                "explanation": "Your usual route will show whether anything was really shared.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "When you later check the normal file-service app, no file appears. The alleged colleague is online. How do you verify?",
+            "prompt": "Later, the file-service app you normally use shows no file. The colleague is online right now. How do you check?",
             "choices": [
               {
-                "text": "Reply to the same email thread.",
-                "consequence": "A compromised mailbox may answer.",
-                "explanation": "Use a separate established channel for the person.",
+                "text": "Reply in the same email thread.",
+                "consequence": "If the mailbox is compromised, the attacker answers.",
+                "explanation": "Ask the person through a separate channel you already use.",
                 "recommended": false
               },
               {
-                "text": "Ask the colleague in your existing work chat or in person.",
-                "consequence": "You test the share claim independently.",
-                "explanation": "A genuine colleague can confirm without the email path.",
+                "text": "Ask the colleague in your usual work chat, or in person.",
+                "consequence": "You test the claim without going through the email.",
+                "explanation": "A real colleague can confirm it without the email being involved.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Suppose you already entered a password before pausing. What is the priority?",
+            "prompt": "Suppose you had already typed your password before you stopped. What comes first?",
             "choices": [
               {
-                "text": "Use the real service to change it and tell your security or support team what was entered.",
-                "consequence": "You start account recovery and preserve a useful incident description.",
-                "explanation": "Mention any code or approval as well so support can judge exposure.",
+                "text": "Change it in the real service and tell your security or support team what you entered.",
+                "consequence": "Recovery starts, and the team gets a clear account of what happened.",
+                "explanation": "Mention any code or approval too, so they can judge how much was exposed.",
                 "recommended": true
               },
               {
-                "text": "Just close the tab; no loss occurs until a code is entered.",
-                "consequence": "The password may already be known.",
-                "explanation": "Do not wait for proof of misuse.",
+                "text": "Just close the tab; nothing is lost until a code is entered.",
+                "consequence": "The password may already be in someone else’s hands.",
+                "explanation": "Do not wait for proof that it has been misused.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "A fake page can be visually exact and encrypted. The reliable move was returning to the known route and, after exposure, responding according to what was entered. Retry each step that let the form set the terms."
+        "debrief": "A fake page can look exact and be fully encrypted. What worked was going back to the route you know and, once something had been typed, acting on exactly what was exposed. Go through any step again where the page got to set the terms."
       },
       {
         "type": "check",
         "title": "Decide at the form",
         "questions": [
           {
-            "prompt": "A login page has HTTPS and your bank's logo. What does HTTPS establish?",
+            "prompt": "A login page shows HTTPS and your bank’s logo. What does HTTPS actually establish?",
             "choices": [
               {
-                "text": "The connection is encrypted to the displayed site, not that the site is the bank.",
-                "explanation": "The operator may still be fraudulent.",
+                "text": "That the connection to the displayed site is encrypted, not that the site belongs to the bank.",
+                "explanation": "Whoever runs it may still be a fraudster.",
                 "correct": true
               },
               {
-                "text": "The bank approved the page.",
-                "explanation": "Certificates do not validate a business claim.",
+                "text": "That the bank approved the page.",
+                "explanation": "A certificate secures the connection. It does not confirm the business behind the page.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "Your manager does not offer a password on a page reached through a message. Best response?",
+            "prompt": "You reached a page through a message, and your password manager offers nothing. What is the best response?",
             "choices": [
               {
-                "text": "Manually type the password to compensate for a possible glitch.",
-                "explanation": "The mismatch remains unresolved.",
+                "text": "Type the password by hand, in case it is only a glitch.",
+                "explanation": "That settles nothing; the mismatch is still unexplained.",
                 "correct": false
               },
               {
-                "text": "Pause and reach the account through your known route.",
-                "explanation": "Missing autofill is a clue, not a diagnosis; independent navigation resolves it.",
+                "text": "Stop and reach the account by a route you know.",
+                "explanation": "Missing autofill is a clue, not a diagnosis, and arriving by your own route settles the question.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A bookmarked work site sends you to an unfamiliar identity-provider page. Is that automatically fake?",
+            "prompt": "Your bookmarked work site sends you to an identity-provider page you do not recognize. Is it automatically fake?",
             "choices": [
               {
-                "text": "Yes; real sites never redirect for login.",
-                "explanation": "Legitimate single sign-on can use another domain.",
+                "text": "Yes; real sites never redirect you to sign in.",
+                "explanation": "Legitimate single sign-on often runs on another domain.",
                 "correct": false
               },
               {
-                "text": "No; verify the handoff against your organization's documented flow before entry.",
-                "explanation": "The unfamiliar route needs confirmation, not an absolute verdict.",
+                "text": "No; check the handoff against your organization’s documented sign-in flow before you type.",
+                "explanation": "An unfamiliar route calls for confirmation, not a flat verdict.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "You entered a password on a suspect page but no code. What now?",
+            "prompt": "You typed a password into a page you now distrust, but never entered a code. What now?",
             "choices": [
               {
-                "text": "Change it through the real service and seek support; also change reused copies.",
-                "explanation": "The password could already be exposed.",
+                "text": "Change it in the real service, ask support for help, and change any copies you reused.",
+                "explanation": "The password may already be exposed.",
                 "correct": true
               },
               {
-                "text": "Do nothing because a second factor was not entered.",
-                "explanation": "An exposed password still requires action.",
+                "text": "Do nothing; no code was entered, so there is no harm.",
+                "explanation": "An exposed password still needs action.",
                 "correct": false
               }
             ]

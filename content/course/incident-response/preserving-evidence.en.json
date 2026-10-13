@@ -1,135 +1,135 @@
 {
   "order": 3,
-  "title": "Preserving evidence without tipping off the attacker",
+  "title": "Keeping evidence without tipping off the attacker",
   "est_minutes": 13,
-  "body_md": "## Preserve the trail without delaying containment\n\nEvidence helps a bank understand a disputed payment, a provider investigate an account, and investigators connect reports. It cannot by itself make a refund or prosecution happen. For an individual facing an active takeover, removing access and reporting a live loss usually matter more than watching an attacker for a “better” screenshot. Take a quick copy when safe, then contain.\n\n### Build a small, private case file\n\nRecord the original message or email, not only a cropped screenshot. For email, preserve the full message with headers if the mail service allows export; a displayed sender name can be forged. Save transaction references, the bank's case number, account alerts, relevant security activity, and dates with timezone. Make a timeline that separates observation (“19:10: saw transfer in bank app”) from inference (“may have started after support call”). If an entry is uncertain, mark it uncertain rather than filling the gap.\n\nCapture the context around a screenshot so a reviewer can tell what application and date it came from; do not include passwords, recovery codes or unnecessary personal data in a shareable copy. Keep originals in a private location with a backup you control. Give a bank or investigator only the material requested through an authenticated channel. The US IC3 specifically asks complainants to retain originals securely and does not take attachments to its complaint form.\n\n### What can disappear\n\nProviders may rotate activity logs, messages can be deleted, and a device reset may erase local evidence. If a work device or serious malware investigation is involved, contact the response team before changing it; forensic handling is specialist work. Do not attempt to access the attacker's account, “test” suspicious links, contact the attacker, or leave them in your account to observe them. You can record an alert and then revoke sessions. Later, add confirmation letters and final outcomes to the same timeline.",
+  "body_md": "## Take the photo, then stop the car\n\nAfter a minor road accident you photograph the scene before anyone moves the cars. An account takeover is different: the other car is still driving, and every minute spent framing the perfect shot is a minute it keeps going. Evidence does matter. It helps a bank understand a disputed payment, a provider investigate an account, and investigators link separate reports. It cannot by itself make a refund or a prosecution happen. For one person facing a live takeover, cutting off access and reporting a loss in progress usually matter more than watching the attacker for a “better” screenshot. Take a quick copy when it is safe, then contain.\n\n### Build a small, private case file\n\nKeep the original message or email, not only a cropped screenshot. For email, save the full message with its headers if the mail service lets you export it; a displayed sender name can be forged. Collect transaction references, the bank’s case number, account alerts, the relevant security activity, and dates with the time zone. Write a timeline that keeps what you observed (“19:10: saw transfer in bank app”) apart from what you infer (“may have started after the support call”). Where an entry is uncertain, mark it uncertain instead of filling the gap.\n\nTake screenshots with enough context that a reviewer can tell which application and date they come from, and leave passwords, recovery codes and unneeded personal data out of any copy you share. Keep the originals in a private place, with a backup you control. Give a bank or an investigator only what they ask for, and only through a channel you have authenticated. The US IC3 asks complainants to keep originals secure, and its complaint form does not take attachments.\n\n### What can disappear\n\nProviders may rotate their activity logs, messages can be deleted, and resetting a device can wipe local evidence. If a work device or a serious malware investigation is involved, call the response team before you change anything; forensic handling is specialist work. Don’t try to get into the attacker’s account, “test” suspicious links, contact the attacker, or leave them logged in so you can watch. Note the alert, then revoke the sessions. Later, add confirmation letters and final outcomes to the same timeline.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Preserve a usable, private timeline and original artifacts while containing an active incident promptly.",
-    "today_action": "Create an empty incident-note template with fields for date/time/timezone, observed fact, source, action, contact and case number; store it privately.",
+    "goal": "Keep a usable private timeline and the original material, and still contain an active incident fast.",
+    "today_action": "Make an empty incident-note template with fields for date, time and time zone, observed fact, source, action, contact and case number. Store it privately.",
     "checked_at": "2026-10-20",
-    "scope": "General evidence organization; legal admissibility and provider retention differ; IC3 does not accept attachments to its complaint form, regardless of where the complainant lives or their citizenship.",
+    "scope": "General advice on organizing evidence. Legal admissibility and provider retention differ, and IC3 does not accept attachments to its complaint form, wherever the complainant lives and whatever their citizenship. The people in the examples are invented.",
     "sources": [
       {
         "title": "FBI IC3: Complaint FAQ",
         "url": "https://www.ic3.gov/Home/FAQ",
-        "scope": "US complaint process and evidence retention"
+        "scope": "How to file with IC3 in the US, and its advice on keeping evidence."
       },
       {
         "title": "FTC: Recover a hacked email or social media account",
         "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
-        "scope": "US consumer guidance; provider controls vary"
+        "scope": "US consumer guidance; the controls you see depend on the provider."
       },
       {
         "title": "UK NCSC: Hacked accounts",
         "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
-        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+        "scope": "Recovery and reporting for UK readers; the account steps are useful anywhere."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "The disappearing login log",
-        "situation": "Synthetic: Ada finds a foreign device in her email settings and a forwarding rule. She writes down the time and captures the security page, then revokes sessions and removes the rule.",
-        "analysis": "A brief record preserves context without leaving access open. She keeps the original alert and any export privately; she does not send screenshots containing recovery details to friends.",
+        "title": "The log that may vanish",
+        "situation": "Ada finds a device she doesn’t recognize listed in her email settings, along with a forwarding rule. She writes down the time and captures the security page, then revokes the sessions and deletes the rule.",
+        "analysis": "A short record keeps the context without leaving access open. She holds on to the original alert and any export, privately, and does not send screenshots that show recovery details to friends.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A legitimate bank verification request",
-        "situation": "Synthetic: a bank fraud team reached through the number on a card asks Ben for a transaction reference and a copy of a receipt via its secure portal.",
-        "analysis": "A real investigator may need evidence. Ben verifies the channel independently, sends only the requested receipt, and records the case number. “Never share evidence” would block a legitimate dispute.",
+        "title": "The bank asks for a receipt",
+        "situation": "Ben has phoned the number on his card, and the bank’s fraud team asks him for a transaction reference and a copy of a receipt, to be uploaded through its secure portal.",
+        "analysis": "A real investigation may need material from him. Ben checks the channel independently, sends only the receipt asked for and records the case number. A rule of “never share evidence” would block a legitimate dispute.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "An email takeover case file",
-        "setup": "Synthetic: a mailbox shows an unfamiliar forwarding rule and a bank notice. You need to preserve useful evidence while stopping access.",
+        "title": "A case file for a hijacked mailbox",
+        "setup": "An invented case: a mailbox shows an unfamiliar forwarding rule, and a bank notice has arrived. You have to keep what is useful as evidence while stopping the access.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "What do you record first?",
+            "prompt": "You have found the forwarding rule. What do you record first?",
             "choices": [
               {
-                "text": "A short timeline, the alert and visible rule, with dates and source.",
-                "consequence": "You retain context before settings change.",
+                "text": "A short timeline, the alert and the visible rule, with dates and sources.",
+                "consequence": "You keep the context before the settings change.",
                 "explanation": "Separate what the account shows from what you suspect.",
                 "recommended": true
               },
               {
-                "text": "Only a memory of what happened.",
-                "consequence": "Details may be forgotten or challenged.",
-                "explanation": "A contemporaneous record is more useful.",
+                "text": "Nothing written; you trust your memory.",
+                "consequence": "Details get forgotten, or disputed.",
+                "explanation": "A record made at the time is worth more.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "An unfamiliar session remains active. What next?",
+            "prompt": "A session you don’t recognize is still active. What next?",
             "choices": [
               {
                 "text": "Keep it connected for several days to watch it.",
-                "consequence": "More mail may be exposed.",
-                "explanation": "A consumer should not trade containment for speculative evidence.",
+                "consequence": "More of your mail is exposed.",
+                "explanation": "An ordinary user should not trade containment for speculative evidence.",
                 "recommended": false
               },
               {
-                "text": "Revoke sessions through the provider and secure the account; capture later available logs.",
-                "consequence": "The attacker loses an access path while records remain organized.",
-                "explanation": "Containment takes priority over watching.",
+                "text": "Revoke sessions through the provider and secure the account; save any logs you can still reach afterwards.",
+                "consequence": "The attacker loses a way in while your records stay organized.",
+                "explanation": "Containment outranks watching.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "An unsolicited 'investigator' asks you to upload the full mailbox. What do you do?",
+            "prompt": "An unsolicited “investigator” asks you to upload your whole mailbox. What do you do?",
             "choices": [
               {
-                "text": "Decline and use a verified bank/provider or authority channel with only required records.",
-                "consequence": "You avoid exposing other people's mail and secrets.",
-                "explanation": "Evidence transfer must be authenticated and minimal.",
+                "text": "Decline, and use a verified channel at your bank, provider or authority, sending only what is required.",
+                "consequence": "Other people’s mail and your own secrets stay private.",
+                "explanation": "Evidence has to travel through an authenticated channel, and only the necessary part of it.",
                 "recommended": true
               },
               {
-                "text": "Upload everything to the supplied link.",
-                "consequence": "Sensitive material may go to another scammer.",
+                "text": "Upload everything to the link they sent.",
+                "consequence": "Sensitive material may land with another scammer.",
                 "explanation": "An unsolicited link is not an evidence channel.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "How do you describe a gap in the timeline?",
+            "prompt": "You can’t say when the rule first appeared. How do you show that in the timeline?",
             "choices": [
               {
                 "text": "Mark the time as unknown and note what is confirmed.",
-                "consequence": "Later reviewers can distinguish fact from inference.",
-                "explanation": "A truthful gap is better than invented precision.",
+                "consequence": "A later reviewer can tell fact from inference.",
+                "explanation": "An honest gap beats invented precision.",
                 "recommended": true
               },
               {
-                "text": "Choose a plausible time so the report looks complete.",
+                "text": "Pick a plausible time so the report looks complete.",
                 "consequence": "The report becomes misleading.",
-                "explanation": "Uncertainty should be explicit.",
+                "explanation": "Uncertainty should be stated openly.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Keep originals and a factual timeline, contain active access, and transmit only necessary records through verified channels. Retry each decision and replay; no screenshot substitutes for stopping harm."
+        "debrief": "Keep the originals and a factual timeline, shut down the live access, and send on only what is needed through verified channels. Go back and take the other choices; no screenshot is a substitute for stopping the harm."
       },
       {
         "type": "check",
-        "title": "Use evidence in a different case",
+        "title": "The same habits, a different case",
         "questions": [
           {
-            "prompt": "A payment-app receipt shows a transfer. What is the most useful record?",
+            "prompt": "A payment-app receipt shows a transfer. Which record is the most useful?",
             "choices": [
               {
-                "text": "Receipt plus reference, time, app account and your report number.",
-                "explanation": "These details let the provider identify the transaction.",
+                "text": "The receipt plus the reference, the time, the app account and your report number.",
+                "explanation": "With these details the provider can identify the transaction.",
                 "correct": true
               },
               {
@@ -143,28 +143,28 @@
             "prompt": "Does the US IC3 complaint form accept your evidence attachments?",
             "choices": [
               {
-                "text": "Yes, upload all files into the complaint.",
+                "text": "Yes; upload all your files with the complaint.",
                 "explanation": "IC3 says it does not accept attachments.",
                 "correct": false
               },
               {
-                "text": "No; retain originals securely for an agency that may later ask.",
-                "explanation": "That is the IC3 FAQ's instruction.",
+                "text": "No. Keep the originals securely, for an agency that may ask for them later.",
+                "explanation": "That is the advice in the IC3 FAQ.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A work laptop may need forensic review. What should you do before wiping it?",
+            "prompt": "A work laptop may need forensic review. What do you do before wiping it?",
             "choices": [
               {
-                "text": "Ask the organization's response team and follow its procedure.",
-                "explanation": "Specialists can balance evidence with containment.",
+                "text": "Ask the organization’s response team and follow its procedure.",
+                "explanation": "Specialists can balance evidence against containment.",
                 "correct": true
               },
               {
-                "text": "Wipe immediately to hide the event.",
-                "explanation": "That can destroy evidence and violate procedure.",
+                "text": "Wipe it at once, to hide the event.",
+                "explanation": "That can destroy evidence and break procedure.",
                 "correct": false
               }
             ]

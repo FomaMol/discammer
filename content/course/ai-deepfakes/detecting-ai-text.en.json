@@ -1,154 +1,154 @@
 {
   "order": 4,
-  "title": "Detecting AI-written messages",
+  "title": "AI-written messages: judge the ask, not the prose",
   "est_minutes": 13,
-  "body_md": "## Read the request, not the writing style\n\nA polished message may be written by a person, translated, edited with AI or generated from a template. A clumsy message may also be fraudulent. There is no reliable personal rule that “AI text sounds formal” or that a friendly message must contain private memories. Attackers can feed public and stolen details into a generator, while real friends can be brief, vague or stressed. The question worth answering is: **what does this message want me to do, and how can I check that request outside the message?**\n\nStart with the action: new payment destination, gift cards, login link, one-time code, secrecy or haste. Look for a change from the person's established pattern, but use it as a reason to verify, not a conviction. If an old friend mentions your recent public job move and asks for a transfer, the job detail does not authenticate them. If a colleague uses careful AI-assisted wording to ask you to review a ticket in the existing system, that wording does not make them a fraudster.\n\nA question about a shared memory can sometimes slow an impostor, but it is weaker than an independent callback. Answers may be online, in a compromised mailbox or guessed. Replying in the same compromised thread also lets the attacker continue the conversation. Instead open a saved contact or the service yourself. For a company invoice, compare with the supplier record and follow the payment-change process.\n\nAI-text detectors answer a narrow statistical question under their tested conditions. NIST's published text pilot found performance varied substantially with the generator and detector; it evaluated summaries, not your friend's email. A score cannot settle authorship, much less whether the requested payment is legitimate. Do not paste private messages into an external detector just to get a number. If you cannot verify an urgent request, pause it. A real requester can be contacted through a route you choose.\n\n**Use language as context, not identity proof.** Good grammar has never authorised a transfer. The strongest signal is the mismatch between an action with consequences and a missing independent confirmation.",
+  "body_md": "## Read the ask, not the prose\n\nA message lands on a Monday morning, warm, tidy, a shade too well put together, and you catch yourself hunting for the tell: would a real person write “I hope this finds you well”? The hunt feels like diligence. It is closer to a doorman who studies each visitor’s accent and never opens the guest list. He will wave in a good many liars and turn away a few honest people.\n\nA polished message may come from a person, a translation tool, an AI editor or a template, and a clumsy one can still be fraud. No dependable rule says that AI text sounds formal, or that a real friend will always bring up a private memory. Attackers can feed a generator public details and stolen ones; a real friend can write briefly, vaguely or in a hurry. So ask the question that has an answer: **what does this message want me to do, and how can I check that outside the message?**\n\n### Start with the action\n\nLook at what is being asked: a new payment destination, gift cards, a login link, a one-time code, secrecy, a rush. A break from the person’s usual manner is a reason to check, not a verdict. Say an old friend mentions the new job you announced in public, then asks for a transfer. Knowing about the job proves nothing; it was never secret. A colleague who runs a request through an AI tool and asks you to open a ticket in the system you both already use is no fraudster, however smooth the wording.\n\n### Why a memory question is not enough\n\nAsking about a shared memory can slow an impostor down, but an independent callback is stronger. The answer may be online, sitting in a hijacked mailbox, or simply guessed. And if you reply in the same compromised thread, you leave the conversation in the attacker’s hands. Open a saved contact or the service itself. For a company invoice, compare it with the supplier record and follow the procedure for changing payment details.\n\n### What a detector can and cannot tell you\n\nAn AI-text detector answers a narrow statistical question, under the conditions it was tested in. In NIST’s published text pilot, results varied substantially with the generator and the detector, and it tested summaries, not your friend’s email. A score cannot settle who wrote a message, let alone whether the payment it asks for is legitimate. Do not paste a private message into an outside detector for the sake of a number; you would be handing it to a stranger. If you cannot verify an urgent request, pause it. A genuine sender can usually wait while you reach them by a route you choose.\n\nWhat deserves your attention is a request with consequences and no independent confirmation behind it, however good the grammar.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Evaluate an unexpected message by its requested action and independent verification, without treating AI-writing cues as proof.",
-    "today_action": "For one trusted contact, find the saved route you would use if a message from them requested money or an account code.",
+    "goal": "Judge an unexpected message by what it asks for and how you can confirm it elsewhere, without treating AI-sounding prose as proof.",
+    "today_action": "Choose one person you trust and check that you hold a saved number or address for them: the one you would use if a message from them ever asked for money or an account code.",
     "checked_at": "2026-10-20",
-    "scope": "General message assessment, checked 20 October 2026; NIST findings concern a specific text-summary benchmark, not universal email classification.",
+    "scope": "General guidance on judging messages, checked 20 October 2026. The NIST findings come from one benchmark of text summaries and say nothing general about sorting real email. The people and cases here are invented.",
     "sources": [
       {
         "title": "NIST: 2024 GenAI text-to-text pilot",
         "url": "https://www.nist.gov/publications/2024-nist-genai-pilot-study-text-text-evaluation-overview-and-results",
-        "scope": "Published June 2025; benchmark on generated and human summaries, with detector performance varying by systems. It does not validate a detector for an individual message."
+        "scope": "Published June 2025. A benchmark built on machine-written and human-written summaries, where detector results varied from system to system. It does not show that a detector can be trusted on one individual message."
       },
       {
         "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
         "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
-        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
+        "scope": "US consumer advice, page dated September 2023: voice cloning, urgency, calling back on a number you know, and checking with another relative. The reporting route it gives applies only in the US."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US guidance for transfer and account-change requests; secondary-channel verification and urgent bank contact after a suspected transfer. Organisational and national procedures vary."
+        "scope": "US guidance on requests to transfer money or change account details: confirm through a second channel, and contact your bank at once if you suspect a transfer went to a fraudster. Company and national procedures differ."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Warm note from an old friend asks for money",
-        "situation": "A synthetic message congratulates you on a public job change, recalls a town visible in old posts, and asks for an urgent transfer to a new account.",
-        "analysis": "Personal-looking details may have public sources; elegant prose is irrelevant. Do not reply in the thread with a trivia test. Contact the friend using your existing address or number and confirm the exact request before any payment.",
+        "title": "A warm note from an old friend, and a request",
+        "situation": "A message congratulates you on the new job you announced in public, mentions the town that shows up in your old posts, and then asks for an urgent transfer to a new account.",
+        "analysis": "Details that feel personal can have public sources, and elegant prose proves nothing. Do not answer in the thread with a trivia test. Reach the friend on the address or number you already have, and confirm exactly what is being asked before you pay anything.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "An awkward note from a real coworker",
-        "situation": "Synthetic example: A colleague writes “I am reaching out regarding the matter” after using a translation tool. They ask you to read an already filed incident in your normal work system.",
-        "analysis": "Formal language is not evidence of a scam or AI authorship. Open the system yourself, inspect the incident and respond through its established workflow. Avoid forwarding the private note to a detector.",
+        "title": "A stiff message from a real coworker",
+        "situation": "A colleague has put their text through a translation tool and writes, “I am reaching out regarding the matter.” They want you to read an incident that is already filed in your normal work system.",
+        "analysis": "Formal wording is no evidence of a scam or of AI authorship. Open the system yourself, read the incident, and answer through its usual workflow. Keep the private note away from any detector.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The too-perfect invitation",
-        "setup": "Synthetic scenario: a community organiser sends a polished message about an event and asks you to pay a new registration fee. You know the organiser but have not seen this fee before. Each decision is a separate snapshot; actions in one do not carry into the next.",
+        "title": "An invitation without a single typo",
+        "setup": "An invented scene: a community organiser you know sends a polished message about an event and asks you to pay a new registration fee. You have never heard of this fee. Each decision is a separate snapshot; nothing you do in one carries into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "What do you identify before judging the tone?",
+            "prompt": "Before you form any view of the tone, what do you pin down?",
             "choices": [
               {
-                "text": "The new fee and payment destination",
-                "consequence": "You locate the consequential change.",
-                "explanation": "Payment details require verification regardless of prose style.",
+                "text": "The new fee and where the money would go",
+                "consequence": "You have found the part of the message that has consequences.",
+                "explanation": "Payment details need checking, however the message is written.",
                 "recommended": true
               },
               {
-                "text": "Whether the opening paragraph sounds AI-written",
-                "consequence": "A style guess leaves the payment question open.",
-                "explanation": "People and generators can write in the same register.",
+                "text": "Whether the opening paragraph sounds like AI",
+                "consequence": "You come away with a hunch, and the payment question is still open.",
+                "explanation": "A person and a generator can write in the same register.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: the message links to a fee page. Where do you check?",
+            "prompt": "Separate snapshot: the message links to a page for the fee. Where do you go to check?",
             "choices": [
               {
-                "text": "Follow the message link because the domain looks neat",
-                "consequence": "You remain within the sender’s chosen path.",
-                "explanation": "Visual neatness does not authenticate the site.",
+                "text": "Follow the link; the address looks tidy",
+                "consequence": "You are still walking the route the sender laid out for you.",
+                "explanation": "A neat-looking address authenticates nothing.",
                 "recommended": false
               },
               {
-                "text": "Open the organiser’s known site or saved contact independently",
-                "consequence": "You compare with a source outside the message.",
-                "explanation": "A link supplied by the message may lead to an attacker page.",
+                "text": "Open the organiser’s known site or saved contact yourself",
+                "consequence": "You compare the message with a source it does not control.",
+                "explanation": "A link supplied by the message may lead to a page an attacker built.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: you open the organiser's known site independently and find no fee announcement there. The organiser is unavailable. What do you do?",
+            "prompt": "Separate snapshot: you open the organiser’s known site yourself and find no mention of a fee. The organiser cannot be reached. What do you do?",
             "choices": [
               {
-                "text": "Upload the message to an AI detector and pay after it reports a low AI-likelihood score",
-                "consequence": "In this synthetic snapshot, the detector reports a low AI-likelihood score. You expose the private message to a third-party service and pay an unverified fee.",
-                "explanation": "An AI score does not decide whether the payment is authorised.",
+                "text": "Upload the message to an AI detector, and pay if it reports a low AI-likelihood score",
+                "consequence": "In this snapshot the detector reports a low AI-likelihood score. You have shown a private message to an outside service and paid a fee nobody confirmed.",
+                "explanation": "A low AI score says nothing about whether this payment is authorised.",
                 "recommended": false
               },
               {
-                "text": "Hold payment and ask later through the known route",
-                "consequence": "You avoid an unverified charge.",
-                "explanation": "A deadline in an unverified message is not a reason to skip the check.",
+                "text": "Hold the payment and ask later through the known route",
+                "consequence": "You avoid an unconfirmed charge.",
+                "explanation": "An unconfirmed fee stays unconfirmed, however polished the message that asks for it.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The safe decision was about the new fee, not whether the invitation used AI. A genuine organiser may still use a writing assistant. Retry steps to compare outcomes."
+        "debrief": "The safe decision was about the new fee, not about whether an AI helped write the invitation. A genuine organiser may well use a writing assistant. Go back and take the other choices to compare where they lead."
       },
       {
         "type": "check",
-        "title": "New messages, same method",
+        "title": "A fresh message, the same method",
         "questions": [
           {
-            "prompt": "An AI detector marks a private email “human”. Does that permit payment?",
+            "prompt": "An AI detector labels a private email “human”. Does that clear you to pay?",
             "choices": [
               {
-                "text": "Yes; a human score authenticates the sender",
-                "explanation": "Even a human-written message may be fraudulent or come from a compromised account.",
+                "text": "Yes; a “human” result authenticates the sender",
+                "explanation": "A message written by a human can still be fraudulent, or sent from a hijacked account.",
                 "correct": false
               },
               {
-                "text": "No; verify the payment request independently",
-                "explanation": "Authorship classification and payment authority are different questions.",
+                "text": "No; verify the payment request through a route you choose",
+                "explanation": "Who wrote the words and who may order a payment are different questions.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A genuine colleague uses a writing assistant. What does formal prose imply?",
+            "prompt": "A genuine colleague uses a writing assistant. What does their formal prose tell you?",
             "choices": [
               {
-                "text": "Little about whether the request is safe",
-                "explanation": "Inspect the requested action in the existing workflow.",
+                "text": "Very little about whether the request is safe",
+                "explanation": "Look at the action being asked for, in the system you normally use.",
                 "correct": true
               },
               {
-                "text": "The colleague must be an impostor",
-                "explanation": "Writing style is not an identity test.",
+                "text": "That the colleague must be an impostor",
+                "explanation": "How someone writes is not an identity test.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A sender answers a shared-history question in the suspicious thread.",
+            "prompt": "In the suspicious thread, the sender correctly answers a question about your shared past. What follows?",
             "choices": [
               {
-                "text": "Still use an independently selected contact for a high-risk request",
-                "explanation": "An attacker may have researched or read the history and may control the thread.",
+                "text": "For a high-risk request, still contact them by a route you chose",
+                "explanation": "An attacker may have researched that history, or read it in a hijacked mailbox, and may control the thread.",
                 "correct": true
               },
               {
-                "text": "The answer alone settles identity",
-                "explanation": "A remembered fact is not proof of control or authorisation.",
+                "text": "The answer on its own settles who it is",
+                "explanation": "Knowing a fact is not proof of control or of authority.",
                 "correct": false
               }
             ]

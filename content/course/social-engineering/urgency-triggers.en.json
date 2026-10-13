@@ -1,154 +1,154 @@
 {
   "order": 5,
-  "title": "Urgency, fear, and authority triggers",
+  "title": "Urgency, fear and borrowed authority",
   "est_minutes": 13,
-  "body_md": "## Pressure is a reason to change pace\n\nUrgency, fear and claimed authority often arrive together. “The account closes in ten minutes,” “you will be arrested,” and “I am from the fraud team” are designed to make the proposed action seem like the only safe exit. The UK NCSC identifies authority, urgency, emotion and scarcity as common scam cues. A cue is a reason to slow down and check, not proof that every urgent situation is false. Real card alerts, medical calls and workplace deadlines exist.\n\nThe mechanism is practical: a short clock shrinks the time available to consult a second source; fear narrows attention to avoiding loss; an official-sounding title makes questions feel improper. An attacker may add secrecy (“do not tell your family”) or continuous contact (“stay on the line”) to prevent outside comparison. There is no reliable universal pause length. Take enough time to end the inbound interaction and reach the institution or person by a route you already know. A real emergency can still be handled through the real service.\n\nInspect the **requested remedy**, not just the threatened problem. A caller who claims fraud and then asks you to transfer money to “protect” it is offering a remedy that creates the risk. A message about an account lock that asks for a verification code has the same structure. Ask what would happen if you did nothing for a few minutes, then check in your own app, card statement, published service number or known work directory. Do not debate a caller into proving their status; their answers are part of the same unverified channel.\n\nA legitimate deadline may be inconvenient. The independent channel may confirm that payment is due, a card is blocked, or a meeting is about to start. Once confirmed, follow the real procedure. If the pressure involves immediate physical danger, contact local emergency services by a number you know; do not delay emergency help to finish an online checklist. The cases and exercise show how to preserve both caution and urgency when the underlying issue might be real.",
+  "body_md": "## Take the pan off the heat\n\n“Your account will be closed in ten minutes.” “You will be arrested.” “This is the fraud team.” Urgency, fear and borrowed authority usually arrive together, and for a reason: each one makes the proposed action look like the only way out. The UK NCSC lists authority, urgency, emotion and scarcity among the usual scam cues. A cue is a reason to slow down and check. It does not prove that every urgent situation is false, because real card alerts, medical calls and workplace deadlines exist.\n\nPressure works like a pan about to boil over. You lunge at it and forget that you could simply lift it off the heat. The mechanics are plain. A short clock leaves no time for a second source, and fear narrows your attention to the loss you are trying to dodge. An official title makes questions feel rude. Scammers often add secrecy (“don’t tell your family”) or constant contact (“stay on the line”), so that nobody outside can offer a comparison. No pause length fits every case. Take as long as you need: end the inbound call, then reach the institution or the person by a route you already know. A real emergency can still be handled through the real service.\n\nLook at the **remedy being offered**, not only the problem being threatened. A caller who reports fraud and then asks you to transfer money to “protect” it is proposing a remedy that creates the danger. A message about a locked account that asks for a verification code has the same shape. Ask yourself what would actually happen if you did nothing for a few minutes, then check in your own app, on your card statement, at the published service number or in the work directory you know. Do not try to argue a caller into proving who they are: their answers come through the same unverified channel.\n\nA real deadline can be inconvenient. The independent channel may well confirm that a payment is due, a card is blocked or a meeting is about to start, and once it does, you follow the real procedure. If the pressure involves immediate physical danger, call local emergency services on a number you know, and do not hold up emergency help to finish an online checklist. The cases and the exercise show how to keep both caution and speed when the underlying issue may be real.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Respond to a fear-plus-deadline claim by verifying the problem and remedy through a known route before taking a consequential action.",
-    "today_action": "Choose one short phrase to use under pressure: “I will check this through my own app or number and call back.”",
+    "goal": "When fear and a deadline arrive together, verify the problem and the remedy through a route you already know before you do anything consequential.",
+    "today_action": "Choose one short sentence for the moment someone leans on you, and say it aloud once: “I will check this through my own app or number and call back.”",
     "checked_at": "2026-10-20",
-    "scope": "General decision rule; UK NCSC and US FTC consumer examples. Actual deadlines, emergency numbers and legal procedures depend on place and institution.",
+    "scope": "A general decision rule, with consumer guidance from the UK NCSC and the US FTC. Real deadlines, emergency numbers and legal procedures depend on where you live and which institution is involved.",
     "sources": [
       {
-        "title": "UK NCSC — how to spot a scam message or call",
+        "title": "UK NCSC: how to spot a scam message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
+        "scope": "UK public guidance, published 2021 and reviewed 2022. Warning cues and independent contact, not a diagnostic test."
       },
       {
-        "title": "US FTC — How to Avoid a Scam",
+        "title": "US FTC: how to avoid a scam",
         "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
-        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
+        "scope": "US consumer guidance (2023) on impersonation, pressure, payment methods and independent contact."
       },
       {
-        "title": "US FTC — unexpected calls about money at risk",
+        "title": "US FTC: unexpected calls about money at risk",
         "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
-        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
+        "scope": "US consumer alert, January 2026. Call back on a number from your own card, statement, app or the official site."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: “protect your savings now”",
-        "situation": "A caller says a fraudulent transfer is pending, claims to be a bank supervisor, and gives you eight minutes to move savings to a new “secure” account. They insist you stay on the call.",
-        "analysis": "Fear, authority and a clock reinforce each other; the offered remedy is itself a transfer. End the call without moving money or reading codes. Check activity in your own bank app or call the card’s established number. Ask the real bank what protective steps it actually supports.",
+        "title": "“Protect your savings now”",
+        "situation": "A caller says a fraudulent transfer is about to go through. Claiming to be a bank supervisor, the caller gives you eight minutes to move your savings to a new “secure” account and insists you stay on the line.",
+        "analysis": "Fear, rank and a clock feed one another, and the remedy on offer is itself a transfer. End the call without moving money or reading out any codes. Check your activity in your own banking app, or call the number printed on your card, and ask the real bank what protective steps it actually offers.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: real card alert at a bad moment",
-        "situation": "Your bank app, opened from your phone’s home screen, shows a declined transaction and a card lock. You also received a text saying the card was locked.",
-        "analysis": "The alert may be genuine. The independently opened app confirms an account state, but you still follow the bank’s own in-app or card-backed instructions rather than a text link. Fast action can be appropriate after authentication.",
+        "title": "A real card alert at a bad moment",
+        "situation": "Your bank app, opened from your phone’s home screen, shows a declined transaction and a locked card. A text has just arrived saying the card was locked.",
+        "analysis": "The alert may well be genuine. The app you opened yourself confirms the state of the account, but follow the bank’s instructions inside the app or on the card, not a link in the text. Once you have confirmed it on your own, acting fast is fine.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The deadline call",
-        "setup": "Three separate fictional housing snapshots test a deadline, a callback route and a tenant-portal finding. Each new snapshot resets the situation; no choice carries into the next one. This is not legal or housing advice.",
+        "title": "Three calls about a lease",
+        "setup": "Three separate, invented housing scenes test a deadline, a callback route and a tenant-portal finding. Each scene starts fresh, and nothing you choose carries into the next. This is not legal or housing advice.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "First call: an unknown caller cites your building, says your lease renewal will lapse tonight, and sends a payment link to preserve it. What first?",
+            "prompt": "First call: a stranger names your building, says your lease renewal lapses tonight, and sends you a payment link to save it. What do you do first?",
             "choices": [
               {
-                "text": "Pay through the link to preserve the renewal.",
-                "consequence": "You may pay a party you have not verified.",
-                "explanation": "Correct building details and a deadline do not authenticate a payment link.",
+                "text": "Pay through the link and keep the renewal.",
+                "consequence": "Your money goes to a party nobody has verified.",
+                "explanation": "Getting your building right and naming a deadline proves nothing about the payment link.",
                 "recommended": false
               },
               {
-                "text": "Note the claimed deadline and end the call before using any link.",
-                "consequence": "You make room for an independent check.",
-                "explanation": "You can act quickly through a trusted office route if the claim is real.",
+                "text": "Note the claimed deadline and hang up without touching the link.",
+                "consequence": "You leave room for an independent check.",
+                "explanation": "If the claim is real, you can still act quickly through an office you trust.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate new call: a claimed housing-office worker says the published office line is overloaded and offers an alternate number. Which route do you use?",
+            "prompt": "A different call: someone says they work for the housing office, tells you the published office line is overloaded, and offers another number to use. Which route do you take?",
             "choices": [
               {
-                "text": "Open the known tenant portal or call the office number on your existing lease.",
-                "consequence": "You use contact details held before the call.",
-                "explanation": "The office can confirm whether a payment and deadline exist.",
+                "text": "Open the tenant portal you already use, or call the office number on your existing lease.",
+                "consequence": "You use contact details you held before the phone rang.",
+                "explanation": "The office itself can confirm whether a payment and a deadline exist.",
                 "recommended": true
               },
               {
-                "text": "Use the alternate number they supply.",
-                "consequence": "The same source now controls the “verification” route.",
-                "explanation": "An excuse about the usual channel must itself be verified.",
+                "text": "Call the alternate number they give you.",
+                "consequence": "The person who made the claim now also answers your check.",
+                "explanation": "An excuse about the usual channel needs checking too.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate new renewal: you opened your known tenant portal yourself. It shows a renewal due this week but no new payment link. An inbound caller nevertheless asks you to pay through a new link. What next?",
+            "prompt": "A third, separate renewal: you open your tenant portal yourself. It shows a renewal due this week but no new payment link. Then a caller you did not expect asks you to pay through a new link anyway. What next?",
             "choices": [
               {
-                "text": "Pay the caller anyway because the deadline is close.",
-                "consequence": "A real deadline can be used to attach a fake remedy.",
-                "explanation": "Follow the portal’s listed process or ask staff through the known channel.",
+                "text": "Pay the caller anyway, since the deadline is close.",
+                "consequence": "A fake payment route, bolted onto a real deadline, takes your money.",
+                "explanation": "Follow the process the portal lists, or ask the staff through a channel you know.",
                 "recommended": false
               },
               {
-                "text": "Complete any due action in the portal and ask staff about the conflicting call.",
-                "consequence": "You address the genuine task while rejecting the unverified payment path.",
-                "explanation": "This separates the real deadline from the caller’s invented instruction.",
+                "text": "Do whatever the portal says is due, and ask the staff about the conflicting call.",
+                "consequence": "You deal with the genuine task and turn down the unverified payment route.",
+                "explanation": "That separates the real deadline from the caller’s invented instruction.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Debrief: these are three independent decisions, so a prior payment or ended call does not create the later portal finding. Urgency can accompany a real renewal, while an unverified payment link remains unsafe. Replay each snapshot and check the claimed problem and proposed remedy separately."
+        "debrief": "Each scene stood alone: what you did in one did not change what the portal showed in another. A renewal can be real and urgent, and an unverified payment link is still unsafe. Run the three again and judge the claimed problem and the proposed remedy separately."
       },
       {
         "type": "check",
-        "title": "Pressure and evidence",
+        "title": "Pressure against proof",
         "questions": [
           {
-            "prompt": "An urgent fraud call says a “safe account” transfer is the only remedy. What do you do?",
+            "prompt": "An urgent fraud call says a transfer to a “safe account” is the only remedy. What do you do?",
             "choices": [
               {
-                "text": "Transfer first, verify after.",
-                "explanation": "A later check may not undo an authorized transfer.",
+                "text": "Transfer first and verify afterwards.",
+                "explanation": "A later check may not undo a transfer you authorized yourself.",
                 "correct": false
               },
               {
-                "text": "End the call and use your own bank contact to verify both problem and remedy.",
-                "explanation": "Correct: the caller cannot authenticate their own instructions.",
+                "text": "End the call, and use your own bank contact to verify both the problem and the remedy.",
+                "explanation": "The caller cannot vouch for their own instructions.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "Your independently opened bank app confirms a card lock. Does the text alert have to be fake?",
+            "prompt": "The bank app you opened yourself confirms a card lock. Must the text alert then be fake?",
             "choices": [
               {
-                "text": "No; use the app’s own instructions to handle the real lock.",
-                "explanation": "Correct: the underlying issue can be real, and the action path remains independent.",
+                "text": "No. Handle the real lock using the app’s own instructions.",
+                "explanation": "The underlying problem can be real while your way of acting on it stays independent.",
                 "correct": true
               },
               {
-                "text": "Yes; urgent texts can never describe real account events.",
-                "explanation": "A text may be genuine; the app confirmation changes the evidence.",
+                "text": "Yes. Urgent texts can never describe real account events.",
+                "explanation": "A text can be genuine. The app’s confirmation changes the evidence.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "Someone claims the main office line is down. What is the status of that claim?",
+            "prompt": "Someone says the office’s main line is down and offers another number. How should you treat that claim?",
             "choices": [
               {
-                "text": "A reason to use their new number without checking.",
-                "explanation": "That keeps verification under the caller’s control.",
+                "text": "As a reason to use their new number without checking.",
+                "explanation": "That leaves the verification in the caller’s hands.",
                 "correct": false
               },
               {
-                "text": "An unverified exception to check through an existing portal or later known contact.",
-                "explanation": "Correct: an exception is not evidence of its own truth.",
+                "text": "As an unverified exception, to be checked through the portal you already use or a contact you already know.",
+                "explanation": "An exception does not prove its own truth.",
                 "correct": true
               }
             ]

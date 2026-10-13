@@ -1,165 +1,165 @@
 {
   "order": 6,
-  "title": "Charity and disaster-relief fraud",
+  "title": "When the disaster is real and the link isn’t",
   "est_minutes": 14,
-  "body_md": "## Separate the cause, collector and destination\nA disaster can be real while the payment link is false. An imitator may borrow a charity's name and photographs; a fundraiser may claim to collect for a named family without authorization; a legitimate crowdfunding organizer may still differ from the beneficiary. Emotional urgency is understandable, but it removes the time needed to trace the recipient. A dramatic picture or a friend's repost is not independent verification.\n\nStart with the exact legal charity or named beneficiary. Find its site through a trusted prior reference or official registry and use the donation path it publishes. For crowdfunding, identify the organizer, beneficiary and platform's actual rules; if you cannot confirm that the organizer will pass funds on, choose a direct charity route. Registration requirements and tax treatment vary by country. The FTC's US guidance suggests checking state registration and, separately, IRS tax-exempt status where tax deductibility matters; a listing cannot prove every campaign honest.\n\nPayment method matters too. The FTC warns that a fundraiser insisting on only cryptocurrency, gift cards, wires or payment apps is a strong danger signal in its US context. A genuine charity can offer many methods, including digital options; do not use one payment method as a universal authenticity test. HTTPS encrypts a donation form but does not establish its owner. Take a brief pause to verify; there is no universal 24-hour waiting requirement. Save the receipt and check whether you accidentally enabled recurring donations. If you paid a suspect fundraiser, promptly ask your payment provider about available options and report through the relevant local authority; reimbursement is uncertain.",
+  "body_md": "## A real flood, a false address\n\nThe photograph is genuine: a street under brown water, a family on a roof. Everyone you know has shared it. Underneath sits a wallet address that belongs to someone who was never on that street. A disaster can be real while the payment link is false.\n\nThree things can come apart: the cause, the person collecting and the place the money lands. An imitator borrows a charity’s name and photographs. A fundraiser announces a collection for a named family that never agreed to it. Even an honest crowdfunding organizer may not be the beneficiary. The urge to act at once is a good one, and it eats the minutes you would need to trace the recipient. A harrowing picture or a friend’s repost is not verification.\n\n### Start from the name, not the link\n\nBegin with the exact legal name of the charity, or the named person the money is for. Find its site through a reference you already trust or an official registry, and give by the route that site publishes. With crowdfunding, learn who the organizer is, who the beneficiary is and what the platform’s rules say; if you cannot confirm the organizer will pass the money on, give to a charity directly. Registration and tax treatment vary by country. In the US, the FTC suggests checking state registration and, separately, IRS tax-exempt status where deductibility matters. A listing still cannot vouch for every campaign that uses the name.\n\n### How they ask you to pay\n\nThe payment method tells you something too. The FTC warns, in its US context, that a fundraiser who will take only cryptocurrency, gift cards, wires or payment apps is showing a strong danger sign. A genuine charity, though, may offer many ways to give, digital ones included, so no single method works as a test of honesty. HTTPS encrypts a donation form and says nothing about whose it is. Pause briefly to verify; no universal 24-hour wait exists. Save the receipt and check whether you switched on a recurring donation by accident. If you paid a doubtful collector, ask your payment provider promptly what can be done and report it to the proper local authority. Getting the money back is not certain.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Confirm who receives a donation without abandoning a cause you want to support.",
-    "today_action": "Choose one cause you support and bookmark its independently verified official donation page for future appeals.",
+    "goal": "Find out who actually receives the money, and still give to the cause you care about.",
+    "today_action": "Choose a cause you support, find its official donation page on your own and bookmark it. The next appeal can then be checked against it.",
     "checked_at": "2026-10-20",
-    "scope": "FTC guidance concerns US charities, payment methods and tax status; other countries have different registries and protections. Checked 2026-10-20.",
+    "scope": "The FTC guidance covers US charities, payment methods and tax status; other countries keep different registries and protections. The examples are invented. Checked 2026-10-20.",
     "sources": [
       {
         "title": "FTC: Before Giving to a Charity",
         "url": "https://consumer.ftc.gov/articles/giving-charity",
-        "scope": "US charity, fundraising and payment guidance; registration rules vary elsewhere."
+        "scope": "US guidance on charities, fundraisers and payment methods. Registration rules differ elsewhere."
       },
       {
         "title": "FTC: What To Do if You Were Scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment-provider and account response; no recovery guarantee."
+        "scope": "US steps through your payment provider and your accounts. It promises no recovery."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A viral appeal with a changed wallet",
-        "situation": "Synthetic: a widely shared post uses real flood photos and the name of an established aid group, but asks donors to send to a personal crypto wallet found only in the post.",
-        "analysis": "Real photos and a real cause do not validate that wallet. Open the group’s official site independently and use its published donation channel. If the claimed campaign cannot be matched, do not send to the post.",
+        "title": "The flood post with a private wallet",
+        "situation": "A post is making the rounds with real photographs of a flood and the name of a well-known aid group. It asks donors to send money to a personal crypto wallet that appears nowhere but in the post.",
+        "analysis": "Real photos and a real flood do nothing to validate that wallet. Open the group’s official site yourself and give through the channel it publishes. If the post’s campaign cannot be matched there, send nothing to it.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A genuine urgent appeal",
-        "situation": "Synthetic: a registered local relief group announces a same-day supply run. Its independently found site lists the project, exact legal entity, card donation form and a published contact; an organizer answers questions consistently.",
-        "analysis": "Urgency alone does not make an appeal fraudulent. Confirm the entity and recipient under your country’s system, read the project and use the official payment route. You may donate promptly once satisfied; there is no magic waiting period.",
+        "title": "Supplies leaving this afternoon",
+        "situation": "A registered local relief group announces a supply run for this afternoon. You find its site on your own: it names the project and the exact legal entity, offers a card donation form and publishes a contact. When you ask the organizer questions, the answers stay consistent.",
+        "analysis": "Urgency alone does not make an appeal fraudulent. Confirm the entity and the recipient through your own country’s system, read what the project is, and use the official payment route. Once you are satisfied you can give straight away; there is no waiting period to serve.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Choose where the donation goes",
-        "setup": "Synthetic: you want to help after a coastal storm. A friend forwards a moving social post linking to `coast-help.example`.",
+        "title": "Where the money goes",
+        "setup": "An invented evening: a storm has hit the coast and you want to help. A friend forwards a moving post that links to `coast-help.example`.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "The post names a known charity. How do you reach it?",
+            "prompt": "The post names a well-known charity. How do you reach it?",
             "choices": [
               {
-                "text": "Click because your friend shared it.",
-                "consequence": "Your friend may have shared an unchecked link.",
-                "explanation": "Reposts are not verification.",
+                "text": "Click the link, because your friend sent it.",
+                "consequence": "Your friend may have passed on a link nobody checked.",
+                "explanation": "A repost is not verification.",
                 "recommended": false
               },
               {
-                "text": "Find its official site or registry independently.",
-                "consequence": "You separate the charity from the forwarded URL.",
-                "explanation": "A genuine name can be used by an imitator.",
+                "text": "Find the charity’s official site or registry entry yourself.",
+                "consequence": "You have separated the charity from the URL you were handed.",
+                "explanation": "A real name is easy to borrow.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The link is actually a crowdfunding page. What must be clear?",
+            "prompt": "Back at your friend’s link, the page is a crowdfunding appeal, not the charity’s own site. What has to be clear?",
             "choices": [
               {
-                "text": "Who organizes it, who receives it and how transfer to the cause is verified.",
-                "consequence": "You can decide whether this path serves the intended people.",
-                "explanation": "The organizer and beneficiary may be different.",
+                "text": "Who organizes it, who receives the money and how the transfer to the cause is confirmed.",
+                "consequence": "You can judge whether this route will reach the people you mean to help.",
+                "explanation": "The organizer and the beneficiary can be different people.",
                 "recommended": true
               },
               {
-                "text": "Only whether the photo is emotional.",
-                "consequence": "The payment destination remains unknown.",
-                "explanation": "Emotion is not a transfer record.",
+                "text": "Only how moving the photo is.",
+                "consequence": "Where the payment lands is still unknown.",
+                "explanation": "Emotion is no record of a transfer.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A caller says only gift cards will arrive in time. Next?",
+            "prompt": "Then your phone rings. A caller collecting for the same cause says only gift cards will arrive in time. What next?",
             "choices": [
               {
-                "text": "Read gift-card codes over the phone.",
-                "consequence": "The codes may be spent immediately.",
-                "explanation": "This bypasses the charity entirely.",
+                "text": "Read the gift-card codes out over the phone.",
+                "consequence": "The codes can be spent the moment you have said them.",
+                "explanation": "The codes go to the caller; the charity never sees them.",
                 "recommended": false
               },
               {
-                "text": "Decline and use the independently verified donation route.",
-                "consequence": "You can support the cause without the forced payment method.",
-                "explanation": "A gift-card-only demand is a strong warning.",
+                "text": "Decline, and give through the route you verified yourself.",
+                "consequence": "You can still support the cause without the forced payment method.",
+                "explanation": "A gift-card-only demand is a strong warning sign.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Final checkpoint: whether you used a verified donation route, gave out gift-card codes or paid nothing, what follow-up helps?",
+            "prompt": "Last checkpoint, whichever way you went: through a verified route, by reading out gift-card codes, or by paying nothing. What follow-up helps?",
             "choices": [
               {
-                "text": "Keep any receipts, gift cards and contact records; inspect charges and recurring settings; if codes were exposed, contact the gift-card issuer now.",
-                "consequence": "You can spot an unintended charge and explain any payment or code loss. The issuer can advise on options, but recovery is uncertain.",
-                "explanation": "Records help even when a cause is real; the FTC advises contacting the gift-card company quickly if codes were given to a scammer.",
+                "text": "Keep receipts, any gift cards and messages, check charges and recurring settings, and call the gift-card company now if codes went out.",
+                "consequence": "You can spot a charge you did not intend and explain a payment or lost codes. The company can lay out the options, but getting the money back is uncertain.",
+                "explanation": "Records pay off even when the cause is real; the FTC advises calling the gift-card company quickly if a scammer got the codes.",
                 "recommended": true
               },
               {
-                "text": "Delete any records and ignore later account activity.",
-                "consequence": "You may miss another charge or lose evidence of a payment or exposed code.",
-                "explanation": "A legitimate donation can need correction, and gift-card loss needs prompt action.",
+                "text": "Delete the records and ignore later account activity.",
+                "consequence": "You could miss another charge, or lose the proof of a payment or of exposed codes.",
+                "explanation": "Even an honest donation can need correcting, and lost gift-card codes call for quick action.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "You can help quickly after tracing the legal recipient and payment path. A real crisis does not authenticate a particular post."
+        "debrief": "You can help quickly once you have traced the legal recipient and the payment path. A real crisis does not vouch for any particular post. Go back and take the other fork wherever you want to see what it costs."
       },
       {
         "type": "check",
-        "title": "Check the beneficiary",
+        "title": "Who is the beneficiary?",
         "questions": [
           {
-            "prompt": "A friend shares a photo of real damage with a wallet address. What does the photo prove?",
+            "prompt": "A friend shares a photo of real damage along with a wallet address. What does the photo prove?",
             "choices": [
               {
-                "text": "The wallet belongs to the victims.",
-                "explanation": "A photo cannot establish wallet ownership.",
+                "text": "That the wallet belongs to the victims.",
+                "explanation": "A photo cannot show who owns a wallet.",
                 "correct": false
               },
               {
-                "text": "The event may be real; it does not link the wallet to aid.",
-                "explanation": "Content provenance and payment destination are separate.",
+                "text": "The event may be real; nothing links the wallet to the relief effort.",
+                "explanation": "Where a photo came from and where the money goes are separate questions.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A registered charity runs an urgent drive. Is waiting 24 hours mandatory?",
+            "prompt": "A registered charity is running an urgent drive. Must you wait 24 hours before giving?",
             "choices": [
               {
-                "text": "No; verify independently, then donate when ready.",
-                "explanation": "Verification, not a fixed delay, is the control.",
+                "text": "No: verify independently, then give when you are ready.",
+                "explanation": "The safeguard is the verification, not a fixed delay.",
                 "correct": true
               },
               {
-                "text": "Yes; every urgent appeal is fraud until tomorrow.",
-                "explanation": "Genuine emergencies and honest rapid response exist.",
+                "text": "Yes: every urgent appeal is a fraud until tomorrow.",
+                "explanation": "Real emergencies exist, and so does honest rapid response.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A US charity is on a tax-exempt list. What remains to check?",
+            "prompt": "A US charity appears on a tax-exempt list. What is left to check?",
             "choices": [
               {
-                "text": "Nothing; every link with its name is safe.",
-                "explanation": "A listing does not authenticate a social link.",
+                "text": "Nothing; any link carrying its name is safe.",
+                "explanation": "A listing cannot authenticate a link on social media.",
                 "correct": false
               },
               {
-                "text": "That the particular campaign and payment destination are its own.",
-                "explanation": "Imitators can borrow a real charity’s name.",
+                "text": "That this campaign and this payment destination really belong to it.",
+                "explanation": "Imitators borrow the names of real charities.",
                 "correct": true
               }
             ]

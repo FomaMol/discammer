@@ -1,206 +1,206 @@
 {
   "order": 1,
-  "title": "Anatomy of a modern scam economy",
+  "title": "How a modern scam is built, job by job",
   "est_minutes": 14,
-  "body_md": "## Follow the money, not the polish\nA scam can involve several people or services, but you rarely need to identify them to protect yourself. Follow four functions: **reach** (an ad or message finds you), **credibility** (a plausible employer, friend or brand), **extraction** (money, credentials, access or a payment change) and **cash-out** (moving value beyond easy recall). One person may do every part; in another operation, roles are split. Do not infer a large criminal organization from a polished message. In one documented 2025 FBI case, a provider supplied hosting and domain infrastructure used by many fraudulent investment sites. Other operations may reuse fake pages, contact lists or payment intermediaries; the exact arrangement is not visible from a single message.\n\nA job ad may be the recruitment surface. A chat operator builds trust. A fake dashboard shows a balance. The instruction to deposit funds or relay a payment is the extraction point. If you are asked to receive and send money through your own account, you may be recruited as a *money mule*, even if the arrangement is described as payroll or a customer refund. An incoming transfer does not establish that it is final, lawful or yours to forward. The FTC warns that a deposited check can later prove fake, leaving the recipient liable for money already sent on.\n\n### Where a pause helps\nThe useful question is not “Which criminal role wrote this?” It is “What asset am I about to hand over, and can I verify the reason through a channel I chose?” Before giving account details, paying to unlock a task, forwarding money, or changing a supplier account, stop the workflow. Contact the genuine organization using an established site, app or number. For a workplace payment, follow a documented approval path and verify changed details with the known supplier contact; a familiar mailbox can itself be compromised.\n\n### What the model cannot tell you\nA real company can use recruiters, chat support, dashboards and subcontractors. A slow reply or unusual wording does not prove fraud; a professional website does not prove legitimacy. The strongest decision points are requests that transfer control: advance payment to earn wages, use of your personal account to move another party's funds, credentials, remote access, or an unexpected recipient change. Treat this chain as a way to identify the next safe action, not as a diagnosis of every person in it.\n\n**Remember:** you can interrupt a chain before its last step. If you already moved money, stop further transfers and promptly contact your bank or payment provider. Recovery is uncertain and rules vary by country.",
+  "body_md": "## Four jobs behind the pitch\n\nA recruiter you have never heard of offers to pay you for rating product photos from the sofa. The retailer’s name is famous, the tone is friendly, the work sounds easy. You see one scam. Behind it there may be one person or several, and from where you sit you can’t tell which. You don’t need to. Whatever its size, a scheme has the same four jobs to get done, much as a shop needs a flyer at the door, a uniform behind the counter, a till and a back exit: **reach** (an ad or message finds you), **credibility** (a believable employer, friend or brand), **extraction** (money, credentials, access or a quietly changed payment detail) and **cash-out** (the value moves somewhere hard to call back).\n\nPolish says nothing about the size of the operation behind it. One person can play every part; elsewhere the parts are split. An FBI advisory from May 2025 described a provider whose hosting and domain infrastructure served many fraudulent investment sites, and other operations may share fake pages, contact lists or payment middlemen. From a single message you can’t see which arrangement you are facing.\n\nWalk the chain once. The job ad is how the scheme finds you. A chat operator supplies the warmth. A dashboard shows a balance that looks like earnings. The demand to deposit funds or pass a payment along is the extraction. And if you are asked to receive money in your own account and send it on, you may be recruited as a *money mule*, even when the arrangement is called payroll or a customer refund. A transfer that lands in your account isn’t necessarily final, lawful or yours to forward. The FTC warns that a deposited check can turn out to be fake, leaving the person who deposited it responsible for money already sent on.\n\n### Where a pause pays off\n\n“Which criminal wrote this?” is a question you can’t answer. Ask instead: **what am I about to hand over, and can I check the reason through a channel I chose?** Before you give out account details, pay to get a task released, forward money or change a supplier’s account, stop. Contact the real organization through a site, app or number you already know. At work, follow the documented approval path and confirm changed details with the supplier contact on file, because even a familiar mailbox can be compromised.\n\n### What the chain can’t tell you\n\nA real company can use recruiters, chat support, dashboards and subcontractors. A slow reply or odd wording doesn’t prove fraud, and a professional website doesn’t prove honesty. What deserves your attention is any request that transfers control: payment in advance to earn wages, your personal account used to move someone else’s funds, credentials, remote access, or a recipient who changes without warning. Use the chain to find your next safe move, not to put a verdict on every person in it.\n\nYou can break it before the last link. If you have already moved money, stop any further transfers and call your bank or payment provider promptly. Recovery isn’t guaranteed, and the rules differ from country to country.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Map an apparent opportunity into recruitment, trust-building, extraction and cash-out, then choose where to stop it.",
-    "today_action": "Write down one rule for offers involving your own account: never receive and forward money for a stranger or supposed employer.",
+    "goal": "Break an offer down into reach, credibility, extraction and cash-out, then choose the link where you stop it.",
+    "today_action": "Write one rule for offers that involve your own bank account: you never receive money for a stranger or a so-called employer and pass it on.",
     "checked_at": "2026-10-20",
-    "scope": "Global educational model. The FTC examples and reporting routes cited below concern the US; roles vary between schemes and one clue cannot prove a crime.",
+    "scope": "A general teaching framework. The people and firms in the cases are invented. The FTC examples and reporting routes cited here are American; roles differ from scheme to scheme, and one clue never proves a crime.",
     "sources": [
       {
         "title": "FTC: What is a money mule scam?",
         "url": "https://consumer.ftc.gov/consumer-alerts/2020/03/whats-money-mule-scam",
-        "scope": "US consumer warning from 2020; banking/legal consequences depend on jurisdiction"
+        "scope": "A US consumer warning from 2020. Banking and legal consequences depend on where you live."
       },
       {
         "title": "FTC: Job scammers are looking to hire you",
         "url": "https://consumer.ftc.gov/consumer-alerts/2025/07/job-scammers-are-looking-hire-you",
-        "scope": "US consumer examples, July 2025; no universal prevalence claim"
+        "scope": "US consumer examples from July 2025. It makes no claim about how common these scams are everywhere."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US law-enforcement overview; payment verification concept is general"
+        "scope": "A US law-enforcement overview. Verifying a payment change works the same way anywhere."
       },
       {
         "title": "NCSC: How to spot a scam email, text message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK consumer guidance; published 2021, reviewed 2022; verification habit applies broadly"
+        "scope": "UK consumer guidance, published in 2021 and reviewed in 2022. The habit of verifying independently applies well beyond the UK."
       },
       {
         "title": "FBI IC3: Investment Fraud",
         "url": "https://www.ic3.gov/CrimeInfo/Investment",
-        "scope": "US law-enforcement description of trust-building, fake returns and small withdrawals"
+        "scope": "How US law enforcement describes it: trust built slowly, fake returns shown, small withdrawals that succeed."
       },
       {
         "title": "FBI: Infrastructure used in cryptocurrency investment fraud",
         "url": "https://www.ic3.gov/CSA/2025/250529.pdf",
-        "scope": "Dated 29 May 2025 case-specific infrastructure advisory; not a claim about every scam"
+        "scope": "An advisory dated 29 May 2025 about one specific infrastructure case. It does not describe every scam."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A paid “quality tester” queue",
-        "situation": "Synthetic: A recruiter contacts Mira about rating product photos. A dashboard shows commissions, then says she must deposit a small amount to unlock a higher-paying batch.",
-        "analysis": "The first two stages recruit and create a believable balance. The deposit is extraction; a displayed balance is not proof of withdrawable earnings. Mira should stop, use the employer’s independently found careers page, and avoid any deposit.",
+        "title": "The “quality tester” with a deposit",
+        "situation": "A recruiter messages Mira about rating product photos for a retailer she has heard of. Her dashboard fills with commissions, and then a banner says she must deposit a small amount to open up a better-paid batch.",
+        "analysis": "The first two links are reach and credibility: the recruiter finds Mira, and the dashboard makes the money look real. The deposit is the extraction, and a balance on a screen is not earnings she can withdraw. Mira should stop, find the employer’s careers page herself and pay nothing.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A real supplier changes a billing contact",
-        "situation": "Synthetic: A known print supplier sends a new invoice after a documented change of accountant. The request appears in the usual work system, with no demand to bypass approvals.",
-        "analysis": "This can be legitimate. The changed recipient still deserves a call to the supplier number already on file and the normal dual approval. Verification can confirm the change without accusing the supplier.",
+        "title": "A trusted supplier gets a new accountant",
+        "situation": "Hartley Print, a supplier your firm has used for years, sends a new invoice after a documented change of accountant. The request arrives through the usual work system and doesn’t ask anyone to skip an approval.",
+        "analysis": "This can be perfectly legitimate. A changed recipient still deserves a call to the supplier’s number already on file and the usual two-person approval. A check like that confirms the change without accusing the supplier of anything.",
         "legitimate": true
       },
       {
         "type": "practice",
         "mode": "sequence",
-        "title": "Trace a synthetic task-job chain",
-        "setup": "You are offered a remote catalogue-review role. No real account, link or money is involved in this exercise. At each step, identify the asset at risk.",
+        "title": "Follow an online job offer, link by link",
+        "setup": "An invented exercise: you are offered a remote catalog-review job. No real account, link or money is involved. At each step, ask what you would be handing over.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "A chat recruiter offers immediate work under a famous retailer name. What starts the check?",
+            "prompt": "A recruiter in a chat offers immediate work under a famous retailer’s name. How do you start checking?",
             "choices": [
               {
-                "text": "Send your identity document in chat to reserve the role.",
-                "consequence": "The stranger receives sensitive data before the employer is verified.",
-                "explanation": "Brand names in a chat are easy to claim.",
+                "text": "Send your identity document in the chat to reserve the role.",
+                "consequence": "A stranger holds sensitive data before anyone has verified the employer.",
+                "explanation": "Anyone can claim a brand name in a chat window.",
                 "recommended": false
               },
               {
-                "text": "Find the role through the retailer’s own careers page.",
-                "consequence": "You can compare the role and recruiter without sharing details.",
-                "explanation": "An independently reached source tests the recruitment claim.",
+                "text": "Find the role on the retailer’s own careers page.",
+                "consequence": "You can compare the job and the recruiter without sharing a thing.",
+                "explanation": "A source you reached yourself tests the recruiter’s claim.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A dashboard shows a small “earned” balance, but withdrawal requires a deposit. Choose.",
+            "prompt": "The dashboard shows a small “earned” balance, but withdrawing it requires a deposit. What do you do?",
             "choices": [
               {
-                "text": "Decline the deposit and preserve the message privately.",
-                "consequence": "You avoid paying to access a displayed number.",
-                "explanation": "A platform display does not make the balance real.",
+                "text": "Decline, and keep a private copy of the messages.",
+                "consequence": "You haven’t paid for the right to look at a number on a screen.",
+                "explanation": "A figure on a platform’s screen doesn’t make the money real.",
                 "recommended": true
               },
               {
-                "text": "Pay once because the balance is larger.",
-                "consequence": "You risk losing the deposit and being pressured for more.",
-                "explanation": "A larger displayed number is controlled by the same unknown operator.",
+                "text": "Pay once, since the balance is bigger than the deposit anyway.",
+                "consequence": "You may lose the deposit and be pressed for more.",
+                "explanation": "The bigger number is drawn by the same unknown operator.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The recruiter says a customer refund will enter your bank and you must forward it. Choose.",
+            "prompt": "The recruiter says a customer refund will land in your bank account and you must forward it. What do you do?",
             "choices": [
               {
-                "text": "Forward it after it appears in your account.",
-                "consequence": "The payment can later be reversed or disputed.",
-                "explanation": "Seeing a credit is not proof that the money is safe to pass on.",
+                "text": "Forward it once it shows up in your account.",
+                "consequence": "The payment can be reversed or disputed later, leaving you to cover what you sent on.",
+                "explanation": "A credit on your statement doesn’t prove the money is safe to pass on.",
                 "recommended": false
               },
               {
-                "text": "Refuse to receive or relay the funds.",
-                "consequence": "Your account is not used as a transfer channel.",
-                "explanation": "The FTC warns this can be a money-mule pattern.",
+                "text": "Decline to receive the money or pass it on.",
+                "consequence": "Your account doesn’t become a transfer channel.",
+                "explanation": "The FTC describes this as a possible money-mule pattern.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: another applicant says they already forwarded a supposed customer refund. What should you advise now?",
+            "prompt": "A separate moment: another applicant tells you they have already forwarded a supposed customer refund. What do you advise?",
             "choices": [
               {
-                "text": "Tell them to stop further transfers, contact their bank promptly through a known channel, and keep the records.",
-                "consequence": "They can report the transfer and ask about account-specific safeguards; recovery is not guaranteed.",
-                "explanation": "Once money has moved, prompt provider contact matters as well as stopping the chain.",
+                "text": "Stop any further transfers, call the bank promptly on a number you know, and keep the records.",
+                "consequence": "They can report the transfer and ask about safeguards for their account; recovery isn’t guaranteed.",
+                "explanation": "Once money has moved, a quick call to the provider matters as much as stopping the chain.",
                 "recommended": true
               },
               {
-                "text": "Tell them to wait for the recruiter to reassure them.",
-                "consequence": "Further transfers may be requested while the completed transfer goes unreported.",
-                "explanation": "The person who requested the transfer cannot independently assess or resolve it.",
+                "text": "Suggest waiting for the recruiter to reassure them.",
+                "consequence": "More transfers may be requested while the completed one goes unreported.",
+                "explanation": "The person who asked for the transfer can’t judge it or fix it.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "On replay, identify what you handed over. Sending an identity document in the opening chat gives a stranger a copy of sensitive data: that is already a transfer of control. If you did not send it, the deposit is the next possible handover of value. The refund request adds a risk of moving someone else's funds through your account. If you sent the document, stop sharing data, consult official guidance in your country on exposed identity documents, and watch for misuse. If you paid a deposit or forwarded funds, stop further transfers and promptly contact your bank or payment provider through a known channel; recovery is uncertain. The separate final snapshot concerns another applicant who already forwarded funds, so advise them on that money-transfer response. A genuine job can be verified without using your account as a relay."
+        "debrief": "Replay it and name what you handed over each time. An identity document sent in the opening chat is already a handover of sensitive data. If you didn’t send it, the deposit is the next place where value could leave. The refund adds a different risk: someone else’s money moving through your account. If you did send the document, stop sharing anything else, look up your country’s official guidance on exposed identity documents, and watch for misuse. If you paid a deposit or forwarded funds, stop further transfers and contact your bank or payment provider promptly through a channel you know; recovery is uncertain. The last step is about another applicant who has already forwarded money, so the answer there is the money-transfer one. A real job can be checked without your account serving as a relay."
       },
       {
         "type": "check",
-        "title": "Apply the chain to a new offer",
+        "title": "Put a new offer through the chain",
         "questions": [
           {
-            "prompt": "A seller asks to replace the bank account on an existing invoice. Which stage is at risk?",
+            "prompt": "A supplier asks you to replace the bank account on an invoice that already exists. Which link is at risk?",
             "choices": [
               {
-                "text": "Only recruitment; the invoice already exists.",
-                "explanation": "A real invoice can be used to redirect a payment.",
+                "text": "Only reach; the invoice is already there.",
+                "explanation": "A genuine invoice makes a handy vehicle for redirecting a payment.",
                 "correct": false
               },
               {
-                "text": "No risk if the email signature is correct.",
-                "explanation": "Signatures can be copied and mailboxes compromised.",
+                "text": "None, if the email signature looks right.",
+                "explanation": "Signatures can be copied, and mailboxes can be compromised.",
                 "correct": false
               },
               {
-                "text": "Payment extraction or diversion; verify the change with the known supplier contact.",
-                "explanation": "The asset is the outgoing payment, even when the invoice is familiar.",
+                "text": "Extraction, by diverting the payment. Verify the change through the supplier contact you already have.",
+                "explanation": "The asset is the money you are about to send, even when the invoice looks familiar.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "Why is a small successful withdrawal from an unfamiliar investment portal weak proof?",
+            "prompt": "What does one small, successful withdrawal from an unfamiliar investment portal prove?",
             "choices": [
               {
-                "text": "Any withdrawal proves the regulator licensed it.",
-                "explanation": "A transaction does not establish licensing.",
+                "text": "That a regulator has licensed it.",
+                "explanation": "A transaction says nothing about licensing.",
                 "correct": false
               },
               {
-                "text": "The operator may control the display and early withdrawals to build trust.",
-                "explanation": "A small payout does not establish the safety of later deposits.",
+                "text": "Very little: the operator controls the screen and may pay early withdrawals to build trust.",
+                "explanation": "A small payout doesn’t show that later deposits are safe.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A real employer uses a chat interview. What is the sound conclusion?",
+            "prompt": "A real employer interviews by chat. What is the sound conclusion?",
             "choices": [
               {
-                "text": "Chat alone is inconclusive; verify the role and avoid advance payments.",
-                "explanation": "The channel is common, while a deposit-to-work request changes the risk.",
+                "text": "The chat alone settles nothing: verify the role and never pay in advance.",
+                "explanation": "Chat interviews are common; a demand for a deposit before work is what changes the risk.",
                 "correct": true
               },
               {
-                "text": "Every chat interview is a scam.",
-                "explanation": "Legitimate employers may use chat tools.",
+                "text": "Any interview held in chat is a scam.",
+                "explanation": "Honest employers use chat tools too.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "You already forwarded an unknown “refund.” What is the next step?",
+            "prompt": "You have already forwarded an unknown “refund.” What is the next step?",
             "choices": [
               {
-                "text": "Forward another payment to settle the account.",
-                "explanation": "More transfers can increase loss and exposure.",
+                "text": "Send another payment to settle the account.",
+                "explanation": "More transfers deepen the loss and the exposure.",
                 "correct": false
               },
               {
-                "text": "Stop further transfers and contact your bank promptly.",
-                "explanation": "The bank can advise on a potentially reversible or disputed transfer.",
+                "text": "Stop further transfers and call your bank promptly.",
+                "explanation": "The bank can tell you what can be done about a transfer that may be reversible or disputed.",
                 "correct": true
               }
             ]

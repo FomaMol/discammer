@@ -1,191 +1,191 @@
 {
   "order": 6,
-  "title": "Case study: the 2024 deepfake CFO heist",
+  "title": "The 2024 deepfake CFO fraud, read closely",
   "est_minutes": 15,
-  "body_md": "## What the public record says\nIn a Hong Kong government reply dated 26 June 2024, police described a case reported at the end of January. A fraudster sent a phishing email impersonating the UK head office's chief financial officer and invited a staff member to a group video conference about confidential transactions. The staff member authorized transfers totaling about **HK$200 million** to five local bank accounts. Police said the fabricated conference was **prerecorded**, assembled from publicly available video and voice material. It was not an interactive, real-time conversation with the impersonated executives. After ending the recording, the fraudster continued payment instructions by instant message. The case was still under investigation when the reply was issued.\n\nArup later identified itself publicly as the company. In a 2025 interview, its CIO Rob Greig described the incident as technology-enhanced social engineering and said the company's systems and data were not compromised. That is Arup's account of its own investigation, not evidence that every similar incident leaves systems untouched. The government account does not establish the employee's internal approval rules, the precise production method, whether multiple visible colleagues all moved live, or the final recovery outcome. Earlier retellings that describe a fully interactive deepfake meeting or claim one callback would certainly have “ended the attack instantly” go beyond the verified record.\n\n### The mechanism\nThe email created an authority claim and a confidential-payment pretext. The video supplied familiar faces and voices; its prerecorded nature limited interaction, but the transition to instant messages kept the request moving. The money left when a payment was authorized. The vulnerable decision was the *change in financial control*, not a failure to spot a facial artifact. This is why a visual “deepfake test” alone is a brittle safeguard. Some fakes may look imperfect; ordinary compression and connection problems can also distort genuine video. Neither observation settles identity.\n\n### A stronger payment process\nAn organization can require that unusual transfers, new recipients and changes to bank details be checked through a previously recorded contact and its normal approval workflow. The approver should independently reach a known colleague or supplier, record what transaction was confirmed, and involve a second authorized person when policy requires it. A callback is useful only if the number did not come from the suspicious request and the other channel is not also controlled. A secret code spoken inside the same compromised meeting is weak. If a transfer has already gone out, contact the bank promptly and preserve the request; reversal is not guaranteed.\n\nA real executive may genuinely ask for a confidential urgent transaction. Confidentiality changes who is informed, not whether payment controls apply. A safe process lets the employee say, “I will verify this through our standard route,” without forcing a public accusation or relying on personal bravery.\n\n**Lesson:** treat audio and video as evidence of a claim, then authenticate the *payment instruction* through your established process.",
+  "body_md": "## What the public record says\n\nThe faces on the video call looked and sounded like company executives, and none of them could hear the employee. The call was a recording. That detail is easy to lose in retellings, and it comes from the Hong Kong government’s own reply of 26 June 2024, in which police described a case reported at the end of January. A fraudster emailed a staff member in the name of the chief financial officer (CFO) at the company’s UK head office and invited them to a group video conference about confidential transactions. The conference was **prerecorded**, police said, built from publicly available video and voice material, so there was no real-time exchange with the executives it showed. When the recording ended, the fraudster carried on with the payment instructions by instant message. The staff member authorized transfers totaling about **HK$200 million** to five local bank accounts. When the reply was written, the case was still under investigation.\n\nArup later said publicly that it was the company. In a 2025 interview, its CIO, Rob Greig, called the episode technology-enhanced social engineering and said the company’s systems and data were not compromised. That is Arup’s account of its own investigation; it doesn’t mean every incident of this kind leaves systems untouched. The government account does not say how payments were approved inside the company, exactly how the video was made, or what was finally recovered. Retellings that describe a fully interactive deepfake meeting, or insist that one callback would certainly have stopped everything at once, claim more than the record supports.\n\n### What the faces could and couldn’t do\n\nThe email supplied authority and a reason for secrecy. The video supplied familiar faces and voices. Being a recording, it couldn’t answer questions, but the switch to instant messages kept the request moving. The money left at the moment a payment was authorized. That was the decision that mattered, and the ability to spot a flicker in a fake face weighed very little beside it. A face on a screen is not a signature, which is why a visual “deepfake test” makes a brittle safeguard. Some fakes look imperfect, and ordinary compression or a poor connection distorts genuine video too. Neither observation settles who is on the other end.\n\n### A payment process that doesn’t hinge on a face\n\nTreat what you see and hear as evidence of a claim, and authenticate the payment instruction itself through the process you already have. An organization can require that unusual transfers, new recipients and changes to bank details be checked through a previously recorded contact and the normal approval workflow. The approver reaches a known colleague or supplier on their own, records which transaction was confirmed, and brings in a second authorized person when policy requires it. A callback helps only if the number didn’t come from the suspicious request and the other channel isn’t controlled by the same party. A secret code spoken inside the same compromised meeting is weak. If a transfer has already gone out, contact the bank promptly and keep the request; reversal is not guaranteed.\n\nA real executive may genuinely ask for a confidential, urgent transaction. Confidentiality changes who is told, not whether payment controls apply. A sound process lets the employee say, “I’ll confirm this through our standard route,” without a public accusation and without needing personal courage.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Separate verified facts of the 2024 CFO impersonation case from assumptions, and require independent payment authorization even when a video looks familiar.",
-    "today_action": "For one payment or high-impact approval process, identify the existing contact and second approver to use if an urgent change arrives.",
+    "goal": "Separate what the record shows about the 2024 CFO impersonation case from what people assume, and insist on independent payment authorization even when the video looks familiar.",
+    "today_action": "Pick one payment or high-impact approval process and name the existing contact and second approver you would use if an urgent change arrived.",
     "checked_at": "2026-10-20",
-    "scope": "The historical case is Hong Kong, January 2024, described in a 26 June 2024 government reply and a 2025 Arup CIO interview. The official reply said the investigation was ongoing at the time. The exercise is synthetic.",
+    "scope": "The real case took place in Hong Kong in January 2024 and is drawn from a 26 June 2024 government reply and a 2025 interview with Arup’s CIO. The reply said the investigation was still under way. The acquisition case and the practice scenario are invented.",
     "sources": [
       {
         "title": "Hong Kong Government: LCQ9 on deepfake fraud",
         "url": "https://www.info.gov.hk/gia/general/202406/26/P2024062600192p.htm",
-        "scope": "Official account dated 26 June 2024; January case was under investigation"
+        "scope": "Official account dated 26 June 2024; the January case was still under investigation."
       },
       {
         "title": "World Economic Forum interview with Arup CIO Rob Greig",
         "url": "https://www.weforum.org/stories/emerging-technologies/deepfake-ai-cybercrime-arup/",
-        "scope": "Direct interview published 4 February 2025; Arup account, not a technical reconstruction"
+        "scope": "Direct interview published 4 February 2025; it gives Arup’s account, not a technical reconstruction."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US law-enforcement overview; payment verification concept is general"
+        "scope": "US law-enforcement overview; the idea of verifying a payment applies anywhere."
       },
       {
         "title": "NCSC: How to spot a scam email, text message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK consumer guidance; published 2021, reviewed 2022; verification habit applies broadly"
+        "scope": "UK consumer guidance, published 2021 and reviewed 2022; the habit of checking independently applies anywhere."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "The documented Hong Kong case",
-        "situation": "Real case, not a simulation: the 26 June 2024 Hong Kong government reply describes a January phishing email, a prerecorded fake video conference, subsequent instant messages and about HK$200 million sent to five accounts.",
-        "analysis": "This is a bounded official account of a payment redirection. It does not prove a fully live interactive deepfake or disclose the company’s exact internal approval controls. Arup’s CIO later confirmed the company had been deceived; the case was still under police investigation in the government reply.",
+        "title": "The Hong Kong case, as documented",
+        "situation": "A real case, not a simulation: the 26 June 2024 Hong Kong government reply describes a January phishing email, a prerecorded fake video conference, follow-up instant messages and about HK$200 million sent to five accounts.",
+        "analysis": "This is a narrow, official account of a payment being redirected. It does not prove a fully live, interactive deepfake, and it does not reveal the company’s internal approval controls. Arup’s CIO later confirmed the company had been deceived; the government reply says the case was still under police investigation.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A real confidential acquisition payment",
-        "situation": "Synthetic: A CFO asks a finance team to prepare a time-sensitive acquisition payment. The request appears in the company’s normal transaction system, a known executive confirms through a pre-existing number, and two authorized approvers sign according to policy.",
-        "analysis": "The request can be legitimate even if unusual and confidential. Existing approval and independent contact validate the instruction without trusting a video image alone. The team should document confirmation while restricting sensitive deal information.",
+        "title": "A confidential payment that is real",
+        "situation": "A CFO asks the finance team to prepare an urgent payment for an acquisition. The request is in the company’s usual payment system, a known executive confirms it on a number saved long before, and two authorized approvers sign as policy demands.",
+        "analysis": "A request can be legitimate even when it is unusual and confidential. The existing approval route and an independent contact validate the instruction, with no reliance on a video image. The team should record the confirmation while keeping the deal details restricted.",
         "legitimate": true
       },
       {
         "type": "practice",
         "mode": "sequence",
-        "title": "Approve or pause a synthetic transfer",
-        "setup": "You are a finance employee in a fictional firm. A private meeting requests an urgent new supplier transfer. No real bank data or payment appears here.",
+        "title": "Approve the transfer, or pause it",
+        "setup": "You work in the finance team of an invented firm. A private video meeting asks you to make an urgent payment to a new supplier. No real bank details or payments are involved.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "A video participant looks and sounds like your CFO and requests a new payee. What matters first?",
+            "prompt": "On the video, someone who looks and sounds like your CFO asks you to pay a new payee. What matters first?",
             "choices": [
               {
-                "text": "Identify the new payee and treat it as a payment-change request needing the normal controls.",
-                "consequence": "You locate the high-impact decision.",
-                "explanation": "Appearance alone does not authorize new banking details.",
+                "text": "Spot the new payee and treat this as a payment-change request that needs the normal controls.",
+                "consequence": "You have found the decision that carries the risk.",
+                "explanation": "A face and a voice don’t authorize new banking details.",
                 "recommended": true
               },
               {
-                "text": "Approve because the face and voice match.",
-                "consequence": "A transfer may go to the wrong party.",
-                "explanation": "Familiar media can be fabricated or replayed.",
+                "text": "Approve it, because the face and voice match.",
+                "consequence": "The money may go to the wrong party.",
+                "explanation": "Familiar footage can be fabricated or replayed.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The meeting says the deal is secret and you may not consult the team. What response?",
+            "prompt": "The meeting insists the deal is secret and you must not consult your team. What do you say?",
             "choices": [
               {
-                "text": "Bypass policy to preserve secrecy.",
-                "consequence": "A single pressured decision controls the money.",
-                "explanation": "Secrecy is not a substitute for approval.",
+                "text": "Set the policy aside to keep the secret.",
+                "consequence": "One pressured decision now controls the money.",
+                "explanation": "Secrecy is no substitute for approval.",
                 "recommended": false
               },
               {
-                "text": "Use the confidential approval route and required second approver.",
-                "consequence": "The transaction can stay restricted while retaining controls.",
-                "explanation": "Confidentiality does not cancel authorization.",
+                "text": "Use the confidential approval route and bring in the required second approver.",
+                "consequence": "The deal stays restricted and the controls stay on.",
+                "explanation": "Confidentiality doesn’t cancel authorization.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A chat message gives a mobile number for a quick callback. Which number?",
+            "prompt": "A chat message gives you a mobile number for a quick callback. Which number do you use?",
             "choices": [
               {
-                "text": "Use the executive number already in the company directory.",
-                "consequence": "The confirmation route is not chosen by the requester.",
-                "explanation": "A supplied callback number can lead to the same impostor.",
+                "text": "The executive’s number already in the company directory.",
+                "consequence": "The requester doesn’t get to choose how you confirm.",
+                "explanation": "A number supplied in the request can lead straight to the impostor.",
                 "recommended": true
               },
               {
-                "text": "Use the number in the chat.",
-                "consequence": "The fraudster may answer.",
-                "explanation": "A different channel is not independent if the contact came from the same claim.",
+                "text": "The number in the chat.",
+                "consequence": "The fraudster may be the one who answers.",
+                "explanation": "A different channel isn’t independent if the contact came from the same claim.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate update, regardless of which number you chose: a finance colleague calls the executive using the pre-existing company directory. The executive denies the request; a transfer may be pending or already sent. What now?",
+            "prompt": "Whichever number you used, a colleague in finance now reaches the executive through the company directory. The executive denies making any such request. A transfer may be pending or may already have gone out. What now?",
             "choices": [
               {
-                "text": "Rely on a head-turn video test and take no further action.",
-                "consequence": "A pending payment may proceed, or a completed transfer may go unreported.",
-                "explanation": "A visual trick cannot override the independent denial or replace incident response.",
+                "text": "Ask the person on the video to turn their head, and if the picture holds up, let the payment run.",
+                "consequence": "A pending payment may go through, or a completed one may never be reported.",
+                "explanation": "A look at the picture can’t overrule an independent denial, and it is no substitute for incident response.",
                 "recommended": false
               },
               {
-                "text": "Stop any pending payment, alert finance/security, contact the bank promptly if funds left, and preserve messages under policy.",
-                "consequence": "The team can contain pending activity and ask the bank about any completed transfer; recovery is uncertain.",
-                "explanation": "An independent denial calls for containment whether or not funds have moved.",
+                "text": "Halt any pending payment, alert the finance and security teams, call the bank at once if money has left, and keep the messages as policy requires.",
+                "consequence": "The team can contain what is still pending and ask the bank about anything already sent; recovery is not certain.",
+                "explanation": "An independent denial calls for containment whether or not the money has moved.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Replay the chain: apparent authority → video familiarity → secrecy → new payee. The strong stopping point is the established payment approval and a genuinely independent contact, not an improvised test of the image."
+        "debrief": "Replay the chain: apparent authority, familiar video, secrecy, new payee. The place to stop is the established payment approval plus a contact that is truly independent, not a do-it-yourself test of the picture."
       },
       {
         "type": "check",
-        "title": "Read the case without overclaiming",
+        "title": "Sticking to what the record says",
         "questions": [
           {
-            "prompt": "What did the 2024 Hong Kong government account say about the video conference?",
+            "prompt": "What did the Hong Kong government’s 2024 account say about the video conference?",
             "choices": [
               {
-                "text": "It was a fully interactive live synthetic meeting.",
-                "explanation": "That is not what the official reply says.",
+                "text": "It was a fully interactive, live fake meeting.",
+                "explanation": "The official reply says nothing of the kind.",
                 "correct": false
               },
               {
-                "text": "It was prerecorded; later instructions moved to instant messaging.",
-                "explanation": "The official reply explicitly distinguishes recording from live interaction.",
+                "text": "It was prerecorded, and later instructions moved to instant messaging.",
+                "explanation": "The reply explicitly separates the recording from live interaction.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A genuine executive requests an urgent confidential transfer. What remains necessary?",
+            "prompt": "A genuine executive asks for an urgent, confidential transfer. What is still needed?",
             "choices": [
               {
-                "text": "The firm’s confidential verification and approval controls.",
-                "explanation": "Urgency and secrecy may be real, but they do not authenticate a new payee.",
+                "text": "The firm’s own confidential checks and approval steps.",
+                "explanation": "The urgency and secrecy may be real, but neither authenticates a new payee.",
                 "correct": true
               },
               {
-                "text": "Immediate payment because the executive appears on video.",
-                "explanation": "Video appearance is not payment authorization.",
+                "text": "Immediate payment, since the executive is visible on video.",
+                "explanation": "Appearing on video is not payment authorization.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A callback reaches the number printed in the suspicious chat. What does that prove?",
+            "prompt": "You phone the number printed in the suspicious chat and someone answers. What does that prove?",
             "choices": [
               {
-                "text": "That the caller is the real CFO.",
-                "explanation": "The channel changed, but the contact source did not.",
+                "text": "That you have reached the real CFO.",
+                "explanation": "The channel changed, but the source of the contact did not.",
                 "correct": false
               },
               {
-                "text": "Little; the requester may control that number.",
-                "explanation": "Independent verification requires a pre-existing trusted contact.",
+                "text": "Little: the requester may control that number.",
+                "explanation": "Independent verification needs a trusted contact that existed beforehand.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "What can we infer about the investigation outcome from the June 2024 government reply?",
+            "prompt": "What can you conclude about the investigation’s outcome from the June 2024 government reply?",
             "choices": [
               {
-                "text": "It was ongoing at that date; the reply does not give a final outcome.",
-                "explanation": "The source is dated and bounded.",
+                "text": "It was still ongoing on that date; the reply gives no final outcome.",
+                "explanation": "The source is dated, and it covers only what was known then.",
                 "correct": true
               },
               {
-                "text": "All money was recovered.",
-                "explanation": "No such outcome is stated there.",
+                "text": "All the money was recovered.",
+                "explanation": "The reply states no such thing.",
                 "correct": false
               }
             ]

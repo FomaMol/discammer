@@ -1,171 +1,171 @@
 {
   "order": 5,
-  "title": "Account recovery without back doors",
+  "title": "Getting back in without leaving a back door",
   "est_minutes": 14,
-  "body_md": "## Design recovery before you need it\n\nAn account can have a strong daily login and a weaker way back in. Recovery is necessary when you lose a key, phone or password; it is also a path attackers may target. The goal is to keep a route you can actually use while reducing routes someone else could trigger. There is no universal switch that makes hardware keys the only recovery method on every service.\n\n### Draw the recovery map\n\nFor your primary email, password manager and other accounts that reset many others, open security settings directly. List every recovery email, phone number, saved code, trusted device and support procedure the service actually offers. Follow the chain: if primary email recovers through an old mailbox, secure that mailbox or replace it with an account you control. A backup email should not be the same inaccessible account you are trying to recover. If a service still uses security questions, avoid public biographical answers; use unique saved answers where the service permits. Review active sessions and app-specific passwords separately: they are access paths, though not always recovery methods.\n\nPhone recovery can be valuable if it is your only accessible backup, but a number can be reassigned or SIM-swapped. Ask your carrier what PIN or number-transfer controls it supports. Do not remove a phone or old authenticator until another method has been enrolled and tested. Save issued recovery codes in a protected location that remains reachable if the primary device or vault is lost. Where supported, a second FIDO key stored separately can make loss less disruptive; check the service's actual fallback rules.\n\n### If access is already lost or stolen\n\nUse the provider's recovery route reached from its independently opened site. A message claiming to offer “special recovery” can be a credential trap. If the phone number suddenly stops working, contact the carrier through a known channel. After regaining control of a compromised email or social account, change the password, end unfamiliar sessions, inspect recovery details and email forwarding, turn on available MFA and warn contacts if impersonation occurred. For a bank or work account, use the institution's own incident channel and follow its instructions. The provider may impose waiting periods or identity checks; do not promise that any backup guarantees recovery.\n\nTreat the recovery map as a living dependency diagram. Update it when you change phone numbers, sell devices, leave jobs or move between password managers. An old listed device is worth reviewing, but its mere name in a list does not prove a buyer can unlock or authorize your account.",
+  "body_md": "## The way back in is also a way in\n\nYou are locked out of your flat late at night, and the locksmith who turns up asks for nothing beyond your word that it is your flat. The door is open in minutes. Relief, and then a small chill: the next person to say those words would have got the same result. An online account has the same two doors. The daily sign-in can be strong while the way back in is weak. Recovery exists for the day you lose a key, a phone or a password, and it is exactly where an attacker will push. The aim is to keep a route you can really use while cutting down the routes someone else could set off. No universal switch makes hardware keys the only recovery method on every service.\n\n### Draw the recovery map\n\nStart with the accounts that reset many others: your primary email, your password manager and anything like them. Open their security settings directly and list every recovery email, phone number, saved code, trusted device and support procedure the service actually offers. Then follow the chain. If your primary email recovers through an old mailbox, secure that mailbox or swap it for an account you control. A recovery address must not point back at the very account you cannot reach, or the loop leads nowhere. If a service still asks security questions, avoid answers anyone could find in your biography; where the service allows it, use unique answers and save them. Check active sessions and app-specific passwords separately. They are ways in, though not always ways to recover.\n\nA phone number is worth keeping as a recovery method when it is the only backup you can reach, but numbers get reassigned and SIMs get swapped. Ask your carrier what PIN or number-transfer protection it offers. Do not remove a phone or an old authenticator until a replacement method is enrolled and tested. Keep any recovery codes the service issued in a protected place you could still reach if your main device or your vault were lost. Where the service supports it, a second FIDO key kept somewhere else makes a loss less painful; read the service’s real fallback rules to see what that buys you.\n\n### If access is already gone\n\nGo to the provider’s recovery route from a site you opened yourself. A message offering “special recovery” may be a trap for your credentials. If your phone number suddenly stops working, contact the carrier through a channel you already know. Once you are back into a compromised email or social account, change the password, end sessions you do not recognise, check the recovery details and any email forwarding, turn on whatever multi-factor authentication (MFA) is offered, and warn your contacts if someone wrote to them in your name. For a bank or a work account, use the institution’s own incident channel and do what it tells you. The provider may impose a waiting period or ask you to prove who you are, and no backup guarantees that recovery will succeed.\n\nA map like this goes stale. Update it when you change numbers, sell devices, leave a job or move to a different password manager. A phone you sold may linger in your list of devices. Remove it and sign that session out. Its name in the list does not prove that the buyer can get into your account or approve anything on it, but it no longer belongs there.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r1",
-    "goal": "Map and test the recovery paths for an important account while closing stale or exposed routes safely.",
-    "today_action": "Open primary-email security settings directly; record every recovery method, test a backup while signed in, and remove one stale method only after a working replacement is confirmed.",
+    "goal": "Map and test the recovery routes for an important account, closing stale or exposed ones safely.",
+    "today_action": "Open your primary email’s security settings directly. Write down every recovery method and test a backup while you are still signed in. Remove one stale method only after a working replacement is confirmed.",
     "checked_at": "2026-10-20",
-    "scope": "General recovery principles; actual controls, waiting periods and identity checks are provider- and country-specific. FTC is US consumer advice. Checked 2026-10-20.",
+    "scope": "General principles of recovery; the real controls, waiting periods and identity checks depend on the provider and the country. The FTC advises US consumers. The cases are invented. Checked 2026-10-20.",
     "sources": [
       {
         "title": "NIST SP 800-63B-4: Account Recovery",
         "url": "https://pages.nist.gov/800-63-4/sp800-63b.html#account-recovery",
-        "scope": "US federal standard; recovery design principles, not a universal consumer-service procedure."
+        "scope": "US federal standard; principles for designing recovery, not a procedure for every consumer service."
       },
       {
         "title": "FTC: How To Recover Your Hacked Email or Social Media Account",
         "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
-        "scope": "US consumer guidance; provider-specific controls vary."
+        "scope": "US consumer guidance; provider-specific controls differ."
       },
       {
         "title": "FTC: SIM Swap Scams: How to Protect Yourself",
         "url": "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
-        "scope": "US carrier and consumer context; carrier controls vary by country."
+        "scope": "US carrier and consumer context; carrier controls differ by country."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Phone number reassigned before recovery",
-        "situation": "A synthetic user loses access to an old mobile number that still receives account recovery codes. A caller offers to “help move the number” if given an email code.",
-        "analysis": "The old number is a weak recovery route and the caller is unverified. While still signed in elsewhere, add and test a safe replacement, then remove the stale number. If locked out, use the provider’s published recovery flow and carrier’s known contact route.",
+        "title": "A phone number reassigned before recovery",
+        "situation": "Dan changed carrier last year and lost his old mobile number, which is still listed as the recovery number for one of his accounts. Today a caller offers to “help move the number” if Dan will read out the code that has just landed in his email.",
+        "analysis": "The old number is a weak recovery route, and the caller is nobody you have verified. Nobody who phones you needs that code. If you are still signed in somewhere, add a replacement, test it, and only then remove the stale number. If you are already locked out, use the provider’s published recovery flow and your carrier’s known contact route.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A legitimate provider delays recovery",
-        "situation": "A synthetic service shows an expected recovery waiting period after a user loses their only key. The user reached the flow from a saved provider address and its help page describes the wait.",
-        "analysis": "A delay can be a legitimate anti-takeover control, not evidence of fraud. Verify the procedure from the provider’s own help, preserve the request reference privately, and resist anyone promising an instant bypass.",
+        "title": "A provider that makes you wait",
+        "situation": "After losing her only security key, Mara is told that access will be restored only after a waiting period. She reached the page from an address she saved herself, and the provider’s help page describes exactly this wait.",
+        "analysis": "A delay can be a deliberate guard against takeover, not a sign of fraud. Check the procedure in the provider’s own help, keep the request reference somewhere private, and turn down anyone who promises an instant bypass.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Replace an ageing recovery chain",
-        "setup": "Four independent snapshots of synthetic email-account recovery. Each prompt resets and states its own starting facts; a choice in one snapshot does not change the next.",
+        "title": "Retire an old recovery chain",
+        "setup": "Four separate snapshots from an invented email account. Each one starts again with its own facts, so a choice in one does not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Snapshot 1: Your primary email uses a FIDO key for daily sign-in but recovers through an old mailbox and a phone number due to expire next month. You are still signed in. What is the first move?",
+            "prompt": "Snapshot 1: Your primary email signs in daily with a FIDO key, but it recovers through an old mailbox and a phone number that expires next month. You are still signed in. What is the first move?",
             "choices": [
               {
-                "text": "Delete the old mailbox and phone immediately.",
-                "consequence": "You may lose every recovery path.",
-                "explanation": "Inventory and replacement must precede removal.",
+                "text": "Delete the old mailbox and the expiring number now, before anyone can misuse them.",
+                "consequence": "You could be left with no recovery route at all.",
+                "explanation": "List first, replace second, remove third.",
                 "recommended": false
               },
               {
-                "text": "List the service’s actual recovery routes and secure a current backup account.",
-                "consequence": "You see dependencies before removing access.",
-                "explanation": "Deleting a route without a tested replacement creates lockout risk.",
+                "text": "List the routes the service really offers and secure a current backup account.",
+                "consequence": "You see what depends on what before anything is switched off.",
+                "explanation": "Removing a route without a tested replacement risks locking yourself out.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Snapshot 2: A primary email uses a FIDO key for daily sign-in, but still uses an old mailbox with a weak reused password for recovery. You are signed in and have not removed that route. How do you handle it?",
+            "prompt": "Snapshot 2: Your primary email signs in with a FIDO key, yet it still recovers through an old mailbox whose password is weak and reused. You are signed in and have not removed that route. What do you do?",
             "choices": [
               {
-                "text": "Ignore it because the primary account uses a hardware key.",
-                "consequence": "An alternate reset route may remain exploitable.",
-                "explanation": "Review what the service actually accepts for recovery.",
+                "text": "Leave it; the primary account is protected by a hardware key.",
+                "consequence": "A second route to a reset stays open to attack.",
+                "explanation": "Look at what the service really accepts for recovery.",
                 "recommended": false
               },
               {
-                "text": "Secure it or replace it with a distinct, controlled recovery mailbox and test the change.",
-                "consequence": "The recovery chain no longer ends at a neglected account.",
-                "explanation": "The strength of daily FIDO login does not automatically protect a reset sent to email.",
+                "text": "Secure it, or replace it with a separate mailbox you control, and test the change.",
+                "consequence": "The recovery chain no longer ends in a neglected account.",
+                "explanation": "A strong daily FIDO sign-in does not automatically protect a reset sent to email.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Snapshot 3: A service has issued one-use recovery codes for an account you still control. Where do they belong?",
+            "prompt": "Snapshot 3: A service has issued one-use recovery codes for an account that is still yours. Where do they belong?",
             "choices": [
               {
-                "text": "In protected storage accessible even if the primary phone or vault is unavailable.",
-                "consequence": "A device loss does not also erase the backup.",
-                "explanation": "A recovery code is itself a sensitive authenticator.",
+                "text": "In protected storage you could still reach without your main phone or vault.",
+                "consequence": "Losing the device does not take the backup with it.",
+                "explanation": "A recovery code is itself a sensitive credential.",
                 "recommended": true
               },
               {
-                "text": "In a public note or a screenshot shared to yourself in chat.",
-                "consequence": "Anyone with access to the note or chat may use them.",
-                "explanation": "Convenience should not make one-use codes broadly readable.",
+                "text": "In a shared note, or a screenshot sent to yourself in a chat.",
+                "consequence": "Anyone who can open that note or chat can use the codes.",
+                "explanation": "Convenience should not leave one-use codes where many people can read them.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Snapshot 4: An account still lists an expiring old phone number and mailbox. A current recovery mailbox and independent backup codes have already been added and tested. What completes the update?",
+            "prompt": "Snapshot 4: An account still lists an expiring old phone number and mailbox. You have already added and tested a current recovery mailbox and independent backup codes. What completes the update?",
             "choices": [
               {
-                "text": "Remove stale contacts, review devices and sessions, and record how to recover without the expiring number.",
-                "consequence": "The old route is closed and the new one is usable.",
-                "explanation": "A test and cleanup are both needed.",
+                "text": "Remove the stale contacts, review devices and sessions, and write down how to recover without the expiring number.",
+                "consequence": "The old route is closed and the new one works.",
+                "explanation": "Both the test and the cleanup are needed.",
                 "recommended": true
               },
               {
-                "text": "Keep all old routes forever because more backups are always safer.",
-                "consequence": "Uncontrolled routes accumulate.",
-                "explanation": "More routes also mean more attack surfaces.",
+                "text": "Keep every old route for ever, since more backups are always safer.",
+                "consequence": "Routes you no longer control pile up.",
+                "explanation": "Every extra route is one more way in for an attacker.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "These are independent recovery decisions. On a real account, map and test a new route before removing a stale one. Replay the snapshot that could have caused lockout."
+        "debrief": "These four decisions stand apart from one another. On a real account, map and test the new route before you remove the stale one; that is where lockouts come from. Replay the snapshot in which you could have locked yourself out."
       },
       {
         "type": "check",
-        "title": "Choose a safe fallback",
+        "title": "Pick the safer fallback",
         "questions": [
           {
-            "prompt": "Why can an old recovery mailbox weaken a key-protected account?",
+            "prompt": "Why can an old recovery mailbox weaken an account protected by a key?",
             "choices": [
               {
-                "text": "The service may accept a reset delivered to that mailbox.",
-                "explanation": "Daily login strength does not automatically control recovery.",
+                "text": "The service may accept a reset sent to that mailbox.",
+                "explanation": "A strong daily sign-in does not automatically govern recovery.",
                 "correct": true
               },
               {
-                "text": "Hardware keys always copy their private key to recovery mailboxes.",
-                "explanation": "Email recovery and key storage are separate mechanisms.",
+                "text": "Hardware keys always copy their private key to the recovery mailbox.",
+                "explanation": "Email recovery has nothing to do with where a hardware key keeps its private key.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "When should a stale phone number be removed?",
+            "prompt": "When is it right to remove a stale phone number?",
             "choices": [
               {
-                "text": "Before learning whether any other recovery route exists.",
-                "explanation": "Immediate deletion may remove the only usable backup.",
+                "text": "Right away, before finding out whether any other recovery route exists.",
+                "explanation": "Deleting it at once may remove your only usable backup.",
                 "correct": false
               },
               {
-                "text": "After a supported replacement is enrolled and tested while access remains.",
-                "explanation": "This reduces takeover risk without creating avoidable lockout.",
+                "text": "Once a supported replacement has been added and tested, while you still have access.",
+                "explanation": "It lowers the risk of takeover without a lockout you could have avoided.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A provider’s official recovery flow includes a waiting period. What should you infer?",
+            "prompt": "A provider’s official recovery flow includes a waiting period. What should you make of it?",
             "choices": [
               {
-                "text": "A stranger offering instant access must be a better route.",
-                "explanation": "A promised bypass is a common trap.",
+                "text": "That a stranger offering instant access must have a better route.",
+                "explanation": "Promises of an instant bypass are a favourite trap.",
                 "correct": false
               },
               {
-                "text": "It may be normal; verify the flow on the provider’s own site and follow it.",
-                "explanation": "Some services intentionally delay sensitive recovery.",
+                "text": "It may be normal: check the flow on the provider’s own site and follow it.",
+                "explanation": "Some services delay sensitive recoveries on purpose.",
                 "correct": true
               }
             ]

@@ -1,181 +1,181 @@
 {
   "order": 4,
-  "title": "Public Wi-Fi and the real role of a VPN",
+  "title": "Public Wi-Fi, and what a VPN really does",
   "est_minutes": 14,
-  "body_md": "## Understand each layer before choosing a tool\n\nPublic Wi-Fi lets another organization operate the local network. A deceptive network name or captive portal can steer you to a fake sign-in page; a hostile network can observe some connection metadata and interfere with unencrypted traffic. However, most modern websites use HTTPS, which encrypts the page contents in transit even on public Wi-Fi. The FTC says public Wi-Fi is usually safe when using encrypted sites. The lock/HTTPS shows encryption to the domain in the address bar, **not** that the page is genuinely your bank. A phishing site can have a valid certificate.\n\nBefore joining, confirm the network name with staff or a posted official source when practical. Disable auto-join to unfamiliar networks. A captive portal may legitimately ask you to accept terms or enter a room number, but a request for an email password, bank code or software installation is not a normal Wi-Fi requirement. Do not bypass a browser certificate warning. If an important task feels uncertain, use your own cellular connection or hotspot and reach the service through its installed app or saved address. Cellular also has risks and does not prove that a website is genuine; the point is to leave the questionable local network.\n\n## Where a VPN fits\n\nA VPN encrypts traffic from your device to the VPN server for traffic actually routed through the tunnel. This can reduce what the local network sees and may be required to reach an employer's private resources. The VPN operator, however, becomes a party you trust with some metadata. Split tunneling, app exclusions, a dropped connection or a captive portal may leave traffic outside the tunnel. Check the provider's documented configuration and the app's connected status; “kill switch” names and behavior vary. Do not buy a VPN just because a page claims public Wi-Fi is universally unsafe. Neither a VPN nor a cellular hotspot repairs a fake destination, stolen password, malicious download or compromised device.\n\nUse updates, account MFA and careful destination verification on every network. If you must open a sensitive site from public Wi-Fi, type or use the known address, check the full domain, use HTTPS and stop at warnings. Consider postponing if the network appears manipulated. After a suspicious portal, disconnect, forget the network and inspect any account whose credentials you entered through an independent connection.",
+  "body_md": "## Two networks, almost one name\n\nYour laptop finds two networks in the café: Daily_Grind and Daily_Grind_Guest. One belongs to the café. The other could belong to anyone with a phone and a free hour, and nothing on the screen says which is which.\n\nThat is the difficulty with a public network: somebody else runs it. A lookalike name or a sign-in page (a captive portal) can walk you into a fake login, and a hostile network can see a little about your connections (who you contact, and when) and tamper with anything unencrypted. Most of the web, though, now uses HTTPS, which keeps a page’s contents private even on a stranger’s Wi-Fi, and the FTC says public Wi-Fi is usually safe when the sites you use are encrypted.\n\nRead the padlock for exactly what it says: your connection to the domain in the address bar is encrypted. It does not say the page belongs to your bank, and a phishing site can hold a valid certificate too.\n\n### Before you join\n\nWhen you can, check the network name (the SSID) with staff or an official sign. Turn off auto-join for networks you don’t know. A sign-in page may fairly ask you to accept terms or type a room number, but an email password, a bank code or permission to install software is a reason to leave. And never click through a certificate warning.\n\nIf a task matters and something feels off, switch to mobile data or your own hotspot and open the service through its installed app or a saved address. Mobile data has risks of its own and vouches for no website; the aim is only to leave the questionable network.\n\n## What a VPN does, and where it stops\n\nPicture a VPN as a covered walkway from your device to the VPN company’s server. From the sidewalk, people see you step in and nothing of what happens inside, but only for traffic you actually send through it. That shrinks what the local network learns about you, and some employers require it for private work systems. It also moves some of your trust: the VPN operator now sees part of what the café would have seen.\n\nThe walkway has gaps. Split tunneling, apps excluded from the VPN, a dropped connection or a captive portal can all leave traffic outside it. Check the provider’s documentation and the app’s “connected” status; what a “kill switch” is called, and what it does, varies.\n\nAnd the walkway comes out onto the ordinary street. Neither a VPN nor a hotspot fixes a fake destination, a stolen password, a malicious download or an infected device. Don’t buy one because a web page calls every public network a trap.\n\n### On every network, the same habits\n\nKeep your device updated, use two-step sign-in (MFA) and check where you are going. For a sensitive site on public Wi-Fi, type the address or use a saved one, read the whole domain, check for HTTPS and stop at any warning. If the network looks tampered with, put the task off. If you typed credentials into a suspicious sign-in page, disconnect, forget the network and, from a separate connection, change the password on every account you entered.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Choose a safe route for a sensitive task on public Wi-Fi and explain exactly which risks a VPN can and cannot address.",
-    "today_action": "Before your next public Wi-Fi session, turn off automatic joining for unfamiliar networks, update your device, and save a direct route to your bank or other important service.",
+    "goal": "Pick a safe way to do something sensitive on public Wi-Fi, and say exactly which risks a VPN covers and which it leaves alone.",
+    "today_action": "Before your next stint on public Wi-Fi, turn off auto-join for unfamiliar networks, update your device, and save a direct route to your bank or another service that matters.",
     "checked_at": "2026-10-20",
-    "scope": "General consumer advice checked 2026-10-20. FTC page is US-focused (2023); NCSC VPN document concerns organizational VPNs and is used only for tunnel mechanics. Network, device and VPN configuration affect outcomes.",
+    "scope": "General advice for ordinary users, checked 2026-10-20. The people and places in the examples are invented. The FTC page is aimed at the US and dates from 2023; the NCSC document is about organizational VPNs and is used here only for how a tunnel works. Results depend on the network, the device and the VPN settings.",
     "sources": [
       {
         "title": "FTC: Public Wi-Fi networks",
         "url": "https://consumer.ftc.gov/articles/are-public-wi-fi-networks-safe-what-you-need-know",
-        "scope": "US consumer guidance dated February 2023; HTTPS, public Wi-Fi and fake sites."
+        "scope": "US consumer guidance from February 2023: HTTPS, public Wi-Fi and fake sites."
       },
       {
         "title": "NCSC: Virtual private networks",
         "url": "https://www.ncsc.gov.uk/collection/device-security-guidance/infrastructure/virtual-private-networks",
-        "scope": "UK organizational VPN guidance; tunnel routing and captive-portal limitations, not a personal VPN endorsement."
+        "scope": "UK guidance for organizations: how traffic is routed through a tunnel and where captive portals get in the way. Not an endorsement of any personal VPN."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "The airport Wi-Fi “security update”",
-        "situation": "Synthetic: a network named Airport_Free asks Alex to install a certificate and enter an email password before checking a flight.",
-        "analysis": "A name alone does not authenticate the operator, and a certificate install changes device trust. Alex asks airport staff for the real network name, declines the install, and checks the flight over cellular or a known airline app. A real airport may have a captive portal, so the existence of one is not itself proof of fraud.",
+        "title": "The airport “security update”",
+        "situation": "At the gate, Alex joins a network called Airport_Free. Before it will show a flight status, it wants a “security update” certificate installed and an email password typed in.",
+        "analysis": "A network’s name proves nothing about who runs it, and installing a certificate changes what the device trusts. Alex asks airport staff for the real network name, refuses the install, and checks the flight on mobile data or in the airline’s own app. It was the demand for a password and a certificate that gave the game away. A sign-in page on its own would not have.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A hotel portal with room-number access",
-        "situation": "Synthetic: at check-in, a clerk gives Jo the exact Wi-Fi name; its portal asks for room number and acceptance of terms, then a known news site loads over HTTPS.",
-        "analysis": "The independently confirmed name and limited request fit a normal portal. Jo can use the network for routine browsing, still verifies sensitive destinations and never treats the portal or VPN as a guarantee. If it later asks for a bank code, she stops.",
+        "title": "A hotel portal that wants a room number",
+        "situation": "At check-in the clerk tells Jo the exact Wi-Fi name. The network’s page asks for a room number and a tick beside the terms, and then a news site Jo knows loads over HTTPS.",
+        "analysis": "The name came from the clerk, not from the network itself, and what the page asks for is small and ordinary. Jo can browse as usual, still checks anything sensitive, and treats neither the portal nor a VPN as a guarantee. If the page ever asks for a bank code, she stops.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Choose a connection at a station",
-        "setup": "Synthetic exercise: four separate checkpoints at a station. Each step starts a new situation; earlier choices do not decide the next network. No real credentials or site is opened.",
+        "title": "Choosing a connection at a station",
+        "setup": "Four invented moments at a station. Each starts fresh, and what you chose before does not decide the next network. No real credentials or sites are touched.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Checkpoint 1: two station networks have similar names. Which do you join?",
+            "prompt": "Checkpoint 1. Two station networks have almost the same name. Which one do you join?",
             "choices": [
               {
-                "text": "Pick the stronger signal.",
-                "consequence": "A nearby rogue hotspot could be strongest.",
-                "explanation": "Signal strength says nothing about operator identity.",
+                "text": "Whichever has the stronger signal.",
+                "consequence": "The strongest signal in the hall might be a hotspot someone set up beside you.",
+                "explanation": "Signal strength tells you how close a transmitter is, not who runs it.",
                 "recommended": false
               },
               {
-                "text": "Confirm the official name with station staff or signage first.",
-                "consequence": "You reduce the chance of choosing a lookalike.",
-                "explanation": "A familiar-looking SSID is not authentication.",
+                "text": "Ask station staff, or find the official name on a sign, before joining.",
+                "consequence": "You are far less likely to land on a lookalike.",
+                "explanation": "A name that looks right is not proof of who runs the network.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Checkpoint 2: on a separate station Wi-Fi attempt, the portal asks you to install a “security certificate”.",
+            "prompt": "Checkpoint 2. On another station network, the sign-in page says you must install a “security certificate” before you can go online.",
             "choices": [
               {
-                "text": "Install it to finish faster.",
-                "consequence": "Device trust may be changed for future connections.",
-                "explanation": "Do not trade certificate trust for convenience.",
+                "text": "Install it and get online faster.",
+                "consequence": "Your device may start trusting whoever issued that certificate, on this connection and later ones.",
+                "explanation": "An installed certificate stays on your device after you leave the station, and it decides what the device will trust.",
                 "recommended": false
               },
               {
-                "text": "Decline and use cellular or ask staff for a supported access route.",
-                "consequence": "You avoid adding an unknown trust anchor.",
-                "explanation": "A portal does not need arbitrary trust changes for routine access.",
+                "text": "Decline, and switch to mobile data or ask staff how to connect.",
+                "consequence": "No unknown certificate gets added to your device.",
+                "explanation": "Joining ordinary public Wi-Fi does not call for a new certificate on your device.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Checkpoint 3: separately, a bank-like page opens from a message on a phone using cellular data. It has HTTPS. What now?",
+            "prompt": "Checkpoint 3. On mobile data, you tap a link in a text message and land on a page that looks like your bank’s. The address bar shows HTTPS.",
             "choices": [
               {
-                "text": "Close it and use the bank app or saved address.",
-                "consequence": "The payment starts at a known destination.",
-                "explanation": "Cellular data and HTTPS do not authenticate a link from a message.",
+                "text": "Close it and open the bank’s app or a saved address.",
+                "consequence": "Your banking starts at a destination you already trust.",
+                "explanation": "Neither mobile data nor HTTPS vouches for a link that arrived in a message.",
                 "recommended": true
               },
               {
-                "text": "Enter details because HTTPS and cellular are both on.",
-                "consequence": "The fake site could still receive them.",
-                "explanation": "Transport security is not merchant identity.",
+                "text": "Enter your details, since mobile data and HTTPS are both in place.",
+                "consequence": "The fake site still receives everything you type.",
+                "explanation": "An encrypted connection tells you nothing about who is on the other end.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Checkpoint 4: a colleague suggests a VPN as the only way to use station Wi-Fi. What do you say?",
+            "prompt": "Checkpoint 4. A colleague insists you can’t use the station Wi-Fi without a VPN. What do you say?",
             "choices": [
               {
-                "text": "Explain what its tunnel covers and still check the destination and HTTPS.",
-                "consequence": "The tool is used for its actual purpose.",
-                "explanation": "VPN protects routed traffic to its server, not a scam page.",
+                "text": "Explain what the tunnel covers, and still check the destination and HTTPS.",
+                "consequence": "The VPN covers the road to its server, and your own checks cover the rest.",
+                "explanation": "A VPN protects the traffic it carries to its own server. It does nothing about a scam page at the other end.",
                 "recommended": true
               },
               {
-                "text": "Buy the first advertised VPN and ignore site warnings.",
-                "consequence": "A bad destination or certificate problem remains.",
-                "explanation": "A VPN is not a substitute for verification.",
+                "text": "Buy the first VPN you see advertised and ignore the site’s warnings.",
+                "consequence": "The bad destination or the certificate problem is still there.",
+                "explanation": "A VPN is no substitute for checking.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Replay by naming the trust boundary at each step: hotspot identity, device certificate store, website identity and tunnel route."
+        "debrief": "Play it again and, at each step, say aloud who or what you are being asked to trust: the hotspot, your device’s certificate list, the website, the tunnel."
       },
       {
         "type": "check",
-        "title": "Transfer check",
+        "title": "Carry it to the next network",
         "questions": [
           {
-            "prompt": "What does a valid HTTPS certificate on a new shop establish?",
+            "prompt": "A new online shop has a valid HTTPS certificate. What does that establish?",
             "choices": [
               {
-                "text": "Encrypted connection to its displayed domain.",
-                "explanation": "It does not validate the seller.",
+                "text": "That your connection to its displayed domain is encrypted.",
+                "explanation": "It says nothing about whether the seller is honest.",
                 "correct": true
               },
               {
-                "text": "The shop is trustworthy.",
-                "explanation": "Scam shops can use HTTPS.",
+                "text": "That the shop is trustworthy.",
+                "explanation": "Scam shops use HTTPS too.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A VPN app shows connected but is set to route only work apps. What is covered?",
+            "prompt": "A VPN app shows “connected,” but it is set to carry only your work apps. What is covered?",
             "choices": [
               {
-                "text": "All device traffic automatically.",
-                "explanation": "A connected icon does not establish route scope.",
+                "text": "All the traffic from your device, automatically.",
+                "explanation": "A “connected” icon does not tell you which traffic goes through the tunnel.",
                 "correct": false
               },
               {
-                "text": "Only traffic selected for the tunnel.",
-                "explanation": "Split or per-app settings exclude other traffic.",
+                "text": "Only the traffic selected for the tunnel.",
+                "explanation": "With split or per-app settings, everything else travels outside it.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A hotel portal asks for a room number after staff confirm the SSID. What response fits?",
+            "prompt": "Staff confirmed the hotel’s network name, and its portal asks for your room number. What fits?",
             "choices": [
               {
-                "text": "It may be legitimate; assess the request and keep sensitive logins separate.",
-                "explanation": "Captive portals can be normal but do not authenticate later sites.",
+                "text": "It may well be legitimate. Judge what it asks for, and treat your sensitive logins as a separate matter.",
+                "explanation": "Portals are often perfectly normal, but they vouch for none of the sites you visit afterwards.",
                 "correct": true
               },
               {
-                "text": "Every portal is an attack.",
-                "explanation": "That confuses a normal access workflow with a scam.",
+                "text": "Treat every portal as an attack.",
+                "explanation": "That mistakes an ordinary sign-in routine for a scam.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "What should you do at a certificate warning on your bank page?",
+            "prompt": "Your bank’s page throws a certificate warning. What do you do?",
             "choices": [
               {
-                "text": "Continue if a VPN is on.",
-                "explanation": "A VPN does not repair the site certificate.",
+                "text": "Continue, since a VPN is on.",
+                "explanation": "A VPN does not repair a site’s certificate.",
                 "correct": false
               },
               {
-                "text": "Stop and reach the bank through a known route or another network.",
-                "explanation": "Do not bypass a failed identity/connection check for sensitive data.",
+                "text": "Stop, and reach the bank by a known route or from another network.",
+                "explanation": "Do not override a failed identity check when sensitive data is at stake.",
                 "correct": true
               }
             ]

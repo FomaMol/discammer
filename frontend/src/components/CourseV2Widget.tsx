@@ -34,18 +34,18 @@ type Ui = {
 };
 const UI: Record<Locale, Ui> = {
   en: {
-    goal: 'Skill goal', legitimate: 'Legitimate but confusing', synthetic: 'Synthetic training scenario',
+    goal: 'Lesson goal', legitimate: 'Genuine, but confusing', synthetic: 'Invented practice scenario',
     step: 'Decision', of: 'of', consequence: 'Consequence', why: 'Why', next: 'Next decision',
-    finish: 'View debrief', retryStep: 'Try this decision again', retryAll: 'Restart scenario',
-    debrief: 'Debrief', recommended: 'Safer choice', other: 'Risk to consider',
+    finish: 'See the debrief', retryStep: 'Try this decision again', retryAll: 'Restart scenario',
+    debrief: 'Debrief', recommended: 'Safer choice', other: 'Riskier choice',
     today: 'Do this today', sources: 'Sources and limits', checked: 'Checked',
     check: 'Knowledge check', retryQuestion: 'Try this question again',
   },
   ru: {
-    goal: 'Цель урока', legitimate: 'Законная, но неоднозначная ситуация', synthetic: 'Учебный вымышленный сценарий',
+    goal: 'Цель урока', legitimate: 'Всё честно, но сбивает с толку', synthetic: 'Вымышленная учебная ситуация',
     step: 'Решение', of: 'из', consequence: 'Последствие', why: 'Почему', next: 'Следующее решение',
-    finish: 'Перейти к разбору', retryStep: 'Попробовать ещё раз', retryAll: 'Начать сценарий заново',
-    debrief: 'Разбор', recommended: 'Более безопасный выбор', other: 'Учитывайте риск',
+    finish: 'Посмотреть разбор', retryStep: 'Выбрать заново', retryAll: 'Начать заново',
+    debrief: 'Разбор', recommended: 'Так безопаснее', other: 'Так рискованнее',
     today: 'Что сделать сегодня', sources: 'Источники и ограничения', checked: 'Проверено',
     check: 'Проверка понимания', retryQuestion: 'Ответить ещё раз',
   },

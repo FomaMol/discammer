@@ -1,165 +1,165 @@
 {
   "order": 1,
-  "title": "Anatomy of a fake online store",
+  "title": "Fake online stores: the five-minute check",
   "est_minutes": 14,
-  "body_md": "## Trace the seller, not the padlock\nA fake shop can copy product photos, display reviews, buy ads and use HTTPS. Encryption protects the connection; it says nothing about who receives the money. A very new domain, a `.shop` ending or a discount is a clue to investigate, never a verdict by itself. Legitimate small shops also start with no review history; scammers can buy old domains and fake glowing reviews.\n\n### A five-minute purchase check\n1. **Identify the merchant.** Read the legal seller name, return terms, delivery date and total price. Search that exact name and domain independently with words such as “complaint” and “scam”; compare more than one source and dates. A polished onsite testimonial is weak evidence.\n2. **Verify the offer.** Compare the exact model, condition, taxes and shipping against several sellers. A refurbished item may explain a lower price; a hidden subscription or impossible delivery promise changes the deal.\n3. **Inspect the destination.** Reach a known retailer by a saved bookmark or manually entered address, not a sponsored result or social link. A brand name in a web address does not make it a brand-run store.\n4. **Choose a recoverable payment route.** If a seller insists on a gift card, wire, payment app or crypto, leave. A credit card generally offers stronger US dispute rights; rights elsewhere and for debit cards differ. Keep a copy of the offer, terms, order confirmation and seller contact.\n\nIf you already paid, contact the seller through independently found details and your payment provider promptly. Describe what happened accurately: “item not delivered” is different from “unauthorized charge.” A dispute is an investigation, not a guaranteed refund.",
+  "body_md": "## Look for the seller, not the padlock\n\nThe headset is the exact model you wanted, priced low enough to make you look twice, with a countdown ticking beside it and a padlock in the address bar. All of it can be bought. A fake shop can lift product photos, display reviews, run ads and use HTTPS. Encryption protects only the connection; it says nothing about who receives the money. A very new domain, a `.shop` ending or a deep discount is a reason to investigate, never a verdict. Honest small shops also start with no reviews, and scammers can buy old domains and forge glowing reviews.\n\n### Five minutes before you pay\n\n1. **Identify the merchant.** Find the legal seller’s name, the return terms, the delivery date and the total price. Then search that exact name and domain away from the shop’s own pages, with words like “complaint” and “scam,” and compare several sources and their dates. A glowing testimonial on the shop’s own site is weak evidence.\n2. **Verify the offer.** Set the exact model, condition, taxes and shipping beside what several other sellers ask. A refurbished unit can explain a low price; a hidden subscription or an impossible delivery promise changes the deal.\n3. **Inspect the destination.** Reach a retailer you know through a saved bookmark or an address you type yourself, not through a sponsored result or a social-media link. A brand’s name inside a web address does not make the store the brand’s.\n4. **Choose a payment you can dispute.** If the seller insists on a gift card, a wire, crypto or a payment-app transfer to a private person, walk away. In the US a credit card generally carries stronger dispute rights; elsewhere, and for debit cards, the rules differ. Keep a copy of the offer, the terms, the order confirmation and the seller’s contact details.\n\nIf you have already paid, contact your payment provider promptly, and the seller through details you found independently. Describe what happened exactly: “item not delivered” and “unauthorized charge” are different claims. A dispute starts an investigation; it does not guarantee a refund.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Decide whether an unfamiliar shop is worth paying before entering card details.",
-    "today_action": "Choose one unfamiliar shop you planned to use; write down its legal seller, full cost, return terms and independently found contact before checkout.",
+    "goal": "Decide whether an unfamiliar shop deserves your money before you type in a card number.",
+    "today_action": "Take one unfamiliar shop you were thinking of using. Before checkout, write down its legal seller, the full cost, the return terms and a contact you found independently.",
     "checked_at": "2026-10-20",
-    "scope": "General shopping method; payment and dispute rights depend on country, card type and provider. Sources describe US rules, checked 2026-10-20.",
+    "scope": "A general method for shopping online. Payment and dispute rights depend on the country, the type of card and the provider; the sources describe US rules. The examples are invented. Checked 2026-10-20.",
     "sources": [
       {
         "title": "FTC: Online Shopping",
         "url": "https://consumer.ftc.gov/articles/online-shopping",
-        "scope": "US consumer shopping, records, payment and dispute guidance; HTTPS is not proof of a seller."
+        "scope": "US guidance on shopping, keeping records, paying and disputing. HTTPS is not proof of an honest seller."
       },
       {
         "title": "FTC: What To Do if You Were Scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment-provider and account response; no recovery guarantee."
+        "scope": "US steps through your payment provider and your accounts. It promises no recovery."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A familiar logo at a strange checkout",
-        "situation": "A sponsored result for a game console opens `console-clearance.example`. It has a brand logo and a countdown. At checkout it offers only a transfer to a personal recipient. This is a synthetic example.",
-        "analysis": "The logo, ad and HTTPS are cheap to obtain; the seller identity and payment destination do not match an independently confirmed retailer. Do not pay. Find the brand’s authorized-seller list through its official site, then compare the actual offer.",
+        "title": "A brand logo, a private account",
+        "situation": "A sponsored result for a game console opens `console-clearance.example`. There is a brand logo and a countdown, and at checkout the only option is a transfer to a private individual.",
+        "analysis": "A logo, a countdown and a sponsored slot are all cheap to get. The seller’s identity and the payment destination match no retailer you have confirmed independently. Do not pay. Find the brand’s list of authorized sellers on its official site, and only then compare the real offer.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A new repair shop with a limited history",
-        "situation": "A local repair shop opened last month and sells refurbished phones through its new site. It lists a verifiable company, a physical collection option, clear grading and card checkout. There are few reviews. Synthetic example.",
-        "analysis": "Newness and low price are explainable, not proof either way. Independently call the published business number, verify address and company identity, read warranty/return terms and pay through a route you understand. If the facts check out, buying may be reasonable.",
+        "title": "A repair shop with few reviews",
+        "situation": "A local repair shop opened last month and sells refurbished phones on its new website. The site names a company that can be checked, offers collection in person, grades each phone’s condition clearly and takes cards. There are few reviews.",
+        "analysis": "Being new and cheap has ordinary explanations, and neither proves anything either way. Phone the shop on its published number, check the address and the company’s registration, read the warranty and return terms, and pay in a way you understand. If the facts hold up, buying can be reasonable.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The headset checkout",
-        "setup": "Synthetic: a social post offers the exact headset you wanted from `sound-deals.example`. Decide before paying. No site or payment is opened.",
+        "title": "A headset in your feed",
+        "setup": "An invented scene: a social post offers the exact headset you wanted, on `sound-deals.example`. Decide before you pay. No site is opened and no payment is made.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "The page has HTTPS and a familiar brand photo. What do you check first?",
+            "prompt": "The page has HTTPS and a photo straight from the brand. What do you check first?",
             "choices": [
               {
-                "text": "Trust the padlock and proceed to card entry.",
-                "consequence": "The payment page could still belong to a fake merchant.",
-                "explanation": "HTTPS is not a merchant license. Retry before entering details.",
+                "text": "Trust the padlock and go on to card entry.",
+                "consequence": "The payment page may still belong to a fake merchant.",
+                "explanation": "A padlock vouches for the line, not for the shop. Go back and retry before entering any details.",
                 "recommended": false
               },
               {
-                "text": "Identify the actual seller and independently search its name/domain.",
-                "consequence": "You discover who would take the payment and can compare independent reports.",
-                "explanation": "The lock only protects transit; seller identity is the useful question.",
+                "text": "Find out who the actual seller is and search its name and domain independently.",
+                "consequence": "You learn who would take the payment, and you can read independent reports.",
+                "explanation": "The lock only protects the data in transit; the seller’s identity is the useful question.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The price is lower than elsewhere. What comparison matters?",
+            "prompt": "The price undercuts every other shop. What should you compare?",
             "choices": [
               {
-                "text": "Compare exact model, condition, shipping, tax and return terms.",
-                "consequence": "You find the headline price excluded delivery and describes a refurbished unit.",
-                "explanation": "A difference may be legitimate, but only the full offer can be judged.",
+                "text": "Compare the exact model, condition, shipping, tax and return terms.",
+                "consequence": "You find the headline price leaves out delivery and describes a refurbished unit.",
+                "explanation": "A gap in price may be honest, but only the full offer can be judged.",
                 "recommended": true
               },
               {
-                "text": "Assume every discount is fraud.",
-                "consequence": "You avoid this purchase but learn nothing about whether the offer is genuine.",
-                "explanation": "A refurbished or clearance item can legitimately cost less. Retry with the exact offer.",
+                "text": "Conclude that any discount means fraud.",
+                "consequence": "You skip this purchase and learn nothing about whether the offer was genuine.",
+                "explanation": "Refurbished and clearance items can honestly cost less. Retry with the exact offer.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Checkout requests a payment-app transfer to a person. What now?",
+            "prompt": "Checkout asks for a payment-app transfer to a private person. What now?",
             "choices": [
               {
-                "text": "Send a small transfer as a test.",
-                "consequence": "The seller gets money; a small successful exchange would not prove a larger order safe.",
-                "explanation": "Do not use real money as a diagnostic test.",
+                "text": "Send a small amount first, as a test.",
+                "consequence": "The seller has your money, and one small payment going through says nothing about a bigger order.",
+                "explanation": "Do not test honesty with real money.",
                 "recommended": false
               },
               {
-                "text": "Stop and use a verified seller with suitable card protection.",
-                "consequence": "You avoid a hard-to-reverse route and keep control of the purchase.",
-                "explanation": "Insisting on a personal transfer is a strong reason to leave.",
+                "text": "Stop, and buy from a verified seller with proper card protection.",
+                "consequence": "You avoid a payment that is hard to reverse and stay in control of the purchase.",
+                "explanation": "A seller who insists on a personal transfer has handed you a strong reason to leave.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "You later see a card charge for an undelivered order at another shop. What record helps?",
+            "prompt": "Later, your card shows a charge for an order from another shop that never arrived. How do you start the dispute?",
             "choices": [
               {
-                "text": "Call it an unauthorized charge although you placed the order.",
-                "consequence": "Your statement conflicts with the order record.",
-                "explanation": "Use the truthful dispute category.",
+                "text": "Call it an unauthorized charge, though you placed the order.",
+                "consequence": "Your claim contradicts the order record.",
+                "explanation": "Choose the dispute category that is true.",
                 "recommended": false
               },
               {
-                "text": "Save order, promised date, terms, contacts and contact the issuer promptly.",
-                "consequence": "You can describe a specific non-delivery claim with evidence.",
-                "explanation": "The issuer decides under applicable rules; evidence and timing help.",
+                "text": "Save the order, the promised date, the terms and the messages, and contact the card issuer promptly.",
+                "consequence": "You can describe a specific non-delivery claim, with evidence.",
+                "explanation": "The issuer decides under the rules that apply; evidence and timing help.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "A safe purchase decision rests on seller identity, complete terms and payment route. A single visual cue cannot certify a shop. Replay with a different seller."
+        "debrief": "What made the purchase safe or unsafe was the seller’s identity, the full terms and the payment route. No single sign on the page could certify the shop. Play it again with a different seller in mind."
       },
       {
         "type": "check",
-        "title": "Apply the check elsewhere",
+        "title": "Use it on the next shop",
         "questions": [
           {
-            "prompt": "A site has a valid HTTPS certificate and a `.com` address. What has that proved?",
+            "prompt": "A site has a valid HTTPS certificate and a `.com` address. What does that prove?",
             "choices": [
               {
-                "text": "The connection is encrypted, not that the seller is honest.",
-                "explanation": "HTTPS protects transmission; either TLD can host a scam.",
+                "text": "That the connection is encrypted, not that the seller is honest.",
+                "explanation": "HTTPS protects transmission; a scam can sit on either kind of domain.",
                 "correct": true
               },
               {
-                "text": "The retailer is authorized by the brand.",
-                "explanation": "Certificates do not verify authorization.",
+                "text": "That the brand has authorized the retailer.",
+                "explanation": "A certificate says nothing about who authorized the seller.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A new local shop has no reviews. Best next step?",
+            "prompt": "A new local shop has no reviews yet. Best next step?",
             "choices": [
               {
-                "text": "Declare it fraudulent from age alone.",
-                "explanation": "Domain age is not a verdict.",
+                "text": "Call it fraudulent because it is new.",
+                "explanation": "A shop’s newness is not a verdict.",
                 "correct": false
               },
               {
-                "text": "Verify company, contact, collection and terms independently.",
-                "explanation": "A new honest seller can lack reviews; several independent facts matter.",
+                "text": "Verify the company, the contact, the collection and the terms independently.",
+                "explanation": "An honest new seller can lack reviews; what counts is several independent facts.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A merchant accepts only gift cards for a scarce product. Which response is sound?",
+            "prompt": "A merchant takes only gift cards for a scarce product. Which response is sound?",
             "choices": [
               {
-                "text": "Pay one card first to test delivery.",
-                "explanation": "The test itself loses money and cannot validate future delivery.",
+                "text": "Pay with one gift card first to test delivery.",
+                "explanation": "The test itself costs money and says nothing about future deliveries.",
                 "correct": false
               },
               {
-                "text": "Leave and buy through a seller with a suitable protected payment route.",
-                "explanation": "Gift cards are difficult to recover and the forced method is a strong warning.",
+                "text": "Walk away and buy from a seller with a protected payment route.",
+                "explanation": "Gift cards are hard to recover, and a forced method is a strong warning.",
                 "correct": true
               }
             ]

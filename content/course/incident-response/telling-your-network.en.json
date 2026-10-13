@@ -1,170 +1,170 @@
 {
   "order": 6,
-  "title": "Telling your network without spreading panic",
+  "title": "Warning your contacts without spreading panic",
   "est_minutes": 13,
-  "body_md": "## Warn the people who might act on your name\n\nIf someone used your account to send requests, the people who received them need a usable warning. You do not need to announce every technical detail or blame yourself. The useful facts are the affected channel, the approximate window, the type of request and the safe next action. If the scope is still uncertain, say so and update the warning when you know more.\n\n### Choose the audience from actual exposure\n\nStart with anyone who received a suspicious message, was asked to pay, shared information, or may open an attachment. Contact them directly and quickly, even while recovery continues if a harmful request is circulating. A wider message may be useful if you cannot identify recipients; a public notice is sometimes appropriate for a broadly used account, but may invite unrelated “recovery” pitches and expose more personal detail. There is no blanket rule to avoid public posts or email after an account is secured. Choose the route that reaches affected people reliably.\n\nWhere possible, verify yourself through a channel the recipient already knows: a saved phone number, in-person conversation, or a separate established work channel. If the formerly affected email is the only route, explain how recipients can verify your warning independently. Do not include the malicious link or forward the original message as an example. Ask recipients to keep it privately if they need to report it, not spread it.\n\nA concise template: “Messages from my [account/channel] between [approximate dates] may have included a payment or login request I did not send. Please do not use its links or pay. If you acted on it, contact your bank or the relevant account provider promptly, and reach me using the number you already have. I will update this if the affected window changes.” Adapt the action to what actually happened. Do not promise that all messages are safe now until you have regained control.\n\nIf coworkers' information or systems may be involved, coordinate the notice with the organization's security team; it may have required procedures. Keep a list of whom you warned and any reported exposure so you can follow up without making a mass address book available to an attacker.",
+  "body_md": "## A warning has to land before the payment does\n\nSomewhere an aunt is looking at a message that seems to come from you: a donation appeal, a payment link, her thumb already near the button. You did not write it, and she has no way to know that. The people who received requests in your name need a warning they can act on. They do not need the technical details, and they do not need you to beat yourself up in public. What helps is four plain facts: which channel was affected, roughly when, what kind of request went out, and the safe thing to do now. If you do not yet know how far it reaches, say so, and update the warning when you do.\n\n### Pick the audience by who was actually exposed\n\nStart with anyone who received a suspicious message, was asked to pay, shared information, or might open an attachment. Reach them directly and quickly, even while recovery is still going on, if a harmful request is circulating. A wider message can help when you cannot tell who received what. A public notice is sometimes right for an account many people use, but it can draw “recovery” pitches from strangers and give away more personal detail than you meant to. No rule forbids a public post or an email once the account is secured; choose the route that reliably reaches the people affected.\n\nWhere you can, prove it is you through a channel the recipient already knows: a number saved in their phone, a conversation in person, a separate work channel. If the compromised email is your only route, tell people how to check your warning on their own. Leave out the malicious link, and do not forward the original message as an example. If someone needs it to file a report, ask them to keep it to themselves rather than pass it on.\n\n### What goes on the notice\n\nThink of the paper taped inside an elevator: what broke, since roughly when, what to do instead, when there will be news. A short version: “Messages from my [account/channel] between [approximate dates] may have included a payment or login request I did not send. Please do not use its links or pay. If you acted on it, contact your bank or the relevant account provider promptly, and reach me on the number you already have. I will update this if the affected window changes.” Adapt the action to what actually happened, and do not promise that every message is safe now until you have regained control.\n\nIf coworkers’ information or systems may be involved, coordinate the notice with your organization’s security team, which may have required procedures. Keep a short list of whom you warned and what they reported, so you can follow up with each of them, without copying your whole address book into a file an attacker could find.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Send a calm, targeted warning that states the uncertain facts, prevents action on a forged request, and gives a verified response route.",
-    "today_action": "Draft a two-sentence warning for a synthetic compromised account with an unknown time window; save it as a template, not as a message to send.",
+    "goal": "Send a calm, targeted warning that says what is still uncertain, stops people acting on a forged request, and offers a way to verify you.",
+    "today_action": "Draft a two-sentence warning for an invented compromised account whose time window you do not know. Save it as a template, not as a message to send.",
     "checked_at": "2026-10-20",
-    "scope": "General consumer communication; employers may have separate notification duties; local law may apply to data breaches.",
+    "scope": "General advice on talking to people you know. Your employer may have separate notification duties, and local law may apply to data breaches. The people in the examples are invented.",
     "sources": [
       {
         "title": "FTC: Recover a hacked email or social media account",
         "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
-        "scope": "US consumer guidance; provider controls vary"
+        "scope": "US consumer guidance; controls differ by provider."
       },
       {
         "title": "UK NCSC: Hacked accounts",
         "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
-        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+        "scope": "UK recovery and reporting; the account steps are useful anywhere."
       },
       {
         "title": "FTC: What to do if you were scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment and exposure response; refund rights vary"
+        "scope": "US response to payments and exposed details; refund rights vary."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Requests from a real account",
-        "situation": "Synthetic: Ilya's email sent three coworkers a fake invoice while an intruder was signed in. One coworker says the payment is still pending.",
-        "analysis": "Ilya immediately calls that coworker through a known number, asks them to stop and contact their bank, then warns the others with the affected window and a safe verification route. He coordinates work contacts with IT.",
+        "title": "A fake invoice from a real inbox",
+        "situation": "While an intruder was signed in to Ilya’s email, three coworkers received a fake invoice from him. One of them says the payment is still pending.",
+        "analysis": "Ilya phones that coworker at once on a number he already has, asks them to stop the payment and call their bank, and only then warns the others, giving the affected window and a way to check that the warning is really his. He coordinates the work contacts with IT.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A planned newsletter looks odd",
-        "situation": "Synthetic: Rosa receives a scheduled newsletter from her friend's account at the usual time, but the friend's account was recently compromised.",
-        "analysis": "The newsletter could be legitimate. Rosa asks through their usual separate channel; the friend confirms the scheduled send. The warning should describe suspicious requests, not label every ordinary message malicious.",
+        "title": "A newsletter right on schedule",
+        "situation": "Rosa’s friend sends a newsletter every week at the same hour, and this week’s arrives on time. The friend’s account, though, was compromised not long ago.",
+        "analysis": "It may well be genuine. Rosa asks through the separate channel the two of them usually use, and the friend confirms the send was scheduled. A good warning describes the suspicious requests; it does not paint every ordinary message as malicious.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "A warning that reaches the right people",
-        "setup": "Synthetic: your messaging account sent a fake donation request to four relatives. You have regained access but do not yet know when it began.",
+        "title": "Four relatives and one fake appeal",
+        "setup": "An invented family scare: your messaging account sent a fake donation request to four relatives. You have your access back, but you do not yet know when it began.",
         "synthetic": true,
         "steps": [
           {
             "prompt": "Whom do you contact first?",
             "choices": [
               {
-                "text": "The four recipients directly, starting with anyone who may be about to pay.",
-                "consequence": "The actionable risk is addressed quickly.",
-                "explanation": "Do not wait for perfect scope before stopping a live payment.",
+                "text": "The four relatives directly, beginning with anyone who might be about to pay.",
+                "consequence": "The live risk is dealt with quickly.",
+                "explanation": "Do not wait for a perfect picture of the scope while a payment may be in flight.",
                 "recommended": true
               },
               {
-                "text": "Only people who read your public feed.",
-                "consequence": "The known recipients may miss it.",
-                "explanation": "Audience follows the observed exposure.",
+                "text": "A post on your public feed, so everyone sees it at once.",
+                "consequence": "The relatives who actually got the message may never see it.",
+                "explanation": "Your audience is whoever was actually exposed.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "What channel do you use?",
+            "prompt": "Which channel do you use?",
             "choices": [
               {
-                "text": "Only the compromised chat, with no explanation.",
-                "consequence": "They may doubt or miss the warning.",
-                "explanation": "Give an independent way to verify.",
+                "text": "Only the chat that was compromised: a quick line, no explanation.",
+                "consequence": "They may doubt the warning, or miss it.",
+                "explanation": "Give people an independent way to check that it is you.",
                 "recommended": false
               },
               {
-                "text": "A known phone number or another established channel; explain verification if only the affected channel works.",
-                "consequence": "Recipients can authenticate the warning.",
-                "explanation": "Channel choice should fit their actual reachability.",
+                "text": "A number they already know, or another established channel. If only the hijacked chat works, say how to check it is you.",
+                "consequence": "The recipients can tell the warning is really yours.",
+                "explanation": "A channel they already know lets them check you without trusting the hijacked one.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "What should the message say about timing?",
+            "prompt": "What do you tell people about timing?",
             "choices": [
               {
-                "text": "Claim you know the exact first minute.",
-                "consequence": "Recipients may wrongly dismiss an earlier request.",
-                "explanation": "Unverified precision can be harmful.",
+                "text": "Say you know the exact minute it began.",
+                "consequence": "Someone may wrongly dismiss an earlier request.",
+                "explanation": "Precision you cannot back up does harm.",
                 "recommended": false
               },
               {
-                "text": "State the known approximate window and say you will update it if needed.",
-                "consequence": "Uncertainty stays visible without delaying action.",
-                "explanation": "Do not invent exact start times.",
+                "text": "Give the approximate window you know, and promise to update it if it changes.",
+                "consequence": "The uncertainty stays visible and the warning goes out without delay.",
+                "explanation": "Never invent an exact start time.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A relative already paid. What instruction helps?",
+            "prompt": "A relative has already paid. What instruction helps?",
             "choices": [
               {
-                "text": "Tell them to contact their bank/payment provider promptly and preserve the request privately.",
-                "consequence": "They can start their own recovery process.",
-                "explanation": "Do not promise reimbursement or ask them to send sensitive details to you.",
+                "text": "Tell them to contact their bank or payment provider promptly and keep a private copy of the request.",
+                "consequence": "They can start their own recovery.",
+                "explanation": "Do not promise reimbursement, and do not ask them to send you sensitive details.",
                 "recommended": true
               },
               {
-                "text": "Forward the scam link to the whole family as proof.",
+                "text": "Send the scam link around the whole family as proof.",
                 "consequence": "More people may open it.",
-                "explanation": "Describe the pattern without spreading the payload.",
+                "explanation": "Describe the pattern; do not spread the lure.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Warn known recipients quickly and accurately; use a route they can trust and an action they can take. Retry individual decisions and replay the sequence."
+        "debrief": "Warn the people you know were reached, quickly and accurately, by a route they trust, and give them one thing to do. Retry any decision you would like to see play out differently, then run the whole sequence again."
       },
       {
         "type": "check",
         "title": "Write the next warning",
         "questions": [
           {
-            "prompt": "The account is still locked and messages are circulating. Must you wait until recovery is complete?",
+            "prompt": "The account is still locked and messages are going out. Must you wait until recovery is finished before warning anyone?",
             "choices": [
               {
-                "text": "Yes, warnings are useful only afterward.",
-                "explanation": "Recipients may act during the delay.",
+                "text": "Yes, a warning is only useful afterwards.",
+                "explanation": "Recipients may act in the meantime.",
                 "correct": false
               },
               {
-                "text": "No; warn affected people now through a separate trusted route.",
-                "explanation": "The immediate goal is to stop harmful action.",
+                "text": "No. Warn the people affected now, through a separate trusted route.",
+                "explanation": "The first goal is to stop anyone acting on the fake request.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "Which detail belongs in a recipient warning?",
+            "prompt": "Which detail belongs in a warning to recipients?",
             "choices": [
               {
-                "text": "A description of the fake request and what to do if they acted.",
-                "explanation": "That helps recipients assess and respond.",
+                "text": "A description of the fake request, and what to do if they acted on it.",
+                "explanation": "It lets them judge their own risk and respond.",
                 "correct": true
               },
               {
-                "text": "Your recovery codes and full account history.",
-                "explanation": "Those details add risk and do not help them.",
+                "text": "Your recovery codes and your full account history.",
+                "explanation": "Those add risk and do nothing for them.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A recipient asks whether a routine message was genuine. Best answer?",
+            "prompt": "A recipient asks whether an ordinary-looking message was genuine. What is the best answer?",
             "choices": [
               {
-                "text": "Confirm from your records or mark it uncertain and verify separately.",
-                "explanation": "Do not overclaim a scope you have not established.",
+                "text": "Check your records and confirm, or say you are unsure and verify it separately.",
+                "explanation": "Do not claim more than you have established.",
                 "correct": true
               },
               {
-                "text": "Declare every message in the month fraudulent.",
-                "explanation": "That can mislead and cause needless disruption.",
+                "text": "Call every message from the past month fraudulent.",
+                "explanation": "That misleads people and causes needless disruption.",
                 "correct": false
               }
             ]

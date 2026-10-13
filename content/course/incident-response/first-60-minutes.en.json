@@ -2,174 +2,174 @@
   "order": 2,
   "title": "The first 60 minutes: triage and containment",
   "est_minutes": 14,
-  "body_md": "## First hour: contain what is actually exposed\n\n“60 minutes” is a rehearsal window, not a guarantee, deadline, or universal order. Start with immediate harm. An unauthorized bank transfer makes the bank's fraud channel urgent; an active email takeover makes account recovery urgent; suspected malware changes which device you trust. Write the time and signal, then act. You need not solve attribution first.\n\n### Three lanes you can run\n\n**Money:** use the number on your card or the bank app opened independently. Report the transaction and ask what can be blocked, disputed, or recalled. A card lock may stop card use but not necessarily a transfer from the account. Explain whether you authorized a payment or someone made it without permission; the processes can differ. Keep the case number and follow-up steps. Recovery is uncertain.\n\n**Accounts:** from a device you have reason to trust, use the provider's recovery page if locked out. If still inside, change the affected password, revoke other sessions where available, enable a stronger available second factor, and check recovery contacts, forwarding and connected apps. Start with email when it controls resets for other accounts, but do not delay a live bank report to follow an arbitrary email-first rule. Private browsing is not a cure for a compromised device.\n\n**Devices and phone number:** if you granted remote access or suspect active malware, stop using that device for recovery. Disconnect it from the network if safe and use another trusted device. For a workplace machine or a case requiring forensic evidence, follow your response team's instructions before wiping or rebooting. For a consumer device, reputable security software and manufacturer support can help; a scan cannot prove every threat is gone. If service disappears along with suspicious carrier/account notices, call the carrier's published support route.\n\nBefore the hour ends, note what you know, what is only suspected, and whom you contacted. Preserve alerts and reference numbers privately. Tell an affected colleague or contact only what they need to avoid acting on a fraudulent request. If you cannot complete a step in the hour, continue it; no clock makes the incident “over.”",
+  "body_md": "## The hour starts where the damage is\n\nIt is 19:10. Your banking app shows a transfer you never made, your email won’t let you in, and the laptop on the table recently ran a stranger’s remote-support program. Everything feels urgent at once. Nobody standing beside a burning pan begins by working out who left the gas on. They turn off the gas.\n\n“60 minutes” is a rehearsal window, not a deadline or a promise, and no single order of steps suits every case. Begin with the harm that is happening now. An unauthorized bank transfer makes the bank’s fraud line the urgent call; a live email takeover makes account recovery urgent; suspected malware changes which device you trust. Write down the time and what you saw, then act. Working out who the attacker is can wait.\n\n### Three lanes, one for each kind of damage\n\n**Money.** Call the number on your card, or open the bank app yourself rather than through a link in a message. Report the transaction and ask what can be blocked, disputed or recalled. Locking a card may stop the card without stopping a transfer out of the account. Say plainly whether you approved the payment or someone made it without you, because the two are handled differently. Keep the case number and the follow-up steps. Getting the money back is not certain.\n\n**Accounts.** If you are locked out, use the provider’s own recovery page, from a device you have reason to trust. If you are still inside, change the affected password, sign out other sessions where the service allows it, switch on the strongest second factor on offer, and look at recovery contacts, forwarding and connected apps. Email usually comes first, since it often controls the resets for everything else, but not at the cost of a live bank report. A private browser window does nothing for a compromised device.\n\n**Devices and phone number.** If you gave someone remote access, or suspect malware is running, stop using that device for recovery. Disconnect it from the network if that is safe, and work from another device you trust. A work machine, or a case that may need forensic evidence, belongs to your response team: follow their instructions before you wipe or reboot anything. On a personal device, reputable security software and the manufacturer’s support can help, though a clean scan is not proof. If your phone loses service just as odd notices arrive from your carrier, call the carrier on its published support number.\n\n### Before the hour is up\n\nWrite down what you know, what you only suspect, and whom you have contacted. Keep alerts and reference numbers somewhere private. Tell an affected colleague or contact just enough to stop them acting on a fraudulent request. What does not fit into the hour carries on; no clock decides when an incident is over.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Choose the first containment action from the actual exposure, then stabilize money, accounts and devices without treating the clock as a guarantee.",
-    "today_action": "Write three headings—money, accounts, devices—and the official contact route you would use for each; keep this playbook somewhere you can reach without the affected device.",
+    "goal": "Pick your first containment step from what is actually exposed, then steady money, accounts and devices without treating the hour as a promise.",
+    "today_action": "Write three headings: money, accounts, devices. Under each, put the official contact you would use, and keep the page somewhere you can reach without the affected device.",
     "checked_at": "2026-10-20",
-    "scope": "Consumer triage across countries; bank rights, provider controls and workplace forensic procedures vary.",
+    "scope": "Everyday triage for people in any country. The people and times in the examples are invented. Bank rights, provider controls and workplace forensic procedures differ from place to place.",
     "sources": [
       {
         "title": "FTC: What to do if you were scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment and exposure response; refund rights vary"
+        "scope": "Steps after a payment or an exposure, written for the US; refund rights vary by country and payment type."
       },
       {
         "title": "FTC: Recover a hacked email or social media account",
         "url": "https://consumer.ftc.gov/articles/how-recover-your-hacked-email-or-social-media-account",
-        "scope": "US consumer guidance; provider controls vary"
+        "scope": "US consumer guidance; the controls you see depend on the provider."
       },
       {
         "title": "UK NCSC: Hacked accounts",
         "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
-        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+        "scope": "Recovery and reporting for UK readers; the account steps are useful anywhere."
       },
       {
         "title": "CFPB: Unauthorized bank transaction",
         "url": "https://www.consumerfinance.gov/ask-cfpb/how-do-i-get-my-money-back-after-i-discover-an-unauthorized-transaction-or-money-missing-from-my-bank-account-en-1017/",
-        "scope": "US electronic-transfer rights; not a universal deadline"
+        "scope": "Your rights over electronic transfers in the US; the time limits there do not carry over to other countries."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Transfer while email is locked",
-        "situation": "Synthetic: Lina cannot sign into email and sees a bank-app transfer she did not authorize. She has another trusted phone.",
-        "analysis": "She calls the bank via its published number first to report the live money loss, then starts email recovery from the trusted phone. “Email always first” would delay the bank's time-sensitive process.",
+        "title": "Money leaving, email locked",
+        "situation": "Lina can’t get into her email. While she is trying, the bank app shows a transfer she never approved. She has a second phone that she trusts.",
+        "analysis": "She calls the bank on its published number first, because money is leaving now, and only then starts email recovery from the trusted phone. A rule like “email always first” would have held up the one call that can’t wait.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A genuine new-device alert",
-        "situation": "Synthetic: Noor receives a new-device alert after signing into her tablet. Official account activity matches the tablet, and no settings changed.",
-        "analysis": "She records the match and checks account security. She need not freeze every card or erase the tablet because a legitimate login happened.",
+        "title": "A new-device alert that is just you",
+        "situation": "Noor signs into her account on a new tablet, and a new-device alert lands in her inbox a minute later. The account’s activity page lists the tablet and nothing else, and no settings have changed.",
+        "analysis": "She notes that the alert matches the tablet and gives the account’s security page a quick look. One genuine sign-in is no reason to freeze every card or wipe the tablet.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "A payment and a login alert",
-        "setup": "Synthetic: a banking app shows an unfamiliar transfer at 19:10; an email alert says a new device signed in. Your laptop recently ran unknown remote-support software. The following decisions are independent response snapshots; each prompt supplies its own facts regardless of earlier choices.",
+        "title": "Three alarms at 19:10",
+        "setup": "An invented evening. At 19:10 your banking app shows a transfer you don’t recognize, and an email says a new device has signed in. Your laptop recently ran a remote-support program you didn’t recognize either. The four decisions below are separate snapshots: each step supplies its own facts, whatever you chose before.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "Which action begins containment?",
+            "prompt": "The transfer is still sitting in the app. What starts the containment?",
             "choices": [
               {
-                "text": "Call the bank using the app/card's known number and report the transfer.",
-                "consequence": "The bank can start its fraud process while details are fresh.",
-                "explanation": "A live money movement takes priority; the alert link is not needed.",
+                "text": "Call the bank on the number from your card or its app, and report the transfer.",
+                "consequence": "The bank opens its fraud process while the details are fresh.",
+                "explanation": "Money in motion is the harm happening now. The link in the alert has no part in reporting it.",
                 "recommended": true
               },
               {
-                "text": "Spend the hour tracing the laptop's IP address.",
-                "consequence": "The transfer may continue unreported.",
-                "explanation": "Attribution can wait; stopping harm cannot.",
+                "text": "Spend the hour tracing the laptop’s IP address.",
+                "consequence": "The transfer sits there, unreported.",
+                "explanation": "Finding the source can wait. Stopping the damage can’t.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: you have lost email access and must recover it. A laptop ran unknown remote-support software, but you have another trusted device. Where do you recover email?",
+            "prompt": "New snapshot: you are locked out of your email. The laptop ran unknown remote-support software, but you have another device you trust. Where do you recover the account?",
             "choices": [
               {
-                "text": "On the same possibly controlled laptop in a private window.",
-                "consequence": "A private window does not remove remote software.",
-                "explanation": "It changes browser state, not device trust.",
+                "text": "On the same laptop, in a private window.",
+                "consequence": "A private window doesn’t remove remote software.",
+                "explanation": "It changes what the browser remembers, not whether you can trust the device.",
                 "recommended": false
               },
               {
-                "text": "On a different trusted device through the provider's official recovery route.",
-                "consequence": "You reduce the chance that recovery details are watched.",
-                "explanation": "Use the provider's process rather than the alert link.",
+                "text": "On the other trusted device, through the provider’s official recovery route.",
+                "consequence": "Anyone watching the laptop is less likely to see your recovery details.",
+                "explanation": "Recover from a device you trust, through the provider’s own process and not a link in an alert.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: a laptop recently ran unknown remote-support software and may still be controlled. What do you do?",
+            "prompt": "New snapshot: the laptop ran unknown remote-support software and may still be under someone else’s control. What do you do with it?",
             "choices": [
               {
-                "text": "Disconnect it if safe, stop using it for sensitive work, and seek trusted help; preserve workplace evidence under policy.",
-                "consequence": "You limit access without assuming a scan proves safety.",
-                "explanation": "Device treatment depends on whether it is personal or managed.",
+                "text": "Disconnect it if that is safe, stop sensitive work on it, find trusted help, and keep workplace evidence as policy requires.",
+                "consequence": "You cut off access without trusting a scan to call the machine clean.",
+                "explanation": "A personal laptop and a managed work one are handled differently.",
                 "recommended": true
               },
               {
-                "text": "Immediately wipe it before noting what happened.",
-                "consequence": "Useful evidence and access to records may be lost.",
-                "explanation": "Containment and evidence need to be balanced.",
+                "text": "Wipe it at once, before writing anything down.",
+                "consequence": "Evidence, and the records you may need, go with the wipe.",
+                "explanation": "Containment has to be weighed against keeping evidence.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: an unfamiliar transfer is still visible after an hour. You may or may not have reached the bank. What next?",
+            "prompt": "New snapshot: an hour later the unfamiliar transfer is still showing, and you may or may not have reached the bank. What next?",
             "choices": [
               {
-                "text": "Assume the risk window is closed.",
-                "consequence": "An arbitrary hour does not resolve an incident.",
-                "explanation": "Report the transfer now if you missed it; continue the case if you already reported it.",
+                "text": "Assume the risky window has closed.",
+                "consequence": "An hour is not a verdict. The incident is still open.",
+                "explanation": "A risky window does not close on a timer. An unreported transfer still needs reporting, and an open case still needs follow-up.",
                 "recommended": false
               },
               {
-                "text": "If not yet reported, start contacting the bank now through a known route; otherwise record any case number issued, pending actions and follow-up time.",
-                "consequence": "You pursue the missed report, or keep an existing case traceable.",
-                "explanation": "The hour is a planning aid, not a deadline that closes the incident.",
+                "text": "Report it now by a known route if you haven’t; if you have, record the case number, open actions and follow-up time.",
+                "consequence": "You either make the missed report or keep an existing case easy to trace.",
+                "explanation": "The hour helps you plan. It does not close anything.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Triage follows the harm: bank for an active transfer, provider for account control, another trusted device for recovery. Retry any decision and replay the sequence; the clock is a planning aid."
+        "debrief": "The order followed the damage: the bank for money in motion, the provider for an account in someone else’s hands, a trusted device for the recovery itself. The hour was only a way to plan. Replay the sequence and take the other choices to see what each one costs."
       },
       {
         "type": "check",
-        "title": "Move the priority to a new situation",
+        "title": "Same order, different facts",
         "questions": [
           {
-            "prompt": "A card charge is unfamiliar but email works normally. What is first?",
+            "prompt": "A card charge you don’t recognize appears, but your email works normally. What comes first?",
             "choices": [
               {
-                "text": "Report the charge to the issuer through a known route.",
-                "explanation": "The issuer can block or dispute according to the payment type.",
+                "text": "Report the charge to the card issuer by a known route.",
+                "explanation": "The issuer can block or dispute it, depending on the type of payment.",
                 "correct": true
               },
               {
-                "text": "Change every social password before speaking to the issuer.",
-                "explanation": "That may delay the financial report without addressing the charge.",
+                "text": "Change every social media password before speaking to the issuer.",
+                "explanation": "That delays the financial report and does nothing about the charge.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "Does a private browser window make an infected laptop safe for password recovery?",
+            "prompt": "You are about to reset a password on a laptop you think is infected. Does a private browser window make that safe?",
             "choices": [
               {
-                "text": "Yes, it removes spyware.",
-                "explanation": "Private browsing does not clean a device.",
+                "text": "Yes, it strips out spyware.",
+                "explanation": "Private browsing doesn’t clean a device.",
                 "correct": false
               },
               {
-                "text": "No; use a trusted device or follow your organization's response team.",
-                "explanation": "The device, not just cookies, may be compromised.",
+                "text": "No. Use a trusted device, or follow your organization’s response team.",
+                "explanation": "The device may be compromised, not just the browser’s cookies.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A transfer was made after you were tricked into approving it. How should you describe it to the bank?",
+            "prompt": "You were tricked into approving a transfer yourself. How do you describe it to the bank?",
             "choices": [
               {
-                "text": "Say you never authorized it, regardless of the facts.",
-                "explanation": "A false description can derail the correct process.",
+                "text": "Say you never authorized it, whatever the facts.",
+                "explanation": "A false account can send your case down the wrong process.",
                 "correct": false
               },
               {
-                "text": "Describe exactly what you approved and ask about recall or dispute options.",
-                "explanation": "Authorized-scam and unauthorized-transfer routes may differ.",
+                "text": "Say exactly what you approved, and ask about recall or dispute options.",
+                "explanation": "A transfer you were tricked into approving and one made without your say-so can follow different routes.",
                 "correct": true
               }
             ]

@@ -1,159 +1,159 @@
 {
   "order": 1,
-  "title": "The six principles of influence",
+  "title": "Cialdini’s six principles of influence",
   "est_minutes": 14,
-  "body_md": "## Influence is normal; the request still needs a check\n\nRobert Cialdini's classic six principles describe common shortcuts in persuasion: **reciprocity** (returning a favour), **commitment and consistency** (continuing a choice already made), **social proof** (following others), **authority** (deferring to expertise), **liking** (agreeing with people we feel close to), and **scarcity** (valuing limited opportunities). His current account also includes a seventh principle, *unity*. This lesson keeps the established six in its title; the framework is a way to notice pressure, not a lie detector.\n\nA genuine colleague can do you a favour; a real store can have limited stock; a licensed professional can be an expert. The dangerous step is letting that cue replace evidence about the **specific action** requested. Ask: Who benefits? What exactly am I being asked to do? Can I check the claim in a channel I chose? A review count, uniform, logo or warm introduction does not answer those questions.\n\nScams often combine shortcuts. A stranger sends a small useful guide (reciprocity), asks you to join a trial group (commitment), shows glowing member comments (social proof), and says enrollment closes tonight (scarcity). Each step makes the next seem smaller. Yet a favourable first experience does not establish that later money, credentials or identity documents should be handed over. A small test withdrawal in a fake investment can be deliberately allowed to build trust; it is not a licence for a larger deposit.\n\n**Pause at the change of stakes.** Naming the tactic may help you notice it, but it does not automatically switch off emotion. Before paying, sharing a code, installing software or granting access, verify the underlying claim independently and use your ordinary approval process. If the claim is real, it should withstand that check. If an offer expires before you can verify it, accepting that you may miss it is safer than treating the deadline as proof.\n\nThe cases below distinguish ordinary persuasion from an attempt to move the decision into an unverified payment channel. In the practice, choose the next action after each new cue; you can retry a decision and replay the sequence.",
+  "body_md": "## A free sample, and a small debt\n\nAt a market stall the cheese seller presses a cube of cheddar into your hand and smiles. Now buying a wedge feels less like shopping and more like manners. Nothing sinister has happened. That pull is ordinary, and it is the first of six that Robert Cialdini described: **reciprocity** (you want to return a favour), **commitment and consistency** (you stay with a choice you have already made), **social proof** (you follow what others do), **authority** (you defer to expertise), **liking** (you say yes to people you feel close to) and **scarcity** (limited things look more valuable). He now counts a seventh, “unity”, but the title of this lesson keeps the original six. Treat the list as a way to notice pressure. It is not a lie detector.\n\nA real colleague can do you a favour, a real shop can run low on stock, and a licensed professional can know more than you do. The danger starts when the cue stands in for evidence about the **specific action** you are being asked to take. Three questions cut through it. Who benefits? What exactly am I being asked to do? Can I check the claim somewhere I chose myself? A pile of reviews, a uniform, a logo or a warm introduction answers none of them.\n\n### How the pulls stack\n\nScams rarely rely on one. A stranger sends a useful little guide (reciprocity), invites you into a trial group (commitment), lets you read the members’ glowing comments (social proof) and mentions that enrolment closes tonight (scarcity). Each step makes the next one look smaller. A pleasant start still gives you no reason to hand over money, credentials or identity documents later. In a fake investment, a small test withdrawal may be allowed on purpose, to build trust; it says nothing about whether a larger deposit is safe.\n\n**Pause when the stakes change.** Naming the tactic helps you spot it, but it does not switch your feelings off. Before you pay, share a code, install software or grant access, check the underlying claim independently and use your ordinary approval process. A real request survives that. If an offer runs out before you can check it, missing it is safer than treating the deadline as proof.\n\nThe cases below separate ordinary persuasion from an attempt to steer your decision into a payment channel nobody has verified. In the practice you choose the next move after each new cue, and you can retry any decision or replay the whole sequence.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Identify the influence cue, then verify the consequential request without relying on that cue.",
-    "today_action": "Write one question you will ask before a high-stakes offer: “How can I confirm this through a contact I already trust?”",
+    "goal": "Recognise the influence cue, then check any request with real consequences without leaning on that cue.",
+    "today_action": "Write down one question to ask before any high-stakes offer: “How can I confirm this through a contact I already trust?”",
     "checked_at": "2026-10-20",
-    "scope": "General decision practice; Cialdini describes persuasion, while NCSC/FTC examples are UK/US guidance. Local payment and reporting rules differ.",
+    "scope": "General practice for making decisions. Cialdini describes persuasion; the NCSC and FTC examples are UK and US guidance, and rules on payments and reporting differ from place to place. The people, groups and organisers in the cases are invented.",
     "sources": [
       {
-        "title": "Cialdini / Influence at Work — principles of persuasion",
+        "title": "Cialdini / Influence at Work: principles of persuasion",
         "url": "https://www.influenceatwork.com/7-principles-of-persuasion/",
-        "scope": "Author’s current account of the original six principles and later seventh, unity."
+        "scope": "The author’s current account of the original six principles and the seventh added later, unity."
       },
       {
-        "title": "UK NCSC — how to spot a scam message or call",
+        "title": "UK NCSC: how to spot a scam message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
+        "scope": "UK public guidance, published 2021 and reviewed 2022. It lists warning cues and independent contact, and it is not a diagnostic test."
       },
       {
-        "title": "US FTC — How to Avoid a Scam",
+        "title": "US FTC: How to Avoid a Scam",
         "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
-        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
+        "scope": "US consumer guidance (2023) on impersonation, pressure, payment methods and contacting the real organisation yourself."
       },
       {
-        "title": "US SEC-led Investor Alert — relationship investment scams",
+        "title": "SEC and partners: relationship investment scams",
         "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/relationship-investment-scams-investor-alert",
-        "scope": "US investor alert (10 September 2024); small early withdrawals may be allowed to create false confidence."
+        "scope": "Joint US investor alert (10 September 2024). Small early withdrawals may be allowed to create false confidence."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: the helpful club organizer",
-        "situation": "A new online club organizer sends a free checklist, invites you into a private group with enthusiastic testimonials, then says members must pay a “verification deposit” before midnight.",
-        "analysis": "The checklist and compliments create reciprocity and liking; testimonials suggest social proof; the deadline adds scarcity. None establishes who receives the deposit or whether it is refundable. Do not pay in response to the group’s request; verify the organizer and payment route independently before any payment.",
+        "title": "The helpful club organiser",
+        "situation": "A new organiser of an online club sends you a free checklist, writes that you are exactly the kind of person the group needs, and adds you to a private chat full of glowing testimonials. Then comes the announcement: every member must pay a “verification deposit” before midnight.",
+        "analysis": "The checklist and the compliments work on reciprocity and liking, the testimonials on social proof, the deadline on scarcity. None of it shows who receives the deposit or whether it is ever returned. Do not pay because the group asks. Check the organiser and the payment route independently before any money moves.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: a genuine limited workshop",
-        "situation": "A community library lists twelve seats for a free workshop on its own published calendar. A librarian you already know mentions that booking closes when seats fill.",
-        "analysis": "Scarcity can be real. Check the library calendar or call its published desk number. If the event is listed and registration stays on the library’s own system, the cue alone is no reason to reject it. You may still decline without pressure.",
+        "title": "A genuinely limited workshop",
+        "situation": "A community library lists twelve seats for a free workshop in its own published calendar. A librarian you already know mentions that booking closes once the seats are gone.",
+        "analysis": "Scarcity can be real. Look at the library’s calendar, or ring the desk number it publishes. If the event is listed and booking runs through the library’s own system, the limited seats alone are no reason to turn it down. You are still free to decline, and nobody is hurrying you.",
         "legitimate": true
       },
       {
         "type": "practice",
         "title": "The invitation ladder",
-        "setup": "A fictional hobby forum member sends you a useful design template and invites you to a “verified makers circle.” No real account or payment is used here.",
+        "setup": "An invented hobby forum. One of its members sends you a handy design template and invites you to a “verified makers circle”. No real account or payment is involved.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "They ask for a public thank-you post before you have reviewed the group. What do you do?",
+            "prompt": "You have barely looked at the group when they ask you to post a public thank-you on its page. What do you do?",
             "choices": [
               {
-                "text": "Post it immediately; a gift deserves a public return.",
-                "consequence": "The post becomes a visible commitment you may feel obliged to defend.",
-                "explanation": "Reciprocity is a feeling, not a debt. You can thank them privately without endorsing an unreviewed group.",
+                "text": "Post it at once: a gift deserves a public thank-you.",
+                "consequence": "Your post becomes a visible commitment, and you may feel bound to defend it.",
+                "explanation": "The urge to repay is only a feeling; it creates no debt. You can thank them privately without vouching for a group you have not looked at.",
                 "recommended": false
               },
               {
-                "text": "Thank them for the template and wait to endorse the group until you know it.",
-                "consequence": "You keep appreciation separate from an endorsement.",
-                "explanation": "This respects the person while withholding a public signal others might mistake for a recommendation.",
+                "text": "Thank them for the template, and hold off recommending the group until you know it.",
+                "consequence": "Your gratitude stays separate from any endorsement.",
+                "explanation": "You are courteous to the person and withhold a public signal that others might read as a recommendation.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The group page shows many glowing member quotes and a “verified by experts” badge. What next?",
+            "prompt": "The group’s page is full of glowing member quotes and carries a “verified by experts” badge. What next?",
             "choices": [
               {
-                "text": "Find the organizer and terms through a source outside that page.",
-                "consequence": "You gain a check that the invitation page cannot supply by itself.",
-                "explanation": "Look for the organization’s own established contact and written terms; lack of confirmation is a reason to pause.",
+                "text": "Look for the organiser and the terms in a source outside that page.",
+                "consequence": "You get a check that the invitation itself cannot give.",
+                "explanation": "Find the organisation’s long-standing contact details and its written terms. If nothing confirms them, wait.",
                 "recommended": true
               },
               {
-                "text": "Treat the quotes and badge as proof that the group is trustworthy.",
-                "consequence": "You may mistake presentation for independent evidence.",
-                "explanation": "Testimonials and badges can be created by the seller; seek an outside record and exact terms.",
+                "text": "Take the quotes and the badge as proof that the group is sound.",
+                "consequence": "You mistake the staging for independent evidence.",
+                "explanation": "A seller can write testimonials and design badges. Look for outside records and the exact terms.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A moderator says the final seat requires a deposit tonight by transfer. What is the best response?",
+            "prompt": "A moderator says the last seat needs a deposit by transfer tonight. What is your best reply?",
             "choices": [
               {
-                "text": "Pay a small deposit so you do not lose the seat.",
-                "consequence": "A small transfer may lead to larger requests and can be hard to recover.",
-                "explanation": "The size of the first ask does not authenticate the seller or payment destination.",
+                "text": "Send a small deposit so you do not lose the seat.",
+                "consequence": "A small transfer can lead to bigger demands, and it may be hard to get back.",
+                "explanation": "The size of the first ask authenticates neither the seller nor the account the money goes to.",
                 "recommended": false
               },
               {
-                "text": "Decline the deadline until the destination and policy are independently verified.",
-                "consequence": "You may lose the seat, but you avoid letting scarcity choose the payment channel.",
-                "explanation": "A legitimate organizer can explain the ordinary booking process; otherwise let the offer pass.",
+                "text": "Let the deadline go until the recipient and the rules have been independently confirmed.",
+                "consequence": "The seat may be gone, but scarcity has not chosen your payment channel for you.",
+                "explanation": "A genuine organiser can explain the ordinary way to book. If they cannot, let the offer pass.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Debrief: the template, public commitment, social proof and scarcity created a ladder. On replay, stop at the first step that turns appreciation into an endorsement or payment. The lesson is to verify the new stake, not to distrust every friendly act."
+        "debrief": "The free template, the public thank-you, the glowing quotes and the vanishing seat made a ladder, and every rung sat only a short reach above the last. On a replay, stop at the first rung where gratitude turns into an endorsement or a payment. What needs checking is the new stake. Nobody is asking you to distrust every friendly act."
       },
       {
         "type": "check",
-        "title": "Transfer the skill",
+        "title": "Try it on fresh cases",
         "questions": [
           {
-            "prompt": "A trusted colleague offers free advice, then asks you to approve a new bank recipient. Which fact matters most?",
+            "prompt": "A colleague you trust gives you some free advice, then asks you to approve a new bank recipient. What matters most here?",
             "choices": [
               {
-                "text": "The recipient change must pass the normal independent approval path.",
-                "explanation": "Correct: gratitude for advice does not verify payment details.",
+                "text": "The change of recipient must go through the normal, independent approval route.",
+                "explanation": "Yes. Being grateful for the advice does not verify the bank details.",
                 "correct": true
               },
               {
-                "text": "The colleague was generous, so the recipient is safe.",
-                "explanation": "Reciprocity describes your feeling, not the integrity of bank details.",
+                "text": "The colleague has been generous, so the recipient must be safe.",
+                "explanation": "Reciprocity describes how you feel, not whether the bank details are sound.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A real theater has only three tickets left on its own checkout. Is scarcity proof of fraud?",
+            "prompt": "A real theatre has three tickets left at its own checkout. Does scarcity prove fraud?",
             "choices": [
               {
-                "text": "No; verify you are on the theater’s established checkout and decide freely.",
-                "explanation": "Correct: scarce stock may be genuine, but the payment route still matters.",
+                "text": "No. Make sure you are on the theatre’s long-established checkout, then decide freely.",
+                "explanation": "Right: stock may truly be low, but the payment route still matters.",
                 "correct": true
               },
               {
-                "text": "Yes; every limited offer is a scam.",
-                "explanation": "A cue alone cannot classify an offer.",
+                "text": "Yes. Every limited offer is a scam.",
+                "explanation": "A single cue cannot classify an offer.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A page displays hundreds of positive reviews for an unfamiliar investment app. Best inference?",
+            "prompt": "A page shows hundreds of glowing reviews for an investment app you have never heard of. What is the best inference?",
             "choices": [
               {
-                "text": "Reviews establish that other people earned money.",
-                "explanation": "Reviews may be fake or selective and cannot prove returns.",
+                "text": "The reviews show that other people made money.",
+                "explanation": "Reviews can be fake or cherry-picked, and they cannot prove returns.",
                 "correct": false
               },
               {
-                "text": "Reviews are a prompt to research, not proof of safety.",
-                "explanation": "Correct: check the entity and product through independent, relevant sources.",
+                "text": "The reviews are a reason to do some research, not proof that the app is safe.",
+                "explanation": "Right: check the company and the product through independent sources that bear on the claim.",
                 "correct": true
               }
             ]

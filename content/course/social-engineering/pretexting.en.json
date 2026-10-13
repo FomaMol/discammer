@@ -1,69 +1,69 @@
 {
   "order": 2,
-  "title": "Pretexting: when the story is the attack",
+  "title": "Pretexting: the story is the attack",
   "est_minutes": 13,
-  "body_md": "## When the story is the tool\n\nA pretext is a made-up role and situation that makes a request seem like the next routine step. It may borrow a real organization, a real event or details about you. The caller’s knowledge of an address or the last digits of an account is not proof of identity: such details may be public, stolen or guessed. Caller ID can also be altered. What matters is the requested action and whether you can confirm it outside the conversation.\n\nA convincing story fits a routine: a delivery needs an address, payroll needs a form, IT needs an update, a bank needs to handle a disputed transaction. The attacker asks for a seemingly small step, then uses your cooperation to justify the next. A “fraud officer” might first ask whether a charge is yours, then insist that you move money to a “safe” account. Answering an initial question is not a commitment to follow the rest of the script.\n\nA pretext may also explain away the very safeguard you would normally use: “the app is down,” “we cannot put this in writing,” or “don’t call the main desk because this case is confidential.” These explanations are claims, not proof. Real exceptions can happen; verify through the institution’s established app, the number on a card or statement, or a known internal directory. Tell that independent contact the exact claim and ask whether an action is required. Do not use callback details supplied by the person whose identity you are checking.\n\n**Break contact without diagnosing the caller.** You do not need to prove a lie while on the line. Record only non-sensitive basics such as the claimed organization and issue, end the interaction, and independently check. If the matter is real, the organization can explain the next steps through its normal channel. If you already sent information or money, contact the relevant provider promptly using a trusted channel; options vary by country and payment method.\n\nThe examples show why a realistic administrative story still requires a clean verification path. The practice rehearses that path through a fictional benefits-office call.",
+  "body_md": "## The vest, the clipboard, the confident walk\n\nA man in an orange safety vest, a clipboard under his arm, strolls through an office building as if he had a desk there. Nobody stops him, because nothing about him raises a question. A pretext is the same trick played over the phone or in a chat: an invented role and a believable errand, arranged so that the request sounds like the next dull step in a process you already know. A delivery needs an address. Payroll needs a form. IT needs an update. The bank has a disputed charge to sort out.\n\nThe details prove nothing. A caller who knows your street, your department or the last digits of your account may have lifted them from a public profile, a leaked database or a lucky guess, and caller ID can be forged as easily. What counts is the request itself, and whether you can confirm it somewhere the caller does not control.\n\nPretexts also arrive in installments. The first ask is small and harmless, and each yes becomes the reason for the next. A “fraud officer” asks whether a charge on your card is yours, which is a perfectly fair question, and a few minutes later is insisting that you move your money to a “safe” account. Answering the opening question did not sign you up for the rest of the script.\n\nListen for the lines that remove your usual safeguard in advance: “the app is down today,” “we can’t put this in writing,” “don’t call the main desk, this case is confidential.” These are claims, not evidence. Real exceptions do happen, so check them like everything else: in the institution’s own app, on the number printed on your card or statement, or in the internal directory you already use. Tell that independent contact exactly what you were told and ask whether anything is required of you. A callback number offered by the person you are testing is the one number you must not use.\n\n**Hang up first, diagnose later.** You do not have to prove the caller is lying or win an argument on the line. Jot down what is not sensitive, such as the organization they named and the problem, end the call, and check. If the matter is real, the organization will explain the next step through its ordinary channel. If you have already handed over information or money, contact the relevant provider quickly through a channel you trust. What can be done depends on the country and the payment method.\n\nThe two cases below show why even a realistic errand needs a clean way to check it. The practice then rehearses that check on an invented call from a benefits office.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Extract the request from a plausible cover story and confirm it through an independently chosen channel.",
-    "today_action": "Save one trusted contact route for a bank or workplace service before you need it; use an existing card, app or directory.",
+    "goal": "Pull the request out of a plausible cover story and confirm it through a channel you chose yourself.",
+    "today_action": "Pick one bank or workplace service and write down how you would reach it yourself: the number on your card, a button in its app, an entry in the staff directory. Do it now, while nobody is pushing you.",
     "checked_at": "2026-10-20",
-    "scope": "General technique; FTC callback advice is US consumer guidance and NCSC advice is UK guidance. Use your own institution’s real process and local response channels.",
+    "scope": "A general technique. The FTC’s callback advice is written for US consumers and the NCSC’s for the UK. Follow your own institution’s real process and your local reporting channels.",
     "sources": [
       {
-        "title": "US FTC — unexpected calls about money at risk",
+        "title": "US FTC: unexpected calls about money at risk",
         "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
-        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
+        "scope": "US consumer alert, January 2026. Call back on a number from your own card, statement, app or the official site."
       },
       {
-        "title": "UK NCSC — how to spot a scam message or call",
+        "title": "UK NCSC: how to spot a scam message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
+        "scope": "UK public guidance, published 2021 and reviewed 2022. Warning cues and independent contact, not a diagnostic test."
       },
       {
-        "title": "US FTC — How to Avoid a Scam",
+        "title": "US FTC: how to avoid a scam",
         "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
-        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
+        "scope": "US consumer guidance (2023) on impersonation, pressure, payment methods and independent contact."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: “card safety desk”",
-        "situation": "An inbound caller displays the bank’s name, knows your street, and describes an unfamiliar hotel charge. After you say it was not yours, the caller asks you to transfer your balance into a temporary protected account.",
-        "analysis": "The first question resembles a legitimate fraud check; the transfer is the consequential step. Neither displayed name nor personal detail authenticates the caller. End the call and check the charge in your own banking app or call the number on your card. Never treat a caller-directed transfer as account protection.",
+        "title": "The “card safety desk”",
+        "situation": "The phone shows your bank’s name. The caller knows your street and asks about a hotel charge you have never heard of. When you say it is not yours, they offer to move your balance into a “temporary protected account.”",
+        "analysis": "The first question is the kind a real fraud team asks. The transfer is where the story turns. Neither the name on the screen nor a detail about your street proves who is calling. Hang up and look at the charge in your own banking app, or call the number on your card. A transfer made at a caller’s direction is not protection for your account.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: real payroll form",
-        "situation": "A known HR colleague mentions that employees must update tax details after a company merger. The same notice appears in the authenticated staff portal, and your manager confirms the deadline through a contact you already use.",
-        "analysis": "An administrative request and a deadline can be real. The established portal and independent confirmation support the story. Enter details only through the verified workplace process; do not email documents in reply to an unexpected message.",
+        "title": "A real payroll form",
+        "situation": "After a company merger, an HR colleague you know mentions that everyone has to update their tax details. The same notice is waiting in the staff portal, where you signed in yourself, and your manager confirms the deadline through a contact you already use.",
+        "analysis": "A form and a deadline are ordinary office life, and this story holds up: the portal carries the same notice and your manager vouches for the date. Enter your details through that workplace process only, and never email documents in reply to a message you did not expect.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The benefits-office story",
-        "setup": "A fictional caller says a routine benefits record failed to import. The exercise contains no real identity details.",
+        "title": "A call from the benefits office",
+        "setup": "An invented call: someone says a routine record in the benefits system failed to import and they need your help to fix it. No real identity details are used here.",
         "synthetic": true,
         "mode": "graph",
         "steps": [
           {
-            "prompt": "The caller knows your department and asks you to “confirm” a personal identifier. What do you do?",
+            "prompt": "The caller gets your department right, then asks you to “confirm” a personal identifier so they can match the record. What do you do?",
             "choices": [
               {
-                "text": "Provide it; knowing the department proves the caller belongs there.",
-                "consequence": "You expose information without authenticating the caller.",
-                "explanation": "Workplace details may be available from public profiles or a compromised directory.",
+                "text": "Give it. They know your department, so they must work there.",
+                "consequence": "The identifier is said aloud, and the caller has not had to prove a thing.",
+                "explanation": "Where you work is easy to find on a public profile or in a leaked directory. It says nothing about who is calling.",
                 "recommended": false,
                 "next": "still-on-call"
               },
               {
-                "text": "Ask for the claimed office and issue, then end the call without giving the identifier.",
-                "consequence": "You preserve enough context to check independently.",
-                "explanation": "You can verify a claim without continuing the caller’s workflow.",
+                "text": "Ask which office and what issue, then end the call without giving the identifier.",
+                "consequence": "You hang up with the office and the issue jotted down and nothing handed over.",
+                "explanation": "You can test a claim without playing along with the caller’s process.",
                 "recommended": true,
                 "next": "independent-route"
               }
@@ -72,19 +72,19 @@
           },
           {
             "id": "still-on-call",
-            "prompt": "After you disclose the identifier, the caller says the normal portal is down and dictates an alternate upload link. What now?",
+            "prompt": "The caller thanks you, then says the normal portal is down and dictates an alternate link for uploading the form. What now?",
             "choices": [
               {
-                "text": "Stop, end the call, and call the real benefits desk using the existing staff directory.",
-                "consequence": "You can still interrupt the script and reach a real service.",
-                "explanation": "Even after one disclosure, do not compound it; tell verified staff what happened.",
+                "text": "Stop, hang up, and call the real benefits desk using the staff directory.",
+                "consequence": "The script breaks off halfway, and you are talking to the people who actually run the benefits system.",
+                "explanation": "One slip does not have to become two. Stop, and tell verified staff what happened.",
                 "recommended": true,
                 "next": "desk-result"
               },
               {
-                "text": "Use the dictated link to finish quickly.",
-                "consequence": "You expose more details through an unverified page.",
-                "explanation": "The asserted outage and link both come from the same unverified caller.",
+                "text": "Open the link they dictate and finish quickly.",
+                "consequence": "The link opens a tidy page with your employer’s name across the top.",
+                "explanation": "The outage and the link come from the same caller, so nobody else has confirmed either one.",
                 "recommended": false,
                 "next": "unverified-page"
               }
@@ -92,38 +92,38 @@
           },
           {
             "id": "independent-route",
-            "prompt": "After you end the call, a text claims the staff portal is down and offers an alternate upload link. What now?",
+            "prompt": "A few minutes after you hang up, a text arrives: the staff portal is down, and here is an alternate link for uploading the form. What now?",
             "choices": [
               {
-                "text": "Open the new link; it arrived by a different channel.",
-                "consequence": "The second message may be part of the same operation.",
-                "explanation": "A second inbound channel is not independent verification.",
+                "text": "Open the link. It came by text, so it is separate from the call.",
+                "consequence": "The link opens a tidy page with your employer’s name across the top.",
+                "explanation": "A second message you did not ask for is not independent confirmation. It may belong to the same operation.",
                 "recommended": false,
                 "next": "unverified-page"
               },
               {
-                "text": "Call the real benefits desk using the number already in your staff directory.",
-                "consequence": "The claimed outage is checked outside both inbound contacts.",
-                "explanation": "Ask the real service whether the request exists before submitting anything.",
+                "text": "Call the real benefits desk on the number already in your staff directory.",
+                "consequence": "The claimed outage gets checked somewhere neither the caller nor the text can reach.",
+                "explanation": "Ask the real service whether the request exists before you submit anything.",
                 "recommended": true,
                 "next": "desk-result"
               }
             ]
           },
           {
-            "prompt": "The real benefits desk says no update is due. What next?",
+            "prompt": "The real benefits desk tells you no update is due. What next?",
             "choices": [
               {
-                "text": "Do not submit; report the contact and any information already shared through your workplace’s verified response route.",
-                "consequence": "The request stops, and verified staff can advise on any exposed information.",
-                "explanation": "Use the established confidential process to describe what was shared; avoid posting identifiers or the unverified link in a public channel.",
+                "text": "Submit nothing. Report the call, and anything you already gave away, through your workplace’s verified response process.",
+                "consequence": "The request stops there, and verified staff can advise you on anything that was exposed.",
+                "explanation": "Describe what was shared through the established confidential process. Keep identifiers and the suspect link out of public channels.",
                 "recommended": true,
                 "next": "end"
               },
               {
-                "text": "Ignore the desk because the caller sounded more confident.",
-                "consequence": "You privilege tone over an independent record.",
-                "explanation": "Confidence and detailed scripts do not outrank the actual account or service owner.",
+                "text": "Dismiss the desk’s answer. The caller sounded more sure of themselves.",
+                "consequence": "A confident voice outweighs the service’s own records, and the caller’s story survives intact.",
+                "explanation": "Confidence and a detailed script do not outrank the actual service and its account.",
                 "recommended": false,
                 "next": "end"
               }
@@ -132,72 +132,72 @@
           },
           {
             "id": "unverified-page",
-            "prompt": "The unverified upload page asks for more personal documents. You may also have disclosed an identifier by phone. What now?",
+            "prompt": "The page wants scans of your personal documents. Depending on how you got here, you may also have given an identifier over the phone. What now?",
             "choices": [
               {
-                "text": "Upload the documents to complete the caller’s request.",
-                "consequence": "More sensitive information may reach the same unverified party.",
-                "explanation": "Opening a page or sharing one identifier does not establish that the request is legitimate.",
+                "text": "Upload the documents to finish what the caller asked for.",
+                "consequence": "Scans of your documents land with someone you have never verified.",
+                "explanation": "A page that loads, or an identifier already given, does not make the request legitimate. Finishing only raises the cost.",
                 "recommended": false,
                 "next": "end"
               },
               {
-                "text": "Stop using the page; contact the real benefits desk through the existing directory and explain any information already shared.",
-                "consequence": "You interrupt further disclosure and can ask the real service about protective steps.",
-                "explanation": "The independent desk can check whether an update exists and advise on an exposed identifier; avoid the caller’s link and number.",
+                "text": "Close the page, call the real benefits desk through the directory, and tell them everything you have already shared.",
+                "consequence": "No more data leaves, and the real service can tell you what protective steps exist.",
+                "explanation": "The independent desk can check whether any update exists and advise on an exposed identifier. Stay away from the caller’s link and number.",
                 "recommended": true,
                 "next": "end"
               }
             ]
           }
         ],
-        "debrief": "Debrief: disclosing the identifier changes what you may need to report. Opening an unverified page never yields the real desk’s answer; only using the established route does. Replay to practise stopping after any exposure and telling verified staff what happened."
+        "debrief": "Whether you gave the identifier changes what you have to report, not what you do next: stop, call the real desk, say what happened. A page you reach through the caller’s link can never return the real desk’s answer. Only the number you already had can. Run it again and take the other branch."
       },
       {
         "type": "check",
-        "title": "Apply to a new story",
+        "title": "Try it on new stories",
         "questions": [
           {
-            "prompt": "A caller knows the last four digits of your card. Does that prove the caller is the bank?",
+            "prompt": "A caller reads out the last four digits of your card. Does that prove they are from the bank?",
             "choices": [
               {
-                "text": "Yes; only the bank could know them.",
-                "explanation": "Partial account details can leak or be obtained elsewhere.",
+                "text": "Yes. Only the bank would have them.",
+                "explanation": "Partial card details can leak or reach outsiders by other routes.",
                 "correct": false
               },
               {
-                "text": "No; independently reach the bank before acting.",
-                "explanation": "Correct: identity comes from a trusted contact path, not a fact recited by the inbound caller.",
+                "text": "No. Reach the bank yourself before you do anything they ask.",
+                "explanation": "Identity comes from a contact route you trust, not from a fact the caller recites.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A delivery company’s real app shows a parcel awaiting address correction. What is a reasonable next step?",
+            "prompt": "A caller says your parcel is held for an address correction. You open the delivery company’s own app, and it shows the same notice. What is a sensible next step?",
             "choices": [
               {
-                "text": "Use the app’s own help flow, after opening it yourself.",
-                "explanation": "Correct: a legitimate issue can be handled without the text’s link.",
+                "text": "Fix it inside the app, through its own help flow.",
+                "explanation": "The problem is real, and you can solve it without the caller.",
                 "correct": true
               },
               {
-                "text": "Send the address and card details to the caller so they can fix it.",
-                "explanation": "That leaves the verified channel and exposes data unnecessarily.",
+                "text": "Give the caller your address and card details so they can sort it out.",
+                "explanation": "That leaves the channel you verified and hands over more than the job needs.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "The caller says the usual verification process is unavailable. Best interpretation?",
+            "prompt": "The caller says the usual verification process is unavailable today. How should you take that?",
             "choices": [
               {
-                "text": "The exception proves fraud.",
-                "explanation": "Outages can be real; the claim still needs checking.",
+                "text": "As proof of fraud.",
+                "explanation": "Outages happen. The claim still has to be checked.",
                 "correct": false
               },
               {
-                "text": "Treat it as an unverified claim and ask the established service channel.",
-                "explanation": "Correct: neither automatically accept nor dismiss the entire issue.",
+                "text": "As a claim to check, by asking the service through its established channel.",
+                "explanation": "You neither accept the exception nor dismiss the whole problem along with it.",
                 "correct": true
               }
             ]

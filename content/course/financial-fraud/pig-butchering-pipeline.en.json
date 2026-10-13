@@ -1,170 +1,170 @@
 {
   "order": 3,
-  "title": "The pig-butchering financial pipeline",
+  "title": "Pig butchering: following the money",
   "est_minutes": 16,
-  "body_md": "## Follow the money through the relationship\nIn a confidence-based investment fraud, an online contact first builds trust, then presents a trading site or app as a shared opportunity. The site may display invented gains and even permit a small withdrawal. Later deposits become larger; a requested full withdrawal triggers an invented tax, fee or account freeze. The FBI describes this sequence, but not every real case follows every step or timeline. A real friendship and a real investment can coexist, so the decision is about independent control and verification, not an accusation based on romance alone.\n\nMap four separate questions: **Who introduced the platform? Who legally operates it? Where did your money actually go? Can you withdraw without sending new money outside published terms?** A contact may send you to a genuine exchange to buy crypto, then direct an irreversible transfer to a separate controlled wallet. Seeing a real exchange in one step does not authenticate the final destination. A small withdrawal can be a funded confidence trick, not a reliable test.\n\nIf you or someone close is inside the process, pause new deposits immediately. Do not “test” with a larger withdrawal if the platform requires new money, identity documents through chat or a fee to release funds. You can ask a trusted person to review the sequence without blame. Preserve private copies of chats, site address, payment confirmations, wallet addresses and hashes; do not post sensitive evidence publicly. Contact the actual bank, exchange or payment service quickly and report to your local authority. In the US IC3 accepts complaints and transaction details; a report does not promise recovery. Recovery agents who approach you and demand advance payment can cause a second loss.",
+  "body_md": "## Trace the money through the friendship\n\nFor weeks it is only a pleasant stranger who writes good morning and remembers what you said last Tuesday. Then, in passing, comes a mention of a trading app that has been doing well for them, and an offer to show you how it works.\n\nThis is confidence-based investment fraud: trust first, then a trading site or app presented as a shared opportunity. The site shows invented gains and may even let you withdraw a small sum. Later deposits grow, and a request to take everything out brings an invented tax, a fee or a frozen account. The FBI describes this sequence, though not every real case follows every step or timeline. A real friendship can also sit beside a real investment, so the test is who controls the money and what you can verify yourself, not whether someone is being warm.\n\nAsk four separate questions: **Who introduced the platform? Who legally operates it? Where did your money actually go? Can you withdraw without sending new money that the published terms never mention?** The route often passes through a genuine exchange, which is why it reassures: you buy coins there, as instructed, then send them on to a wallet someone else controls. The exchange handled the purchase and vouched for nothing after it. A small withdrawal that does reach you proves just as little. The scammer can afford it, and it buys your trust for the larger deposits.\n\n### If you, or someone close, is already in it\n\nPause new deposits at once. Do not “test” the site with a bigger withdrawal if getting it out means sending new money, handing identity documents over in the chat, or paying a fee. Ask someone you trust to look at the sequence with you, without blame. Keep private copies of the chats, site address, payment confirmations, wallet addresses and hashes, and do not post sensitive evidence in public. Contact the real bank, exchange or payment service quickly, and report to your local authority. In the US, IC3 takes complaints and transaction details, and no report promises recovery. Anyone who approaches you offering to recover the money for an advance fee is a second loss waiting to happen.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Recognize when an online relationship is being converted into deposits on a controlled platform and interrupt the money flow.",
-    "today_action": "Write a three-line rule for yourself: no investment transfer on a new contact’s instruction; verify the provider independently; ask a trusted person before a second deposit.",
+    "goal": "Spot the moment an online relationship is being turned into deposits on a platform someone else controls, and stop the money.",
+    "today_action": "Write yourself a three-line rule: no investment transfer on a new contact’s instruction; check the provider independently; ask someone you trust before any second deposit.",
     "checked_at": "2026-10-20",
-    "scope": "FBI/IC3 describes US-reported patterns, not a universal sequence or guaranteed recovery; checked 2026-10-20.",
+    "scope": "The FBI and IC3 describe patterns reported in the US. They are not a universal sequence, and no report guarantees recovery. The people and sites in the cases are invented. Checked 2026-10-20.",
     "sources": [
       {
         "title": "FBI IC3: Investment Fraud",
         "url": "https://www.ic3.gov/CrimeInfo/Investment",
-        "scope": "US law-enforcement descriptions of confidence-based fake investment platforms."
+        "scope": "How US law enforcement describes fake investment platforms built on trust."
       },
       {
         "title": "FBI IC3: Cryptocurrency",
         "url": "https://www.ic3.gov/CrimeInfo/Cryptocurrency",
-        "scope": "US reporting and transaction evidence; blockchain transfers generally cannot be reversed."
+        "scope": "US reporting and transaction evidence. Blockchain transfers generally cannot be reversed."
       },
       {
         "title": "FTC: What To Do if You Were Scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment-provider and account response; no recovery guarantee."
+        "scope": "US advice on payment providers and accounts. Recovery is not promised."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A profitable screen after a relationship",
-        "situation": "Synthetic: after months of friendly messages, a contact guides Maya to buy coins at a known exchange and send them to `harbor-yield.example`. The site shows a profit and releases a small amount. Now it proposes a much larger deposit.",
-        "analysis": "The known exchange processed only the purchase; it did not vet the destination. The site controls the displayed balance and can fund the small payout. Stop further transfers, independently identify the operator, and discuss the sequence with a trusted person.",
+        "title": "A winning screen after months of messages",
+        "situation": "After months of friendly messages, a contact walks Maya through buying coins on a well-known exchange and sending them to harbor-yield.example. The site shows a profit and pays out a small amount. Now it suggests a much larger deposit.",
+        "analysis": "The exchange handled only the purchase. It never vetted where the coins went next. The site controls the balance on the screen and can easily fund a small payout. Stop sending anything, find out independently who runs the site, and talk the sequence through with someone you trust.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A partner recommends an ordinary account",
-        "situation": "Synthetic: a long-term partner mentions a broad-market fund at a regulated provider. They do not handle the account or ask for a transfer; you open the provider independently and choose whether the risk fits you.",
-        "analysis": "Advice from someone close is not automatically coercion or fraud. Independently verify the exact provider and product, understand losses and fees, and retain sole control. A regulated account does not guarantee returns.",
+        "title": "A partner mentions an ordinary fund",
+        "situation": "A long-term partner mentions a broad-market fund at a regulated provider. They do not touch the account or ask you to send anything. You open the provider’s site yourself and decide whether the risk suits you.",
+        "analysis": "Advice from someone close is not coercion or fraud by default. Verify the provider and the exact product yourself, understand the losses and fees, and keep sole control of the account. A regulated account still guarantees no returns.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Help a friend pause the deposits",
-        "setup": "Synthetic: your friend Leon has been chatting with an online match who introduced `north-chart.example`. Leon made two deposits and one small withdrawal.",
+        "title": "Helping a friend pause the deposits",
+        "setup": "An invented scenario. Your friend Leon has been chatting with an online match who introduced him to north-chart.example. Leon has made two deposits and one small withdrawal.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "Leon says the successful withdrawal proves safety. Your response?",
+            "prompt": "Leon says the withdrawal that went through proves the site is safe. How do you answer?",
             "choices": [
               {
-                "text": "Tell him he is foolish and must admit it.",
-                "consequence": "He may withdraw from you while the scammer remains persuasive.",
-                "explanation": "Preserve a supportive channel.",
+                "text": "Tell him he is being foolish and should admit it.",
+                "consequence": "He may pull away from you while the scammer stays persuasive.",
+                "explanation": "Keep a supportive channel open.",
                 "recommended": false
               },
               {
-                "text": "Explain calmly that controlled sites can pay a small amount to build trust.",
-                "consequence": "Leon has a concrete reason to pause without feeling attacked.",
-                "explanation": "Avoid shame; explain the mechanism rather than labeling him gullible.",
+                "text": "Explain calmly that a site someone controls can pay out a little to build trust.",
+                "consequence": "Leon gets a concrete reason to pause without feeling attacked.",
+                "explanation": "Skip the shame and explain the mechanism. Do not call him gullible.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Leon plans to borrow for another deposit. Best immediate boundary?",
+            "prompt": "Leon plans to borrow money for another deposit. What is the first boundary?",
             "choices": [
               {
-                "text": "Deposit only half to reduce risk.",
-                "consequence": "More money reaches the unverified destination.",
-                "explanation": "Smaller exposure is still exposure.",
+                "text": "Deposit only half, to limit the risk.",
+                "consequence": "More money reaches a destination nobody has verified.",
+                "explanation": "A smaller amount is still exposure.",
                 "recommended": false
               },
               {
-                "text": "Pause all new payments and borrowing while verifying the operator.",
-                "consequence": "Potential exposure stops growing.",
-                "explanation": "A pause is reversible; new transfers may not be.",
+                "text": "Pause all new payments and any borrowing until the operator is verified.",
+                "consequence": "What he stands to lose stops growing.",
+                "explanation": "A pause can be lifted later. A new transfer may not be undone.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The site asks for a “tax” transfer to unlock withdrawal. What now?",
+            "prompt": "The site now asks for a “tax” payment before Leon can withdraw. What should he do?",
             "choices": [
               {
-                "text": "Do not pay; contact payment providers and preserve transaction evidence.",
-                "consequence": "A second extraction is avoided and the factual trail remains.",
-                "explanation": "A separate unlock payment fits the FBI-described fraud pattern.",
+                "text": "Refuse to pay, contact the payment providers and keep the transaction records.",
+                "consequence": "He avoids a second loss, and the paper trail stays intact.",
+                "explanation": "A separate payment to release the money matches the pattern the FBI describes.",
                 "recommended": true
               },
               {
-                "text": "Pay because the displayed profit is larger.",
-                "consequence": "The screen can change; the new transfer is real.",
-                "explanation": "Do not exchange real money for an unverified balance.",
+                "text": "Pay it, because the profit on screen is bigger.",
+                "consequence": "The screen can change. The new transfer is real.",
+                "explanation": "Never swap real money for a balance nobody has verified.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Which record goes to the report, and how?",
+            "prompt": "What goes into a report, and how?",
             "choices": [
               {
-                "text": "Post account screenshots with personal details in public.",
-                "consequence": "Private details may reach new scammers.",
-                "explanation": "Public posting is not an evidence-preservation method.",
+                "text": "Post account screenshots, personal details included, in public.",
+                "consequence": "Private details may reach the next scammer.",
+                "explanation": "A public post is no way to preserve evidence.",
                 "recommended": false
               },
               {
-                "text": "Privately keep site URL, chats, dates, provider receipts, wallet addresses/hashes.",
-                "consequence": "A payment provider or investigator can trace the sequence.",
-                "explanation": "Provide sensitive evidence only through the real institution’s channel.",
+                "text": "Privately keep the site address, chats, dates, provider receipts and wallet addresses or hashes.",
+                "consequence": "A provider or an investigator can follow the trail step by step.",
+                "explanation": "Hand sensitive evidence over only through the real institution’s own channel.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The safe move is to stop the next transfer, support the person and preserve the payment trail. A small withdrawal is not a certificate of legitimacy."
+        "debrief": "The safe move is to stop the next transfer, support the person and preserve the payment trail. A small withdrawal is no certificate of legitimacy. Go back and try the answers you skipped."
       },
       {
         "type": "check",
-        "title": "Spot the conversion point",
+        "title": "Where trust turns into a deposit",
         "questions": [
           {
-            "prompt": "A real exchange sold coins later sent to a stranger’s platform. What did the exchange validate?",
+            "prompt": "A real exchange sold you coins that you later sent to a stranger’s platform. What did the exchange validate?",
             "choices": [
               {
-                "text": "Every destination recommended by the contact.",
-                "explanation": "The exchange does not endorse outside wallets by processing a purchase.",
+                "text": "Every destination the contact recommended.",
+                "explanation": "Processing a purchase is not an endorsement of outside wallets.",
                 "correct": false
               },
               {
-                "text": "Its own purchase service, not the outside recipient.",
-                "explanation": "The final wallet is a separate trust decision.",
+                "text": "Only its own purchase service, not the outside recipient.",
+                "explanation": "The final wallet is a separate decision about trust.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A platform releases a small withdrawal. What is the sound conclusion?",
+            "prompt": "A platform lets you make a small withdrawal. What is the sound conclusion?",
             "choices": [
               {
-                "text": "It can pay a small sum; that alone proves little about the balance.",
-                "explanation": "A controlled platform can use small payouts as trust bait.",
+                "text": "It can pay out a small sum, and that alone says little about the rest of the balance.",
+                "explanation": "A platform someone controls can use small payouts as bait.",
                 "correct": true
               },
               {
-                "text": "All displayed profits are real.",
-                "explanation": "A displayed number is not independent custody proof.",
+                "text": "All the displayed profits are real.",
+                "explanation": "A number on a screen is no proof that anyone holds the assets.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A friend fears embarrassment after sending money. What helps?",
+            "prompt": "A friend who sent money is too embarrassed to tell anyone. What helps?",
             "choices": [
               {
-                "text": "Support a pause, evidence retention and provider contact without blame.",
-                "explanation": "This limits further loss and keeps communication open.",
+                "text": "Support a pause, keeping the evidence and contacting the provider, with no blame.",
+                "explanation": "That limits further loss and keeps the two of you talking.",
                 "correct": true
               },
               {
-                "text": "Threaten to tell everyone unless they comply.",
-                "explanation": "Shame can deepen isolation.",
+                "text": "Warn them you will tell everyone if they do not listen.",
+                "explanation": "Shame pushes people further into isolation.",
                 "correct": false
               }
             ]

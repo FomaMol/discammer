@@ -1,12 +1,12 @@
 ---
-title: "Breakin the Code"
+title: "Breaking the Code"
 slug: "breakin-the-code"
 type: "article"
 cover_image: "https://static.tildacdn.com/tild6236-3339-4336-b134-646233383962/Breaking-Code.jpg"
 published_at: "2025-02-14"
 ---
 
-# Breakin the Code
+# Breaking the Code
 
 ## Full Report
 

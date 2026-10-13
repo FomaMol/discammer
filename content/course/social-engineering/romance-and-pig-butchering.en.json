@@ -1,74 +1,74 @@
 {
   "order": 4,
-  "title": "Romance scams and pig-butchering",
+  "title": "Romance scams and pig butchering",
   "est_minutes": 16,
-  "body_md": "## When affection becomes a route to money\n\nA romance scam may begin with real-seeming attention and weeks of conversation before an emergency request. A related **relationship investment scam**, sometimes called “pig butchering,” builds friendship or intimacy and then introduces an investment platform. The labels describe a pattern, not a way to judge a person by their accent, appearance, location or willingness to video call. A real relationship can be distant, move between apps or involve genuine hardship. Focus on requests and verification.\n\nThe common sequence is contact (a dating match, social message or apparent wrong number), frequent private conversation, a turn toward money, and a reason to act outside your own financial judgment. The other person may offer to “teach” you a crypto strategy, show screenshots of gains or direct you to a realistic dashboard. The screen is not an audited account statement. A 2024 US SEC-led investor alert describes fabricated profits and even deliberately permitted small withdrawals that build confidence before larger deposits. An early withdrawal is therefore not proof that the remaining displayed balance exists.\n\nA later request to pay “tax,” “verification” or a release fee into a new account before you can withdraw is especially serious. The US SEC describes this as advance-fee fraud in relationship investment cases. Do not send more money in an attempt to retrieve an apparent balance. Also beware people who later offer to recover losses for an upfront fee. A legitimate investment decision requires research independent of the new contact and, where appropriate, regulated advice within your jurisdiction. A genuine romantic relationship does not make a particular investment safe.\n\nIf you suspect this is happening, stop payments and contact your bank or payment provider through its established support route as soon as possible. Ask what can be stopped or disputed, without expecting guaranteed recovery. Save records privately and talk with someone you trust; shame is a tool the scam relies on. Do not post sensitive details into a course exercise or public forum. Reporting options depend on your country and platform.\n\nThe practice starts before any transfer and then tests what to do if a payment has already happened. The examples are fictional composites, not accounts of real people.",
+  "body_md": "## Weeks of good mornings, then a link\n\nFor weeks, the first message of your day has been the same: a good morning, a photo of someone’s coffee, a question about how your meeting went. Then one evening the conversation turns to money. That is the usual shape of a romance scam, and of its close relative, the **relationship investment scam**, often called “pig butchering”: the affection comes first and the investment platform second. The labels name a pattern. They give you no license to judge a person by accent, looks or country. Real relationships can be long-distance, hop between apps and weather real hardship; but months of excuses to avoid a video call are a fair warning sign, even though one refusal proves nothing. Watch the requests, and how you could verify them.\n\nThe sequence tends to run like this: first contact (a dating match, a social message, a “wrong number”), frequent private conversation, a turn toward money, and a reason to make the financial decision on someone else’s say-so. The new friend may offer to “teach” you a crypto strategy, send screenshots of gains or walk you through a polished dashboard. A dashboard is a shop window. It shows what somebody arranged for you to see, and it is not an audited account statement. A joint investor alert issued in 2024 by the SEC, CFTC, FINRA and NASAA describes fabricated profits and small withdrawals allowed on purpose to win your confidence before larger deposits. So an early withdrawal proves nothing about the balance still on the screen.\n\nA later demand to pay a “tax,” a “verification” charge or a release fee into a new account before you can withdraw is the loudest alarm in the story. The SEC describes it as advance-fee fraud in relationship investment cases. Do not send more money to rescue a balance on a screen, and be wary of anyone who then offers to recover your losses for a fee up front. A sound investment decision rests on research that has nothing to do with the new contact and, where it fits, on regulated advice in your own jurisdiction. A real romance does not make any particular investment safe.\n\nIf you suspect this is happening, stop the payments and contact your bank or payment provider through its established support route as soon as you can. Ask what can be stopped or disputed, and do not count on getting the money back. Save your records somewhere private and tell someone you trust; the scam counts on your shame to keep you quiet. Account numbers and other sensitive details do not belong in public forums. Where to report depends on your country and the platform.\n\nThe practice starts before any transfer, then tests what to do once a payment has gone out. The people in these cases are invented.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Recognize when a new relationship is steering an investment decision and stop additional payments at a withdrawal-fee demand.",
-    "today_action": "Agree with someone you trust that any investment introduced by a new online contact gets an independent review before payment.",
+    "goal": "Notice when a new relationship starts steering an investment decision, and stop further payments the moment a withdrawal fee appears.",
+    "today_action": "Agree with someone you trust that any investment suggested by a new online contact gets an independent review before you pay anything.",
     "checked_at": "2026-10-20",
-    "scope": "General prevention and response. FTC/SEC/Investor.gov sources address US consumers and investors; platform rules, regulation and recovery routes vary elsewhere.",
+    "scope": "General prevention and response. The FTC, SEC and Investor.gov sources speak to US consumers and investors; platform rules, regulation and routes to recovery differ elsewhere.",
     "sources": [
       {
-        "title": "US FTC — What to Know About Romance Scams",
+        "title": "US FTC: what to know about romance scams",
         "url": "https://consumer.ftc.gov/articles/what-know-about-romance-scams",
-        "scope": "US consumer guidance (August 2022); trust building, money requests and prompt payment-provider contact."
+        "scope": "US consumer guidance (August 2022) on how trust is built, requests for money and prompt contact with your payment provider."
       },
       {
-        "title": "US SEC Investor.gov — relationship investment scams",
+        "title": "US SEC Investor.gov: relationship investment scams",
         "url": "https://www.investor.gov/protect-your-investments/fraud/types-fraud/relationship-investment-scam",
-        "scope": "US investor guidance; friendship/romance grooming, fake dashboards and withdrawal barriers."
+        "scope": "US investor guidance on friendship and romance as grooming, fake dashboards and barriers to withdrawal."
       },
       {
-        "title": "US SEC-led Investor Alert — relationship investment scams",
+        "title": "Joint US investor alert: relationship investment scams",
         "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/relationship-investment-scams-investor-alert",
-        "scope": "US investor alert (10 September 2024); deliberately permitted early withdrawals can create false confidence before larger deposits."
+        "scope": "Issued by the SEC, CFTC, FINRA and NASAA on 10 September 2024. Early withdrawals allowed on purpose can build false confidence before larger deposits."
       },
       {
-        "title": "US SEC Investor.gov — advance fee fraud",
+        "title": "US SEC Investor.gov: advance fee fraud",
         "url": "https://www.investor.gov/protect-your-investments/fraud/types-fraud/advance-fee-fraud",
-        "scope": "US investor guidance; claimed tax or validation fee to release purported investment proceeds."
+        "scope": "US investor guidance on a claimed tax or validation fee demanded to release supposed investment proceeds."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: the warm contact and trading dashboard",
-        "situation": "After a month of daily messages, a dating-app contact shows a dashboard of steady gains, coaches a small crypto transfer, and later asks for a much larger deposit. A small withdrawal appeared to work.",
-        "analysis": "Warmth is real as an experience but does not validate the product. A US SEC-led investor alert warns that displayed returns can be fabricated and a small withdrawal can be allowed deliberately. Stop further transfers and research the entity independently; do not rely on the contact or their screenshots.",
+        "title": "The warm contact and the dashboard",
+        "situation": "After a month of daily messages, someone from a dating app shows you a dashboard of steady gains, coaches you through a small crypto transfer, and then asks for a much larger deposit. A small withdrawal seemed to work.",
+        "analysis": "The warmth can be real to you and still say nothing about the product. The 2024 joint investor alert warns that displayed returns can be fabricated and that a small withdrawal can be allowed on purpose. Stop the transfers and look into the firm on your own, without leaning on the contact or their screenshots.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: a long-distance partner asks for support",
-        "situation": "A partner you have met in person loses luggage abroad and asks for help contacting the airline. They do not ask you to invest, send money to a third party or hide the conversation.",
-        "analysis": "Distance and an emergency alone do not establish deception. Help through a verified airline channel if you wish, and set your own boundaries. If a payment request later appears, assess that request on its own merits rather than treating the relationship as a guarantee.",
+        "title": "A partner far away asks for help",
+        "situation": "A partner you have met in person loses their luggage abroad and asks you to help reach the airline. They do not ask you to invest, to pay a third party or to keep the conversation secret.",
+        "analysis": "Distance and a bad day do not make a deception. Help through the airline’s verified channel if you like, and keep your own limits. If a payment request ever appears, judge it by itself, because the relationship is no guarantee.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The investment pivot",
-        "setup": "A fictional online friend has been messaging you for several weeks. The interface and balances in this simulation are invented; make no actual transfer.",
+        "title": "When the talk turns to investing",
+        "setup": "An invented exercise: an online friend has been writing to you for several weeks. The screens and balances are made up, and no real money moves.",
         "synthetic": true,
         "mode": "graph",
         "steps": [
           {
-            "prompt": "They send a screenshot of profits and offer to guide your first deposit. Your best first decision?",
+            "prompt": "They send a screenshot of their profits and offer to guide your first deposit. What is your best first decision?",
             "choices": [
               {
-                "text": "Keep the friendship separate and research the firm and product independently before any investment.",
-                "consequence": "The financial claim must stand without the friend’s story.",
-                "explanation": "Check the relevant regulator and product terms for your jurisdiction; ask an independent qualified adviser if needed.",
+                "text": "Keep the friendship and the money apart. Research the firm and the product independently before investing anything.",
+                "consequence": "You say you will look into the firm first, and for now the offer has to stand without the friend’s story behind it.",
+                "explanation": "Check the relevant regulator and the product’s terms for your jurisdiction, and ask an independent qualified adviser if you need one.",
                 "recommended": true,
                 "next": "held-off"
               },
               {
-                "text": "Send a small deposit to test whether the platform works.",
-                "consequence": "You may enter an attacker-controlled process before independent research.",
-                "explanation": "A small first deposit is not a safe test of legitimacy.",
+                "text": "Send a small deposit to see whether the platform works.",
+                "consequence": "The money lands on a platform the other side may control, before you have checked a single thing.",
+                "explanation": "A small first deposit is still a deposit, and it is no safe test of whether a platform is legitimate.",
                 "recommended": false,
                 "next": "deposited"
               }
@@ -76,19 +76,19 @@
             "id": "invitation"
           },
           {
-            "prompt": "After your small deposit, you request a small withdrawal and confirm that the amount reaches an account you control. The friend says this proves the platform. What do you infer?",
+            "prompt": "A few days later you ask for a small withdrawal, and it arrives in an account you control. Your friend says this proves the platform is real. What do you conclude?",
             "choices": [
               {
-                "text": "It proves the full displayed balance can be withdrawn.",
-                "consequence": "A small payout could be designed to encourage a larger deposit.",
-                "explanation": "Investor authorities explicitly warn that early withdrawals can be part of the scheme.",
+                "text": "That the whole balance on the screen can be withdrawn.",
+                "consequence": "You take the payout as proof and send a larger deposit, which is what it was staged to bring about.",
+                "explanation": "Investor authorities warn in so many words that early withdrawals can be part of the scheme.",
                 "recommended": false,
                 "next": "withdrawal-fee"
               },
               {
-                "text": "It proves only that this small transfer occurred; do not increase exposure on that basis.",
-                "consequence": "You avoid mistaking a controlled demonstration for a verified account.",
-                "explanation": "Verify the actual institution and custody arrangement independently.",
+                "text": "Only that this one small transfer went through. Do not raise your stake on that basis.",
+                "consequence": "You read a staged payout as what it is, and you add nothing more.",
+                "explanation": "Verify the actual institution, and how the money is held, independently.",
                 "recommended": true,
                 "next": "withdrawal-fee"
               }
@@ -96,19 +96,19 @@
             "id": "deposited"
           },
           {
-            "prompt": "Now the site says a separate “tax” payment is required to release the balance. What next?",
+            "prompt": "The dashboard now shows a balance well above what you put in. When you try to withdraw it, the site says a separate “tax” payment is due before it will release anything. What next?",
             "choices": [
               {
-                "text": "Stop transfers and contact the payment provider through its official channel promptly.",
-                "consequence": "You preserve a chance to ask about reversal or fraud response, though recovery is uncertain.",
-                "explanation": "Keep records privately and seek local reporting help; do not pay a recovery agent upfront.",
+                "text": "Stop all transfers and contact your payment provider through its official channel right away.",
+                "consequence": "You keep a chance to ask about a reversal or a fraud response, though recovery is far from certain.",
+                "explanation": "Keep your records privately and look for local reporting help. Do not pay a recovery agent up front.",
                 "recommended": true,
                 "next": "end"
               },
               {
-                "text": "Pay once more to avoid losing the earlier amount.",
-                "consequence": "The extra transfer can increase the loss without releasing anything.",
-                "explanation": "Advance-fee demands are a major warning; do not chase a displayed balance.",
+                "text": "Pay once more, so the earlier money is not lost.",
+                "consequence": "The extra transfer deepens the loss and releases nothing.",
+                "explanation": "A demand for an advance fee is a major warning sign. Do not chase a number on a screen.",
                 "recommended": false,
                 "next": "end"
               }
@@ -117,19 +117,19 @@
           },
           {
             "id": "held-off",
-            "prompt": "You did not deposit. The friend sends a screenshot of somebody else’s successful withdrawal and says you are being too cautious. What do you infer?",
+            "prompt": "You did not deposit. A day later the friend sends a screenshot of somebody else’s successful withdrawal and says you are being too cautious. What do you conclude?",
             "choices": [
               {
-                "text": "Their screenshot verifies that I can withdraw future funds.",
-                "consequence": "You would let a stranger’s image substitute for independent records.",
-                "explanation": "A screenshot can be altered or show a controlled small payout.",
+                "text": "The screenshot shows I will be able to withdraw future funds.",
+                "consequence": "A stranger’s picture takes the place of independent records.",
+                "explanation": "A screenshot can be edited, or it can show a small payout staged for the occasion.",
                 "recommended": false,
                 "next": "deadline-pivot"
               },
               {
-                "text": "The image is not independent evidence; I will keep money separate from this relationship.",
-                "consequence": "You preserve the boundary without needing to accuse the person.",
-                "explanation": "A decision not to invest does not require proving their intent.",
+                "text": "A picture is not independent evidence. I will keep money out of this relationship.",
+                "consequence": "You hold your boundary without accusing anyone.",
+                "explanation": "To decline an investment you do not have to prove anyone’s intent.",
                 "recommended": true,
                 "next": "deadline-pivot"
               }
@@ -137,72 +137,72 @@
           },
           {
             "id": "deadline-pivot",
-            "prompt": "The friend says the “special allocation” closes tonight and asks you to borrow money to join. What do you do?",
+            "prompt": "The friend writes again: a “special allocation” closes tonight, and you could borrow the money to get in. What do you do?",
             "choices": [
               {
-                "text": "Decline the investment and the loan; disengage if the pressure continues.",
-                "consequence": "You avoid turning intimacy and scarcity into a financial obligation.",
-                "explanation": "If you want to invest, research a product independently on your own timeline.",
+                "text": "Decline the investment and the loan. If the pressure goes on, step away from the conversation.",
+                "consequence": "Closeness and a deadline do not turn into a debt.",
+                "explanation": "If you do want to invest, research a product independently and on your own timetable.",
                 "recommended": true,
                 "next": "end"
               },
               {
-                "text": "Borrow money before the offer closes.",
-                "consequence": "Debt magnifies exposure to an unverified platform.",
-                "explanation": "A deadline cannot replace due diligence, especially for borrowed funds.",
+                "text": "Borrow the money before the offer closes.",
+                "consequence": "Debt multiplies your exposure to a platform nobody has verified.",
+                "explanation": "A deadline cannot replace due diligence, least of all with borrowed money.",
                 "recommended": false,
                 "next": "end"
               }
             ]
           }
         ],
-        "debrief": "Debrief: your first choice leads either to a test-withdrawal and release-fee route or to a screenshot and deadline route. Both can use the relationship as authority. Replay from the first investment suggestion; the safest time to separate affection from investing is before any payment."
+        "debrief": "Your first choice sent you down one of two roads: a test withdrawal followed by a release fee, or a screenshot followed by a deadline. Both put the relationship where the evidence should be. Start again from the first investment suggestion and take the other road. The easiest moment to pull affection and investing apart is before any money has moved."
       },
       {
         "type": "check",
-        "title": "New situations",
+        "title": "Three more situations",
         "questions": [
           {
-            "prompt": "A new online friend invites you to a regulated firm you can find independently. Does that alone settle suitability?",
+            "prompt": "A new online friend recommends a regulated firm that you can look up independently. Does that settle whether it suits you?",
             "choices": [
               {
-                "text": "Yes; the friendship and registration make the product suitable.",
-                "explanation": "Registration is not a guarantee of returns or fit for your circumstances.",
+                "text": "Yes. The friendship and the registration make the product suitable.",
+                "explanation": "Registration guarantees neither returns nor a fit with your circumstances.",
                 "correct": false
               },
               {
-                "text": "No; verify the firm and product, then make your own decision.",
-                "explanation": "Correct: separate identity checks from investment merits.",
+                "text": "No. Verify the firm and the product, then decide for yourself.",
+                "explanation": "Checking who someone is and judging an investment on its merits are two separate questions.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A platform demands a new “validation fee” before withdrawal. What is the safer response?",
+            "prompt": "A platform demands a new “validation fee” before you can withdraw. What is the safer response?",
             "choices": [
               {
-                "text": "Stop paying and contact your provider using its established route.",
-                "explanation": "Correct: further payment may compound loss; prompt provider contact may help but has no guarantee.",
+                "text": "Stop paying and contact your provider through its established route.",
+                "explanation": "More payments can only add to the loss. Prompt contact with your provider may help, but nothing is guaranteed.",
                 "correct": true
               },
               {
-                "text": "Pay the fee because the dashboard already shows profit.",
-                "explanation": "The dashboard can be fabricated, and a fee may be another loss.",
+                "text": "Pay the fee, since the dashboard already shows a profit.",
+                "explanation": "A dashboard can be faked, and the fee may be one more loss.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A real long-distance partner asks to talk after a difficult day, with no financial request. Best reading?",
+            "prompt": "A real long-distance partner asks to talk after a hard day, with no mention of money. How do you read that?",
             "choices": [
               {
-                "text": "Distance itself proves a romance scam.",
-                "explanation": "Distance is not a diagnostic sign.",
+                "text": "Distance alone proves a romance scam.",
+                "explanation": "Distance is no warning sign by itself. Plenty of honest couples live far apart.",
                 "correct": false
               },
               {
-                "text": "Continue with normal boundaries; judge any future payment or investment request separately.",
-                "explanation": "Correct: do not turn pattern awareness into blanket suspicion.",
+                "text": "Carry on with your usual boundaries, and judge any later payment or investment request on its own.",
+                "explanation": "Knowing the pattern should not harden into suspicion of everyone.",
                 "correct": true
               }
             ]

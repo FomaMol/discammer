@@ -1,169 +1,169 @@
 {
   "order": 8,
-  "title": "How to win a disputed charge",
+  "title": "Winning a disputed charge, honestly",
   "est_minutes": 16,
-  "body_md": "## A good dispute is a clear claim, not a guaranteed win\nThe card issuer investigates a transaction under applicable law and network rules. It matters whether the charge was **unauthorized**, an agreed purchase **not delivered**, a materially different item, a duplicate charge, or a temporary authorization that has not settled. Choosing “fraud” for a purchase you made can undermine the case. A seller may have delivery evidence; your documentation should address the real disagreement. A provisional credit, if granted, may later be removed.\n\nStart by saving the offer, order confirmation, promised date, delivery tracking, receipt, statement and your messages with the merchant. For a quality complaint, contact the merchant promptly through its independently found channel and keep the reply. For an unfamiliar or unauthorized charge, contact the issuer promptly; do not wait for a merchant to respond. In either case, ask the issuer which category, form and deadline apply and get a case number. State in a short chronology what you ordered or did not authorize, when you contacted the merchant and what remedy you seek. Respond to issuer requests before its stated deadline; retain copies.\n\n**US credit-card example:** The FTC explains that Fair Credit Billing Act billing-error protection calls for a written notice to the issuer's billing-inquiries address that arrives within 60 days of the first bill with the error. A phone/app contact alone may not preserve that particular federal process. Complaints about product quality have different requirements; some need a prior effort with the seller and state-law conditions. Outside the US, or for debit cards, procedures differ: use your issuer's current rules and local law. Network reason codes are handled by the issuer; the consumer need not guess one from a web list.\n\nA card dispute does not reverse a wire or blockchain transfer. For those, contact the sending bank or exchange about possible action. “Winning” means making the strongest accurate case and following the real process, never a promised outcome.",
+  "body_md": "## The reason you pick is the case you make\n\nThe parcel never came, the seller has stopped answering, and the charge is still sitting on your statement. You open the banking app, find the button marked “Dispute,” and a menu asks you to choose a reason.\n\nThat menu matters more than it looks. Your card issuer investigates the transaction under the law that applies and the card network’s rules, and the reason you choose says which of several things happened: the charge was **unauthorized**, you agreed to a purchase that was **not delivered**, the item was materially different from what was promised, you were billed twice, or a temporary authorization has not settled. Choose “fraud” for something you actually bought and you can weaken your own case. The seller may hold proof of delivery, so your papers must answer the dispute you really have. A provisional credit, if you get one, can be taken back later.\n\n### What goes into the file\n\nSave the offer, order confirmation, promised date, delivery tracking, receipt, statement and your messages with the merchant. For a quality complaint, contact the merchant promptly through a channel you found yourself and keep the reply. For an unfamiliar or unauthorized charge, go to the issuer promptly; do not wait for the merchant. Either way, ask the issuer which category, form and deadline apply, and get a case number. Write a short chronology: what you ordered or did not authorize, when you contacted the merchant, what remedy you want. Answer issuer requests before their deadline and keep copies.\n\n### One example, with its borders\n\nTake a US credit card. The FTC explains that billing-error protection under the Fair Credit Billing Act (FCBA) calls for written notice to the issuer’s billing-inquiries address, arriving within 60 days of the first bill with the error. A phone call or app message alone may not preserve that federal process. Complaints about product quality have different requirements, such as trying to settle with the seller first. Outside the US, or with a debit card, procedures differ: use your issuer’s current rules and local law. Network reason codes are the issuer’s job, and you need not guess one from a web list.\n\nA card dispute does not reverse a wire or a blockchain transfer. For those, ask the sending bank or exchange what it can do. “Winning” here means making the strongest accurate case and following the real process, never a promised outcome.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Present a truthful, timely card dispute with evidence matched to the actual problem.",
-    "today_action": "Create a private folder for purchase confirmations, merchant terms and statements; note your issuer’s actual dispute contact and deadline guidance.",
+    "goal": "Bring a truthful, timely card dispute, with evidence that fits the actual problem.",
+    "today_action": "Start a private folder for purchase confirmations, merchant terms and statements, and note your issuer’s real dispute contact and its guidance on deadlines.",
     "checked_at": "2026-10-20",
-    "scope": "US FTC federal credit-card rules are given as a bounded example; debit, network and non-US rights vary. No outcome guarantee. Checked 2026-10-20.",
+    "scope": "The US FTC rules for federal credit-card protection are one bounded example. Debit cards, card networks and rights outside the US vary, and no outcome is guaranteed. The shoppers and sellers in the cases are invented. Checked 2026-10-20.",
     "sources": [
       {
         "title": "FTC: Using Credit Cards and Disputing Charges",
         "url": "https://consumer.ftc.gov/articles/using-credit-cards-and-disputing-charges",
-        "scope": "US federal credit-card billing-error procedure, including its written 60-day notice rule."
+        "scope": "The US federal billing-error procedure for credit cards, including the written notice within 60 days."
       },
       {
         "title": "FTC: Online Shopping",
         "url": "https://consumer.ftc.gov/articles/online-shopping",
-        "scope": "US consumer shopping, records, payment and dispute guidance; HTTPS is not proof of a seller."
+        "scope": "US advice on shopping, records, payment and disputes. HTTPS is not proof that a seller is honest."
       },
       {
         "title": "FTC: What To Do if You Were Scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment-provider and account response; no recovery guarantee."
+        "scope": "US advice on payment providers and accounts. Recovery is not promised."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A counterfeit item with records",
-        "situation": "Synthetic: a buyer ordered branded headphones on a credit card. The delivered box contains a generic imitation. They kept the listing, photos, receipt and unanswered support request.",
-        "analysis": "The issue is “not as described,” not an unauthorized charge. Give the issuer a dated comparison of promised and received goods plus seller-contact record. Ask for its exact category and deadline; the evidence supports a claim but cannot guarantee its outcome.",
+        "title": "A counterfeit with a paper trail",
+        "situation": "A buyer paid by credit card for branded headphones. The box held a generic imitation. They kept the listing, the photos, the receipt and a support request nobody answered.",
+        "analysis": "This is “not as described,” not an unauthorized charge. Give the issuer a dated comparison of what was promised and what arrived, plus the record of contacting the seller. Ask which category and deadline apply. The evidence supports the claim but cannot guarantee the result.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A pending hotel hold",
-        "situation": "Synthetic: a hotel places a deposit authorization plus a final room charge. The pending hold is disclosed at check-in and disappears before the statement closes.",
-        "analysis": "Two app entries did not become two settled charges. Keep the receipt and check the final statement before alleging a duplicate bill. If both amounts post incorrectly, contact the hotel/issuer with the record.",
+        "title": "The hotel hold that vanished",
+        "situation": "A hotel puts an authorization for a deposit on the card, then adds the final room charge. The pending hold was mentioned at check-in and disappears before the statement closes.",
+        "analysis": "Two lines in the app never became two settled charges. Keep the receipt and read the final statement before you accuse anyone of billing twice. If both amounts do post wrongly, contact the hotel and the issuer with your records.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Build the dispute file",
-        "setup": "Synthetic: `home-lamp.example` charged your credit card for a lamp. The promised delivery date passed, tracking has no delivery and support has not answered.",
+        "title": "Assembling the dispute file",
+        "setup": "An invented scenario. home-lamp.example charged your credit card for a lamp. The promised delivery date has passed, tracking shows nothing delivered, and support has gone silent.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "Which claim describes the problem?",
+            "prompt": "Which sentence describes your problem?",
             "choices": [
               {
-                "text": "I never authorized the card charge.",
-                "consequence": "Your own order contradicts the claim.",
-                "explanation": "Do not relabel buyer-merchant disputes as stolen-card use.",
+                "text": "I never authorized this charge on my card.",
+                "consequence": "Your own order contradicts it.",
+                "explanation": "A dispute with a seller is not stolen-card use, so do not file it as one.",
                 "recommended": false
               },
               {
-                "text": "I authorized the purchase, but the item was not delivered as agreed.",
-                "consequence": "The claim matches the order and missing delivery.",
-                "explanation": "Accurate classification makes evidence relevant.",
+                "text": "I authorized the purchase, but the seller did not deliver what we agreed.",
+                "consequence": "The claim fits the order and the missing delivery.",
+                "explanation": "The right category is what makes your evidence relevant.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Which evidence packet is strongest?",
+            "prompt": "Which pile of evidence is strongest?",
             "choices": [
               {
-                "text": "Only an angry social-media post.",
-                "consequence": "It does not establish purchase or non-delivery.",
-                "explanation": "A public complaint is not an evidence packet.",
+                "text": "One angry post on social media.",
+                "consequence": "It proves neither the purchase nor the missing delivery.",
+                "explanation": "A public complaint is not an evidence file.",
                 "recommended": false
               },
               {
-                "text": "Order, stated date, tracking, statement and dated support messages.",
-                "consequence": "The timeline shows payment, promise and failure to deliver.",
-                "explanation": "Match records to the exact claim.",
+                "text": "The order, the promised date, tracking, the statement and dated support messages.",
+                "consequence": "The timeline shows the payment, the promise and the failure to deliver.",
+                "explanation": "Match each record to the exact claim.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "You paid with a US credit card. What deadline question matters?",
+            "prompt": "You paid with a US credit card. Which deadline question matters?",
             "choices": [
               {
-                "text": "Ask issuer about its process; check FTC written billing-error notice rule from the first statement.",
-                "consequence": "You do not rely only on an app message if federal written notice applies.",
-                "explanation": "The US 60-day rule is specific, not a worldwide rule.",
+                "text": "Ask the issuer about its process, and check the FTC rule on written notice counted from the first statement with the error.",
+                "consequence": "You do not rely on an app message alone if the federal written-notice rule applies.",
+                "explanation": "The 60-day rule belongs to US credit cards. It is not a worldwide law.",
                 "recommended": true
               },
               {
-                "text": "Assume every country gives 120 days from delivery.",
-                "consequence": "The actual deadline may differ and pass.",
-                "explanation": "Do not generalize a network window.",
+                "text": "Assume every country gives you 120 days from delivery.",
+                "consequence": "The real deadline may differ, and it may already have passed.",
+                "explanation": "A card network’s window is not the law everywhere.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate checkpoint: after a truthful dispute is filed, the issuer grants a temporary credit and asks for more records. What now?",
+            "prompt": "A separate checkpoint: after you file a truthful dispute, the issuer gives you a provisional credit and asks for more records. What now?",
             "choices": [
               {
-                "text": "Send requested evidence by its deadline and retain a copy.",
-                "consequence": "The investigation can proceed with your response.",
-                "explanation": "Temporary credit is not final resolution.",
+                "text": "Send what it asks for before its deadline, and keep a copy.",
+                "consequence": "The investigation goes on with your response in hand.",
+                "explanation": "A provisional credit is not the final decision.",
                 "recommended": true
               },
               {
-                "text": "Ignore the request because the credit means victory.",
-                "consequence": "The credit may be reversed after review.",
-                "explanation": "Follow the issuer’s requests until final outcome.",
+                "text": "Ignore the request; the credit means you have won.",
+                "consequence": "After review, the credit can be taken back.",
+                "explanation": "Answer every request from the issuer until the final outcome.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Tell the truth, match each claim to records and meet the applicable issuer/legal deadline. A temporary credit is provisional."
+        "debrief": "Tell the truth, match each claim to records, and meet the deadline your issuer or the law sets. A provisional credit decides nothing yet. Go back and try the wrong answers to see how each one weakens a dispute."
       },
       {
         "type": "check",
-        "title": "Distinguish the route",
+        "title": "Which route is this?",
         "questions": [
           {
-            "prompt": "You paid for a product that never arrived. Is this automatically an unauthorized charge?",
+            "prompt": "You paid for a product that never arrived. Does that make it an unauthorized charge?",
             "choices": [
               {
-                "text": "Yes; “fraud” always wins faster.",
-                "explanation": "A false category can undermine the claim.",
+                "text": "Yes. “Fraud” always wins faster.",
+                "explanation": "A false category can sink the claim.",
                 "correct": false
               },
               {
-                "text": "No; describe an authorized purchase with non-delivery.",
-                "explanation": "The payment and the seller’s performance are separate facts.",
+                "text": "No. Describe an authorized purchase that was not delivered.",
+                "explanation": "Payment and the seller’s performance are two separate facts.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A US credit-card billing error appears on a statement. What protects the federal process?",
+            "prompt": "A billing error shows up on your US credit-card statement. What protects your rights under the federal process?",
             "choices": [
               {
-                "text": "Written notice to the billing-inquiries address within FTC’s stated 60-day period.",
-                "explanation": "That is the FCBA route described by the FTC.",
+                "text": "A written notice to the billing-inquiries address, within the 60 days the FTC states.",
+                "explanation": "That is the FCBA route the FTC describes.",
                 "correct": true
               },
               {
-                "text": "Only a public review after 120 days.",
-                "explanation": "It does not notify the issuer under that procedure.",
+                "text": "Only a public review posted after 120 days.",
+                "explanation": "It never notifies the issuer under that procedure.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A provisional credit appears during review. What does it mean?",
+            "prompt": "A provisional credit appears while the dispute is under review. What does it mean?",
             "choices": [
               {
-                "text": "The investigation continues; respond to evidence requests.",
-                "explanation": "The issuer may later reverse provisional credit.",
+                "text": "The investigation goes on; answer any request for documents.",
+                "explanation": "The issuer can reverse a provisional credit later.",
                 "correct": true
               },
               {
-                "text": "The dispute is irrevocably won.",
+                "text": "The dispute is won for good.",
                 "explanation": "Provisional is not final.",
                 "correct": false
               }

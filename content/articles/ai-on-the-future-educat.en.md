@@ -1,16 +1,16 @@
 ---
-title: "Ai on the future educat"
+title: "AI and the Future of Education"
 slug: "ai-on-the-future-educat"
 type: "article"
 cover_image: "https://static.tildacdn.com/tild3432-3732-4336-a133-383064313134/5285466087254780591.jpg"
 published_at: "2024-11-28"
 ---
 
-# Ai on the future educat
+# AI and the Future of Education
 
 ## Watch the Video
 
-<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/articles/ai-on-the-future-educat.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/articles/ai-on-the-future-educat.jpg&quot;, &quot;title&quot;: &quot;Ai on the future educat&quot;}'></div>
+<div class="video-embed" data-component="VideoPlayer" data-props='{&quot;src&quot;: &quot;/media/videos/articles/ai-on-the-future-educat.mp4&quot;, &quot;poster&quot;: &quot;/media/posters/articles/ai-on-the-future-educat.jpg&quot;, &quot;title&quot;: &quot;AI and the Future of Education&quot;}'></div>
 
 ## Full Report
 

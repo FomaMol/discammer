@@ -1,12 +1,12 @@
 ---
-title: "The impact of technology"
+title: "The Impact of Technology"
 slug: "the-impact-of-technology"
 type: "article"
 cover_image: "https://static.tildacdn.com/tild3035-3765-4564-b264-373030313232/metamorwork.jpg"
 published_at: "2025-02-14"
 ---
 
-# The impact of technology
+# The Impact of Technology
 
 ## Full Report
 

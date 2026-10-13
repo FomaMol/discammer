@@ -1,33 +1,33 @@
 ---
 title: "False charities"
 slug: "false-charities"
-description: "Give safely by verifying a charity through independent information and using its official donation route."
+description: "How to confirm that a charity is real before you give, and how to donate through its own official channel."
 icon: "❤️"
 threat_level: 3
 category: "social"
 published_at: "2025-02-14"
 ---
 
-Urgent appeals can be genuine, especially after a disaster or a public emergency. That is also why a request deserves a pause before money or personal information is shared.
+The photo shows a flooded street and a child wrapped in a blanket, and under it sits a button that says Donate now. Appeals like this follow a disaster, and many of them are genuine, which is exactly the difficulty: an honest appeal and a counterfeit one look the same on a phone screen. So the pause comes first, before any money or personal details leave your hands.
 
-## Common pressure patterns
+## How the pressure shows up
 
-1. **A name that resembles a real organization.** A small difference in spelling, domain, or payment destination can matter.
-2. **Emotion without usable detail.** The message asks you to act now but cannot explain how funds will be used or who is responsible for the campaign.
-3. **A link or QR code in an unexpected message.** It can send you to a lookalike donation page.
-4. **A payment method with little recourse.** Requests for cryptocurrency, gift cards, wire transfer, or a personal payment account require extra caution.
-5. **Pressure to avoid questions.** A legitimate cause can withstand time for independent research.
+1. **A name that echoes a real organization.** One changed letter in the spelling, the web address or the account that receives the money can be the whole difference.
+2. **Feeling without facts.** The message wants action now, yet cannot say how the funds will be spent or who runs the campaign.
+3. **A link or QR code in a message you did not expect.** It can lead to a lookalike donation page.
+4. **A payment route you cannot easily undo.** Cryptocurrency, gift cards, wire transfers and payments to a personal account call for extra caution.
+5. **Pressure not to ask.** A real cause can wait while you look into it on your own.
 
-## Illustrative scenario — not a case report
+## An invented appeal, not a real case
 
-After a widely reported emergency, you receive a message asking for an immediate donation. It uses moving images but gives no verifiable organization details. Instead of responding to the message, search for established organizations supporting the cause, check the name independently, and donate through the address you find yourself if you choose to give.
+A disaster has been all over the news, and a message arrives asking for a donation this minute. It comes with moving pictures and no organization details you can verify. Do not answer it. Look up the established organizations working on this cause, check the name yourself, and if you decide to give, use an address you found on your own.
 
-## Give with a verification step
+## Give, but check first
 
-1. Look up the organization independently and search its name with “review,” “rating,” “complaint,” or “scam.”
-2. Check the charity register or regulator that applies in your jurisdiction when one is available.
-3. Use the organization’s verified website or contact method rather than a link in an unexpected message.
-4. Ask how donations will be used and keep the receipt and campaign details.
-5. Do not donate because of a guaranteed prize or because a caller says you must act immediately.
+1. Look the organization up independently, and search its name with “review,” “rating,” “complaint” or “scam.”
+2. Check the charity register or regulator where you live, if there is one.
+3. Use the organization’s verified website or contact details rather than a link in a message you did not expect.
+4. Ask how donations will be used, and keep the receipt and the campaign details.
+5. Do not give for a guaranteed prize, or because a caller says you must act immediately.
 
-If you think you paid a fraudulent fundraiser, notify the payment provider quickly, preserve the message and receipt, and use the fraud-reporting channel for your location.
+If you think you paid a fake fundraiser, tell your payment provider quickly, keep the message and the receipt, and report it through the fraud-reporting channel where you live.

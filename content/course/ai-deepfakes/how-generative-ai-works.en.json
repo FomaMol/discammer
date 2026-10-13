@@ -1,154 +1,154 @@
 {
   "order": 1,
-  "title": "How generative AI works — a useful mental model",
+  "title": "How generative AI works: a working model",
   "est_minutes": 14,
-  "body_md": "## A useful model: plausible output is not evidence\n\nA generative model learns patterns from examples and uses a prompt to produce new text, sound, images or video. A language model predicts successive pieces of text; image and audio systems use different methods to synthesize media. You need not know their internals to handle a suspicious request. The important separation is **appearance versus authority**: a convincing sentence or familiar face says little about who controls the account, call or payment instruction.\n\nA fraudster can combine public details with generated wording or media. The detail may be accurate and the request fraudulent. Conversely, an honest person may use an AI writing tool, translation, a noisy connection or a video filter. Do not classify people from grammar, accent, fingers or lip movement. Those cues can prompt a closer look, but they cannot authenticate a person. There is no stable minimum audio clip length that guarantees either a successful or impossible voice clone; quality depends on the tool and recording.\n\n**Work backward from the action.** Identify what the message asks you to change: send money, reveal a code, change bank details, open a link, keep a secret. Then ask what independent route would confirm that action. Open a contact or app you already know, not a callback link or number supplied by the request. If the request concerns company funds, follow the documented approval route even when the person appears on video. A compromised real account can send a fraudulent request too.\n\nThis model has limits. Verification can fail if you choose a number from the suspicious message, an attacker controls multiple channels, or the real person is unreachable. In that case pause the irreversible action and use another trusted contact or your organisation's escalation procedure. Verification is a decision process, not a verdict on whether a file was generated.\n\n### A one-minute routine\n\nName the requested action; stop before money or credentials move; leave the incoming channel; confirm through an independently found route; document the outcome if work policy requires it. The routine works for an ordinary impersonator as well as AI-assisted fraud.",
+  "body_md": "## A face is not a signature\n\nOn a video call your project manager nods, says your name and leans back, exactly as always. Everything is right except the one thing a face cannot carry: permission to move the company’s money. An actor in a white coat can recite the anatomy of the knee and still cannot sign a prescription.\n\nA generative model learns patterns from examples and, given a prompt, produces something new: text, sound, an image, a clip of video. A language model does it by predicting the next piece of text, again and again; image and audio systems use other methods to make their media. You need no internals to handle a suspicious request, only the difference between **appearance and authority**: a convincing sentence or a familiar face tells you little about who controls the account, the call or the payment instruction.\n\n### What the tools change, and what they do not\n\nA fraudster can pair public details with generated wording or media, so a detail can be accurate while the request is fraudulent. The reverse holds too: an honest person may use an AI writing tool, a translator, a bad connection or a video filter. So do not sort people by grammar, accent, fingers or lip movement. Such cues may make you look closer; they cannot vouch for anyone. Text detectors are shaky ground too: in NIST’s pilot their results varied widely with the system, and nothing there shows that one can be trusted on a single message. No fixed length of audio guarantees a voice clone or rules one out; quality depends on the tool and on the recording.\n\n### Work back from the action\n\nSay what the request wants changed: money sent, a code read out, bank details altered, a link opened, a secret kept. Then ask which independent route would confirm that very action. Open a contact or an app you already know, never a callback link or number the request supplies. When company funds are involved, follow the documented approval route even if the person is on video. A real account that has been compromised can send a fraudulent request too.\n\nThe method has limits. Verification fails if you take the number from the suspicious message, if an attacker controls several channels at once, or if the real person cannot be reached. In those cases stop the irreversible step and turn to another trusted contact, or to your organisation’s escalation procedure. Verification is a way of deciding, not a verdict on whether a file was generated.\n\n### One minute\n\nName the requested action. Stop before money or credentials move. Leave the channel the request came in on. Confirm through a route you found yourself. Record the outcome if your workplace requires it. The same minute works against an ordinary impersonator as well as an AI-assisted one.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Separate convincing AI-generated appearance from verified authority before acting on a request.",
-    "today_action": "Write down one trusted callback route for a person or team whose urgent request you might receive.",
+    "goal": "Tell a convincing look from verified authority before you act on a request.",
+    "today_action": "Write down one callback route you trust for a person or team whose urgent request might one day land on you.",
     "checked_at": "2026-10-20",
-    "scope": "General educational guidance for personal and workplace requests, checked 20 October 2026; specific approval and emergency procedures vary.",
+    "scope": "General guidance for personal and workplace requests, checked 20 October 2026. Approval and emergency procedures differ from place to place. The people and calls in the cases are invented.",
     "sources": [
       {
         "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
         "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
-        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
+        "scope": "US consumer advice, page dated September 2023: voice cloning, urgency, calling back on a number you know, and checking with another relative. The reporting route it gives applies only in the US."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US guidance for transfer and account-change requests; secondary-channel verification and urgent bank contact after a suspected transfer. Organisational and national procedures vary."
+        "scope": "US guidance on requests to transfer money or change account details: confirm through a second channel, and contact your bank at once if you suspect a transfer went to a fraudster. Company and national procedures differ."
       },
       {
         "title": "NIST: 2024 GenAI text-to-text pilot",
         "url": "https://www.nist.gov/publications/2024-nist-genai-pilot-study-text-text-evaluation-overview-and-results",
-        "scope": "Published June 2025; benchmark on generated and human summaries, with detector performance varying by systems. It does not validate a detector for an individual message."
+        "scope": "Published June 2025. A benchmark built on machine-written and human-written summaries, where detector results varied from system to system. It does not show that a detector can be trusted on one individual message."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A perfect voice asks for a transfer",
-        "situation": "A synthetic call sounds like the treasurer and asks you to send a supplier payment to a new account while the office is closed.",
-        "analysis": "Voice resemblance and knowledge of the supplier can come from public or stolen material. The account change is the decision point. Hold it and call the treasurer or supplier on a number already on file, then use the normal approval path.",
+        "title": "A flawless voice asks for a transfer",
+        "situation": "A call comes in that sounds just like the treasurer. It asks you to send a supplier payment to a new account, and the office is closed for the night.",
+        "analysis": "A matching voice and knowledge of the supplier can come from public or stolen material. The change of account is the real decision. Hold the payment, call the treasurer or the supplier on a number already on file, and then use the normal approval path.",
         "legitimate": false
       },
       {
         "type": "case",
         "title": "A translated, awkward message is real",
-        "situation": "Synthetic example: A colleague uses translation software to report a delayed shipment. The phrasing is oddly formal, but the message only asks you to read a ticket already present in your work system.",
-        "analysis": "Awkward wording does not make the message fraudulent. Open the work system independently and inspect the existing ticket; do not accuse the colleague or use an AI-text score as identity proof.",
+        "situation": "A supplier you have dealt with for years emails in oddly formal English, clearly run through a translation app, to say a pallet is delayed. All the message asks is that you read the delay notice already posted in the supplier portal you normally use.",
+        "analysis": "Awkward wording does not make a message fraudulent. Open the portal yourself and read the notice. Do not accuse the supplier, and do not treat an AI-text score as proof of who is writing.",
         "legitimate": true
       },
       {
         "type": "practice",
         "title": "The convincing video request",
-        "setup": "Synthetic scenario: a project manager appears on a video call about a rush vendor payment. The same request arrived in chat. Each decision is a separate snapshot; actions in one do not carry into the next. No real accounts or payments are involved.",
+        "setup": "An invented scene: a project manager appears on a video call about a rush payment to a vendor, and the same request has arrived in chat. Each decision is a separate snapshot; nothing you do in one carries into the next. No real accounts or payments are involved.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The face and voice match. What do you evaluate first?",
+            "prompt": "The face and the voice both match. What do you weigh first?",
             "choices": [
               {
-                "text": "Whether the video has a lip-sync error",
-                "consequence": "No artifact appears, so the transfer pressure remains.",
-                "explanation": "Clean video does not prove who controls the meeting.",
+                "text": "Whether the video shows a lip-sync error",
+                "consequence": "You see no flaw, and the pressure to transfer is still there.",
+                "explanation": "Clean video does not prove who is running the meeting.",
                 "recommended": false
               },
               {
-                "text": "The requested change to payment details",
-                "consequence": "You identify the irreversible step before trusting the presentation.",
-                "explanation": "The risk lies in approving a new destination for funds; the media only delivers the request.",
+                "text": "The requested change to the payment details",
+                "consequence": "You name the irreversible step before you trust the presentation.",
+                "explanation": "The risk lies in approving a new destination for the money; the media only delivers the request.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: the manager posts a callback number in chat. Which route do you use?",
+            "prompt": "Separate snapshot: the manager posts a callback number in the chat. Which route do you take?",
             "choices": [
               {
-                "text": "Use the manager number in the existing staff directory",
-                "consequence": "You leave the attacker-controlled thread.",
-                "explanation": "An independently stored contact is a separate check; the pasted number is part of the request.",
+                "text": "The manager’s number in the existing staff directory",
+                "consequence": "You step out of a thread an attacker may control.",
+                "explanation": "A contact stored independently is a separate check; a pasted number belongs to the request.",
                 "recommended": true
               },
               {
-                "text": "Use the new number; it is faster",
-                "consequence": "The same actor can answer and repeat the story.",
-                "explanation": "A second medium is not independent when its address comes from the first.",
+                "text": "The new number, because it is faster",
+                "consequence": "The same person can pick up and repeat the story.",
+                "explanation": "A second medium is not independent when its address came from the first.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: you call the manager using the existing staff directory, but nobody answers. The deadline for the new-account payment is near. What now?",
+            "prompt": "Separate snapshot: you ring the manager on the number in the existing staff directory and nobody answers. The deadline for the new-account payment is close. What now?",
             "choices": [
               {
-                "text": "Approve because the video looked normal",
-                "consequence": "The unverified new account receives the funds in this simulation.",
-                "explanation": "Appearance cannot replace approval. Retry the decision using the existing route.",
+                "text": "Approve it; the video looked normal",
+                "consequence": "In this scene the money lands in the unverified new account.",
+                "explanation": "Appearance cannot stand in for approval. Retry the decision by the existing route.",
                 "recommended": false
               },
               {
-                "text": "Pause payment and escalate through the usual approver",
-                "consequence": "The payment waits while an authorised person checks it.",
-                "explanation": "An unanswered callback is not approval; established controls still apply.",
+                "text": "Pause the payment and escalate to the usual approver",
+                "consequence": "The payment waits while someone authorised checks it.",
+                "explanation": "An unanswered callback is not an approval; the established controls still apply.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The key was the payment change. A model might be involved, but you do not need to prove that to protect the transaction. Retry any decision to see how the result changes."
+        "debrief": "The thing to catch was the change of payment details. AI may or may not have been involved, and you never had to prove it to protect the transaction. Retry any decision and watch the result change."
       },
       {
         "type": "check",
-        "title": "Transfer the habit",
+        "title": "Carry the habit over",
         "questions": [
           {
-            "prompt": "A real account sends a strange request for a new beneficiary. What matters?",
+            "prompt": "A real account sends an odd request to add a new beneficiary. What matters?",
             "choices": [
               {
-                "text": "Verify the account change through the established process",
-                "explanation": "A real account can be compromised; the high-risk action still needs independent approval.",
+                "text": "Check the account change through the established process",
+                "explanation": "A real account can be compromised; a high-risk action still needs independent approval.",
                 "correct": true
               },
               {
-                "text": "Trust it because the account is genuine",
-                "explanation": "Account ownership at one moment does not prove the current message is authorised.",
+                "text": "Trust it, because the account is genuine",
+                "explanation": "Owning the account does not prove that this particular message is authorised.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "An odd accent appears on a call without a money request. What does it prove?",
+            "prompt": "An odd accent turns up on a call that asks for no money. What does it prove?",
             "choices": [
               {
-                "text": "The speaker is a clone",
-                "explanation": "Accent alone is not a reliable deepfake test.",
+                "text": "That the speaker is a clone",
+                "explanation": "An accent alone is not a reliable deepfake test.",
                 "correct": false
               },
               {
-                "text": "Nothing decisive about identity",
-                "explanation": "Connection quality, translation and individual variation can all affect sound.",
+                "text": "Nothing decisive about who they are",
+                "explanation": "Connection quality, translation and ordinary individual variation all change how a voice sounds.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "The caller gives you a second phone number to verify them. Is that independent?",
+            "prompt": "The caller gives you a second phone number so you can verify them. Is that independent?",
             "choices": [
               {
-                "text": "No; find a number already stored independently",
-                "explanation": "The attacker can control both the call and the newly supplied number.",
+                "text": "No; find a number you already have stored",
+                "explanation": "The attacker can control the call and the number they have just supplied.",
                 "correct": true
               },
               {
-                "text": "Yes; two phone numbers always establish identity",
-                "explanation": "Different numbers are not independent if both came from the same request.",
+                "text": "Yes; two numbers always establish identity",
+                "explanation": "Different numbers are not independent when both arrived with the same request.",
                 "correct": false
               }
             ]

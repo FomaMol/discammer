@@ -1,33 +1,33 @@
 ---
-title: "Fraud with lotteries or contests"
+title: "Lottery and contest scams"
 slug: "fraud-with-lotteries"
-description: "Recognize prize messages that ask for payment or sensitive information before a supposed win."
+description: "How to spot a prize message that asks for a fee or personal details before you have supposedly won anything."
 icon: "🎟️"
 threat_level: 4
 category: "lottery"
 published_at: "2025-02-14"
 ---
 
-A message about a prize can be exciting, but a real prize does not become real because a caller, email, or logo says so. Treat an unexpected win as unverified until you can confirm it through the promoter’s official channel.
+Congratulations, the message says: you have won a vacation. You do not remember entering anything, but the logo looks official and the sender seems genuinely delighted for you. A prize does not become real because a caller, an email or a logo announces it. Until the promoter’s official channel confirms the win, treat it as unverified.
 
-## Red flags
+## Five red flags
 
-1. **You did not enter, but are told you won.** An unexpected notice should trigger verification, not payment.
-2. **A fee to release the prize.** “Tax,” “shipping,” “processing,” “customs,” or “registration” payments are a common scam signal.
-3. **A request for bank details, card details, or identity documents.** Do not provide them to claim an unsolicited prize.
-4. **A rushed or secret process.** Pressure to act now, contact only one number, or avoid telling anyone is a warning sign.
-5. **A specific irreversible payment method.** Gift cards, wire transfers, cryptocurrency, and cash transfers reduce the chance of recovery.
+1. **You never entered, yet you won.** A notice you did not expect is a reason to check, not a reason to pay.
+2. **A fee to release the prize.** Charges called “tax,” “shipping,” “processing,” “customs” or “registration” are a common sign of a scam.
+3. **A request for bank details, card details or identity documents.** Do not hand them over to claim a prize you never asked for.
+4. **Hurry or secrecy.** You are told to act now, to call one number only, or to tell no one. Each is a warning sign.
+5. **A payment that is hard to take back.** Gift cards, wire transfers, cryptocurrency and cash transfers all make recovery less likely.
 
-## Illustrative scenario — not a case report
+## An invented prize, not a real case
 
-You receive a message saying you won a travel prize and must pay a small “release fee” today. Do not use the phone number or link in that message. Search for the promoter independently; if you cannot confirm the prize through an official contact path, do not pay or reply.
+A message says you have won a trip and must pay a small “release fee” today. Do not use the phone number or the link it gives you. Look up the promoter on your own. If no official contact confirms the prize, neither pay nor reply.
 
-## Safe response
+## What to do with the message
 
-1. Slow down and do not pay to obtain an unexpected prize.
-2. Do not give financial or identity information in response to the message.
+1. Slow down, and do not pay for a prize you did not expect.
+2. Give no financial or identity details in reply.
 3. Find the organizer’s official website or phone number yourself and ask whether the notice is genuine.
-4. Save the message and payment request if you may need to report it.
-5. If you paid, contact the payment provider immediately and ask what cancellation or recovery options remain.
+4. Save the message and the payment request in case you need to report it.
+5. If you have paid, contact your payment provider at once and ask whether the payment can still be canceled or recovered.
 
-Reporting options differ by country. Use a local consumer-protection, postal, financial-regulatory, or fraud-reporting channel as appropriate.
+Where to report differs from country to country. Use whichever applies locally: consumer protection, the postal service, the financial regulator or a fraud-reporting line.

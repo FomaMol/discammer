@@ -1,176 +1,176 @@
 {
   "order": 7,
-  "title": "Building a personal verification routine",
+  "title": "A verification routine for stressful moments",
   "est_minutes": 15,
-  "body_md": "## A routine you can use while stressed\n\nSocial-engineering awareness is useful only if it changes what you do. Use a short routine for any unexpected request that would move money, expose a code or document, install software, grant access or change a trusted contact. It need not prove the inbound message false. Its purpose is to make the **next action** depend on a source the requester does not control.\n\n**1. Stop the inbound action.** Do not click, transfer, read a code or approve a new recipient while the person is guiding you. You may note the claimed organization, issue and deadline without giving sensitive information. End the call or conversation politely. If immediate physical danger is described, use the local emergency number you already know; a safety emergency deserves a real response, not an online checklist.\n\n**2. Select a trusted route.** Open an app from your own device, use a saved contact, the number on a card or statement, a workplace directory, or a portal you already use. Do not use the contact details inside the message or the displayed caller ID. A search result can also be an advert or imitation, so prefer established records. For a family claim, call the person on your saved number or ask another trusted relative if you cannot reach them.\n\n**3. Restate the exact request.** Ask the independent contact: “Did you ask me to change this account, send this payment, or provide this code? What is the normal process?” Confirm both the underlying problem and the proposed remedy. An official channel may show that a real issue exists but that the inbound remedy was invented.\n\n**4. Decide and document.** If verified, complete the action only through the institution’s ordinary workflow. If unconfirmed, pause; do not let the original deadline force a workaround. If you already acted, contact the account, bank or payment provider promptly through its verified support channel. The options depend on what was exposed and on local law; there is no guaranteed reversal. Save relevant records privately.\n\nMake the routine a household or team agreement. “We verify changes of payment details through a second known route” lets everyone follow the same rule without accusing a caller or feeling rude. Rehearse with the synthetic exercise below, then adapt the route list to your actual services without writing any real numbers or secrets into this lesson.",
+  "body_md": "## The stairs you count on the first night\n\nOn your first night in a hotel, walk to the fire stairs and count the doors on the way. If the alarm ever goes off you will not be thinking clearly, and your feet will do the counting for you. A verification routine works the same way: you set it up in daylight, for the moment your pulse is up.\n\nKnowing how scammers operate pays off only when it changes what you do. Use this routine for any unexpected request to move money, reveal a code or a document, install software, grant access or change a trusted contact. It does not have to prove the message false. It only has to make your **next action** depend on a source the person asking does not control.\n\n**1. Stop the inbound action.** Don’t click, transfer money, read out a code or approve a new recipient while someone is walking you through it. You can jot down who they say they are, what the problem is and the deadline, without giving away anything sensitive. Then end the call or conversation, politely. If someone describes immediate physical danger, call the local emergency number you already know: a real emergency calls for a real response, not an online checklist.\n\n**2. Pick a trusted route.** Use a saved contact, the number on your card or statement, the company directory at work, an app on your own device or a portal you already use. Don’t use the contact details in the message, or the number your caller ID shows. A search result can be an ad or an imitation, so lean on records that were yours before the message arrived. If the story is about family, call the person on the number you saved, or ask another relative you trust if you can’t reach them.\n\n**3. Say the request back.** Ask the independent contact: “Did you ask me to change this account, send this payment, or give you this code? What is the normal process?” Confirm the problem and the proposed fix separately. An official channel may show that the problem is real while the fix on offer was invented.\n\n**4. Decide, and keep a record.** If it checks out, finish the task only through the institution’s ordinary workflow. If it doesn’t, wait; don’t let the original deadline push you into a workaround. If you have already acted, contact the account, bank or payment provider promptly through its verified support channel. What can be done depends on what was exposed and on local law, and nothing guarantees a reversal. Keep the relevant records privately.\n\nTurn it into a household or team agreement. “We confirm any change of payment details through a second, known route” lets everyone follow one rule without accusing a caller or feeling rude. Try it on the invented exercise below, then fill in the list of routes with your own real services. Keep the real numbers and secrets on paper, out of this course.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Run a repeatable four-part verification routine before acting on an unexpected high-stakes request.",
-    "today_action": "Write a private, offline list of two established contact routes and tell one trusted person that you will use it for unexpected payment or access requests.",
+    "goal": "Run the same four-step check, every time, before you act on an unexpected request with real stakes.",
+    "today_action": "Write a private list, on paper or offline, of two contact routes you already trust, and tell one person you trust that you will use it whenever an unexpected payment or access request turns up.",
     "checked_at": "2026-10-20",
-    "scope": "General routine based on UK NCSC and US FTC consumer guidance. Emergency, provider-response and reporting procedures are local; do not enter real contact details in the lesson.",
+    "scope": "A general routine drawn from UK NCSC and US FTC consumer guidance. Emergency numbers, provider responses and reporting procedures are local, and real contact details do not belong in the course.",
     "sources": [
       {
-        "title": "UK NCSC — how to spot a scam message or call",
+        "title": "UK NCSC: how to spot a scam message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
+        "scope": "British public guidance, published in 2021 and reviewed in 2022. Warning signs and independent contact: cues to weigh, not a test that gives a verdict."
       },
       {
-        "title": "US FTC — unexpected calls about money at risk",
+        "title": "US FTC: unexpected calls about money at risk",
         "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
-        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
+        "scope": "US consumer alert (January 2026). Call back using the number on your card or statement, your app or the official site."
       },
       {
-        "title": "US FTC — fake family emergencies",
+        "title": "US FTC: fake family emergencies",
         "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
-        "scope": "US consumer guidance (2023); voice cloning, secrecy and direct contact with family."
+        "scope": "US consumer guidance (2023) on voice cloning, demands for secrecy and getting in touch with family directly."
       },
       {
-        "title": "US FTC — How to Avoid a Scam",
+        "title": "US FTC: how to avoid a scam",
         "url": "https://consumer.ftc.gov/articles/how-avoid-scam",
-        "scope": "US consumer guidance (2023); impersonation, pressure, payment methods and independent contact."
+        "scope": "US consumer guidance (2023) on impersonation, pressure, payment methods and independent contact."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: family emergency with a familiar voice",
-        "situation": "A caller sounds like your brother, says he is stranded, and asks you to buy gift cards immediately without telling anyone.",
-        "analysis": "The voice, secrecy and payment method create a serious warning. FTC guidance notes voice imitation is possible. End the call and use the number already saved for your brother; if unreachable, contact another relative. If danger is credible, use relevant local emergency services. Do not use gift-card codes as an emergency channel.",
+        "title": "A familiar voice in trouble",
+        "situation": "The caller sounds like your brother. He says he is stranded, and he wants you to buy gift cards right now and not tell anyone.",
+        "analysis": "The voice, the secrecy and the payment method make three alarms at once, and the FTC notes that voices can be imitated. End the call and phone your brother on the number you have saved; if he doesn’t pick up, call another relative. If the danger sounds credible, contact the relevant local emergency services. Gift-card codes are not an emergency channel.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: verified repair visit",
-        "situation": "Your building management app, which you opened independently, shows a repair booked for tomorrow. A technician at the door refers to the matching work order; the management desk confirms their identity through the number on your lease.",
-        "analysis": "A surprise in-person request can be legitimate. Independent work-order and desk confirmation allow the visit under building rules. Still do not share account passwords or unrelated documents. A verification routine can end in a justified yes.",
+        "title": "The repair visit that checked out",
+        "situation": "The management app for your building, which you opened yourself, shows a repair booked for tomorrow. The technician at your door quotes the same work-order number, and the management desk confirms who he is when you call the number on your lease.",
+        "analysis": "An unexpected visitor can be genuine. The work order and the desk, both reached by your own route, make this visit fit the building’s rules. You still shouldn’t hand over account passwords or unrelated documents. A verification routine can end in a justified yes.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The water-leak request",
-        "setup": "A fictional message claiming to be from building management says: ‘There may be a water leak in Unit 204, next to yours. Send your door code to our technician right away so we can check your apartment.’ The first two decisions test how to pause and choose a contact route. The third is a separate leak report that you check independently, regardless of those choices; the fourth is an explicit what-if after disclosure. No real address, access code or phone number is used.",
+        "title": "The water-leak message",
+        "setup": "An invented message, supposedly from building management: “There may be a water leak in Unit 204, next to yours. Send your door code to our technician right away so we can check your apartment.” The first two decisions are about pausing and choosing whom to contact. The third is a new leak report that you check with the desk by your own route, whatever you chose before; the fourth asks what you would do if the code had already gone out. No real address, access code or phone number appears.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The message asks you to send your door code to a “technician” right away. What first?",
+            "prompt": "The message asks you to send your door code to a “technician” straight away. What first?",
             "choices": [
               {
-                "text": "Send it; a leak may damage the building.",
-                "consequence": "You may give access to an unverified person.",
-                "explanation": "A real maintenance problem still deserves an independently verified access process.",
+                "text": "Send it. A leak could damage the building.",
+                "consequence": "You may be giving a stranger the way into your home.",
+                "explanation": "Even a real maintenance problem deserves an access process that has been independently verified.",
                 "recommended": false
               },
               {
-                "text": "Pause the code request and note the claimed leak and unit without sending access data.",
-                "consequence": "You retain the issue to check while protecting the code.",
-                "explanation": "Stopping a credential transfer need not mean ignoring a possible leak.",
+                "text": "Hold back the code, and note the claimed leak and the unit number.",
+                "consequence": "You keep the issue to check and the code to yourself.",
+                "explanation": "Refusing to pass on a credential is not the same as ignoring a possible leak.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Which contact will verify the request?",
+            "prompt": "The message also gives a number “for questions.” Which contact do you use to check the request?",
             "choices": [
               {
-                "text": "The management app or phone number on your existing lease.",
-                "consequence": "You contact the party through an established route.",
-                "explanation": "Ask whether there is an open work order and what access method is authorized.",
+                "text": "The management app, or the phone number on your lease.",
+                "consequence": "You reach the people responsible by a route that was yours before the message.",
+                "explanation": "Ask whether a work order is open and what access method is authorized.",
                 "recommended": true
               },
               {
-                "text": "The callback number in the same message.",
-                "consequence": "The original sender controls the supposed check.",
-                "explanation": "Use a number or app you held before the message.",
+                "text": "The callback number in that same message.",
+                "consequence": "The sender runs the very check you are about to make.",
+                "explanation": "Use a number or an app you held before the message arrived.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate new leak report: you independently call the management desk using the number on your existing lease. The desk confirms a leak but says staff do not need residents’ door codes. A message nevertheless asks for yours. What do you do?",
+            "prompt": "A new leak report. You call the management desk yourself, on the number from your lease. The desk confirms there is a leak but says staff never need residents’ door codes. A message still asks for yours. What do you do?",
             "choices": [
               {
-                "text": "Send the code because the leak is real.",
-                "consequence": "The real problem would be used to justify a false remedy.",
-                "explanation": "Verification must cover the requested action, not just the event.",
+                "text": "Send the code anyway. The leak is real.",
+                "consequence": "A real problem is being used to sell a false fix.",
+                "explanation": "Check what you are being asked to do, not only the event behind it.",
                 "recommended": false
               },
               {
-                "text": "Follow the desk’s documented access arrangement and report the code request.",
-                "consequence": "You address the leak through an authorized process.",
-                "explanation": "This is the routine’s key distinction: real problem, unverified remedy.",
+                "text": "Follow the access arrangement the desk described, and report the request for your code.",
+                "consequence": "The leak gets handled through a process the building has authorized.",
+                "explanation": "This is the routine’s central distinction: a real problem, with a fix nobody has verified.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Suppose you had already shared the code. What is the next action?",
+            "prompt": "Suppose you had already sent the code. What do you do next?",
             "choices": [
               {
-                "text": "Tell the verified desk, change or disable the code through the authorized process, and keep the message privately.",
-                "consequence": "You respond to the exposure without using the suspicious sender.",
-                "explanation": "Steps depend on the building system; the desk can advise the actual procedure.",
+                "text": "Tell the verified desk, change or disable the code through their authorized process, and keep the message privately.",
+                "consequence": "You deal with the exposure without going back to the suspicious sender.",
+                "explanation": "The steps depend on the building’s system; the desk can tell you the actual procedure.",
                 "recommended": true
               },
               {
-                "text": "Do nothing because the desk confirmed a leak.",
-                "consequence": "An exposed code may still allow unauthorized entry.",
-                "explanation": "Contact the verified management team about changing access and their incident process.",
+                "text": "Nothing. The desk confirmed the leak.",
+                "consequence": "An exposed code can still let a stranger in.",
+                "explanation": "Contact the verified management team about changing the access and about their incident process.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Debrief: the contact-route choice does not itself produce a real-desk finding. In the separate third snapshot, you make that independent call explicitly: the leak is real, but the code request is unauthorized. The final what-if tests recovery after disclosure. Replay the full stop → known route → exact request → response routine."
+        "debrief": "Picking a number in the second decision does not give you the desk’s answer. In the third, separate scenario you actually call, and learn that the leak is real and the request for your code is not. The last decision asks what recovery looks like once the code has gone out. Run the whole sequence again: stop, take a route you know, repeat the exact request, then decide."
       },
       {
         "type": "check",
-        "title": "Use the routine elsewhere",
+        "title": "Use it somewhere else",
         "questions": [
           {
-            "prompt": "A known friend’s account asks for a transfer to a new recipient. What is the best check?",
+            "prompt": "The account of a friend you know well asks you to transfer money to a new recipient. What is the best check?",
             "choices": [
               {
-                "text": "Use a previously saved separate route to confirm the specific transfer and recipient.",
-                "explanation": "Correct: a familiar account can be compromised, and recipient details need their own check.",
+                "text": "Confirm the exact transfer and the recipient through a separate route you saved earlier.",
+                "explanation": "A familiar account can be taken over, and new payment details need a check of their own.",
                 "correct": true
               },
               {
-                "text": "Reply in the same thread asking “Is this really you?”",
-                "explanation": "A compromised account can answer within that thread.",
+                "text": "Reply in the same thread: “Is this really you?”",
+                "explanation": "A hijacked account can answer inside that thread.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A verified service confirms a real deadline but says the inbound link is not theirs. What follows?",
+            "prompt": "A service you have verified confirms a real deadline but says the link you received is not theirs. What follows?",
             "choices": [
               {
-                "text": "Use the service’s normal workflow for the real deadline.",
-                "explanation": "Correct: confirm both problem and remedy, then act through the trusted route.",
+                "text": "Deal with the real deadline through the service’s normal process.",
+                "explanation": "Confirm the problem and the fix separately, then act through a trusted route.",
                 "correct": true
               },
               {
-                "text": "The deadline must be fake too, so ignore it.",
-                "explanation": "A real task can be attached to a false link.",
+                "text": "Then the deadline is fake as well, and you can ignore it.",
+                "explanation": "A real task can arrive with a false link attached.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "You already gave a code to an inbound caller. What is the priority?",
+            "prompt": "You have already read a code out to a caller who phoned you. What comes first?",
             "choices": [
               {
-                "text": "Wait to see whether anything happens.",
-                "explanation": "Delay can leave an account at risk.",
+                "text": "Wait and see whether anything happens.",
+                "explanation": "Waiting can leave the account exposed.",
                 "correct": false
               },
               {
-                "text": "Use the account provider’s verified recovery and support route promptly.",
-                "explanation": "Correct: report what was exposed and follow provider-specific steps without trusting the caller.",
+                "text": "Go to the account provider’s verified recovery and support route right away.",
+                "explanation": "Tell them what was exposed and follow their steps, without trusting the caller.",
                 "correct": true
               }
             ]

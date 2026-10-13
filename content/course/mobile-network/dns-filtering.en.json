@@ -2,190 +2,190 @@
   "order": 5,
   "title": "Household DNS filtering",
   "est_minutes": 14,
-  "body_md": "## DNS answers a name before a connection\n\nWhen a device opens a site, it commonly asks a DNS resolver where that domain points. A filtering resolver may refuse names it classifies as malware or phishing. Cloudflare's **plain** 1.1.1.1 is a general resolver, not the same as its Families malware-filtering addresses 1.1.1.2/1.0.0.2. Families returns a blocking address for a classified domain. Other providers use different lists, categories, test pages and privacy policies. Select a provider only after reading its scope and data handling. DNS filtering can stop a known malicious domain before a page loads, but it cannot judge a seller's intent, inspect encrypted page content or reliably classify every new lookalike. A legitimate domain can be mistakenly blocked.\n\n## Decide where the policy should apply\n\nConfiguring a router can cover devices that use its DNS settings while at home; configuring one device is narrower and easier to test. A local DNS blocker such as Pi-hole adds control but needs a maintained host and may expose query logs to its administrator. The scope depends on the setting: a DNS choice saved only for one Wi-Fi network need not apply on cellular, while Android system-wide Private DNS can use the chosen resolver on both Wi-Fi and cellular. Browser secure DNS, a VPN or an app can also choose a different resolver. Thus “set on the router” does not mean “protects every device everywhere.” Encrypted DNS protects queries on the path to the chosen resolver; it does not automatically filter or validate websites. If another person manages the home network, agree on policy and a way to reverse it before changing shared settings.\n\n## Test, investigate, reverse\n\nWrite down the original DNS setting before changing it. Use the resolver's documented safe test page or domain; do not test by visiting a live malicious site. Check a device on home Wi-Fi and, separately, cellular or another network if relevant. If a needed site fails, check whether the chosen resolver blocked it rather than assuming the site is dangerous. Confirm the service's true address through an independent channel. Cloudflare Families documents anonymous feedback for a mistaken classification, but its fixed modes provide no documented per-domain allow control or household query log. A report does not promise an immediate unblock. If only one device's Wi-Fi DNS was changed and access is urgent, deliberately restore its recorded trusted DNS setting for the confirmed task, then restore and retest Families. While switched, Families no longer filters lookups using that Wi-Fi DNS setting. If the resolver is unavailable, restore your recorded settings or use a trusted fallback. DNS is a layer beneath browser warnings, updates, MFA and independent verification; a successful DNS lookup is never a safety verdict.",
+  "body_md": "## The switchboard that can say no\n\nEvery visit to a site begins with a question you never hear. Your device asks a DNS resolver, a sort of switchboard, where the domain points. A filtering resolver can refuse to connect names it has classified as malware or phishing, and the page never gets the chance to load.\n\nProviders differ in their lists, categories, test pages and privacy policies, so read a provider’s scope and data handling before you pick one. Cloudflare makes a handy example because its two services sit side by side. Its **plain** 1.1.1.1 is a general resolver and does no malware filtering. The filtering service, Families, has a malware-blocking mode at 1.1.1.2 and 1.0.0.2 and returns a blocking address for any domain it has classified.\n\nBe just as clear about the limits. A filter can stop a known malicious domain before a page loads. It cannot judge a seller’s intentions, look inside an encrypted page, or reliably classify every new lookalike, and now and then it blocks a legitimate domain by mistake.\n\n## Where the rule reaches, and where it stops\n\nA phone leaves the home router’s rules behind the moment it steps out the door. Setting DNS on the router covers the devices that use its DNS settings while they are at home. Setting it on one device is narrower, and easier to test. A local blocker such as Pi-hole gives you more control, but it needs a machine someone keeps up to date, and its administrator may be able to read the query logs.\n\nHow far a rule reaches depends on where the setting lives. A DNS choice saved for one Wi-Fi network does not have to apply on cellular, while Android’s system-wide Private DNS can use the chosen resolver on both Wi-Fi and cellular. A browser’s secure DNS, a VPN or an app can also pick a resolver of its own. So “set on the router” does not mean “protects every device everywhere.” Encrypted DNS shields queries on their way to the chosen resolver; it does not filter or validate websites by itself. And if someone else runs the home network, agree on the policy, and on a way to reverse it, before you change shared settings.\n\n## Test it, and keep a way back\n\nWrite down the original DNS setting before you change anything. Test with the resolver’s documented safe test page or domain, never by visiting a live malicious site, and check a device on home Wi-Fi and, separately, on cellular or another network if that matters to you. If a site you need fails, find out whether the resolver blocked it before you decide the site is dangerous, and confirm the service’s true address through an independent channel.\n\nCloudflare Families documents anonymous feedback for a mistaken classification, but its fixed modes offer no documented per-domain allow control and no household query log. A report promises no immediate unblock. If only one device’s Wi-Fi DNS was changed and access is urgent, deliberately restore its recorded trusted DNS for that one confirmed visit, then put Families back and retest. Until you do, lookups through that Wi-Fi setting get no Families filtering. If the resolver itself is unavailable, restore your recorded settings or use a trusted fallback.\n\nDNS is one layer, sitting beneath browser warnings, updates, MFA and independent verification. A successful lookup is never a verdict on safety.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Set one household DNS filter deliberately, test its scope, and recover from a false block without abandoning safer browsing habits.",
-    "today_action": "Identify the current resolver and setting type on one device. If you test a filter, use a provider-documented safe test domain on Wi-Fi and cellular, and note whether the setting is Wi-Fi-only, system-wide Private DNS or overridden by the browser.",
+    "goal": "Choose one household DNS filter on purpose, test how far it reaches, and recover from a false block without dropping your other safe habits.",
+    "today_action": "On one device, find out which resolver is in use and what kind of setting it is. If you test a filter, use a safe test domain from the provider’s documentation, on Wi-Fi and again on cellular, and note whether the setting is Wi-Fi-only, system-wide Private DNS or overridden by the browser.",
     "checked_at": "2026-10-20",
-    "scope": "Home-network explanation checked 2026-10-20. Cloudflare addresses are one provider example, not a universal recommendation; device menus and Wi-Fi-only versus system-wide settings vary. Families has fixed modes and a miscategorization-feedback path, not a documented per-domain allow control. Categories can be wrong or lag behind new sites.",
+    "scope": "Explanation for home networks, checked 2026-10-20. The people and cases are invented. Cloudflare’s addresses illustrate one provider and are not a universal recommendation; device menus differ, and so do Wi-Fi-only and system-wide settings. Families has fixed modes and a feedback route for miscategorized domains, but no documented per-domain allow control. Categories can be wrong, and they lag behind new sites.",
     "sources": [
       {
-        "title": "Cloudflare 1.1.1.1 and Families setup",
+        "title": "Cloudflare: 1.1.1.1 and Families setup",
         "url": "https://developers.cloudflare.com/1.1.1.1/setup/",
-        "scope": "Provider-specific DNS addresses, fixed Families filtering modes, blocking behavior, safe tests and anonymous miscategorization feedback; updated 2026-05-06. No per-domain allow control is documented for Families."
+        "scope": "One provider’s DNS addresses, the fixed Families filtering modes, how blocking behaves, safe tests and anonymous miscategorization feedback; updated 2026-05-06. No per-domain allow control is documented for Families."
       },
       {
-        "title": "Cloudflare public resolver privacy",
+        "title": "Cloudflare: privacy of the public resolver",
         "url": "https://developers.cloudflare.com/1.1.1.1/privacy/public-dns-resolver/",
-        "scope": "Provider-specific plain DNS behavior and privacy; not a filtering promise."
+        "scope": "How one provider’s plain DNS behaves and what it does with data. It makes no filtering promise."
       },
       {
-        "title": "Chrome secure DNS settings",
+        "title": "Chrome: secure DNS settings",
         "url": "https://support.google.com/chrome/answer/10468685?hl=en",
-        "scope": "Chrome Android can select a custom secure-DNS provider, which may differ from router DNS."
+        "scope": "Chrome on Android can pick its own secure-DNS provider, which may differ from the router’s."
       },
       {
-        "title": "Cloudflare Android DNS setup",
+        "title": "Cloudflare: DNS setup on Android",
         "url": "https://developers.cloudflare.com/1.1.1.1/setup/android/",
-        "scope": "Provider-specific Android setup: Private DNS uses the chosen resolver on all networks, including cellular; per-Wi-Fi setup is a different scope. Updated 2026-06-23."
+        "scope": "One provider’s Android steps: Private DNS uses the chosen resolver on all networks, cellular included, while a per-Wi-Fi setup has a narrower scope. Updated 2026-06-23."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A new fake benefits from the gap",
-        "situation": "Synthetic: a family member receives a parcel notice naming a newly created parcel-themed domain. In this invented case the domain resolves, but the filter has not classified it; no real link is supplied.",
-        "analysis": "A DNS answer in this scenario means only that this resolver did not block the lookup. The family opens the retailer’s order history through a saved app and does not enter credentials at the message address. No real domain is offered for testing.",
+        "title": "The fake that is too new to be listed",
+        "situation": "A relative gets a parcel notice about a shop order, and it points to a newly created, parcel-themed domain. In this invented case the domain resolves, because the filter has not classified it yet. No real link is supplied.",
+        "analysis": "A DNS answer here means one thing: this resolver did not block the lookup. The family opens the shop’s order history in its own saved app and enters no credentials at the address in the message.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "School portal blocked by category",
-        "situation": "Synthetic: after Cloudflare Families malware filtering is enabled for one test phone's Wi-Fi profile, a known school portal stops loading; the school independently confirms its official domain.",
-        "analysis": "This may be a false positive. The family checks the phone's DNS setting and submits Cloudflare's anonymous miscategorization feedback. Families has no documented per-domain allow or household query log; feedback does not promise immediate access. For an urgent school task, they may temporarily restore this phone's recorded trusted DNS, visit the independently confirmed portal, then restore and retest Families. That temporary switch removes Families filtering for lookups using this phone's Wi-Fi DNS setting.",
+        "title": "The school portal that won’t load",
+        "situation": "After Cloudflare Families malware filtering is switched on for the Wi-Fi profile of one test phone, a school portal the family knows well stops loading. The school, asked independently, confirms the portal’s official domain.",
+        "analysis": "This may be a false positive. The family checks the phone’s DNS setting and sends Cloudflare’s anonymous miscategorization feedback. Families has no documented per-domain allow control or household query log, and feedback promises no instant access. For an urgent school task they may temporarily restore this phone’s recorded trusted DNS, visit the independently confirmed portal, then restore Families and retest. Until it is put back, that switch takes Families filtering away from lookups made through this phone’s Wi-Fi DNS setting.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Pilot a home DNS policy",
-        "setup": "Synthetic exercise: four independent test-device checkpoints. Each prompt states the active DNS setup; no shared router is changed and no live risky domain is opened.",
+        "title": "A trial run for the household DNS",
+        "setup": "Four invented checkpoints, each on a test device. Each step states the DNS setup in force; no shared router is changed and no live risky domain is opened.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "Checkpoint 1: a test device supports DNS settings for one Wi-Fi network. You want malware filtering and see 1.1.1.1 and 1.1.1.2. What do you choose?",
+            "prompt": "Checkpoint 1: a test device lets you set DNS for one Wi-Fi network. You want malware filtering, and the options in front of you are 1.1.1.1 and 1.1.1.2. Which do you choose?",
             "choices": [
               {
-                "text": "Set the documented Families malware-filtering resolver in this test Wi-Fi profile.",
-                "consequence": "This Wi-Fi profile uses a resolver with the requested category; other networks are not configured by this step.",
-                "explanation": "Plain 1.1.1.1 is not the Families filter.",
+                "text": "Enter 1.1.1.2, the documented Families malware-filtering resolver, in this test Wi-Fi profile.",
+                "consequence": "This Wi-Fi profile now uses a resolver with the category you asked for. No other network is configured by this step.",
+                "explanation": "Plain 1.1.1.1 is a different service from the Families filter.",
                 "recommended": true
               },
               {
-                "text": "Use plain 1.1.1.1 and assume it blocks malware.",
-                "consequence": "Filtering expectation is false.",
-                "explanation": "Resolver names and policies must be checked, not guessed.",
+                "text": "Use 1.1.1.1. It is the famous one, so it must block malware.",
+                "consequence": "You now believe in a filter that is not there.",
+                "explanation": "Check a resolver’s name and policy; do not guess them.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Checkpoint 2: on a separate test device, Families is selected in settings. How will you verify filtering without browsing a real scam?",
+            "prompt": "Checkpoint 2: on a separate test device, Families is selected in settings. How do you confirm that filtering works without browsing a real scam?",
             "choices": [
               {
-                "text": "Search for a current malware link and open it.",
-                "consequence": "You expose the device unnecessarily.",
-                "explanation": "Never require a live malicious destination for a lesson or setup test.",
+                "text": "Hunt for a live malware link and open it, just to watch the block work.",
+                "consequence": "You expose the device for no reason.",
+                "explanation": "A lesson or a setup test never needs a live malicious destination.",
                 "recommended": false
               },
               {
-                "text": "Use the provider’s documented safe test domain and record the result.",
-                "consequence": "You test the setup without exposure to a malicious page.",
-                "explanation": "Provider test endpoints are built for this purpose.",
+                "text": "Use the provider’s documented safe test domain and write down the result.",
+                "consequence": "You test the setup without going near a malicious page.",
+                "explanation": "Providers publish test endpoints for exactly this purpose.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Checkpoint 3: Families is configured only for a test phone’s home Wi-Fi, not as system-wide Private DNS. The safe provider test blocks on Wi-Fi but not cellular. What does that show?",
+            "prompt": "Checkpoint 3: Families is set only for a test phone’s home Wi-Fi, not as system-wide Private DNS. The provider’s safe test is blocked on Wi-Fi but not on cellular. What does that show?",
             "choices": [
               {
-                "text": "The shared router must be broken.",
-                "consequence": "You may change a working setup for the wrong reason.",
-                "explanation": "No router setting changed here, and the phone can use different DNS across network types.",
+                "text": "Something must be wrong with the shared router.",
+                "consequence": "You may tear up a working setup for the wrong reason.",
+                "explanation": "No router setting changed here, and a phone can use different DNS on different kinds of network.",
                 "recommended": false
               },
               {
-                "text": "The Wi-Fi-only DNS choice did not follow the phone to cellular; document that boundary.",
-                "consequence": "You distinguish this Wi-Fi profile from the phone’s cellular DNS behavior.",
-                "explanation": "This result fits a per-Wi-Fi setting; Android system-wide Private DNS can apply on cellular too.",
+                "text": "The Wi-Fi-only DNS choice did not follow the phone onto cellular, so note that boundary down.",
+                "consequence": "You can now tell what this Wi-Fi profile covers from how the phone behaves on cellular.",
+                "explanation": "That result fits a per-Wi-Fi setting; Android’s system-wide Private DNS can apply on cellular too.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Checkpoint 4: on another test phone with Families configured only for its Wi-Fi profile, an independently confirmed school portal is blocked. What next?",
+            "prompt": "Checkpoint 4: on another test phone, Families is configured only for its Wi-Fi profile, and a school portal the school has independently confirmed is blocked. What next?",
             "choices": [
               {
-                "text": "Confirm the phone's DNS setting and report the possible false positive to Cloudflare. For urgent access, temporarily restore this phone's recorded trusted DNS, then reinstate Families.",
-                "consequence": "Feedback is submitted. A temporary device-level switch may enable access, but Families filtering is absent for lookups using that phone's Wi-Fi DNS setting until restored; no instant provider unblock is promised.",
-                "explanation": "Families documents feedback for miscategorization, not a per-domain allow rule. Confirm the portal through a known school channel first.",
+                "text": "Check the phone’s DNS setting and report the possible false positive to Cloudflare. For urgent access, temporarily restore this phone’s recorded trusted DNS, then reinstate Families.",
+                "consequence": "Feedback goes in. A temporary switch on this one device may open the portal, but until it is restored Families does not filter lookups made through the phone’s Wi-Fi DNS setting, and the provider promises no instant unblock.",
+                "explanation": "What Families documents is feedback for a miscategorized site, not a per-domain allow rule. First confirm the portal through a channel the school is known to use.",
                 "recommended": true
               },
               {
-                "text": "Turn off all protection and never revisit it.",
-                "consequence": "The phone loses its filtering indefinitely because of one block.",
-                "explanation": "Reporting the possible error and a deliberate, reversible change on one device are available without assuming an instant provider fix.",
+                "text": "Switch off all protection and never revisit it.",
+                "consequence": "One block costs the phone its filtering indefinitely.",
+                "explanation": "A false block calls for a report and, at most, a deliberate change on one device that you then reverse. It does not call for dropping protection for good.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Replay by separating resolver choice, per-Wi-Fi versus system-wide scope, provider test result and the separate question whether a site is trustworthy."
+        "debrief": "Play it again and keep four things apart: which resolver was chosen, how far the setting reaches (one Wi-Fi network or the whole phone), what the provider’s test said, and, separately, whether the site is trustworthy."
       },
       {
         "type": "check",
-        "title": "Transfer check",
+        "title": "Check what stuck",
         "questions": [
           {
-            "prompt": "What does plain Cloudflare 1.1.1.1 do in this lesson?",
+            "prompt": "In this lesson, what does the plain 1.1.1.1 address do?",
             "choices": [
               {
-                "text": "Resolves names without the Families malware category.",
-                "explanation": "The filtering service has distinct addresses.",
+                "text": "Resolves names, without the Families malware category.",
+                "explanation": "The filtering service has separate addresses.",
                 "correct": true
               },
               {
-                "text": "Guarantees that every phishing domain is blocked.",
-                "explanation": "Neither plain DNS nor a filter can guarantee that.",
+                "text": "Promises that every phishing domain gets blocked.",
+                "explanation": "Neither plain DNS nor a filter can promise that.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A filtered domain resolves successfully. What can you infer?",
+            "prompt": "Your filtering resolver answers a lookup for a domain normally, with no block. What can you conclude?",
             "choices": [
               {
                 "text": "The seller is legitimate.",
-                "explanation": "DNS does not authenticate a seller.",
+                "explanation": "A lookup says nothing about who the seller is.",
                 "correct": false
               },
               {
-                "text": "Only that this resolver did not block this lookup.",
-                "explanation": "A new or misclassified scam site can pass.",
+                "text": "Just that this resolver did not block this one lookup.",
+                "explanation": "A new or misclassified scam site can get through.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "Why may a browser ignore your router’s DNS filter?",
+            "prompt": "Why might a browser ignore your router’s DNS filter?",
             "choices": [
               {
-                "text": "Its secure-DNS setting may use another resolver.",
-                "explanation": "Some browser configurations choose their own path.",
+                "text": "Its own secure-DNS setting may send queries to a different resolver.",
+                "explanation": "Some browser configurations take a path of their own.",
                 "correct": true
               },
               {
-                "text": "Router DNS always controls all browser queries.",
-                "explanation": "That ignores secure DNS and other overrides.",
+                "text": "Router DNS always controls every browser query.",
+                "explanation": "That overlooks secure DNS and other overrides.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A known service is blocked. Best first step?",
+            "prompt": "A service you know is blocked. What is the best first step?",
             "choices": [
               {
-                "text": "Assume it is criminal and warn everyone.",
-                "explanation": "A classifier error is possible.",
+                "text": "Decide it is criminal and warn everyone you know.",
+                "explanation": "A classifier can be wrong.",
                 "correct": false
               },
               {
-                "text": "Independently confirm its domain and inspect the block reason.",
-                "explanation": "It could be a true or false positive.",
+                "text": "Confirm its domain independently and look at why it was blocked.",
+                "explanation": "The block could be a true positive or a false one.",
                 "correct": true
               }
             ]

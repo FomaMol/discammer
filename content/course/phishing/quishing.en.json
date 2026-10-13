@@ -2,180 +2,180 @@
   "order": 5,
   "title": "QR-code phishing (quishing)",
   "est_minutes": 14,
-  "body_md": "## A code is a route, not an endorsement\n\nA QR code can encode a web address or other data. Its squares do not tell you who placed it, who operates the destination, or whether the request is genuine. QR phishing, sometimes called quishing, uses that gap: the person scanning moves from a physical sign or a message to a phone browser, where a fake payment or sign-in page can look routine.\n\nThe setting matters. A printed sticker may cover a venue's original code. A QR in an unexpected email can move a supposed password reset off the computer where you received it. A legitimate café menu or ticket can also use a QR. The rule is not “all codes are unsafe”; it is to verify the **task, placement and destination** before acting.\n\n### A careful scan sequence\n\n1. Ask whether you expected the code and whether the action makes sense in that setting. A code demanding an urgent password reset or fine is a reason to use another route.\n2. At a public payment point, inspect whether a sticker is layered over another code, but do not treat a neat print as proof. Ask staff or use the official parking/payment app you already know.\n3. If you choose to scan, use the phone's built-in camera or a trusted scanner and read whatever destination it shows **before opening**. Preview behavior and the amount of address shown vary by device and app. If you cannot inspect it, do not guess.\n4. At the opened page, recheck the browser address before entering money or credentials. A preview can show an intermediary that redirects. HTTPS protects a connection; it does not certify a payment operator.\n\nFor a code in an email about your account, bypass it: open the service's app or site yourself. For a restaurant menu, checking with staff is practical when the code looks altered or asks for surprising personal data. A scan alone is not the same as giving away a password or paying, but if you entered credentials or financial details, act promptly through the real provider and review your account.\n\nThis lesson uses imaginary codes and addresses. Do not scan real public codes as an exercise or enter anything into a course simulation.",
+  "body_md": "## A chalk arrow vouches for nothing\n\nDusk, a drizzle, a parking meter with a glossy sticker on its face: scan to pay from your phone. A QR code is a chalk arrow on the pavement. It points somewhere and promises nothing. The squares can hold a web address or other data, but they won’t tell you who put the arrow there, who runs what it points to, or whether the request behind it is real. QR phishing, sometimes called quishing, lives in that gap. One scan carries you from a sign on a wall, or from a message, into the browser in your pocket, where a fake payment or sign-in page can look perfectly routine.\n\nSetting matters. A printed sticker can cover a venue’s real code. A QR in an unexpected email can carry a supposed password reset off the computer where it arrived and onto your phone. And plenty of honest cafés and ticket desks use QR codes too. So the rule is not “every code is dangerous.” Before you act, check three things: the **task, the placement and the destination**.\n\n### A careful way to scan\n\n1. Ask whether you expected this code and whether the action makes sense where you found it. A code that hurries you into a password reset or a fine is a reason to go another way.\n2. At a public payment point, look for a sticker layered over another code, but don’t take neat printing as proof. Ask staff, or use the official parking or payment app you already know.\n3. If you do scan, use your phone’s built-in camera or a scanner you trust, and read the destination it shows **before you open it**. How much of the address you see depends on the device and the app. If you can’t read it, don’t guess.\n4. On the page that opens, check the address bar again before you enter money or sign-in details. The preview may show a middle step that redirects. HTTPS protects the connection; it doesn’t vouch for whoever is taking the payment.\n\nA QR code in an email about your account can simply be skipped: open the service’s app or site yourself. With a restaurant menu, it is reasonable to ask staff if the code looks pasted over or wants personal details you didn’t expect. Scanning alone is not the same as giving away a password or paying. But if you did enter sign-in or card details, act quickly through the real provider and look over your account.\n\nThe codes and addresses in this lesson are invented. Don’t scan real public codes as practice, and don’t type anything into a course exercise.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Before acting on a QR code, verify its placement, purpose and destination, and use a known route for payments or sign-in.",
-    "today_action": "At a familiar venue or on an existing ticket, observe where its QR code is printed and decide which independent contact or app you would use if it looked altered. Do not scan for this exercise.",
+    "goal": "Before acting on a QR code, check where it sits, what it is for and where it leads, and use a route you know for payments and sign-ins.",
+    "today_action": "At a familiar venue, or on a ticket you already have, notice where the QR code is printed. Decide which independent contact or app you would use if it looked tampered with. Do not scan anything for this exercise.",
     "checked_at": "2026-10-20",
-    "scope": "General consumer guidance. FTC reporting and payment advice is US-specific; device previews and local payment systems vary. All scenarios are synthetic.",
+    "scope": "Everyday advice for ordinary users. The FTC’s reporting and payment advice applies to the US; device previews and local payment systems differ. All the scenarios are invented.",
     "sources": [
       {
         "title": "US FTC: QR stickers on parking meters",
         "url": "https://consumer.ftc.gov/consumer-alerts/2026/09/see-qr-code-parked-somewhere-dont-scan-ityet",
-        "scope": "Parking-code overlay reports and URL preview; published September 2026, US context."
+        "scope": "Reports of stickers over parking-meter codes, and previewing the URL. Published in September 2026; US context."
       },
       {
         "title": "UK NCSC: spotting scam messages",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "Warns about QR codes in phishing emails and recommends independent contact."
+        "scope": "Warns about QR codes in phishing emails and advises contacting the organization separately."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic case: parking sticker",
-        "situation": "At a public meter, a glossy QR sticker covers an older printed code. A nearby sign claims payment must happen in two minutes through a new website.",
-        "analysis": "The overlay and forced haste make the payment route untrustworthy. The sticker's neat design proves nothing. Use the operator's known app, another official payment method, or ask staff; do not enter a card on the scanned page.",
+        "title": "The parking sticker",
+        "situation": "At a public meter, a glossy QR sticker is stuck over an older printed code. A sign nearby says you must pay within two minutes, on a new website.",
+        "analysis": "A sticker over another code and a two-minute rush are enough to distrust this payment route, and neat printing proves nothing. Use the operator’s known app, another official way to pay, or ask staff. Do not enter a card on the page the code opens.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic case: legitimate café menu",
-        "situation": "A café has a QR printed inside its menus. Staff confirm it leads to a menu page. Your phone preview shows a short venue-specific address; the page asks for no login or payment.",
-        "analysis": "The placement and staff confirmation support the benign explanation. You can still choose a paper menu. A code is not inherently malicious, but if the destination unexpectedly asks for an account or card, stop and ask staff again.",
+        "title": "The café menu",
+        "situation": "A café prints a QR code inside its menus. Staff confirm it leads to the menu page. Your phone’s preview shows a short address specific to the venue, and the page asks for no login or payment.",
+        "analysis": "Where the code sits and what staff say both support the ordinary explanation, and you can always ask for a paper menu anyway. A code is not dangerous in itself. If the page suddenly asks for an account or a card, stop and ask staff again.",
         "legitimate": true
       },
       {
         "type": "practice",
         "title": "At the museum desk",
-        "setup": "Synthetic exercise. A visitor sees a QR for a timed-entry ticket. There is no live QR to scan.",
+        "setup": "An invented exercise. A visitor sees a QR code for a timed-entry ticket. There is no live code to scan.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "A sticker on the entrance sign says “scan to avoid losing your slot.” What do you inspect?",
+            "prompt": "A sticker on the entrance sign says “scan to avoid losing your slot.” What do you look at?",
             "choices": [
               {
-                "text": "Scan immediately because the time pressure sounds official.",
-                "consequence": "You let the sign choose a payment route before verification.",
-                "explanation": "Urgency does not authenticate a sticker.",
+                "text": "Scan at once; a deadline sounds official.",
+                "consequence": "You let the sign choose your payment route before checking anything.",
+                "explanation": "Urgency does nothing to prove a sticker is genuine.",
                 "recommended": false
               },
               {
-                "text": "Look for an overlay and compare with the museum's existing ticket/app instructions.",
-                "consequence": "You check placement and purpose first.",
-                "explanation": "A physical surface can be altered.",
+                "text": "Look for an overlay, and compare it with the ticket or app instructions the museum already gave you.",
+                "consequence": "You check where the code sits and what it is for before anything else.",
+                "explanation": "A physical surface can be tampered with.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The sticker appears layered over an older code. Next move?",
+            "prompt": "The sticker seems to be layered over an older code. What next?",
             "choices": [
               {
-                "text": "Ask desk staff or use the ticket already in your app.",
-                "consequence": "You obtain a separate route to the same task.",
-                "explanation": "Staff or a known app can clarify without the sticker.",
+                "text": "Ask the desk staff, or open the ticket you already hold in your app.",
+                "consequence": "You get a second route to the same task.",
+                "explanation": "Staff or a known app can clear it up without the sticker.",
                 "recommended": true
               },
               {
-                "text": "Use the layered code because it is on museum property.",
-                "consequence": "A public surface is mistaken for authorization.",
-                "explanation": "Anyone with access may place a sticker.",
+                "text": "Use it anyway; it is on museum property.",
+                "consequence": "You mistake a public surface for permission.",
+                "explanation": "Anyone with access can stick something on a wall.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Staff say tickets never require another payment, but the preview shows https://museum-entry-pay.example. What now?",
+            "prompt": "Staff say tickets never need a further payment, but the preview shows https://museum-entry-pay.example. What now?",
             "choices": [
               {
-                "text": "Do not open it; tell staff where the sticker is.",
-                "consequence": "They can inspect and remove the suspicious code.",
-                "explanation": "The preview and staff answer together justify stopping.",
+                "text": "Do not open it, and show staff where the sticker is.",
+                "consequence": "They can inspect it and take it down.",
+                "explanation": "The preview and the staff’s answer together are reason enough to stop.",
                 "recommended": true
               },
               {
-                "text": "Open it to see the fee amount.",
-                "consequence": "You move toward an unconfirmed payment form.",
-                "explanation": "The claimed payment contradicts the verified process.",
+                "text": "Open it to see how much it asks.",
+                "consequence": "You step toward a payment form nobody has confirmed.",
+                "explanation": "A demand for money contradicts the process staff just confirmed.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Imagine you already entered card details before asking. What action matters?",
+            "prompt": "Imagine you had already typed in your card details before you asked anyone. What matters now?",
             "choices": [
               {
-                "text": "Wait for an actual charge before doing anything.",
-                "consequence": "You delay a possible card-fraud response.",
-                "explanation": "Contacting the issuer promptly is more useful than waiting.",
+                "text": "Wait until a charge actually appears before doing anything.",
+                "consequence": "You put off the response to possible card fraud.",
+                "explanation": "Calling the issuer promptly beats waiting.",
                 "recommended": false
               },
               {
-                "text": "Contact your card issuer through its known app/number and review transactions.",
-                "consequence": "The issuer can advise on the card and charges.",
-                "explanation": "Describe exactly what you entered; follow local issuer procedures.",
+                "text": "Contact your card issuer through its app or a number you already know, and review the transactions.",
+                "consequence": "The issuer can advise on the card and the charges.",
+                "explanation": "Say exactly what you entered, and follow the issuer’s own procedure.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The important evidence was the changed physical surface and the museum's independent answer. Previewing helped, but the destination alone did not prove legitimacy. Retry any choice driven by the sticker's urgency."
+        "debrief": "What counted was the changed surface and the museum’s own answer. The preview helped, but a destination alone proved nothing about honesty. Go back to any choice that the sticker’s urgency made for you."
       },
       {
         "type": "check",
         "title": "Choose a QR response",
         "questions": [
           {
-            "prompt": "A workplace email says to scan a QR to renew a password. What is the safer route?",
+            "prompt": "A workplace email says to scan a QR code to renew your password. What is the safer route?",
             "choices": [
               {
-                "text": "Open the established work sign-in portal or ask IT through its known channel.",
-                "explanation": "The account task can be checked without the emailed code.",
+                "text": "Open the work sign-in portal you normally use, or ask IT through its known channel.",
+                "explanation": "You can check the task without the code in the email.",
                 "correct": true
               },
               {
-                "text": "Scan because QR images are screened more thoroughly than links.",
-                "explanation": "The QR still encodes a destination that needs verification.",
+                "text": "Scan it; QR images get screened more thoroughly than links.",
+                "explanation": "The code still holds an address that needs checking.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A restaurant's printed menu uses a QR confirmed by staff. What is reasonable?",
+            "prompt": "A restaurant’s printed menu has a QR code that staff confirmed. What is reasonable?",
             "choices": [
               {
-                "text": "Treat every QR as proof of fraud.",
-                "explanation": "Legitimate codes are common; context matters.",
+                "text": "Treat every QR code as proof of fraud.",
+                "explanation": "Honest codes are common; context decides.",
                 "correct": false
               },
               {
-                "text": "Use or decline it, and stop if it unexpectedly asks for sensitive data.",
-                "explanation": "Confirmation helps, but the requested action still matters.",
+                "text": "Use it or decline it, and stop if it unexpectedly asks for sensitive data.",
+                "explanation": "Confirmation helps, but what the page asks still matters.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A scanner shows a plausible first address, then the page redirects to a card form. What must be checked?",
+            "prompt": "A scanner shows a plausible first address, then the page redirects to a card form. What must you check?",
             "choices": [
               {
-                "text": "The final browser address and whether the payment request matches a known process.",
-                "explanation": "The recipient at the moment of entry is decisive.",
+                "text": "The final address in the browser, and whether the payment request matches a process you know.",
+                "explanation": "What counts is who receives your details at the moment you enter them.",
                 "correct": true
               },
               {
-                "text": "Nothing; the first preview was plausible.",
-                "explanation": "A redirect can change the recipient.",
+                "text": "Nothing; the first address looked fine.",
+                "explanation": "A redirect can change who receives your details.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "You scanned a suspicious code but entered no information. What can you conclude?",
+            "prompt": "You scanned a suspicious code but entered nothing. What follows?",
             "choices": [
               {
-                "text": "You definitely lost the account.",
-                "explanation": "Scanning alone does not establish credential disclosure.",
+                "text": "That you have definitely lost the account.",
+                "explanation": "Scanning alone does not mean a password was disclosed.",
                 "correct": false
               },
               {
-                "text": "Stop interacting, close the page and assess whether anything was entered or downloaded.",
-                "explanation": "The response depends on actual exposure.",
+                "text": "Stop interacting, close the page, and work out whether you entered or downloaded anything.",
+                "explanation": "What you do next depends on what was actually exposed.",
                 "correct": true
               }
             ]

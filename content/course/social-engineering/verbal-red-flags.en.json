@@ -1,154 +1,154 @@
 {
   "order": 6,
-  "title": "Verbal red flags in real conversations",
+  "title": "Verbal red flags: what you are asked to give up",
   "est_minutes": 13,
-  "body_md": "## Listen for a request to give up control\n\nA suspicious conversation is rarely identified by one magic phrase. A caller may be polite and grammatical; a genuine support agent may use words like “urgent” or “verification.” Instead, track what the speaker asks you to surrender: time to think, the ability to consult someone else, control of your device, an account code, or freedom to use an official channel. The UK NCSC says polished messages can fool even experts; errors in spelling are no longer a reliable test.\n\nSeveral phrases deserve a deliberate stop. “Do not tell anyone” isolates you. “Stay on the line while you transfer” prevents independent checking. “I know your address and last four digits” turns ordinary or leaked data into a false identity proof. “Read the code I just sent” may allow access to your account. “Install remote support so I can fix this” hands over device control. FTC guidance describes unsolicited tech-support calls and remote-access requests as a scam pattern. A legitimate IT department may use remote tools after you initiate a verified support ticket, so the tool name alone is not a universal verdict; the unexpected request and absence of independent approval are the problem.\n\nA move to another app is also contextual. Friends and real businesses sometimes change channels. But if the move hides a financial request from the platform’s records or your workplace process, ask why. An actual bank’s fraud team may need to discuss a card issue, yet you can call the bank through its own contact details and work through its real procedure. Do not recite a one-time code or share your screen because an inbound caller knows a detail about you.\n\nUse a neutral exit rather than an argument: “I will contact the organization through the route I already use.” Then end the exchange. If the situation concerns a device you already gave remote access to, disconnect the session and use trusted support for recovery; do not keep following instructions from the same caller. If a code or password was shared, use the account provider’s verified recovery flow promptly. The point is not to label every awkward conversation a scam. It is to preserve a chance to verify before control changes hands.",
+  "body_md": "## The hand that reaches for the wheel\n\nA passenger can say what they like. “Left here.” “We’re late.” “Watch that cyclist.” That is conversation. The trouble starts when the passenger leans across and takes hold of the wheel.\n\nA suspicious conversation is seldom given away by a single phrase. The caller may be courteous and grammatical, and a genuine support agent will sometimes say “urgent” or “verification.” The UK NCSC says polished scams can fool even experts, and that bad spelling is no longer a dependable tell. So listen for what you are being asked to surrender: time to think, the chance to ask someone else, control of your device, an account code, the freedom to use the official channel.\n\n### Five phrases that deserve a full stop\n\n“Don’t tell anyone” cuts you off from the people who might tell you to wait. “Stay on the line while you transfer” leaves you no way to check anything on your own. “I know your address and the last four digits of your card” turns ordinary or leaked information into a false proof of identity. “Read me the code I just sent” can open your account. “Install this remote support tool so I can fix it” hands over your device. The FTC describes unsolicited tech-support calls and requests for remote access as a familiar scam pattern.\n\nThe name of a tool settles nothing, though. A company’s IT department may well use remote software, once you have opened a ticket and the session has been verified. What gives the scam away is the request nobody invited, with no independent person to approve it.\n\n### Ordinary moves that deserve a second look\n\nA change of app is a matter of context too. Friends do it, and so do real businesses. Ask why when the move takes a money request out of the platform’s records or your workplace’s process. A bank’s fraud team may truly need to talk to you about a card, but you can call the bank on its own contact details and work through its real procedure. And don’t read out a one-time code or share your screen just because the person who called you happens to know something about you.\n\n### A polite way out\n\nYou don’t need to argue. One neutral sentence is enough: “I’ll contact the organization the way I always do.” Then end the exchange. If you have already given someone remote access, disconnect the session and get recovery help from support you trust, not from the same caller. If a code or password has gone out, start the account provider’s verified recovery flow at once. None of this means every awkward conversation is a scam. It means keeping your chance to check alive up to the moment control changes hands.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20-r2",
-    "goal": "Identify conversational moves that remove independent control and exit to a verified channel before sharing access, codes or money.",
-    "today_action": "Rehearse one exit sentence aloud and save the real support route for an account or device you use.",
+    "goal": "Spot the conversational moves that take away your independent control, and leave for a verified channel before you share access, a code or money.",
+    "today_action": "Say one exit sentence out loud until it comes easily, and save the real support contact for one account or device you rely on.",
     "checked_at": "2026-10-20",
-    "scope": "General conversational safety. NCSC guidance is UK-facing and FTC tech-support guidance is US-facing; workplace remote-support procedures vary by organization.",
+    "scope": "Everyday conversational safety. The NCSC guidance is written for the UK and the FTC tech-support guidance for the US; remote-support rules at work differ from one organization to the next. The scenarios are invented.",
     "sources": [
       {
-        "title": "UK NCSC — how to spot a scam message or call",
+        "title": "UK NCSC: how to spot a scam message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK public guidance, published 2021, reviewed 2022; cues and independent contact, not a diagnostic test."
+        "scope": "British public guidance, published in 2021 and reviewed in 2022. Warning signs and independent contact: cues to weigh, not a test that gives a verdict."
       },
       {
-        "title": "US FTC — tech support scams",
+        "title": "US FTC: tech support scams",
         "url": "https://consumer.ftc.gov/articles/how-spot-avoid-and-report-tech-support-scams",
-        "scope": "US consumer guidance; unsolicited remote-access requests and trusted support paths."
+        "scope": "US consumer guidance on unsolicited remote-access requests and on support routes you can trust."
       },
       {
-        "title": "US FTC — unexpected calls about money at risk",
+        "title": "US FTC: unexpected calls about money at risk",
         "url": "https://consumer.ftc.gov/consumer-alerts/2026/01/how-handle-unexpected-calls-claim-your-money-risk",
-        "scope": "US consumer alert (January 2026); call back using an existing card, statement, app or official site."
+        "scope": "US consumer alert (January 2026). Call back using the number on your card or statement, your app or the official site."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Synthetic: surprise “security technician”",
-        "situation": "An unsolicited caller says your laptop is leaking data. They ask you to install remote-access software, keep the call secret, and read an account code during setup.",
-        "analysis": "The combination removes independent control: device access, isolation and an account credential. End the call without installing or sharing. If you already granted access, disconnect and contact trusted IT or the device provider through an established route.",
+        "title": "The security technician nobody sent for",
+        "situation": "Your phone rings and a stranger says your laptop is leaking data. He asks you to install remote-access software, to keep the call to yourself, and to read out an account code while the setup runs.",
+        "analysis": "Three demands arrive together: access to your device, silence, and a credential. Each one removes a way for you to check. End the call without installing or sharing anything. If you have already granted access, disconnect and contact trusted IT staff or the device maker through a route you knew beforehand.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "Synthetic: approved workplace support session",
-        "situation": "You opened a ticket through the company portal. A technician responds inside the ticket, and you independently confirm the session ID with known IT staff before approving a time-limited remote session.",
-        "analysis": "A remote tool can be legitimate in a verified support workflow. Keep control of the session, follow your organization’s policy, and stop if the technician requests unrelated banking details or codes. The tool name alone does not classify the interaction.",
+        "title": "A remote session you asked for",
+        "situation": "You opened a ticket on the company portal. The technician replies inside that ticket, and before you approve a time-limited remote session you confirm the session ID with an IT colleague you already know.",
+        "analysis": "A remote tool can belong to a verified support process, and here you started the process and checked it yourself. Stay in control of the session, follow your organization’s policy, and stop at once if the technician asks for banking details or codes unrelated to the fix. The name of the tool decides nothing.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "The support conversation",
-        "setup": "Three separate fictional inbound support attempts test isolation, an unexpected code and remote access. In the first, you encounter a login error and open a support ticket before an unsolicited caller claiming support rings. Each next prompt resets to a new contact, so ending one call does not resume it.",
+        "title": "When support calls you",
+        "setup": "Three separate support calls, all invented, each applying a different pressure: being kept on the line, a one-time code, and remote access. In the first, you have hit a login error and opened a support ticket, and then someone claiming to be support calls you out of the blue. Every new question starts a fresh call, so one you ended does not pick up again.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "They mention the login error and say, “Please stay with me; the case will disappear if you hang up.” What do you do?",
+            "prompt": "The caller mentions your login error and says, “Please stay with me. If you hang up, the case will disappear.” What do you do?",
             "choices": [
               {
-                "text": "Ask for a non-sensitive case description, end the call, and open the provider’s support route yourself.",
-                "consequence": "You preserve the problem but move authentication outside the call.",
-                "explanation": "A real case should be visible or confirmable through the provider’s normal channel.",
+                "text": "Ask what case they mean, give nothing away, hang up, and open the provider’s support page yourself.",
+                "consequence": "Your problem survives the hang-up, and the question of who is helping you now gets settled outside the call.",
+                "explanation": "A real case can be seen, or confirmed, through the provider’s normal channel.",
                 "recommended": true
               },
               {
-                "text": "Stay because the timing proves they see your case.",
-                "consequence": "You lose the chance to verify the caller’s identity.",
-                "explanation": "Coincidence or leaked account activity can be used as part of a story.",
+                "text": "Stay on. They know about your ticket, so they must be able to see it.",
+                "consequence": "You lose your chance to find out who this really is.",
+                "explanation": "A coincidence of timing, or account details that leaked, is all a caller needs for a convincing opening.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate new support call: a one-time code arrives on your phone, and the caller asks you to read it back. What now?",
+            "prompt": "A different support call. A one-time code arrives on your phone, and the caller asks you to read it out. What now?",
             "choices": [
               {
-                "text": "Read it; support initiated the code.",
-                "consequence": "The code may authorize a login or recovery. If shared, contact the provider through its established route promptly to secure the account.",
-                "explanation": "Do not disclose a code generated by a request you did not initiate in a verified flow.",
+                "text": "Read it out. Support started this, so they need it.",
+                "consequence": "The caller can use that code to approve a sign-in or an account recovery; contact the provider at once through a route you already use, and secure the account.",
+                "explanation": "Never read out a code from a process you did not start yourself through a verified channel.",
                 "recommended": false
               },
               {
-                "text": "Keep the code private and do not enter it into a page the caller supplied.",
-                "consequence": "You avoid handing over an authentication step.",
-                "explanation": "Check your account through its own app or support if concerned.",
+                "text": "Keep the code to yourself and don’t type it into any page the caller gives you.",
+                "consequence": "The authentication step stays in your hands.",
+                "explanation": "If you are worried, look at your account in its own app, or ask the provider’s support.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Another separate unsolicited support caller offers remote software as an “easier fix.” What is the best response?",
+            "prompt": "A third support call, unasked. The caller offers remote-access software as “the easier fix.” What is the best reply?",
             "choices": [
               {
-                "text": "Decline the inbound setup and, if needed, start a fresh ticket in the known support portal.",
-                "consequence": "Any future remote session can be approved under the real process.",
-                "explanation": "This does not rule out legitimate technical help; it changes who controls its start.",
+                "text": "Decline to install anything on an incoming call. If you need help, open a ticket in your usual support portal.",
+                "consequence": "Any remote session that comes later can be approved under the real process.",
+                "explanation": "This does not turn away genuine technical help. It changes who starts the process and who controls it.",
                 "recommended": true
               },
               {
-                "text": "Install it because a remote session is always standard support.",
-                "consequence": "You could surrender device control to an unverified caller.",
-                "explanation": "Remote support may be legitimate only within a confirmed, initiated process.",
+                "text": "Install it. A remote session is standard support.",
+                "consequence": "You could be handing control of your device to someone you have not verified.",
+                "explanation": "Remote help is legitimate inside a confirmed process that you started.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Debrief: each contact is a fresh snapshot, not the continuation of a call you ended. Isolation, codes and device control each deserve an independent check. If a code was already disclosed, use the provider’s verified account-recovery route promptly; replay to practise stopping before disclosure."
+        "debrief": "Each call stands alone; none of them continues one you hung up on. Each pressed somewhere different: the line, a code, a remote session. Each is a point where a quick independent check belongs. If a code has already been read out, the answer is the provider’s verified recovery route, and soon. Replay the choices and notice where you stopped before handing anything over."
       },
       {
         "type": "check",
-        "title": "Hear the move",
+        "title": "Listen for the move",
         "questions": [
           {
-            "prompt": "A technician on a ticket you opened asks for an approved remote session. Is “remote access” alone proof of fraud?",
+            "prompt": "A technician answers the ticket you opened and asks you to approve a remote session. Is “remote access” on its own proof of fraud?",
             "choices": [
               {
-                "text": "Yes; no legitimate team ever uses remote tools.",
-                "explanation": "Verified support teams can use them under policy.",
+                "text": "Yes. No legitimate team ever uses remote tools.",
+                "explanation": "Verified support teams use them under policy.",
                 "correct": false
               },
               {
-                "text": "No; confirm the ticket and technician through your established process before approving.",
-                "explanation": "Correct: context and independent approval matter.",
+                "text": "No. Confirm the ticket and the technician through your usual process before you approve.",
+                "explanation": "Context and independent approval are what count.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "An inbound caller quotes your address and asks for a one-time code. What matters most?",
+            "prompt": "A caller who phoned you quotes your home address and asks for a one-time code. What matters most?",
             "choices": [
               {
-                "text": "Do not share the code; reach the service through its established route.",
-                "explanation": "Correct: knowing personal details is not identity proof.",
+                "text": "Don’t share the code; reach the service by a route you already use.",
+                "explanation": "Knowing personal details is not proof of identity.",
                 "correct": true
               },
               {
-                "text": "Share it because the address proves access to your account.",
-                "explanation": "The address could have come from many sources.",
+                "text": "Share it, since the address proves they can see your account.",
+                "explanation": "An address can come from many places.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A friend asks to continue chatting in another app, with no access or money request. What follows?",
+            "prompt": "A friend asks to carry on the chat in another app. Nothing is said about access or money. What follows?",
             "choices": [
               {
-                "text": "The app switch itself proves deception.",
-                "explanation": "Ordinary conversations can move apps.",
+                "text": "Switching apps proves it is a scam.",
+                "explanation": "Ordinary conversations change apps all the time.",
                 "correct": false
               },
               {
-                "text": "Keep normal boundaries; assess any later sensitive request separately.",
-                "explanation": "Correct: a cue is not a verdict without the action and context.",
+                "text": "Keep your usual boundaries and judge any later sensitive request on its own.",
+                "explanation": "A cue is not a verdict until you see what is being asked and in what context.",
                 "correct": true
               }
             ]

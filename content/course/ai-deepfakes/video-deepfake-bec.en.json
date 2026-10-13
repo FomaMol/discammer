@@ -1,149 +1,149 @@
 {
   "order": 3,
-  "title": "Video deepfakes in business email compromise",
+  "title": "Video deepfakes and business email compromise",
   "est_minutes": 15,
-  "body_md": "## A meeting is another channel, not a payment authorisation\n\nBusiness email compromise (BEC) aims to redirect a transfer or change the account behind a real invoice. An attacker may control a lookalike address, a compromised mailbox, a chat account or a meeting invitation. A video can add social proof, but the decision still concerns *who authorised this exact payment to this exact beneficiary*.\n\nIn a January 2024 case described by the Hong Kong Government in June that year, a worker received a phishing email purporting to be a UK CFO. The worker saw a **pre-recorded fabricated group conference**, authorised transfers to five local accounts, and received further instructions by instant message. The reported loss was about HK$200 million; the case was still under investigation at the time of the official reply. This is a documented example of a recorded presentation, not evidence that the impostors held a live interactive discussion. Our exercises below are fictional.\n\nAn attacker can choose the meeting platform and arrange familiar faces and voices. Another legitimate explanation for odd video is compression, a virtual background or poor lighting. Asking someone to turn their head may raise a concern but cannot authorise a wire: a convincing recording may not show artifacts, and a real colleague may freeze on screen. Treat a call as information about a request, not as the control that releases money.\n\nFor a payment or beneficiary change, compare the new instructions with the existing vendor record. Use a known number from records created before the request, obtain the required separate approval, and record what was verified. A message from a genuine internal account is not always enough if that account is compromised. If a manager cannot be reached, hold the change and escalate by the documented route. Confidentiality is never a reason to bypass that route. If a transfer has already gone out, contact the bank immediately to ask about recall; recovery is uncertain.\n\n**Practical boundary:** use the same control for a normal call, a video call and a polished email. The technology of the impersonation can change; the beneficiary verification and authority chain should not.",
+  "body_md": "## Familiar faces, a changed account\n\nPicture a video grid of familiar faces, the finance director's among them, and a chat message saying a supplier's bank account changed this morning. Everyone looks calm. Nobody has checked the one thing that matters.\n\nBusiness email compromise (BEC) aims to redirect a transfer, or to change the account behind a real invoice. The attacker may control a lookalike address, a hijacked mailbox, a chat account or a meeting invitation. Video adds the look of proof, but the decision turns on a different question: **who authorised this exact payment to this exact beneficiary?**\n\n### One documented case\n\nIn January 2024, according to the account the Hong Kong Government gave in June that year, a worker received a phishing email that claimed to come from the CFO of the company's UK head office. The worker then watched a **pre-recorded, fabricated group conference**, authorised transfers to five local accounts and received further instructions by instant message. The reported loss was about HK$200 million, and the case was still under investigation when the official reply was given. It is a documented example of a recording standing in for a meeting, not evidence that the impostors held a live discussion. The exercises below are invented.\n\nAn attacker can choose the meeting platform and line up familiar faces and voices. Odd video can also have a dull cause: compression, a virtual background, poor lighting. Asking someone to turn their head may raise a concern, but it clears no payment either way. A convincing recording can show no seams, and a real colleague can freeze on screen. A call tells you about a request. It is not the control that releases money.\n\n### What actually releases the money\n\nFor a payment or a change of beneficiary, compare the new instructions with the existing vendor record. Call a number from records created before the request arrived. Get the separate approval your procedure requires, and write down what you verified. A message from a genuine internal account is not always enough, because the account itself may be compromised. If a manager cannot be reached, hold the change and escalate by the documented route; confidentiality is never a reason to skip it. If a transfer has already gone out, call the bank at once and ask about a recall. Recovery is not certain.\n\n**In practice:** use the same control for an ordinary call, a video call and a polished email. The impersonation technique will keep changing; the check on the beneficiary and the chain of authority should not.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Apply payment-change controls even when a request is presented in a convincing video meeting.",
-    "today_action": "Find your organisation’s existing rule for approving a new beneficiary and identify the independent callback contact.",
+    "goal": "Apply payment-change controls even when the request arrives in a convincing video meeting.",
+    "today_action": "Find your organisation’s rule for approving a new beneficiary, and name the independent contact you would call back.",
     "checked_at": "2026-10-20",
-    "scope": "Workplace education; the Hong Kong example is a dated 2024 official account and US IC3 advice is jurisdiction-specific. Follow your own employer and bank procedures.",
+    "scope": "Workplace education. The Hong Kong example is a dated official account from 2024, and the US IC3 advice applies to the US. Follow your own employer’s and bank’s procedures. The cases and the exercise below are invented.",
     "sources": [
       {
         "title": "Hong Kong Government: Legislative Council reply on deepfake fraud",
         "url": "https://www.info.gov.hk/gia/general/202406/26/P2024062600192p.htm",
-        "scope": "Dated 26 June 2024; reports a January case with a prerecorded fabricated conference and later messaging instructions. Investigation was ongoing at that date; not a live interactive-call example."
+        "scope": "Dated 26 June 2024. Reports a January case with a pre-recorded, fabricated conference and later instructions by messaging. The investigation was still under way at that date, and the case is not an example of a live interactive call."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US guidance for transfer and account-change requests; secondary-channel verification and urgent bank contact after a suspected transfer. Organisational and national procedures vary."
+        "scope": "US guidance on transfer and account-change requests: verify through a second channel, and contact the bank urgently after a suspected transfer. Organisational and national procedures vary."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "The “CFO” confirms a new account on video",
-        "situation": "A synthetic meeting shows the CFO and two colleagues; a chat message says a supplier’s bank account changed this morning and a transfer must happen now.",
-        "analysis": "Multiple faces and the chat are not independent approval. Hold the change, call the supplier and CFO using pre-existing records, and complete the separate sign-off. The video could be generated, recorded or genuine with a compromised account; the control is the same.",
+        "title": "The “CFO” on camera, a new account in the chat",
+        "situation": "A video meeting shows the CFO and two colleagues. In the chat, a message says a supplier’s bank account changed this morning and the transfer has to go out now.",
+        "analysis": "Several faces and a chat message add up to one source, not two approvals. Hold the change, call the supplier and the CFO on numbers from existing records, and complete the separate sign-off. The video could be generated, recorded, or real and sitting on a compromised account; the control is the same.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A legitimate call has strange lighting",
-        "situation": "Synthetic example: A known vendor on a routine video call freezes and appears out of sync. The existing invoice and destination account are unchanged.",
-        "analysis": "Compression can cause these effects. Do not call the vendor a fraudster from pixels alone. Reconnect through the established meeting route if the conversation matters, and continue normal invoice checks.",
+        "title": "A real vendor, a bad connection",
+        "situation": "On a routine video call, a vendor you know freezes, and the picture drifts out of step with their voice. The invoice on the table and the destination account are unchanged.",
+        "analysis": "Weak connections and heavy compression do this all the time. Do not call the vendor a fraudster on the evidence of pixels. If the conversation matters, reconnect through the usual meeting route, and carry on with the normal invoice checks.",
         "legitimate": true
       },
       {
         "type": "practice",
         "title": "The acquisition meeting",
-        "setup": "Synthetic scenario: a fictional finance team receives an invitation to an urgent video meeting about a changed escrow recipient. Each decision is a separate snapshot; actions in one do not carry into the next.",
+        "setup": "An invented scenario: the finance team of a company in the middle of an acquisition is invited to an urgent video meeting about a changed escrow recipient. Each decision is a fresh start; what you did in one does not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "A familiar face says the deal is confidential. What do you record?",
+            "prompt": "A familiar face says the deal is confidential. What do you write down?",
             "choices": [
               {
-                "text": "Only who appeared on screen",
-                "consequence": "The payment destination remains unchecked.",
-                "explanation": "Faces do not describe the account change.",
+                "text": "Only who appeared on screen.",
+                "consequence": "The account the money would go to is still unchecked.",
+                "explanation": "Faces do not describe an account change.",
                 "recommended": false
               },
               {
-                "text": "The exact new recipient and requested action",
-                "consequence": "You define the change requiring verification.",
-                "explanation": "A general “CFO approved” is too vague to validate the beneficiary.",
+                "text": "The exact new recipient and the action requested.",
+                "consequence": "You have pinned down the change that needs verifying.",
+                "explanation": "A vague “the CFO approved it” is too thin to check a beneficiary against.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: the invitation includes a supplier callback number. Which number do you use?",
+            "prompt": "A fresh start: the invitation includes a callback number for the supplier. Which number do you use?",
             "choices": [
               {
-                "text": "Call the supplier through the number already in vendor records",
-                "consequence": "The call leaves the invitation’s controlled context.",
-                "explanation": "A number introduced with the change may belong to the attacker.",
+                "text": "Call the number already in the vendor records.",
+                "consequence": "The call steps outside the space the invitation controls.",
+                "explanation": "A number that arrives with the change may belong to the attacker.",
                 "recommended": true
               },
               {
-                "text": "Call the number in the invitation",
-                "consequence": "A cooperating voice confirms the same false instruction.",
-                "explanation": "This is a second call, but not an independent source.",
+                "text": "Call the number in the invitation.",
+                "consequence": "A cooperative voice confirms the same false instruction.",
+                "explanation": "That is a second call, but not an independent source.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: you call the supplier using the number already in vendor records, but get no answer. The meeting demands approval now. What do you do?",
+            "prompt": "A fresh start: you call the supplier on the number in the vendor records and nobody answers. The meeting is demanding approval now. What do you do?",
             "choices": [
               {
-                "text": "Hold the beneficiary change and use the escalation/sign-off route",
-                "consequence": "The deadline passes without an unverified transfer.",
-                "explanation": "No response is not consent; confidentiality does not suspend controls.",
+                "text": "Hold the beneficiary change and take it through the escalation and sign-off route.",
+                "consequence": "The deadline passes, and no unverified transfer goes out.",
+                "explanation": "No answer is not consent, and confidentiality does not suspend controls.",
                 "recommended": true
               },
               {
-                "text": "Approve because the group call counts as two witnesses",
-                "consequence": "In this simulation the funds go to the wrong recipient.",
-                "explanation": "Participants inside one meeting may share the same compromised source.",
+                "text": "Approve it: a group call counts as two witnesses.",
+                "consequence": "In this exercise the funds go to the wrong recipient.",
+                "explanation": "Everyone inside one meeting may come from the same compromised source.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "The Hong Kong case shows why video cannot itself serve as the payment control. This fictional exercise adds independent vendor verification and a separate approval. Retry any step to compare consequences."
+        "debrief": "The Hong Kong case shows why video cannot be the payment control. This invented exercise adds the two things that do the work: a vendor check through records that predate the request, and a separate approval. Replay any step and compare where the money ends up."
       },
       {
         "type": "check",
-        "title": "Check the control",
+        "title": "Testing the control",
         "questions": [
           {
-            "prompt": "Does a live-looking group call prove a payment change is authorised?",
+            "prompt": "Does a live-looking group call prove that a payment change is authorised?",
             "choices": [
               {
-                "text": "No; verify beneficiary and authority through separate records",
-                "explanation": "Media appearance and payment authority are different questions.",
+                "text": "No; verify the beneficiary and the authority through separate records.",
+                "explanation": "How a video looks and who may authorise a payment are different questions.",
                 "correct": true
               },
               {
-                "text": "Yes, if several colleagues appear",
-                "explanation": "Several images can be supplied through one controlled call.",
+                "text": "Yes, if several colleagues appear.",
+                "explanation": "Several faces can all be fed through one controlled call.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "The vendor’s camera glitches during a routine unchanged invoice. What follows?",
+            "prompt": "The vendor’s camera glitches during a routine call about an unchanged invoice. What follows?",
             "choices": [
               {
-                "text": "Declare the vendor a deepfake",
-                "explanation": "Compression artifacts are not a reliable verdict.",
+                "text": "Declare the vendor a deepfake.",
+                "explanation": "Compression artefacts are no reliable verdict.",
                 "correct": false
               },
               {
-                "text": "Continue normal checks and reconnect if needed",
-                "explanation": "A glitch can be benign and does not settle identity or fraud.",
+                "text": "Carry on with the normal checks, and reconnect if needed.",
+                "explanation": "A glitch can be harmless, and it settles neither identity nor fraud.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A transfer was made to a suspected impostor account. First practical response?",
+            "prompt": "A transfer has gone to a suspected impostor account. What is the first practical step?",
             "choices": [
               {
-                "text": "Wait for the meeting organiser to explain",
-                "explanation": "Delay can reduce the chance of any recovery.",
+                "text": "Wait for the meeting organiser to explain.",
+                "explanation": "Delay can cut the chance of getting anything back.",
                 "correct": false
               },
               {
-                "text": "Contact the sending bank promptly about recall",
-                "explanation": "Timing matters, though recovery is not guaranteed.",
+                "text": "Contact the sending bank at once about a recall.",
+                "explanation": "Speed matters, though nothing guarantees recovery.",
                 "correct": true
               }
             ]

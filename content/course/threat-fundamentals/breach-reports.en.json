@@ -1,191 +1,191 @@
 {
   "order": 5,
-  "title": "Reading breach reports without panic",
+  "title": "A breach in the news: what to read, what to do",
   "est_minutes": 15,
-  "body_md": "## Turn a headline into a decision\nA breach announcement can describe an intrusion, an investigation or confirmed exposure. A news headline may count all customers while only some records are affected. Read the organization’s notice from its own site or app and look for **who is affected**, **which fields**, **when the event and discovery occurred**, **what remains uncertain**, and **what steps the organization offers**. If the notice is vague, record the uncertainty rather than filling it with the worst scenario. Do not enter a real password into a “breach checker” linked from an unexpected email.\n\n### Match the action to the data\nIf a password or password verifier may have been exposed, change the affected service's password and any same or similar password elsewhere. Use unique passwords and MFA. A statement that passwords were “hashed” is not a blanket all-clear: protection depends on the scheme, salt, work factor, password strength and whether the hash database was actually obtained. NIST requires verifiers to use salted, costly password hashing for resistance to offline attacks; a notice may not disclose enough to assess it. Conversely, “hashed” does not automatically mean every password was cracked. Prioritize credential changes without inventing a cracking time.\n\nIf only names and email addresses were exposed, watch for targeted approaches and verify future account messages independently. Do not assume an immediate takeover. If payment or identity data was exposed, use the provider's and your bank's official channels for the relevant protective steps. Credit freezes and IdentityTheft.gov are US procedures; other countries have different systems. If a card was involved, contact its issuer for advice rather than promising that every card must be replaced. If you see an unauthorized transaction, act promptly and follow the issuer's dispute process.\n\n### Read numbers carefully\nThe FTC's 2024 Consumer Sentinel book summarizes reports submitted to a US law-enforcement database. The FTC says these are **unverified reports, not a population survey**. They cannot tell you the probability that your own account was affected by a particular breach. A breach-monitoring service can show known exposures associated with an address, but absence from its database is not proof that no breach occurred; its coverage and update timing are limited. Use a service's own notice and account checks together.\n\n### Distinguish a notice from bait\nA real provider may notify you by email. That does not mean its links should lead the response. Open the provider’s app or typed site, find its security notice, and follow account-specific instructions. Keep the notice and the date if you need to discuss it with support. Avoid forwarding someone else's personal details into a classroom exercise or public forum.\n\n**A calm sequence:** verify the notice, classify the data, protect affected accounts or payments, monitor the specific risk, then stop when the concrete actions are done.",
+  "body_md": "## The headline is not your exposure\n\nThe headline lands over breakfast: a service you use has been breached, millions affected. Your stomach drops before you have read a word of the article. A car recall works the same way. “Two million vehicles” tells you nothing until you know whether yours is among them, which part is faulty and what the garage will do about it. A breach notice answers those questions too, if you know where to look.\n\nStart with the organization’s own notice, on its site or in its app, and check what kind of announcement it is: an intrusion, an investigation and a confirmed exposure are three different statements. A news story may count every customer when only some records were touched. In the notice, look for **who is affected**, **which data**, **when it happened and when it was found**, **what is still uncertain** and **what the organization will do about it**. If the notice is vague, write the uncertainty down instead of filling the gap with the worst case. And never type a real password into a “breach checker” you reached from an unexpected email.\n\n### What was taken decides what you do\n\nIf a password, or the scrambled form a service stores in its place (a hash), may have been exposed, change it on the affected service and change any identical or similar password elsewhere. Use a unique password for each account and turn on multi-factor authentication (MFA). “Hashed” is not an all-clear. How well a hash holds up depends on the scheme, the salt, the work factor, the strength of the password itself and whether the database was really obtained. NIST’s standard for identity services calls for passwords to be stored salted and run through a deliberately costly hash, so that guessing offline is slow, but a notice seldom says enough for you to judge. Nor does “hashed” mean every password has been cracked. Change the ones that matter, and don’t pretend to know how long a crack would take.\n\nIf only names and email addresses were exposed, expect approaches that use those details, and verify future account messages independently. Don’t assume a takeover is under way. If payment or identity data was exposed, use the official channels of the provider and your bank for the steps that fit. Credit freezes and IdentityTheft.gov are US-specific; other countries have different systems. If a card was involved, ask its issuer what to do rather than assuming every card must be replaced. And if you spot a transaction you didn’t make, act quickly and follow the issuer’s dispute process.\n\n### A count of reports is not a rate\n\nThe FTC’s Consumer Sentinel Network Data Book for 2024 sums up reports sent to a database that US law enforcement uses. The FTC says these are **unverified reports, not a population survey**, so they can’t tell you the odds that your own account was caught in a particular breach. A breach-monitoring service can show known exposures linked to an address, but not appearing there proves nothing: coverage is partial and updates lag. Weigh the service’s notice and your own account checks together.\n\n### Notice or bait?\n\nA real provider may well email you about a breach. That doesn’t make the email’s links the place to start. Open the provider’s app, or type its address yourself, find the security notice and follow the instructions for your own account. Keep the notice and its date in case you need to talk to support. And don’t pass someone else’s personal details on to a group chat or a public forum.\n\n**A calm sequence:** confirm the notice is real, work out what kind of data it covered, protect the accounts or payments tied to it, watch for the specific risk, and when the concrete jobs are done, stop.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Read a breach notice for affected status, exposed data, timing and recommended action, then match your response to the actual exposure.",
-    "today_action": "Check one important account for reused passwords and replace any reuse with a unique password; enable MFA where offered.",
+    "goal": "Read a breach notice for who is affected, what data was exposed, when it happened and what to do, then match your response to the exposure that actually occurred.",
+    "today_action": "Check one important account for a reused password, replace any reuse with a unique one, and turn on multi-factor authentication (MFA) where it is offered.",
     "checked_at": "2026-10-20",
-    "scope": "General reading method. FTC identity and credit remedies are US-specific; a notice, report count or lookup result does not prove misuse of your data.",
+    "scope": "A general method for reading notices. The examples are invented. The FTC’s identity and credit remedies are specific to the US, and no notice, report count or lookup result proves that your data has been misused.",
     "sources": [
       {
         "title": "FTC: Have you been affected by a data breach?",
         "url": "https://consumer.ftc.gov/consumer-alerts/2022/10/have-you-been-affected-data-breach-read",
-        "scope": "US consumer guidance, October 2022; adapt credit remedies locally"
+        "scope": "US consumer guidance from October 2022; adapt the credit remedies to your own country."
       },
       {
         "title": "FTC: Consumer Sentinel Network Data Book 2024",
         "url": "https://www.ftc.gov/reports/consumer-sentinel-network-data-book-2024",
-        "scope": "Unverified US consumer reports, not a population survey or breach registry"
+        "scope": "Unverified US consumer reports; not a population survey and not a breach registry."
       },
       {
         "title": "NIST SP 800-63B-4: Authenticators",
         "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
-        "scope": "US technical standard for identity-service implementers; password storage and authenticator properties"
+        "scope": "A US technical standard for people who build identity services; covers how passwords are stored and what authenticators must do."
       },
       {
         "title": "FTC: What to do if you were scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US consumer response by exposure/payment type; June 2026; local rights vary"
+        "scope": "US consumer guidance sorted by what was exposed or paid, as of June 2026; your local rights may differ."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A breach email demands immediate password entry",
-        "situation": "Synthetic: A message claims a music service lost customer passwords and offers `https://account-check.example` to “test” your current password. The service app has no notice yet.",
-        "analysis": "The claim might refer to a real incident, but entering a password into the linked page is unsafe. Open the service through its known app or address, look for its notice, and change a possibly exposed password there if warranted. Never test a live password in an unsolicited form.",
+        "title": "A breach email that wants your password",
+        "situation": "A message says a music service has lost its customers’ passwords and offers `https://account-check.example` as a place to “test” your current password. The service’s own app shows no notice yet.",
+        "analysis": "The incident itself may be real. The page is the trap: never type a live password into a form somebody sent you. Open the service through its app or an address you know, look for its notice there, and change the password there if that seems warranted.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A limited, genuine notification",
-        "situation": "Synthetic: A service posts a notice in its own app saying a vendor exposed names and postal areas, but no login credentials or card numbers. It explains the investigation is continuing.",
-        "analysis": "This may be a genuine limited incident. Check whether your record was included, stay alert for personalized messages, and revisit updates. Automatic password reset or card cancellation is not supported by the described fields, though unrelated password reuse still deserves fixing.",
+        "title": "A narrow notice, posted by the provider",
+        "situation": "A service posts a notice inside its own app: a vendor exposed names and postal areas, but no login details and no card numbers. The investigation is continuing.",
+        "analysis": "This looks like a genuine, limited incident. Find out whether your record was included, watch for messages tailored to you, and check back for updates. Nothing in the listed data calls for an automatic password reset or a canceled card, though a password you reuse elsewhere deserves fixing anyway.",
         "legitimate": true
       },
       {
         "type": "practice",
         "mode": "sequence",
-        "title": "Triage a synthetic breach notice",
-        "setup": "A service you use publishes a notice in its own app. The exercise contains no real personal data.",
+        "title": "Sorting a breach notice",
+        "setup": "A service you use has posted a notice in its own app. The scenario is invented and contains no real personal data.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "A news headline says “millions breached.” What do you read first?",
+            "prompt": "A headline says “millions breached.” What do you read first?",
             "choices": [
               {
-                "text": "Assume every personal record and card number leaked.",
-                "consequence": "You may take irrelevant actions and miss the actual issue.",
-                "explanation": "Headlines often lack field and affected-group detail.",
+                "text": "Assume every record and every card number has leaked.",
+                "consequence": "You could spend the day on the wrong problems and miss the real one.",
+                "explanation": "Headlines rarely say which data or which customers.",
                 "recommended": false
               },
               {
-                "text": "The provider’s own affected-group and data-field description.",
-                "consequence": "You separate a large headline from your exposure.",
-                "explanation": "Scale alone does not identify what happened to your account.",
+                "text": "The provider’s own description of who was affected and which data was involved.",
+                "consequence": "The size of the headline stops being the size of your risk.",
+                "explanation": "A big number doesn’t tell you what happened to your account.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "The notice says email addresses and salted password hashes may have been copied; details are incomplete. What now?",
+            "prompt": "The notice says email addresses and salted password hashes may have been copied, with few details. What now?",
             "choices": [
               {
-                "text": "Change this password and any reuse through the real service; enable MFA.",
-                "consequence": "You reduce credential risk despite uncertainty about cracking.",
-                "explanation": "A hashed database deserves action without claiming certain compromise.",
+                "text": "Change this password on the real service and anywhere you reused it, and turn on MFA.",
+                "consequence": "You cut the credential risk without needing to know whether the hashes can be cracked.",
+                "explanation": "A copied hash database calls for action, but not for announcing that your password is certainly cracked.",
                 "recommended": true
               },
               {
-                "text": "Do nothing because the word “salted” guarantees safety.",
-                "consequence": "Reuse and weak passwords may remain exposed.",
-                "explanation": "Protection depends on several factors.",
+                "text": "Do nothing; “salted” means safe.",
+                "consequence": "Reused and weak passwords stay exposed.",
+                "explanation": "How well hashes hold up depends on several things, and salt is only one of them.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A follow-up says card data was not in the affected system. What action fits?",
+            "prompt": "A follow-up says card data was not in the affected system. What fits?",
             "choices": [
               {
-                "text": "Cancel every card solely because this service had a breach.",
-                "consequence": "The action is unsupported by the stated exposure.",
-                "explanation": "A breach at one system does not imply all data types were stored there.",
+                "text": "Cancel every card, just because this service was breached.",
+                "consequence": "Nothing in the notice justifies the step.",
+                "explanation": "A breach in one system doesn’t mean every kind of data was kept there.",
                 "recommended": false
               },
               {
-                "text": "Check relevant accounts for unusual activity, but do not claim card replacement is mandated by this notice.",
-                "consequence": "Response stays tied to known fields.",
-                "explanation": "No card exposure has been reported here.",
+                "text": "Watch your statements for odd activity, and don’t treat this notice as a reason to replace your cards.",
+                "consequence": "Your response stays tied to the data that was actually named.",
+                "explanation": "The notice reports no card exposure.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A “security team” email asks you to re-enter the old password at a new link. What do you do?",
+            "prompt": "An email from the “security team” asks you to re-enter your old password at a new link. What do you do?",
             "choices": [
               {
-                "text": "Ignore the link and inspect messages inside the known app or contact verified support.",
-                "consequence": "You avoid an unrelated credential trap.",
-                "explanation": "A breach creates a plausible pretext for phishing.",
+                "text": "Ignore the link; look for messages inside the app you know, or reach verified support.",
+                "consequence": "You walk around a trap set for exactly this moment.",
+                "explanation": "A breach hands phishers a believable excuse.",
                 "recommended": true
               },
               {
-                "text": "Enter the old password to prove you are affected.",
-                "consequence": "The form receives a credential.",
-                "explanation": "A provider should not need your old password in an emailed form.",
+                "text": "Enter the old password to prove you were affected.",
+                "consequence": "The form now holds your credential.",
+                "explanation": "A provider has no reason to ask for your old password in an emailed form.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Replay with four columns: affected group, fields, uncertainty and action. The useful response changes when evidence about the fields changes; the independent route stays constant."
+        "debrief": "Run it again with four columns: who is affected, which data, what is still uncertain, what to do. The right action shifts when the facts about the data shift. The independent route stays the same."
       },
       {
         "type": "check",
-        "title": "Read beyond a breach headline",
+        "title": "Reading past the headline",
         "questions": [
           {
-            "prompt": "A report says “passwords were hashed” with no other details. What can you infer?",
+            "prompt": "A report says “passwords were hashed” and nothing more. What can you conclude?",
             "choices": [
               {
-                "text": "Neither guaranteed safety nor guaranteed cracking; change an affected or reused password.",
-                "explanation": "Scheme, salt, cost and actual exposure are unknown.",
+                "text": "Neither that they are safe nor that they are cracked; change a password that was affected or reused.",
+                "explanation": "The scheme, the salt, the cost and the real exposure are all unknown.",
                 "correct": true
               },
               {
-                "text": "Every password is certainly safe.",
-                "explanation": "Hashing quality varies.",
+                "text": "That every password is certainly safe.",
+                "explanation": "Hashing quality varies widely.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A US report book contains unverified consumer complaints. What does its count represent?",
+            "prompt": "A US data book collects unverified consumer reports. What does its count represent?",
             "choices": [
               {
-                "text": "The measured probability that any user will be scammed.",
-                "explanation": "The denominator and sampling are different.",
+                "text": "The measured probability that any given person will be scammed.",
+                "explanation": "A count of reports has no measured population behind it, so it can’t give a probability.",
                 "correct": false
               },
               {
-                "text": "Reports received, not a population incidence rate.",
-                "explanation": "Reporting and verification limits prevent that inference.",
+                "text": "Reports received, not a rate across the population.",
+                "explanation": "Only some people report, and the reports are unchecked, so the count can’t be turned into a rate.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A known breach search returns no match for your address. What follows?",
+            "prompt": "A search of known breaches finds no match for your address. What follows?",
             "choices": [
               {
-                "text": "No match in that service’s known data; continue normal account safeguards.",
-                "explanation": "Coverage is incomplete and can change.",
+                "text": "No match in that service’s known data; keep up your normal account safeguards.",
+                "explanation": "Its coverage is incomplete and keeps changing.",
                 "correct": true
               },
               {
-                "text": "Your address has never been exposed anywhere.",
-                "explanation": "Absence from one database is not universal proof.",
+                "text": "Your address has never turned up in any breach.",
+                "explanation": "Missing from one database doesn’t mean missing from all of them.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A verified notice lists names and postal areas but explicitly excludes passwords. Best immediate focus?",
+            "prompt": "A verified notice lists names and postal areas and expressly rules out passwords. Where should your attention go first?",
             "choices": [
               {
-                "text": "Tell everyone their passwords were stolen.",
-                "explanation": "The notice says otherwise.",
+                "text": "Tell everyone you know that their passwords were stolen.",
+                "explanation": "The notice says the opposite.",
                 "correct": false
               },
               {
-                "text": "Watch for tailored contact and follow updates, rather than claiming a forced password reset.",
-                "explanation": "The action matches described data while uncertainty remains visible.",
+                "text": "Watch for messages tailored to you and follow the updates; the notice gives no reason for a password reset.",
+                "explanation": "The response matches the data described, and the open questions stay open.",
                 "correct": true
               }
             ]

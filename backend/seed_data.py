@@ -234,59 +234,59 @@ COURSE_MODULES = [
         "difficulty": "Beginner",
         "translations": {
             "en": {
-                "title": "Threat Landscape Fundamentals",
+                "title": "Online Threats: The Basics",
                 "description": (
-                    "Map the modern threat landscape and learn how cybercriminals "
-                    "actually operate — from opportunistic phishing kits to "
-                    "organized fraud networks."
+                    "See who is behind online scams and how they work, from a "
+                    "single opportunist with a phishing kit to organized fraud "
+                    "networks."
                 ),
                 "difficulty": "Beginner",
                 "topics": [
-                    "Anatomy of a modern scam economy",
-                    "Attack vectors: email, SMS, voice, web",
-                    "Threat actors and their motivations",
+                    "How the scam economy works",
+                    "How scams reach you: email, SMS, voice, web",
+                    "Who the attackers are and what they want",
                     "Glossary: malware, phishing, ransomware, RAT",
-                    "Reading recent breach reports",
-                    "Case study: the 2024 deepfake CFO heist",
+                    "Reading breach reports without panic",
+                    "Case study: the 2024 deepfake CFO fraud",
                 ],
                 "objectives": [
-                    "Identify the four major scam delivery channels",
-                    "Explain why certain demographics are targeted",
-                    "Recognize the eight most common attack patterns",
+                    "Name the four main ways scams reach you",
+                    "Understand what scammers want from different targets",
+                    "Learn the patterns scams repeat across channels",
                 ],
                 "content": (
-                    "## Module 1 — Threat Landscape Fundamentals\n\n"
-                    "Welcome to DiScammer. Before you can defend yourself, you need a clear "
-                    "picture of who is attacking, what they want, and how they reach you. "
-                    "This module sets the foundation for everything that follows."
+                    "## Module 1 — Online Threats: The Basics\n\n"
+                    "Before you can defend yourself, it helps to know who is attacking, "
+                    "what they want and how they reach you. This module lays out that "
+                    "picture, and the rest of the course builds on it."
                 ),
             },
             "ru": {
-                "title": "Основы ландшафта киберугроз",
+                "title": "Киберугрозы: основы",
                 "description": (
-                    "Разберись, как устроена индустрия современного мошенничества — "
-                    "от штампованных фишинговых наборов до организованных сетей "
-                    "финансового обмана."
+                    "Как устроено интернет-мошенничество и кто за ним стоит: "
+                    "от одиночки с готовым фишинговым набором до организованных "
+                    "преступных сетей."
                 ),
                 "difficulty": "Начальный",
                 "topics": [
                     "Как устроена экономика современных афер",
-                    "Каналы атак: email, SMS, голос, веб",
-                    "Кто и зачем атакует — мотивы преступников",
-                    "Глоссарий: malware, phishing, ransomware, RAT",
-                    "Как читать отчёты о свежих утечках",
-                    "Кейс: ограбление CFO с помощью дипфейка в 2024",
+                    "Каналы атак: email, SMS, звонки, сайты",
+                    "Кто атакует и чего он хочет",
+                    "Глоссарий: вредоносное ПО, фишинг, вымогатели, RAT",
+                    "Как читать отчёты об утечках без паники",
+                    "Кейс 2024 года: дипфейк «финансового директора»",
                 ],
                 "objectives": [
-                    "Различать четыре основных канала атак",
-                    "Объяснять, почему атакующие выбирают конкретные группы жертв",
-                    "Узнавать восемь самых частых паттернов атаки",
+                    "Назвать четыре основных канала мошенничества",
+                    "Понять, чего мошенники хотят от разных людей",
+                    "Узнавать приёмы, которые повторяются в разных схемах",
                 ],
                 "content": (
-                    "## Модуль 1 — Основы ландшафта киберугроз\n\n"
-                    "Добро пожаловать в DiScammer. Чтобы защищаться, нужно понимать, кто и "
-                    "зачем атакует, и какими каналами тебя достают. Этот модуль закладывает "
-                    "фундамент под всё, что будет дальше."
+                    "## Модуль 1 — Киберугрозы: основы\n\n"
+                    "Чтобы защищаться, полезно знать, кто атакует, чего он хочет и как "
+                    "до вас добирается. Этот модуль рисует общую картину, на которую "
+                    "опирается весь остальной курс."
                 ),
             },
         },
@@ -304,9 +304,9 @@ COURSE_MODULES = [
             "en": {
                 "title": "Social Engineering & Human Hacking",
                 "description": (
-                    "Understand the psychological levers attackers pull — authority, "
-                    "urgency, scarcity, reciprocity — and how to spot them in real "
-                    "conversations."
+                    "Learn which psychological levers scammers pull (authority, "
+                    "urgency, scarcity, reciprocity) and how to notice them in a "
+                    "real conversation."
                 ),
                 "difficulty": "Beginner",
                 "topics": [
@@ -315,27 +315,27 @@ COURSE_MODULES = [
                     "Vishing, smishing, and voice deepfakes",
                     "Romance and pig-butchering long cons",
                     "Urgency, fear, and authority triggers",
-                    "Verbal red flags and conversational tells",
+                    "Verbal red flags in real conversations",
                     "Building a personal verification routine",
                 ],
                 "objectives": [
-                    "Detect at least five emotional manipulation patterns in a sample message",
-                    "Apply a two-step verification routine before sending money or credentials",
-                    "Disarm a vishing call without escalating the conversation",
+                    "Learn to spot urgency, fear and borrowed authority in a message",
+                    "Use a two-step check before sending money or passwords: pause, then verify",
+                    "Learn to end a suspicious call calmly and check the request another way",
                 ],
                 "content": (
                     "## Module 2 — Social Engineering & Human Hacking\n\n"
-                    "Most successful attacks never touch a vulnerability in software. They "
-                    "exploit a vulnerability in attention. This module trains your ear to "
-                    "recognize the patterns of human manipulation before they take hold."
+                    "Many scams need no software flaw at all. They work on attention: a "
+                    "voice that sounds sure, a message that sounds urgent. This module "
+                    "trains you to hear those patterns before they take hold."
                 ),
             },
             "ru": {
-                "title": "Социальная инженерия и взлом человека",
+                "title": "Социальная инженерия: как манипулируют людьми",
                 "description": (
-                    "Разбираем психологические рычаги, которыми давят мошенники — "
-                    "авторитет, срочность, дефицит, взаимность — и учимся ловить их "
-                    "в реальных разговорах."
+                    "Разбираем психологические рычаги, на которые давят мошенники "
+                    "(авторитет, срочность, дефицит, взаимность), и учимся замечать "
+                    "их в живом разговоре."
                 ),
                 "difficulty": "Начальный",
                 "topics": [
@@ -343,20 +343,20 @@ COURSE_MODULES = [
                     "Претекстинг и сценарии «я из банка»",
                     "Вишинг, смишинг и голосовые дипфейки",
                     "Романтические разводы и pig butchering",
-                    "Триггеры срочности, страха и авторитета",
+                    "Срочность, страх и авторитет как рычаги давления",
                     "Словесные красные флаги в разговоре",
-                    "Личный протокол подтверждения личности",
+                    "Личный порядок проверки собеседника",
                 ],
                 "objectives": [
-                    "Находить минимум пять манипулятивных паттернов в сообщении",
-                    "Применять двухшаговую проверку перед переводом денег или паролей",
-                    "Спокойно завершать подозрительный голосовой звонок",
+                    "Научиться замечать в сообщении срочность, страх и ссылки на авторитет",
+                    "Перед переводом денег или паролей проверять просьбу в два шага: пауза, затем другой канал",
+                    "Научиться спокойно прервать подозрительный звонок и перепроверить просьбу",
                 ],
                 "content": (
-                    "## Модуль 2 — Социальная инженерия и взлом человека\n\n"
-                    "Большинство успешных атак не используют уязвимости в коде. Они "
-                    "используют уязвимости во внимании. Этот модуль настраивает ухо "
-                    "на узнавание паттернов манипуляции до того, как они сработают."
+                    "## Модуль 2 — Социальная инженерия: как манипулируют людьми\n\n"
+                    "Многим мошенничествам не нужна ни одна уязвимость в программе. Они "
+                    "бьют по вниманию: уверенный голос, срочное сообщение. Модуль учит "
+                    "узнавать эти приёмы до того, как они сработают."
                 ),
             },
         },
@@ -374,57 +374,57 @@ COURSE_MODULES = [
             "en": {
                 "title": "Phishing & Malicious Links",
                 "description": (
-                    "Dissect real phishing emails, SMS, and landing pages. Learn to "
-                    "spot lookalike domains, hidden redirects, and credential-harvest "
-                    "traps in seconds."
+                    "Take apart typical phishing emails, SMS messages and fake pages. "
+                    "Learn to spot lookalike domains, hidden redirects and pages built "
+                    "to collect your passwords."
                 ),
                 "difficulty": "Beginner",
                 "topics": [
                     "Anatomy of a phishing email",
                     "Lookalike domains: punycode, homoglyphs, subdomain tricks",
                     "Reading link previews before you click",
-                    "Spotting credential-harvest landing pages",
+                    "Spotting fake login pages",
                     "QR-code phishing (quishing)",
                     "Reporting and quarantining suspicious mail",
                 ],
                 "objectives": [
-                    "Inspect any URL and decide in under 10 seconds whether to click",
-                    "Identify three lookalike-domain techniques used in the wild",
-                    "Use email headers and message authentication signals to verify a sender",
+                    "Learn a quick, repeatable way to read any link before you click",
+                    "Learn three lookalike-domain tricks and how to catch them",
+                    "Learn what email headers and sender-check signals can show, and where they stop short",
                 ],
                 "content": (
                     "## Module 3 — Phishing & Malicious Links\n\n"
-                    "Phishing is still the number-one entry point for cyber attacks. The "
-                    "good news: a few seconds of habit will catch the overwhelming majority "
-                    "of attempts. This module trains that habit."
+                    "Phishing is among the most common ways an attack begins. The defense "
+                    "is a habit: stop, read the address, check the request another way. "
+                    "This module builds that habit."
                 ),
             },
             "ru": {
                 "title": "Фишинг и вредоносные ссылки",
                 "description": (
-                    "Разбираем реальные фишинговые письма, SMS и поддельные страницы. "
-                    "Учимся за секунды замечать домены-клоны, скрытые редиректы и "
-                    "ловушки сбора паролей."
+                    "Разбираем типичные фишинговые письма, SMS и поддельные страницы. "
+                    "Учимся замечать домены-двойники, скрытые перенаправления и "
+                    "страницы, которые выманивают пароли."
                 ),
                 "difficulty": "Начальный",
                 "topics": [
                     "Анатомия фишингового письма",
-                    "Домены-клоны: punycode, гомоглифы, поддомены",
+                    "Домены-двойники: punycode, гомоглифы, поддомены",
                     "Как читать предпросмотр ссылки до клика",
-                    "Признаки страниц, ворующих пароли",
+                    "Как распознать поддельную страницу входа",
                     "Фишинг через QR-коды (quishing)",
-                    "Как корректно сообщить о подозрительном письме",
+                    "Как сообщить о подозрительном письме и изолировать его",
                 ],
                 "objectives": [
-                    "Оценивать любую ссылку за 10 секунд до клика",
-                    "Узнавать три техники подделки доменов в живой природе",
-                    "Проверять отправителя по заголовкам письма",
+                    "Освоить быструю проверку любой ссылки до клика",
+                    "Узнать три приёма подделки доменов и как их заметить",
+                    "Понять, что можно узнать из заголовков письма, а что нельзя",
                 ],
                 "content": (
                     "## Модуль 3 — Фишинг и вредоносные ссылки\n\n"
-                    "Фишинг остаётся каналом №1 для проникновения в системы. Хорошая "
-                    "новость: пара секунд правильной привычки ловит подавляющее большинство "
-                    "попыток. Этот модуль ставит эту привычку."
+                    "Фишинг остаётся одним из самых частых способов начать атаку. Защита "
+                    "здесь — привычка: остановиться, прочитать адрес, перепроверить "
+                    "просьбу другим путём. Модуль её и тренирует."
                 ),
             },
         },
@@ -442,56 +442,59 @@ COURSE_MODULES = [
             "en": {
                 "title": "Passwords, MFA & Account Security",
                 "description": (
-                    "Build authentication habits that survive a breach. Compare "
-                    "password managers, MFA methods, and recovery strategies."
+                    "Build sign-in habits that limit the damage when a service you "
+                    "use is breached. Compare password managers, MFA methods, and "
+                    "ways to recover an account."
                 ),
                 "difficulty": "Intermediate",
                 "topics": [
                     "How credentials get stolen and resold",
-                    "Password manager fundamentals",
-                    "MFA tiers: SMS vs. TOTP vs. hardware keys",
-                    "Passkeys and the post-password future",
+                    "Password manager basics",
+                    "MFA options: SMS, TOTP codes, hardware keys",
+                    "Passkeys and signing in without passwords",
                     "Account recovery without back doors",
-                    "Auditing your digital footprint",
+                    "A personal credential audit",
                 ],
                 "objectives": [
-                    "Set up a password manager and migrate at least 20 logins",
-                    "Enable phishing-resistant MFA on every critical account",
-                    "Run a personal credential audit using a breach-check tool",
+                    "Set up a password manager and move your most important logins into it",
+                    "Turn on MFA for important accounts, phishing-resistant where offered",
+                    "Check your own accounts for exposure with a breach-check tool",
                 ],
                 "content": (
                     "## Module 4 — Passwords, MFA & Account Security\n\n"
-                    "Your password is the lock on the front door of every account you own. "
-                    "This module turns that lock into a vault — and teaches you why SMS "
-                    "codes are no longer enough."
+                    "A password is the lock on the front door of an account, and many "
+                    "people use one lock for every door. This module covers how to keep "
+                    "passwords separate and strong, how to add a second check, and why an "
+                    "SMS code is better than nothing but not the strongest choice."
                 ),
             },
             "ru": {
                 "title": "Пароли, 2FA и защита аккаунтов",
                 "description": (
-                    "Закладываем привычки аутентификации, которые переживут любую "
-                    "утечку. Разбираем менеджеры паролей, виды MFA и план "
-                    "восстановления доступа."
+                    "Вырабатываем привычки входа в аккаунты, которые ограничивают "
+                    "ущерб, если сервис взломают. Сравниваем менеджеры паролей, виды "
+                    "двухфакторной защиты и порядок восстановления доступа."
                 ),
                 "difficulty": "Средний",
                 "topics": [
                     "Как ваши пароли крадут и перепродают",
                     "Менеджеры паролей: основы",
-                    "Уровни MFA: SMS, TOTP, аппаратные ключи",
-                    "Passkeys и мир без паролей",
-                    "Восстановление доступа без бэкдоров",
-                    "Аудит своего цифрового следа",
+                    "Виды 2FA: SMS, TOTP, аппаратные ключи",
+                    "Ключи доступа (passkeys) вместо паролей",
+                    "Восстановление доступа без лазеек",
+                    "Личная проверка паролей и утечек",
                 ],
                 "objectives": [
-                    "Настроить менеджер паролей и перенести минимум 20 логинов",
-                    "Включить MFA, устойчивый к фишингу, на критичных аккаунтах",
-                    "Провести персональный аудит утечек",
+                    "Настроить менеджер паролей и перенести в него самые важные логины",
+                    "Включить 2FA на важных аккаунтах, по возможности устойчивую к фишингу",
+                    "Проверить свои аккаунты через сервис проверки утечек",
                 ],
                 "content": (
                     "## Модуль 4 — Пароли, 2FA и защита аккаунтов\n\n"
-                    "Пароль — это замок на двери каждого вашего аккаунта. Этот модуль "
-                    "превращает этот замок в сейф и объясняет, почему SMS-коды больше не "
-                    "достаточны."
+                    "Пароль — замок на двери аккаунта, и многие ставят один и тот же "
+                    "замок на все двери. Модуль объясняет, как хранить пароли по "
+                    "отдельности и надёжно, как добавить вторую проверку и почему "
+                    "SMS-код лучше, чем ничего, но не лучший вариант."
                 ),
             },
         },
@@ -509,8 +512,9 @@ COURSE_MODULES = [
             "en": {
                 "title": "Financial Fraud & Payment Safety",
                 "description": (
-                    "Spot fake stores, investment scams, and payment fraud before "
-                    "money leaves your account. Learn the recovery playbook when it does."
+                    "Spot fake stores, investment scams and payment fraud before "
+                    "money leaves your account, and learn what to do in the first "
+                    "hours if it already has."
                 ),
                 "difficulty": "Intermediate",
                 "topics": [
@@ -521,47 +525,48 @@ COURSE_MODULES = [
                     "Card skimming and digital pickpocketing",
                     "Charity and disaster-relief fraud",
                     "What to do in the first 24 hours after fraud",
-                    "How to dispute a charge that actually wins",
+                    "How to dispute a charge and build a strong case",
                 ],
                 "objectives": [
-                    "Evaluate any online store and assign a trust score in under two minutes",
-                    "Recognize the five-stage pig-butchering pipeline",
-                    "Execute the first 24-hour fraud response playbook from memory",
+                    "Learn a short purchase check to run on any online store before you pay",
+                    "Learn how money moves in a pig-butchering scam",
+                    "Learn the order of steps to take in the first 24 hours after fraud",
                 ],
                 "content": (
                     "## Module 5 — Financial Fraud & Payment Safety\n\n"
-                    "Scammers stole more than $10 billion from consumers last year, and the "
-                    "average loss keeps rising. This module is about keeping your money, "
-                    "and getting it back when you can't."
+                    "Money lost to fraud is often hard to recover, so most of this module "
+                    "is about stopping before you pay. The rest covers what to do in the "
+                    "first hours if you already have."
                 ),
             },
             "ru": {
-                "title": "Финансовый фрод и безопасность платежей",
+                "title": "Финансовое мошенничество и безопасность платежей",
                 "description": (
-                    "Распознаём фейковые магазины, инвестиционные разводы и платёжное "
-                    "мошенничество до того, как деньги ушли. И что делать, если уже ушли."
+                    "Распознаём поддельные магазины, инвестиционные разводы и платёжное "
+                    "мошенничество до того, как деньги ушли, и разбираем, что делать, "
+                    "если они уже ушли."
                 ),
                 "difficulty": "Средний",
                 "topics": [
                     "Признаки поддельного интернет-магазина",
-                    "Криптомошенничество и фейковые ICO",
+                    "Криптомошенничество и поддельные ICO",
                     "Pig butchering: от любви до инвестиций",
-                    "Атаки через фейковые счета и подмену реквизитов",
+                    "Поддельные счета и подмена платёжных реквизитов",
                     "Скимминг и цифровые «карманники»",
-                    "Фейковая благотворительность и сборы помощи",
+                    "Поддельная благотворительность и сборы помощи",
                     "Первые 24 часа после мошенничества",
-                    "Как оспорить списание и реально вернуть деньги",
+                    "Как оспорить списание: что повышает шансы",
                 ],
                 "objectives": [
-                    "Оценивать интернет-магазин за две минуты",
-                    "Узнавать пять этапов pig-butchering-операции",
-                    "По памяти выполнять план первых 24 часов после мошенничества",
+                    "Освоить короткую проверку интернет-магазина перед оплатой",
+                    "Понять, как в схеме pig butchering движутся деньги",
+                    "Узнать, что делать в первые 24 часа после мошенничества и в каком порядке",
                 ],
                 "content": (
-                    "## Модуль 5 — Финансовый фрод и безопасность платежей\n\n"
-                    "Мошенники забирают у людей более $10 млрд в год, и средний размер "
-                    "потерь растёт. Этот модуль про то, как сохранить свои деньги и как "
-                    "вернуть их, если уже поздно."
+                    "## Модуль 5 — Финансовое мошенничество и безопасность платежей\n\n"
+                    "Деньги, потерянные из-за мошенничества, часто трудно вернуть, поэтому "
+                    "большая часть модуля — о том, как остановиться до платежа. Остальное "
+                    "— о том, что делать в первые часы, если платёж уже прошёл."
                 ),
             },
         },
@@ -577,57 +582,64 @@ COURSE_MODULES = [
         "difficulty": "Intermediate",
         "translations": {
             "en": {
-                "title": "AI-Powered Threats & Deepfakes",
+                "title": "AI Scams & Deepfakes",
                 "description": (
-                    "Train your eye and ear for synthetic media. Voice clones, video "
-                    "deepfakes, and AI-written scams are now mainstream — here is how to spot them."
+                    "Learn how scammers use AI-written messages, cloned voices and "
+                    "faked video, and how to check a request when a voice or a face "
+                    "is not proof."
                 ),
                 "difficulty": "Intermediate",
                 "topics": [
-                    "How modern generative models produce text, voice, and video",
-                    "Voice cloning attacks targeting family and finance",
+                    "How AI tools produce text, voice, and video",
+                    "Voice-cloning scams aimed at families and finances",
                     "Video deepfakes in business email compromise",
-                    "Detecting AI-written messages",
+                    "AI-written messages: what gives them away",
                     "Provenance signals: C2PA, watermarks, metadata",
-                    "Building family verification protocols",
+                    "Building a family verification routine",
                 ],
                 "objectives": [
-                    "Identify three reliable visual artifacts in a deepfake video",
-                    "Set up a shared verification phrase with at least one trusted contact",
-                    "Distinguish AI-generated text from human writing with 80% accuracy",
+                    "Learn what to look for in a suspicious video, and why a clean one still needs checking",
+                    "Agree on a verification phrase with at least one person you trust",
+                    "Learn what AI-written messages tend to give away, and why that is a weak test on its own",
                 ],
                 "content": (
-                    "## Module 6 — AI-Powered Threats & Deepfakes\n\n"
-                    "Generative AI has lowered the cost of personalized attacks to near zero. "
-                    "A scammer can now clone a CEO's voice from a 30-second podcast clip and "
-                    "use it to wire-transfer millions. This module teaches you how to fight back."
+                    "## Module 6 — AI Scams & Deepfakes\n\n"
+                    "AI tools can write a fluent message in almost any language, and a "
+                    "short clip posted online may be enough for a scammer to try to "
+                    "imitate a voice. So a polished text, a familiar voice or a face on "
+                    "a screen is not proof of who is asking. This module shows how these "
+                    "scams work and how to check the request itself by another route."
                 ),
             },
             "ru": {
-                "title": "Угрозы на базе ИИ и дипфейки",
+                "title": "Мошенничество с ИИ и дипфейки",
                 "description": (
-                    "Тренируем глаз и ухо на синтетический контент. Клонированные "
-                    "голоса, видео-дипфейки и тексты от ИИ стали массовыми — учимся их ловить."
+                    "Разбираем, как мошенники используют сообщения, написанные ИИ, "
+                    "клонированные голоса и поддельное видео, и как проверить просьбу, "
+                    "если голос или лицо на экране ничего не доказывают."
                 ),
                 "difficulty": "Средний",
                 "topics": [
-                    "Как современные модели генерят текст, голос и видео",
+                    "Как ИИ создаёт текст, голос и видео",
                     "Атаки с клонированием голоса родственника или руководителя",
-                    "Видео-дипфейки в схемах BEC (business email compromise)",
-                    "Как отличить текст, написанный ИИ",
+                    "Дипфейки на видеосвязи в схемах BEC (компрометации деловой почты)",
+                    "Текст от ИИ: что его выдаёт и почему этого мало",
                     "Сигналы происхождения: C2PA, водяные знаки, метаданные",
-                    "Семейный протокол подтверждения личности",
+                    "Семейный порядок проверки",
                 ],
                 "objectives": [
-                    "Находить три надёжных визуальных артефакта в дипфейк-видео",
-                    "Договориться о кодовом слове минимум с одним близким",
-                    "Отличать текст от ИИ с точностью 80%",
+                    "Узнать, на что смотреть в подозрительном видео и почему «чистая» запись ещё ничего не доказывает",
+                    "Договориться о кодовом слове хотя бы с одним близким человеком",
+                    "Узнать, чем выдают себя тексты от ИИ и почему этого мало",
                 ],
                 "content": (
-                    "## Модуль 6 — Угрозы на базе ИИ и дипфейки\n\n"
-                    "Генеративный ИИ опустил стоимость персонализированной атаки почти до "
-                    "нуля. За 30 секунд аудио мошенник клонирует голос CEO и заводит "
-                    "перевод на миллионы. Этот модуль учит сопротивляться."
+                    "## Модуль 6 — Мошенничество с ИИ и дипфейки\n\n"
+                    "Нейросети пишут связный текст почти на любом языке, а короткой "
+                    "записи голоса, выложенной в сеть, иногда хватает, чтобы мошенник "
+                    "попытался его подделать. Поэтому гладкое сообщение, знакомый голос "
+                    "или лицо на экране ещё не доказывают, кто вас просит. Модуль "
+                    "показывает, как устроены такие схемы и как проверять саму просьбу "
+                    "другим путём."
                 ),
             },
         },
@@ -645,54 +657,55 @@ COURSE_MODULES = [
             "en": {
                 "title": "Mobile, Browser & Network Hygiene",
                 "description": (
-                    "Lock down the devices and connections you use every day. "
-                    "Practical settings, extensions, and habits for phones, browsers, and Wi-Fi."
+                    "Tighten the settings and habits on the phone, browser and Wi-Fi "
+                    "you use every day."
                 ),
                 "difficulty": "Intermediate",
                 "topics": [
                     "Mobile permissions and side-loaded apps",
                     "SIM swap defense",
-                    "Browser hardening: settings, extensions, profiles",
-                    "Public Wi-Fi and the real role of VPNs",
-                    "DNS-level filtering for households",
+                    "Browser settings, extensions and profiles",
+                    "Public Wi-Fi and what a VPN really does",
+                    "DNS filtering for your home network",
                     "Updates, patches, and end-of-life devices",
                 ],
                 "objectives": [
-                    "Audit and reduce app permissions on your primary phone",
-                    "Configure a hardened browser profile for banking",
-                    "Enable SIM-swap protections with your mobile carrier",
+                    "Review and trim app permissions on your main phone",
+                    "Set up a separate browser profile for banking",
+                    "Ask your carrier about SIM-swap protection and turn it on if offered",
                 ],
                 "content": (
                     "## Module 7 — Mobile, Browser & Network Hygiene\n\n"
-                    "Most of your digital life happens on a phone and inside a browser. "
-                    "This module fixes the defaults — the ones that ship optimized for "
-                    "convenience, not safety — across both."
+                    "Much of your digital life runs through a phone and a browser, and "
+                    "their default settings are often tuned for convenience more than "
+                    "safety. This module goes through the settings worth changing in both."
                 ),
             },
             "ru": {
                 "title": "Гигиена телефона, браузера и сети",
                 "description": (
-                    "Закрываем устройства и каналы связи, которыми вы пользуетесь "
-                    "каждый день: настройки телефона и браузера, расширения, привычки."
+                    "Приводим в порядок телефон, браузер и Wi-Fi, которыми вы "
+                    "пользуетесь каждый день: настройки, расширения, привычки."
                 ),
                 "difficulty": "Средний",
                 "topics": [
                     "Разрешения приложений и установка из неизвестных источников",
                     "Защита от SIM-swap",
-                    "Прокачка браузера: настройки, расширения, профили",
-                    "Публичный Wi-Fi и роль VPN на самом деле",
-                    "Фильтрация на уровне DNS для дома",
+                    "Настройки браузера, расширения и профили",
+                    "Публичный Wi-Fi и что на самом деле даёт VPN",
+                    "DNS-фильтрация для домашней сети",
                     "Обновления, патчи и устаревшие устройства",
                 ],
                 "objectives": [
-                    "Проверить и урезать разрешения приложений на телефоне",
-                    "Настроить отдельный браузерный профиль для банкинга",
-                    "Включить защиту от SIM-swap у мобильного оператора",
+                    "Проверить разрешения приложений на своём телефоне и убрать лишние",
+                    "Завести отдельный профиль браузера для банковских сайтов",
+                    "Узнать у оператора о защите от SIM-swap и включить её, если она есть",
                 ],
                 "content": (
                     "## Модуль 7 — Гигиена телефона, браузера и сети\n\n"
-                    "Большая часть цифровой жизни идёт через телефон и браузер. Этот "
-                    "модуль чинит дефолты — те, что заточены под удобство, а не безопасность."
+                    "Через телефон и браузер идёт большая часть цифровой жизни, а "
+                    "настройки по умолчанию в них нередко рассчитаны больше на удобство, "
+                    "чем на безопасность. Модуль показывает, какие из них стоит изменить."
                 ),
             },
         },
@@ -710,8 +723,8 @@ COURSE_MODULES = [
             "en": {
                 "title": "Incident Response & Recovery",
                 "description": (
-                    "What to do in the first hour after a breach — freezing accounts, "
-                    "preserving evidence, reporting, and rebuilding trust."
+                    "What to do in the first hour after a breach: freezing accounts, "
+                    "keeping evidence, reporting, and getting access back."
                 ),
                 "difficulty": "Advanced",
                 "topics": [
@@ -720,47 +733,48 @@ COURSE_MODULES = [
                     "Preserving evidence without tipping off the attacker",
                     "Who to contact: banks, carriers, platforms, law enforcement",
                     "Identity-theft recovery and credit freezes",
-                    "Telling your network without spreading panic",
-                    "Post-incident hardening checklist",
+                    "Warning your contacts without spreading panic",
+                    "A checklist to close the gaps afterward",
                 ],
                 "objectives": [
-                    "Execute a 60-minute containment playbook end to end",
-                    "File a complete report with the FTC, IC3, or local equivalent",
-                    "Restore a compromised account and verify no persistence remains",
+                    "Walk through a 60-minute containment plan from start to finish",
+                    "Learn how to file a report with the FTC, IC3, or your local equivalent",
+                    "Learn to regain a compromised account and check for leftover access",
                 ],
                 "content": (
                     "## Module 8 — Incident Response & Recovery\n\n"
-                    "If you live online long enough, something will eventually get through. "
-                    "This module is about minimizing the damage when it does, and making "
-                    "sure you don't get hit twice through the same hole."
+                    "Anyone can click a link or take a call before they have had time to "
+                    "think. What matters then is the next hour. This module covers how to "
+                    "limit the damage, and how to close the gap so the same trick doesn't "
+                    "work twice."
                 ),
             },
             "ru": {
                 "title": "Реакция на инциденты и восстановление",
                 "description": (
-                    "Что делать в первый час после взлома — заморозка счетов, "
-                    "сохранение улик, обращения, восстановление доступа."
+                    "Что делать в первый час после взлома: заморозить счета, "
+                    "сохранить улики, сообщить о случившемся, вернуть доступ."
                 ),
                 "difficulty": "Продвинутый",
                 "topics": [
                     "Как понять, что вас взломали",
-                    "Первые 60 минут: сортировка и сдерживание",
-                    "Как сохранить улики, не спугнув атакующего",
-                    "К кому идти: банки, операторы, платформы, полиция",
-                    "Кража личности и заморозка кредитной истории",
-                    "Как сообщить близким без паники",
-                    "Чек-лист пост-инцидентной защиты",
+                    "Первые 60 минут: оценить ущерб и остановить его",
+                    "Как сохранить улики и не спугнуть злоумышленника",
+                    "Куда обращаться: банк, оператор, платформы, полиция",
+                    "Кража личных данных: восстановление и заморозка кредитной истории",
+                    "Как предупредить знакомых без паники",
+                    "Чек-лист: как закрыть лазейки после случившегося",
                 ],
                 "objectives": [
-                    "Пройти 60-минутный план сдерживания целиком",
-                    "Подать полноценное заявление в нужный орган",
-                    "Восстановить взломанный аккаунт и убедиться, что чужого доступа нет",
+                    "Пройти план первых 60 минут от начала до конца",
+                    "Разобраться, куда и как подавать заявление о мошенничестве в вашей стране",
+                    "Узнать, как вернуть взломанный аккаунт и проверить, не остался ли чужой доступ",
                 ],
                 "content": (
                     "## Модуль 8 — Реакция на инциденты и восстановление\n\n"
-                    "Если жить онлайн достаточно долго, что-то рано или поздно пробьётся. "
-                    "Этот модуль про то, как минимизировать ущерб, когда это случится, и "
-                    "как не схватить второй раз через ту же дыру."
+                    "Любой может нажать на ссылку или поддаться на звонок, не успев "
+                    "подумать. Дальше многое зависит от первого часа. Модуль о том, как "
+                    "ограничить ущерб и закрыть брешь, чтобы тот же приём не сработал дважды."
                 ),
             },
         },
@@ -808,27 +822,27 @@ COURSE_MODULES = [
                 "title": "Финальная практика и локальная запись о прохождении",
                 "description": (
                     "Самооценка из 40 вопросов и итоговый сценарий, которые можно "
-                    "пройти в своём темпе. Выполни порог — и создай локальную запись "
-                    "о прохождении на этом устройстве."
+                    "пройти в своём темпе. Если набрать проходной балл, на этом "
+                    "устройстве можно создать локальную запись о прохождении."
                 ),
                 "difficulty": "Финал",
                 "topics": [
                     "40 вопросов по материалам Модулей 1–8",
                     "Итоговый сценарий: многоэтапная попытка мошенничества",
-                    "Разбор ответов и объяснений",
+                    "Разбор ответов с объяснениями",
                     "Локальная запись о завершённых этапах обучения",
                 ],
                 "objectives": [
-                    "Набрать 80% и выше в самооценке",
+                    "Набрать в самооценке не меньше 80%",
                     "Пройти итоговый сценарий в своём темпе",
-                    "Создать печатную локальную запись о завершённых этапах обучения",
+                    "Создать локальную запись о пройденных этапах, которую можно распечатать",
                 ],
                 "content": (
                     "## Модуль 9 — Финальная практика и локальная запись о прохождении\n\n"
-                    "Используй этот модуль, чтобы потренировать решения, с которыми "
-                    "можно столкнуться вне курса: срочные и неоднозначные запросы, "
-                    "где нужно остановиться и проверить всё независимым способом. "
-                    "Самооценка проходит без таймера и прокторинга. После выполнения "
+                    "Этот модуль помогает потренировать решения, с которыми можно "
+                    "столкнуться вне курса: срочные и неоднозначные запросы, "
+                    "при которых нужно остановиться и проверить всё независимым способом. "
+                    "Самооценка проходит без таймера и прокторинга. После прохождения "
                     "этапов можно создать личную запись, которая хранится только в этом "
                     "браузере. Это не проверяемое удостоверение и не доказательство "
                     "компетентности."

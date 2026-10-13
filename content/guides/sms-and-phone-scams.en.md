@@ -1,33 +1,35 @@
 ---
 title: "SMS and phone scams"
 slug: "sms-and-phone-scams"
-description: "Handle unexpected calls and texts without relying on caller ID, links, or pressure."
+description: "What to do when an unexpected call or text asks for a code, a payment or a click: check through a contact route you chose yourself."
 icon: "📱"
 threat_level: 5
 category: "telecom"
 published_at: "2025-02-14"
 ---
 
-Phone numbers and caller ID can be spoofed. An unexpected call or text that creates urgency, asks for information, or requests a particular payment method should be verified through a contact route you choose yourself.
+The phone rings, and the screen shows a number that looks local, or a name you recognize. Naturally you pick up.
 
-## Common tactics
+Caller ID is a name tag at a conference: anyone can write any name on the sticker. Phone numbers can be spoofed in the same way, so what the screen shows proves nothing. An unexpected call or text that creates urgency, asks for information or demands a particular way of paying needs to be checked through a contact route you choose yourself.
 
-1. **A text with an urgent link.** It may claim that a package, bank account, password, or payment needs immediate attention.
-2. **Impersonation on a call.** The caller may claim to represent a bank, government body, delivery service, employer, family member, or technical support.
-3. **Caller ID used as reassurance.** A familiar local or official-looking number is not proof of identity.
-4. **A request for a password, verification code, remote access, or payment.** These requests can allow an attacker to take over an account or obtain money.
-5. **Pressure to act without talking to anyone else.** Threats, secrecy, or “limited-time” instructions are designed to bypass a pause.
+## Five moves to recognize
 
-## Illustrative scenario — not a case report
+1. **A text with an urgent link.** It may say a package, bank account, password or payment needs attention right now.
+2. **A caller who claims to be someone.** The voice may say it is your bank, a government agency, a delivery service, your employer, a family member or tech support.
+3. **The number on the screen as reassurance.** A familiar local number, or one that looks official, is not proof of who is calling.
+4. **A request for a password, verification code, remote access or payment.** Any of these can let an attacker take over an account or get at your money.
+5. **Pressure to act without talking to anyone.** Threats, secrecy and “limited-time” instructions are meant to stop you pausing.
 
-You get a call that appears to be from your bank and are told that your account is at risk. The caller asks for a one-time code and says you must stay on the line. Hang up without sharing the code. Use the number printed on your card, a statement, or the bank’s official site or app to check the account independently.
+## An invented example: the call from the bank
 
-## A safer response
+A call that appears to come from your bank says your account is at risk. The caller asks for a one-time code and tells you to stay on the line. Hang up without giving the code. Then use the number printed on your card or statement, or the bank's official site or app, to check the account yourself.
 
-1. Do not click links in unexpected texts or press buttons during an unsolicited call.
-2. Do not rely on caller ID; use a trusted official website, app, card, or statement to find contact details.
-3. Do not share passwords, one-time codes, card details, or remote access with an unexpected caller or texter.
-4. Do not pay an unexpected contact with gift cards, cryptocurrency, wire transfer, or a payment app because they demand it.
-5. Block or report the message or call using the tools and reporting routes available to you.
+## What to do instead
 
-If you already shared information or paid, contact the relevant bank, card issuer, payment provider, or account service promptly. Save the number, message, and transaction details for a report.
+1. Do not tap links in unexpected texts, and do not press buttons during a call you did not ask for.
+2. Do not rely on caller ID. Find contact details on a trusted official website, in an app, or on your card or statement.
+3. Do not share passwords, one-time codes, card details or remote access with an unexpected caller or texter.
+4. Do not pay an unexpected contact with gift cards, cryptocurrency, a wire transfer or a payment app just because they demand it.
+5. Block or report the message or call with the tools and reporting routes available to you.
+
+If you have already shared information or paid, contact the relevant bank, card issuer, payment provider or account service promptly. Save the number, the message and the transaction details for a report.

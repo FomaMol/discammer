@@ -1,186 +1,186 @@
 {
   "order": 3,
-  "title": "Browser hardening: settings, extensions, profiles",
+  "title": "Browser hardening: permissions, extensions, profiles",
   "est_minutes": 14,
-  "body_md": "## Make the browser ask at the right time\n\nThe browser mediates website access to camera, microphone, location, notifications and downloads. Review grants in site settings: a video meeting needs a microphone during a call; a random coupon page does not need permanent notifications. Prefer a prompt or a site-specific grant to blanket permission. If a legitimate feature breaks, inspect the particular site's setting and allow only what it needs. Clearing cookies or blocking third-party cookies reduces some cross-site tracking but can sign you out or disrupt embedded sign-in; it is a privacy choice, not a scam detector.\n\nKeep phishing/malware warnings enabled. Chrome's Standard Safe Browsing checks known threats; Enhanced Protection can warn about more unknown sites and risky downloads but sends additional URLs, page samples and extension activity to Google. Choose with that privacy trade-off in mind. Firefox provides deceptive-site warnings and tracking controls. HTTPS-only mode can alert you before an unencrypted connection, yet HTTPS means encryption to **the displayed domain**, not proof that its operator is honest. A convincing phishing site can use HTTPS too. Never bypass a certificate warning to enter credentials; use a known route to the service.\n\n## Extensions cross a trust boundary\n\nAn extension may read or change page content, including pages where you sign in, depending on its grant. Open the browser's extension manager and ask whether you still use it, who publishes it, whether it is updated, and whether it needs access to all sites. Chrome can limit many extensions to a click or specific sites. An extension installed for a single task should not retain universal access afterward. Store listing and high ratings are useful context, not proof of safety; look at the actual permission prompt and publisher. Do not install an extension demanded by a caller to “fix” a bank page.\n\nProfiles can separate work, family and routine browsing history, cookies and extensions. They reduce accidental cross-account use; they are **not** separate operating-system security boundaries. An unsafe extension in a sensitive profile can still see that profile's pages. Private/incognito mode mainly changes local history and cookie persistence; it does not hide you from a site, employer or network operator. Keep the browser updated and use a password manager or passkeys for account protection. If you already granted a suspicious extension broad access, remove it, inspect accounts used while it was active from a trusted browser, and follow service recovery instructions if you see signs of compromise.",
+  "body_md": "## Let the browser ask, and answer for one site at a time\n\nA video call needs your microphone for the hour it lasts. A coupon page needs nothing from you, yet it once asked to send notifications, and you clicked Allow to make the pop-up go away. The browser keeps both answers in the same list, and that list is worth a visit.\n\nWebsites reach your camera, microphone, location, notifications and downloads through the browser, and its site settings show what each one has been given. Prefer a prompt, or a grant for one named site, to a blanket yes. When a legitimate feature stops working, open that site’s entry and allow only what it needs. Cookies are a separate matter. Clearing them or blocking third-party ones cuts some cross-site tracking, but it can also sign you out or break a login embedded in another page. That is a privacy choice, and it will not tell you whether a page is a scam.\n\nLeave the phishing and malware warnings on. Chrome’s Standard Safe Browsing checks pages against known threats. Enhanced Protection can warn about more unknown sites and risky downloads, and it pays for that by sending Google extra URLs, page samples and extension activity, so weigh the trade before you switch it on. Firefox has deceptive-site warnings and tracking controls too, and HTTPS-only mode will alert you before a connection goes unencrypted. Know what HTTPS does and doesn’t say, though. It means the line to **the displayed domain** is private. It says nothing about who picks up at the other end, and a convincing phishing site can have HTTPS too. A certificate warning is never something to click through on the way to a login box. Reach the service by a route you already know.\n\n## Extensions see what you see\n\nDepending on the grant, an extension can read or change the pages you open, including the ones where you sign in. One installed for a single errand and left with access to every site is a contractor who finished in the spring and still walks in with a pass. Open the extension manager and ask of each entry: do I still use it, who publishes it, does it get updates, does it really need all sites? Chrome can limit many extensions to a click or to specific sites, and an extension installed for one task should not keep universal access afterward. A store listing and high ratings are context, not proof of safety, so read the actual permission prompt and check the publisher. And never install an extension because a caller says it will “fix” your bank page.\n\nProfiles keep work, family and everyday browsing apart, each with its own history, cookies and extensions. That cuts down on logging into the wrong account by accident. It does **not** build the kind of wall an operating system builds, and an unsafe extension in a sensitive profile still sees that profile’s pages. Private or incognito mode mostly changes what your own device remembers: history and cookies. The site, your employer and the network operator can still see you. Keep the browser updated, and protect your accounts with a password manager or passkeys. If a suspicious extension already had broad access, remove it, then check the accounts you used while it was active from a device you trust, and follow the service’s recovery steps if you see signs of compromise.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Tune a browser so site permissions and extensions match your actual needs, while recognizing what these settings cannot verify.",
-    "today_action": "Run your browser’s safety/settings review, remove one unused extension, and inspect camera, notification and site-data access for the remaining ones.",
+    "goal": "Set your browser so that site permissions and extensions match what you actually use, and know what these settings cannot vouch for.",
+    "today_action": "Run your browser’s built-in safety check, then delete one extension you no longer use. For each one that stays, look at what it can reach: camera, notifications, site data.",
     "checked_at": "2026-10-20",
-    "scope": "Chrome and Firefox examples checked 2026-10-20; labels change by browser/version and organization policy. Privacy controls, phishing warnings and profiles address different risks.",
+    "scope": "Chrome and Firefox examples checked on 2026-10-20. Menu names shift with the browser, its version and your organization’s policy. The examples, Toma included, are invented. Privacy controls, phishing warnings and profiles guard against different things.",
     "sources": [
       {
-        "title": "Chrome extension access controls",
+        "title": "Chrome: limiting what an extension can access",
         "url": "https://support.google.com/chrome/answer/2664769?hl=en",
-        "scope": "Chrome desktop site-data grants; browser/version dependent."
+        "scope": "How Chrome on a desktop lets you restrict an extension to a click or chosen sites. Depends on browser and version."
       },
       {
-        "title": "Chrome Safe Browsing levels",
+        "title": "Chrome: Safe Browsing levels",
         "url": "https://support.google.com/chrome/answer/9890866?hl=en",
-        "scope": "Chrome Standard/Enhanced protection and data-sharing trade-off."
+        "scope": "What Standard and Enhanced protection check, and what Enhanced shares with Google in exchange."
       },
       {
-        "title": "NCSC browser security guidance",
+        "title": "UK NCSC: managing web browser security",
         "url": "https://www.ncsc.gov.uk/collection/device-security-guidance/policies-and-settings/managing-web-browser-security",
-        "scope": "UK organization-oriented advice on updates, browser controls and extension surface."
+        "scope": "UK guidance written for organizations: updates, browser controls and how much of your browsing extensions can touch."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "The “bank repair” extension",
-        "situation": "Synthetic: a caller says Toma must install a browser extension with “read and change all sites” to restore online banking.",
-        "analysis": "The grant could expose banking pages; the caller is not an independent authority. Toma ends the call and checks the bank through a saved official route. If a genuine outage exists, bank support can explain it without this extension.",
+        "title": "The extension that “fixes” your bank",
+        "situation": "A caller tells Toma that online banking will only work again once a browser extension is installed, one that asks to “read and change all sites.”",
+        "analysis": "That permission would show the extension every banking page Toma opens, and the caller’s say-so proves nothing about an outage. Toma ends the call and reaches the bank through a saved official route. If there really is an outage, bank support can explain it without any extension.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A blocked video-call microphone",
-        "situation": "Synthetic: a known meeting site opens from a calendar invite; the browser has blocked its microphone after an earlier refusal.",
-        "analysis": "Toma confirms the meeting address using the calendar and allows microphone for that site during the call, then reviews the grant. The browser prompt is compatible with legitimate use; it does not itself authenticate the invite.",
+        "title": "The microphone that stays muted",
+        "situation": "Ten past nine, and Toma has just opened a meeting from a calendar invite. The site is a familiar one, but the browser has kept its microphone blocked ever since an earlier refusal.",
+        "analysis": "Toma checks the meeting address against the calendar entry, allows the microphone for that site while the call lasts, and looks at the grant again afterward. The block was the browser doing its job, and a meeting that wants the microphone is ordinary. None of that proves the invitation itself is genuine.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Tune a shared laptop browser",
-        "setup": "Synthetic exercise: a household laptop has an old coupon extension, a meeting site and a banking profile.",
+        "title": "The family laptop",
+        "setup": "An invented household: the family laptop carries an old coupon extension, a meeting site and a banking profile. Nothing here is real.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "The coupon extension can read all sites but has not been used for months.",
+            "prompt": "The coupon extension can read every site, and nobody has opened it in months.",
             "choices": [
               {
-                "text": "Remove it after confirming nobody still needs it.",
-                "consequence": "Unneeded page access ends.",
-                "explanation": "Remove stale high-privilege code instead of trusting its old purpose.",
+                "text": "Remove it once you have confirmed nobody still needs it.",
+                "consequence": "The access nobody was using is gone.",
+                "explanation": "Wide access has to keep earning its place. A purpose it once had is no reason to leave it running.",
                 "recommended": true
               },
               {
-                "text": "Keep it because it came from a store.",
-                "consequence": "Its broad access remains.",
-                "explanation": "A store listing does not justify ongoing permissions.",
+                "text": "Keep it. It came from the official store and might come in handy.",
+                "consequence": "It keeps its view of every page you open.",
+                "explanation": "A store listing says where it came from, not why it still needs every site.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A meeting site asks for microphone access just as a scheduled call begins.",
+            "prompt": "A meeting site asks for the microphone just as a scheduled call begins.",
             "choices": [
               {
-                "text": "Allow microphone to every site permanently.",
-                "consequence": "Other sites gain unnecessary ability to prompt or access it.",
-                "explanation": "A single call does not require a global grant.",
+                "text": "Allow the microphone for every site, for good.",
+                "consequence": "Sites that have no use for it can now reach for the microphone too.",
+                "explanation": "One meeting is no reason to hand every site a standing yes.",
                 "recommended": false
               },
               {
-                "text": "Verify the meeting address, grant the site access for the call, then review it.",
-                "consequence": "The call can work without a global microphone grant.",
-                "explanation": "Tie the grant to a verified site and task.",
+                "text": "Check the meeting address, allow the site for this call, then review the grant afterward.",
+                "consequence": "The call works without a global microphone grant.",
+                "explanation": "Attach the permission to one verified site and one purpose.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Chrome offers Enhanced Protection. What should guide the choice?",
+            "prompt": "Chrome offers Enhanced Protection. What should guide your choice?",
             "choices": [
               {
-                "text": "Compare stronger warnings with the extra data sent to Google.",
-                "consequence": "You choose knowingly while keeping at least standard protection.",
-                "explanation": "Enhanced is a privacy trade-off, not an absolute requirement.",
+                "text": "Weigh the stronger warnings against the extra data sent to Google.",
+                "consequence": "You choose knowingly, and at least Standard protection stays on.",
+                "explanation": "Enhanced is a privacy trade, not a requirement.",
                 "recommended": true
               },
               {
-                "text": "Turn off every warning for maximum privacy.",
-                "consequence": "You lose a useful threat signal.",
-                "explanation": "Standard protection offers a different balance.",
+                "text": "Switch off every warning, for the sake of privacy.",
+                "consequence": "You lose a useful signal about threats.",
+                "explanation": "You do not have to pick an extreme: Standard protection sits between the two.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A bank lookalike page has a padlock in the address bar.",
+            "prompt": "A page imitating your bank shows a padlock, or your browser’s “secure” icon, by the address.",
             "choices": [
               {
-                "text": "Sign in because the connection is encrypted.",
-                "consequence": "Credentials may reach the lookalike operator.",
-                "explanation": "Encryption cannot correct a deceptive destination.",
+                "text": "Sign in. The connection is encrypted.",
+                "consequence": "Your password goes straight to whoever runs the lookalike.",
+                "explanation": "Encryption cannot correct a wrong destination.",
                 "recommended": false
               },
               {
-                "text": "Leave it and open the bank via a saved app or bookmark.",
-                "consequence": "You avoid entering credentials at the wrong domain.",
-                "explanation": "HTTPS protects transit to that domain, not its honesty.",
+                "text": "Close it and open the bank through its saved app or a bookmark.",
+                "consequence": "You never type your credentials at the wrong domain.",
+                "explanation": "HTTPS protects the trip to that domain, not the honesty of whoever runs it.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Replay by identifying the boundary each control protects: site permission, extension page access, warning service or account separation."
+        "debrief": "Play it again and, for each choice, name the boundary the control actually guards: a site’s permission, an extension’s reach into your pages, the warning service, or the road to a domain, which is all HTTPS covers."
       },
       {
         "type": "check",
-        "title": "Transfer check",
+        "title": "Carry it to the next browser",
         "questions": [
           {
-            "prompt": "An extension is needed on only one site. Best grant?",
+            "prompt": "You need an extension on one site only. Which grant fits best?",
             "choices": [
               {
-                "text": "On click or that specific site, where supported.",
-                "explanation": "This limits unrelated page exposure.",
+                "text": "On click, or limited to that one site, where the browser allows it.",
+                "explanation": "Pages unrelated to the task stay out of its reach.",
                 "correct": true
               },
               {
-                "text": "All sites forever.",
-                "explanation": "Broader than the task requires.",
+                "text": "Every site, indefinitely.",
+                "explanation": "That is far wider than the job.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A legitimate login widget stops working after cookie blocking. What next?",
+            "prompt": "Since you began blocking cookies, a genuine sign-in widget has stopped working. What next?",
             "choices": [
               {
-                "text": "Disable all browser protection globally.",
-                "explanation": "One site problem does not justify broad changes.",
+                "text": "Turn off all browser protection everywhere.",
+                "explanation": "One site’s trouble does not justify sweeping changes.",
                 "correct": false
               },
               {
-                "text": "Check that site’s settings and allow the narrow needed exception.",
-                "explanation": "Privacy controls can break legitimate embedded flows.",
+                "text": "Open that site’s settings and allow the narrow exception it needs.",
+                "explanation": "Privacy controls can break legitimate embedded logins.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "What does HTTPS on a shopping page establish?",
+            "prompt": "What does the HTTPS on a shopping page actually establish?",
             "choices": [
               {
-                "text": "The connection to the displayed domain is encrypted.",
-                "explanation": "A scammer can also obtain HTTPS for a lookalike domain.",
+                "text": "The connection to the domain shown in the address bar is encrypted.",
+                "explanation": "A scammer can get HTTPS for a lookalike domain as well.",
                 "correct": true
               },
               {
                 "text": "The merchant is genuine.",
-                "explanation": "Encryption does not vet the merchant.",
+                "explanation": "Encryption says nothing about whether the merchant is honest.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "Does a separate browser profile isolate malware like a separate OS?",
+            "prompt": "Does a separate browser profile contain malware the way a separate OS would?",
             "choices": [
               {
-                "text": "Yes; it makes risky extensions harmless.",
-                "explanation": "An extension can affect pages in its own profile.",
+                "text": "Yes. A risky extension turns harmless there.",
+                "explanation": "An extension can still act on the pages inside its own profile.",
                 "correct": false
               },
               {
-                "text": "No; it mainly separates browser state and extensions.",
-                "explanation": "Profiles help with accidental account mixing but are not a device sandbox.",
+                "text": "No. It mainly separates browser state and extensions.",
+                "explanation": "Profiles help with mixing up accounts, but they are not a sandbox for the device.",
                 "correct": true
               }
             ]

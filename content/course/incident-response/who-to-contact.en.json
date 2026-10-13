@@ -1,180 +1,180 @@
 {
   "order": 4,
-  "title": "Who to contact: banks, carriers, platforms, law enforcement",
+  "title": "Who to contact: banks, carriers, platforms, police",
   "est_minutes": 14,
-  "body_md": "## Route each problem to the team that can act\n\nA single “cybercrime report” does not freeze a card, recover an account, or reverse a transfer. Match the contact to the thing at risk. Use a phone number printed on a card, a bookmarked app, or the organization's own website; numbers in suspicious messages and search advertisements can lead to impersonators.\n\n**Money:** contact the sending bank, card issuer, or payment service immediately. State the payment method, time and whether you authorized it. Ask for a block, dispute, recall or recovery attempt appropriate to that method, plus a case number and written next steps. A transfer you approved under deception may be handled differently from an unauthorized withdrawal. Speed can matter, but no channel guarantees reimbursement. If the payment used a crypto exchange, report it to that exchange; do not send more crypto to a “recovery agent.”\n\n**Phone number:** if service disappears or you see a port/SIM change you did not request, contact your carrier through its official support route and ask it to investigate, restore service and secure the account. Ask what account PIN or number-transfer protection the carrier offers. A legitimate outage also happens; use the carrier to establish the cause.\n\n**Account:** use the provider's published hijacked-account flow. If a work account or device is involved, tell the employer's IT or security team promptly; their tools and reporting duties differ from a consumer's. Do not expect every platform to offer a live agent or instant restoration.\n\n**Identity and reporting:** contact the creditor and the relevant credit-report service if a new account appears in your name. In the US, IdentityTheft.gov creates a tailored recovery plan, and IC3 accepts internet-crime complaints; keep your original evidence. In the UK, NCSC directs lost-money victims to their bank and to Report Fraud, or Police Scotland in Scotland. In Russia, the Bank of Russia describes a card-dispute path involving the bank and police; different transfer types require bank-specific instructions. Check your local official route elsewhere. If anyone is in immediate physical danger, contact local emergency services.\n\nAn authority's complaint feeds a record or investigation; it usually cannot perform the bank's account action. Keep a contact log with channel, date, case number, what was promised and when you will follow up. That makes the next call shorter and exposes conflicting instructions.",
+  "body_md": "## Call the party that can actually act\n\nLate in the evening a text announces a transfer you never made and helpfully supplies a number to call. Stop before you dial. Your card answers to the bank and your number to the carrier, and a single “cybercrime report” reaches neither: it will not freeze a card, recover an account or reverse a transfer. So match the contact to what is at risk, and reach it by a number printed on your card, a bookmarked app, or the organization’s own website. Numbers in suspicious messages and in search ads can lead to impersonators.\n\n**Money:** contact the sending bank, card issuer or payment service immediately. Give the payment method and the time, and say honestly whether you authorized it. Ask for the block, dispute, recall or recovery attempt that fits that method, and get a case number and the next steps in writing. A transfer you approved under deception may be handled differently from an unauthorized withdrawal. Speed can matter, but no channel guarantees reimbursement. If the payment went through a crypto exchange, report it to that exchange, and do not send more crypto to a “recovery agent.”\n\n**Phone number:** if service vanishes, or you see a SIM or number-port change you did not request, contact your carrier through its official support route. Ask it to investigate, restore service and secure the account, and ask what account PIN or number-transfer protection it offers. A genuine outage happens too; let the carrier tell you which one you have.\n\n**Account:** use the provider’s published hijacked-account flow. If a work account or device is involved, tell your employer’s IT or security team promptly, since their tools and reporting duties differ from a consumer’s. Do not count on every platform having a live agent or instant restoration.\n\n**Identity and reporting:** if a new account appears in your name, contact the creditor and the relevant credit-report service. In the US, IdentityTheft.gov builds a tailored recovery plan and IC3 accepts internet-crime complaints; keep your original evidence. In the UK, NCSC points people who lost money to their bank and to Report Fraud, or to Police Scotland in Scotland. In Russia, the Bank of Russia describes a card-dispute path that runs through the bank and the police; other kinds of transfer need bank-specific instructions. Elsewhere, look for your local official route. If anyone is in immediate physical danger, call local emergency services.\n\nA complaint to an authority feeds a record or an investigation; it usually cannot do what the bank can do with your account. Keep a contact log: channel, date, case number, what was promised, and when you will follow up. It makes the next call shorter and shows where two people gave you different instructions.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Route a money, carrier, platform, identity or police issue to the actor able to act, and keep a follow-up record.",
-    "today_action": "Save your bank's fraud contact, carrier support route and main account-recovery page from their official apps or websites in a private note.",
+    "goal": "Take a money, carrier, platform, identity or police matter to the party that can act on it, and keep a log of what you were told.",
+    "today_action": "From their official apps or websites, save your bank’s fraud contact, your carrier’s support route and your main account-recovery page in a private note.",
     "checked_at": "2026-10-20",
-    "scope": "Jurisdiction-specific reporting: US FTC/IC3, UK Report Fraud/Police Scotland, Russian Bank of Russia card route; other countries differ.",
+    "scope": "Reporting routes are national: US FTC and IC3, UK Report Fraud and Police Scotland, and the card route the Bank of Russia describes. Other countries differ. The people in the examples are invented.",
     "sources": [
       {
         "title": "FTC: What to do if you were scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US payment and exposure response; refund rights vary"
+        "scope": "US advice on payments and exposed details; refund rights vary."
       },
       {
         "title": "UK NCSC: Hacked accounts",
         "url": "https://www.ncsc.gov.uk/section/respond-recover/hacked-accounts",
-        "scope": "UK consumer recovery and reporting; account steps broadly useful"
+        "scope": "UK recovery and reporting; the account steps are useful anywhere."
       },
       {
         "title": "FBI IC3: Complaint FAQ",
         "url": "https://www.ic3.gov/Home/FAQ",
-        "scope": "US complaint process and evidence retention"
+        "scope": "How to file in the US and what evidence to keep."
       },
       {
         "title": "Bank of Russia: Unauthorized card debit",
         "url": "https://www.cbr.ru/Reception/TopicalMessage/Page/3402",
-        "scope": "Russian card debit procedure; not every transfer case"
+        "scope": "The card-debit procedure in Russia; it does not cover every kind of transfer."
       },
       {
         "title": "CFPB: Unauthorized bank transaction",
         "url": "https://www.consumerfinance.gov/ask-cfpb/how-do-i-get-my-money-back-after-i-discover-an-unauthorized-transaction-or-money-missing-from-my-bank-account-en-1017/",
-        "scope": "US electronic-transfer rights; not a universal deadline"
+        "scope": "US rights over electronic transfers; the deadlines are not universal."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A fraudulent transfer and a fake hotline",
-        "situation": "Synthetic: Elena sees a transfer she did not make. The alert text gives a “fraud desk” number; her card has a different number.",
-        "analysis": "She uses the card or saved app, reports the transaction accurately, asks what can be stopped, and notes the case number. Calling the alert number could reveal more account data.",
+        "title": "A stranger’s transfer and two phone numbers",
+        "situation": "Elena sees a transfer she did not make. The alert text lists a “fraud desk” number, but the number printed on her card is a different one.",
+        "analysis": "She uses the number on the card, or her saved banking app, and describes the transaction exactly as it happened. She asks what can still be stopped and writes down the case number. Calling the number from the alert could have handed over more account details.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A real carrier outage",
-        "situation": "Synthetic: Sam's phone has no service during a published local network outage. His carrier app shows no SIM or port change, and account logins are normal.",
-        "analysis": "The symptoms resemble a SIM swap, but the carrier confirms a wider outage. Sam monitors the account rather than filing a false takeover claim or assuming the outage itself proves crime.",
+        "title": "No signal, and no crime",
+        "situation": "Sam’s phone has no service, and his carrier has announced a network outage in the area. The carrier app shows no SIM or number-port change, and his account logins look normal.",
+        "analysis": "The symptoms look like a SIM swap, but the carrier confirms a wider outage. Sam keeps an eye on his accounts instead of filing a false takeover claim, and he does not treat the outage itself as proof of a crime.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Who gets the first call?",
-        "setup": "Synthetic: your number loses service; a payment app shows a transfer you approved after a fake invoice, and a social account is locked. Each decision below is an independent snapshot; no later prompt assumes that an earlier recommended action was taken.",
+        "title": "Who gets which call?",
+        "setup": "An invented bad day: your phone number loses service, a payment app shows a transfer you approved after a fake invoice, and a social account is locked. Each decision below is its own snapshot; no later step assumes you picked the safer option earlier.",
         "synthetic": true,
         "steps": [
           {
             "prompt": "Where do you report the payment?",
             "choices": [
               {
-                "text": "The payment provider or sending bank via its official route, stating that you approved it after deception.",
-                "consequence": "They can assess any recall or dispute route.",
-                "explanation": "The payment service controls its own transaction process.",
+                "text": "The payment provider or sending bank, by its official route, saying plainly that you approved the transfer after being deceived.",
+                "consequence": "They can assess whether a recall or dispute is possible.",
+                "explanation": "Only the payment service can run its own recall and dispute process.",
                 "recommended": true
               },
               {
-                "text": "Only the police, because the bank cannot help an approved transfer.",
-                "consequence": "A possible recovery route is delayed.",
-                "explanation": "The bank/provider still needs the report; outcome is uncertain.",
+                "text": "Only the police, since the bank cannot help with a transfer you approved.",
+                "consequence": "A possible recovery route loses time.",
+                "explanation": "The bank or provider still needs the report, even though the outcome is uncertain.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: your number has lost service. What do you do about it?",
+            "prompt": "Separate snapshot: your phone number has lost service. What do you do?",
             "choices": [
               {
-                "text": "Call the carrier through a known number and ask about outage, SIM/port activity and account protection.",
-                "consequence": "You establish whether the number was moved.",
-                "explanation": "No service alone has several causes.",
+                "text": "Call the carrier on a number you already know and ask about an outage, any SIM or port activity, and protecting the account.",
+                "consequence": "You learn whether the number was moved.",
+                "explanation": "No service has several possible causes, and the carrier can tell them apart.",
                 "recommended": true
               },
               {
-                "text": "Use the link in a new 'carrier security' SMS.",
-                "consequence": "The same number may be under attack.",
-                "explanation": "A text is not an independent route.",
+                "text": "Tap the link in a new “carrier security” SMS.",
+                "consequence": "The text could come from whoever is behind the problem.",
+                "explanation": "A text message is not an independent route.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: your social account is locked. Which route handles it?",
+            "prompt": "Separate snapshot: your social account is locked and you want it back. Which route do you take?",
             "choices": [
               {
-                "text": "Pay a recovery agent who promises access today.",
-                "consequence": "You may lose money and credentials again.",
-                "explanation": "Provider recovery is the authoritative route.",
+                "text": "Pay the recovery agent who is promising access by tonight.",
+                "consequence": "You may lose money and your login details a second time.",
+                "explanation": "Only the provider’s own recovery process has the authority to restore the account.",
                 "recommended": false
               },
               {
-                "text": "Use the platform's published account-recovery procedure.",
-                "consequence": "The provider can verify ownership under its own rules.",
-                "explanation": "Restoration may take time or fail; avoid guarantees.",
+                "text": "Use the platform’s published account-recovery procedure.",
+                "consequence": "The provider checks that the account is yours, under its own rules.",
+                "explanation": "Restoration may be slow or fail, and no route can promise otherwise.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: you file a complaint with the US FBI’s IC3 about an online fraud. Bank/provider contact may still be outstanding. What should you expect?",
+            "prompt": "Separate snapshot: you have filed an online-fraud complaint with the FBI’s IC3 in the US, but you may not yet have reached your bank or payment provider. What do you expect from it, and what do you do next?",
             "choices": [
               {
-                "text": "It directly reverses the transfer.",
-                "consequence": "IC3 collects complaints; it does not operate the bank.",
-                "explanation": "IC3 does not operate the bank; contact the provider if you have not, or continue its case.",
+                "text": "IC3 will reverse the transfer directly.",
+                "consequence": "IC3 collects complaints; it does not run the bank.",
+                "explanation": "A complaint office records and investigates; it cannot move money. The bank or provider is still the party to call, or to follow up with.",
                 "recommended": false
               },
               {
-                "text": "Save the complaint and originals; contact the bank/provider through its official route if missed, or follow up on its existing case.",
-                "consequence": "The complaint is saved while you pursue or continue the payment report through the service.",
-                "explanation": "IC3 accepts complaints from affected people outside the US too, but it does not replace local reporting or bank action and does not promise status updates.",
+                "text": "Save the complaint and your originals. Contact the bank or provider by its official route if you missed it, or follow up on the case already open.",
+                "consequence": "Your complaint is on file while you start or continue the payment report with the service.",
+                "explanation": "IC3 accepts complaints from people outside the US too, but it does not replace local reporting or a bank’s action, and it does not promise status updates.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Different doors perform different actions. Recheck the route independently, state what happened accurately, and keep one log. Retry any missed step and replay."
+        "debrief": "Each desk does its own job. Check every route independently, say exactly what happened, and keep one log. Retry any step you missed and play the sequence again."
       },
       {
         "type": "check",
-        "title": "New incidents, new route",
+        "title": "New incident, new desk",
         "questions": [
           {
-            "prompt": "A card was used without your permission in Russia. Which is the correct first institutional contact?",
+            "prompt": "A card was used without your permission in Russia. Who is the right first institutional contact?",
             "choices": [
               {
-                "text": "The issuing bank through the number on the card or its app.",
-                "explanation": "The Bank of Russia's card guidance starts with prompt bank notification and blocking.",
+                "text": "The issuing bank, on the number from the card or in its app.",
+                "explanation": "The Bank of Russia’s card guidance starts with telling the bank promptly so the card is blocked.",
                 "correct": true
               },
               {
                 "text": "Only a social-media post.",
-                "explanation": "It cannot block the card or start a dispute.",
+                "explanation": "A post cannot block a card or open a dispute.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "A UK consumer lost money after account takeover. Which reporting pair matches NCSC guidance?",
+            "prompt": "A UK consumer lost money after an account takeover. Which pair of reports matches NCSC guidance?",
             "choices": [
               {
-                "text": "IC3 alone, regardless of location.",
-                "explanation": "IC3 is a US system and does not replace the bank.",
+                "text": "IC3 alone, wherever you live.",
+                "explanation": "IC3 belongs to the US, and no complaint there stands in for the bank.",
                 "correct": false
               },
               {
-                "text": "Bank promptly, then Report Fraud or Police Scotland as applicable.",
-                "explanation": "The bank handles money; the local reporting route handles the crime report.",
+                "text": "The bank promptly, then Report Fraud, or Police Scotland where that applies.",
+                "explanation": "The bank deals with the money; the local reporting route takes the crime report.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A work mailbox is compromised. Who needs to know in addition to the provider?",
+            "prompt": "A work mailbox is compromised. Who needs to know besides the provider?",
             "choices": [
               {
-                "text": "The organization's IT/security team via its incident procedure.",
-                "explanation": "They can contain connected systems and meet organizational duties.",
+                "text": "The organization’s IT or security team, under its incident procedure.",
+                "explanation": "They can contain connected systems and meet the organization’s own duties.",
                 "correct": true
               },
               {
-                "text": "Only friends and followers.",
-                "explanation": "They cannot manage the work environment.",
+                "text": "Just friends and followers.",
+                "explanation": "None of them can touch the work environment.",
                 "correct": false
               }
             ]

@@ -1,33 +1,35 @@
 ---
-title: "Advance-fee messages (often called ‘Nigerian letters’)"
+title: "Advance-fee scams and “Nigerian letters”"
 slug: "nigerian-letters"
-description: "Spot advance-fee messages that promise a share of money, a gift, or a contract in exchange for payment or personal data."
+description: "An unexpected message promises money, a gift or a contract, then asks you to pay or send documents first. Here is how the pattern unfolds."
 icon: "📧"
 threat_level: 4
 category: "email"
 published_at: "2025-02-14"
 ---
 
-“Nigerian letter” and “419” are common historic labels for an advance-fee fraud pattern; they do not identify the sender’s location or nationality. The pattern is what matters: an unexpected contact promises something valuable, then asks you to pay or disclose information before it can happen.
+The email begins with somebody else's windfall that needs a home: a fortune with no heir, a contract looking for a partner, a gift with your name on it. You were picked. First, though, a small fee.
 
-## How the pattern develops
+“Nigerian letter” and “419” are old nicknames for this kind of advance-fee fraud, and they say nothing about the sender's location or nationality. The pattern is what counts: an unexpected contact promises something valuable, then asks you to pay or hand over information before it can happen. It is a road with a toll booth, and each time you pay, the next booth turns out to be a little further on.
 
-1. **An unexpected confidential opportunity.** The sender may claim to be an official, lawyer, heir, vendor, or investor and offer a share of money, a contract, or a gift.
-2. **A request for secrecy or urgency.** They frame normal verification as a threat to the opportunity.
-3. **A small “release” payment.** The first request is described as a fee, tax, document charge, or transfer cost.
-4. **Escalating requests.** After one payment or document, a new obstacle appears and the request grows.
-5. **Collection of identity or banking details.** These can be used for further fraud even if no payment is sent.
+## How the story unfolds
 
-## Illustrative scenario — not a case report
+1. **A confidential offer out of nowhere.** The sender may claim to be an official, lawyer, heir, supplier or investor, and offers a share of money, a contract or a gift.
+2. **Secrecy and a ticking clock.** Normal checking is painted as a threat to the deal.
+3. **A small “release” payment.** The first request is called a fee, a tax, a document charge or a transfer cost.
+4. **A new obstacle, a bigger bill.** After one payment or document, something else goes wrong and the request grows.
+5. **Your details, collected on the way.** Identity and banking details can be used for further fraud even if you never send a payment.
 
-An email claims that a distant relative left you funds and asks you to pay a document fee to unlock the transfer. The message may contain formal language and copied logos. Do not reply, pay, or send identification. Find any relevant institution through an independently known contact route; if you cannot verify the claim there, delete and report the message.
+## An invented example: the inheritance
 
-## Safer response
+An email says a distant relative has left you money and that a document fee will release the transfer. The wording is formal and the logos are copied. Do not reply, pay or send identification. Look up the institution it names by a route you know independently of the email. If nobody there can confirm the story, delete the message and report it.
 
-1. Do not send money, bank details, identity documents, or verification codes to an unexpected contact.
-2. Do not use contact information supplied by the sender to verify the story.
-3. Search the name, company, and distinctive wording independently; copied text can reveal repeated scams.
-4. Discuss the message with someone you trust before taking any action.
-5. Preserve the message if you report it, but avoid opening attachments or links.
+## What to do instead
 
-If you paid or shared sensitive information, contact the relevant bank, payment service, or identity-protection authority promptly. Reporting channels differ by jurisdiction.
+1. Do not send money, bank details, identity documents or verification codes to someone who contacted you out of the blue.
+2. Do not use the contact details in the message to check the story.
+3. Search for the name, the company and the odd phrases on your own. Copied text can show that the same scam is doing the rounds.
+4. Talk the message over with someone you trust before you do anything.
+5. If you plan to report it, keep the message, but leave its attachments and links unopened.
+
+If you have already paid or shared sensitive information, contact the relevant bank, payment service or identity-protection authority promptly. Reporting channels differ from country to country.

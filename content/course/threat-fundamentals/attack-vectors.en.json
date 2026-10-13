@@ -1,181 +1,181 @@
 {
   "order": 2,
-  "title": "Attack vectors: email, SMS, voice, and the web",
+  "title": "Email, SMS, voice, web: one story, many doors",
   "est_minutes": 14,
-  "body_md": "## A channel delivers a claim; it does not certify it\nAn attack vector is the route by which a request reaches you. Email can carry a link or attachment; SMS or a messaging app can push a short instruction; a call can pressure you in real time; a web search, advertisement or QR code can place a page in your path. The same underlying request may move between channels: “your delivery is delayed” by text, “support” by phone, then a payment page. Do not rank channels by invented open rates or assume voice is expensive and therefore rare. The decisive issue is the requested action.\n\n### Read the transition\nAt each step ask: **Who is making the claim? What do they want me to open, share, install, approve or pay? Where did this address or number come from?** A recognizable sender name, caller ID, logo or search placement is a presentation cue, not an identity check. HTTPS protects a connection to a site; it does not prove the site's operator is the organization you expected. A genuine alert can also arrive by text or email, so deleting every unexpected message is not a complete response if it describes a real account problem.\n\nA safe transition starts outside the incoming message. Open the service's app from your device, type a known address, or call a number from a statement or your own contact book. Then inspect the account or ask the organization whether a request exists. If the request concerns a colleague, use a previously established work directory and the normal approval route. Merely switching from an email to the phone number printed inside that email is not independent verification: the sender supplied both paths.\n\n### Channel-specific limits\nEmail authentication and spam filters reduce some spoofing, but a compromised legitimate mailbox can still send a harmful request. A text thread can group a spoofed message with real ones. A caller may know your name and account context. Search results and ads can lead to real or fake services. URL inspection is useful, yet a familiar domain can host a compromised page, and mobile displays may hide parts of an address. No visual clue replaces checking the transaction inside a trusted service.\n\n**A repeatable routine:** pause when the requested action changes control, leave the incoming channel, check through a source you chose earlier, then act through the normal service if confirmed. If you already entered data or paid, contact the relevant provider promptly; the response depends on what was exposed.",
+  "body_md": "## The bell doesn’t vouch for the visitor\n\nYour phone buzzes at 7:40 with a text from your bank about a card payment you don’t recognize. Before you’ve finished reading, it rings: the bank’s fraud desk, calm and well informed, already aware of the text. It would be quicker, the caller says, to sort this out on the phone than in the app. Nothing in the call is clumsy. What is wrong is that two channels now vouch for each other, and one person stands behind both.\n\nA channel is a doorbell. It tells you someone is at the door and nothing about who. An attack vector is the route a request takes to reach you: email carries links and attachments, a text or chat message delivers a short instruction, a phone call leans on you in real time, and a search, an ad or a QR code puts a page in your path. The same story hops from one to the next, and each hop borrows credibility from the last. Don’t rank the channels by open-rate figures nobody can source, and don’t assume phone scams are rare because they take more effort. What matters is the action being asked of you.\n\n### Three questions at every hand-off\n\nAsk: **Who is making this claim? What do they want me to open, share, install, approve or pay? Where did this address or number come from?** A familiar sender name, a caller ID, a logo, a high spot in the search results: each is something the sender can arrange, and none is an identity check. HTTPS protects the connection to a site, but it doesn’t show that the site belongs to the organization you had in mind. And genuine alerts do arrive by text and email, so deleting every unexpected message is no answer when one describes a real problem with your account.\n\nA safe check starts outside the incoming message. Open the service’s app on your device, type an address you know, or call the number on a statement or in your own contacts. Then look at the account, or ask the organization whether such a request exists. If the request concerns a colleague, use the work directory you already had and the usual approval route. Switching from the email to the phone number printed in that email proves nothing, because the number rings in the same house the email was written in. The sender supplied both routes.\n\n### What no channel can promise\n\nEmail authentication and spam filters cut down some spoofing, yet a hijacked genuine mailbox can still send something harmful. A text thread can seat a spoofed message among real ones. A caller may already know your name and the details of your account. Search results and ads lead to real services and fake ones alike. Reading the URL helps, but a familiar domain can host a compromised page, and a phone screen hides part of the address. No visual clue replaces looking at the transaction inside a service you trust.\n\n**The routine:** pause when a request would hand someone control, leave the channel it came in on, check through a source you chose earlier, and act through the normal service only if it confirms. If you have already entered data or paid, contact the provider promptly; what comes next depends on what was exposed.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Identify what a message, call or page asks you to do, then verify that action through an independently chosen route.",
-    "today_action": "Choose one important service and save its official app or support contact for future call-backs.",
+    "goal": "Work out what a message, call or page wants you to do, then check it by a route you chose yourself.",
+    "today_action": "Pick one service that matters to you and save its official app or support contact now, so you have something to call back on later.",
     "checked_at": "2026-10-20",
-    "scope": "General channel and verification principles; NCSC reporting instructions apply to the UK. A channel or polished appearance alone does not prove fraud or safety.",
+    "scope": "General principles about channels and verification; the NCSC’s reporting instructions apply to the UK. The examples are invented. Which channel a message used, or how polished it looks, proves neither fraud nor safety on its own.",
     "sources": [
       {
         "title": "NCSC: How to spot a scam email, text message or call",
         "url": "https://www.ncsc.gov.uk/collection/phishing-scams/spot-scams",
-        "scope": "UK consumer guidance; published 2021, reviewed 2022; verification habit applies broadly"
+        "scope": "UK consumer guidance, published 2021 and reviewed 2022; the habit of checking independently applies anywhere."
       },
       {
         "title": "FTC: What to do if you were scammed",
         "url": "https://consumer.ftc.gov/articles/what-do-if-you-were-scammed",
-        "scope": "US consumer response by exposure/payment type; June 2026; local rights vary"
+        "scope": "US consumer guidance sorted by what was exposed or paid, as of June 2026; your local rights may differ."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "Parcel text moves to a “support” call",
-        "situation": "Synthetic: A text claims a parcel needs an address correction at `https://parcel-help.example`. A follow-up caller says the link is safe and asks for a card to pay a tiny fee.",
-        "analysis": "The caller and link reinforce the same unverified claim. A real customs or delivery fee is possible, so the fee alone is not proof. Check the actual order or courier app reached independently; do not use the link or callback number supplied in the text.",
+        "title": "A parcel text, then a friendly call",
+        "situation": "A text says a parcel needs its address corrected at `https://parcel-help.example`. Twenty minutes later a caller assures you the link is safe and asks for a card number to pay a tiny fee.",
+        "analysis": "The caller and the link are propping up the same unverified claim. A customs or delivery fee is possible, so the fee alone proves nothing either way. Look up the real order, or open the courier’s own app, and ignore both the link and the callback number the text gave you.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A real account alert by email",
-        "situation": "Synthetic: Your library emails that a reserved book is ready and provides a pickup deadline. The message uses the library name and a link, but asks for no payment or password.",
-        "analysis": "This may be genuine. Open the library app or known website and check the reservation there. The verification avoids both a needless visit and blind trust in the link.",
+        "title": "A library email you can check",
+        "situation": "Your library emails to say a book you reserved is ready, with the last day you can collect it. The message carries the library’s name and a link, but asks for no payment and no password.",
+        "analysis": "This may well be genuine. Open the library’s app or its usual website and look at the reservation there. Checking costs a minute: you won’t miss your book, and you won’t have to trust a link you can’t vouch for.",
         "legitimate": true
       },
       {
         "type": "practice",
         "mode": "sequence",
-        "title": "Track a request across channels",
-        "setup": "A synthetic storage-service warning reaches you while travelling. Work through the same claim as it moves from email to call to web.",
+        "title": "Follow one claim across channels",
+        "setup": "An invented storage-service warning reaches you while you’re traveling. Follow the same claim as it moves from email to phone call to web search.",
         "synthetic": true,
         "steps": [
           {
-            "prompt": "An email says your files will be deleted tonight and offers a “restore” link. First move?",
+            "prompt": "An email says your files will be deleted tonight and offers a “restore” link. What do you do first?",
             "choices": [
               {
-                "text": "Open the known storage app and inspect notices there.",
-                "consequence": "You see account state without trusting the email link.",
-                "explanation": "Urgency makes the request worth checking, not worth obeying immediately.",
+                "text": "Open your usual storage app and look for notices there.",
+                "consequence": "You see the state of the account without touching the email’s link.",
+                "explanation": "Urgency is a reason to check, not to comply on the spot.",
                 "recommended": true
               },
               {
-                "text": "Use the restore link because the email includes your name.",
-                "consequence": "The link controls the destination.",
-                "explanation": "Personal details can be known to an attacker.",
+                "text": "Click the restore link; the email does use your name.",
+                "consequence": "The link, not you, decides where you land.",
+                "explanation": "A scammer can know your name before ever writing to you.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A caller now says they are support and tells you to call the number in the email. How verify?",
+            "prompt": "Then someone calls, says they are from support and tells you to dial the number printed in the email. How do you check?",
             "choices": [
               {
-                "text": "Call the number in the email.",
-                "consequence": "The same actor may answer.",
-                "explanation": "Changing devices is not enough when the contact source is untrusted.",
+                "text": "Call the number printed in the email.",
+                "consequence": "The same person may pick up.",
+                "explanation": "Making the call yourself changes nothing when the contact details came from the party you are checking.",
                 "recommended": false
               },
               {
-                "text": "End the call and use the support contact from your own app or saved records.",
-                "consequence": "The new route is outside the caller’s instructions.",
-                "explanation": "A number supplied by the same claim is not independent.",
+                "text": "Hang up and find support’s number in your own app or saved records.",
+                "consequence": "Your new route doesn’t pass through the caller.",
+                "explanation": "A number supplied by the claim itself is not independent.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "A web search shows a sponsored “storage recovery” result. Which path?",
+            "prompt": "A web search shows a sponsored “storage recovery” result. Which way do you go?",
             "choices": [
               {
-                "text": "Use the app or a previously known address instead.",
-                "consequence": "You avoid treating ad placement as identity proof.",
-                "explanation": "A search result is a route to a page, not verification of its owner.",
+                "text": "Skip it and use the app or an address you already know.",
+                "consequence": "You land where you meant to go, not where an ad slot pointed you.",
+                "explanation": "A search result is a path to a page, not proof of whose page it is.",
                 "recommended": true
               },
               {
-                "text": "Choose the first sponsored result.",
-                "consequence": "You may enter credentials into an unrelated page.",
-                "explanation": "Advertising position is purchasable.",
+                "text": "Click the first sponsored result.",
+                "consequence": "You may type your password into a page that has nothing to do with the service.",
+                "explanation": "Ad position can be bought.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The official app shows normal files and no warning. What now?",
+            "prompt": "The official app shows your files untouched and no warning. What now?",
             "choices": [
               {
-                "text": "Follow the email anyway in case the app is late.",
-                "consequence": "You give the original claim control again.",
-                "explanation": "A mismatch warrants support through the known route, not the suspicious link.",
+                "text": "Follow the email anyway, in case the app is running behind.",
+                "consequence": "The original claim takes control again.",
+                "explanation": "A mismatch is a reason to contact support by a route you know, not to go back to the suspicious link.",
                 "recommended": false
               },
               {
-                "text": "Treat the incoming claim as unconfirmed, report/block it through the provider’s normal route.",
-                "consequence": "You stop the chain and preserve the real service.",
-                "explanation": "Account state from the trusted app is stronger evidence than the incoming messages.",
+                "text": "Treat the incoming claims as unconfirmed, and report or block them through the provider’s usual route.",
+                "consequence": "The chain ends here, and your real account stays as it was.",
+                "explanation": "What the trusted app shows outweighs what the incoming messages say.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "Replay the channel changes: email, caller and ad can all carry one story. Verification is independent only when the destination or contact comes from your established source."
+        "debrief": "Run the hops again: the email, the caller and the ad can all tell one story. A check is independent only when the address or contact comes from a source you had before the story began."
       },
       {
         "type": "check",
-        "title": "Transfer the routine",
+        "title": "Take the routine with you",
         "questions": [
           {
-            "prompt": "A real bank text warns of unusual activity. What is the safest way to resolve it?",
+            "prompt": "A real bank text warns of unusual activity. What is the safest way to deal with it?",
             "choices": [
               {
-                "text": "Ignore every text because banks never send alerts.",
-                "explanation": "Real services may send alerts; verify independently.",
+                "text": "Ignore every text, since banks never send alerts.",
+                "explanation": "Real services do send alerts, so check independently instead of dismissing them.",
                 "correct": false
               },
               {
-                "text": "Open the bank app you already use and review activity or contact support there.",
-                "explanation": "This handles a genuine alert without relying on the message link.",
+                "text": "Open the bank app you already use and review activity, or reach support from there.",
+                "explanation": "That answers a genuine alert without leaning on the message’s link.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A caller ID displays your clinic’s name. What does that prove?",
+            "prompt": "Your caller ID shows your clinic’s name. What does that prove?",
             "choices": [
               {
-                "text": "Only what the phone displayed; call back on a known clinic number before sharing data.",
-                "explanation": "Caller ID can be misleading and may not identify the caller.",
+                "text": "Only what the phone displayed. Call back on a number you know for the clinic before sharing anything.",
+                "explanation": "A displayed name can be set by the caller, so it says little about who is calling.",
                 "correct": true
               },
               {
-                "text": "It proves the caller is the clinic.",
-                "explanation": "Display names are not identity proof.",
+                "text": "That the caller is the clinic.",
+                "explanation": "A name on a screen is not proof of identity.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "An email and its linked page both show the same logo. Which inference is sound?",
+            "prompt": "An email and the page its link opens show the same logo. Which conclusion is sound?",
             "choices": [
               {
-                "text": "The match proves the page is official.",
+                "text": "Matching logos prove the page is official.",
                 "explanation": "A logo can be copied.",
                 "correct": false
               },
               {
-                "text": "They may be controlled by the same sender; check through a separate source.",
-                "explanation": "Visual agreement across two attacker-supplied surfaces is weak evidence.",
+                "text": "Both may belong to the same sender, so check through a separate source.",
+                "explanation": "Two things supplied by the same unknown sender agreeing with each other is weak evidence.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "Why is a HTTPS page insufficient evidence that an offer is legitimate?",
+            "prompt": "Why does an HTTPS page not show that an offer is legitimate?",
             "choices": [
               {
-                "text": "HTTPS protects the connection to that page, not the truth of its claims.",
-                "explanation": "A scam site can also use HTTPS.",
+                "text": "HTTPS protects the connection to the page, not the truth of what it says.",
+                "explanation": "A scam site can use HTTPS too.",
                 "correct": true
               },
               {
-                "text": "Because HTTPS never encrypts traffic.",
-                "explanation": "HTTPS can encrypt traffic, but authentication of the business is a different question.",
+                "text": "Because HTTPS doesn’t encrypt anything.",
+                "explanation": "It does encrypt traffic. Whether the business is who it claims to be is a separate question.",
                 "correct": false
               }
             ]

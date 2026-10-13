@@ -1,114 +1,114 @@
 {
   "order": 6,
-  "title": "Building a family verification protocol",
+  "title": "A family plan for urgent calls",
   "est_minutes": 14,
-  "body_md": "## Make a family plan that survives panic\n\nA family verification plan is a short agreement made *before* an urgent call. Its purpose is not to identify every deepfake. It gives everyone permission to pause, disconnect and check through a route chosen in advance. The FTC describes fake emergency callers who exploit urgency, secrecy, personal details and sometimes a cloned voice. The same plan helps if the caller simply imitates a voice or uses a stolen phone.\n\nStart with two or three people likely to receive an emergency request. Agree on three rules: no money or account codes on an incoming call; call the person back on a saved number; if there is no answer, contact another relative or a real institution through its published number. Decide who can help a young or older relative make that second call. Rehearse a short sentence: “I want to help. I am hanging up and calling you on the number I already have.” A real emergency can still be handled promptly.\n\nAn optional shared phrase is a reminder, not proof. Choose one unrelated to public birthdays or pet names; do not reuse a password or one-time account code. Keep the circle small, explain when to use it, and replace it if exposed. A caller who knows the phrase still needs a callback; a real person who forgets it still deserves a welfare check. If no phrase is practical, the callback plan remains useful. Do not impose a fixed renewal date as if rotation alone made it safe.\n\nWrite down the route in a safe place: saved contact numbers, a second family contact, and locally relevant emergency numbers. Do not put secret phrases in a shared public post. During a call, one person can handle the independent callback while another stays ready to seek medical or police help. Afterward, tell the family what happened without shaming the person who received the call. If money was sent, promptly ask the bank or payment provider about available recovery and use local reporting channels.\n\nThe plan works only if the people who may receive a call know it and have practised it. Spend a few minutes rehearsing the disconnect-and-callback step rather than trying to make everyone an audio-forensics expert.",
+  "body_md": "## Decide before the phone rings\n\nNobody works out where the fire exits are while the corridor fills with smoke. You walk them once, on a calm afternoon, so that your feet know the way when your head does not. A family verification plan is the same kind of rehearsal for the call that comes at the worst possible hour: a short agreement made *before* anyone is frightened.\n\nIt will not unmask every deepfake, and it does not try to. What it does is give everyone permission to pause, hang up and check by a route chosen in advance. The FTC describes fake-emergency callers who lean on urgency, secrecy, personal details and, sometimes, a cloned voice. The plan works just as well when the caller merely does an impression, or fakes the number on your screen.\n\n### Three rules and a sentence\n\nBegin with the two or three people most likely to get an emergency request. Agree on three rules: no money and no account codes on an incoming call; call the person back on the number you have saved; and if there is no answer, reach another relative, or a real institution through its published number. Decide who will help a young or older relative make that second call. Then rehearse one sentence until it comes without thinking: “I want to help. I am hanging up and calling you on the number I already have.” A real emergency can still be handled quickly, just by a different road.\n\n### The optional phrase\n\nA shared phrase is a reminder, not proof. Pick one that has nothing to do with public birthdays or pet names, and never reuse a password or a one-time account code. Keep the circle small, say when the phrase is meant to be used, and replace it if it leaks. A caller who knows the phrase still gets a callback; a real relative who forgets it still deserves a welfare check. If no phrase suits your family, the callback stands on its own. A fixed renewal date will not make a phrase safe by itself.\n\n### Write the route down\n\nKeep the route written down somewhere safe: saved numbers, a second family contact, and the emergency numbers that apply where you live. Keep secret phrases out of any shared public post. During a call, one person can make the independent callback while another stays ready to seek medical or police help. Afterwards, tell the family what happened, with no blame for whoever took the call. If money has gone, ask the bank or payment provider quickly about recovery, and report through your local channels.\n\nThe plan works only if the people who might take such a call know it and have practised it. A few minutes spent rehearsing hang-up and callback beat any attempt to turn everyone into an audio-forensics expert.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Agree and practise a family callback plan for urgent requests, with a safe fallback when someone is unreachable.",
-    "today_action": "Ask two close people to practise the sentence “I will call you back on your saved number,” and save a backup contact.",
+    "goal": "Agree on a callback plan for urgent requests, rehearse it, and know whom to try next when someone does not pick up.",
+    "today_action": "Ask two people close to you to say aloud, “I will call you back on your saved number,” and save a backup contact.",
     "checked_at": "2026-10-20",
-    "scope": "General household education, checked 20 October 2026; adapt emergency contacts and payment recovery to your country. A shared phrase is optional, not an authentication guarantee.",
+    "scope": "General advice for households, checked 20 October 2026. Adapt the emergency numbers and the payment-recovery steps to your country. A shared phrase is optional and guarantees nothing. The people and calls in the cases are invented.",
     "sources": [
       {
         "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
         "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
-        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
+        "scope": "US consumer advice, page dated September 2023: voice cloning, urgency, calling back on a number you know, and checking with another relative. The reporting route it gives applies only in the US."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A “granddaughter” asks to hide a payment",
-        "situation": "A synthetic caller says she is your granddaughter, has been detained, and needs a payment through a new intermediary before anyone else hears.",
-        "analysis": "The secrecy rule is designed to disable the family network. End the call, use the saved number and the agreed backup person. If a real detention is possible, independently contact the relevant local authority; do not pay the caller’s intermediary.",
+        "title": "A “granddaughter” asks you to keep a payment quiet",
+        "situation": "A caller says she is your granddaughter. She has been detained, she says, and needs money sent through a new intermediary before anyone else finds out.",
+        "analysis": "The demand for secrecy is there to switch off your family network. End the call, dial the saved number, then the agreed backup person. If a genuine detention is possible, contact the relevant local authority yourself, and do not pay the caller’s intermediary.",
         "legitimate": false
       },
       {
         "type": "case",
         "title": "A real relative forgets the phrase",
-        "situation": "Synthetic example: After an injury, your uncle calls from a clinic’s phone. He cannot remember the optional family phrase and wants someone to collect him, not transfer money.",
-        "analysis": "A missing phrase does not make him a fraudster. Call the clinic using its published number or another relative to check the location, then arrange help. The protocol should support care, not block it.",
+        "situation": "After an injury, your uncle phones from the clinic. He cannot recall the optional family phrase, and what he wants is for someone to come and collect him, not a transfer.",
+        "analysis": "A forgotten phrase does not make him a fraudster. Ring the clinic on its published number, or another relative, to confirm where he is, then arrange help. The protocol is there to support care, not to block it.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Build the family response",
-        "setup": "Synthetic scenario: three relatives are agreeing how to handle an urgent call; one uses an older phone and one travels often.",
+        "title": "Draw up the family plan",
+        "setup": "An invented scene: three relatives are agreeing how to handle an urgent call. One has an old phone and one travels a lot.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "What is the rule for an incoming money request?",
+            "prompt": "What is the rule for an incoming request for money?",
             "choices": [
               {
                 "text": "End the call and dial the saved number yourself",
                 "consequence": "Everyone has a simple first move.",
-                "explanation": "A saved contact exists outside the caller’s story.",
+                "explanation": "A saved contact lives outside the caller’s story.",
                 "recommended": true
               },
               {
-                "text": "Ask the caller to text a proof photo",
-                "consequence": "A convincing image arrives, but identity remains unverified.",
-                "explanation": "The caller controls the image as well as the call.",
+                "text": "Ask the caller to text a photo as proof",
+                "consequence": "A convincing picture arrives, and you still do not know who sent it.",
+                "explanation": "The caller controls the picture as much as the call.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "The traveller may be unreachable. Choose the fallback.",
+            "prompt": "The relative who travels may not pick up. Choose the fallback.",
             "choices": [
               {
-                "text": "Call a second agreed relative or published institution",
-                "consequence": "The plan still works without one phone.",
-                "explanation": "Independent welfare checks are possible without sending money to the caller.",
+                "text": "Call a second agreed relative, or an institution on its published number",
+                "consequence": "The plan still works with one phone out of reach.",
+                "explanation": "You can check on someone’s welfare independently, without sending the caller a cent.",
                 "recommended": true
               },
               {
-                "text": "Assume no answer confirms the emergency payment",
-                "consequence": "An unreachable phone turns into false “evidence.”",
-                "explanation": "No answer can have many ordinary causes.",
+                "text": "Treat no answer as confirming the emergency payment",
+                "consequence": "A phone out of reach turns into false “evidence”.",
+                "explanation": "Silence has plenty of ordinary causes.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "A relative proposes a shared phrase. How should it be used?",
+            "prompt": "A relative suggests a shared phrase. How should it be used?",
             "choices": [
               {
-                "text": "As sole proof, replacing the callback",
+                "text": "As sole proof, in place of the callback",
                 "consequence": "One overheard phrase can defeat the whole plan.",
-                "explanation": "A shared secret alone does not verify the current situation.",
+                "explanation": "A shared secret alone does not verify what is happening now.",
                 "recommended": false
               },
               {
-                "text": "As an optional clue alongside independent callback",
-                "consequence": "The phrase helps memory without becoming a master key.",
-                "explanation": "It can leak or be forgotten; the saved route remains primary.",
+                "text": "As an optional clue next to an independent callback",
+                "consequence": "The phrase helps people remember without taking the place of the callback.",
+                "explanation": "It can leak or be forgotten; the saved route stays primary.",
                 "recommended": true
               }
             ]
           }
         ],
-        "debrief": "The agreed action is a short, rehearsed callback with a fallback. A phrase can help but cannot override the callback. Revisit the choices together as a family."
+        "debrief": "What the family agreed is a short, rehearsed callback with a fallback. A phrase may help, but it never replaces the callback. Go through the choices together, out loud."
       },
       {
         "type": "check",
-        "title": "Can the plan travel?",
+        "title": "Does the plan hold up?",
         "questions": [
           {
-            "prompt": "A real relative forgets the family phrase during an injury.",
+            "prompt": "A real relative, injured, cannot remember the family phrase. What do you do?",
             "choices": [
               {
-                "text": "Refuse all help because the phrase is missing",
+                "text": "Refuse to help because the phrase is missing",
                 "explanation": "A phrase is optional and fallible.",
                 "correct": false
               },
               {
-                "text": "Verify through a clinic or another saved contact, then help",
-                "explanation": "The plan supports a genuine emergency without treating memory failure as guilt.",
+                "text": "Confirm through a clinic or another saved contact, then help",
+                "explanation": "The plan supports a genuine emergency and does not treat a failed memory as guilt.",
                 "correct": true
               }
             ]
@@ -118,27 +118,27 @@
             "choices": [
               {
                 "text": "Only the person who designed it",
-                "explanation": "Others need to practise before panic.",
+                "explanation": "The others need to practise before panic arrives.",
                 "correct": false
               },
               {
-                "text": "People likely to receive or verify an urgent request",
-                "explanation": "The callback fails if only one family member knows it.",
+                "text": "The people likely to receive or check an urgent request",
+                "explanation": "A callback fails if only one family member knows about it.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A caller supplies a hospital phone number. What do you do?",
+            "prompt": "A caller gives you the phone number of a hospital. What do you do?",
             "choices": [
               {
-                "text": "Find the institution’s number independently",
-                "explanation": "A number supplied by the caller can lead to an accomplice.",
+                "text": "Find the institution’s number yourself",
+                "explanation": "A number supplied by the caller can lead straight to an accomplice.",
                 "correct": true
               },
               {
                 "text": "Call it and treat the answer as independent proof",
-                "explanation": "The source of the number is still the unverified caller.",
+                "explanation": "The number still came from the unverified caller.",
                 "correct": false
               }
             ]

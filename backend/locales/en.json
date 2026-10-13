@@ -3,26 +3,26 @@
     "artifacts_heading": "ARTIFACTS",
     "artifact_course_desc": "Nine modules, interactive scenarios, and a local completion record.",
     "artifact_course_label": "TRAINING COURSE",
-    "artifact_journal_desc": "Interviews with analysts, newsletters, and deep-dive articles.",
+    "artifact_journal_desc": "Interviews with analysts, newsletters, and long-form articles.",
     "artifact_journal_label": "FIELD BRIEFINGS",
-    "artifact_simulator_desc": "Antifraud Hero. Practice common scam patterns at a simulated analyst console.",
+    "artifact_simulator_desc": "Antifraud Hero. Practice spotting common scam patterns at a simulated analyst console.",
     "artifact_simulator_label": "SIMULATOR",
-    "artifact_threats_desc": "Ten plus scam-pattern dossiers, each with red flags and what to do.",
+    "artifact_threats_desc": "Ten or more scam-pattern dossiers, each with red flags and what to do.",
     "artifact_threats_label": "THREAT DATABASE",
     "built_by": "// A PROJECT BY FOMA MOLCHANOV",
     "contact_email_label": "Reach us at",
     "contact_heading": "CONTACT",
     "eyebrow": "// ABOUT DISCAMMER",
-    "lead": "DiScammer is a field guide for everyone who has ever paused over a sketchy message and wondered if it's real. We document the patterns, simulate the situations, and respect your time. The goal is not for you to finish a course. The goal is for you to develop the reflex to pause and check.",
+    "lead": "DiScammer is a field guide for anyone who has ever hesitated over a suspicious message and wondered if it was real. We describe how common scams work and let you practice on simulated situations. The point is not to finish a course. It is to build the reflex of pausing and checking.",
     "page_title": "About · DiScammer",
     "title": "Who we are, and why this exists.",
-    "what_we_believe_body": "Authority comes from specificity, not aesthetics. We name the SMS pattern that pretends to be from a bank, the channel a romance scam can use, and the time-pressure phrase that should make you pause. Plain language beats jargon. The reader is an equal, not a target.",
+    "what_we_believe_body": "Specifics are what persuade: we name the SMS that pretends to come from a bank, the channel a romance scam can use, and the time-pressure phrase that should make you pause. Plain language beats jargon. The reader is an equal, not a target.",
     "what_we_believe_heading": "What we believe",
     "what_we_dont_do_heading": "What we don't do",
-    "what_we_dont_do_item_1": "No scare tactics. We will not catastrophize a category to make you click.",
-    "what_we_dont_do_item_2": "The checkers keep pasted text and links in the browser. Standard service and error logs can record technical request information needed to operate and protect the site; pasted inputs are not used for tracking.",
+    "what_we_dont_do_item_1": "No scare tactics. We don't exaggerate a danger to get you to click.",
+    "what_we_dont_do_item_2": "The checkers analyze pasted text and links in the browser. Standard service and error logs can record technical request information needed to operate and protect the site; pasted inputs are not used for tracking.",
     "what_we_dont_do_item_3": "No partnerships with surveillance vendors. No affiliate links to identity-monitoring services.",
-    "what_we_dont_do_item_4": "No paywall, no subscription, no \"premium\" tier. Education stays free or the brand fails its purpose.",
+    "what_we_dont_do_item_4": "No paywall, no subscription, no \"premium\" tier. The lessons stay free.",
     "what_we_do_heading": "What we do",
     "what_we_do_item_1": "Maintain a threat database of 10+ scam patterns with practical red flags and next steps.",
     "what_we_do_item_2": "Publish field briefings: interviews with analysts, newsletters, and long-form articles.",
@@ -34,7 +34,7 @@
     "page_title": "Project dossier · DiScammer",
     "eyebrow": "// PORTFOLIO DOSSIER · DISCAMMER",
     "title": "An education project designed to make the pause visible.",
-    "lead": "DiScammer is a bilingual anti-scam learning project. This dossier names its author, separates current implementation from future work, and records the decisions behind the public experience.",
+    "lead": "DiScammer is a bilingual anti-scam learning project. This dossier names its author, separates current implementation from future work, and records the decisions behind the public site.",
     "status_heading": "Scope and status",
     "status_body": "This is a public build record, not an external audit or an institutional credential. It describes the current website and its limits so a reviewer can distinguish implemented behavior from planned validation.",
     "author_heading": "Author and role",
@@ -88,7 +88,7 @@
     "journal": "Journal",
     "navigation": "NAVIGATION",
     "rights": "All rights reserved.",
-    "tagline": "Empowering digital literacy to combat scams, fraud, and emerging cyber threats through education and interactive experiences.",
+    "tagline": "Guides, a course and interactive practice for recognizing scams, fraud and cyber threats.",
     "threat_database": "THREAT DATABASE"
   },
   "guide_labels": {
@@ -106,11 +106,11 @@
   "page_titles": {
     "course": "Course · DiScammer",
     "game": "Antifraud Hero · DiScammer",
-    "home": "DiScammer · Cyber Security Education",
+    "home": "DiScammer · Cybersecurity Education",
     "journal": "Journal · DiScammer",
     "not_found": "Not Found · DiScammer",
-    "site_description": "Empowering digital literacy to combat scams, fraud, and emerging cyber threats.",
-    "site_full": "DiScammer - Cybersecurity Education Platform",
+    "site_description": "Guides, a course and interactive practice for recognizing scams, fraud and cyber threats.",
+    "site_full": "DiScammer · Cybersecurity Education Platform",
     "search": "Search · DiScammer",
     "check": "Check a message · DiScammer",
     "inspect": "Inspect a link · DiScammer"
@@ -118,9 +118,9 @@
   "home": {
     "art_browse_all": "Browse all articles",
     "art_eyebrow": "ARTICLE_DATABASE",
-    "art_title": "The analyst's editorial notes",
+    "art_title": "The analyst's notes",
     "course_certificate": "local completion record",
-    "course_cta_enroll": "Enroll free",
+    "course_cta_enroll": "Start free",
     "course_cta_game": "Play Antifraud Hero",
     "course_eyebrow": "// THE_COURSE",
     "course_lead": "{modules} modules, {lessons} lessons, one final self-assessment, and a local completion record. Built around a single goal: the reflex to stop and check before you act. Free, in Russian and English.",
@@ -144,18 +144,18 @@
     "hero_stat_interviews": "Interviews",
     "hero_stat_last_filed": "Last filed",
     "hero_stat_lessons": "Lessons",
-    "hero_subtitle": "Not another course you finish and forget. DiScammer teaches the cognitive moves of an anti-fraud analyst, so the next time a message feels off, you pause, and you check, before the money moves.",
+    "hero_subtitle": "DiScammer teaches you to read a suspicious message the way an anti-fraud analyst would. The aim: when the next one feels off, you stop and check before any money moves.",
     "hero_tracking_label": "learning example",
     "hero_tracking_value": "PHISHING_SMS",
     "iv_all": "All interviews",
     "iv_eyebrow": "INTERVIEW_LOG",
     "iv_read_cta": "Read",
     "iv_role_featured": "In conversation",
-    "iv_title": "People who sit across from the fraud every day",
+    "iv_title": "People who deal with fraud every day",
     "nl_eyebrow": "NEWSLETTER",
-    "nl_intro": "Short briefings on recurring scam patterns. No thumbnails, no fluff, just the pattern and the tell.",
+    "nl_intro": "Short briefings on scam patterns that keep recurring. No thumbnails, just the pattern and the tell.",
     "nl_subscribe": "Subscribe",
-    "nl_title": "Patterns worth checking",
+    "nl_title": "Patterns worth knowing",
     "threat_db_caption": "threat level = severity, not frequency",
     "threat_db_case": "CASE",
     "threat_db_critical_badge": "SCAM GUIDE · CRITICAL",
@@ -177,7 +177,7 @@
     "ways_learn_tag": "COURSE",
     "ways_learn_verb": "Learn",
     "ways_practice_cta": "Play the game",
-    "ways_practice_line": "Practice with training scenarios against the clock in Antifraud Hero.",
+    "ways_practice_line": "Practice on timed scenarios in Antifraud Hero.",
     "ways_practice_tag": "GAME",
     "ways_practice_verb": "Practice"
   },
@@ -239,9 +239,9 @@
     "investigator_notes_investment_pyramids": "Educational pattern note, not financial advice.\nA scheme may rely on money from new participants rather than a clear, regulated investment activity.\nGuaranteed or unusually high returns, pressure to recruit, and vague documentation are warning signs to investigate.\nTestimonials and polished dashboards are not independent evidence.\nrecommend: check the provider with the relevant financial regulator before any deposit.",
     "pattern_notes_label": "// EDUCATIONAL_PATTERN_NOTES",
     "investigator_notes_nigerian_letters": "Educational pattern note, not a report about a region or a group of people.\nAdvance-fee scams can arrive through email, messaging apps, dating platforms, or social media.\nThe story usually promises a larger sum after a small fee, transfer, or request for personal details.\nThe claimed payout is the hook, not evidence that money exists.\nrecommend: never pay to unlock a larger sum; verify through an independent channel instead.",
-    "investigator_notes_phishing": "Educational pattern note, not live threat-intelligence reporting.\nPhishing commonly borrows a trusted brand, a time limit, and a link that asks you to sign in or share a code.\nSender names, addresses, and links can change quickly, so a familiar label is not proof.\nDo not use a link or phone number from the message to verify it.\nrecommend: open the official app or type a known address yourself.",
-    "next_step_briefings": "Get the field guide briefings",
-    "next_step_course": "Take the structured course",
+    "investigator_notes_phishing": "Educational pattern note, not a live threat report.\nPhishing commonly borrows a trusted brand, a time limit, and a link that asks you to sign in or share a code.\nSender names, addresses, and links can change quickly, so a familiar label is not proof.\nDo not use a link or phone number from the message to verify it.\nrecommend: open the official app or type a known address yourself.",
+    "next_step_briefings": "Read the field briefings",
+    "next_step_course": "Take the course",
     "next_step_simulator": "Test yourself in the simulator",
     "next_steps_label": "// NEXT_STEPS",
     "risk_word_contained": "CONTAINED",
@@ -259,13 +259,13 @@
     "strip_sources_value": "LINKED",
     "sources_heading": "// SOURCES_AND_SCOPE",
     "sources_limit": "These links support general safety guidance. They do not verify a particular message, account, or offer, and they are not a live threat feed.",
-    "sources_unavailable": "No source record is available for this guide yet. Treat it as a reading prompt, not a live alert.",
+    "sources_unavailable": "No source record is available for this guide yet. Read it as background, not as a live alert.",
     "source_recorded_label": "SOURCE_ENTRY_DATE:",
     "opens_external": " (opens an external source)",
     "threat_level": "THREAT LEVEL",
     "check_heading": "Check yourself",
-    "check_intro": "A quick recall test sits here when JavaScript is on. Either way, run this guide through your own head before you move on:",
-    "check_1": "Name the move this scam opens with — the message, call, or offer that starts it.",
+    "check_intro": "With JavaScript on, a short recall quiz appears here. Either way, ask yourself these before you move on:",
+    "check_1": "Name how this scam opens: the message, call, or offer that starts it.",
     "check_2": "Say out loud the one detail that gives it away, even when everything else looks legitimate.",
     "check_3": "Decide your next step in advance: who you'd contact through a channel you already trust, and what you would never do (pay a fee, share a code, follow the link).",
     "eyebrow_threat_database": "threat_database",
@@ -278,37 +278,37 @@
     "card_status_ready": "● READY",
     "checklist_header": "// MISSION CHECKLIST",
     "debrief_fallback_next_action": "Mark this debrief complete, then open the next briefing or run the assessment.",
-    "debrief_fallback_takeaway": "The pattern in this briefing rarely appears alone: expect a time-pressure trigger and an unverifiable channel alongside it.",
+    "debrief_fallback_takeaway": "This pattern rarely arrives alone. Expect time pressure and a channel you cannot verify to come with it.",
     "debrief_header": "// OPS DEBRIEF",
     "debrief_next_action_label": "NEXT ACTION",
     "debrief_takeaway_label": "KEY TAKEAWAY",
     "faq_free_a": "Yes. The course and local completion record are free.",
     "faq_free_q": "Is it really free?",
-    "faq_install_a": "No. Everything runs in the browser. The simulations work on desktop and mobile, and your progress is saved automatically.",
+    "faq_install_a": "No. Everything runs in the browser. The simulations work on desktop and mobile. Your progress saves automatically, in this browser only.",
     "faq_install_q": "Do I need to install anything?",
-    "faq_long_a": "Around nine hours of focused study end to end. You can spread that estimate across two to three weeks, or set your own pace.",
+    "faq_long_a": "Around nine hours of focused study in total. Spread it over two or three weeks, or go at your own pace.",
     "faq_long_q": "How long will it take?",
-    "faq_who_a": "Anyone who uses email, a phone, or a bank account. The early modules assume zero background; the later ones go deep enough to be useful for IT and security teams.",
+    "faq_who_a": "Anyone who uses email, a phone, or a bank account. The early modules assume no background. The later ones go deeper and may suit IT and security staff too.",
     "faq_who_q": "Who is this for?",
-    "intro": "A structured, scenario-driven curriculum that teaches you to recognize, respond to, and recover from modern digital fraud. Each module pairs concise theory with real-world examples, hands-on exercises, and an interactive simulation.",
-    "lessons_empty": "Lessons for this module are launching soon. Check back in a few days.",
+    "intro": "A scenario-based course on spotting digital fraud, and on what to do if it gets through. Each module combines short theory, realistic examples, exercises, and an interactive simulation.",
+    "lessons_empty": "Lessons for this module are not ready yet. Check back later.",
     "hours_short": "h",
     "minutes_short": "min",
     "minutes_short_compact": "m",
     "objectives_default_identify": "IDENTIFY THE THREE RED FLAGS",
     "objectives_default_pass": "PASS THE ASSESSMENT WITH ≥ 80%",
-    "objectives_default_recognize": "RECOGNIZE THE PATTERN IN REAL-WORLD EXAMPLES",
+    "objectives_default_recognize": "SPOT THE PATTERN IN REALISTIC EXAMPLES",
     "objectives_header": "// OBJECTIVES",
     "section_faq": "// FAQ",
     "section_faq_title": "> FREQUENTLY_ASKED",
     "section_how": "// HOW IT WORKS",
     "section_how_title": "> PROGRAM_STRUCTURE",
     "section_missions_eyebrow": "// MISSION ROSTER",
-    "section_missions_lead": "Nine missions, executed in sequence. Each unlocks once the prior briefing is debriefed.",
+    "section_missions_lead": "Nine missions, taken in order. Each opens when you finish the previous debrief.",
     "step_certify": "Record completion",
     "step_certify_text": "Complete the final self-assessment to unlock a local completion record stored in this browser. It is a learning aid, not a proctored or independently verified credential.",
     "step_learn": "Learn",
-    "step_learn_text": "Read a concise briefing in each module: no fluff, no jargon. Every lesson opens with the question it answers and the decision it improves.",
+    "step_learn_text": "Read a short briefing in each module, in plain language. Every lesson opens with the question it answers and the decision it improves.",
     "step_practice": "Practice",
     "step_practice_text": "Work through training examples of phishing, suspicious stores, and deepfake calls in short interactive simulations.",
     "tag": "INTERACTIVE TRAINING // {modules} MODULES",
@@ -321,7 +321,7 @@
     "close": "[ESC] CLOSE",
     "close_label": "Close game",
     "threat_deepfake": "Deepfakes and AI-generated content",
-    "threat_deepfake_desc": "Synthetic voices and faces, used in impersonation calls and short video messages.",
+    "threat_deepfake_desc": "Cloned voices and faked faces, used to impersonate people in calls and short video messages.",
     "threat_fake_stores": "Fake e-commerce websites",
     "threat_fake_stores_desc": "Pixel-cloned storefronts, 35-60% under retail, payment goes nowhere.",
     "threat_investment": "Investment and crypto fraud",
@@ -341,7 +341,7 @@
     "subtitle": "FILE NOT FOUND",
     "trace_awaiting": "awaiting input",
     "trace_locating": "locating requested page...",
-    "trace_moved": "the page you followed doesn't exist, or moved.",
+    "trace_moved": "the page you followed doesn't exist or has moved.",
     "trace_signal_lost": "signal lost",
     "system_log_caption": "// system: log_404.txt updated",
     "title": "404"
@@ -377,13 +377,13 @@
     "carousel": {
       "scroll_left": "Scroll left",
       "scroll_right": "Scroll right",
-      "loading": "Loading data...",
-      "empty": "> No entries available.",
+      "loading": "Loading entries…",
+      "empty": "> No entries yet.",
       "dispatch": "DISPATCH",
       "field_note": "FIELD NOTE"
     },
     "scamGrid": {
-      "loading": "Loading guides...",
+      "loading": "Loading guides…",
       "empty": "> No threats indexed.",
       "read": "READ",
       "threat": "THREAT",
@@ -413,7 +413,7 @@
       "section_eyebrow": "// SECTION {num} · {label}",
       "loading": "> Loading edition…",
       "empty": "> No entries filed under this section.",
-      "featured_byline": "BY DCM EDITORIAL",
+      "featured_byline": "BY THE DISCAMMER EDITORS",
       "skim_label": "// SKIM",
       "skim_caption": "Older entries, compact view",
       "error": "Could not load the journal. Please try again.",
@@ -421,7 +421,7 @@
       "sections_label": "Journal sections"
     },
     "courseProgress": {
-      "loading": "> Loading mission list",
+      "loading": "> Loading mission list…",
       "error": "> ERROR: training modules unavailable.",
       "status_ready": "● READY",
       "status_in_progress": "▷ IN PROGRESS",
@@ -437,14 +437,14 @@
       "stats_progress": "PROGRESS",
       "certification_tag": "// COMPLETION RECORD",
       "cert_headline": "Keep a local record of completion.",
-      "cert_body": "Finish all nine missions and complete the final self-assessment to unlock a local completion record. It is stored locally in this browser by default; you can export your own copy to move it to another device. It is not a credential or a verified assessment.",
-      "warm_up": "Warm up in the simulator",
+      "cert_body": "Finish all nine missions and the final self-assessment to get a completion record. It is kept in this browser by default, and you can export a copy to move it to another device. It is not a verified credential or proof of identity or competence.",
+      "warm_up": "Practice in the simulator",
       "mission_prefix": "MISSION",
       "open_briefing": "▸ OPEN BRIEFING"
     },
     "progress": {
       "dossier_tag": "// OPERATIVE DOSSIER",
-      "dossier_hint": "Save your progress to a file or load it on another device. Importing merges — nothing already finished gets erased.",
+      "dossier_hint": "Save your progress to a file, or load it on another device. Importing merges the two: nothing you have already finished is erased.",
       "export_action": "EXPORT_DOSSIER",
       "import_action": "IMPORT",
       "toast_import_ok": "// dossier merged: +{n}",
@@ -455,14 +455,14 @@
     },
     "sync": {
       "tag": "// PROGRESS SYNC",
-      "intro": "Your progress is stored in this browser. You can optionally link this device to a sync code and carry your progress to another one. Progress is encrypted here, in your browser, before it is sent — the server stores only ciphertext it cannot read.",
-      "loss_warning": "A lost code cannot be recovered. There is no email, no password and no reset: the server cannot tell whose data is whose, which is exactly why it holds nothing readable. Lose the code and the synced copy is gone for good. Save it somewhere safe before you link.",
+      "intro": "Your progress is stored in this browser. You can optionally link this device to a sync code to carry your progress to another device. It is encrypted in your browser before it is sent, and the server stores only ciphertext it cannot read.",
+      "loss_warning": "A lost code cannot be recovered. There is no email, no password and no reset: the server cannot tell whose data is whose, so it has nothing readable to give back. Lose the code and the synced copy is gone for good. Save it somewhere safe before you link.",
       "create_action": "CREATE_SYNC_CODE",
       "have_code_label": "Already have a code?",
       "link_action": "LINK_DEVICE",
       "link_hint": "Linking pulls the synced copy and merges it in. Nothing you have already finished on this device is erased.",
       "created_heading": "YOUR SYNC CODE",
-      "created_warning": "This is the only time the full code is shown. Copy or download it now — it cannot be recovered later.",
+      "created_warning": "This is the only time the full code is shown. Copy or download it now; it cannot be recovered later.",
       "copy_action": "COPY",
       "download_action": "DOWNLOAD",
       "confirm_saved_action": "I HAVE SAVED IT",
@@ -479,17 +479,17 @@
       "erase_confirm_no": "CANCEL",
       "status_pushing": "// sending…",
       "status_pushed": "// progress sent",
-      "status_push_failed": "// could not send — will retry on your next change",
+      "status_push_failed": "// could not send; will retry on your next change",
       "status_pulling": "// fetching…",
       "status_pulled": "// synced copy merged in",
       "status_not_found": "// nothing stored under that code yet",
       "status_bad_code": "// that code does not open this data",
-      "status_pull_failed": "// could not reach the server — nothing changed. Try again",
+      "status_pull_failed": "// could not reach the server. Nothing changed, try again",
       "status_erasing": "// erasing…",
       "status_erased": "// synced copy erased from the server",
-      "status_erase_failed": "// could not erase — the copy may still be there, try again",
+      "status_erase_failed": "// could not erase; the copy may still be there, try again",
       "status_copied": "// code copied to the clipboard",
-      "status_copy_failed": "// could not copy — select the code or download it instead"
+      "status_copy_failed": "// could not copy; select the code or download it instead"
     },
     "briefing": {
       "shell_label": "discammer@training ~ % ./brief.sh",
@@ -503,20 +503,20 @@
       "cta_brief": "DOWNLOAD BRIEF"
     },
     "moduleLessons": {
-      "loading": "> Loading mission briefings...",
-      "error": "Failed to load lessons.",
-      "empty": "Briefings for this mission are launching soon. Check back in a few days.",
+      "loading": "> Loading mission briefings…",
+      "error": "Could not load the briefings.",
+      "empty": "No briefings for this mission yet. Check back later.",
       "checklist_header": "// MISSION CHECKLIST",
       "open_label": "OPEN BRIEFING",
       "widget_quiz": "▸ ASSESSMENT",
       "widget_scenario": "▸ FIELD SIMULATION",
-      "widget_redflags": "▸ THREAT INDICATORS",
+      "widget_redflags": "▸ RED FLAGS",
       "widget_exam": "▸ FINAL SELF-ASSESSMENT",
       "widget_certificate": "▸ COMPLETION RECORD"
     },
     "lessonWidget": {
       "unavailable_header": "// WIDGET PAYLOAD UNAVAILABLE",
-      "unavailable_body": "Payload type \"{type}\" is still in transit. The brief will load on the next sync."
+      "unavailable_body": "This part of the briefing (\"{type}\") is not available yet. Try again later."
     },
     "lessonFooter": {
       "mark_debrief_complete": "▸ MARK DEBRIEF COMPLETE",
@@ -539,16 +539,16 @@
       "heading": "// OPS DEBRIEF",
       "takeaway_label": "KEY TAKEAWAY",
       "next_action_label": "NEXT ACTION",
-      "fallback_takeaway_with_title": "the pattern you just studied ({title}) almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.",
-      "fallback_takeaway_generic": "the pattern you just studied almost never shows up alone — expect it to bundle with a time-pressure trigger and an unverifiable channel.",
-      "fallback_next_action": "mark this debrief complete, then open the next briefing or run the assessment when this module ends."
+      "fallback_takeaway_with_title": "the pattern you just studied ({title}) rarely comes alone: expect pressure to hurry and a channel you cannot check independently.",
+      "fallback_takeaway_generic": "the pattern you just studied rarely comes alone: expect pressure to hurry and a channel you cannot check independently.",
+      "fallback_next_action": "mark this debrief complete, then open the next briefing, or take the assessment when the module ends."
     },
     "quiz": {
       "heading": "// ASSESSMENT",
       "correct": "[OK] CORRECT",
       "incorrect": "[FAIL] INCORRECT",
       "submit": "SUBMIT ANSWERS",
-      "try_again": "Re-run assessment",
+      "try_again": "Retake assessment",
       "passed_pill": "✓ ASSESSMENT PASSED",
       "options_caption": "options",
       "guides_eyebrow": "RECALL CHECK",
@@ -559,48 +559,48 @@
       "guides": {
         "phishing": {
           "q1": {
-            "prompt": "An email with your bank's exact logo says \"Urgent Security Update — your account is locked\" and gives a link to log in and unlock it. What's the safest move?",
+            "prompt": "An email with your bank's exact logo says \"Urgent Security Update: your account is locked\" and links to a page to sign in and regain access. What's the safest move?",
             "opt_a": "Click the link and sign in, since the logo and branding look right",
             "opt_b": "Ignore the link, open the bank's app or type its address yourself, and check there",
             "opt_c": "Reply to the email asking whether the message is genuine",
-            "tell": "A real logo proves nothing — anyone can copy one. Urgency plus a login link is the phishing shape. Reach the bank through a channel you already trust, not the one the message hands you."
+            "tell": "Anyone can copy a logo. Urgency plus a sign-in link is the real giveaway, so reach the bank by a route you chose, not the one the email hands you."
           },
           "q2": {
             "prompt": "A message claiming to be from your bank asks you to confirm your card number and password by email. What does that tell you?",
             "opt_a": "It's fine if the email address looks like the bank's",
             "opt_b": "It's normal for a security check",
-            "opt_c": "It's a scam — banks don't ask for passwords or card numbers by email",
-            "tell": "Banks never ask for passwords or full card details over email. A request like that is the giveaway, no matter how official the address looks."
+            "opt_c": "It's a scam: banks don't ask for passwords or card numbers by email",
+            "tell": "A bank will never ask for your password or full card details by email, so the request itself is the giveaway, however official the sender's address looks."
           },
           "q3": {
-            "prompt": "Before entering your login on a site you reached from a link, what actually tells you it's the real one?",
-            "opt_a": "The address starts with https:// AND the domain is exactly the company's own",
+            "prompt": "You've landed on a sign-in page from a link. Before you type anything, what actually tells you it's the real site?",
+            "opt_a": "The address starts with https:// and the domain is exactly the company's own",
             "opt_b": "It has a padlock icon in the address bar",
             "opt_c": "The page looks identical to the real site",
-            "tell": "Fake sites copy the look perfectly and many have a padlock too. The thing that's hard to fake is the real domain name — read it carefully before you type anything."
+            "tell": "Fake sites can copy the page and often get a padlock too, but they can't own the real domain, so read the address letter by letter before you type anything."
           }
         },
         "sms-and-phone-scams": {
           "q1": {
             "prompt": "A text says: \"URGENT: suspicious transaction on your account. Verify now: [link]\". What do you do?",
             "opt_a": "Tap the link quickly to stop the transaction",
-            "opt_b": "Don't tap the link — call the number on the back of your card to check",
+            "opt_b": "Don't tap the link. Call the number on the back of your card to check",
             "opt_c": "Reply STOP to cancel the transaction",
-            "tell": "Smishing works by rushing you toward a link. Don't follow it. Reach the bank through its own published number and the panic disappears along with the fake transaction."
+            "tell": "A text like this only works if you hurry. Leave the link alone and call the bank on the number printed on your card, and the fake transaction goes away with the panic."
           },
           "q2": {
             "prompt": "A call shows your bank's real name and number on the screen. Can you trust it's really them?",
-            "opt_a": "No — caller ID can be spoofed to show any name or number",
+            "opt_a": "No: caller ID can be spoofed to show any name or number",
             "opt_b": "Yes, the number on the screen proves who is calling",
             "opt_c": "Yes, as long as the agent knows your name",
-            "tell": "Caller ID is easy to fake. A familiar number on the screen is not proof. If anything sensitive comes up, hang up and call the official number yourself."
+            "tell": "A familiar number on the screen proves nothing, because caller ID is easy to fake: if anything sensitive comes up, hang up and call the official number yourself."
           },
           "q3": {
             "prompt": "Your phone rings once from an unknown international number and stops. What's the risk if you call back?",
-            "opt_a": "Nothing — a missed call is harmless",
+            "opt_a": "Nothing: a missed call is harmless",
             "opt_b": "You'll be charged a small standard fee",
-            "opt_c": "It may be a premium-rate number that bills you heavily per minute",
-            "tell": "The one-ring trick baits a callback to a premium-rate line that runs up your bill. Don't return calls from numbers you don't recognise."
+            "opt_c": "It could be a premium-rate number that charges a lot per minute",
+            "tell": "A single ring is bait: the callback goes to a premium-rate line that runs up your bill, so don't return calls from numbers you don't recognise."
           }
         },
         "fake-online-stores": {
@@ -609,44 +609,44 @@
             "opt_a": "It's a fake store built to take the payment and vanish",
             "opt_b": "It's a real outlet clearing old stock",
             "opt_c": "It's slow shipping from overseas",
-            "tell": "Too-good-to-be-true price, payment-only-by-irreversible-transfer, and no tracking is the fake-store pattern. The deal is the bait."
+            "tell": "A price too good to be true, a transfer you can't undo and no tracking add up to a fake store, and the discount is the bait."
           },
           "q2": {
-            "prompt": "How do you keep a risky online purchase recoverable if it turns out to be a scam?",
+            "prompt": "If a risky online purchase turns out to be a scam, what best helps you get your money back?",
             "opt_a": "Pay by direct bank transfer so it clears fast",
             "opt_b": "Pay with a card or a method that offers buyer protection",
             "opt_c": "Pay in cryptocurrency for privacy",
-            "tell": "Cards and protected payment services let you dispute and claw back a charge. Bank transfers and crypto are designed to be final — scammers prefer exactly that."
+            "tell": "Card and protected-payment charges can usually be disputed, while bank transfers and crypto are built to be final, which is exactly why scammers ask for them."
           },
           "q3": {
             "prompt": "The site has a padlock and \"https://\" in the address. Does that mean it's a legitimate shop?",
             "opt_a": "Yes, https means the shop is verified",
             "opt_b": "Yes, a padlock guarantees your money is safe",
-            "opt_c": "No — https only encrypts the connection; a scam site can have it too",
-            "tell": "https only means the connection is encrypted, not that the seller is honest. Scam stores get padlocks too. Judge the shop on reviews, contact details, and payment options."
+            "opt_c": "No. https only encrypts the connection, and a scam site can have it too",
+            "tell": "A padlock only means the connection is encrypted, and scam shops get one too, so judge the seller by reviews, contact details, and payment options."
           }
         },
         "abuse-on-dating-sites": {
           "q1": {
             "prompt": "Someone you met online has chatted warmly for two months, always has a reason not to meet, and now needs money for a work \"emergency\", promising to repay you. What's happening?",
             "opt_a": "A genuine partner you should help out",
-            "opt_b": "A romance scam — the slow build was setup for the money ask",
-            "opt_c": "Bad luck that will pass once you help once",
-            "tell": "The patient build-up, the never-meeting, and the sudden emergency with a repayment promise are the romance-scam script. The relationship was the cover for the ask."
+            "opt_b": "A romance scam: the slow build-up was setting up the money request",
+            "opt_c": "Bad luck that will pass if you help just this once",
+            "tell": "Warm chat, endless reasons not to meet, then a sudden emergency and a promise to repay: that's the romance-scam script, and the relationship was the cover for the ask."
           },
           "q2": {
             "prompt": "What is the single clearest warning sign in an online relationship?",
             "opt_a": "A request for money from someone you've never met in person",
             "opt_b": "They send a lot of compliments",
             "opt_c": "They work in another country",
-            "tell": "Plenty of relationships involve compliments or distance. The hard line is money: a request for funds from someone you've never met is the red flag, every time."
+            "tell": "Compliments and distance turn up in plenty of honest relationships. Money is the hard line: if someone you've never met asks for it, stop and check before you do anything else."
           },
           "q3": {
-            "prompt": "The profile photos look almost too perfect. How can you check if the identity is reused?",
+            "prompt": "The profile photos look almost too perfect. How can you check whether they were taken from someone else?",
             "opt_a": "Ask them to send more photos",
             "opt_b": "Trust it if the photos are high quality",
             "opt_c": "Run a reverse-image search on the photos to see if they appear under other names",
-            "tell": "Scammers reuse the same stolen photos across many profiles. A reverse-image search often surfaces the same face under different names — a clear sign it's fake."
+            "tell": "Scammers reuse stolen photos on many profiles, so a reverse-image search can turn up the same face under other names. A match is a strong warning; no match proves nothing."
           }
         },
         "investment-pyramids": {
@@ -655,40 +655,40 @@
             "opt_a": "A pyramid or Ponzi scheme",
             "opt_b": "A normal high-yield fund",
             "opt_c": "A government-backed savings plan",
-            "tell": "When returns come from new deposits instead of real earnings, it's a pyramid. It only survives while new money keeps arriving — then it collapses."
+            "tell": "If the payouts come from new deposits rather than real earnings, it's a pyramid, and it stands only as long as new money keeps arriving."
           },
           "q2": {
             "prompt": "A scheme promises steady returns far above the market with \"little to no risk\". How should you read that?",
             "opt_a": "A rare opportunity worth acting on fast",
-            "opt_b": "A fraud signal — guaranteed high returns with no risk don't exist",
+            "opt_b": "A fraud signal: guaranteed high returns with no risk don't exist",
             "opt_c": "Normal for a well-run fund",
-            "tell": "Real returns track risk. \"Guaranteed\" high profit with no risk is the language of fraud, not finance."
+            "tell": "Higher returns mean higher risk, so big guaranteed profit with no risk is a pitch for something that doesn't exist."
           },
           "q3": {
             "prompt": "Your payout depends mainly on recruiting more people to join. What does that structure tell you?",
             "opt_a": "It's a generous referral bonus",
             "opt_b": "It's standard for investing",
-            "opt_c": "It's a pyramid — legitimate investments don't need constant new recruits",
-            "tell": "If the money flows from recruitment rather than a real product or profit, it's a pyramid. Genuine investments don't collapse the moment recruiting slows."
+            "opt_c": "It's a pyramid: real investments don't need a constant stream of new recruits",
+            "tell": "If you're paid mainly for recruiting rather than for a real product or profit, it's a pyramid, and it stops paying the moment recruiting slows."
           }
         },
         "get-rich-quick-schemes": {
           "q1": {
-            "prompt": "An offer says you can double your money fast, but only if you join today — the spots are \"limited\". What's the play?",
+            "prompt": "An offer says you can double your money fast, but only if you join today, because the spots are \"limited\". What's going on?",
             "opt_a": "A real chance you'd regret missing",
-            "opt_b": "A get-rich-quick scam — huge returns plus artificial time pressure",
+            "opt_b": "A get-rich-quick scam: huge returns plus artificial time pressure",
             "opt_c": "A normal limited promotion",
-            "tell": "Promised easy doubling plus a ticking clock is built to stop you thinking. The urgency is manufactured precisely so you don't check."
+            "tell": "Easy doubling plus a ticking clock is designed to keep you from thinking, and the deadline exists so that you won't check."
           },
           "q2": {
             "prompt": "Early on, some members do receive payouts, which makes the scheme look real. Where does that money come from?",
             "opt_a": "From newer investors' deposits, not real profit",
             "opt_b": "From the scheme's trading gains",
             "opt_c": "From bank interest",
-            "tell": "Those first payouts are bait, funded by later joiners. They build trust right before the organisers vanish with the pool."
+            "tell": "Those first payouts are bait, paid out of later joiners' money, and they build trust just before the organisers vanish with the pool."
           },
           "q3": {
-            "prompt": "A platform can't clearly explain how it actually generates its profits. What should you do?",
+            "prompt": "A platform can't clearly explain where its profits come from. What should you do?",
             "opt_a": "Invest a small amount to test it",
             "opt_b": "Trust the testimonials instead",
             "opt_c": "Treat the vagueness as a red flag and stay out",
@@ -701,90 +701,90 @@
             "opt_a": "An advance-fee (\"Nigerian letter\") scam",
             "opt_b": "A genuine business opportunity",
             "opt_c": "A bank error in your favour",
-            "tell": "An unsolicited offer of a fortune from a stranger who needs your help is the classic 419 advance-fee setup. The \"reward\" never arrives — only the requests for money do."
+            "tell": "A stranger who offers you a fortune for your help is the classic 419 advance-fee setup: the \"reward\" never arrives, only the requests for money do."
           },
           "q2": {
             "prompt": "To \"release\" the promised money, they ask you to first pay fees, taxes, or a bribe. What's the right response?",
             "opt_a": "Pay the small fee to unlock the larger sum",
-            "opt_b": "Refuse — you never pay to receive money you were promised",
+            "opt_b": "Refuse: you never pay to receive money you were promised",
             "opt_c": "Negotiate a smaller fee",
-            "tell": "Real transfers don't require you to pay first to get paid. The fee is the whole scam; once you pay one, another \"obstacle\" always appears."
+            "tell": "A real transfer never makes you pay first to get paid: the fee is the scam itself, and once you pay one, another \"obstacle\" turns up."
           },
           "q3": {
             "prompt": "The sender backs up the story with official-looking documents, seals, and signatures. Does that make it real?",
             "opt_a": "Yes, official documents prove the deal",
             "opt_b": "Yes, if there's a signature",
-            "opt_c": "No — seals and documents are trivial to fake and prove nothing",
-            "tell": "Forged letterheads, seals, and signatures are cheap to produce. Documents don't verify a stranger's claim; the unsolicited fortune is still the tell."
+            "opt_c": "No: seals and documents are trivial to fake and prove nothing",
+            "tell": "Forged letterheads, seals and signatures cost almost nothing, so they can't vouch for a stranger; the tell is still the fortune you never asked for."
           }
         },
         "fraud-with-lotteries": {
           "q1": {
             "prompt": "You get a message saying you've won a big prize in a lottery you never entered. How should you read it?",
             "opt_a": "You probably forgot entering and really won",
-            "opt_b": "A scam — real lotteries don't contact people who never entered",
+            "opt_b": "A scam: real lotteries don't contact people who never entered",
             "opt_c": "A harmless promotion",
-            "tell": "You can't win a draw you never entered. An unexpected \"you won\" is the opening line of a prize scam, not good news."
+            "tell": "You can't win a draw you never entered, so an unexpected \"you won\" is the opening line of a prize scam."
           },
           "q2": {
-            "prompt": "To claim the \"winnings\", you're told to pay a processing fee or tax first. What does a real prize require?",
-            "opt_a": "Never an upfront fee or tax to release it",
+            "prompt": "To claim the \"winnings\", you're told to pay a processing fee or tax first. What would a real prize ask of you up front?",
+            "opt_a": "Nothing: never a fee or tax to release it",
             "opt_b": "A small refundable deposit",
             "opt_c": "A one-time handling charge",
-            "tell": "Legitimate prizes never need you to pay to receive them. Any upfront \"fee\" or \"tax\" to unlock winnings is the scam itself."
+            "tell": "A real prize never costs you anything to receive, so an upfront \"fee\" or \"tax\" to release winnings is the scam itself."
           },
           "q3": {
             "prompt": "The message gives a phone number to call to claim your prize. How do you verify it safely?",
-            "opt_a": "Call the number in the message — it's official",
+            "opt_a": "Call the number in the message, because it's official",
             "opt_b": "Reply with your details to speed it up",
-            "opt_c": "Look up the organisation's own contact details independently, not the ones provided",
-            "tell": "The contact details in the message lead straight back to the scammers. Verify through the organisation's real, independently-found channel instead."
+            "opt_c": "Find the organisation's contact details yourself, not the ones in the message",
+            "tell": "The contact details in the message lead straight back to the scammers, so check with the organisation through details you found yourself."
           }
         },
         "false-charities": {
           "q1": {
-            "prompt": "After a disaster, a page shares heartbreaking photos, pushes you to give right now, and takes only gift cards or crypto. What's the warning?",
+            "prompt": "After a disaster, a page shows heartbreaking photos, presses you to give right now, and takes only gift cards or crypto. What does that add up to?",
             "opt_a": "It shows the signs of a fake charity",
             "opt_b": "It's a fast, modern way real charities collect",
             "opt_c": "Emotional appeals mean it's genuine",
-            "tell": "Manufactured urgency plus hard-to-trace payment rails is the fake-charity pattern. Real organisations let you take your time and offer traceable ways to give."
+            "tell": "Pressure to give now plus a payment method that can't be traced is the fake-charity pattern, while real charities let you take your time and offer ways to give that leave a record."
           },
           "q2": {
             "prompt": "Before donating to an organisation you don't know, what's the reliable check?",
             "opt_a": "Trust it if the website looks polished",
-            "opt_b": "Look it up in an official charity registry to confirm it's really registered",
+            "opt_b": "Look it up in an official charity register and confirm it's really listed",
             "opt_c": "Donate a small amount first to test it",
-            "tell": "A slick site is easy to build. Confirming the charity in an official registry tells you whether it actually exists and is accountable."
+            "tell": "Anyone can build a slick website; an official register tells you whether the charity actually exists and is accountable."
           },
           "q3": {
             "prompt": "You ask how the donations are spent and get vague, evasive answers. What does that signal?",
-            "opt_a": "Normal — charities keep finances private",
+            "opt_a": "Normal: charities keep their finances private",
             "opt_b": "It's fine if they sound sincere",
-            "opt_c": "A red flag — real charities publish reports and can say where money goes",
-            "tell": "Genuine charities are transparent about spending and publish reports. Dodging the question about where the money goes is a strong sign it isn't real."
+            "opt_c": "A red flag: real charities publish reports and can say where money goes",
+            "tell": "Genuine charities publish reports and can say where the money goes, so dodging that question is a strong sign this one isn't real."
           }
         },
         "scam-sites-working-at-home": {
           "q1": {
-            "prompt": "A remote-job site offers $500/week for easy typing, no experience needed — but first you must pay a $50 \"registration fee\" to see the jobs. What is this?",
+            "prompt": "A remote-job site offers $500 a week for easy typing, no experience needed, but you must first pay a $50 \"registration fee\" to see the jobs. What is this?",
             "opt_a": "A great low-barrier opportunity",
-            "opt_b": "A work-from-home scam — you pay, the real work never appears",
+            "opt_b": "A work-from-home scam: you pay and the real work never appears",
             "opt_c": "A standard onboarding cost",
-            "tell": "Charging you to access the \"jobs\" is the scam. The fee is the product; the promised easy income never materialises."
+            "tell": "Charging you to see the \"jobs\" is the scam itself: the fee is what they sell, and the easy income never turns up."
           },
           "q2": {
             "prompt": "What does a legitimate employer never do when hiring you?",
             "opt_a": "Charge you a fee to start working or to access listings",
             "opt_b": "Ask for your work experience",
             "opt_c": "Describe the role and pay",
-            "tell": "Real jobs pay you — they don't charge you to begin. Any upfront fee for training or access is the clearest sign it's a scam."
+            "tell": "A real job pays you and doesn't charge you to start, so any upfront fee for training or access is the clearest sign of a scam."
           },
           "q3": {
             "prompt": "The \"company\" has no verifiable address, no phone, just an email that goes unanswered after you pay. What is that?",
             "opt_a": "Normal for a small remote business",
             "opt_b": "Fine as long as the website looks professional",
-            "opt_c": "A major warning sign — legitimate employers have verifiable contact details",
-            "tell": "A business you can't reach or verify is a business that can disappear with your money. Missing address and contact info is a serious red flag."
+            "opt_c": "A major warning sign: legitimate employers have verifiable contact details",
+            "tell": "A business you can't reach or check can disappear with your money, so a missing address and contact details count as a serious red flag."
           }
         }
       }
@@ -795,7 +795,7 @@
       "transmit": "TRANSMIT",
       "next": "NEXT QUESTION ▷",
       "finish": "FINALIZE SELF-ASSESSMENT ▷",
-      "restart": "Repeat self-assessment",
+      "restart": "Retake self-assessment",
       "correct": "[OK] CORRECT",
       "incorrect": "[FAIL] INCORRECT",
       "review": "Inspect transmission log",
@@ -806,9 +806,9 @@
       "clearance_denied": "REVIEW REQUIRED · TRY AGAIN",
       "review_correct_label": "Expected:",
       "score_passed_prefix": "Score:",
-      "score_passed_body": ", at or above the {threshold}% pass mark. This result is reflected in this browser's local progress.",
+      "score_passed_body": "%, at or above the {threshold}% pass mark. The result is kept in this browser's local progress.",
       "score_failed_prefix": "Score:",
-      "score_failed_body": ", below the {threshold}% pass mark. Review the missed areas in the log below and re-transmit when ready."
+      "score_failed_body": "%, below the {threshold}% pass mark. Review the questions you missed in the log below, then retake when you're ready."
     },
     "scenario": {
       "heading": "// FIELD SIMULATION",
@@ -834,7 +834,7 @@
     },
     "cert": {
       "locked_heading": "// COMPLETION RECORD PENDING",
-      "locked_body": "Complete every briefing in every mission and the final self-assessment (at least 80%) to unlock a local completion record in this browser.",
+      "locked_body": "Finish every briefing in every mission and the final self-assessment (at least 80%) to get a local completion record in this browser.",
       "name_label": "Name shown in the local record",
       "name_placeholder": "Full name",
       "name_confirm": "Save name",
@@ -845,7 +845,7 @@
       "title": "DISCAMMER COMPLETION RECORD",
       "programme": "DiScammer learning programme",
       "presented_to": "records completion for",
-      "description": "after all nine training missions and the final self-assessment. This record stays on this device and is not a verified credential.",
+      "description": "after all nine training missions and the final self-assessment. Kept in this browser; not a verified credential or proof of identity or competence.",
       "date_label": "Final self-assessment completed",
       "score_label": "Final score",
       "print_label": "Save a copy",
@@ -867,14 +867,14 @@
       "close_aria": "Close game"
     },
     "search": {
-      "placeholder": "Search guides and briefings",
+      "placeholder": "Search guides and articles",
       "submit": "Search",
       "input_label": "Search the site",
       "results_label": "Search results",
-      "result_count": "{count} results",
+      "result_count": "Results: {count}",
       "result_count_one": "{count} result",
       "no_results": "Nothing matched. Try fewer or different words.",
-      "badge_post": "BRIEFING",
+      "badge_post": "ARTICLE",
       "badge_guide": "GUIDE",
       "error": "Search could not load. Please try again.",
       "loading": "Searching…"
@@ -893,7 +893,7 @@
       "flags_count": "{count} signals stood out",
       "flag_one": "{count} signal stood out",
       "guide_link": "Read the matching dossier",
-      "clean_heading": "NOTHING OBVIOUS FIRED",
+      "clean_heading": "NOTHING OBVIOUS STOOD OUT",
       "clean_body": "No common red flags showed up in this text. That is not a guarantee. Scammers adapt, and a clean read just means none of the usual patterns matched. If something still feels off, verify through a channel you already trust.",
       "empty_prompt": "Paste a message and press ANALYZE, or load an example to see how it works.",
       "first60_heading": "FIRST 60 SECONDS",
@@ -907,7 +907,7 @@
       "card": {
         "button": "SHARE_CARD",
         "button_busy": "BUILDING…",
-        "no_text_note": "The card shows only the count and the kinds of flags. It never includes the message you pasted.",
+        "no_text_note": "The card shows only the count and the kinds of flags. It does not include the message you pasted.",
         "title": "Message check",
         "flags_count": "{count} red flags found",
         "flag_one": "{count} red flag found",
@@ -916,10 +916,10 @@
         "share_title": "DiScammer message check",
         "shared": "Card shared.",
         "downloaded": "Card saved as a PNG.",
-        "error": "Could not make the card here. Try again.",
+        "error": "Could not build the card. Try again.",
         "cat_pressure": "Pressure",
         "cat_credentials": "Asks for codes",
-        "cat_money": "Money rails",
+        "cat_money": "Asks for money",
         "cat_impersonation": "Impersonation",
         "cat_bait": "Too good to be true",
         "cat_links": "Suspicious links",
@@ -927,12 +927,12 @@
         "cat_attachment": "Unexpected file"
       },
       "flags": {
-        "urgency_label": "Urgency pressure",
+        "urgency_label": "Rushes you to act",
         "urgency_body": "It pushes you to act right now. Real institutions give you time. Pressure to move fast is meant to stop you from thinking.",
         "otp_ask_label": "Asks for a one-time code",
         "otp_ask_body": "A code from an SMS or app is the key to your account. No real bank or service will ever ask you to read it out. Anyone who does is trying to get in.",
         "credential_ask_label": "Asks for a password, PIN, or CVV",
-        "credential_ask_body": "Legitimate staff never need your password, PIN, full card number, or CVV. A request for them is a request to rob you.",
+        "credential_ask_body": "Real staff never need your password, PIN, full card number, or CVV. Anyone who asks for them is trying to get at your money or your account.",
         "safe_account_label": "Offers a 'safe account'",
         "safe_account_body": "There is no such thing as a safe or reserve account you move money to for protection. That phrase is a scam script, almost word for word.",
         "impersonation_label": "Claims to be an authority",
@@ -944,37 +944,37 @@
         "p2p_transfer_label": "Wants a card or wire transfer",
         "p2p_transfer_body": "Western Union, MoneyGram, or a transfer to someone's card is hard to claw back. Once it lands, the money is usually gone.",
         "url_shortener_label": "Hides the real link",
-        "url_shortener_body": "A shortened link (bit.ly and the like) conceals where it actually goes. Hover or expand it before you trust it, or do not open it at all.",
+        "url_shortener_body": "A shortened link (bit.ly and the like) conceals where it actually goes. Expand it before you trust it, or do not open it at all.",
         "punycode_label": "Disguised web address (punycode)",
-        "punycode_body": "An address starting with xn-- is an encoded lookalike domain. It can render as a familiar brand name while pointing somewhere else entirely.",
+        "punycode_body": "An address starting with xn-- uses encoded non-Latin letters. That can make it look like a familiar brand while it points somewhere else entirely.",
         "homograph_label": "Lookalike characters in a link",
-        "homograph_body": "A word or domain mixes letters from two alphabets (for example a Cyrillic letter standing in for a Latin one). It is built to look like a name you trust.",
+        "homograph_body": "A word or domain mixes letters from two alphabets (for example a Cyrillic letter in place of a Latin one). That is a common way to imitate a name you trust.",
         "prize_win_label": "Says you won something",
         "prize_win_body": "You cannot win a lottery you never entered. A surprise prize is the hook, and the fee or details they ask for next is the catch.",
         "guaranteed_roi_label": "Promises guaranteed returns",
-        "guaranteed_roi_body": "No real investment guarantees a return, let alone a big one on a schedule. Guaranteed profit is the signature of a pyramid or a Ponzi.",
+        "guaranteed_roi_body": "No real investment can guarantee a big return on a schedule. Guaranteed profit is a classic sign of a pyramid or Ponzi scheme.",
         "qr_code_label": "Asks you to scan a QR code",
         "qr_code_body": "A QR code hides its destination behind an image. Scanning one can open a fake login page or trigger a payment. Treat it like any unknown link.",
         "deadline_clock_label": "Sets a ticking deadline",
         "deadline_clock_body": "A countdown (within the hour, before midnight, expires today) is manufactured pressure. A real deadline survives you taking a day to verify.",
         "secrecy_label": "Asks you to keep it secret",
-        "secrecy_body": "Telling you not to mention it to your bank or family removes the people most likely to spot the con. Secrecy protects the scammer, not you.",
+        "secrecy_body": "Being told not to mention it to your bank or family cuts you off from the people most likely to spot the con. Secrecy only helps the scammer.",
         "account_threat_label": "Threatens to block your account",
         "account_threat_body": "A threat to suspend or freeze your account is meant to panic you into acting. Verify directly with the service before you touch anything.",
         "login_link_bait_label": "Pushes you to log in via a link",
         "login_link_bait_body": "It wants you to sign in or confirm details through a link it provides. That link can lead to a clone built to capture what you type. Go to the site yourself instead.",
         "advance_fee_label": "Asks for a fee to release money",
-        "advance_fee_body": "Paying a small fee to unlock a much larger sum is the whole scam. The big sum does not exist; only the fees you keep paying do.",
+        "advance_fee_body": "Paying a small fee to release a much larger sum is the whole scam. The big sum does not exist; only the fees you keep paying do.",
         "attachment_bait_label": "Pushes an unexpected attachment",
         "attachment_bait_body": "An invoice or document you did not expect can carry malware or a phishing page. Confirm with the sender through another channel before opening it.",
-        "romance_money_label": "Affection plus a money ask",
-        "romance_money_body": "Warmth from someone you have not met in person, followed by a request for money or help, is the pig-butchering and romance-scam pattern."
+        "romance_money_label": "Affection plus a money request",
+        "romance_money_body": "Warmth from someone you have not met in person, followed by a request for money or help, is a classic pattern in pig-butchering and romance scams."
       }
     },
     "incident": {
-      "disclosure": "If you may already have shared something",
+      "disclosure": "If you may already have shared or done something",
       "heading": "Choose only what applies",
-      "intro": "This is a local educational prompt. It does not file a report, verify what happened, or guarantee an outcome.",
+      "intro": "This is an educational tool that runs on this page. It does not file a report, check what happened, or guarantee an outcome.",
       "privacy": "Do not enter passwords, full card numbers, or recovery codes. Your choices stay on this page, and the tool does not ask you to send the message or link to DiScammer.",
       "legend": "What may have happened",
       "impact_money": "I sent money or approved a payment",
@@ -982,7 +982,7 @@
       "impact_device": "I installed an app or gave remote access",
       "impact_identity": "I shared identity or account details",
       "impact_received_only": "I only received a suspicious message",
-      "actions_heading": "Neutral next steps",
+      "actions_heading": "General next steps",
       "action_stop": "Pause contact and do not send another payment, code, or document.",
       "action_trusted_channel": "Open the official app or type the official site yourself. Use a number from a card, statement, or verified website, not from the message.",
       "action_money": "If money moved or a payment was approved, contact the bank or payment provider through that trusted channel as soon as you can. Ask what options apply; no result is guaranteed.",
@@ -992,7 +992,7 @@
       "action_tell_trusted": "Tell someone you trust what happened, especially before making another decision alone.",
       "immediate_danger": "If someone is pressuring you in person or you feel unsafe, move to a safer place and contact the emergency service available where you are.",
       "reset": "Clear choices",
-      "plan_status": "{count} neutral next steps are ready."
+      "plan_status": "Next steps ready: {count}."
     },
     "inspect": {
       "input_label": "Paste the link you want to inspect",
@@ -1001,7 +1001,7 @@
       "load_example": "Load example",
       "example": "http://your-bank.example.com@secure-login-verify.top/account/verify",
       "privacy": "The link you paste is analyzed in your browser. It is not sent to the application or opened by it; standard technical access and error events may still be logged without the pasted link.",
-      "disclaimer": "This is a heuristic read of the address, not a verdict on the site. A clean read is not a guarantee, and a flagged one is not proof. Use it to decide whether to slow down.",
+      "disclaimer": "This is a rough read of the address alone, not a verdict on the site. A clean read is not a guarantee, and a flagged one is not proof. Use it to decide whether to slow down.",
       "meter_label": "Link risk read: {level} of 5",
       "meter_caption": "READ",
       "judged_host": "Reading the host: {host}",
@@ -1009,8 +1009,8 @@
       "findings_count": "{count} tells stood out",
       "finding_one": "{count} tell stood out",
       "guide_link": "Read the phishing guide",
-      "clean_heading": "NOTHING OBVIOUS FIRED",
-      "clean_body": "None of the usual link tells showed up in this address. That is not a guarantee. A page can still be fake behind a clean-looking link, so if something feels off, type the address yourself or open an app you already trust.",
+      "clean_heading": "NOTHING OBVIOUS STOOD OUT",
+      "clean_body": "None of the usual link tells showed up in this address. That is not a guarantee: a page can still be fake behind a clean-looking link. If something feels off, type the address yourself or open an app you already trust.",
       "empty_prompt": "Paste a link and press INSPECT, or load an example to see how it works.",
       "severity_label": "signal strength",
       "sev_1": "soft",
@@ -1020,25 +1020,25 @@
         "punycode_label": "Disguised address (punycode)",
         "punycode_body": "A part of the host starts with xn--, the encoding browsers use for non-Latin letters. It can render as a familiar name while pointing somewhere else entirely.",
         "homograph_label": "Lookalike letters in the host",
-        "homograph_body": "The host mixes alphabets — for example a Cyrillic а standing in for a Latin a. It is built to look like a name you trust at a glance.",
+        "homograph_body": "The host mixes alphabets, for example a Cyrillic а in place of a Latin a. That is a common way to pass for a name you trust at a glance.",
         "ip_host_label": "Raw IP address instead of a name",
         "ip_host_body": "The host is a bare number like 192.168.0.1, not a domain name. Real services use named domains; a raw IP hides who actually owns the address.",
         "userinfo_trick_label": "Hidden host after an @",
-        "userinfo_trick_body": "There is an @ in the address. The browser ignores everything before it and goes to whatever follows the @ — so bank.com@evil.ru actually goes to evil.ru.",
+        "userinfo_trick_body": "There is an @ in the address. The browser ignores everything before it and goes to whatever follows the @, so bank.com@evil.ru actually goes to evil.ru.",
         "deceptive_subdomain_label": "Trusted name used as a sub-domain",
-        "deceptive_subdomain_body": "A known brand appears in the prefix, but a prefix does not establish who controls the host. Domain suffixes can use different numbers of labels, so this is a conservative pattern, not a universal ownership lookup.",
+        "deceptive_subdomain_body": "A known brand name appears at the front of the host, but a prefix says nothing about who controls the site. Domain endings vary in length (.com, .co.uk), so this is a cautious rule of thumb, not a check of who owns the domain.",
         "brand_lookalike_label": "Near-miss of a known brand",
-        "brand_lookalike_body": "The domain is one or two characters off a brand you know — a swapped letter or a digit posing as one (paypa1, g00gle). It is built to survive a quick glance.",
-        "suspicious_tld_label": "High-abuse domain ending",
+        "brand_lookalike_body": "The domain is one or two characters off a brand you know: a swapped letter, or a digit posing as one (paypa1, g00gle). It is made to pass a quick glance.",
+        "suspicious_tld_label": "Domain ending scammers favor",
         "suspicious_tld_body": "The address ends in a domain extension scammers lean on heavily (like .zip or .top). It is not proof on its own, but it is worth a second look.",
         "shortener_label": "Shortened link hides the real address",
         "shortener_body": "A shortener (bit.ly and the like) conceals where the link actually goes. Expand it first, or do not open it at all.",
         "not_https_label": "Not a secure (https) connection",
         "not_https_body": "The address is http, not https, so the connection is not encrypted. Login and payment pages should use HTTPS, but HTTPS alone does not prove a site is authentic.",
         "port_oddity_label": "Unusual port number",
-        "port_oddity_body": "The address forces an unusual port (the number after a colon, like :8080). Ordinary sites do not need one; it can point at a service set up to impersonate.",
+        "port_oddity_body": "The address names an unusual port (the number after a colon, like :8080). Ordinary sites do not need one, and it can point to a service set up to imitate a real one.",
         "obfuscated_path_label": "Overlong or scrambled path",
-        "obfuscated_path_body": "The part after the host is unusually long or packed with encoded characters. That length is often used to bury the real destination or smuggle parameters past a glance."
+        "obfuscated_path_body": "The part after the host is unusually long or packed with encoded characters. That is often used to bury the real destination or slip extra parameters past a quick look."
       }
     },
     "checker": {
@@ -1047,7 +1047,7 @@
       "placeholder": "e.g. Your account will be blocked. Confirm the code we just sent to keep it active.",
       "signals_label": "// FIRST_PASS_SIGNALS",
       "awaiting": "awaiting input…",
-      "privacy": "runs in your browser · pasted inputs stay local",
+      "privacy": "runs in your browser · pasted text is not sent to the app",
       "inspect_link": "Inspect a link",
       "clean": "no obvious tells. that is not the same as safe.",
       "meter_aria": "threat level {level} of 5",
@@ -1066,20 +1066,20 @@
   "check": {
     "eyebrow": "// MESSAGE CHECK · RED-FLAG ANALYZER",
     "heading": "Check a message before you act on it.",
-    "lead": "Paste a message that feels off and see which known scam patterns it trips. It is a quick read meant to install the pause: the few seconds between a message and a reaction where most fraud falls apart.",
+    "lead": "Paste a message that feels off and see which known scam patterns it matches. It is a quick read, meant to give you a pause: a few seconds between the message and your reaction, enough for a second look.",
     "how_heading": "How to use it",
     "how_1": "Paste the full message: the SMS, email, or chat text, links and all.",
     "how_2": "Press ANALYZE. The check runs in your browser and shows which red flags stood out.",
     "how_3": "Treat any flag as a reason to slow down and verify through a channel you already trust, not as a final verdict.",
-    "privacy_heading": "Your text stays here",
+    "privacy_heading": "What happens to your text",
     "privacy_body": "The analyzer reads pasted text in your browser and does not send that text to the application. Standard technical access and error events may still be logged without the pasted content. The analysis itself can run without an internet connection.",
     "example_heading": "A worked example",
-    "example_intro": "Here is a real-shaped scam message and the flags it trips, so you can see what the check looks for:",
+    "example_intro": "Here is an invented message of the kind scammers send, and the flags it trips, to show what the check looks for:",
     "example_message": "Sberbank Security: an unauthorized login to your account was detected. To avoid suspension, confirm your identity via the link bit.ly/sber-verify and tell us the one-time code we just sent by SMS. Do this within 15 minutes. Do not tell anyone, including bank staff.",
     "example_flags_intro": "What stands out here:",
     "example_flag_1": "Claims to be bank security (borrowed authority).",
     "example_flag_2": "Threatens to suspend the account and sets a 15-minute deadline (manufactured panic).",
-    "example_flag_3": "Hides the link behind a shortener and pushes you to log in through it.",
+    "example_flag_3": "Hides the link behind a shortener and pushes you to 'confirm your identity' through it.",
     "example_flag_4": "Asks for the one-time code from SMS, which no real bank ever does.",
     "example_flag_5": "Tells you to keep it secret, even from bank staff, to remove anyone who might stop you.",
     "incident_heading": "If you already acted",
@@ -1095,9 +1095,9 @@
     "incident_danger": "If someone is pressuring you in person or you feel unsafe, move to a safer place and contact emergency services where you are.",
     "noscript_heading": "60-second checklist",
     "noscript_intro": "JavaScript is off, so the live analyzer is unavailable. Run this checklist by hand on any suspicious message:",
-    "noscript_1": "Does it pressure you to act immediately or set a countdown? Real deadlines survive a day's delay.",
+    "noscript_1": "Does it pressure you to act immediately or set a countdown? Real deadlines usually survive a day's delay.",
     "noscript_2": "Does it ask for a one-time code, password, PIN, or CVV? No legitimate service ever will.",
-    "noscript_3": "Does it ask you to move money to a 'safe account' or pay a fee to release a larger sum? Both are scams.",
+    "noscript_3": "Does it ask you to move money to a 'safe account' or pay a fee to release a larger sum? Both are classic scam moves.",
     "noscript_4": "Does it want crypto, gift cards, or a wire transfer? These are chosen because they are hard to reverse.",
     "noscript_5": "Does the link hide its real destination (a shortener, or odd lookalike characters)? Do not click it.",
     "noscript_6": "Does it tell you to keep it secret? Secrecy protects the scammer. Verify through a channel you already trust."
@@ -1105,7 +1105,7 @@
   "inspect": {
     "eyebrow": "LINK INSPECTOR",
     "heading": "Inspect a link before you click",
-    "lead": "A bad link is the single most common way a scam reaches you. Paste a web address here and the inspector reads it apart in your browser, naming each tell and pointing you at the phishing guide. It checks the link itself — it does not open it.",
+    "lead": "A bad link is one of the most common ways a scam reaches you. Paste a web address and the inspector takes it apart in your browser, naming each tell and pointing you to the phishing guide. It reads the address itself and does not open it.",
     "how_heading": "HOW TO USE IT",
     "how_1": "Copy the link without opening it. On a phone, press and hold; on a computer, right-click and copy the link address.",
     "how_2": "Paste it into the box and press INSPECT. The inspector reads the address, not the page behind it.",
@@ -1113,16 +1113,16 @@
     "privacy_heading": "WHAT HAPPENS TO THE LINK",
     "privacy_body": "The inspector reads the pasted link in your browser. It does not upload or open the link, though standard technical access and error events may still be logged without the pasted address. This is a heuristic read of the address, not a verdict on the site.",
     "example_heading": "A WORKED EXAMPLE",
-    "example_intro": "Here is a single address that looks almost right, and exactly where it goes wrong. Read it left to right.",
+    "example_intro": "Here is an address that looks almost right, and exactly where it goes wrong.",
     "example_url": "http://paypal.com.secure-login.ru/account/verify",
     "example_flags_intro": "WHAT THE INSPECTOR FINDS",
-    "example_flag_1": "For this .ru example, the address is under secure-login.ru, not paypal.com. paypal.com is a prefix here, not the destination. Suffix rules vary by domain, so no fixed number of labels identifies the domain universally.",
+    "example_flag_1": "In this .ru example, the address belongs to secure-login.ru, not paypal.com. The paypal.com part is just a prefix, not the destination. Endings differ from domain to domain, so counting a fixed number of parts will not always find the real domain.",
     "example_flag_2": "It starts with http, not https, so the connection is not encrypted. Login and payment pages should use HTTPS, but HTTPS alone does not prove a site is authentic.",
-    "example_flag_3": "A trusted brand name is bolted onto an unrelated domain to win a glance of trust. Read a host carefully from the right, but do not rely on a fixed label count: suffix rules vary. Verify through a channel you already trust.",
+    "example_flag_3": "A trusted brand name is bolted onto an unrelated domain to win a moment of trust at a glance. Read the host from the right, and verify through a channel you already trust if it matters.",
     "noscript_heading": "HOW TO READ A LINK BY HAND",
     "noscript_intro": "The inspector needs JavaScript. Without it, here is the same checklist you can run on any link in your head.",
-    "noscript_1": "Find the domain carefully. Read the host from the right, but do not assume a fixed number of labels: endings can differ, for example .com and .co.uk. If it matters, verify through a channel you already trust.",
-    "noscript_2": "Watch for a brand bolted onto another domain, like paypal.com.secure-login.ru — the real site is secure-login.ru.",
+    "noscript_1": "Find the real domain. Read the host from the right, and do not assume a fixed number of parts: endings differ, for example .com and .co.uk. If it matters, verify through a channel you already trust.",
+    "noscript_2": "Watch for a brand bolted onto another domain, like paypal.com.secure-login.ru. The link really goes to secure-login.ru.",
     "noscript_3": "Be wary of an @ in the address. Anything before it is ignored by the browser; the real host is what follows the @.",
     "noscript_4": "Distrust raw numbers for a host (like 192.168.0.1) and links that start with http instead of https.",
     "noscript_5": "Look hard at lookalikes: a digit standing in for a letter (paypa1), or a foreign letter that mimics a Latin one (Cyrillic а for a).",
@@ -1133,7 +1133,7 @@
     "incident_2": "Reach the service another way: use its official app, type the address you already know, or use a contact detail from your card or statement.",
     "incident_3": "If you entered a password, one-time code, card detail, or recovery code, use the trusted route to change or protect the affected account. Follow the provider's official guidance.",
     "incident_4": "If you confirmed a payment or sent money, contact your bank or payment provider through that trusted route and ask what options are available.",
-    "incident_5": "If a file downloaded or an app installed, stop opening it and follow security guidance from your device maker, operating-system provider, or the service you use.",
+    "incident_5": "If a file downloaded or an app installed, do not open it. Follow security guidance from your device maker, your operating-system provider, or the service you use.",
     "incident_6": "Tell someone you trust before the next decision. You do not need to share sensitive details with this page.",
     "incident_privacy": "These steps do not need the link, the page, a password, a card number, a one-time code, or a downloaded file.",
     "incident_disclaimer": "Educational guidance only. This page cannot file a report, verify an incident, recover funds, or guarantee an outcome.",
@@ -1144,7 +1144,7 @@
     "submit": "Search",
     "input_label": "Search the site",
     "results_label": "Search results",
-    "result_count": "{count} results",
+    "result_count": "Results: {count}",
     "no_results": "Nothing matched. Try fewer or different words.",
     "empty_explainer": "Type a word or two to search every threat guide and field briefing. Results update as you type.",
     "badge_post": "BRIEFING",
@@ -1161,7 +1161,7 @@
     "eyebrow": "THE_COURSE",
     "hero_title_line1": "Install",
     "hero_title_line2": "the pause",
-    "hero_lead": "{modules} modules, {lessons} lessons, one final self-assessment, and a local completion record. Free, in Russian and English. Not built to be finished, built to change what you do the moment something feels off.",
+    "hero_lead": "{modules} modules, {lessons} lessons, one final self-assessment, and a local completion record. Free, in Russian and English. The aim is to change what you do the moment something feels off.",
     "hero_cta_start": "START THE COURSE",
     "hero_cta_modules": "VIEW MODULES",
     "terminal_modules": "modules.total       = {count}",
@@ -1177,21 +1177,21 @@
     "sim_ready": "SIMULATION READY",
     "wordmark_1": "Antifraud",
     "wordmark_2": "Hero",
-    "lede": "Take the analyst's seat. Training scenarios arrive across your console, you triage them, flag the warning signs, and practice the decision before the clock runs out. The website is the briefing. This is the simulation.",
+    "lede": "Take the analyst's seat. Training scenarios land on your console: triage each one, flag the warning signs and practice the decision before the clock runs out. The website is the briefing. This is the simulation.",
     "launch_cta": "Launch simulation",
     "run_note": "runs in your browser · no install · requires JavaScript",
     "stat_triage": "Triage",
     "stat_triage_desc": "Sort training messages by their warning signs under time pressure.",
     "stat_protect": "Protect",
-    "stat_protect_desc": "Practice the safer next step before a simulated caller presses send.",
+    "stat_protect_desc": "Practice the safer next step now, so it is ready when a real message arrives.",
     "stat_rankup": "Rank up",
-    "stat_rankup_desc": "Build the reflex through repetition that sticks.",
+    "stat_rankup_desc": "Replay the scenarios until the safe move becomes a habit.",
     "preview_alt": "Antifraud Hero main menu: an analyst’s workstation"
   },
   "inspectpage": {
     "browser_note": "The link is analyzed in your browser and is not sent to the application or opened by it. Standard technical access and error events may still be logged without the pasted link.",
-    "sms_cta_heading": "Most bad links arrive by SMS",
-    "sms_cta_body": "Read the SMS and phone scams guide to see the full pattern these links live inside.",
+    "sms_cta_heading": "Bad links often arrive by SMS",
+    "sms_cta_body": "The SMS and Phone Scams guide shows the wider pattern these links belong to.",
     "sms_cta_button": "Open the guide"
   },
   "journalpage": {

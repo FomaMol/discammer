@@ -1,149 +1,149 @@
 {
   "order": 2,
-  "title": "Voice cloning attacks against family and finance",
+  "title": "Voice cloning attacks on family and finance",
   "est_minutes": 14,
-  "body_md": "## A familiar voice can carry an unfamiliar request\n\nVoice cloning can make a caller sound like somebody you know. The FTC warns that a short clip from online material can be enough for a scammer to attempt it. That does not mean every tool works with a fixed number of seconds, or that every convincing impersonation used AI. Caller ID can be spoofed, a real phone can be stolen, and a relative's distress can sound unusual without deception.\n\nThe family-emergency script joins a familiar voice to urgency, secrecy and a payment method that is difficult to recover. The caller may introduce a second voice as a lawyer or official. Staying on the same call to question that person is not an independent check. End the call, dial the relative on a number you saved earlier, and contact another close person if there is no answer. If there might be a genuine emergency, contact the relevant local emergency service through its established number. Do not delay care merely to finish a fraud test.\n\nAt work, a voice resembling an executive may request a confidential transfer or a change in supplier details. The voice is irrelevant to the normal approval boundary. Use the approved directory, payment-change procedure and second sign-off. A corporate chat account can also be compromised, so ask the exact person and amount through a known channel rather than treating a green online indicator as proof.\n\nA family phrase can be a useful extra prompt if everyone understands it, but it is **not a master key**. It may be overheard, phished, forgotten under stress or repeated by an attacker after one family member reveals it. Do not use a childhood fact that is searchable online as the sole test. If the phrase is missing or correct, still use the independent callback before sending money. Never tell a caller a one-time account code.\n\nIf money was already sent, contact the bank or payment provider promptly and ask what recovery is possible; success is not guaranteed. Follow local reporting routes. The strongest habit is to verify the *request* outside the call, whether or not the voice was synthesized.",
+  "body_md": "## The call that begins “it’s me”\n\nYour phone lights up at two in the morning with a number you don’t know. It is your daughter’s voice, thin and quick, saying she has been in an accident and needs money before anyone can be told.\n\nVoice cloning can make a caller sound like somebody you know. The FTC warns that a short clip of audio from online material can be enough for a scammer to try it. That is not a rule about seconds, since tools differ, and it does not mean every convincing impersonation used AI. Caller ID can be spoofed, a real phone can be stolen, and a frightened relative can sound unlike themselves without any deception at all.\n\n### The family emergency\n\nThe script joins a familiar voice to urgency, secrecy and a payment method that is hard to recover. The caller may bring in a second voice who claims to be a lawyer or an official. Questioning that person on the same call is not an independent check. End the call, dial your relative on a number you saved earlier, and try another close person if there is no answer. If there may be a real emergency, call the local emergency service on its established number. Do not delay care just to finish a fraud test.\n\n### The same voice at work\n\nA voice that sounds like an executive may ask for a confidential transfer or a change to a supplier’s details. The voice changes nothing about who has to approve a payment. Use the approved directory, the payment-change procedure and the second sign-off. A corporate chat account can be compromised too, so ask the exact person about the exact amount through a known channel, and do not read a green “online” dot as proof.\n\n### A spare key under the flowerpot\n\nA family phrase can be a useful extra cue if everyone understands the rule. Treat it as a spare key under the flowerpot: handy, and **not a master key**. It can be overheard, phished, forgotten under stress, or repeated by an attacker after one relative lets it slip. A childhood fact that can be found online is no better as the only test. Whether the phrase is missing or correct, still make the independent callback before sending money. And never read a one-time account code to a caller.\n\nIf money has already gone, contact your bank or payment provider promptly and ask what recovery is possible. Success is not guaranteed. Report it through the routes your country provides. The habit that holds up best is to verify the request itself, outside the call, whether or not the voice was cloned.",
   "widget_type": "course_v2",
   "widget_config": {
     "version": 2,
     "revision": "2026-10-20",
-    "goal": "Verify urgent family or finance calls without relying on a familiar voice.",
-    "today_action": "Save the independently verified number of one close person you would contact during a family emergency.",
+    "goal": "Verify urgent family and finance calls without leaning on a familiar voice.",
+    "today_action": "Save the independently verified number of one close person you would call in a family emergency.",
     "checked_at": "2026-10-20",
-    "scope": "General guidance; FTC examples and reporting routes apply to the US, checked 20 October 2026. Use local emergency and workplace procedures.",
+    "scope": "General guidance. The FTC examples and reporting routes apply to the US and were checked 20 October 2026. Use your local emergency and workplace procedures. The cases and the exercise below are invented.",
     "sources": [
       {
         "title": "FTC: Scammers Use Fake Emergencies To Steal Your Money",
         "url": "https://consumer.ftc.gov/articles/scammers-use-fake-emergencies-steal-your-money",
-        "scope": "US consumer advice, September 2023; voice cloning, urgency, independent callback and another relative. The US reporting route is jurisdiction-specific."
+        "scope": "US consumer advice, September 2023: voice cloning, urgency, an independent callback and contacting another relative. The reporting route it names applies to the US only."
       },
       {
         "title": "FBI IC3: Business Email Compromise",
         "url": "https://www.ic3.gov/CrimeInfo/BEC",
-        "scope": "US guidance for transfer and account-change requests; secondary-channel verification and urgent bank contact after a suspected transfer. Organisational and national procedures vary."
+        "scope": "US guidance on transfer and account-change requests: verify through a second channel, and contact the bank urgently after a suspected transfer. Organisational and national procedures vary."
       }
     ],
     "blocks": [
       {
         "type": "case",
-        "title": "A distressed nephew asks for secrecy",
-        "situation": "A synthetic caller sounds like your nephew and says an intermediary will accept a payment immediately. He begs you not to contact his parents.",
-        "analysis": "Secrecy and urgent payment block checking. End the call, use the nephew’s previously saved number, then contact his parents if needed. A second voice introduced by the caller is still inside the same untrusted conversation.",
+        "title": "A nephew in trouble asks you to tell no one",
+        "situation": "A caller sounds like your nephew and says an intermediary will take a payment right away. He begs you not to contact his parents.",
+        "analysis": "Secrecy and an urgent payment are the two things that stop you checking. End the call, ring your nephew on the number you saved, then reach his parents if you need to. A second voice introduced by the caller is still inside the same untrusted conversation.",
         "legitimate": false
       },
       {
         "type": "case",
-        "title": "A genuine emergency sounds unlike the person",
-        "situation": "Synthetic example: Your sister calls from a borrowed phone after a traffic accident; noise and panic make her voice hard to recognise. She asks you to come to a hospital, not to send money.",
-        "analysis": "A different voice is not proof of fraud. Ask for the hospital name, call its published switchboard or local emergency service if necessary, and act on verified welfare information. Avoid demanding a code phrase before offering real help.",
+        "title": "A real emergency, an unfamiliar voice",
+        "situation": "Your sister calls from a borrowed phone after a traffic accident, and the noise and panic make her voice hard to recognise. She asks you to come to a hospital, not to send money.",
+        "analysis": "A strange-sounding voice is not proof of fraud. Ask for the hospital’s name, call its published switchboard or the local emergency service if you must, and act on welfare information you have confirmed. Do not demand a code phrase before offering real help.",
         "legitimate": true
       },
       {
         "type": "practice",
-        "title": "Late-night call from a loved one",
-        "setup": "Synthetic scenario: a voice like your brother says he needs urgent financial help. The number is unfamiliar. Each decision is a separate snapshot; actions and payments in one do not carry into the next.",
+        "title": "A call after midnight",
+        "setup": "An invented scenario: a voice like your brother’s says he needs urgent financial help. The number is unfamiliar. Each decision is a fresh start; what you did or paid in one does not carry into the next.",
         "synthetic": true,
         "mode": "sequence",
         "steps": [
           {
-            "prompt": "He asks you to keep talking while a “lawyer” explains payment.",
+            "prompt": "He asks you to stay on the line while a “lawyer” explains how to pay.",
             "choices": [
               {
-                "text": "End this call and use a saved contact",
-                "consequence": "You make room for an independent check.",
-                "explanation": "The “lawyer” is chosen by the caller and does not verify the caller.",
+                "text": "End this call and ring his saved number.",
+                "consequence": "You leave room for an independent check.",
+                "explanation": "The “lawyer” was chosen by the caller and cannot vouch for the caller.",
                 "recommended": true
               },
               {
-                "text": "Listen to the lawyer as verification",
-                "consequence": "The second actor adds pressure.",
-                "explanation": "Two voices on one controlled call are not two sources.",
+                "text": "Hear the lawyer out, as a form of verification.",
+                "consequence": "A second actor adds to the pressure.",
+                "explanation": "Two voices on a call the scammer controls are still one source.",
                 "recommended": false
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: you end the incoming call and dial your brother's saved number, but nobody answers. What next?",
+            "prompt": "A fresh start: you hang up the incoming call and dial your brother’s saved number. Nobody answers. What next?",
             "choices": [
               {
-                "text": "Send a small test payment",
-                "consequence": "The attacker gets money and may ask for more.",
-                "explanation": "A test payment is still a payment to an unverified recipient.",
+                "text": "Send a small test payment.",
+                "consequence": "The attacker gets the money, and may ask for more.",
+                "explanation": "A test payment is still money sent to someone you have not verified.",
                 "recommended": false
               },
               {
-                "text": "Contact another relative or a published institution number",
-                "consequence": "You seek independent welfare information.",
-                "explanation": "No answer does not mean the caller’s payment story is true.",
+                "text": "Try another relative, or an institution at a published number.",
+                "consequence": "You look for independent word of how he is.",
+                "explanation": "Silence from your brother does not make the caller’s payment story true.",
                 "recommended": true
               }
             ]
           },
           {
-            "prompt": "Separate snapshot: no money has been sent. A caller with a voice like your brother knows your family phrase and asks for a transfer. Do you pay?",
+            "prompt": "A fresh start: no money has gone. A caller with a voice like your brother’s knows your family phrase and asks for a transfer. Do you pay?",
             "choices": [
               {
-                "text": "Wait for independent confirmation of the person and request",
-                "consequence": "The phrase becomes one clue, not permission to pay.",
-                "explanation": "A shared phrase can leak or be elicited; verify through a saved route.",
+                "text": "Wait for independent confirmation of the person and the request.",
+                "consequence": "The phrase counts as one clue, not as permission to pay.",
+                "explanation": "A shared phrase can leak or be coaxed out of someone; check through a saved route.",
                 "recommended": true
               },
               {
-                "text": "Pay because only family knows the phrase",
-                "consequence": "The simulated payment goes to an unverified recipient.",
-                "explanation": "Knowledge of a phrase is not independent confirmation.",
+                "text": "Pay: only the family knows that phrase.",
+                "consequence": "In this exercise the payment goes to an unverified recipient.",
+                "explanation": "Knowing a phrase is not independent confirmation.",
                 "recommended": false
               }
             ]
           }
         ],
-        "debrief": "Urgency did not remove the duty to check. If a real emergency is plausible, seek help through known institutions while withholding unverified payments. Replay any step to practise."
+        "debrief": "Urgency did not make the check optional. When a real emergency is plausible, look for help through institutions you can verify, and hold back any unverified payment. Replay any step to practise."
       },
       {
         "type": "check",
-        "title": "Apply the rule elsewhere",
+        "title": "The same rule, somewhere else",
         "questions": [
           {
-            "prompt": "A manager’s familiar voice asks to change supplier bank details. Best next step?",
+            "prompt": "A manager’s familiar voice asks you to change a supplier’s bank details. What is the best next step?",
             "choices": [
               {
-                "text": "Approve because you recognise the voice",
-                "explanation": "Cloning and ordinary impersonation make voice alone insufficient.",
+                "text": "Approve it, because you recognise the voice.",
+                "explanation": "Cloning and ordinary impersonation both mean a voice alone proves nothing.",
                 "correct": false
               },
               {
-                "text": "Use the documented payment-change and callback process",
-                "explanation": "Financial controls apply regardless of voice quality.",
+                "text": "Follow the documented payment-change and callback process.",
+                "explanation": "Financial controls apply whatever the voice sounds like.",
                 "correct": true
               }
             ]
           },
           {
-            "prompt": "A caller knows a private childhood detail. Does that settle identity?",
+            "prompt": "A caller knows a private childhood detail. Does that settle who they are?",
             "choices": [
               {
-                "text": "No; the detail may have leaked or been researched",
-                "explanation": "A knowledge question is weaker than a route you choose independently.",
+                "text": "No; the detail may have leaked or been researched.",
+                "explanation": "A question about what someone knows is weaker than a route you choose yourself.",
                 "correct": true
               },
               {
-                "text": "Yes; a clone cannot know facts",
-                "explanation": "The human attacker can supply facts to a model or speak directly.",
+                "text": "Yes; a clone cannot know facts.",
+                "explanation": "The person behind a clone can look the facts up and work them into the call.",
                 "correct": false
               }
             ]
           },
           {
-            "prompt": "The real person cannot be reached, but danger may be genuine.",
+            "prompt": "The real person cannot be reached, but the danger may be genuine. What now?",
             "choices": [
               {
-                "text": "Ignore every emergency until the person calls back",
-                "explanation": "A real emergency may require a prompt call to a reliable institution.",
+                "text": "Ignore every emergency until the person rings back.",
+                "explanation": "A real emergency may need a quick call to a reliable institution.",
                 "correct": false
               },
               {
-                "text": "Contact another trusted person or local emergency service; do not make an unverified payment",
-                "explanation": "You can check welfare promptly without accepting the caller’s payment channel.",
+                "text": "Contact another trusted person or the local emergency service, and make no unverified payment.",
+                "explanation": "You can check on someone’s welfare quickly without accepting the caller’s payment channel.",
                 "correct": true
               }
             ]
