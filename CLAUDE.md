@@ -114,11 +114,18 @@ requirements, read [`docs/portfolio/README.md`](docs/portfolio/README.md).
 
 ### Как выкладывать
 
-- Обычный путь: пуш в `main` запускает `.github/workflows/ci-cd.yml` (проверки, тесты, сборка и пуш
-  образа в ECR через OIDC-роль `github-discammer-deploy`, e2e, затем SSH-выкладка на сервер).
-- Прямая выкладка без GitHub Actions делалась 21 октября 2026 одноразовым скриптом на Маке:
-  образ собирался под linux/amd64, пушился в ECR, а на сервере запускался тот же сценарий, что и в CI.
-  В репозиторий этот скрипт не входит.
+- **Единственный путь — прямая выкладка с Мака владельца**, так же, как 21 октября 2026. Скрипты и
+  README лежат в папке `release-20261021/` в корне проекта (она в `.git/info/exclude`, в репозиторий не
+  входит): `./deploy-direct.sh --preflight`, затем `./deploy-direct.sh` (спросит `DEPLOY`). Скрипт
+  собирает образ под linux/amd64, пушит его в ECR и запускает на сервере `aws-host-deploy.sh`: pull по
+  digest, смена контейнера, публикация текстов со снимками, проверки, автоматический откат.
+- Скрипт берёт первый `discammer-release-*.tar.gz` рядом с собой и отказывается собирать, если вместо
+  игровой сборки в архиве указатели Git LFS. Для нового релиза заведите новую папку с копиями скриптов
+  и свежим архивом нужного коммита.
+- **GitHub Actions для выкладки не используются.** GitHub не запускает jobs: бесплатные минуты Actions
+  за месяц израсходованы, а платёжные данные аккаунта обновить нельзя (статус на 21 октября 2026).
+  Пуш в `main` ничего не выкладывает. Не запускайте и не чините `.github/workflows/ci-cd.yml` ради
+  выкладки. Коммиты, которые не должны запускать workflow, помечайте `[skip ci]`.
 - После выкладки сбросьте кэш Cloudflare (Caching → Configuration → Purge Everything).
 
 ### Тексты в базе не обновляются вместе с образом
@@ -135,6 +142,7 @@ requirements, read [`docs/portfolio/README.md`](docs/portfolio/README.md).
 
 ### Что в репозитории устарело
 
-`scripts/deploy.sh` и `docs/ops/runbook.md` описывают прежний сервер на Beget (`--resolve
+`scripts/deploy.sh`, `docs/ops/runbook.md`, `docs/ops/staging.md` и `docs/ops/secrets.md` описывают
+прежний сервер на Beget и выкладку через GitHub Actions (`--resolve
 discammer.com:443:203.0.113.10`, nginx, `/opt/discammer`). К текущему проду они не относятся и
 ждут отдельной переработки.

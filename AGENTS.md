@@ -142,12 +142,21 @@ expected next step, not a thing to ask about.
    gate. A branch that does not cleanly reach `main` has NOT passed the gate,
    even if its own tests are green.
 
-**Mechanism.** Deploy = push to `main`; CI/CD (`ci-cd.yml`) is the pipeline. Its
-`deploy` job is itself gated on `needs: [audit, backend-tests, frontend-build,
-docker-build, e2e]`, and `deploy.sh` health-probes with auto-rollback to `:prev`,
-so a red pipeline simply does not ship. After a push, confirm the deploy landed
-(`/api/health` reports the pushed SHA) and the post-deploy smoke is green; report
-the SHA. Only a dated live check earns the words `production verified`.
+**Mechanism (changed 2026-10-21).** Production is NOT deployed through GitHub
+Actions, and a push to `main` deploys nothing. GitHub does not start the
+account's Actions jobs (the included monthly minutes are used up and the
+account's billing information cannot be updated), so do not push expecting a
+deploy, do not try to trigger, re-run or repair `ci-cd.yml` to get one, and do
+not plan work around that pipeline. The owner deploys directly from his Mac:
+build the linux/amd64 image, push it to the private ECR repository, then run
+the host script over SSH (pull by digest, swap the container, publish the
+DB-backed texts with snapshots, health and content checks, automatic rollback).
+The procedure and the exact commands are in `CLAUDE.md` under "Production host".
+After a deploy, confirm that `/api/health` reports the deployed SHA and that the
+public pages answer 200. Only a dated live check earns the words
+`production verified`. The standing authorization above was written for the old
+pipeline and is not widened to this route: prepare the release and run the
+checks, and start the production deploy only on the owner's go-ahead.
 
 **Still requires explicit confirmation — NOT covered by "deploy tested code":**
 force-pushing or rewriting shared history; the CSP enforce flip

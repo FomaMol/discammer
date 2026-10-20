@@ -3,6 +3,12 @@
 Operational playbook for DiScammer production. Read top-to-bottom only during your
 first incident; after that jump straight to the matching incident section.
 
+> **Outdated since 2026-10-21 (hosting and deploys).** Production no longer runs on the Beget
+> VPS and is not deployed through GitHub Actions. Wherever this runbook mentions
+> `203.0.113.10`, `scripts/deploy.sh`, `ci-cd.yml`, `diagnostics.yml` or a "push to `main`
+> deploys", it describes the old host. The current layout (AWS EC2, image pulled from ECR by
+> digest) and the only deploy procedure are in `CLAUDE.md` under "Production host".
+
 > **Scope.** This covers the live site only. Backups/restore live in
 > [`docs/ops/backups.md`](./backups.md) (REL-1); secrets live in
 > [`docs/ops/secrets.md`](./secrets.md) (SEC-3); load-test baselines live in
